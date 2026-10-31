@@ -6,8 +6,8 @@ import { Icon } from '../../components/primitives/Icon';
 import { detectDeviceType } from '../../lib/deviceType';
 import { ID_UPLOAD_ACCEPT, idCaptureOptions, idFileProblem, readIdFile } from './idUploadModel';
 import type { IdUploadResult, IdUploadSides, UploadedIdFile } from './idUploadModel';
+import { UPLOAD_ICON } from '../../assets/icons';
 
-const UPLOAD_ICON = 'M12 16V4 M7 9l5-5 5 5 M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3';
 
 const SIDE_CHOICES: { sides: IdUploadSides; label: string }[] = [
   { sides: 'both', label: 'Front and Back' },

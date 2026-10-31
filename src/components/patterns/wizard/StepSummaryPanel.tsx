@@ -1,9 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import * as mockDataEngine from '../../../engines/mockDataEngine';
 import { formatDate } from '../../../lib/format';
+import { useSummaryPanelStore } from '../../../stores/summaryPanelStore';
+import { Icon } from '../../primitives/Icon';
+import { PanelIcon } from '../../primitives/PanelIcon';
+import { Tooltip } from '../../primitives/Tooltip';
 import { StepSummarySection } from './StepSummarySection';
 import { SummaryFieldRow } from './SummaryFieldRow';
 import { formatSummaryValue } from './stepSummary';
+import { stepIcon } from '../../../assets/icons/stepIcons';
 import type { SummaryField, SummaryLabelSource } from './stepSummary';
 import type { WizardStep } from './guidedWizardTypes';
 
@@ -62,7 +67,7 @@ export function StepSummaryPanel({
   /** Go back to a step. Absent when editing is not allowed. */
   onEdit?: (index: number) => void;
   /** Shown after going back to edit: jumps to the furthest step reached. */
-  returnTo?: { label: string; onReturn: () => void; index: number };
+  returnTo?: { label: string; key: string; onReturn: () => void; index: number };
   /** Keys of the steps that reached a journey milestone: their rows show a flag in place of the tick. */
   milestoneSteps?: ReadonlySet<string>;
   /** The page the agent is on now: listed in step order with the completed ones, marked as current, showing what has been entered on it so far. */
@@ -73,6 +78,9 @@ export function StepSummaryPanel({
   // Which details the agent has expanded, remembered only for the page they were on: moving to another page starts everything collapsed again.
   const [expanded, setExpanded] = useState<{ page: string | undefined; open: Record<string, boolean> }>({ page: undefined, open: {} });
   const [accordionOpen, setAccordionOpen] = useState(false);
+  const collapsed = useSummaryPanelStore((s) => s.collapsed);
+  const toggleCollapsed = useSummaryPanelStore((s) => s.toggleCollapsed);
+  const bodyId = useId();
   const currentKey = current?.step.key;
   const openOverride = expanded.page === currentKey ? expanded.open : {};
   const setOpenOverride = (update: (o: Record<string, boolean>) => Record<string, boolean>) =>
@@ -97,7 +105,7 @@ export function StepSummaryPanel({
   // After going back to edit, the furthest step reached keeps its place after the current page, as a name that goes straight to it.
   const returnEntry = returnTo && !entries.some((e) => e.index === returnTo.index) ? returnTo : undefined;
   const returnRow = returnEntry ? (
-    <StepSummarySection title={returnEntry.label} open={false} onToggle={() => undefined} onGo={returnEntry.onReturn}>
+    <StepSummarySection title={returnEntry.label} open={false} onToggle={() => undefined} onGo={returnEntry.onReturn} icon={stepIcon(returnEntry.key)}>
       {null}
     </StepSummarySection>
   ) : null;
@@ -111,6 +119,7 @@ export function StepSummaryPanel({
           <StepSummarySection
             key={step.key}
             title={step.label}
+            icon={stepIcon(step.key)}
             open={isCurrent ? openOverride[step.key] ?? true : isOpen(step.key)}
             onToggle={() => setOpenOverride((o) => ({ ...o, [step.key]: !(isCurrent ? o[step.key] ?? true : isOpen(step.key)) }))}
             onEdit={onEdit && !isCurrent ? () => onEdit(index) : undefined}
@@ -147,29 +156,110 @@ export function StepSummaryPanel({
     );
   }
 
+  const toggleLabel = collapsed ? 'Expand journey summary' : 'Collapse journey summary';
+  const tileClass = 'flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-card)] bg-bg text-[var(--brand-plum)] shadow-[var(--shadow-icon-tile)]';
+  const tileIcon = (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <path d="M9 4h6v3H9z M7 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1 M9 12h6 M9 16h4" />
+    </svg>
+  );
+
   return (
+    // Collapses and expands sideways like the left navigation: the card narrows to a rail that keeps the header tile (now the expand control).
     <aside
       aria-label="Summary of completed steps"
-      className="hidden lg:flex lg:flex-col w-80 shrink-0 self-start sticky top-0 max-h-[calc(100vh-11rem)] overflow-hidden my-8 mr-8 card "
+      className={`hidden lg:flex lg:flex-col ${collapsed ? 'w-16' : 'w-80'} shrink-0 self-start sticky top-0 max-h-[calc(100vh-11rem)] overflow-hidden my-8 mr-8 card transition-[width] duration-[var(--motion-slow)] ease-[var(--ease-standard)] motion-reduce:transition-none `}
     >
-      {/* The header stays put; only the sections below it scroll. */}
-      <header className="shrink-0 border-b border-on-dark-line-2 bg-[var(--title-band-bg)] px-4 py-4">
-        <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-card)] bg-bg text-[var(--brand-plum)] shadow-[var(--shadow-icon-tile)]" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-              <path d="M9 4h6v3H9z M7 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1 M9 12h6 M9 16h4" />
-            </svg>
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-on-dark font-bold text-[length:var(--fs-h5)]">{heading}</h2>
+      {collapsed ? (
+        <header className="flex h-14 shrink-0 items-center justify-center">
+          <Tooltip content={toggleLabel} placement="left">
+            <button
+              type="button"
+              onClick={toggleCollapsed}
+              aria-label={toggleLabel}
+              aria-expanded={false}
+              aria-controls={bodyId}
+              className="relative flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] text-[var(--nav-fg-muted)] transition-colors duration-[var(--motion-base)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+            >
+              {/* The navigation's panel icon, mirrored: this panel is on the right, so the chevron points back towards the content to open it. */}
+              <PanelIcon expanded={false} className="w-6 h-6 -scale-x-100" />
+            </button>
+          </Tooltip>
+        </header>
+      ) : (
+        /* The header stays put; only the sections below it scroll. Its content keeps a fixed width so the title does not reflow while the card narrows. */
+        <header className="shrink-0 border-b border-on-dark-line-2 bg-[var(--title-band-bg)] px-4 py-4">
+          <div className="flex w-72 items-center gap-3">
+            <span className={tileClass} aria-hidden="true">
+              {tileIcon}
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-on-dark font-bold text-[length:var(--fs-h5)]">{heading}</h2>
+            </div>
+            <Tooltip content={toggleLabel} placement="bottom">
+              <button
+                type="button"
+                onClick={toggleCollapsed}
+                aria-label={toggleLabel}
+                aria-expanded
+                aria-controls={bodyId}
+                className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] text-on-dark-2 transition-colors duration-[var(--motion-base)] hover:bg-on-dark-fill-2 hover:text-on-dark focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+              >
+                {/* The navigation's panel icon, mirrored: this panel is on the right, so the chevron points away from the content to fold it. */}
+                <PanelIcon expanded className="w-6 h-6 -scale-x-100" />
+              </button>
+            </Tooltip>
           </div>
+        </header>
+      )}
+      {live}
+      {collapsed ? (
+        <nav id={bodyId} aria-label="Journey steps" className="min-h-0 flex-1 overflow-y-auto pb-2">
+          <ul>
+            {entries.map(({ step, isCurrent }) => {
+              const rowClass = `flex h-12 w-full items-center justify-center transition-colors duration-[var(--motion-base)] focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+                isCurrent ? 'bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)]' : 'text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)]'
+              }`;
+              // The step's own icon: white on the red band for the page the agent is on, muted for a completed step, orange when it reached a milestone.
+              const glyph = <Icon path={stepIcon(step.key)} className={`w-6 h-6 ${!isCurrent && milestoneSteps?.has(step.key) ? 'text-[var(--summary-milestone)]' : ''}`} />;
+              // Every row just opens the panel: the detail and the Edit actions live there.
+              return (
+                <li key={step.key}>
+                  <Tooltip content={step.label} placement="left">
+                    <button
+                      type="button"
+                      onClick={toggleCollapsed}
+                      aria-label={`${step.label}, ${isCurrent ? 'current step' : 'completed'}. Expand journey summary`}
+                      aria-current={isCurrent ? 'step' : undefined}
+                      aria-expanded={false}
+                      aria-controls={bodyId}
+                      className={rowClass}
+                    >
+                      {glyph}
+                    </button>
+                  </Tooltip>
+                </li>
+              );
+            })}
+            {returnEntry && (
+              <li>
+                <Tooltip content={returnEntry.label} placement="left">
+                  <button type="button" onClick={toggleCollapsed} aria-label={`${returnEntry.label}, not completed. Expand journey summary`} aria-expanded={false} aria-controls={bodyId} className="flex h-12 w-full items-center justify-center text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5">
+                      <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  </button>
+                </Tooltip>
+              </li>
+            )}
+          </ul>
+        </nav>
+      ) : (
+        <div id={bodyId} className="min-h-0 w-80 flex-1 overflow-y-auto">
+          {body}
+          {returnRow}
         </div>
-      </header>
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        {live}
-        {body}
-        {returnRow}
-      </div>
+      )}
     </aside>
   );
 }

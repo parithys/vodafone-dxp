@@ -5,9 +5,8 @@ import { formatQar } from '../../../lib/format';
 import { Button } from '../../primitives/Button';
 import { Icon } from '../../primitives/Icon';
 import { IconButton } from '../../primitives/IconButton';
+import { CHEVRON_DOWN, TRASH_ALT } from '../../../assets/icons';
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
-const TRASH = 'M3 6h18 M8 6V4h8v2 M19 6l-1 14H6L5 6 M10 11v5 M14 11v5';
 
 interface HeaderAddon extends CategorisedAddon {
   productId: string;
@@ -33,10 +32,13 @@ export function SelectedAddonsHeader({
   selectedIds,
   selectedBilling,
   onChange,
+  variant = 'floating',
 }: {
   selectedIds: string[];
   selectedBilling: Record<string, AddonBillingFrequency>;
   onChange: (ids: string[]) => void;
+  /** 'header': in the step card's top-right corner, as wide as the Journey Summary, its panel dropping down (desktop). 'floating': fixed to the bottom of a small screen, its panel rising up. */
+  variant?: 'floating' | 'header';
 }) {
   const [catalogue, setCatalogue] = useState<HeaderAddon[]>([]);
   const [open, setOpen] = useState(false);
@@ -82,7 +84,7 @@ export function SelectedAddonsHeader({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-x-4 bottom-0 z-[var(--z-popover)] lg:left-auto lg:right-8 lg:w-80"
+      className={variant === 'header' ? 'relative w-80' : 'fixed inset-x-4 bottom-0 z-[var(--z-popover)]'}
     >
       <Button
         variant="secondary"
@@ -109,7 +111,7 @@ export function SelectedAddonsHeader({
           id={panelId}
           role="dialog"
           aria-label="Selected Add-Ons"
-          className="absolute inset-x-0 bottom-full mb-3 flex max-h-[calc(100dvh-var(--spacing)*24)] flex-col overflow-hidden rounded-[var(--radius-card)] border border-border-soft bg-bg text-fg shadow-raised"
+          className={`absolute inset-x-0 ${variant === 'header' ? 'top-full mt-3 max-h-[calc(100dvh-var(--spacing)*56)]' : 'bottom-full mb-3 max-h-[calc(100dvh-var(--spacing)*24)]'} flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-border-soft bg-bg text-fg shadow-raised`}
         >
           <div className="shrink-0 px-5 py-4">
             <h2 className="text-[length:var(--fs-h5)] font-bold">Selected Add-Ons</h2>
@@ -130,7 +132,7 @@ export function SelectedAddonsHeader({
                     </p>
                   </div>
                   <IconButton
-                    icon={TRASH}
+                    icon={TRASH_ALT}
                     label={`Remove ${addon.name}`}
                     tone="danger"
                     size="sm"

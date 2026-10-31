@@ -2,6 +2,7 @@
 // Prepaid differs from Postpaid, and the cart, Pre-Paired SIM and submit behaviour the process flow adds.
 import test, { before, after } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { boot, load, close } from './harness.mjs';
 
 // The step modules touch window at import time; the harness window is a bare object.
@@ -70,11 +71,27 @@ test('ECC_01: reaching the prepaid line limit names prepaid and routes for appro
 });
 
 // ---- PAY_02: SIM card charge ----------------------------------------------------------------------------------------
-test('PAY_02: the SIM card charge is QID 10 / Passport 40 when the recharge is under the limit, and none for other ID types', () => {
-  assert.equal(charge.simCardCharge('QID', 0).chargeQar, 10);
-  assert.equal(charge.simCardCharge('Passport', 0).chargeQar, 40);
-  assert.equal(charge.simCardCharge('QID', 500).applies, false);
-  for (const t of ['GCC ID', 'Diplomatic ID', undefined]) assert.equal(charge.simCardCharge(t, 0).applies, false);
+test('SIM price discounting (BRSD V0.3): QID and Diplomatic ID waive the SIM charge at a recharge of 20, Passport and GCC ID at 35; no other ID type is charged', () => {
+  // The two groups and their thresholds are the BRSD's; the charge amounts (10 / 40) are the placeholders kept until VFQ confirms them.
+  for (const t of ['QID', 'Diplomatic ID']) {
+    assert.deepEqual([charge.simCardCharge(t, 0).applies, charge.simCardCharge(t, 0).chargeQar], [true, 10], `${t} below the level pays the charge`);
+    assert.equal(charge.simCardCharge(t, 19.99).applies, true);
+    assert.equal(charge.simCardCharge(t, 20).applies, false, `${t} at exactly 20 is waived`);
+    assert.equal(charge.simCardCharge(t, 500).applies, false);
+  }
+  for (const t of ['Passport', 'GCC ID']) {
+    assert.deepEqual([charge.simCardCharge(t, 0).applies, charge.simCardCharge(t, 0).chargeQar], [true, 40], `${t} below the level pays the charge`);
+    assert.equal(charge.simCardCharge(t, 34.99).applies, true);
+    assert.equal(charge.simCardCharge(t, 35).applies, false, `${t} at exactly 35 is waived`);
+  }
+  // A recharge of 25 waives the charge for a QID customer but not for a Passport customer: the groups really differ.
+  assert.equal(charge.simCardCharge('QID', 25).applies, false);
+  assert.equal(charge.simCardCharge('Passport', 25).applies, true);
+  assert.equal(charge.simCardCharge(undefined, 0).applies, false);
+  assert.equal(charge.simCardCharge('Other ID', 0).applies, false);
+  // Whole-table check: every ID type the prepaid journey permits has a group, so none is silently uncharged.
+  const permitted = ['QID', 'Diplomatic ID', 'Passport', 'GCC ID'];
+  assert.deepEqual(permitted.filter((t) => !charge.simChargeGroupOf(t)), []);
 });
 
 // ---- #8.1 cart ------------------------------------------------------------------------------------------------------
@@ -243,4 +260,145 @@ test('CAF: the full variant needs the signature on a tablet (Touch Screen) as we
 test('Offers step lists the offer types in the agreed order', async () => {
   const m = await load('/src/capabilities/CrossSellOffers/serviceJourneys.ts');
   assert.deepEqual(m.OFFER_TYPES.map((t) => t.label), ['New Postpaid', 'New Home', 'New MNP', 'New Prepaid', 'Prepaid to Postpaid Upgrade', 'Postpaid to Postpaid Upgrade']);
+});
+
+// ---- BRSD V0.3: recharge selection and Star Number Additional Discount ----------------------------------------------------
+test('Prepaid Recharge Selection: the chosen recharge is its own charge and is what the SIM card charge is judged on', () => {
+  const products = [{ productId: 'PROD-301', name: 'Red 25', starterPackChargeQAR: 25 }];
+  const recharges = [{ rechargeId: 'R20', name: 'Flex 20', category: 'Flex', amountQar: 20 }, { rechargeId: 'R10', name: 'Flex 10', category: 'Flex', amountQar: 10 }];
+  // With a recharge the pack no longer decides the SIM charge: QID + recharge 20 waives it although the pack is 25 either way; Passport + 20 does not.
+  const qid20 = cart.priceLine(cart.currentLine(draft({ rechargeId: 'R20' })), 'QID', products, [], { recharges });
+  assert.deepEqual([qid20.rechargeQar, qid20.simCardChargeQar, qid20.totalQar], [20, 0, 25 + 20]);
+  const qid10 = cart.priceLine(cart.currentLine(draft({ rechargeId: 'R10' })), 'QID', products, [], { recharges });
+  assert.deepEqual([qid10.simCardChargeQar, qid10.totalQar], [10, 25 + 10 + 10], 'a recharge of 10 is below the QID level of 20');
+  assert.equal(cart.priceLine(cart.currentLine(draft({ rechargeId: 'R20' })), 'Passport', products, [], { recharges }).simCardChargeQar, 40);
+  // No recharge chosen: the earlier reading stands (the net starter pack is judged).
+  assert.equal(cart.priceLine(cart.currentLine(draft()), 'QID', products, [], { recharges }).rechargeQar, 0);
+  // Conservation: the totals are the sum of the lines.
+  const lines = [cart.currentLine(draft({ rechargeId: 'R20' })), cart.currentLine(draft({ msisdn: '+97433001002', simType: { ...simOk, simSerial: 'S2' }, rechargeId: 'R10' }))];
+  const t = cart.cartTotals(lines, 'QID', products, [], { recharges });
+  assert.deepEqual([t.rechargeChargeQar, t.totalDueQar], [30, lines.reduce((n, l) => n + cart.priceLine(l, 'QID', products, [], { recharges }).totalQar, 0)]);
+});
+
+test('Star Number Additional Discount: a waiver takes a fixed amount off the number, the customer pays the rest, and an over-large waiver never goes below zero', () => {
+  const products = [{ productId: 'PROD-301', name: 'Red 25', starterPackChargeQAR: 25 }];
+  const base = draft({ priceQAR: 500 });
+  const plain = cart.priceLine(cart.currentLine(base), 'QID', products, []);
+  assert.deepEqual([plain.numberListQar, plain.numberWaivedQar, plain.numberQar], [500, 0, 500]);
+  const partial = cart.priceLine(cart.currentLine({ ...base, numberWaiver: 150 }), 'QID', products, []);
+  assert.deepEqual([partial.numberListQar, partial.numberWaivedQar, partial.numberQar, partial.totalQar], [500, 150, 350, 25 + 350]);
+  assert.equal(cart.priceLine(cart.currentLine({ ...base, numberWaiver: 900 }), 'QID', products, []).numberQar, 0);
+  // A free number has nothing to waive.
+  assert.equal(cart.priceLine(cart.currentLine(draft({ numberWaiver: 50 })), 'QID', products, []).numberWaivedQar, 0);
+  // Each subscription carries its own waiver and recharge: they are cleared with the other per-line keys.
+  assert.ok(cart.LINE_KEYS.includes('numberWaiver') && cart.LINE_KEYS.includes('rechargeId'));
+});
+
+test('the Recharge step: optional by default, mandatory when the journey says so, recharges grouped by category in the BRSD order', async () => {
+  const rc = await load('/src/capabilities/RechargeSelection/index.ts');
+  const step = rc.rechargeSelectionStep();
+  assert.equal(step.key, 'recharge');
+  assert.equal(step.isValid({}), true);
+  const required = rc.rechargeSelectionStep({ required: () => true });
+  assert.equal(required.isValid({}), false);
+  assert.equal(required.isValid({ rechargeId: 'RCH-FLX-020' }), true);
+  const rows = JSON.parse(fs.readFileSync('public/mock-data/recharge-products.json', 'utf8'));
+  const groups = rc.groupRecharges(rows);
+  assert.deepEqual(groups.map((g) => g.category), ['Flex', 'Combo', 'Credit', 'Data']);
+  assert.equal(groups.reduce((n, g) => n + g.items.length, 0), rows.length, 'no recharge is dropped by the grouping');
+  for (const g of groups) assert.deepEqual(g.items.map((i) => i.amountQar), [...g.items.map((i) => i.amountQar)].sort((a, b) => a - b), 'cheapest first');
+  assert.ok(rows.every((r) => r.sample === true), 'every recharge row is marked sample until the real catalogue is supplied');
+  assert.deepEqual(rc.groupRecharges([{ rechargeId: 'X', name: 'X', category: 'Data', amountQar: 5, status: 'Retired' }]), []);
+});
+
+// ---- BRSD V0.3: Age Verification and the under-18 exception journey --------------------------------------------------------
+test('Age Verification: under 18 is a hard stop; with the exception offered the agent can take it as an exception that routes the order, and an adult is never touched', async () => {
+  const exc = await load('/src/data/under18Exception.ts');
+  const asOf = new Date('2026-10-31');
+  const minor = (over = {}) => baseCtx({ customer: { customerId: 'CUST-M', idType: 'QID', dob: '2010-05-05', blacklisted: false }, doc: { documentType: 'QID', expiryDate: '2099-01-01' }, journeyType: 'prepaid', ...over });
+  // No exception: the earlier rule stands (VFQ, 2026-10-02).
+  const plain = engine.evaluateEligibilityChecks(minor(), asOf).find((c) => c.id === 'age');
+  assert.deepEqual([plain.outcome, plain.passed, plain.exceptionOffer], ['hard-stop', false, undefined]);
+  // Offered: still a hard stop until chosen, and the check says an exception is possible.
+  const offered = engine.evaluateEligibilityChecks(minor({ under18Exception: 'available' }), asOf).find((c) => c.id === 'age');
+  assert.deepEqual([offered.outcome, offered.exceptionOffer], ['hard-stop', 'under-18']);
+  assert.ok(engine.hasHardStop(engine.evaluateEligibilityChecks(minor({ under18Exception: 'available' }), asOf)));
+  // Chosen: the journey continues and the order is routed for approval.
+  const chosen = engine.evaluateEligibilityChecks(minor({ under18Exception: 'chosen' }), asOf);
+  assert.equal(chosen.find((c) => c.id === 'age').outcome, 'approval-routing');
+  assert.equal(engine.hasHardStop(chosen), false);
+  // An adult is unaffected whatever the flag says.
+  for (const flag of [undefined, 'available', 'chosen']) {
+    const adult = engine.evaluateEligibilityChecks(baseCtx({ under18Exception: flag }), asOf).find((c) => c.id === 'age');
+    assert.deepEqual([adult.outcome, adult.exceptionOffer], ['pass', undefined]);
+  }
+  // Another hard stop is never lifted by the exception: an expired ID still stops the journey.
+  const expired = engine.evaluateEligibilityChecks(minor({ under18Exception: 'chosen', doc: { documentType: 'QID', expiryDate: '2020-01-01' } }), asOf);
+  assert.equal(engine.hasHardStop(expired), true);
+});
+
+test('the under-18 exception is offered only on Prepaid, to the Retail role, with a QID - every other combination is the plain hard stop', async () => {
+  const exc = await load('/src/data/under18Exception.ts');
+  const offered = (journey, personaId, idType) => exc.under18ExceptionOffered({ journey, personaId, idType });
+  assert.equal(offered('prepaid', 'ROLE-01', 'QID'), true);
+  // Whole table over journeys x roles x ID types, written from the BRSD (Retail, QID only, Prepaid BRSD) and not from the code under test.
+  const journeys = ['prepaid', 'postpaid'];
+  const roles = ['ROLE-01', 'ROLE-05', 'ROLE-12', 'ROLE-16', undefined];
+  const idTypes = ['QID', 'Passport', 'GCC ID', 'Diplomatic ID', undefined];
+  let offeredCount = 0;
+  for (const j of journeys) for (const r of roles) for (const t of idTypes) {
+    const expected = j === 'prepaid' && r === 'ROLE-01' && t === 'QID';
+    assert.equal(offered(j, r, t), expected, `${j} / ${r} / ${t}`);
+    if (expected) offeredCount += 1;
+  }
+  assert.equal(offeredCount, 1);
+  // The approver is the CDM queue, and the Court Order is a required document for a minor (document-types.json 'minor-applicant').
+  assert.equal(exc.UNDER_18_EXCEPTION.approverRole, 'CDM');
+  const docs = JSON.parse(fs.readFileSync('public/config/document-types.json', 'utf8'));
+  const court = (docs.types ?? docs.documentTypes ?? docs).find?.((d) => d.id === 'court-type-order');
+  assert.deepEqual(court?.requiredWhen, ['minor-applicant']);
+});
+
+// ---- Journey Summary: New Prepaid follows New Postpaid -----------------------------------------------------------------------------------
+test('Journey Summary: the sections both journeys share read the same in New Prepaid as in New Postpaid; each journey\'s own sections are the only difference; every rail row has its own icon', async () => {
+  const connection = await load('/src/modules/new-connection/connectionSteps.tsx');
+  const icons = await load('/src/assets/icons/stepIcons.ts');
+  const generic = icons.stepIcon('no-such-step');
+  const ctx = { device: 'web', wizardId: 'new-connection', flow: 'new', existingCustomerId: undefined, guardedContactChange: () => {}, applyCrossSales: () => {}, navigate: () => {}, createRecord: async () => {}, products: [], customerBenefits: undefined };
+  const all = connection.buildConnectionSteps(ctx);
+  const rail = (product) => all.filter((s) => !s.skip?.({ product }));
+  const post = rail('postpaid');
+  const pre = rail('prepaid');
+  const labels = (steps) => Object.fromEntries(steps.map((s) => [s.key, s.label]));
+  const fieldLabels = (s) => (s.summary ?? []).map((f) => f.label);
+
+  const common = pre.map((s) => s.key).filter((k) => post.some((p) => p.key === k));
+  assert.deepEqual(common, ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'checkout', 'caf', 'payment']);
+  // Sections only one journey has - written from the two journeys, not computed from the rule under test.
+  assert.deepEqual(pre.map((s) => s.key).filter((k) => !common.includes(k)), ['recharge', 'cart'], 'Prepaid-only: Recharge and Subscriptions');
+  assert.deepEqual(post.map((s) => s.key).filter((k) => !common.includes(k)), ['billingAccount', 'addonReview'], 'Postpaid-only: Billing and Add-On Review');
+
+  // Same label for the same section.
+  for (const k of common) assert.equal(labels(pre)[k], labels(post)[k], `${k} is named the same in both journeys`);
+
+  // Same fields, in the same relative order, wherever the journeys share the section (a journey may omit what its business does not have:
+  // Postpaid's bill limit, actual user and monthly recurring; Prepaid's payment receipt rows).
+  for (const k of ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'caf']) {
+    const a = fieldLabels(pre.find((s) => s.key === k));
+    const b = fieldLabels(post.find((s) => s.key === k));
+    const inOrder = a.filter((l) => b.includes(l));
+    assert.deepEqual(inOrder, b.filter((l) => a.includes(l)), `${k}: shared fields keep Postpaid's order`);
+    assert.deepEqual(a.filter((l) => !b.includes(l)), [], `${k}: Prepaid adds no field Postpaid does not show`);
+  }
+
+  // Every row of each rail has an icon of its own: none falls back to the generic one, none repeats another row's.
+  for (const [name, steps] of [['prepaid', pre], ['postpaid', post]]) {
+    const picked = steps.map((s) => [s.key, icons.stepIcon(s.key)]);
+    assert.deepEqual(picked.filter(([, i]) => i === generic).map(([k]) => k), [], `${name}: a step has no icon of its own`);
+    const seen = new Map();
+    for (const [k, i] of picked) {
+      assert.equal(seen.has(i), false, `${name}: "${k}" repeats the icon of "${seen.get(i)}"`);
+      seen.set(i, k);
+    }
+  }
 });

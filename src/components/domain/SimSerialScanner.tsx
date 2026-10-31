@@ -5,6 +5,7 @@ import { Button } from '../primitives/Button';
 import type { DeviceType } from '../../lib/deviceType';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { SIM_RESERVED } from '../../data/portInRules';
+import { BARCODE_ICON } from '../../assets/icons';
 
 interface SimRecord {
   simSerial: string;
@@ -21,7 +22,6 @@ interface SimRecord {
  * small size this renders at (the field's trailing icon, ~16px) - same icon
  * as QidInput.tsx's barcode scan trigger, for the same control elsewhere in
  * the app. */
-const BARCODE_ICON = 'M3 4v16 M6 4v16 M8 4v16 M11 4v16 M13 4v16 M14 4v16 M17 4v16 M19 4v16 M21 4v16';
 
 interface SimSerialScannerProps {
   value: string;

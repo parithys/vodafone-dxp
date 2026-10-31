@@ -7,8 +7,8 @@ import type { PrepaidPlan } from './prepaidPlanModel';
 import { Checkbox } from '../primitives/Checkbox';
 import { Icon } from '../primitives/Icon';
 import { formatQar, formatQarAny, formatAmount } from '../../lib/format';
+import { CHECK } from '../../assets/icons';
 
-const CHECK = 'M20 6L9 17l-5-5';
 
 interface Discount {
   addonDiscountId: string;

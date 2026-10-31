@@ -11,6 +11,7 @@ import {
   prepaidExtrasStep,
   prepaidCartStep,
   prepaidCheckoutStep,
+  rechargeSelectionStep,
   serviceAddressStep,
   simTypeStep,
 } from '../../../capabilities';
@@ -58,9 +59,18 @@ export function prepaidSteps({ device }: { device: DeviceType }): WizardStep[] {
         ...prepaidExtrasStep({ segment: (values) => (values.eligibility as EligibilityResult | undefined)?.segment }),
         skip: offerAccepted,
       },
-      numberSelectionStep({ priceField: 'priceQAR', prePairedOption: true }),
+      // BRSD V0.3 Prepaid Recharge Selection. Whether a recharge is mandatory is a persona rule the BRSD leaves open, so it is optional here.
+      rechargeSelectionStep({ idType: (values) => contactOf(values)?.idType }),
+      // Refresh as in New Postpaid; Waive Off is the Star Number Additional Discount (V0.3): a fixed QAR amount off the number's price, with its
+      // supporting document, which holds the order for approval. A prepaid number has no plan entitlement, so its whole price can be waived.
+      numberSelectionStep({
+        priceField: 'priceQAR',
+        prePairedOption: true,
+        refresh: true,
+        waiveOff: true,
+        waivableChargeQar: (values) => (typeof values.priceQAR === 'number' ? values.priceQAR : 0),
+      }),
       simTypeStep({
-        customerEmail: (values) => contactOf(values)?.moiResult?.email,
         device,
         prePaired: (values) => values.prePaired === true,
       }),
@@ -85,13 +95,14 @@ export function prepaidSteps({ device }: { device: DeviceType }): WizardStep[] {
       }),
       // "On successful WinCash confirmation, return to DXP, submit the order": Payment is the last step, so Continue
       // here could only mean "submit" (PAY_01, ORD_01).
-      paymentStep({ submitOnPaid: true, amountDue: (values) => (values.checkoutTotals as PrepaidCheckoutTotals | undefined)?.totalDueQar ?? 0 }),
+      paymentStep({ submitOnPaid: true, zeroValueReceipt: true, amountDue: (values) => (values.checkoutTotals as PrepaidCheckoutTotals | undefined)?.totalDueQar ?? 0 }),
     ],
     {
       plan: sums.planSummary(),
+      // The same order as New Postpaid's Addons summary (Add-Ons, then Discount); a prepaid line has no bill limit, so there is no third row.
       planExtras: [
-        { key: 'discount', label: 'Discount', type: 'select', optional: true, labelFrom: { kind: 'addons-discounts', idField: 'addonDiscountId', labelField: 'name' }, value: (v) => v.discountId },
         { key: 'addons', label: 'Add-Ons', type: 'multi', optional: true, labelFrom: { kind: 'addons-discounts', idField: 'addonDiscountId', labelField: 'name' }, value: (v) => v.addonIds },
+        { key: 'discount', label: 'Discount', type: 'select', optional: true, labelFrom: { kind: 'addons-discounts', idField: 'addonDiscountId', labelField: 'name' }, value: (v) => v.discountId },
       ],
       payment: sums.paymentSummary,
     }

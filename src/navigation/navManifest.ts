@@ -1,4 +1,5 @@
 import { IS_DEV } from '../lib/buildEnv';
+import { ADMINISTRATION, BILL_FORMATTER, CUSTOMER_OWNERSHIP, DASHBOARD, EQUIPMENT, EXISTING_SERVICE, FIBRE_HOME, ICONS_MOBILE, CLIPBOARD_ALT, LEADS, LIFEBUOY, TICKET_ALT, NUMBER_SERVICES, OPERATIONS, PIN, PLANS, PLUS_ICON, SALES, SEARCH_ICON, SIM_DEVICE } from '../assets/icons';
 // THE nav manifest: one closed set of primary destinations, from which each
 // role gets a filtered and reordered subset (see engines/navigationEngine.ts).
 //
@@ -91,28 +92,28 @@ export interface NavItem {
 }
 
 const ICONS = {
-  dashboard: 'M4 4h7v7H4z M13 4h7v4h-7z M13 11h7v9h-7z M4 14h7v6H4z',
-  mobile: 'M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M11 18h2',
-  fibreHome: 'M5 12.5a9 9 0 0 1 14 0 M8 16a5 5 0 0 1 8 0 M12 19.5h.01',
-  newConnection: 'M12 5v14 M5 12h14',
-  existingService: 'M21 12a9 9 0 0 1-9 9 9 9 0 0 1-8.5-6 M3 12a9 9 0 0 1 9-9 9 9 0 0 1 8.5 6 M21 3v6h-6 M3 21v-6h6',
-  plans: 'M4 6h16 M4 12h16 M4 18h10 M18 16v4 M16 18h4',
-  numberServices: 'M9 3L7 21 M17 3l-2 18 M3.5 8.5h17 M3 15.5h17',
-  simDevice: 'M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M9 9h6v6H9z',
-  relocation: 'M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
-  equipment: 'M14.7 6.3a4 4 0 0 1 5 5L21 12l-9 9-3-3 9-9z M7 17l-3 3',
-  customerOwnership: 'M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1 M9.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M17 11l2 2 4-4',
-  lifebuoy: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M5.6 5.6l3.2 3.2 M15.2 15.2l3.2 3.2 M18.4 5.6l-3.2 3.2 M8.8 15.2l-3.2 3.2',
-  search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3',
-  sales: 'M4 16l6-6 4 4 6-8 M14 6h6v6',
-  operations: 'M3 12h3l2.5 6 3-13 3 9 2-3h4',
-  leads: 'M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1 M9.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19 8v6 M22 11h-6',
+  dashboard: DASHBOARD,
+  mobile: ICONS_MOBILE,
+  fibreHome: FIBRE_HOME,
+  newConnection: PLUS_ICON,
+  existingService: EXISTING_SERVICE,
+  plans: PLANS,
+  numberServices: NUMBER_SERVICES,
+  simDevice: SIM_DEVICE,
+  relocation: PIN,
+  equipment: EQUIPMENT,
+  customerOwnership: CUSTOMER_OWNERSHIP,
+  lifebuoy: LIFEBUOY,
+  search: SEARCH_ICON,
+  sales: SALES,
+  operations: OPERATIONS,
+  leads: LEADS,
   support:
-    'M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z M12 9v3 M12 15h.01',
+    TICKET_ALT,
   orders:
-    'M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1z M6 6h12v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1z M9 13l2 2 4-4',
-  billFormatter: 'M6 3h12a1 1 0 0 1 1 1v17l-3-2-2 2-2-2-2 2-2-2-3 2V4a1 1 0 0 1 1-1z M9 8h6 M9 12h6 M9 16h3',
-  administration: 'M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z M9.5 12l2 2 3-3',
+    CLIPBOARD_ALT,
+  billFormatter: BILL_FORMATTER,
+  administration: ADMINISTRATION,
 };
 
 export const NAV_MANIFEST: readonly NavItem[] = [

@@ -16,12 +16,13 @@ import * as mockDataEngine from '../../engines/mockDataEngine';
 import type { CustomerRecord } from '../../engines/customer360Engine';
 import { EDITABLE_ACCOUNT_STATUSES, diffAccountEdits } from './accountEditModel';
 import { formatQar } from '../../lib/format';
+import { ACTIVE, CROSS, PAUSE } from '../../assets/icons';
 
 // Icon tiles of the choice cards (24px grid paths).
 const STATUS_ICON: Record<string, string> = {
-  Active: 'M22 11.08V12a10 10 0 1 1-5.93-9.14 M22 4L12 14.01l-3-3',
-  Suspended: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M10 9v6 M14 9v6',
-  Closed: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M15 9l-6 6 M9 9l6 6',
+  Active: ACTIVE,
+  Suspended: PAUSE,
+  Closed: CROSS,
 };
 // An account status reads at a glance: Active green, Suspended amber, Closed grey.
 const STATUS_TONE: Record<string, 'success' | 'warn' | 'danger' | 'neutral'> = { Active: 'success', Suspended: 'warn', Closed: 'neutral' };

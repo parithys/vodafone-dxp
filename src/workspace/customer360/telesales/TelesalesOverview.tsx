@@ -12,26 +12,27 @@ import { DevicePenaltyPolicy, StarNumberPenaltyPolicy } from '../sections/penalt
 import { buildAssetsFieldResolver } from '../sections/assetsResolvers';
 import type { TelesalesContext } from './TelesalesTabs';
 import { formatDate } from '../../../lib/format';
+import { CHART, CHECK, CHEVRON_RIGHT, GLOBE, GRID, HELP, I_BARS, I_CALENDAR, I_CARD, I_PIN, I_STAR, PERSON, PHONE_ICON, SEARCH_ICON, REFRESH_ALT } from '../../../assets/icons';
 
 // Shared pieces of the Telesales Overview page (card shell, rows, pills, masonry grid) and its Additional
 // Information strip. The page's sections live in the Telesales*Section.tsx files in this folder.
 
 export const I = {
-  user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
-  card: 'M3 6h18v12H3z M3 10h18',
-  star: 'M12 2l3 6.5 7 1-5 5 1.2 7L12 18l-6.2 3.5L7 14.5l-5-5 7-1z',
-  refresh: 'M21 12a9 9 0 1 1-3-6.7 M21 4v5h-5',
-  bars: 'M5 20V10 M12 20V4 M19 20v-7',
-  chart: 'M3 3v18h18 M7 14l4-4 3 3 5-6',
-  pin: 'M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z M12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
-  search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3',
-  phone: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z',
-  grid: 'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',
-  globe: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M3 12h18 M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z',
-  check: 'M20 6L9 17l-5-5',
-  help: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7 M12 17v.1',
-  chevron: 'M9 18l6-6-6-6',
-  calendar: 'M4 5h16v15H4z M4 10h16 M8 3v4 M16 3v4',
+  user: PERSON,
+  card: I_CARD,
+  star: I_STAR,
+  refresh: REFRESH_ALT,
+  bars: I_BARS,
+  chart: CHART,
+  pin: I_PIN,
+  search: SEARCH_ICON,
+  phone: PHONE_ICON,
+  grid: GRID,
+  globe: GLOBE,
+  check: CHECK,
+  help: HELP,
+  chevron: CHEVRON_RIGHT,
+  calendar: I_CALENDAR,
 };
 
 export type Ctx = TelesalesContext;

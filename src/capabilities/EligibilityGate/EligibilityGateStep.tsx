@@ -5,6 +5,8 @@ import { evaluateRule } from '../../engines/ruleEngine';
 import { defaultCreditLimit, isHrn } from '../../engines/hrnConfiguration';
 import { creditRiskPatch, creditSegmentOf, customerCategoryOf, hrnFeeApplies, resolveCreditRisk, type BigDataCreditRisk, type CreditRiskSource } from '../../engines/creditLimit';
 import { useNotificationStore } from '../../stores/notificationStore';
+import { usePersonaStore } from '../../stores/personaStore';
+import { under18ExceptionOffered } from '../../data/under18Exception';
 import { evaluateEligibilityChecks, hasHardStop, type EligibilityCheck } from '../../engines/eligibilityEngine';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { outstandingBalance } from '../../engines/billingBalance';
@@ -76,6 +78,11 @@ interface EligibilityGateStepProps {
   // (MPRA_001_CAM_03) - it's just never displayed as a payment prompt here.
   journeyType?: 'postpaid' | 'prepaid';
   /**
+   * The journey the agent is actually in, when Customer Verification runs before the product is chosen and `journeyType` is still the default: a journey
+   * started as New Prepaid says 'prepaid' here, so the Prepaid-only under-18 exception is offered at Customer Verification. Defaults to `journeyType`.
+   */
+  exceptionJourney?: string;
+  /**
    * 'common' (Customer Verification, before a product is chosen): only the checks that are the same for every product.
    * 'product' (default): the full set for `journeyType`, once the agent has chosen the product.
    */
@@ -119,6 +126,7 @@ export function EligibilityGateStep({
   onResult,
   result,
   journeyType = 'postpaid',
+  exceptionJourney,
   scope = 'product',
   portIn = false,
   showRow,
@@ -135,10 +143,21 @@ export function EligibilityGateStep({
 }: EligibilityGateStepProps) {
   const asCustomerId = useActedForCustomer(explicitCustomerId, asNewCustomer);
   const requestedType: ConnectionType = connectionType ?? (journeyType === 'prepaid' ? 'MOBILE_PREPAID' : 'MOBILE_POSTPAID');
+  const personaId = usePersonaStore((s) => s.activePersonaId);
+  // The agent chose the under-18 exception journey (kept on the result, so it survives leaving and re-entering the step).
+  const [exceptionChosen, setExceptionChosen] = useState(Boolean(result?.under18Exception));
+  // A different identity starts without the choice: it belongs to the person it was made for.
+  const previousId = useRef(idNumber);
+  useEffect(() => {
+    if (previousId.current !== idNumber) {
+      previousId.current = idNumber;
+      setExceptionChosen(false);
+    }
+  }, [idNumber]);
   // A cached result for THIS identity. Computed during render rather than in
   // an effect so the first paint on re-entry already shows the rows.
   const cached =
-    result && idNumber && result.idNumber === idNumber && (result.scope ?? 'product') === scope && (result.journeyType ?? 'postpaid') === journeyType && Boolean(result.portIn) === portIn && Boolean(result.lineLimitSkipped) === skipLineLimit && (result.connectionType ?? (journeyType === 'prepaid' ? 'MOBILE_PREPAID' : 'MOBILE_POSTPAID')) === requestedType && (result.requestKind ?? 'NEW_ACTIVATION') === requestKind
+    result && idNumber && result.idNumber === idNumber && (result.scope ?? 'product') === scope && (result.journeyType ?? 'postpaid') === journeyType && Boolean(result.portIn) === portIn && Boolean(result.lineLimitSkipped) === skipLineLimit && Boolean(result.under18Exception) === exceptionChosen && (result.connectionType ?? (journeyType === 'prepaid' ? 'MOBILE_PREPAID' : 'MOBILE_POSTPAID')) === requestedType && (result.requestKind ?? 'NEW_ACTIVATION') === requestKind
       ? result
       : undefined;
 
@@ -326,6 +345,7 @@ export function EligibilityGateStep({
           journeyType,
           scope,
           portIn,
+          under18Exception: under18ExceptionOffered({ journey: exceptionJourney ?? journeyType, personaId, idType: doc.documentType ?? match.idType }) ? (exceptionChosen ? 'chosen' : 'available') : undefined,
         },
         new Date()
       );
@@ -370,6 +390,7 @@ export function EligibilityGateStep({
         requestKind,
         connectionDecision: decision ?? undefined,
         requiresHrnAdvance: hrnFlag,
+        under18Exception: resolvedChecks.some((c) => c.id === 'age' && c.outcome === 'approval-routing') || undefined,
         isExistingCustomer,
         nationality: match.nationality,
         segment: match.segment,
@@ -405,7 +426,7 @@ export function EligibilityGateStep({
     // this effect every time onResult fires - an infinite update loop caught
     // live via the ErrorBoundary ("Maximum update depth exceeded").
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idNumber, journeyType, scope, portIn, cached, retryNonce, newIdentity?.nationality, newIdentity?.dob, newIdentity?.expiryDate, linkedIdDocument?.customerId]);
+  }, [idNumber, journeyType, scope, portIn, cached, retryNonce, newIdentity?.nationality, newIdentity?.dob, newIdentity?.expiryDate, linkedIdDocument?.customerId, exceptionChosen, personaId, exceptionJourney]);
 
   // Nothing to show before an identity is resolved - this panel lives
   // permanently inside the Contact step now (2026-09-28, no more separate
@@ -480,6 +501,16 @@ export function EligibilityGateStep({
         <p className="text-danger text-[length:var(--fs-caption)]">
           This journey cannot continue for this customer - resolve the blocking check above before retrying.
         </p>
+      )}
+      {/* The under-18 exception (BRSD V0.3): the agent chooses between stopping here (do nothing, the journey is already stopped) and
+          proceeding with the exception journey, which routes the order to the CDM queue. Offered only where data/under18Exception.ts allows. */}
+      {hardStop && checks.some((c) => c.exceptionOffer === 'under-18') && (
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="secondary" compact onClick={() => setExceptionChosen(true)}>
+            Proceed With Exception
+          </Button>
+          <span className="text-fg-2 text-[length:var(--fs-caption)]">Or stop here: the journey ends for this customer.</span>
+        </div>
       )}
       {/* Pattern 3: Alternative Product. Only a collections soft-stop reaches
           here (the engine's only 'soft-stop' outcome), and only Postpaid has

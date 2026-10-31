@@ -10,8 +10,8 @@ import { VodafoneMark } from '../components/primitives/VodafoneMark';
 import { VodafoneWordmark } from '../components/primitives/VodafoneWordmark';
 import { detectDeviceType } from '../lib/deviceType';
 import { NAV_MANIFEST, resolveActiveNavPath } from './navManifest';
+import { CHEVRON_DOWN, PANEL_TOGGLE_ICON, SEARCH_ICON } from '../assets/icons';
 
-const SEARCH_ICON = 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3';
 // The row the keyboard has reached while searching the menu.
 const KBD_ACTIVE = 'data-[kbd-active=true]:bg-[var(--nav-hover-bg)] data-[kbd-active=true]:text-[var(--nav-fg)] data-[kbd-active=true]:ring-2 data-[kbd-active=true]:ring-inset data-[kbd-active=true]:ring-[var(--nav-fg-muted)]';
 const DESKTOP_QUERY = '(min-width: 768px)';
@@ -20,10 +20,8 @@ const subscribeDesktop = (cb: () => void) => {
   mq.addEventListener('change', cb);
   return () => mq.removeEventListener('change', cb);
 };
-const PANEL_TOGGLE_ICON = 'M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5z M9 4v16';
 // Points down when collapsed, rotated 180deg to point up when expanded -
 // matching the reference disclosure pattern.
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
 
 // The rail is now driven by navManifest.ts, filtered and reordered per role by
 // its approach (navigationEngine.resolveNavFor) - the same closed manifest for

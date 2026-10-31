@@ -10,6 +10,7 @@ import * as mockDataEngine from '../../engines/mockDataEngine';
 import { isAddonEligible, type AddonEligibilityContext, type AddonEligibilityRule } from '../../engines/addonEligibility';
 import { ADDON_CATEGORIES, addonsFor, selectedPerCategory, type AddonCategory, type AddonPricingModel, type AddonBillingFrequency, type AddonBillingOption, addonPriceDisplay, addonChargeType, isAddonAvailable } from '../../engines/addonCategories';
 import { formatAmount } from '../../lib/format';
+import { CHEVRON_RIGHT, DATA_ICON, LAYERS_ICON } from '../../assets/icons';
 
 interface AddonProduct {
   productId: string;
@@ -70,11 +71,7 @@ interface AddonsPickerProps {
 // "Plan & Add-ons" (reference flow step 5) - optional, non-gating multi-select
 // of catalogue products where type === 'Add-on', alongside the mandatory
 // single-select Plan above it in ProductPlanStep.
-const CHEVRON = 'M9 18l6-6-6-6';
 
-const DATA_ICON = 'M6 5c0-1.1 2.7-2 6-2s6 .9 6 2-2.7 2-6 2-6-.9-6-2z M6 5v7c0 1.1 2.7 2 6 2s6-.9 6-2V5 M6 12v7c0 1.1 2.7 2 6 2s6-.9 6-2v-7';
-const GIFT_ICON = 'M4 10h16v10H4z M3 6h18v4H3z M12 6v14 M12 6H8.5a2 2 0 1 1 2-2c.8 1 1.5 2 1.5 2z M12 6h3.5a2 2 0 1 0-2-2c-.8 1-1.5 2-1.5 2z';
-const LAYERS_ICON = 'M12 3 3 8l9 5 9-5-9-5z M3 12l9 5 9-5 M3 16l9 5 9-5';
 
 export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBillingChange, hideHeader, eligibilityContext, emptyMessage, layout = 'cards', source = 'catalogue', categorized = false }: AddonsPickerProps) {
   const [category, setCategory] = useState<AddonCategory>(ADDON_CATEGORIES[0]);
@@ -260,7 +257,7 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
           aria-expanded={open}
           className="flex w-full items-center gap-2 text-left"
         >
-          <Icon path={CHEVRON} className={`w-4 h-4 text-muted transition-transform ${open ? 'rotate-90' : ''}`} />
+          <Icon path={CHEVRON_RIGHT} className={`w-4 h-4 text-muted transition-transform ${open ? 'rotate-90' : ''}`} />
           <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">
             Add-ons{selectedIds.length > 0 ? ` (${selectedIds.length} selected)` : ' (optional)'}
           </h3>
@@ -310,7 +307,6 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
           {([['PAID ADD-ONS', paid, 'paid'], ['COMPLIMENTARY', free, 'free']] as const).map(([title, list, kind]) => (
             <section key={kind} aria-label={title} className="space-y-4 min-w-0">
               <div className={`flex items-center gap-2 text-[length:var(--fs-caption-upper)] font-semibold uppercase tracking-wide ${kind === 'free' ? 'text-[var(--success)]' : 'text-fg-2'}`}>
-                {kind === 'free' && <Icon path={GIFT_ICON} className="h-5 w-5 shrink-0" />}
                 <h4>{title}</h4>
                 <span className={`inline-flex min-w-6 items-center justify-center rounded-[var(--radius-pill)] px-2 py-0.5 text-[length:var(--fs-caption)] ${kind === 'free' ? 'bg-tone-success text-[var(--success)]' : 'bg-surface text-fg-2'}`}>
                   {list.length}

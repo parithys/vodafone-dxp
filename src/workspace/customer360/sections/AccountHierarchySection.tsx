@@ -3,9 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Badge } from '../../../components/primitives/Badge';
 import { Icon } from '../../../components/primitives/Icon';
 import type { Customer360Data } from '../../../engines/customer360Engine';
+import { CHEVRON_DOWN, CHEVRON_UP } from '../../../assets/icons';
 
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
 
 /** A hierarchy row: a button that expands its children, or a plain row when everything is shown open. */
 function Row({ as, className, onClick, children }: { as: 'div' | 'button'; className: string; onClick?: () => void; children: React.ReactNode }) {

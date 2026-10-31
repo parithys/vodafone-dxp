@@ -23,6 +23,7 @@ import { AppointmentBooking } from './AppointmentBooking';
 import { BillingAccount } from './BillingAccount';
 import { CafSignature } from './CafSignature';
 import { LineSelection } from './LineSelection';
+import { RechargeSelection } from './RechargeSelection';
 import type { CustomerLine } from './LineSelection';
 import { CheckoutSummary, PrepaidCheckout } from './CheckoutSummary';
 import { CustomerIdentification } from './CustomerIdentification';
@@ -362,6 +363,7 @@ function Wizard() {
   return (
     <GuidedActivationWizard
       wizardId={SAMPLE_WIZARD_ID}
+      fixedFooter={false}
       title="Sample Journey"
       confirmLeave={false}
       steps={steps}
@@ -385,6 +387,7 @@ function Qualification() {
   return (
     <GuidedActivationWizard
       wizardId={QUALIFICATION_WIZARD_ID}
+      fixedFooter={false}
       title="Sample Journey"
       confirmLeave={false}
       steps={[customerQualificationStep({ flow: 'new', existingCustomerId: undefined, guardedContactChange: (v, setValue) => setValue('contact', v), productAgnostic: true })]}
@@ -396,6 +399,18 @@ function Qualification() {
   );
 }
 // CUST-1001 holds postpaid and prepaid lines; the switcher is the lineType a journey passes.
+function Recharges() {
+  const [id, setId] = useState<string | undefined>();
+  return (
+    <Variants
+      items={[
+        { key: 'QID', label: 'QID Waived At 20' },
+        { key: 'Passport', label: 'Passport Waived At 35' },
+      ]}
+      render={(k) => <RechargeSelection value={id} onChange={setId} idType={k} />}
+    />
+  );
+}
 function Lines() {
   const [line, setLine] = useState<CustomerLine | undefined>();
   return (
@@ -473,4 +488,5 @@ export const CAPABILITY_PREVIEWS: Record<string, () => ReactNode> = {
   'guided-activation-wizard': () => <Wizard />,
   'customer-qualification': () => <Qualification />,
   'line-selection': () => <Lines />,
+  'recharge-selection': () => <Recharges />,
 };

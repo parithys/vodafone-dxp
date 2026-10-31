@@ -3,6 +3,7 @@ import { Icon } from '../../../components/primitives/Icon';
 import { getVisibleTopicFields } from '../../../engines/customer360VisibilityEngine';
 import type { Customer360Field } from '../../../types/config';
 import { customer360Layouts, type FieldGroup } from './customer360Layouts';
+import { CHEVRON_DOWN, CHEVRON_UP } from '../../../assets/icons';
 
 /** The requirement text behind a field is the lookup key; what the agent reads is its name without the long
  * explanatory remark in brackets (kept when the bracket is a short qualifier such as "(Y/N)"). */
@@ -13,8 +14,6 @@ export function fieldLabel(details: string): string {
   return tail.length > 32 || /\b(should|including|based on|It )\b/i.test(tail) ? details.slice(0, open) : details;
 }
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
 
 interface Item {
   key: string;
@@ -229,7 +228,7 @@ function Tile({ item, expanded, onToggle }: { item: Item; expanded: boolean; onT
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className={`${shell} hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] transition-colors ${expanded ? 'sm:col-span-2 lg:col-span-3' : ''}`}
+        className={`${shell} hover:bg-[var(--field-card-hover-bg)] transition-colors ${expanded ? 'sm:col-span-2 lg:col-span-3' : ''}`}
       >
         {body}
       </button>

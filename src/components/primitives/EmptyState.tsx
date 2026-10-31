@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { Icon } from './Icon';
+import { EMPTY_STATE_ICON } from '../../assets/icons';
 
 /** A tray: the default picture of "nothing here". Callers may pass a path that fits their scenario. */
-export const EMPTY_STATE_ICON = 'M3 13l3-8h12l3 8 M3 13v6h18v-6 M3 13h5a4 4 0 0 0 8 0h5';
 
 /**
  * The one empty state: what a list, tab, table or panel shows when it has nothing to show. The picture, the spacing, the type and the

@@ -182,10 +182,8 @@
   /* Default highlight: selected cards/rows, active options, text selection. */
   --highlight-bg: #ffd6d6;
   --field-card-selected-bg: var(--surface-warm);
-  /* Hover on a selectable card: a lighter wash of the selected fill. */
+  /* Hover on a selectable card: a lighter wash of the selected fill. Hover changes the background only - never the border or a ring. */
   --field-card-hover-bg: #fff4f4;
-  /* Hover border/ring of a selectable card: softer than the selected #ff4d4d. */
-  --field-card-hover-border: #ff9a9a;
   /* Resting border of an unselected selectable card (darker than --border-soft). */
   --field-card-border: #c9ced4;
   /* CHECKBOXES, 2026-09-25. Superseding the 2026-09-15 rule above for
@@ -660,7 +658,6 @@
   --highlight-bg: var(--surface-warm);
   --field-card-selected-bg: var(--highlight-bg);
   --field-card-hover-bg: var(--surface-warm);
-  --field-card-hover-border: #ff9a9a;
   --field-card-border: var(--border);
   /* Checkboxes were already red here before the light-mode change, since dark
      mode never adopted the #c09696 accent - this keeps that, and the white

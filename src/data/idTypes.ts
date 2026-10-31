@@ -1,3 +1,4 @@
+import { BOOK_ICON, CARD_ICON, GLOBE_ICON_ALT, SHIELD_ICON } from '../assets/icons';
 // The one definition of the identity-document types the app understands. Everything that offers, labels,
 // validates, scans or routes on an ID type reads it from here; add or change a type in this file only.
 
@@ -21,15 +22,11 @@ export interface IdTypeDef {
   prepaidCapped: boolean;
 }
 
-const CARD_ICON = 'M3 6h18v12H3z M3 10h18 M6 15h3';
-const BOOK_ICON = 'M12 6.5c-1.6-1.1-4-1.6-6-1.2v12.8c2-0.4 4.4 0.1 6 1.2 M12 6.5c1.6-1.1 4-1.6 6-1.2v12.8c-2-0.4-4.4 0.1-6 1.2 M12 6.5v12.8';
-const GLOBE_ICON = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M3 12h18 M12 3c2.4 2.6 2.4 15.4 0 18 M12 3c-2.4 2.6-2.4 15.4 0 18';
-const SHIELD_ICON = 'M12 3l7 3v5.5c0 5-3 8.3-7 9.5-4-1.2-7-4.5-7-9.5V6z';
 
 export const ID_TYPES: IdTypeDef[] = [
   { type: 'QID', label: 'Qatar ID (QID)', numberLabel: 'Qatar ID (QID) Number', numericNumber: true, placeholder: 'e.g. 28456701234', icon: CARD_ICON, scannable: true, exceptionRouted: false, prepaidCapped: false },
   { type: 'Passport', label: 'Passport', numberLabel: 'Passport Number', numericNumber: false, placeholder: 'e.g. P0998812', icon: BOOK_ICON, scannable: true, exceptionRouted: true, prepaidCapped: true },
-  { type: 'GCC ID', label: 'GCC ID', numberLabel: 'GCC ID Number', numericNumber: true, placeholder: 'e.g. 784202312345678', icon: GLOBE_ICON, scannable: true, exceptionRouted: true, prepaidCapped: true },
+  { type: 'GCC ID', label: 'GCC ID', numberLabel: 'GCC ID Number', numericNumber: true, placeholder: 'e.g. 784202312345678', icon: GLOBE_ICON_ALT, scannable: true, exceptionRouted: true, prepaidCapped: true },
   { type: 'Diplomatic ID', label: 'Diplomatic ID', numberLabel: 'Diplomatic ID Number', numericNumber: true, placeholder: 'e.g. DIP-QA-004521', icon: SHIELD_ICON, scannable: true, exceptionRouted: false, prepaidCapped: false },
 ];
 

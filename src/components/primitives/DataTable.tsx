@@ -3,10 +3,8 @@ import { Pagination, pageWindow } from './Pagination';
 import { useState, type KeyboardEvent, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from './Icon';
+import { CHEVRON_DOWN, SORT_ASC_ICON, SORT_NEUTRAL_ICON } from '../../assets/icons';
 
-const SORT_ASC_ICON = 'M6 15l6-6 6 6';
-const SORT_DESC_ICON = 'M6 9l6 6 6-6';
-const SORT_NEUTRAL_ICON = 'M7 10l5-5 5 5 M7 14l5 5 5-5';
 
 export interface Column<T> {
   key: string;
@@ -158,7 +156,7 @@ export function DataTable<T>({
                       >
                         {col.header}
                         <Icon
-                          path={active ? (sort.direction === 'asc' ? SORT_ASC_ICON : SORT_DESC_ICON) : SORT_NEUTRAL_ICON}
+                          path={active ? (sort.direction === 'asc' ? SORT_ASC_ICON : CHEVRON_DOWN) : SORT_NEUTRAL_ICON}
                           className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-fg' : 'text-muted'}`}
                         />
                       </button>

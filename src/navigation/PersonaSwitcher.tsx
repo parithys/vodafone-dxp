@@ -27,15 +27,16 @@ import { SessionReferenceNumbers } from './SessionReferenceNumbers';
 import { HeaderContextChips } from './HeaderContextChips';
 import { useMinWidth } from '../hooks/useMinWidth';
 import { detectDeviceType } from '../lib/deviceType';
+import { BELL_ICON, CHEVRON_DOWN, HELP_CIRCLE, MENU, MOON, SIGN_OUT, SUN } from '../assets/icons';
 
 const ICONS = {
-  moon: 'M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z',
-  sun: 'M12 4V2 M12 22v-2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4 M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z',
-  bell: 'M6 8a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 12 6 8z M9.5 17a2.5 2.5 0 0 0 5 0',
-  help: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.9.4-1.4 1-1.4 2 M12 17h.01',
-  chevronDown: 'M6 9l6 6 6-6',
-  signOut: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9',
-  menu: 'M4 6h16 M4 12h16 M4 18h16',
+  moon: MOON,
+  sun: SUN,
+  bell: BELL_ICON,
+  help: HELP_CIRCLE,
+  chevronDown: CHEVRON_DOWN,
+  signOut: SIGN_OUT,
+  menu: MENU,
 };
 
 // Top bar: theme toggle, notifications, help, and a profile chip (with

@@ -6,6 +6,7 @@ import { Button } from '../primitives/Button';
 import { Select } from '../primitives/Select';
 import { Icon } from '../primitives/Icon';
 import { UPLOAD_RULES, uploadFileProblem } from './documentUploadRules';
+import { DOC, TRASH } from '../../assets/icons';
 
 export interface CafDocument {
   /** Local id - these are session artefacts, not persisted records. */
@@ -36,8 +37,6 @@ const RULES = UPLOAD_RULES.supporting;
 // 5, matching the New Connection journey's document upload.
 const MAX_DOCUMENTS = 5;
 
-const TRASH = 'M3 6h18 M8 6V4h8v2 M19 6l-1 14H6L5 6 M10 11v6 M14 11v6';
-const DOC = 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6';
 
 // Upload of the signed CAF and its supporting documents. Type is chosen FIRST,
 // then the file: a file with no type is an unfiled attachment, and asking for

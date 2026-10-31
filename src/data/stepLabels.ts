@@ -22,6 +22,8 @@ export const CAF_SIGNATURE_LABEL = 'CAF & Signature';
 /** The order read-back before signing and payment. */
 export const CHECKOUT_LABEL = 'Order Summary';
 export const SUBSCRIPTIONS_LABEL = 'Subscriptions';
+/** Choose the recharge of a prepaid subscription. */
+export const RECHARGE_LABEL = 'Recharge';
 /** Take the amount due. */
 export const PAYMENT_LABEL = 'Payment';
 /** Book the installation visit. */

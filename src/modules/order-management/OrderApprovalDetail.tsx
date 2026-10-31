@@ -30,22 +30,22 @@ import { mayResubmitOrder, ORDER_AWAITING_DECISION, orderApprovalAuthority } fro
 import { evaluateRule } from '../../engines/ruleEngine';
 import { Link } from 'react-router-dom';
 import { AttachmentPreview, type OrderAttachment } from './AttachmentPreview';
+import { ALERT_ICON_ALT, DOC, HISTORY_ICON, IMAGE } from '../../assets/icons';
 
 // Same document-icon path CafDocumentUpload.tsx/AdditionalDocumentsUpload.tsx
 // already use for their own file rows - reused here for visual consistency
 // rather than a second icon meaning the same thing.
-const DOC_ICON = 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6';
 
 // File-type icons for the Attachments list. The format comes from what the order recorded: a file extension in the
 // document's detail or label ("proof.pdf"), or - for the documents captured in the journey - how they were captured
 // (scans are images). Anything else is shown as a plain document rather than guessed at.
 type FileKind = 'pdf' | 'image' | 'word' | 'sheet' | 'other';
 const FILE_KIND_ICON: Record<FileKind, { path: string; tone: string; name: string }> = {
-  pdf: { path: `${DOC_ICON} M9 15h1.5a1.5 1.5 0 0 0 0-3H9v6`, tone: 'text-danger', name: 'PDF document' },
-  image: { path: 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21', tone: 'text-success', name: 'Image' },
-  word: { path: `${DOC_ICON} M8 13h8 M8 17h8 M8 9h2`, tone: 'text-[var(--signal-blue)]', name: 'Word document' },
-  sheet: { path: `${DOC_ICON} M8 13h8 M8 17h8 M12 13v6`, tone: 'text-success', name: 'Spreadsheet' },
-  other: { path: DOC_ICON, tone: 'text-muted', name: 'Document' },
+  pdf: { path: `${DOC} M9 15h1.5a1.5 1.5 0 0 0 0-3H9v6`, tone: 'text-danger', name: 'PDF document' },
+  image: { path: IMAGE, tone: 'text-success', name: 'Image' },
+  word: { path: `${DOC} M8 13h8 M8 17h8 M8 9h2`, tone: 'text-[var(--signal-blue)]', name: 'Word document' },
+  sheet: { path: `${DOC} M8 13h8 M8 17h8 M12 13v6`, tone: 'text-success', name: 'Spreadsheet' },
+  other: { path: DOC, tone: 'text-muted', name: 'Document' },
 };
 function fileKindOf(a: { label: string; detail?: string }): FileKind {
   const ext = /\.([a-z0-9]{2,5})\b(?!.*\.[a-z0-9]{2,5}\b)/i.exec(`${a.detail ?? ''} ${a.label}`)?.[1]?.toLowerCase();
@@ -211,7 +211,6 @@ function DetailRow({ label, value }: { label: string; value: React.ReactNode }) 
   );
 }
 
-const ALERT_ICON = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 8v5 M12 16h.01';
 
 /**
  * Splits the order's stored reason string into one entry per trigger, each with a heading and its explanation. The stored
@@ -296,7 +295,7 @@ function ApprovalSummary({
           <ul className="space-y-2">
             {items.map((r, i) => (
               <li key={`${r.title}-${i}`} className="flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3">
-                <Icon path={ALERT_ICON} className="mt-0.5 w-5 h-5 shrink-0 text-[var(--warn-text)]" />
+                <Icon path={ALERT_ICON_ALT} className="mt-0.5 w-5 h-5 shrink-0 text-[var(--warn-text)]" />
                 <span className="min-w-0">
                   <span className="block text-[var(--warn-text)] font-semibold text-[length:var(--fs-body)]">{r.title}</span>
                   <span className="block text-fg text-[length:var(--fs-caption)]">{r.detail}</span>
@@ -320,7 +319,6 @@ function ApprovalSummary({
   );
 }
 
-const HISTORY_ICON = 'M3 12a9 9 0 1 0 3-6.7 M3 4v5h5 M12 7v5l3 2';
 
 // Activities tab (2026-10-10): a titled card with a count, a one-line brief and either the order's approval history (each
 // entry unchanged: action, time, notes) or an empty state. The history is the task history Agent 360 AAV-05 asks the
@@ -426,7 +424,7 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
                 <AttachmentPreview doc={doc} order={order} />
               ) : (
                 <>
-                  <Icon path={DOC_ICON} className="w-14 h-14 text-muted" strokeWidth={1.5} />
+                  <Icon path={DOC} className="w-14 h-14 text-muted" strokeWidth={1.5} />
                   <p className="text-fg-2 text-[length:var(--fs-body)]">Select a document to preview it here.</p>
                 </>
               )}

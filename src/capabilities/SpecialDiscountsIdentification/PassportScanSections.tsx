@@ -10,13 +10,13 @@ import { applyIdUpload, idCaptureOptions } from './idUploadModel';
 import { SYNTHETIC_CLASS } from '../../data/synthetic/syntheticMarker';
 import { SCAN_DURATION_MS } from './qidImageUploadModel';
 import type { QidImageUploadProps } from './qidImageUploadModel';
+import { SCAN_CORNERS } from '../../assets/icons';
 
 // ---------------------------------------------------------------------------------------------------------
 // Passport: two separate scanning sections, one per side, each captured on the flatbed scanner.
 // The attempt budget is charged once per document pass (the first side to complete), not once per side.
 // ---------------------------------------------------------------------------------------------------------
 // The four corner brackets of a scan frame.
-const SCAN_CORNERS = 'M4 8V5a1 1 0 0 1 1-1h3 M16 4h3a1 1 0 0 1 1 1v3 M20 16v3a1 1 0 0 1-1 1h-3 M8 20H5a1 1 0 0 1-1-1v-3';
 
 type PassportProps = Pick<QidImageUploadProps, 'value' | 'onChange' | 'onScan' | 'error' | 'canScan' | 'demoTypes' | 'onDemoScan' | 'blurFirstScan' | 'hideUnclearNotice' | 'variant' | 'identity'>;
 

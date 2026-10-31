@@ -1,0 +1,12 @@
+[
+  { "rechargeId": "RCH-FLX-010", "name": "Flex Recharge 10", "category": "Flex", "amountQar": 10, "description": "Sample: flexible balance top-up", "status": "Active", "sample": true, "_note": "SAMPLE DATA (2026-10-31). The Prepaid BRSD V0.3 (Prepaid Recharge Selection) names the categories Flex, Combo, Credit and Data and says recharge offers come from Unica (NBO+), but gives no catalogue, amounts or persona rules. These rows only let the recharge step and the SIM-card-charge waiver be exercised; replace them with the real catalogue." },
+  { "rechargeId": "RCH-FLX-020", "name": "Flex Recharge 20", "category": "Flex", "amountQar": 20, "description": "Sample: flexible balance top-up", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-FLX-035", "name": "Flex Recharge 35", "category": "Flex", "amountQar": 35, "description": "Sample: flexible balance top-up", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-CMB-025", "name": "Combo Recharge 25", "category": "Combo", "amountQar": 25, "description": "Sample: balance with bundled minutes", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-CMB-050", "name": "Combo Recharge 50", "category": "Combo", "amountQar": 50, "description": "Sample: balance with bundled minutes", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-CRD-015", "name": "Credit Recharge 15", "category": "Credit", "amountQar": 15, "description": "Sample: call credit", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-CRD-030", "name": "Credit Recharge 30", "category": "Credit", "amountQar": 30, "description": "Sample: call credit", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-CRD-100", "name": "Credit Recharge 100", "category": "Credit", "amountQar": 100, "description": "Sample: call credit", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-DAT-020", "name": "Data Recharge 20", "category": "Data", "amountQar": 20, "description": "Sample: data balance", "status": "Active", "sample": true },
+  { "rechargeId": "RCH-DAT-040", "name": "Data Recharge 40", "category": "Data", "amountQar": 40, "description": "Sample: data balance", "status": "Active", "sample": true }
+]

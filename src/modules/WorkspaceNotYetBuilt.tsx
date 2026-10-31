@@ -4,8 +4,8 @@ import { NAV_BY_KEY, type NavKey } from '../navigation/navManifest';
 import { NotYetBuiltPanel } from './NotYetBuiltPanel';
 import { Icon } from '../components/primitives/Icon';
 import { SECONDARY_BUTTON_SURFACE } from '../components/primitives/Button';
+import { OPEN_ARROW } from '../assets/icons';
 
-const OPEN_ARROW = 'M7 17L17 7 M7 7h10v10';
 
 // The workspace-level counterpart to ScreenNotYetBuilt, for nav destinations
 // that are applicable to a role but not yet implemented. Requirement: such a

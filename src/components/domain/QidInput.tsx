@@ -4,6 +4,7 @@ import { ID_TYPES, idTypeLabel, type IdType } from '../../data/idTypes';
 import type { ReactNode, Ref } from 'react';
 import { Icon } from '../primitives/Icon';
 import { Button } from '../primitives/Button';
+import { BARCODE_ICON, SEARCH_ICON } from '../../assets/icons';
 
 export type QidType = IdType;
 export { idTypeLabel };
@@ -86,10 +87,8 @@ interface QidNumberFieldProps {
    */
   statusDetail?: ReactNode;
 }
-const SEARCH_ICON = 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3';
 /** A row of bars of varying width, standing in for a 1D barcode symbol at the
  * small size this renders at (the field's trailing icon, ~16px). */
-const BARCODE_ICON = 'M3 4v16 M6 4v16 M8 4v16 M11 4v16 M13 4v16 M14 4v16 M17 4v16 M19 4v16 M21 4v16';
 
 
 /**
@@ -170,7 +169,7 @@ export function QidTypeSelector({
                   ? 'border-border-soft bg-bg text-muted opacity-60'
                   : selected
                     ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
-                    : 'border-[var(--field-card-border)] bg-bg text-fg enabled:hover:border-[var(--field-card-hover-border)] enabled:hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]'
+                    : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
               }`}
             >
               {selected && <SelectedTick />}

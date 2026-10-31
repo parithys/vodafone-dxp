@@ -9,7 +9,7 @@ import type { ActivityInput } from '../../../engines/activityEngine';
 import { allLines, cartTotals, emailVerification, maskEmail, priceLine, COLLECTION_TEAM_ROLE, STORE_MANAGER_ROLE } from '../../../capabilities';
 import { orderTerms } from '../../../capabilities';
 import { approvalMessages, decisionRecord, needsCreditControl } from '../../../engines/connectionEligibility';
-import type { GuidedContactValue, CrossSalesValue, ConfirmedOrder, PrepaidLine, PricingExtra, PricingProduct } from '../../../capabilities';
+import type { GuidedContactValue, CrossSalesValue, ConfirmedOrder, PrepaidLine, PricingExtra, PricingProduct, PricingRecharge } from '../../../capabilities';
 import { assertEligibilityChecked } from '../../../engines/eligibilityGuard';
 import type { EligibilityResult } from '../../../components/domain/eligibilityTypes';
 import type { WinCashPaymentValue } from '../../../components/patterns/WinCashPaymentStep';
@@ -17,6 +17,8 @@ import type { CafType } from '../../../components/patterns/cafTypes';
 import type { AdditionalDocument } from '../../../capabilities';
 import type { useEntityStore } from '../../../stores/entityStore';
 import { DEVICE_LABEL, type DeviceType } from '../../../lib/deviceType';
+import { formatQar } from '../../../lib/format';
+import { UNDER_18_EXCEPTION } from '../../../data/under18Exception';
 import { idScanAttachments } from '../../new-connection/idScanAttachments';
 
 interface AccountRecord {
@@ -56,11 +58,13 @@ export async function submitPrepaidOrder(
   const lines = allLines(values);
   const customerId = eligibility?.customerId;
   const idType = contact?.idType;
-  const [products, extras] = await Promise.all([
+  const [products, extras, recharges] = await Promise.all([
     mockDataEngine.list<PricingProduct & { dataAllowanceGB?: number | null; packValidityDays?: number | null }>('products'),
     mockDataEngine.list<PricingExtra>('addons-discounts'),
+    mockDataEngine.list<PricingRecharge>('recharge-products'),
   ]);
-  const totals = cartTotals(lines, idType, products, extras);
+  const priceOptions = { recharges };
+  const totals = cartTotals(lines, idType, products, extras, priceOptions);
   const payment = values.payment as WinCashPaymentValue | undefined;
 
   // MPRA_001_CAM_01 / CAM_02 / CAM_03: find-or-create the prepaid account for this customer. No billingProfileId or
@@ -102,12 +106,16 @@ export async function submitPrepaidOrder(
   // The rule engine's decision, when it covered this customer: Credit Control approval routes the order to Credit Control (otherwise the older line-limit rule).
   const lineDecision = eligibility?.connectionDecision;
   const creditControl = lineDecision ? needsCreditControl(lineDecision) : false;
-  const pendingApproval = manualIdEntry || routedChecks.length > 0;
+  // A Star number's additional discount is a concession: the order waits for approval, as it does in New Postpaid.
+  const numberWaived = totals.numberWaivedQar > 0;
+  const pendingApproval = manualIdEntry || routedChecks.length > 0 || numberWaived;
   const approvalReason = [
     activeLinesCheck ? (lineDecision ? `Line approval required - ${approvalMessages(lineDecision)}` : `Active prepaid line limit reached - ${activeLinesCheck.message.split('\n')[1] ?? activeLinesCheck.message}`) : '',
     manualIdEntry ? 'Identity manually entered - Store Manager approval required' : '',
     routedChecks.some((c) => c.id === 'id-type-routing') ? 'ID type requires Credit Control approval - routed to Credit Control' : '',
     routedChecks.some((c) => c.id === 'id-validity') ? 'ID expiry date not on file - routed for approval' : '',
+    eligibility?.under18Exception ? 'Under-18 exception journey - CDM queue approval required' : '',
+    numberWaived ? `Additional discount of ${formatQar(totals.numberWaivedQar)} on a Star number - approval required` : '',
   ]
     .filter(Boolean)
     .join(' | ');
@@ -152,21 +160,26 @@ export async function submitPrepaidOrder(
     createdAt: now(),
     orderSubType: 'Consumer',
     status: pendingApproval ? 'Submitted for Approval' : 'Open',
-    ...(pendingApproval ? { manualIdEntry: manualIdEntry || undefined, approvalReason, approverRole: creditControl || routedChecks.some((c) => c.id === 'id-type-routing') ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : undefined } : {}),
+    ...(pendingApproval ? { manualIdEntry: manualIdEntry || undefined, approvalReason, approverRole: eligibility?.under18Exception ? UNDER_18_EXCEPTION.approverRole : creditControl || routedChecks.some((c) => c.id === 'id-type-routing') ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : undefined } : {}),
     customerName: contact?.moiResult?.name,
     customerId,
     accountId,
     idNumber: contact?.idNumber,
+    ...(eligibility?.under18Exception ? { under18Exception: true } : {}),
     lineCount: lines.length,
-    lines: lines.map((l, i) => lineRecord(l, i, idType, products, extras)),
+    lines: lines.map((l, i) => lineRecord(l, i, idType, products, extras, priceOptions)),
     // The first subscription's own fields stay on the order for the screens that list one number per order.
     productId: first?.productId,
     discountId: first?.discountId,
     addonIds: first?.addonIds,
     msisdn: first?.msisdn,
+    // The Star number as the order records it: list price, the additional discount the agent gave (BRSD V0.3 Star Number Additional Discount) and what the customer paid.
     numberPriceQAR: totals.numberPriceQar,
+    numberListPriceQAR: totals.numberListPriceQar,
+    ...(numberWaived ? { numberAdditionalDiscountQAR: totals.numberWaivedQar, numberDiscountedBy: currentAgentId() } : {}),
     starterPackChargeQAR: totals.starterPackChargeQar,
     addonsChargeQAR: totals.addonsChargeQar,
+    rechargeChargeQAR: totals.rechargeChargeQar,
     simCardChargeQAR: totals.simCardChargeQar,
     totalQAR: totals.totalDueQar,
     simType: first?.simType.simType,
@@ -199,7 +212,7 @@ export async function submitPrepaidOrder(
         status: 'Active',
         effectiveFrom: now().slice(0, 10),
         effectiveTo: null,
-        price: priceLine(line, idType, products, extras).starterPackQar,
+        price: priceLine(line, idType, products, extras, priceOptions).starterPackQar,
         promotion: line.productId,
         orderDate: now().slice(0, 10),
         orderNumber: orderId,
@@ -305,18 +318,22 @@ export async function submitPrepaidOrder(
 }
 
 /** One subscription as the order records it. */
-function lineRecord(line: PrepaidLine, index: number, idType: string | undefined, products: PricingProduct[], extras: PricingExtra[]) {
-  const charges = priceLine(line, idType, products, extras);
+function lineRecord(line: PrepaidLine, index: number, idType: string | undefined, products: PricingProduct[], extras: PricingExtra[], opts: { recharges: PricingRecharge[] }) {
+  const charges = priceLine(line, idType, products, extras, opts);
   return {
     lineNumber: index + 1,
     msisdn: line.msisdn,
     productId: line.productId,
     discountId: line.discountId,
     addonIds: line.addonIds,
+    rechargeId: line.rechargeId,
     prePaired: line.prePaired,
     numberPriceQAR: charges.numberQar,
+    numberListPriceQAR: charges.numberListQar,
+    numberAdditionalDiscountQAR: charges.numberWaivedQar || undefined,
     starterPackChargeQAR: charges.starterPackQar,
     addonsChargeQAR: charges.addonsQar,
+    rechargeChargeQAR: charges.rechargeQar,
     simCardChargeQAR: charges.simCardChargeQar,
     totalQAR: charges.totalQar,
     simType: line.simType.simType,

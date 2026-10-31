@@ -4,8 +4,8 @@ import { Input } from './Input';
 import { Icon } from './Icon';
 import { CountryMarker } from './CountryMarker';
 import { COUNTRY_DIAL_CODES, DEFAULT_COUNTRY_ISO, countryByIso, countryFromNumber } from './countryDialCodes';
+import { CHEVRON_DOWN } from '../../assets/icons';
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
 
 // Presentation-only formatting ("+974 50350824": the digits of the number are never split by a space) for a complete, valid
 // +974-prefixed 8-digit local number (mobile or landline - Qatar numbers of

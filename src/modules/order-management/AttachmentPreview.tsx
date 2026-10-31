@@ -3,6 +3,7 @@ import { Icon } from '../../components/primitives/Icon';
 import { ScannedIdPreview, type IdVariant, type SpecimenIdentity } from '../../components/domain/ScannedIdPreview';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { formatDateTime } from '../../lib/format';
+import { DOC } from '../../assets/icons';
 
 /** One document recorded on an order. `previewUrl` is the captured image itself when the journey kept one (the CAF signature). */
 export interface OrderAttachment {
@@ -22,7 +23,6 @@ export interface AttachmentOrder {
   createdAt?: number | string;
 }
 
-const DOC_ICON = 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6';
 const ID_SCAN = /^(Qatar ID \(QID\)|Passport|GCC ID|Diplomatic ID|Other ID) - (Front|Back)$/;
 const SCAN_TYPE: Record<string, string> = { 'Qatar ID (QID)': 'QID', Passport: 'Passport', 'GCC ID': 'GCC ID', 'Diplomatic ID': 'Diplomatic ID' };
 
@@ -81,7 +81,7 @@ function Sheet({ title, children }: { title: string; children: React.ReactNode }
   return (
     <div className="w-full max-w-md rounded-[var(--radius-card)] border border-border-soft bg-bg p-5 text-left shadow-raised">
       <div className="mb-3 flex items-center gap-2 border-b border-border-soft pb-3">
-        <Icon path={DOC_ICON} className="h-5 w-5 text-muted" strokeWidth={1.5} />
+        <Icon path={DOC} className="h-5 w-5 text-muted" strokeWidth={1.5} />
         <p className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{title}</p>
       </div>
       {children}

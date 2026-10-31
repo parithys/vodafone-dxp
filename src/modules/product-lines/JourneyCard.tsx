@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { Badge } from '../../components/primitives/Badge';
 import { Icon } from '../../components/primitives/Icon';
 import type { Journey, JourneyStatus } from '../../navigation/journeyCatalogue';
+import { ARROW_RIGHT } from '../../assets/icons';
 
-const ARROW_RIGHT = 'M5 12h14 M13 5l7 7-7 7';
 
 // Status drives the whole card treatment: badge variant, border, and whether
 // the card is a link at all. All three reuse existing Badge variants and
@@ -17,13 +17,13 @@ const STATUS: Record<JourneyStatus, {
   available: {
     label: 'Available',
     variant: 'success',
-    border: 'border-[var(--field-card-border)] hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]',
+    border: 'border-[var(--field-card-border)] hover:bg-[var(--field-card-hover-bg)]',
     cta: 'Start now',
   },
   partly: {
     label: 'Partly Available',
     variant: 'warning',
-    border: 'border-[var(--field-card-border)] hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]',
+    border: 'border-[var(--field-card-border)] hover:bg-[var(--field-card-hover-bg)]',
     cta: 'Check compatibility',
   },
   planned: {

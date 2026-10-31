@@ -1,4 +1,5 @@
 import { type EligibilityCheck, type EligibilityOutcome } from '../../engines/eligibilityEngine';
+import { CLOCK_ICON, CROSS, INFO_ICON_PATH, SOFT_STOP, STATUS } from '../../assets/icons';
 
 // Row treatment per outcome, for the divided-list layout adopted 2026-09-25.
 //
@@ -27,11 +28,11 @@ export const ICON_TONE: Record<RowTone, string> = {
 // SC 1.4.1. A tick, a cross, a warning triangle and a clock are four distinct
 // shapes, not four shades of one.
 export const ROW_ICON: Record<RowTone, string> = {
-  pass: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M8.4 12.3l2.4 2.4 4.8-5.2',
-  'hard-stop': 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M15 9l-6 6 M9 9l6 6',
-  'soft-stop': 'M12 3l9 16H3l9-16z M12 10v4 M12 17h.01',
-  'approval-routing': 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 7v5l3.2 2',
-  advisory: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 11v5 M12 7.5h.01',
+  pass: STATUS,
+  'hard-stop': CROSS,
+  'soft-stop': SOFT_STOP,
+  'approval-routing': CLOCK_ICON,
+  advisory: INFO_ICON_PATH,
 };
 
 /**

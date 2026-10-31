@@ -152,7 +152,7 @@ export interface GuidedActivationWizardProps {
   belowPanel?: ReactNode;
   /** Shows the postpaid New Connection add-on selection tray while the planExtras step is active. */
   showSelectedAddonsTray?: boolean;
-  /** Keeps this journey's Back/Continue actions visible at the bottom of the viewport. */
+  /** Back/Continue float at the bottom of the viewport in every journey (the default); false leaves them under the step card, for a wizard shown inside a framed preview. */
   fixedFooter?: boolean;
   /** Offers a "Customer view" toggle: the screen shows only the step content (no step list, no agent buttons), for handing it to the customer. */
   allowCustomerView?: boolean;

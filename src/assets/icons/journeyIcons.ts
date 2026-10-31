@@ -1,18 +1,12 @@
+import { EYE_ICON, PAUSE, PHONE, PLAY, POWER, SIM, SWAP } from './index';
 // One stroke icon (24px grid, Icon primitive) per service-level journey, so each row of a line's Actions list says what the
 // action does. A journey with no entry falls back to its category's icon (journeyIcon). Same pair of concepts may reuse a
 // glyph across the two product lines (view, change plan, suspend, resume, terminate) - they are never listed together.
 
-const EYE = 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z';
-const SWAP = 'M7 7h13 M16 3l4 4-4 4 M17 17H4 M8 13l-4 4 4 4';
-const PAUSE = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M10 9v6 M14 9v6';
-const PLAY = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M10 8.5l5 3.5-5 3.5z';
-const POWER = 'M12 3v8 M6.4 6.6a8 8 0 1 0 11.2 0';
-const SIM = 'M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M9 12h6v6H9z';
-const PHONE = 'M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z';
 
 const ICONS: Record<string, string> = {
   // Mobile
-  'mob-view-service': EYE,
+  'mob-view-service': EYE_ICON,
   'mob-change-postpaid-plan': SWAP,
   'mob-change-prepaid-pack': 'M21 8l-9-5-9 5v8l9 5 9-5V8z M3 8l9 5 9-5 M12 13v8',
   'mob-add-addon': 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 8v8 M8 12h8',
@@ -25,7 +19,7 @@ const ICONS: Record<string, string> = {
   'mob-device-upgrade': `${PHONE} M12 16V9 M9 11.5l3-3 3 3`,
   'mob-ownership-change': 'M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1 M9.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M17 8h5 M20 5l2 3-2 3',
   // Fibre & Home
-  'fib-view-service': EYE,
+  'fib-view-service': EYE_ICON,
   'fib-fwa-5g-service': 'M12 12v9 M8 21h8 M8.5 8.5a5 5 0 0 0 0 7 M15.5 8.5a5 5 0 0 1 0 7 M5.5 5.5a9 9 0 0 0 0 13 M18.5 5.5a9 9 0 0 1 0 13',
   'fib-fnp-change': 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
   'fib-change-plan': SWAP,

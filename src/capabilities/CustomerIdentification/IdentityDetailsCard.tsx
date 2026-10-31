@@ -1,18 +1,19 @@
 import type { ReactNode } from 'react';
 import { Icon } from '../../components/primitives/Icon';
 import { idNumberLabel, type QidType } from '../../components/domain/QidInput';
+import { CALENDAR_ICON, GENDER, GLOBE_ICON, IC_BUILDING, ID_CARD, PERSON, USERS } from '../../assets/icons';
 
 // Registry-sourced identity facts, shown as read-only content rather than disabled form controls: nothing here
 // can be typed into, so nothing looks like it can. Each fact is a label above its value beside a small icon tile.
 
 const IC = {
-  user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
-  users: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
-  calendar: 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18',
-  globe: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 0 20 M12 2a15 15 0 0 0 0 20',
-  gender: 'M14 10a5 5 0 1 1-10 0 5 5 0 0 1 10 0z M13 7l7-7 M15 0h5v5',
-  idCard: 'M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M7 11a2 2 0 1 0 0-.01 M5 16c0-1.5 1-2 2-2s2 .5 2 2 M13 10h6 M13 14h4',
-  building: 'M6 2h12a1 1 0 0 1 1 1v19H5V3a1 1 0 0 1 1-1z M9 6h2 M13 6h2 M9 10h2 M13 10h2 M9 14h2 M13 14h2',
+  user: PERSON,
+  users: USERS,
+  calendar: CALENDAR_ICON,
+  globe: GLOBE_ICON,
+  gender: GENDER,
+  idCard: ID_CARD,
+  building: IC_BUILDING,
 };
 
 export interface Fact {

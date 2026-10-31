@@ -14,11 +14,12 @@ import { Button } from '../components/primitives/Button';
 import { getScreenComponent } from './screenRegistry';
 import type { Route } from '../types/config';
 import { screenDisplayName } from '../lib/screenName';
+import { CHEVRON_LEFT, OPEN_ARROW, SEARCH_ICON } from '../assets/icons';
 
 const ICONS = {
-  chevronLeft: 'M15 18l-6-6 6-6',
-  search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3',
-  openArrow: 'M7 17L17 7 M7 7h10v10',
+  chevronLeft: CHEVRON_LEFT,
+  search: SEARCH_ICON,
+  openArrow: OPEN_ARROW,
 };
 
 type Filter = 'all' | 'built' | 'not-built' | 'no-access';
@@ -104,7 +105,7 @@ export function ModuleScreenList() {
       <Link
         key={route.routeId}
         to={route.path}
-        className="group card p-5 hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] transition-all"
+        className="group card p-5 hover:bg-[var(--field-card-hover-bg)] transition-all"
       >
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="font-medium text-fg text-[length:var(--fs-body-lg)]">{screenDisplayName(route.screenName)}</div>

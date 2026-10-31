@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { Icon } from '../primitives/Icon';
 import { Button } from '../primitives/Button';
+import { CHECK } from '../../assets/icons';
 
-const CHECK = 'M20 6L9 17l-5-5';
 
 export interface ConfirmationSummaryLine {
   label: string;

@@ -18,7 +18,7 @@ const SEED_FILES = [
   'inventory-transfers', 'iot-sim-devices', 'iptv-stb-bundles', 'kid-address-records', 'kid-service-points',
   'leads', 'line-items', 'nas-records', 'mnp-application-forms', 'mnp-portin-orders', 'multi-sim-lines', 'numbers',
   'order-approvals', 'orders', 'osb-notifications', 'park-my-number-plans', 'passport-to-qid-updates',
-  'payments', 'port-out-tickets', 'price-exceptions', 'products', 'qtickets', 'reject-reasons',
+  'payments', 'port-out-tickets', 'price-exceptions', 'products', 'qtickets', 'recharge-products', 'reject-reasons',
   'rfs-records',
   'service-usage', 'sim-swap-orders', 'sims', 'smart-devices', 'sms-templates', 'star-number-tiers',
   'statements-of-account', 'tasks', 'technician-resources', 'tnc-summary-bullets', 'tnc-full-text', 'qatar-areas', 'ton-cases', 'trouble-tickets',

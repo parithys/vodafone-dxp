@@ -45,7 +45,7 @@ export function NewConnectionWizard({
   initialProduct,
   initialValues,
   title,
-  fixedFooter = false,
+  fixedFooter,
 }: {
   flow?: NewConnectionFlow;
   /** 'home' is New Home Connection (Fibre, Fixed-Line, FWA, 5G Home); the default is New Connection. */
@@ -55,7 +55,7 @@ export function NewConnectionWizard({
   initialValues?: Record<string, unknown>;
   /** The journey's name when an entry point has its own (MNP Port-In, New Prepaid Activation); New Connection is the default. */
   title?: string;
-  /** Keeps the selected route's Back/Continue actions visible while its page scrolls. */
+  /** Back/Continue float at the bottom of the viewport in every journey; pass false to leave them under the step card. */
   fixedFooter?: boolean;
 }) {
   const {

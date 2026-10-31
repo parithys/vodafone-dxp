@@ -6,14 +6,15 @@ import { HOME_CONNECTION_FEATURE, canStartProduct } from '../productAccess';
 import { handOverToHomeConnection, productEligibilityClear } from './productChoice';
 import { homeConnectionRoute } from './homeConnectionRoute';
 import type { ProductStepContext } from './ProductSelection';
+import { CHEVRON_RIGHT, ICONS_HOME, ICONS_PHONE, ICONS_SWAP, ICON_CARD, MOBILE_ALT } from '../../../assets/icons';
 
 const ICONS = {
-  home: 'M3 11l9-8 9 8M5 10v10h14V10M9.5 20v-5.5h5V20',
-  phone: 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z',
-  swap: 'M17 3l4 4-4 4 M3 11V9a2 2 0 012-2h16 M7 21l-4-4 4-4 M21 13v2a2 2 0 01-2 2H3',
-  mobile: 'M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z M11 18h2',
-  card: 'M3 6h18v12H3z M3 10h18 M6 15h4',
-  chevron: 'M9 18l6-6-6-6',
+  home: ICONS_HOME,
+  phone: ICONS_PHONE,
+  swap: ICONS_SWAP,
+  mobile: MOBILE_ALT,
+  card: ICON_CARD,
+  chevron: CHEVRON_RIGHT,
 };
 
 interface StartCard {
@@ -73,7 +74,7 @@ export function StartCards({
           className={`flex flex-col items-start gap-3 rounded-[var(--radius-card-lg)] border p-5 text-left transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
             c.primary
               ? 'border-transparent bg-[image:var(--accent-gradient)] text-accent-on enabled:hover:bg-[image:var(--accent-gradient-hover)]'
-              : 'border-[var(--field-card-border)] bg-bg text-fg hover:border-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]'
+              : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
           }`}
         >
           <span className={`inline-flex p-3 rounded-[var(--radius-card)] ${c.primary ? 'bg-on-dark-fill-2 text-accent-on' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'}`}>

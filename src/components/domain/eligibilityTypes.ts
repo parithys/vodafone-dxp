@@ -19,6 +19,8 @@ export interface EligibilityResult {
   blacklistReason?: string;
   lineCapExceeded: boolean;
   requiresHrnAdvance: boolean;
+  /** The agent chose the under-18 exception journey (data/under18Exception.ts): the age check routes the order for approval instead of stopping the journey. */
+  under18Exception?: boolean;
   /** The result is for an existing customer's record (not a new customer). */
   isExistingCustomer?: boolean;
   defaultCreditLimitQar: number;

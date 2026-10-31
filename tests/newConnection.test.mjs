@@ -67,7 +67,7 @@ test('before a product is chosen the journey is Customer Verification, Address a
 
 test('every product continues the same wizard: identification, address, billing profile (where the product has one), product selection, then that product\'s own steps', () => {
   assert.deepEqual(activeKeys({ product: 'postpaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'billingAccount', 'addonReview', 'checkout', 'caf', 'payment'], 'New Postpaid: SIM Selection -> Billing -> Add-On Review -> Order Summary');
-  assert.deepEqual(activeKeys({ product: 'prepaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment']);
+  assert.deepEqual(activeKeys({ product: 'prepaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'recharge', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment']);
   assert.deepEqual(activeKeys({ product: 'fixed-line' }), ['contact', 'address', 'billingAccount', 'product', 'homeKind', 'installation', 'plan', 'number', 'checkout', 'caf', 'payment', 'appointment']);
   assert.deepEqual(activeKeys({ product: 'mnp', mnpType: 'postpaid' }), ['contact', 'address', 'billingAccount', 'product', 'mnpType', 'sim', 'plan', 'planExtras', 'donor-details', 'checkout', 'donor-attachment', 'caf', 'payment']);
   assert.deepEqual(activeKeys({ product: 'mnp', mnpType: 'prepaid' }), ['contact', 'address', 'product', 'mnpType', 'sim', 'plan', 'planExtras', 'donor-details', 'checkout', 'donor-attachment', 'caf', 'payment']);
@@ -306,19 +306,23 @@ test('a customer known to be new has no cross-sales offer: the Recommended Offer
   assert.deepEqual([...order].sort((a, b) => a - b), order, 'cards in the requested order');
 });
 
-test('only the selected mobile start-connection route opts into a viewport-fixed Back and Continue footer', async () => {
+test('every journey floats its Back and Continue footer: it is the wizard default, and only a framed preview opts out', async () => {
   const fs = await import('node:fs');
   const router = fs.readFileSync('src/router.tsx', 'utf8');
   const connectionWizard = fs.readFileSync('src/modules/new-connection/NewConnectionWizard.tsx', 'utf8');
   const guidedWizard = fs.readFileSync('src/capabilities/GuidedActivationWizard/GuidedActivationWizard.tsx', 'utf8');
   const footer = fs.readFileSync('src/components/patterns/wizard/WizardFooter.tsx', 'utf8');
+  const previews = fs.readFileSync('src/capabilities/previews.tsx', 'utf8');
 
-  assert.match(router, /path="\/mobile\/start-connection"[\s\S]*<NewConnectionWizard flow="new" fixedFooter/);
-  assert.doesNotMatch(router, /path="\/mobile\/start-connection\/existing\/:customerId"[\s\S]*?<NewConnectionWizard flow="existing" fixedFooter/);
+  assert.match(guidedWizard, /fixedFooter = true/);
+  assert.doesNotMatch(router, /<NewConnectionWizard[^>]*fixedFooter/, 'no route needs to opt in');
   assert.match(connectionWizard, /fixedFooter=\{fixedFooter\}/);
+  assert.doesNotMatch(connectionWizard, /fixedFooter = (true|false)/, 'the wizard default is the only default');
   assert.match(guidedWizard, /fixedToViewport=\{fixedFooter\}/);
-  assert.match(guidedWizard, /hasSummaryAside=\{hasSummary\}/);
+  assert.doesNotMatch(guidedWizard, /hasSummaryAside/);
   assert.match(footer, /fixed inset-x-0 \$\{fixedPosition\} z-\[var\(--z-sticky-raised\)\] border-t/);
   assert.match(footer, /flex w-full items-center justify-between/);
   assert.match(guidedWizard, /fixedFooter \?[\s\S]*'pb-24'/);
+  // The capability library's framed previews stay inline: a viewport-fixed bar would escape the frame.
+  assert.equal((previews.match(/fixedFooter=\{false\}/g) ?? []).length, 2);
 });

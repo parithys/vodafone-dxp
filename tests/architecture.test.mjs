@@ -1,6 +1,6 @@
 // Architecture guards, computed from the source's own import graph (value imports only - `import type` is erased).
 //
-// Layers (an arrow means "may import"): lib / data / types / stores / engines  <-  components/primitives  <-  components/domain
+// Layers (an arrow means "may import"): assets / lib / data / types / stores / engines  <-  components/primitives  <-  components/domain
 //   <-  components (patterns)  and capabilities  <-  modules / workspace / navigation / auth.
 // What is enforced: no import cycles; components never import modules or workspace; capabilities never import modules or
 // workspace; primitives and domain never import capabilities, patterns, modules or workspace.
@@ -103,6 +103,8 @@ const FORBIDDEN = {
   components: ['modules', 'workspace', 'navigation', 'auth'],
   capabilities: ['modules', 'workspace', 'navigation', 'auth'],
   lib: ['components', 'capabilities', 'modules', 'workspace', 'navigation', 'auth', 'stores', 'engines'],
+  // The shared asset library (icons) is a leaf: it imports nothing else in the app.
+  assets: ['components', 'capabilities', 'modules', 'workspace', 'navigation', 'auth', 'stores', 'engines', 'lib', 'data', 'domain', 'hooks', 'types'],
 };
 
 test('architecture: layers only import downward', () => {
@@ -117,4 +119,41 @@ test('architecture: layers only import downward', () => {
     }
   }
   assert.deepEqual(bad.sort(), []);
+});
+
+// Reusable assets live in one place each. Icons: every SVG icon path is exported from src/assets/icons and imported from there, so a
+// glyph is changed once. The only icon-shaped paths allowed elsewhere are bespoke artwork drawn inside its own SVG component.
+const ARTWORK = new Set([
+  'components/primitives/VodafoneMark.tsx', 'components/primitives/VodafoneWordmark.tsx', 'components/primitives/CountryMarker.tsx',
+  'components/primitives/PanelIcon.tsx', 'components/domain/ScannedIdPreview.tsx', 'capabilities/SpecialDiscountsIdentification/ScannedIdPreview.tsx',
+  'components/patterns/wizard/StepSummarySection.tsx', 'components/patterns/wizard/StepSummaryPanel.tsx', 'components/primitives/Checkbox.tsx',
+]);
+
+test('assets: SVG icon paths are defined in src/assets/icons, nowhere else', () => {
+  const PATH = /(['"`])M[MmLlHhVvCcSsQqTtAaZz0-9 .,-]{10,}\1/;
+  const offenders = [];
+  for (const f of files) {
+    const r = rel(f).split(path.sep).join('/');
+    if (r.startsWith('assets/icons/') || ARTWORK.has(r)) continue;
+    fs.readFileSync(f, 'utf8').split('\n').forEach((line, i) => {
+      const m = line.match(PATH);
+      if (m && !/\bd=\s*['"]/.test(line)) offenders.push(`${r}:${i + 1}`);
+    });
+  }
+  assert.deepEqual(offenders, [], 'move these icon paths into src/assets/icons and import them');
+});
+
+test('assets: the icon library has one export per distinct path (no duplicate glyph under two names, no name reused)', () => {
+  const seenName = new Map();
+  const seenPath = new Map();
+  const dupes = [];
+  for (const f of fs.readdirSync(path.join(SRC, 'assets', 'icons')).filter((n) => /^(navigation|actions|status|objects)\.ts$/.test(n))) {
+    for (const m of fs.readFileSync(path.join(SRC, 'assets', 'icons', f), 'utf8').matchAll(/^export const ([A-Z0-9_]+) = '([^']+)';$/gm)) {
+      if (seenName.has(m[1])) dupes.push(`name ${m[1]} in ${f} and ${seenName.get(m[1])}`);
+      if (seenPath.has(m[2])) dupes.push(`path of ${m[1]} is also ${seenPath.get(m[2])}`);
+      seenName.set(m[1], f);
+      seenPath.set(m[2], m[1]);
+    }
+  }
+  assert.deepEqual(dupes, []);
 });

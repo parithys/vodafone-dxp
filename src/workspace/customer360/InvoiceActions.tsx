@@ -4,10 +4,8 @@ import { usePersonaStore } from '../../stores/personaStore';
 import { canUseInvoiceActions } from '../../engines/agentPrivilegeEngine';
 import { useNotificationStore } from '../../stores/notificationStore';
 import { downloadCsv } from '../../engines/csvExport';
+import { DOWNLOAD_ICON, PRINT_ICON, RESEND_ICON } from '../../assets/icons';
 
-const DOWNLOAD_ICON = 'M12 15V3 M7 10l5 5 5-5 M4 21h16';
-const RESEND_ICON = 'M4 4v6h6 M20 20v-6h-6 M20 10a8 8 0 0 0-14.9-3M4 14a8 8 0 0 0 14.9 3';
-const PRINT_ICON = 'M6 9V3h12v6 M6 18H4a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2 M6 14h12v7H6z';
 
 // CUS-001-BIV-28, BR-06: no real Bill Formatter / Invoice Repository
 // integration exists (INT-C360-005 is a genuine Missing gap even as a mock,

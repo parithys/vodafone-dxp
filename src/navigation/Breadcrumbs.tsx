@@ -5,9 +5,8 @@ import { Icon } from '../components/primitives/Icon';
 import { NAV_MANIFEST, navItemByPath } from './navManifest';
 import { screenDisplayName } from '../lib/screenName';
 import { journeyPlaceOf } from './journeyLocation';
+import { CHEVRON_LEFT, CHEVRON_RIGHT } from '../assets/icons';
 
-const CHEVRON_RIGHT = 'M9 18l6-6-6-6';
-const CHEVRON_LEFT = 'M15 18l-6-6 6-6';
 
 function Crumb() {
   return <Icon path={CHEVRON_RIGHT} className="w-3 h-3 text-muted shrink-0" />;

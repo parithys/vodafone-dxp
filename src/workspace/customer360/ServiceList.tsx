@@ -4,9 +4,8 @@ import { Badge } from '../../components/primitives/Badge';
 import { Icon } from '../../components/primitives/Icon';
 import type { CustomerService } from '../../engines/customerServicesEngine';
 import { TopicFieldsSection } from './sections/TopicFieldsSection';
+import { CHEVRON_DOWN, CHEVRON_UP } from '../../assets/icons';
 
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
 
 interface ServiceListProps {
   services: CustomerService[];

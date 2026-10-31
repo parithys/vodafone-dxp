@@ -475,5 +475,23 @@
     "parts": [],
     "previewable": true,
     "publicApi": []
+  },
+  {
+    "id": "recharge-selection",
+    "name": "Recharge Selection",
+    "status": "consolidated",
+    "home": "capabilities/RechargeSelection",
+    "entry": "RechargeSelection",
+    "stepBuilders": [
+      "rechargeSelectionStep"
+    ],
+    "stepLabel": "RECHARGE_LABEL",
+    "summary": "Choose the recharge of a prepaid subscription: the recharge products by category (Flex, Combo, Credit, Data) as selectable cards, with what the choice does to the SIM card charge. Whether a recharge is mandatory is the journey's rule. Sample catalogue until the real one is supplied.",
+    "parts": [
+      "components/patterns/RechargeSelectionStep.tsx",
+      "components/patterns/rechargeSelectionModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
   }
 ]

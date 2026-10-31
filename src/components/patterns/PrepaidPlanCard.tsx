@@ -1,9 +1,11 @@
 import { Icon } from '../primitives/Icon';
 import { Button } from '../primitives/Button';
 import { ConnectionTypeTag } from '../primitives/ConnectionTypeTag';
-import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick, ICON_CALL, ICON_CARD, ICON_DATA, STAR_ICON } from '../primitives/offerCardParts';
+import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick } from '../primitives/offerCardParts';
+import { CHEVRON_RIGHT, ICON_CALL, ICON_CARD, ICON_DATA, STAR } from '../../assets/icons';
 import type { PrepaidPlan } from './prepaidPlanModel';
 import { formatQar, formatAmount } from '../../lib/format';
+import { CALENDAR_ICON } from '../../assets/icons';
 
 interface PrepaidPlanCardProps {
   p: PrepaidPlan;
@@ -13,7 +15,6 @@ interface PrepaidPlanCardProps {
   setDetailPack: (pack: PrepaidPlan) => void;
 }
 
-const ICON_CALENDAR = 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18';
 
 /**
  * A prepaid pack card: the same card as a postpaid plan (PostpaidPlanCard) - Popular flag and service tag on top, name,
@@ -25,7 +26,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
   const rows = [
     { icon: ICON_DATA, text: p.dataAllowanceGB ? `${p.dataAllowanceGB} GB data` : 'No data bundle' },
     { icon: ICON_CALL, text: p.minutesAllowance },
-    { icon: ICON_CALENDAR, text: p.packValidityDays ? `Valid for ${p.packValidityDays} days` : 'No validity period' },
+    { icon: CALENDAR_ICON, text: p.packValidityDays ? `Valid for ${p.packValidityDays} days` : 'No validity period' },
   ];
   return (
     <div
@@ -50,7 +51,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
           className={`inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-accent text-on-dark px-2.5 py-0.5 text-[length:var(--fs-tag)] font-medium ${p.popular ? '' : 'invisible'}`}
           aria-hidden={!p.popular}
         >
-          <Icon path={STAR_ICON} className="w-3 h-3" />
+          <Icon path={STAR} className="w-3 h-3" />
           Popular
         </span>
         <ConnectionTypeTag category="Prepaid" />
@@ -82,7 +83,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
           className="inline-flex items-center gap-1 whitespace-nowrap rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)]"
         >
           View details
-          <Icon path="M9 18l6-6-6-6" className="w-4 h-4" />
+          <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
         </button>
         {/* Presentational: the card is the control, so this must not take focus or fire a second toggle. */}
         <Button variant={selected ? 'primary' : 'secondary'} tabIndex={-1} aria-hidden className="pointer-events-none whitespace-nowrap">

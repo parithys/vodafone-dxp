@@ -169,6 +169,20 @@ against the plan catalogue, and offered 1 of a customer's 20 postpaid lines. Rul
 `tests/classification.test.mjs` is the pattern (independent expected table, whole-population invariants), and `tests/assumptions.test.mjs`
 guards against new ad-hoc classification of service names outside the engine.
 
+## Shared assets - one dedicated place each
+
+Reusable assets live in one dedicated location, not beside the component that happens to use them:
+
+- **Icons**: every SVG icon path is an export of `src/assets/icons/` (`navigation.ts`, `actions.ts`, `status.ts`, `objects.ts`;
+  `stepIcons.ts` maps wizard step keys to icons, `journeyIcons.ts` maps service journeys). Import from `src/assets/icons`; never write a
+  path string (`'M12 5v14 ...'`) in a component, screen or config. To add an icon, add one `export const NAME = '...'` to the right
+  file - the library test fails on a duplicate name or a path under two names. `assets` imports nothing else in the app. The only
+  path data allowed elsewhere is bespoke artwork drawn inside its own SVG component (logos, country markers, ID-card specimens,
+  `PanelIcon`, the step-status discs); the `ARTWORK` list in `tests/architecture.test.mjs` names them.
+- **Images and logos**: `public/brand/`. **Design tokens and global styles**: `src/tokens.css`, `src/index.css`. **Fonts**: the single
+  `<link>` in `index.html`.
+- Card hover changes the background only (`hover:bg-[var(--field-card-hover-bg)]`), never a border or ring; a test enforces it.
+
 ## Build-time settings
 
 `.env.example` documents the build flags. `VITE_SHOW_DEMO=false` hides demo-only UI (scanner simulators, specimen cards)

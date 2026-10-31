@@ -11,16 +11,15 @@ import type { NavItem } from '../../navigation/navManifest';
 import { canUseFeature } from '../../engines/personaEngine';
 import { getAllRoutes } from '../../engines/configEngine';
 import { resolveJourneyTarget } from '../../navigation/journeyTarget';
-import { journeyIcon } from '../../navigation/journeyIcons';
+import { journeyIcon } from '../../assets/icons/journeyIcons';
 import { serviceActionsFor, type ServiceFacts } from '../../navigation/serviceActions';
 import { reachableCategories, type Journey } from '../../navigation/journeyCatalogue';
 import { usePersonaStore } from '../../stores/personaStore';
 import { appliesToCustomer, launchFor, launchJourney, resolveAction, serviceKind, type LaunchContext } from '../../navigation/customerLaunch';
+import { CHEVRON_DOWN, PLUS_ICON } from '../../assets/icons';
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
 const PRODUCT_LINES = new Set(['mobile', 'fibre-home']);
 const HUB_KEY = 'new-connections';
-const NEW_CONNECTION_ICON = 'M12 5v14 M5 12h14';
 
 /** Closes the menu on an outside click or Escape. */
 function useDismiss(open: boolean, close: () => void, onEscape?: () => void) {
@@ -319,9 +318,9 @@ export function ServiceActionsMenu({
                   setOpen(false);
                   navigate('/new-connections', { state: { launch } });
                 }}
-                className="w-full flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 text-left transition-colors hover:border-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+                className="w-full flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 text-left transition-colors hover:bg-[var(--field-card-hover-bg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
               >
-                <IconTile icon={NEW_CONNECTION_ICON} />
+                <IconTile icon={PLUS_ICON} />
                 <span className="min-w-0 flex-1">
                   <span className="block font-medium text-[length:var(--fs-body)] text-fg">Start a New Connection</span>
                   <span className="block text-fg-2 text-[length:var(--fs-caption)]">New mobile or home connection, or add a line, for this customer</span>
@@ -341,7 +340,7 @@ export function ServiceActionsMenu({
                         type="button"
                         disabled={!reachable}
                         onClick={() => run(journey)}
-                        className="w-full flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 text-left transition-colors hover:border-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] disabled:cursor-default disabled:border-dashed disabled:hover:border-[var(--field-card-border)] disabled:hover:bg-bg focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+                        className="w-full flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 text-left transition-colors hover:bg-[var(--field-card-hover-bg)] disabled:cursor-default disabled:border-dashed disabled:hover:bg-bg focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
                       >
                         <span className={reachable ? '' : 'opacity-50'}>
                           <IconTile icon={journeyIcon(journey.id, category.icon)} />

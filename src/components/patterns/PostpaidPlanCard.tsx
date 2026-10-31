@@ -1,6 +1,7 @@
 import { Icon } from '../primitives/Icon';
 import { ConnectionTypeTag } from '../primitives/ConnectionTypeTag';
-import { CARD_IDLE, CARD_SELECTED, SelectedTick, ICON_CALL, ICON_CARD, ICON_DATA, ICON_GIFT, STAR_ICON, planFeatureRows } from '../primitives/offerCardParts';
+import { CARD_IDLE, CARD_SELECTED, SelectedTick, planFeatureRows } from '../primitives/offerCardParts';
+import { CHEVRON_RIGHT, ICON_CALL, ICON_CARD, ICON_DATA, ICON_GIFT, STAR } from '../../assets/icons';
 import { PLAN_CLASS_TAG, isPlanClass, type PostpaidPlan } from './postpaidPlanModel';
 import { ServiceTypeTag } from '../primitives/ServiceTypeTag';
 import { formatQar, formatAmount } from '../../lib/format';
@@ -63,7 +64,7 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
             className={`inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-accent text-on-dark px-2.5 py-0.5 text-[length:var(--fs-tag)] font-medium ${p.popular ? '' : 'invisible'}`}
             aria-hidden={!p.popular}
           >
-            <Icon path={STAR_ICON} className="w-3 h-3" />
+            <Icon path={STAR} className="w-3 h-3" />
             Popular
           </span>
           {isPlanClass(p.planClass) ? <ServiceTypeTag type={PLAN_CLASS_TAG[p.planClass]} /> : <ConnectionTypeTag category="Postpaid" />}
@@ -135,7 +136,7 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
           className="inline-flex min-h-6 items-center gap-1 rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)] font-medium"
         >
           View details
-          <Icon path="M9 18l6-6-6-6" className="w-4 h-4" />
+          <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
         </button>
       </div>
     </div>

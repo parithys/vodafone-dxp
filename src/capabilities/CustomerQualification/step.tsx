@@ -125,6 +125,8 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
             }
             requestKind={requestKind}
             journeyType={journeyType}
+            // A journey started as New Prepaid has product = prepaid in its draft before Customer Verification judges the customer: the under-18 exception is Prepaid's.
+            exceptionJourney={values.product === 'prepaid' ? 'prepaid' : undefined}
             // The customer's full set of checks, as the single-product journeys always showed them at Customer Verification: ID type
             // approval, the active-line limit, collections and the rest. (Prepaid and MNP judge a few of them differently once the product
             // is chosen; Product Selection re-judges those.)

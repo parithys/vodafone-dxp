@@ -89,7 +89,7 @@ export function TicketCommunicationTab({ ticketId, onSend }: { ticketId: string;
               aria-pressed={selected?.templateId === t.templateId}
               onClick={() => setSelected(t)}
               className={`w-full text-left rounded-[var(--radius-card)] border p-2 text-[length:var(--fs-body)] ${
-                selected?.templateId === t.templateId ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)]' : 'border-[var(--field-card-border)] bg-bg hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]'
+                selected?.templateId === t.templateId ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-[var(--field-card-hover-bg)]'
               }`}
             >
               <div className="text-fg">{t.keyword}</div>

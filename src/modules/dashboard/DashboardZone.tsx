@@ -6,6 +6,7 @@ import { Badge } from '../../components/primitives/Badge';
 import { Button } from '../../components/primitives/Button';
 import type { ZoneSize } from './dashboardLayout';
 import type { PillTone } from './heroFigures';
+import { ALERT_ICON, CHECK_CIRCLE, FIBRE_HOME, FORM, ICONS_HEADSET, ICONS_MOBILE, ICONS_TAG, ICONS_USERS, ICON_DATA, OPEN_ARROW, REFRESH_ICON_PATH, SIM_CARD, TICKET, TREND_UP, USER_SMALL } from '../../assets/icons';
 
 const PILL_TONES: Record<PillTone, string> = {
   neutral: 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]',
@@ -15,21 +16,21 @@ const PILL_TONES: Record<PillTone, string> = {
 };
 
 const ICONS = {
-  ticket: 'M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1.5a1.5 1.5 0 0 0 0 3V15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1.5a1.5 1.5 0 0 0 0-3V9z',
-  checkCircle: 'M21 11.5a9 9 0 1 1-5.3-8.2 M21 4.5l-9 9-3-3',
-  users: 'M8 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z M2.5 20c.6-3.4 3-5.5 5.5-5.5s4.9 2.1 5.5 5.5 M16.5 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M15.5 13.2c2.2.5 3.9 2.3 4.3 4.8',
-  simCard: 'M8 3h8l4 4v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M9 12h6 M9 16h6',
-  refresh: 'M3 12a9 9 0 0 1 15.3-6.4L21 8 M21 3v5h-5 M21 12a9 9 0 0 1-15.3 6.4L3 16 M3 21v-5h5',
-  openArrow: 'M7 17L17 7 M7 7h10v10',
-  mobile: 'M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M11 18h2',
-  wifi: 'M5 12.5a9 9 0 0 1 14 0 M8 16a5 5 0 0 1 8 0 M12 19.5h.01',
-  chart: 'M4 20V10 M10 20V4 M16 20v-7 M22 20H2',
-  tag: 'M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7.2-7.2a2 2 0 0 1-.6-1.4V4a1 1 0 0 1 1-1h8a2 2 0 0 1 1.4.6l7.4 7.4a2 2 0 0 1 0 2.8z M7.5 7.5h.01',
-  alert: 'M12 3l9.5 17H2.5z M12 9v5 M12 17h.01',
-  headset: 'M4 14v-2a8 8 0 0 1 16 0v2 M4 14h3v5H5a1 1 0 0 1-1-1z M20 14h-3v5h2a1 1 0 0 0 1-1z',
-  clipboard: 'M9 4h6v3H9z M7 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1 M9 12h6 M9 16h4',
-  trending: 'M3 17l6-6 4 4 8-8 M15 7h6v6',
-  users2: 'M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1 M9.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+  ticket: TICKET,
+  checkCircle: CHECK_CIRCLE,
+  users: ICONS_USERS,
+  simCard: SIM_CARD,
+  refresh: REFRESH_ICON_PATH,
+  openArrow: OPEN_ARROW,
+  mobile: ICONS_MOBILE,
+  wifi: FIBRE_HOME,
+  chart: ICON_DATA,
+  tag: ICONS_TAG,
+  alert: ALERT_ICON,
+  headset: ICONS_HEADSET,
+  clipboard: FORM,
+  trending: TREND_UP,
+  users2: USER_SMALL,
 };
 
 export interface ZoneTile {
@@ -190,7 +191,7 @@ export function DashboardZone({
               <Link
                 key={tile.key}
                 to={tile.to}
-                className={`${shell} hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]`}
+                className={`${shell} hover:bg-[var(--field-card-hover-bg)]`}
               >
                 {body}
               </Link>
@@ -277,7 +278,7 @@ export function DashboardZone({
                 <Link
                   key={item.id}
                   to={item.to}
-                  className={`${shell} hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]`}
+                  className={`${shell} hover:bg-[var(--field-card-hover-bg)]`}
                 >
                   {body}
                 </Link>

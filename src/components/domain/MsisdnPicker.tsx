@@ -19,6 +19,7 @@ import { FREE_NUMBER_PRICE_CEILING_QAR, STAR_NUMBER_ENTITLEMENT_MULTIPLIER, roun
 import { TAB_LABELS, TAB_ORDER, PORTAL_TAB_ORDER, RETAIL_SALES_PERSONA_ID, toLocalMsisdn, MAX_RESERVATIONS_PER_AGENT, PAGE_SIZE, FREE_PAGE_SIZE, FREE_SORT_OPTIONS, SEARCH_MODE_OPTIONS, DEFAULT_SEARCH_MODE, matchesNumberSearch, matchesPriceRange, priceBound, hasRepeatingPairPattern, searchError, SORTERS, STAT_ICONS } from './msisdnPickerModel';
 import type { MsisdnRecord, NumberTab, SearchMode, SortKey } from './msisdnPickerModel';
 import { StarStat } from './StarStat';
+import { CLEAR_ICON, SORT_PRICE_DESC, SORT_PRICE_ASC } from '../../assets/icons';
 
 
 interface MsisdnPickerProps {
@@ -64,8 +65,8 @@ interface MsisdnPickerProps {
 
 // The price sort as icons: bars shortening with a down arrow = High to Low, bars lengthening with an up arrow = Low to High.
 const PRICE_SORT_BUTTONS: { key: SortKey; label: string; icon: string }[] = [
-  { key: 'price-desc', label: 'Price: High to Low', icon: 'M3 6h10 M3 12h7 M3 18h4 M17 5v14 M14 16l3 3 3-3' },
-  { key: 'price-asc', label: 'Price: Low to High', icon: 'M3 6h4 M3 12h7 M3 18h10 M17 19V5 M14 8l3-3 3 3' },
+  { key: 'price-desc', label: 'Price: High to Low', icon: SORT_PRICE_DESC },
+  { key: 'price-asc', label: 'Price: Low to High', icon: SORT_PRICE_ASC },
 ];
 
 const SEARCH_MIN = 2;
@@ -482,7 +483,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                 onClick={() => { setAllPatterns(false); setPage(0); }}
                 className="text-fg-2 hover:text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-pill)]"
               >
-                <Icon path="M18 6L6 18 M6 6l12 12" className="w-3.5 h-3.5" />
+                <Icon path={CLEAR_ICON} className="w-3.5 h-3.5" />
               </button>
             </span>
           )}

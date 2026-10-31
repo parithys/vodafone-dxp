@@ -1,9 +1,8 @@
 import { forwardRef } from 'react';
 import type { InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { Icon } from './Icon';
+import { CLEAR_ICON, SEARCH_ICON } from '../../assets/icons';
 
-const SEARCH_ICON = 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3';
-const CLEAR_ICON = 'M18 6L6 18 M6 6l12 12';
 
 interface SearchFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   /** Leaves out the leading search icon: a dropdown field (company, Kahramaa / Vodafone ID) is a Select that takes typing, not a search box. */

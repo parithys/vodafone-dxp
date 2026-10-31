@@ -1,6 +1,6 @@
 import { Icon } from '../primitives/Icon';
+import { LOCK } from '../../assets/icons';
 
-const LOCK = 'M6 11h12v10H6z M8 11V8a4 4 0 0 1 8 0v3 M12 15v2';
 
 /** Above a list: how many entries were left out because they belong to a protected-segment customer this role may not see. Nothing about them is named. */
 export function RestrictedRowsNotice({ count }: { count: number }) {

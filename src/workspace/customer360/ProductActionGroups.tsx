@@ -5,13 +5,11 @@ import { getAllRoutes } from '../../engines/configEngine';
 import { useCustomerContext, type ActiveCustomerSummary } from '../../stores/customerContextStore';
 import { Icon } from '../../components/primitives/Icon';
 import { Tooltip } from '../../components/primitives/Tooltip';
+import { CHEVRON_DOWN, CHEVRON_UP, CLOCK_ICON } from '../../assets/icons';
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
 // Clock face - a clearer, at-a-glance "not available yet" signal than the
 // dashed-border/muted-text treatment alone, which was too subtle to notice
 // without hovering for the tooltip.
-const CLOCK_ICON = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 7v5l3.2 2';
 
 export interface ProductAction {
   label: string;
@@ -176,7 +174,7 @@ export function ProductActionGroups({
                     <button type="button"
                       key={action.label}
                       onClick={() => launch(action)}
-                      className={`flex flex-col gap-2 card p-4 text-left text-fg hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] transition-colors`}
+                      className={`flex flex-col gap-2 card p-4 text-left text-fg hover:bg-[var(--field-card-hover-bg)] transition-colors`}
                     >
                       <span className="text-[length:var(--fs-btn-compact)] font-medium uppercase tracking-wide">{action.label}</span>
                       <p className="text-[length:var(--fs-caption)] text-fg-2 leading-snug">{action.description}</p>

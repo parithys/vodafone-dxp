@@ -7,6 +7,7 @@ import type { GuidedContactValue } from '../../components/patterns/guidedContact
 import { useDemoReaderCustomer } from './useDemoReaderCustomer';
 import { actualUserAgeProblem, isOtherUser, sameId, withRecordPhone } from './actualUserModel';
 import type { ActualUserValue } from './actualUserModel';
+import { PEOPLE, PERSON_ALT } from '../../assets/icons';
 
 /**
  * ACTUAL USER - the line's real user, when it is not the customer who owns it. The agent chooses "Same as primary customer" (the default)
@@ -17,11 +18,9 @@ import type { ActualUserValue } from './actualUserModel';
  *
  * Journeys mount THIS component (through actualUserStep) and say what their context needs; none identifies the second person itself.
  */
-const PERSON = 'M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z';
-const PEOPLE = 'M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8';
 
 const OPTIONS: { key: 'primary' | 'other'; label: string; hint: string; icon: string }[] = [
-  { key: 'primary', label: 'Same as Primary Customer', hint: 'The customer will use the line themself', icon: PERSON },
+  { key: 'primary', label: 'Same as Primary Customer', hint: 'The customer will use the line themself', icon: PERSON_ALT },
   { key: 'other', label: 'Add Actual User', hint: 'Someone else will use this line (a family member, for example)', icon: PEOPLE },
 ];
 

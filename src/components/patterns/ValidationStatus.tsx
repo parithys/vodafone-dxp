@@ -3,6 +3,7 @@ import { Icon } from '../primitives/Icon';
 import { Spinner } from '../primitives/Spinner';
 import { describeFailure, failureReference, MAX_RETRIES, type FailureKind, type ServiceName } from '../../engines/serviceCall';
 import { Button } from '../primitives/Button';
+import { CHECK_ICON, CROSS, WARNING } from '../../assets/icons';
 
 // The one panel every Customer Verification validation reports through, so the
 // five situations an agent can be in look different at a glance and never get
@@ -21,9 +22,6 @@ import { Button } from '../primitives/Button';
 
 export type ValidationVariant = 'success' | 'business-failure' | 'technical' | 'pending' | 'retry';
 
-const CHECK = 'M5 12.5l4.5 4.5L19 7.5';
-const CROSS = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M15 9l-6 6 M9 9l6 6';
-const WARNING = 'M12 3.5l9.5 16.5h-19L12 3.5z M12 10v4.5 M12 17.2v.1';
 
 const STYLE: Record<ValidationVariant, { shell: string; icon: string; tag: string }> = {
   success: {
@@ -82,7 +80,7 @@ export function ValidationStatus({
         {busy ? (
           <Spinner size={20} label={title} />
         ) : (
-          <Icon path={variant === 'success' ? CHECK : variant === 'business-failure' ? CROSS : WARNING} className="w-5 h-5" />
+          <Icon path={variant === 'success' ? CHECK_ICON : variant === 'business-failure' ? CROSS : WARNING} className="w-5 h-5" />
         )}
       </span>
       <div className="min-w-0 space-y-1">

@@ -32,6 +32,7 @@ import {
   workingDaysFrom,
 } from './appointmentModel';
 import type { AppointmentBookingValue, BookedAppointment } from './appointmentModel';
+import { CLOCK } from '../../assets/icons';
 
 export type { AppointmentBookingValue } from './appointmentModel';
 
@@ -40,7 +41,6 @@ interface AppointmentBookingStepProps {
   onChange: (value: AppointmentBookingValue) => void;
 }
 
-const CLOCK = 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 6v6l4 2';
 
 // Pattern 9: Appointment Booking - the SLA cluster, then the date strip (the next working days from the earliest date, each with the
 // slots it still has), the day's time slots with the technicians free, the customer's own request for a specific date and time

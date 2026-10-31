@@ -12,9 +12,8 @@ import { QueryPreviewModal } from './QueryPreviewModal';
 import { TAB_LABELS, revealContainer, searchContainers } from './containerIndex';
 import { QUERY_SERVICE_TYPES, deriveQueryServiceType, matchRanges, queryKeywords, routeTicket, searchQueryIssues, serviceTypeLabel, useQueryIssueCatalogue } from './queryFlowModel';
 import type { QueryIssue } from './queryFlowModel';
+import { BACK_ICON, CHEVRON_RIGHT } from '../../../assets/icons';
 
-const BACK_ICON = 'M19 12H5 M12 19l-7-7 7-7';
-const CHEVRON_RIGHT = 'M9 18l6-6-6-6';
 
 // Service type is always blue, so a category never uses blue: Network Related red, every other category purple.
 const categoryTone = (c: string | undefined) => (/network/i.test(c ?? '') ? 'red' : c ? 'purple' : 'grey');

@@ -9,6 +9,7 @@ import { isScanAccepted } from '../../components/domain/qidImageUploadModel';
 import { CARD, CARD_SELECTABLE } from '../stepStyles';
 import { TYPE_OPTIONS, isCompanySupported } from './customerTypeModel';
 import type { CustomerType, CustomerTypeValue } from './customerTypeModel';
+import { B2B2C, CHECK_ICON, MADA, RETIRED } from '../../assets/icons';
 
 export function CustomerTypeStep({
   value,
@@ -91,12 +92,11 @@ export function CustomerTypeStep({
 const EQUAL_CARD = 'flex-1 [&>div]:h-full [&>div>div:first-child]:flex-1';
 
 const TYPE_ICONS: Partial<Record<CustomerType, string>> = {
-  b2b2c: 'M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M14 9h5a1 1 0 0 1 1 1v11M3 21h18M8 8h2M8 12h2M8 16h2',
-  retired: 'M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v4l2 1',
-  mada: 'M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 10h18M7 15h3',
+  b2b2c: B2B2C,
+  retired: RETIRED,
+  mada: MADA,
 };
 
-const CHECK_ICON = 'M5 12.5l4.5 4.5L19 7.5';
 
 function OPTION_CARDS(value: CustomerTypeValue, onChange: (v: CustomerTypeValue) => void, derivedCompany?: CompanySelection) {
   // Standard customer is not a card: it is what applies when none of the

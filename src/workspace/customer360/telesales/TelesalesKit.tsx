@@ -5,6 +5,7 @@ import { GridTable, toneFor } from '../sections/C360Kit';
 import { Button } from '../../../components/primitives/Button';
 import { Icon } from '../../../components/primitives/Icon';
 import { Card, I, Pill } from './TelesalesOverview';
+import { CHECK, CHEVRON_DOWN, CHEVRON_UP, DOTS, DOWNLOAD, PLUS_ICON, SHIELD } from '../../../assets/icons';
 
 
 // Building blocks shared by the Telesales Overview page sections (Account, Contacts, Connections,
@@ -12,13 +13,13 @@ import { Card, I, Pill } from './TelesalesOverview';
 
 export const ICON = {
   ...I,
-  down: 'M6 9l6 6 6-6',
-  up: 'M18 15l-6-6-6 6',
-  shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
-  plus: 'M12 5v14 M5 12h14',
-  check: 'M20 6L9 17l-5-5',
-  dots: 'M5 12h.01 M12 12h.01 M19 12h.01',
-  download: 'M12 3v12 M7 10l5 5 5-5 M4 21h16',
+  down: CHEVRON_DOWN,
+  up: CHEVRON_UP,
+  shield: SHIELD,
+  plus: PLUS_ICON,
+  check: CHECK,
+  dots: DOTS,
+  download: DOWNLOAD,
 };
 
 const THIN = 'border-[var(--field-card-border)]';

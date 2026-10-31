@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { Icon } from './Icon';
+import { CHEVRON_DOWN } from '../../assets/icons';
 
 interface SelectOption {
   value: string;
@@ -33,7 +34,6 @@ interface SelectProps {
   tintedPanel?: boolean;
 }
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
 
 // Every dropdown in the app is this one searchable combobox (the pattern of the Kahramaa Meter ID field): the field itself takes the typing,
 // the list narrows as the agent types, a chevron opens it, and there is no separate search box or search icon. Typing never changes the

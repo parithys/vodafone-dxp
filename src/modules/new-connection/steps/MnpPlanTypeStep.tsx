@@ -4,9 +4,8 @@ import { ProductEligibility } from './ProductEligibility';
 import { productEligibilityClear, selectMnpType } from './productChoice';
 import type { ProductStepContext } from './ProductSelection';
 import type { MnpType } from '../products';
+import { ICON_CARD, ICON_PHONE } from '../../../assets/icons';
 
-const ICON_PHONE = 'M8 2h8a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z M11 18h2';
-const ICON_TICKET = 'M3 6h18v12H3z M3 10h18 M6 15h4';
 
 const planTypeLabel = (t: unknown) => (t === 'prepaid' ? 'Prepaid Plan' : t === 'postpaid' ? 'Postpaid Plan' : undefined);
 
@@ -32,7 +31,7 @@ export function mnpPlanTypeStep(ctx: ProductStepContext): WizardStep {
           legend="Port the number onto"
           items={[
             { key: 'postpaid', label: 'Postpaid Plan', icon: ICON_PHONE },
-            { key: 'prepaid', label: 'Prepaid Plan', icon: ICON_TICKET },
+            { key: 'prepaid', label: 'Prepaid Plan', icon: ICON_CARD },
           ]}
           value={chosen ? (values.mnpType as MnpType | undefined) : undefined}
           onChange={(t) => selectMnpType(ctx, values, setValue, t)}

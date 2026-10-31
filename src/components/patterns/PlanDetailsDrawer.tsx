@@ -1,7 +1,8 @@
 import { OfferDetailsDrawer } from '../../capabilities/CrossSellOffers/OfferDetailsDrawer';
 import type { OfferDetails } from '../../capabilities/CrossSellOffers/OfferDetailsDrawer';
 import type { PostpaidPlan } from './postpaidPlanModel';
-import { ICON_GIFT, planFeatureRows } from '../primitives/offerCardParts';
+import { planFeatureRows } from '../primitives/offerCardParts';
+import { ICON_GIFT } from '../../assets/icons';
 import { formatQar } from '../../lib/format';
 
 interface PlanDetailsDrawerProps {

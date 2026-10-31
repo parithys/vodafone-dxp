@@ -11,12 +11,11 @@ import { PassportScanSections } from './PassportScanSections';
 import { ScanFailureNotice } from './ScanFailureNotice';
 import { IdFileUpload } from './IdFileUpload';
 import { applyIdUpload, missingUploadSide, removeIdUpload, swapUploadedSides, uploadedSidesInverted } from './idUploadModel';
+import { SCAN_CORNERS, TRASH } from '../../assets/icons';
 
 
 // The four corner brackets of a scan frame.
-const SCAN_CORNERS = 'M4 8V5a1 1 0 0 1 1-1h3 M16 4h3a1 1 0 0 1 1 1v3 M20 16v3a1 1 0 0 1-1 1h-3 M8 20H5a1 1 0 0 1-1-1v-3';
 
-const TRASH = 'M3 6h18 M8 6V4h8v2 M19 6l-1 14H6L5 6 M10 11v6 M14 11v6';
 
 export function QidImageUpload({
   value,

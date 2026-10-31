@@ -2,9 +2,8 @@ import { Button } from '../../../components/primitives/Button';
 import { useId } from 'react';
 import type { ReactNode } from 'react';
 import { Icon } from '../../primitives/Icon';
+import { CHEVRON_RIGHT, FLAG } from '../../../assets/icons';
 
-const CHEVRON_RIGHT = 'M9 18l6-6-6-6';
-const FLAG = 'M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z M4 22v-7';
 
 /** The mark of a step that is under way but not finished: an outlined disc, half filled. */
 function InProgressDisc() {
@@ -34,6 +33,7 @@ export function StepSummarySection({
   milestone = false,
   current = false,
   onGo,
+  icon,
   children,
 }: {
   title: string;
@@ -47,6 +47,8 @@ export function StepSummarySection({
   current?: boolean;
   /** A step reached earlier but not on screen (the agent went back to edit): its name behind an empty (pending) disc, as a link that goes straight to it. */
   onGo?: () => void;
+  /** The step's own icon (Icon path). When given it stands in for the status disc, coloured by state; the Collapsed rail uses the same icons. */
+  icon?: string;
   children: ReactNode;
 }) {
   const bodyId = useId();
@@ -58,7 +60,7 @@ export function StepSummarySection({
           onClick={onGo}
           className="flex w-full items-center gap-2 px-4 py-3 text-left text-fg font-semibold text-[length:var(--fs-body)] hover:bg-surface-warm focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
         >
-          <PendingDisc />
+          {icon ? <Icon path={icon} className="w-5 h-5 shrink-0 text-muted" /> : <PendingDisc />}
           <span className="truncate">{title}</span>
           <span className="sr-only">(not completed)</span>
         </button>
@@ -70,7 +72,7 @@ export function StepSummarySection({
     return (
       <section aria-current="step" className="border-b border-border-soft last:border-b-0 bg-surface-warm">
         <div className="flex items-center gap-2 px-4 py-3 text-fg font-semibold text-[length:var(--fs-body)]">
-          <InProgressDisc />
+          {icon ? <Icon path={icon} className="w-5 h-5 shrink-0 text-accent" /> : <InProgressDisc />}
           <span className="truncate">{title}</span>
         </div>
       </section>
@@ -88,16 +90,20 @@ export function StepSummarySection({
           aria-controls={bodyId}
           className="flex flex-1 min-w-0 items-center gap-2 text-left text-fg font-semibold text-[length:var(--fs-body)] rounded-[var(--radius-sm)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
         >
-          {/* Completed: a solid green disc with a white tick - or a white flag on an orange disc, when the step reached a journey milestone. */}
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 shrink-0">
-            {/* A milestone step's disc is orange, not the completed green, so it stands apart from the other steps. */}
-            <circle cx="12" cy="12" r="12" className={milestone ? 'text-[var(--summary-milestone)]' : 'text-success'} fill="currentColor" />
-            {milestone ? (
-              <path d={FLAG} transform="translate(6.2 6.2) scale(0.6)" fill="none" stroke="white" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-            ) : (
-              <path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-            )}
-          </svg>
+          {/* The step's own icon when one is given (orange for a milestone). Otherwise completed: a solid green disc with a white tick - or a white flag on an orange disc, when the step reached a journey milestone. */}
+          {icon ? (
+            <Icon path={icon} className={`w-5 h-5 shrink-0 ${milestone ? 'text-[var(--summary-milestone)]' : 'text-fg-2'}`} />
+          ) : (
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 shrink-0">
+              {/* A milestone step's disc is orange, not the completed green, so it stands apart from the other steps. */}
+              <circle cx="12" cy="12" r="12" className={milestone ? 'text-[var(--summary-milestone)]' : 'text-success'} fill="currentColor" />
+              {milestone ? (
+                <path d={FLAG} transform="translate(6.2 6.2) scale(0.6)" fill="none" stroke="white" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+              ) : (
+                <path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              )}
+            </svg>
+          )}
           <span className="truncate">{title}</span>
           {milestone && <span className="sr-only">(milestone reached)</span>}
           <Icon path={CHEVRON_RIGHT} className={`w-4 h-4 shrink-0 text-fg-2 transition-transform ${open ? 'rotate-90' : ''}`} />

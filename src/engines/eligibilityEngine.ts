@@ -41,6 +41,8 @@ export interface EligibilityCheck {
   message: string;
   /** The approval rules behind an approval-routing outcome (e.g. PB-01), so a screen can tell an ID-type approval from a line-count one. */
   approvalRuleIds?: string[];
+  /** This hard stop can be taken as an exception journey by this agent (the under-18 exception): the screen offers Proceed With Exception. */
+  exceptionOffer?: 'under-18';
 }
 
 export interface IdentityDocForEligibility {
@@ -86,6 +88,12 @@ export interface EligibilityContext {
    * collections block does not restrict prepaid; and the line-limit wording names prepaid, not postpaid.
    */
   journeyType?: 'postpaid' | 'prepaid';
+  /**
+   * The under-18 exception journey (see data/under18Exception.ts), decided by the caller from the journey, role and ID type:
+   * 'available' leaves the age check a hard stop but marks it as one the agent may take as an exception; 'chosen' turns it into an
+   * approval routing (the order goes to the CDM queue). Absent, an under-18 applicant is a plain hard stop.
+   */
+  under18Exception?: 'available' | 'chosen';
   /**
    * 'common' returns only the checks that read the same for every product - ID validity, age, security and unclassified
    * blacklist, deals - so Customer Verification, which happens before the agent has chosen a product, can report them.
@@ -199,9 +207,14 @@ export function evaluateEligibilityChecks(ctx: EligibilityContext, asOf: Date): 
     // Under-18 is a HARD STOP (VFQ business, 2026-10-02, for new and existing
     // customers alike). It was briefly Approval Routing ("Under 18 approval")
     // after the 2026-09-27 walkthrough; that is superseded.
-    outcome: underage ? 'hard-stop' : 'pass',
+    outcome: underage ? (ctx.under18Exception === 'chosen' ? 'approval-routing' : 'hard-stop') : 'pass',
+    ...(underage && ctx.under18Exception === 'available' ? { exceptionOffer: 'under-18' as const } : {}),
     message: underage
-      ? 'MOI records indicate this applicant is under 18. The connection cannot proceed.'
+      ? ctx.under18Exception === 'chosen'
+        ? 'Under-18 exception journey: this applicant is under 18. All details are entered manually, the ID copies and the Court Order are uploaded, and the order goes to the CDM queue for approval after submission.'
+        : ctx.under18Exception === 'available'
+          ? 'MOI records indicate this applicant is under 18. Stop the journey, or proceed with the exception journey (manual entry, ID copies and a Court Order, approval by the CDM queue).'
+          : 'MOI records indicate this applicant is under 18. The connection cannot proceed.'
       // The age itself, per 2026-09-26 direction. An agent judging a
       // borderline applicant against the document in their hand needs the
       // number the check used, not just its verdict. Falls back to the plain

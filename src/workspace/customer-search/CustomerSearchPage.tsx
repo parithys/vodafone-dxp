@@ -5,6 +5,7 @@ import { SearchField } from '../../components/primitives/SearchField';
 import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';
 import { PageHeader } from '../../components/patterns/PageHeader';
+import { SEARCH_LARGE } from '../../assets/icons';
 
 
 
@@ -75,7 +76,7 @@ export function CustomerSearchPage() {
           {searching ? (
             <span aria-hidden="true" className="h-4 w-4 motion-safe:animate-spin rounded-[var(--radius-pill)] border-2 border-current border-t-transparent" />
           ) : (
-            <Icon path="M21 21l-4.3-4.3 M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z" className="w-7 h-7" />
+            <Icon path={SEARCH_LARGE} className="w-7 h-7" />
           )}
         </Button>
       </form>

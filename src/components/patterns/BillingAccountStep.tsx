@@ -13,11 +13,9 @@ import { Select } from '../primitives/Select';
 import { BILL_LANGUAGES, BILL_TYPES, DEFAULT_BILL_LANGUAGE, DEFAULT_BILL_TYPE, computeBillCycleDay, isValidVatExpiry, ordinal } from './billingAccountModel';
 import { toLocalMsisdn } from '../domain/msisdnPickerModel';
 import type { AccountRecord, BillingProfileRecord, ContactRecord, CustomerRecord, NewBillingAccountValue, BillingAccountValue } from './billingAccountModel';
+import { CHEVRON_DOWN, CHEVRON_UP, PERSON } from '../../assets/icons';
 
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
-const PERSON_ICON = 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z';
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
 // Form sections inside the Create New form: a bold heading, space below it, and space - no divider line - between sections.
 const SECTION = 'space-y-3';
 const SECTION_RULE = 'mt-8';
@@ -433,7 +431,7 @@ function ContactCard({ name, checked, onChoose }: { name: string; checked: boole
     >
       {checked && <SelectedTick />}
       <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-button)] transition-colors ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
-        <Icon path={PERSON_ICON} className="w-5 h-5" />
+        <Icon path={PERSON} className="w-5 h-5" />
       </span>
       <span className="min-w-0 flex-1 text-fg font-medium text-[length:var(--fs-body)]">{name}</span>
     </button>

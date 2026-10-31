@@ -4,6 +4,7 @@ import { usePersonaStore } from '../../stores/personaStore';
 import { Icon } from '../../components/primitives/Icon';
 import { useBellNotificationExpirySweep } from '../../engines/bellNotificationExpiry';
 import { canViewBellNotifications } from '../../engines/agentPrivilegeEngine';
+import { BELL_ICON } from '../../assets/icons';
 
 interface BellNotification {
   notificationId: string;
@@ -15,7 +16,6 @@ interface BellNotification {
   expiresAt: string | null;
 }
 
-const BELL_ICON = 'M6 8a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 12 6 8z M9.5 17a2.5 2.5 0 0 0 5 0';
 
 // Human-readable lead-in derived from the template a notification was
 // published from - turns one long sentence into a scannable title +

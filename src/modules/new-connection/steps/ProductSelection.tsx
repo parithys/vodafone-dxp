@@ -14,6 +14,7 @@ import { StartCards } from './StartCards';
 import { HOME_PRODUCTS, IN_JOURNEY_OFFERS, PRODUCTS, PRODUCT_OF_OFFER_JOURNEY, homeProductOfOffer, mnpTypeOfOffer } from '../products';
 import type { HomeProduct, MnpType, ConnectionProduct } from '../products';
 import type { ConnectionJourney } from '../newConnectionModel';
+import { FWA_OUTDOOR, ICONS_HOME, ICONS_PHONE, FIBRE_STRANDS } from '../../../assets/icons';
 
 
 /** What the product step needs from the journey. */
@@ -33,10 +34,10 @@ export interface ProductStepContext {
 export const HOME_PRODUCT_ICON: Record<HomeProduct, string> = {
   // Optical fibre: a cut cable inside a ring, its strands fanning out to nodes (drawn thin: see strokeWidth below).
   fibre:
-    'M5.2 19.4A10.4 10.4 0 1 1 14.4 22.2M7.4 20l1.7-3.8 2.5 1.2 2.9-1.6 1.1 4.4M11.2 15.4Q8.8 13.4 8.4 9.6M11.7 15.2Q10.6 11.4 11 7.9M12.4 15.3Q13 11 14.5 8.2M13 15.7Q15.2 14 16.5 11M13.4 16.6Q16.2 16.5 17.1 14.3M7.3 8.5a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0 -2.2 0M9.9 6.8a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0 -2.2 0M13.8 7.2a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0 -2.2 0M15.8 9.9a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0 -2.2 0M16.4 13.2a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0 -2.2 0',
-  'fixed-line': 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z',
-  fwa: 'M12 20v-9M8 20h8M6.3 6.3a8 8 0 000 11.4M17.7 6.3a8 8 0 010 11.4M9 9a4 4 0 000 6M15 9a4 4 0 010 6',
-  '5g-home': 'M3 11l9-8 9 8M5 10v10h14V10M9.5 20v-5.5h5V20',
+    FIBRE_STRANDS,
+  'fixed-line': ICONS_PHONE,
+  fwa: FWA_OUTDOOR,
+  '5g-home': ICONS_HOME,
 };
 
 /**
@@ -147,7 +148,7 @@ export function ProductSelection({
                     className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 ${
                       selected
                         ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
-                        : 'border-[var(--field-card-border)] bg-bg text-fg hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]'
+                        : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
                     }`}
                   >
                     {selected && <SelectedTick />}

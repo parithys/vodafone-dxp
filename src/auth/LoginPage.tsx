@@ -14,13 +14,14 @@ import { DEMO_LOGIN_PASSWORD, resolveRoleFromStaffId } from './staffIdRoleMap';
 import { ForgotPasswordFlow } from './ForgotPasswordFlow';
 import { LoginAnnouncements } from './LoginAnnouncements';
 import { appPath } from '../lib/basePath';
+import { EYE, EYE_OFF, HELP_CIRCLE, ICONS_ARROW_RIGHT, ICONS_LOCK } from '../assets/icons';
 
 const ICONS = {
-  arrowRight: 'M5 12h14 M13 6l6 6-6 6',
-  eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
-  eyeOff: 'M3 3l18 18 M10.6 10.6a3 3 0 0 0 4.2 4.2 M9.9 5.1A10.8 10.8 0 0 1 12 5c6 0 10 7 10 7a17.6 17.6 0 0 1-3.1 3.9 M6.2 6.2A17.7 17.7 0 0 0 2 12s4 7 10 7c1.4 0 2.7-.3 3.8-.8',
-  helpCircle: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M9.2 9a2.8 2.8 0 1 1 3.9 2.6c-.9.4-1.4 1-1.4 2 M12 17h.01',
-  lock: 'M5 11h14v10H5z M8 11V7a4 4 0 0 1 8 0v4',
+  arrowRight: ICONS_ARROW_RIGHT,
+  eye: EYE,
+  eyeOff: EYE_OFF,
+  helpCircle: HELP_CIRCLE,
+  lock: ICONS_LOCK,
 };
 
 

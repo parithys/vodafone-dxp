@@ -3,7 +3,8 @@ import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';
 import { OfferDetailsDrawer } from './OfferDetailsDrawer';
 import type { OfferProduct } from '../../components/primitives/offerCardParts';
-import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick, STAR_ICON } from '../../components/primitives/offerCardParts';
+import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick } from '../../components/primitives/offerCardParts';
+import { STAR, TREND_UP } from '../../assets/icons';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { journeyLabel, continuesHere, offerTypeOf, hasDestination, offerTypesFor, isHomeJourney, isPrepaidJourney } from './serviceJourneys';
 import type { OfferJourneys } from './serviceJourneys';
@@ -11,6 +12,7 @@ import { HandOff } from './HandOff';
 import { offerHighlight } from './crossSalesModel';
 import type { CrossSalesValue, Offer } from './crossSalesModel';
 import { OFFERS_PER_TYPE, SAMPLE_OFFERS } from '../../data/synthetic/sampleOffers';
+import { CHEVRON_RIGHT } from '../../assets/icons';
 
 export function CrossSalesStep({
   customerId,
@@ -96,7 +98,7 @@ export function CrossSalesStep({
     return (
       <div className="flex items-center gap-5 rounded-[var(--radius-card-lg)] border border-[var(--border-soft)] bg-[linear-gradient(135deg,var(--bg),var(--surface-subtle))] p-5">
         <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[var(--radius-card)] bg-bg text-[var(--tint-teal-fg)] shadow-[var(--shadow-icon-tile)]">
-          <Icon path="M3 17l6-6 4 4 8-8 M15 7h6v6" className="w-6 h-6" />
+          <Icon path={TREND_UP} className="w-6 h-6" />
         </span>
         <div className="min-w-0">
           <p className="text-fg font-semibold text-[length:var(--fs-body)]">No Cross-Sales Offer Available</p>
@@ -165,7 +167,7 @@ export function CrossSalesStep({
               <div className="flex min-h-[25px] items-center gap-1.5">
                 {recommended && (
                   <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-[var(--radius-pill)] bg-accent text-on-dark px-2 py-0.5 text-[length:var(--fs-tag)] font-medium">
-                    <Icon path={STAR_ICON} className="w-3 h-3" />
+                    <Icon path={STAR} className="w-3 h-3" />
                     Recommended
                   </span>
                 )}
@@ -282,4 +284,3 @@ export function CrossSalesStep({
   );
 }
 
-const CHEVRON_RIGHT = 'M9 18l6-6-6-6';

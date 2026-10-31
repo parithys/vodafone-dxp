@@ -1,6 +1,6 @@
 import { Icon } from '../../components/primitives/Icon';
+import { ALERT_ICON } from '../../assets/icons';
 
-const ALERT_ICON = 'M12 3l9.5 17H2.5z M12 9v5 M12 17h.01';
 
 /**
  * A scan that could not be completed, laid out as what happened, what to do next and any condition that applies - instead of one

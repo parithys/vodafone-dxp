@@ -34,6 +34,7 @@ import { AddressSection } from '../sections/AddressSection';
 import { AuditTrailSection } from '../sections/AuditTrailSection';
 import { CommunicationsSection } from '../sections/MiscSections';
 import { DevicePenaltyPolicy, StarNumberPenaltyPolicy } from '../sections/penaltyViewResolvers';
+import { CHEVRON_DOWN, CHEVRON_UP } from '../../../assets/icons';
 
 // The Telesales (CBU) Customer 360: ten task-shaped tabs (Overview ... Activation & Changes); the
 // former deep-dive areas are rows inside the tab they belong to.
@@ -42,8 +43,6 @@ import { DevicePenaltyPolicy, StarNumberPenaltyPolicy } from '../sections/penalt
 // drill-down - is still decided by the visibility engine, not here. A tab with nothing visible to
 // the persona is left out.
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
 
 const RECENT_MILESTONES =
   'Recent Milestones or Interactions (including all recent purchases add-on, Plan change, activation, change done to MSISDN, account, ticket or activity)';

@@ -3,14 +3,13 @@ import { Icon } from '../components/primitives/Icon';
 import { formatNewsDate, useLoginNews } from './useLoginNews';
 import type { NewsItem } from './useLoginNews';
 import { appPath } from '../lib/basePath';
+import { CHEVRON_LEFT, CHEVRON_RIGHT } from '../assets/icons';
 
 // The sign-in screen's "Company Updates & Announcements" panel: a carousel over the latest news from the Vodafone Qatar
 // news page (see useLoginNews) that shows two at a time (never more) on a glass card over the skyline photo. The arrows
 // and the dots (one per item) move it a card at a time and wrap round; it also advances by itself, and pauses while the
 // pointer is on it. With no news available the panel is simply not drawn - there is no placeholder content.
 
-const CHEV_LEFT = 'M15 18l-6-6 6-6';
-const CHEV_RIGHT = 'M9 18l6-6-6-6';
 const AUTO_MS = 7000;
 
 function Card({ a }: { a: NewsItem }) {
@@ -116,7 +115,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             onClick={prev}
             className="w-10 h-10 rounded-[var(--radius-pill)] border border-on-dark-line-3 bg-on-dark-fill-2 text-on-dark flex items-center justify-center hover:bg-on-dark-fill-3 focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
           >
-            <Icon path={CHEV_LEFT} className="w-5 h-5" />
+            <Icon path={CHEVRON_LEFT} className="w-5 h-5" />
           </button>
           <button
             type="button"
@@ -124,7 +123,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             onClick={next}
             className="w-10 h-10 rounded-[var(--radius-pill)] border border-on-dark-line-3 bg-on-dark-fill-2 text-on-dark flex items-center justify-center hover:bg-on-dark-fill-3 focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
           >
-            <Icon path={CHEV_RIGHT} className="w-5 h-5" />
+            <Icon path={CHEVRON_RIGHT} className="w-5 h-5" />
           </button>
         </div>
         )}

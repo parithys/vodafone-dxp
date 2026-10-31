@@ -4,6 +4,7 @@ import { Icon } from '../primitives/Icon';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { SearchField } from '../primitives/SearchField';
 import { useSearchListNav } from '../../hooks/useSearchListNav';
+import { BUILDING_ICON, CHEVRON_DOWN, PLUS_ICON } from '../../assets/icons';
 
 interface EnterpriseAccount {
   enterpriseAccountId: string;
@@ -35,9 +36,6 @@ interface CompanySearchInputProps {
   statusNote?: ReactNode;
 }
 
-const BUILDING_ICON = 'M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16 M15 21V9h4a1 1 0 0 1 1 1v11 M8 8h3 M8 12h3 M8 16h3';
-const PLUS_ICON = 'M12 5v14 M5 12h14';
-const CHEVRON_ICON = 'M6 9l6 6 6-6';
 
 // Company search and selection for a B2B2C order, replacing the free-text
 // "Company Name (B2B2C)" box. Mirrors LocationInput's interaction (search
@@ -162,7 +160,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
           onClick={() => setOpen((o) => !o)}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg"
         >
-          <Icon path={CHEVRON_ICON} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+          <Icon path={CHEVRON_DOWN} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
           <ul

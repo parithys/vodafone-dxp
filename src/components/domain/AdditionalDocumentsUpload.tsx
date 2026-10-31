@@ -9,6 +9,7 @@ import { Icon } from '../primitives/Icon';
 import { UPLOAD_RULES, uploadFileProblem } from './documentUploadRules';
 import { documentFileOf, forgetDocumentFile, readFileAsDataUrl, rememberDocumentFile } from '../../lib/documentFileStore';
 import type { DocumentRequirement, JourneyDocument } from '../../engines/journeyDocuments';
+import { CHEVRON_DOWN, DOC, SORT_ASC_ICON } from '../../assets/icons';
 
 const escapeXml = (t: string) => t.replace(/[<>&"']/g, '');
 /** Stand-in for a scan whose image was not kept: says what it is and that it is a specimen. */
@@ -56,7 +57,6 @@ interface AdditionalDocumentsUploadProps {
 const MAX_DOCUMENTS = 10;
 const RULES = UPLOAD_RULES.supporting;
 
-const DOC = 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6';
 
 /** A data URL as an object URL: browsers will not open a data: URL as a page, but they open a blob. */
 function blobUrlOf(dataUrl: string): string | undefined {
@@ -354,7 +354,7 @@ export function AdditionalDocumentsUpload({
               className="inline-flex items-center gap-1 text-link font-medium text-[length:var(--fs-body)] hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-sm)]"
             >
               View All Journey Documents <span className="text-muted font-normal text-[length:var(--fs-caption)]">({rows.filter((r) => !r.removable).length})</span>
-              <Icon path={journeyOpen ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6'} className="w-4 h-4" />
+              <Icon path={journeyOpen ? SORT_ASC_ICON : CHEVRON_DOWN} className="w-4 h-4" />
             </button>
             <ul id="journey-documents-list" hidden={!journeyOpen} className="space-y-1.5">
               {sections.flatMap((g) =>

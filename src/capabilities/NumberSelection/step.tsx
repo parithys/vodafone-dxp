@@ -9,6 +9,7 @@ import { requirementForCondition } from '../../engines/journeyDocuments';
 import type { AdditionalDocument } from '../DocumentUpload';
 import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';
+import { REFRESH_ALT } from '../../assets/icons';
 
 /**
  * Number selection: the chosen number is stored under `msisdn` (and its price under `priceField`, when given).
@@ -24,6 +25,8 @@ export function numberSelectionStep(
     prePairedOption?: boolean;
     /** Offer "Waive Off" beside Continue: Partial or Full waiver of the Star number's upfront charge (postpaid journeys that price the number). */
     waiveOff?: boolean;
+    /** The upfront charge a Waive Off may take from, when the journey prices the number on its own (Mobile Prepaid: the number's price, with no plan entitlement). */
+    waivableChargeQar?: (values: Record<string, unknown>) => number;
  } = {}
 ): WizardStep {
   return {
@@ -38,7 +41,7 @@ export function numberSelectionStep(
               compact
               onClick={() => setValue('numberRefresh', ((values.numberRefresh as number | undefined) ?? 0) + 1)}
             >
-              <Icon path="M21 12a9 9 0 1 1-3-6.7 M21 4v5h-5" className="w-4 h-4" />
+              <Icon path={REFRESH_ALT} className="w-4 h-4" />
               Refresh
             </Button>
           ),
@@ -59,6 +62,7 @@ export function numberSelectionStep(
                   // The number belongs to whichever route is chosen, so switching route drops the other's number and SIM.
                   setValue('msisdn', undefined);
                   if (opts.priceField) setValue(opts.priceField, undefined);
+                  setValue('numberWaiver', undefined);
                   setValue('simType', undefined);
                 },
               }
@@ -82,8 +86,11 @@ export function numberSelectionStep(
           primaryAction: ({ values, setValue, defaultButton }) => {
             const plan = opts.plan?.(values);
             const price = values[opts.priceField ?? 'numberPriceQAR'] as number | undefined;
-            const charge =
-              plan && price !== undefined && price >= FREE_NUMBER_PRICE_CEILING_QAR ? starNumberOverageQar(plan.mrcQar ?? 0, price, plan.starEntitlementQar) : 0;
+            const charge = opts.waivableChargeQar
+              ? opts.waivableChargeQar(values)
+              : plan && price !== undefined && price >= FREE_NUMBER_PRICE_CEILING_QAR
+                ? starNumberOverageQar(plan.mrcQar ?? 0, price, plan.starEntitlementQar)
+                : 0;
             const requirement = requirementForCondition('number-waiver');
             const caf = (values.caf as { additionalDocuments?: AdditionalDocument[] } | undefined) ?? {};
             const attachedDocs = caf.additionalDocuments ?? [];

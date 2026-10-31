@@ -9,6 +9,7 @@ import { WizardStepHeader } from '../../components/patterns/wizard/WizardStepHea
 import { WizardFooter } from '../../components/patterns/wizard/WizardFooter';
 import { StepSummaryPanel } from '../../components/patterns/wizard/StepSummaryPanel';
 import { useEnterToSubmit } from '../../hooks/useEnterToSubmit';
+import { useMinWidth } from '../../hooks/useMinWidth';
 import { useJourneyStartResume } from '../../components/patterns/wizard/useJourneyStartResume';
 import { useDraftStepSync } from '../../components/patterns/wizard/useDraftStepSync';
 import { useCustomerViewShare } from '../../components/patterns/wizard/useCustomerViewShare';
@@ -31,7 +32,7 @@ export function GuidedActivationWizard({
   titleAside,
   belowPanel,
   showSelectedAddonsTray = false,
-  fixedFooter = false,
+  fixedFooter = true,
   allowCustomerView,
   draftActionLabel,
   steps,
@@ -121,6 +122,7 @@ export function GuidedActivationWizard({
   // route change counts - a menu link, Back, a link in the page. Finishing, Save as Draft and Abandon Order clear the draft
   // before they navigate, so they pass straight through. The customer-view pop-up never blocks.
   const [leaveBusy, setLeaveBusy] = useState(false);
+  const isDesktop = useMinWidth(1024);
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
     if (!confirmLeave || isMirror || currentLocation.pathname === nextLocation.pathname) return false;
     return draftHasProgress(useWorkflowStore.getState().drafts[wizardId]);
@@ -199,6 +201,18 @@ export function GuidedActivationWizard({
   // Running summary: steps the user has moved past (never the active one, never ones not yet reached) that declare a
   // summary. Derived from the draft values on render - nothing is stored for it.
   const hasSummary = activeSteps.some((s) => s.summary?.length);
+  // The postpaid add-on tray, mounted on the add-ons step only: in the step card's header on desktop, floating at the bottom on a small screen.
+  const selectedAddonsTray =
+    showSelectedAddonsTray && currentStep?.key === 'planExtras'
+      ? (variant: 'floating' | 'header') => (
+          <SelectedAddonsHeader
+            variant={variant}
+            selectedIds={(draft.values.addonIds as string[] | undefined) ?? []}
+            selectedBilling={(draft.values.addonBilling as Record<string, import('../../engines/addonCategories').AddonBillingFrequency> | undefined) ?? {}}
+            onChange={(ids) => setValue('addonIds', ids)}
+          />
+        )
+      : undefined;
   const completedSummarySteps = activeSteps
     .map((step, index) => ({ step, index }))
     .filter(({ step, index }) => index < maxReached && index !== currentIndex && Boolean(step.summary?.length));
@@ -211,7 +225,7 @@ export function GuidedActivationWizard({
     values: draft.values,
     onEdit: isLocked ? undefined : goToStep,
     // After going back to edit, the furthest step reached stays listed and one click returns to it.
-    returnTo: !isLocked && currentIndex < maxReached && activeSteps[maxReached] ? { label: activeSteps[maxReached].label, onReturn: () => goToStep(maxReached), index: maxReached } : undefined,
+    returnTo: !isLocked && currentIndex < maxReached && activeSteps[maxReached] ? { label: activeSteps[maxReached].label, key: activeSteps[maxReached].key, onReturn: () => goToStep(maxReached), index: maxReached } : undefined,
   };
 
   if (isCustomerFacing) {
@@ -259,13 +273,8 @@ export function GuidedActivationWizard({
       />
       )}
 
-      {showSelectedAddonsTray && currentStep?.key === 'planExtras' && (
-        <SelectedAddonsHeader
-          selectedIds={(draft.values.addonIds as string[] | undefined) ?? []}
-          selectedBilling={(draft.values.addonBilling as Record<string, import('../../engines/addonCategories').AddonBillingFrequency> | undefined) ?? {}}
-          onChange={(ids) => setValue('addonIds', ids)}
-        />
-      )}
+      {/* Below lg the tray floats at the bottom of the screen (the footer sits above it); from lg it is in the step card's header instead. */}
+      {selectedAddonsTray && !isDesktop && selectedAddonsTray('floating')}
 
       <span className="sr-only" aria-live="polite" role="status">
         {shareAnnouncement}
@@ -289,11 +298,11 @@ export function GuidedActivationWizard({
             stepHeadingRef={stepHeadingRef}
             values={draft.values}
             setValue={setValue}
+            trayAside={selectedAddonsTray && isDesktop ? selectedAddonsTray('header') : undefined}
           />
           {currentStep?.render({ values: draft.values, setValue, goNext: () => void goNext(), goToStepKey, saveDraft, saveAndExit, requestAbandon })}
           <WizardFooter
             fixedToViewport={fixedFooter}
-            hasSummaryAside={hasSummary}
             avoidBottomTray={showSelectedAddonsTray && currentStep?.key === 'planExtras'}
             currentStep={currentStep}
             currentIndex={currentIndex}

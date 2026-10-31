@@ -258,3 +258,20 @@ test('no field shows placeholder / watermark text: the shared Input, Textarea, P
   assert.doesNotMatch(fs.readFileSync('src/components/primitives/PhoneNumberInput.tsx', 'utf8'), /placeholder=\{/);
   assert.doesNotMatch(fs.readFileSync('src/components/primitives/Select.tsx', 'utf8'), /placeholder=\{/);
 });
+
+test('card hover is a subtle background change only: no card gains a border or ring on hover', () => {
+  const offenders = [];
+  (function walk(d) {
+    for (const f of fs.readdirSync(d)) {
+      const p = path.join(d, f);
+      if (fs.statSync(p).isDirectory()) walk(p);
+      else if (/\.tsx?$/.test(p)) {
+        fs.readFileSync(p, 'utf8').split('\n').forEach((line, i) => {
+          if (/hover:(ring|border-\[var\(--field-card|shadow-\[inset_0_0_0_1px)/.test(line)) offenders.push(`${path.relative('src', p)}:${i + 1}`);
+        });
+      }
+    }
+  })('src');
+  assert.deepEqual(offenders, [], 'a card hover changes the background (hover:bg-[var(--field-card-hover-bg)]) and nothing else');
+  assert.doesNotMatch(fs.readFileSync('src/tokens.css', 'utf8'), /--field-card-hover-border/);
+});

@@ -1,8 +1,8 @@
 import { Button } from '../../primitives/Button';
 import { Icon } from '../../primitives/Icon';
 import { Tooltip } from '../../primitives/Tooltip';
+import { EYE_ICON } from '../../../assets/icons';
 
-const EYE_ICON = 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z';
 
 /** The "Customer view" toggle (and its "Visible to customer" tag while sharing): the one button every journey screen and the completion page use. */
 export function CustomerViewButton({ viewOpen, onToggle }: { viewOpen: boolean; onToggle: () => void }) {

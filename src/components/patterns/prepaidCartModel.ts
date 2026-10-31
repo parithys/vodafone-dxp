@@ -1,5 +1,6 @@
 import type { SimTypeValue } from '../domain/SimTypeStep';
 import { simCardCharge } from '../../data/prepaidSimCharge';
+import { chargeAfterWaiverQar, waivedQar } from '../../engines/numberWaiver';
 
 // The Mobile Prepaid cart (process flow #8.1 "Iterate to capture multiple subscriptions"): one order holds one or more
 // subscriptions, each one base pack + optional add-ons + one number + one SIM. The wizard edits ONE subscription at a
@@ -8,17 +9,21 @@ import { simCardCharge } from '../../data/prepaidSimCharge';
 // whole cart through `allLines`, never the per-line keys directly.
 
 /** The draft-value keys that hold the subscription being edited. Cleared when it is committed to the cart. */
-export const LINE_KEYS = ['productId', 'discountId', 'addonIds', 'prePaired', 'msisdn', 'priceQAR', 'simType'] as const;
+export const LINE_KEYS = ['productId', 'discountId', 'addonIds', 'rechargeId', 'prePaired', 'msisdn', 'priceQAR', 'numberWaiver', 'simType'] as const;
 
 export interface PrepaidLine {
   productId: string;
   discountId?: string;
   addonIds: string[];
+  /** The recharge chosen on the Recharge step (BRSD V0.3 Prepaid Recharge Selection), if any. */
+  rechargeId?: string;
   /** Pre-Paired SIM: the number came from the SIM, not from Number Selection. */
   prePaired: boolean;
   msisdn: string;
-  /** The one-time price of a premium number; 0 for a free one. */
+  /** The one-time list price of a premium number; 0 for a free one. */
   numberPriceQAR: number;
+  /** The fixed amount (QAR) the agent waived off a Star number's list price (Star Number Additional Discount), if any. */
+  numberWaiver?: number;
   simType: SimTypeValue;
 }
 
@@ -41,9 +46,11 @@ export function currentLine(values: Values): PrepaidLine | undefined {
     productId,
     discountId: values.discountId as string | undefined,
     addonIds: (values.addonIds as string[] | undefined) ?? [],
+    rechargeId: values.rechargeId as string | undefined,
     prePaired: values.prePaired === true,
     msisdn,
     numberPriceQAR: (values.priceQAR as number | undefined) ?? 0,
+    numberWaiver: values.numberWaiver as number | undefined,
     simType: sim as SimTypeValue,
   };
 }
@@ -93,10 +100,26 @@ export interface PricingExtra {
   price: number;
 }
 
+export interface PricingRecharge {
+  rechargeId: string;
+  name: string;
+  category: string;
+  amountQar: number;
+  description?: string;
+  status?: string;
+  /** Marks sample catalogue data (the real recharge catalogue has not been supplied). */
+  sample?: boolean;
+}
+
 export interface LineCharges {
-  /** The starter pack after the agent's discount; this is the recharge the SIM card charge rule judges. */
+  /** The starter pack after the agent's discount. When no recharge is chosen this is what the SIM card charge rule judges. */
   starterPackQar: number;
   addonsQar: number;
+  /** The recharge chosen on the Recharge step; when there is one it is what the SIM card charge rule judges. */
+  rechargeQar: number;
+  /** The number's list price, the amount waived off it, and what the customer pays (list price less the waiver). */
+  numberListQar: number;
+  numberWaivedQar: number;
   numberQar: number;
   simCardChargeQar: number;
   totalQar: number;
@@ -109,6 +132,8 @@ export interface PriceOptions {
   existingSim?: boolean;
   /** The pack is not being bought (an add-on on the current pack): no starter pack charge. */
   excludePack?: boolean;
+  /** The recharge catalogue, to price a line's chosen recharge. */
+  recharges?: PricingRecharge[];
 }
 
 /** What one subscription costs today: starter pack (net of discount), add-ons, premium number, SIM card charge. */
@@ -117,14 +142,21 @@ export function priceLine(line: PrepaidLine, idType: string | undefined, product
   const discount = extras.find((e) => e.addonDiscountId === line.discountId);
   const starterPackQar = plan && !opts.excludePack ? Math.round((plan.starterPackChargeQAR ?? 0) * (1 + (discount?.price ?? 0))) : 0;
   const addonsQar = line.addonIds.reduce((sum, id) => sum + (extras.find((e) => e.addonDiscountId === id)?.price ?? 0), 0);
-  const sim = opts.existingSim ? { chargeQar: 0, message: 'The SIM is already the customer\'s, so there is no SIM card charge.' } : simCardCharge(idType, starterPackQar);
-  const numberQar = line.numberPriceQAR;
+  const rechargeQar = line.rechargeId ? opts.recharges?.find((r) => r.rechargeId === line.rechargeId)?.amountQar ?? 0 : 0;
+  // BRSD V0.3: the SIM card charge is judged on the recharge. A line with no recharge chosen keeps the earlier reading: its net starter pack.
+  const sim = opts.existingSim ? { chargeQar: 0, message: 'The SIM is already the customer\'s, so there is no SIM card charge.' } : simCardCharge(idType, line.rechargeId ? rechargeQar : starterPackQar);
+  const numberListQar = line.numberPriceQAR;
+  const numberWaivedQar = waivedQar(numberListQar, line.numberWaiver);
+  const numberQar = chargeAfterWaiverQar(numberListQar, line.numberWaiver);
   return {
     starterPackQar,
     addonsQar,
+    rechargeQar,
+    numberListQar,
+    numberWaivedQar,
     numberQar,
     simCardChargeQar: sim.chargeQar,
-    totalQar: starterPackQar + addonsQar + numberQar + sim.chargeQar,
+    totalQar: starterPackQar + addonsQar + rechargeQar + numberQar + sim.chargeQar,
     simCardMessage: sim.message,
   };
 }
@@ -132,8 +164,13 @@ export function priceLine(line: PrepaidLine, idType: string | undefined, product
 export interface PrepaidCheckoutTotals {
   starterPackChargeQar: number;
   addonsChargeQar: number;
+  rechargeChargeQar: number;
   simCardChargeQar: number;
+  /** What the customer pays for the numbers, after any waiver. */
   numberPriceQar: number;
+  /** The numbers' list prices and what the agent waived off them. */
+  numberListPriceQar: number;
+  numberWaivedQar: number;
   /** The total payable today across every subscription - the amount the Payment step collects. */
   totalDueQar: number;
   lineCount: number;
@@ -145,8 +182,11 @@ export function cartTotals(lines: PrepaidLine[], idType: string | undefined, pro
   return {
     starterPackChargeQar: sum((c) => c.starterPackQar),
     addonsChargeQar: sum((c) => c.addonsQar),
+    rechargeChargeQar: sum((c) => c.rechargeQar),
     simCardChargeQar: sum((c) => c.simCardChargeQar),
     numberPriceQar: sum((c) => c.numberQar),
+    numberListPriceQar: sum((c) => c.numberListQar),
+    numberWaivedQar: sum((c) => c.numberWaivedQar),
     totalDueQar: sum((c) => c.totalQar),
     lineCount: lines.length,
   };

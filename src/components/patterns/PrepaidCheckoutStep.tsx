@@ -3,7 +3,7 @@ import * as mockDataEngine from '../../engines/mockDataEngine';
 import { Button } from '../primitives/Button';
 import { Badge } from '../primitives/Badge';
 import { cartTotals, priceLine } from './prepaidCartModel';
-import type { PriceOptions, PrepaidCheckoutTotals, PrepaidLine, PricingExtra, PricingProduct } from './prepaidCartModel';
+import type { PriceOptions, PrepaidCheckoutTotals, PrepaidLine, PricingExtra, PricingProduct, PricingRecharge } from './prepaidCartModel';
 import { formatQar } from '../../lib/format';
 
 interface SimRecord {
@@ -44,6 +44,7 @@ const qar = (n: number) => formatQar(n);
 export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsComputed, onEdit, editLabel = 'Edit subscriptions', details, fees, existingLine }: PrepaidCheckoutStepProps) {
   const [products, setProducts] = useState<PricingProduct[]>([]);
   const [extras, setExtras] = useState<PricingExtra[]>([]);
+  const [recharges, setRecharges] = useState<PricingRecharge[]>([]);
   const [sims, setSims] = useState<SimRecord[]>([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -52,24 +53,27 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
       mockDataEngine.list<PricingProduct>('products'),
       mockDataEngine.list<PricingExtra>('addons-discounts'),
       mockDataEngine.list<SimRecord>('sims'),
-    ]).then(([p, e, s]) => {
+      mockDataEngine.list<PricingRecharge>('recharge-products'),
+    ]).then(([p, e, s, r]) => {
       setProducts(p);
       setExtras(e);
       setSims(s);
+      setRecharges(r);
       setLoaded(true);
     });
   }, []);
 
-  const cart = cartTotals(lines, idType, products, extras, existingLine);
+  const priceOptions: PriceOptions = { ...existingLine, recharges };
+  const cart = cartTotals(lines, idType, products, extras, priceOptions);
   const feesQar = (fees ?? []).reduce((sum, f) => sum + f.amountQar, 0);
   const totals: PrepaidCheckoutTotals = fees
-    ? { starterPackChargeQar: 0, addonsChargeQar: 0, simCardChargeQar: 0, numberPriceQar: 0, totalDueQar: feesQar, lineCount: lines.length }
+    ? { starterPackChargeQar: 0, addonsChargeQar: 0, rechargeChargeQar: 0, simCardChargeQar: 0, numberPriceQar: 0, numberListPriceQar: 0, numberWaivedQar: 0, totalDueQar: feesQar, lineCount: lines.length }
     : cart;
 
   useEffect(() => {
     if (loaded) onTotalsComputed(totals);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded, totals.totalDueQar, totals.simCardChargeQar, totals.addonsChargeQar, totals.starterPackChargeQar, totals.numberPriceQar, totals.lineCount]);
+  }, [loaded, totals.totalDueQar, totals.simCardChargeQar, totals.addonsChargeQar, totals.rechargeChargeQar, totals.starterPackChargeQar, totals.numberPriceQar, totals.numberWaivedQar, totals.lineCount]);
 
   const Row = ({ label, value }: { label: string; value: string }) => (
     <div className="flex justify-between gap-4 py-2 border-b border-border-soft last:border-0">
@@ -93,7 +97,8 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
 
       {lines.map((line, i) => {
         const plan = products.find((p) => p.productId === line.productId);
-        const charges = priceLine(line, idType, products, extras, existingLine);
+        const charges = priceLine(line, idType, products, extras, priceOptions);
+        const recharge = recharges.find((r) => r.rechargeId === line.rechargeId);
         const discount = extras.find((e) => e.addonDiscountId === line.discountId);
         const addons = line.addonIds.map((id) => extras.find((e) => e.addonDiscountId === id)).filter((e): e is PricingExtra => Boolean(e));
         const iccid = line.simType.simType === 'Physical' ? sims.find((s) => s.simSerial === line.simType.simSerial)?.iccid : undefined;
@@ -109,7 +114,16 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
               {addons.map((a) => (
                 <Row key={a.addonDiscountId} label="Add-On" value={`${a.name} - ${qar(a.price)}`} />
               ))}
-              <Row label={existingLine ? 'Line' : 'Number'} value={`${line.msisdn}${charges.numberQar > 0 ? ` (premium, ${qar(charges.numberQar)} one-time)` : ''}`} />
+              {recharge && !existingLine && <Row label="Recharge" value={`${recharge.name} - ${qar(charges.rechargeQar)}`} />}
+              <Row label={existingLine ? 'Line' : 'Number'} value={`${line.msisdn}${charges.numberListQar > 0 ? ' (Star number)' : ''}`} />
+              {/* A Star number: its list price, any additional discount the agent gave, and what the customer pays up front (BRSD V0.3 Number and upfront charge details). */}
+              {charges.numberListQar > 0 && (
+                <>
+                  <Row label="Number List Price" value={qar(charges.numberListQar)} />
+                  {charges.numberWaivedQar > 0 && <Row label="Additional Discount" value={`-${qar(charges.numberWaivedQar)}`} />}
+                  <Row label="Customer Upfront Charge (Number)" value={qar(charges.numberQar)} />
+                </>
+              )}
               {!existingLine && (
                 <>
                   <Row

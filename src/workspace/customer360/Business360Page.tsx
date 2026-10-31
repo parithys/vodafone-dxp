@@ -10,8 +10,8 @@ import { Icon } from '../../components/primitives/Icon';
 import { SearchField } from '../../components/primitives/SearchField';
 import { Select } from '../../components/primitives/Select';
 import { PageHeader } from '../../components/patterns/PageHeader';
+import { BUILDING } from '../../assets/icons';
 
-const BUILDING = 'M4 21V4a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v17 M15 9h4a1 1 0 0 1 1 1v11 M3 21h18 M8 7h3 M8 11h3 M8 15h3';
 
 export function SegmentBadge({ segment }: { segment: LinkedUserSegment }) {
   return <span className={segment === 'EBU' ? 'badge-segment-ebu' : 'badge-segment-cbu'}>{SEGMENT_LABEL[segment]}</span>;

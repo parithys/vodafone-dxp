@@ -19,10 +19,9 @@ import { Icon } from '../components/primitives/Icon';
 import { Tooltip } from '../components/primitives/Tooltip';
 import { factsForKioskNumber, loadServiceSources, ticketToast, mostRecentFor } from './sessionReferenceLookups';
 import type { QTicketRecord, TroubleTicketRecord, KioskCustomerFacts } from './sessionReferenceLookups';
+import { INFO_ICON_PATH, REFRESH_ICON_PATH } from '../assets/icons';
 
 
-const INFO_ICON_PATH = 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 11v5 M12 7.5h.01';
-const REFRESH_ICON_PATH = 'M3 12a9 9 0 0 1 15.3-6.4L21 8 M21 3v5h-5 M21 12a9 9 0 0 1-15.3 6.4L3 16 M3 21v-5h5';
 // Header placement, immediately following the search box, read-only display
 // (plain text stat / Badge - never an editable input). Both reference
 // numbers are scoped to the customer currently loaded into

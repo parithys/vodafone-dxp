@@ -3,9 +3,8 @@ import { Icon } from '../primitives/Icon';
 import { SearchField } from '../primitives/SearchField';
 import { useSearchListNav } from '../../hooks/useSearchListNav';
 import type { ServiceLocationOption } from '../../engines/serviceLocationLookup';
+import { CHEVRON_DOWN, PIN_ICON } from '../../assets/icons';
 
-const PIN_ICON = 'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z';
-const CHEVRON_ICON = 'M6 9l6 6 6-6';
 
 interface ServiceLocationSearchInputProps {
   label: string;
@@ -102,7 +101,7 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
           onClick={() => setOpen((o) => !o)}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg"
         >
-          <Icon path={CHEVRON_ICON} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+          <Icon path={CHEVRON_DOWN} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
           <ul

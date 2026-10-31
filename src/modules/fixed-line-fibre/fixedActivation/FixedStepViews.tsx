@@ -7,14 +7,14 @@ import { ServiceAddress } from '../../../capabilities';
 import type { ZsbAddressValue } from '../../../components/patterns/ZsbAddressStep';
 import { resolveFibreServiceability } from '../../../engines/fibreServiceability';
 import { FIXED_SERVICE_TYPES, allocateFixedLineNumber, devicesFor, type FixedDevice, type FixedInstallationValue, type FixedServiceType } from './fixedActivationModel';
+import { CHECK, FIBER, FWA_INDOOR, FWA_OUTDOOR, INSTALLATION_WIFI } from '../../../assets/icons';
 
 type Values = Record<string, unknown>;
 
-const CHECK = 'M20 6L9 17l-5-5';
 const SERVICE_ICON: Record<FixedServiceType, string> = {
-  fiber: 'M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5',
-  'fwa-indoor': 'M5 12.5a10 10 0 0114 0M8.5 16a5 5 0 017 0M12 19.5h.01',
-  'fwa-outdoor': 'M12 20v-9M8 20h8M6.3 6.3a8 8 0 000 11.4M17.7 6.3a8 8 0 010 11.4M9 9a4 4 0 000 6M15 9a4 4 0 010 6',
+  fiber: FIBER,
+  'fwa-indoor': FWA_INDOOR,
+  'fwa-outdoor': FWA_OUTDOOR,
 };
 
 // Installation Address: service type, the address (shared ZSB address form) and the RFS read-out.
@@ -72,7 +72,7 @@ export function InstallationAddressStep({ values, setValue }: { values: Values; 
                 className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 ${
                   selected
                     ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
-                    : 'border-[var(--field-card-border)] bg-bg text-fg hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]'
+                    : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
                 }`}
               >
                 {selected && <SelectedTick />}
@@ -89,7 +89,7 @@ export function InstallationAddressStep({ values, setValue }: { values: Values; 
       {installation.serviceType === 'fiber' && complete && !checking && rfs === 'rfs' && (
         // Fibre Readiness is the RFS verdict: shown only when the location is RFS, above the address it is about.
         <div className="flex items-center gap-3 rounded-[var(--radius-card)] border px-4 py-3 border-success bg-tone-success">
-          <Icon path="M5 12.5a10 10 0 0 1 14 0 M8 15.5a6 6 0 0 1 8 0 M12 19h.01" className="w-5 h-5 shrink-0 text-success" />
+          <Icon path={INSTALLATION_WIFI} className="w-5 h-5 shrink-0 text-success" />
           <div className="min-w-0 flex-1">
             <p className="text-fg font-semibold text-[length:var(--fs-body)]">Fibre Readiness</p>
             <p className="text-[length:var(--fs-caption)] text-success">Location is RFS (Ready For Service) - fibre can be installed here.</p>

@@ -4,11 +4,10 @@ import { LeadListView } from '../../modules/lead-management/LeadListView';
 import { useCustomerContext } from '../../stores/customerContextStore';
 import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';
+import { PLUS_ICON, SWAP_ICON } from '../../assets/icons';
 
-const PLUS_ICON = 'M12 5v14 M5 12h14';
 // Bidirectional arrows - porting a number in from another carrier is a
 // swap, not a fresh connection, so it gets a distinct icon from the rest.
-const SWAP_ICON = 'M8 3L4 7l4 4 M4 7h16 M16 21l4-4-4-4 M20 17H4';
 
 // Resolved by screenId, not a hardcoded path - SCR-037 is filed under the
 // sim-number-management module route in routes.json despite being the

@@ -21,8 +21,8 @@ import { PageHeader } from '../../components/patterns/PageHeader';
 import { useSubmitGuard } from '../../hooks/useSubmit';
 import { EntityMissing } from '../../components/patterns/EntityMissing';
 import { formatAmountAny } from '../../lib/format';
+import { CHEVRON_LEFT } from '../../assets/icons';
 
-const BACK_ICON = 'M15 18l-6-6 6-6';
 
 interface BillingProfile {
   billingProfileId: string;
@@ -187,7 +187,7 @@ export function BillingAccountPage() {
         onClick={() => navigate(customerId ? `/customer/${customerId}` : -1 as unknown as string)}
         className="flex items-center gap-1.5 text-fg-2 hover:text-fg text-[length:var(--fs-caption)] mb-4"
       >
-        <Icon path={BACK_ICON} className="w-3.5 h-3.5" />
+        <Icon path={CHEVRON_LEFT} className="w-3.5 h-3.5" />
         Back to Customer 360
       </button>
 

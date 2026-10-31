@@ -67,7 +67,7 @@ export function AppRouter() {
       <Route path="/new-connections" element={<ProductLinePage lineKey="new-connections" />} />
       <Route path="/mobile" element={<ProductLinePage lineKey="mobile" />} />
       {/* The New Connection journeys are guarded by their grant like the journeys below: a typed or bookmarked URL is refused like the menu. */}
-      <Route path="/mobile/start-connection" element={<RequireFeature featureKey="postpaid.new-postpaid-wizard"><NewConnectionWizard flow="new" fixedFooter /></RequireFeature>} />
+      <Route path="/mobile/start-connection" element={<RequireFeature featureKey="postpaid.new-postpaid-wizard"><NewConnectionWizard flow="new" /></RequireFeature>} />
       <Route path="/mobile/start-connection/existing/:customerId" element={<RequireFeature featureKey="postpaid.new-postpaid-wizard"><NewConnectionWizard flow="existing" /></RequireFeature>} />
       {/* Plans & Numbers journeys on an existing line (journeys of the Mobile Services line; the menu leads here). Guarded by their grant: a typed or bookmarked URL is refused like the menu. */}
       <Route path="/mobile/change-postpaid-plan" element={<RequireFeature featureKey="mobile.change-postpaid-plan"><ChangePostpaidPlanWizard /></RequireFeature>} />

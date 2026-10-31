@@ -552,7 +552,7 @@ export function CafSignatureCapture({
                 aria-pressed={selected}
                 onClick={() => onChange({ ...value, cafType: t.type })}
                 className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 ${
-                  selected ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] text-[var(--field-card-selected)]' : 'border-[var(--field-card-border)] bg-bg text-fg enabled:hover:border-[var(--field-card-hover-border)] enabled:hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)]'
+                  selected ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] text-[var(--field-card-selected)]' : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
                 }`}
               >
                 {selected && <SelectedTick />}

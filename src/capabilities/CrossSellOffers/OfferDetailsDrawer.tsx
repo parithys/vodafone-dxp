@@ -6,6 +6,7 @@ import { Icon } from '../../components/primitives/Icon';
 import { useNotificationStore } from '../../stores/notificationStore';
 import type { PolicyLink, PolicyTable } from '../../data/planPolicy';
 import { formatQar } from '../../lib/format';
+import { BARS, CHEVRON_DOWN, CHEVRON_RIGHT, CLOSE, CUBE, EXTERNAL, HOUSE, ICONS_DOC, ICON_CARD, ICON_GIFT, ICON_PHONE, MEGAPHONE, SHARE, SERVICE, SORT_ASC_ICON, SPARKLES, STATUS, TAG } from '../../assets/icons';
 
 // The "View details" drawer on a Recommended-offers card (2026-10-04 design: Recommended-offers-02).
 // Every value shown comes from the offer / its linked plans; nothing here is typed in per offer.
@@ -30,25 +31,25 @@ export interface OfferDetails {
 }
 
 const ICONS = {
-  close: 'M6 6l12 12 M18 6L6 18',
-  up: 'M6 15l6-6 6 6',
-  down: 'M6 9l6 6 6-6',
-  right: 'M9 18l6-6-6-6',
-  gift: 'M20 12v9H4v-9 M2 7h20v5H2z M12 21V7 M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z',
-  house: 'M3 11l9-8 9 8 M5 10v10h14V10 M10 20v-6h4v6',
-  phone: 'M8 2h8a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z M11 18h2',
-  service: 'M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M9 8h6 M9 12h6 M9 16h4',
-  tag: 'M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z M7.5 7.5h.01',
-  card: 'M3 6h18v12H3z M3 10h18 M6 15h4',
-  megaphone: 'M3 11v3a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z M15 9a4 4 0 0 1 0 6 M18 6a8 8 0 0 1 0 12',
-  sparkles: 'M12 3v4 M12 17v4 M3 12h4 M17 12h4 M6 6l2.5 2.5 M15.5 15.5L18 18 M6 18l2.5-2.5 M15.5 8.5L18 6',
-  bars: 'M4 20v-6 M10 20V4 M16 20V10 M22 20H2',
+  close: CLOSE,
+  up: SORT_ASC_ICON,
+  down: CHEVRON_DOWN,
+  right: CHEVRON_RIGHT,
+  gift: ICON_GIFT,
+  house: HOUSE,
+  phone: ICON_PHONE,
+  service: SERVICE,
+  tag: TAG,
+  card: ICON_CARD,
+  megaphone: MEGAPHONE,
+  sparkles: SPARKLES,
+  bars: BARS,
   share:
-    'M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M8.6 13.5l6.8 4 M15.4 6.5l-6.8 4',
-  status: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M8.4 12.3l2.4 2.4 4.8-5.2',
-  cube: 'M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z M12 12l8-4.5 M12 12v9 M12 12L4 7.5',
-  doc: 'M7 3h8l4 4v14H7z M15 3v4h4 M9 13h6 M9 17h6',
-  external: 'M14 4h6v6 M20 4l-9 9 M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5',
+    SHARE,
+  status: STATUS,
+  cube: CUBE,
+  doc: ICONS_DOC,
+  external: EXTERNAL,
 };
 
 const PANEL = 'rounded-[var(--radius-card)] border border-border-soft bg-bg';

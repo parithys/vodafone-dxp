@@ -4,16 +4,16 @@ import { useNotificationStore } from '../../stores/notificationStore';
 import type { ToastBrand, ToastKind, ToastRow } from '../../stores/notificationStore';
 import { Icon } from '../../components/primitives/Icon';
 import { VodafoneMark } from '../../components/primitives/VodafoneMark';
+import { CLEAR_ICON, ERROR, INFO_ICON_PATH, WARNING_ALT, SUCCESS } from '../../assets/icons';
 
-const CLOSE_ICON = 'M18 6L6 18 M6 6l12 12';
 
 // The icon that says what a plain toast is, in the kind's colour: a ticked circle for success, a triangle for a warning, an "i" circle for information
 // and an octagon for an error (24px grid paths, drawn with the same 2px stroke as the rest of the icon set).
 const KIND_ICON: Record<ToastKind, string> = {
-  success: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M8 12.5l2.7 2.7L16 9.5',
-  warning: 'M10.3 3.9L2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z M12 9.5v4 M12 17h.01',
-  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 11v5 M12 7.5h.01',
-  error: 'M8.3 3h7.4L21 8.3v7.4L15.7 21H8.3L3 15.7V8.3z M12 8v5 M12 16.5h.01',
+  success: SUCCESS,
+  warning: WARNING_ALT,
+  info: INFO_ICON_PATH,
+  error: ERROR,
 };
 
 // Value colour per row tone, lifted toward white because the surface is dark
@@ -229,7 +229,7 @@ export function ToastContainer() {
                       aria-label="Dismiss notification"
                       className="text-on-dark-2 hover:text-on-dark"
                     >
-                      <Icon path={CLOSE_ICON} className="w-5 h-5" />
+                      <Icon path={CLEAR_ICON} className="w-5 h-5" />
                     </button>
                   </span>
                 </div>
@@ -331,7 +331,7 @@ export function ToastContainer() {
                   aria-label="Dismiss notification"
                   className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-fg"
                 >
-                  <Icon path={CLOSE_ICON} className="w-4 h-4" />
+                  <Icon path={CLEAR_ICON} className="w-4 h-4" />
                 </button>
               </div>
             )}

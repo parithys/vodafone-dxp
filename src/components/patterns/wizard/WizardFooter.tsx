@@ -1,13 +1,11 @@
 import { Button } from '../../primitives/Button';
 import { Icon } from '../../primitives/Icon';
 import type { WizardStep } from './guidedWizardTypes';
+import { CHEVRON_LEFT, CHEVRON_RIGHT } from '../../../assets/icons';
 
-const CHEVRON_LEFT = 'M15 18l-6-6 6-6';
-const CHEVRON_RIGHT = 'M9 18l6-6-6-6';
 
 export function WizardFooter({
   fixedToViewport = false,
-  hasSummaryAside = false,
   avoidBottomTray = false,
   currentStep,
   currentIndex,
@@ -22,7 +20,6 @@ export function WizardFooter({
   onAbandonStep,
 }: {
   fixedToViewport?: boolean;
-  hasSummaryAside?: boolean;
   avoidBottomTray?: boolean;
   currentStep: WizardStep | undefined;
   currentIndex: number;
@@ -43,7 +40,7 @@ export function WizardFooter({
           ? `fixed inset-x-0 ${fixedPosition} z-[var(--z-sticky-raised)] border-t border-border-soft bg-bg shadow-raised`
           : 'mt-6'
         }>
-        <div className={`flex w-full items-center justify-between ${fixedToViewport ? `px-4 py-4 sm:px-8 ${hasSummaryAside ? 'lg:pr-[calc(var(--spacing)*96)]' : ''}` : ''}`}>
+        <div className={`flex w-full items-center justify-between ${fixedToViewport ? `px-4 py-4 sm:px-8` : ''}`}>
           <div className="flex items-center gap-3">
             {/* Locked (2026-09-28): Back disappears entirely alongside the
                 rail going unclickable - "disable/remove Back navigation".

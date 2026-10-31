@@ -140,7 +140,7 @@ export function CustomerSearchResults({
             <button type="button"
               key={account.enterpriseAccountId}
               onClick={() => navigate(`/customer/${account.enterpriseAccountId}`, { state: { navKey: 'customer-search' } })}
-              className="w-full text-left card p-4 hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] flex items-center justify-between gap-3"
+              className="w-full text-left card p-4 hover:bg-[var(--field-card-hover-bg)] flex items-center justify-between gap-3"
             >
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">
@@ -165,7 +165,7 @@ export function CustomerSearchResults({
             <button type="button"
               key={customer.customerId}
               onClick={() => openCustomer({ customer, matchedOn })}
-              className="w-full text-left card p-4 hover:border-[var(--field-card-hover-border)] hover:ring-1 hover:ring-inset hover:ring-[var(--field-card-hover-border)] hover:bg-[var(--field-card-hover-bg)] transition-all flex items-center justify-between gap-4"
+              className="w-full text-left card p-4 hover:bg-[var(--field-card-hover-bg)] transition-all flex items-center justify-between gap-4"
             >
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">

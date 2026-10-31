@@ -3,6 +3,7 @@ import { Icon } from '../primitives/Icon';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { formatQatarPhoneForDisplay } from '../primitives/PhoneNumberInput';
 import { useSearchListNav } from '../../hooks/useSearchListNav';
+import { CHEVRON_DOWN, CHEVRON_UP } from '../../assets/icons';
 
 interface ContactRecord {
   contactRecordId: string;
@@ -30,8 +31,6 @@ interface ContactPhoneInputProps {
   id?: string;
 }
 
-const CHEVRON_DOWN = 'M6 9l6 6 6-6';
-const CHEVRON_UP = 'M18 15l-6-6-6 6';
 
 function initials(firstName: string, lastName: string): string {
   return `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();

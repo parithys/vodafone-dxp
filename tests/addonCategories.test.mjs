@@ -256,24 +256,33 @@ test('availability excludes unpriced and discontinued offers while retaining fix
   assert.match(picker, /eligibleAddons\.filter\(isAddonAvailable\)/);
 });
 
-test('the postpaid New Connection Addons summary floats above the viewport edge and keeps its panel scrollable within the viewport', () => {
+test('the postpaid New Connection Addons summary sits in the step card header on desktop (as wide as the Journey Summary) and floats at the bottom on a small screen, its panel scrollable within the viewport', () => {
   const read = (file) => fs.readFileSync(file, 'utf8');
   const tray = read('src/components/patterns/wizard/SelectedAddonsHeader.tsx');
   const footer = read('src/components/patterns/wizard/WizardFooter.tsx');
   const wizard = read('src/capabilities/GuidedActivationWizard/GuidedActivationWizard.tsx');
+  const stepHeader = read('src/components/patterns/wizard/WizardStepHeader.tsx');
   const connection = read('src/modules/new-connection/NewConnectionWizard.tsx');
 
   assert.match(tray, /fixed inset-x-4 bottom-0/);
   assert.match(footer, /bottom-20 lg:bottom-0/);
   assert.match(footer, /fixed inset-x-0 \$\{fixedPosition\}/);
-  assert.match(footer, /lg:pr-\[calc\(var\(--spacing\)\*96\)\]/);
+  // Continue is at the right end of the bar on every step: nothing on desktop sits beside it, so it reserves no gap for the summary.
+  assert.doesNotMatch(footer, /lg:pr-\[calc/);
   assert.match(wizard, /avoidBottomTray=\{showSelectedAddonsTray && currentStep\?\.key === 'planExtras'\}/);
   assert.match(wizard, /'pb-44 lg:pb-24' : 'pb-24'/);
-  assert.match(tray, /lg:left-auto lg:right-8 lg:w-80/);
+  // Desktop: the tray is the step header's top-right action, the Journey Summary's width, its panel dropping down.
+  assert.match(tray, /'relative w-80'/);
+  assert.match(tray, /top-full mt-3/);
+  assert.match(wizard, /trayAside=\{selectedAddonsTray && isDesktop \? selectedAddonsTray\('header'\)/);
+  assert.match(wizard, /selectedAddonsTray && !isDesktop && selectedAddonsTray\('floating'\)/);
+  assert.match(stepHeader, /trayAside/);
+  assert.match(stepHeader, /lg:pr-\[22rem\]/);
   assert.match(wizard, /hasSummary && <StepSummaryPanel/);
   assert.match(read('src/components/patterns/wizard/StepSummaryPanel.tsx'), /w-80[\s\S]*my-8 mr-8 card/);
   assert.match(tray, /\{count\} add-ons · \{formatQar\(monthlyQar\)\}\/month/);
-  assert.match(tray, /absolute inset-x-0 bottom-full/);
+  assert.match(tray, /absolute inset-x-0 \$\{variant === 'header'/);
+  assert.match(tray, /bottom-full mb-3/);
   assert.match(tray, /max-h-\[calc\(100dvh-var\(--spacing\)\*24\)\]/);
   assert.match(tray, /min-h-0 overflow-y-auto/);
   assert.match(tray, /grid-cols-\[minmax\(0,1fr\)_auto\]/);

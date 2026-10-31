@@ -1,7 +1,6 @@
 import { Icon } from './Icon';
+import { CHEVRON_LEFT, CHEVRON_RIGHT } from '../../assets/icons';
 
-const CHEVRON_LEFT = 'M15 18l-6-6 6-6';
-const CHEVRON_RIGHT = 'M9 18l6-6-6-6';
 
 /**
  * Which pages the pager lists: all of them up to 7; otherwise the first three, the last three and the current page with its neighbours, with

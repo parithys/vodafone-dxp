@@ -1,4 +1,5 @@
 import { isQatarMobileLocalNumber } from '../primitives/countryDialCodes';
+import { LOCK, STAT_ICONS_WALLET, TAG } from '../../assets/icons';
 
 export interface MsisdnRecord {
   msisdn: string;
@@ -233,9 +234,9 @@ export function isValidMsisdn(raw: string): boolean {
 }
 
 export const STAT_ICONS = {
-  wallet: 'M3 6h15a3 3 0 0 1 3 3v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z M3 6a2 2 0 0 1 2-2h11 M16 13h5',
-  tag: 'M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z M7.5 7.5h.01',
-  lock: 'M6 11h12v10H6z M8 11V8a4 4 0 0 1 8 0v3 M12 15v2',
+  wallet: STAT_ICONS_WALLET,
+  tag: TAG,
+  lock: LOCK,
 };
 
 /** Price ranges for the Star tab's filter (QAR). `max` is inclusive; Infinity is open-ended. */

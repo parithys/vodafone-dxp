@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { RESTRICTED_CUSTOMER_MESSAGE, RESTRICTED_CUSTOMER_TITLE } from '../../data/customerSegments';
 import { Icon } from '../primitives/Icon';
+import { LOCK } from '../../assets/icons';
 
-const LOCK = 'M6 11h12v10H6z M8 11V8a4 4 0 0 1 8 0v3 M12 15v2';
 
 /**
  * Shown INSTEAD of a customer when the signed-in role may not see their segment (Safwa, Safwa+, Royal). It carries no customer information: no name,

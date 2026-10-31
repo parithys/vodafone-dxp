@@ -1,3 +1,4 @@
+import { CAT_ICONS_EQUIPMENT, CAT_ICONS_SIM_DEVICE, CUSTOMER_OWNERSHIP, EXISTING_SERVICE, NUMBER_SERVICES, PIN, PLANS, PLUS_ICON, SUPPORT } from '../assets/icons';
 // The New Connections hub and the Mobile and Fibre & Home product-line journey catalogue: what an agent can
 // actually DO to a service, grouped the way the business talks about it rather
 // than the way the screens happen to be implemented.
@@ -60,15 +61,15 @@ export interface ProductLine {
 }
 
 const CAT_ICONS = {
-  plans: 'M4 6h16 M4 12h16 M4 18h10 M18 16v4 M16 18h4',
-  newConnection: 'M12 5v14 M5 12h14',
-  existingService: 'M21 12a9 9 0 0 1-9 9 9 9 0 0 1-8.5-6 M3 12a9 9 0 0 1 9-9 9 9 0 0 1 8.5 6 M21 3v6h-6 M3 21v-6h6',
-  numberServices: 'M9 3L7 21 M17 3l-2 18 M3.5 8.5h17 M3 15.5h17',
-  simDevice: 'M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M9 9h6v6H9z M2 9h2 M2 15h2 M20 9h2 M20 15h2',
-  customerOwnership: 'M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1 M9.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M17 11l2 2 4-4',
-  relocation: 'M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
-  equipment: 'M14.7 6.3a4 4 0 0 1 5 5L21 12l-9 9-3-3 9-9z M7 17l-3 3 M4.5 13.5l6 6',
-  support: 'M4 14v-2a8 8 0 0 1 16 0v2 M4 14a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2z M20 14a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z M18 16v1a3 3 0 0 1-3 3h-3',
+  plans: PLANS,
+  newConnection: PLUS_ICON,
+  existingService: EXISTING_SERVICE,
+  numberServices: NUMBER_SERVICES,
+  simDevice: CAT_ICONS_SIM_DEVICE,
+  customerOwnership: CUSTOMER_OWNERSHIP,
+  relocation: PIN,
+  equipment: CAT_ICONS_EQUIPMENT,
+  support: SUPPORT,
 };
 
 export const PRODUCT_LINES: readonly ProductLine[] = [

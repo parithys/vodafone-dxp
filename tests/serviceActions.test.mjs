@@ -91,7 +91,7 @@ test('service actions: Gold Number is not a line action, SIM Replacement/Swap is
 });
 
 test('service actions: every service-level journey has its own icon, none shared within a product line', async () => {
-  const icons = await load('/src/navigation/journeyIcons.ts');
+  const icons = await load('/src/assets/icons/journeyIcons.ts');
   for (const id of actions.SERVICE_ACTION_IDS) assert.ok(icons.JOURNEY_ICON_IDS.includes(id), `${id} has no icon`);
   for (const prefix of ['mob-', 'fib-']) {
     const paths = actions.SERVICE_ACTION_IDS.filter((id) => id.startsWith(prefix)).map((id) => icons.journeyIcon(id, ''));

@@ -1,4 +1,3 @@
-export const CHECK = 'M20 6L9 17l-5-5';
 
 // Small Levenshtein distance for typo-tolerant ranking - the app has no fuzzy-
 // search dependency, and plan names are short enough that a plain O(n*m) DP

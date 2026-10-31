@@ -5,14 +5,8 @@ import { Badge, type BadgeVariant } from '../../components/primitives/Badge';
 import { Icon } from '../../components/primitives/Icon';
 import { RevealValue, useFieldAccess } from './fieldAccess';
 import { formatDate } from '../../lib/format';
+import { CALENDAR_ICON, CIRCLE_ICON, EYE_ICON, EYE_OFF_ICON, GLOBE_ICON, MAIL_ICON, PHONE_ICON } from '../../assets/icons';
 
-const PHONE_ICON = 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z';
-const MAIL_ICON = 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M22 6l-10 7L2 6';
-const CALENDAR_ICON = 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M16 2v4 M8 2v4 M3 10h18';
-const GLOBE_ICON = 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 0 20 M12 2a15 15 0 0 0 0 20';
-const CIRCLE_ICON = 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z';
-const EYE_ICON = 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z';
-const EYE_OFF_ICON = 'M3 3l18 18 M10.6 6.1A10 10 0 0 1 12 6c6 0 10 6 10 6a17 17 0 0 1-3.2 3.9 M6.6 6.6A17 17 0 0 0 2 12s4 7 10 7a10 10 0 0 0 4.4-1';
 
 export interface HeaderAlert {
   label: string;
