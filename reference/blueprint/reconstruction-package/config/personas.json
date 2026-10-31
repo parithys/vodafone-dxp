@@ -1,0 +1,596 @@
+[
+  {
+    "id": "PERSONA-001",
+    "name": "Retail/Sales Agent (Frontline/Cross-Sell/Front-Office)",
+    "type": "Front-line sales/retail",
+    "responsibilities": "Closes enterprise and consumer deals; forwards documents and order form to fulfilment; raises orders; executes retail SIM swap, TON, plan change, DOI transactions; scans QID; performs Kahramaa ID lookup; looks up existing customer by QID and presents/accepts pre-targeted campaign offers on Cross Sales, driving customer into New Fixed Line wizard (Contact, Address, Plan, Addon & Discount, Number Selection, Book Appointment, CAF, Activity); executes New Fixed Line/FWA/Postpaid/Prepaid guided wizards across desktop and tablet channels (contact/address/plan/number selection, book appointment, CAF signature capture, activity comments); builds Sales Orders, selects catalog products, customizes bundle line items (e.g. Bill Limit within Agent Minimum threshold); edits Credit Limit via preset dropdown; generates CAF (Digital/Manual/Touch Screen); performs SIM Serial entry; runs MNP guided process (contact/address/billing/SIM/plan details, edits Smart Limit within Agent Min Value guardrail); can trigger Instant or Normal Activation on device-detection prompt; performs order correction after manager rejection",
+    "permissions": "Can rename billing profile name (causing CRM/BRM divergence today); can edit Smart Limit/Bill Limit down to but not below Agent Minimum Value without System Administrator override; no agent discretion on plan/add-ons/discounts on cross-sell-originated order; cannot manually enter ID details (only re-scan/search); cannot enroll/cancel AutoPay or see card details; Retail cannot change primary contact",
+    "restrictedFeatures": "Cannot re-enter/change QID once carried over from Cross Sales (read-only); cannot select a plan on cross-sell order (auto-applied); no editable add-on/discount control on cross-sell order; cannot manually enter ID details (only re-scan); cannot enroll/cancel AutoPay or see card details; cannot manually enter KID, only search",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-002",
+    "name": "Account Manager",
+    "type": "Enterprise sales/relationship",
+    "responsibilities": "Closes enterprise deals; approves discounts via EBU hierarchy in MS Dynamics; is the sole recipient of chooser communications; handles fixed and mobility account management; approves account affiliation forms",
+    "permissions": "Approval authority in EBU discount hierarchy; account affiliation approval grants sub-account privileges/Web Self-Care access; does not have CRM access (served via 117 support channel instead)",
+    "restrictedFeatures": "Do not have CRM access, served via 117 support channel instead",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-003",
+    "name": "Account Manager / Channel Partner (External enterprise)",
+    "type": "Enterprise external",
+    "responsibilities": "External account manager/channel partner served via 117 support channel",
+    "permissions": "",
+    "restrictedFeatures": "Do not have CRM access, served via 117 support channel instead",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-004",
+    "name": "Fulfilment Agent / Fulfilment Team",
+    "type": "Back-office order processing",
+    "responsibilities": "Validates and creates orders in Siebel (MNP/FNP/enterprise); selects plan, porting details, attachments; escalates back-dated order issues to PMs; fills ECR Details field (fulfilment-team-only); manually submits DOI Siebel order within 24 hours (disputed/unresolved whether still manual); handles WFM appointment scheduling/execution and manual KID/VFID mapping corner cases post order-submission",
+    "permissions": "Order creation and validation",
+    "restrictedFeatures": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-005",
+    "name": "Back Office Fulfilment Agent (Siebel Responsibility)",
+    "type": "Back-office agent responsibility/role in Siebel",
+    "responsibilities": "Logs into Siebel Open UI Desktop under 'Back Office Fulfilment' responsibility, launches New Fixed Line guided journey, completes Contact, Address, Plan, Addon & Discount, Number Selection, Book Appointment, and CAF steps, generates Sales Order and line items",
+    "permissions": "Assigned Responsibility 'Back Office Fulfilment' plus 'VFQ Base 2' under Default Organization",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-006",
+    "name": "Credit Control / Collection & Credit Control",
+    "type": "Finance/risk function",
+    "responsibilities": "Requested billing-in-advance/arrears/hybrid flag on billing profile; approves credit terms during enterprise onboarding; confirms outstanding-dues thresholds; credit control and collections approval on activation procedures",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-007",
+    "name": "Business Finance",
+    "type": "Finance approval authority",
+    "responsibilities": "Approves credit limit for enterprise accounts since there is no default credit limit",
+    "permissions": "Credit limit approval authority for enterprise",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-008",
+    "name": "IT Operations",
+    "type": "Internal technical/system administration",
+    "responsibilities": "Retains vanilla Siebel/BRM system access after DXP rollout, when mixed CRM-BRM content moves to DXP for other users",
+    "permissions": "Direct Siebel/BRM access (source-system tabs) retained exclusively for this persona",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-009",
+    "name": "Chooser",
+    "type": "Enterprise customer-side authorised contact",
+    "responsibilities": "Sole authorised requester on behalf of a company; nominated on the CR",
+    "permissions": "Requests only accepted from chooser's registered email",
+    "restrictedFeatures": "No off-boarding process exists when a chooser leaves the company",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-010",
+    "name": "Payment Support Contact",
+    "type": "Enterprise customer-side authorised contact",
+    "responsibilities": "Handles payment-related matters for the enterprise account",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-011",
+    "name": "Technical Contact",
+    "type": "Enterprise customer-side authorised contact",
+    "responsibilities": "Handles technical matters for the enterprise account, including installation site point of contact",
+    "permissions": "",
+    "restrictedFeatures": "Cannot be captured as a formal contact with ID today, only free text, causing appointment notifications to go to the wrong person",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-012",
+    "name": "EBU Operations",
+    "type": "Enterprise lead management function",
+    "responsibilities": "Qualifies enterprise leads before assigning to an account manager",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-013",
+    "name": "EBU PM (Project Manager)",
+    "type": "Enterprise fulfilment/project management",
+    "responsibilities": "Collects contract documents for DAPN and other enterprise services; central point in enterprise order/IoT flow",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-014",
+    "name": "Business Care",
+    "type": "Enterprise customer support",
+    "responsibilities": "Handles enterprise inquiries and post-activation support for 5G/FWA device faults or changes; frontline of enterprise customer care",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-015",
+    "name": "Customer (Consumer/Enterprise/B2B2C End User)",
+    "type": "End customer / subscriber",
+    "responsibilities": "Signs subscription acceptance form and CAF/contracts; sends consent SMS for MNP (switch to 151); clears outstanding dues; requests Home Move/TON; pays final bill within 30 days post-port-in; provides identity documents/QID; reviews and signs CAF via signature pad; initiates MNP port-out via SMS to NPass; enters own parameters for self-serve instant activation (standard customers only); may be linked to sponsoring employer for B2B2C",
+    "permissions": "Can view/edit/cancel FDO request before point of no return; must confirm MNP port via SMS",
+    "restrictedFeatures": "Subject to disconnection/dunning ladder if unpaid; risk of suspension/blacklisting for offer abuse; non-standard customers cannot use self-serve, get a Lead instead",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-016",
+    "name": "Donor Operator (Ooredoo/QTEL)",
+    "type": "External telecom operator",
+    "responsibilities": "Accepts, rejects, or conditionally accepts MNP/FNP port requests within defined SLAs; initiates degradation/dunning ladder post-port-in",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-017",
+    "name": "Manager/Approver (Delegation of Authority / DOA hierarchy)",
+    "type": "Management approver",
+    "responsibilities": "Approves individual billing adjustments through the DOA hierarchy",
+    "permissions": "Adjustment approval authority per DOA level",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-018",
+    "name": "Presenter (Enterprise Knowledge Base SME)",
+    "type": "Internal SME/trainer",
+    "responsibilities": "Demonstrates the enterprise process knowledge base and walks through as-is enterprise product processes",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-019",
+    "name": "Manager (Approver/Bypass/System Admin role, general)",
+    "type": "Supervisory / Approval",
+    "responsibilities": "Approves postpaid-to-prepaid migration fee additions; manager-level bypass to edit QID number field only; approves manually-added fees; resolves Bill Limit/Agent Minimum validation failures escalated from agents; configures Bill Limit Mapping/Spend Limit product settings via Administration - Product > Product Promotions",
+    "permissions": "Can override/bypass QID number entry; approves manually-added fees; can raise/lower Agent Minimum Value thresholds that constrain what Sales agents can enter; implied elevated configuration access to override Agent Minimum settings",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-020",
+    "name": "Billing Team / Billing Role",
+    "type": "Back office",
+    "responsibilities": "Only role permitted to change bill cycle",
+    "permissions": "Restricted permission to change bill cycle",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-021",
+    "name": "Collection/Credit Control Team (Manual Suspension via Taurus)",
+    "type": "Back office",
+    "responsibilities": "Runs manual suspension ('park my number') as a back-office ticket-driven process using Taurus",
+    "permissions": "",
+    "restrictedFeatures": "Manual suspension restricted to specific roles, not exposed as retail journey",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-022",
+    "name": "Retention Agent / Retention Team",
+    "type": "Back office / Retail",
+    "responsibilities": "Manually checks star number and device penalties before disconnection is processed; handles retention offers and win-back retention before cancellation of fixed-line install; closes disconnection-related tickets, which triggers automatic creation of a disconnection order",
+    "permissions": "Ticket closure authority for disconnection tickets",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-023",
+    "name": "CDM Team / Customer Data Management",
+    "type": "Back office queue/team",
+    "responsibilities": "Handles sequential approvals for Transfer of Number tickets; approves minor-customer exception processing; manages customer data governance",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-024",
+    "name": "Supervisor",
+    "type": "Supervisory",
+    "responsibilities": "Would need visibility across all agents' tickets (gap identified, not yet implemented)",
+    "permissions": "",
+    "restrictedFeatures": "Currently no supervisor cross-agent ticket view exists",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-025",
+    "name": "Field Technician / Field Engineer (WFM/OFS/OFSC)",
+    "type": "Field / Installation",
+    "responsibilities": "Raises installation-day issues as child activities in WFM, which via integration create Siebel order tasks for the rollout team; raises 'win back' tickets if customer refuses/hasn't paid on-site; performs installation (mesh setup, WFM appointments); currently lacks access to combo box password; receives assigned installation activity via Oracle Field Service app, travels to site, performs Assess Activity, Serial Number Check, Device/Service Activation, Installation Checklist, captures customer signature, ends activity; performs geolocation start, Kahramaa duplicate check, serial number verification",
+    "permissions": "Can move/transfer inventory to self, submit activation requests, complete checklists",
+    "restrictedFeatures": "No Siebel access; no access to combo box password today (decision made to change this)",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-026",
+    "name": "Rollout Team",
+    "type": "Back office",
+    "responsibilities": "Receives Siebel order tasks created from WFM field technician activities",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-027",
+    "name": "Sales Team (Win-back)",
+    "type": "Retail / Retention",
+    "responsibilities": "Handles win-back retention offers before cancellation of fixed-line install",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-028",
+    "name": "Managing Queue / CDM / BOQ / QATQ (routing queues)",
+    "type": "Back office queues",
+    "responsibilities": "Ticket routing/processing queues for TON",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-029",
+    "name": "MOI (Ministry of Interior, external system/authority)",
+    "type": "external system/authority",
+    "responsibilities": "Supplies ID validity/cancelled-ID data files used to detect third-party TON cases",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-030",
+    "name": "Store Agent (TON)",
+    "type": "internal",
+    "responsibilities": "Validates documents and processes Transfer of Number at store",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-031",
+    "name": "Business Analyst (Rana)",
+    "type": "internal delivery team",
+    "responsibilities": "Revenue management business analysis",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-032",
+    "name": "Solution/Financial Architect (Marishi)",
+    "type": "internal delivery team",
+    "responsibilities": "Solution and financial architecture",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-033",
+    "name": "Retail Agent (Retail Operations Stakeholder - Giri)",
+    "type": "internal business stakeholder",
+    "responsibilities": "Retail operations oversight",
+    "permissions": "",
+    "restrictedFeatures": "Retail cannot change primary contact (per CRM Journeys workbook comment)",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-034",
+    "name": "Authorized Officer",
+    "type": "internal role",
+    "responsibilities": "Can flag an account to override the max mobility line cap (CRA rule)",
+    "permissions": "Can flag an account to override the max mobility line cap (CRA rule)",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-035",
+    "name": "Credit Control / Billing Stakeholder (Anwar Mishra)",
+    "type": "internal business stakeholder",
+    "responsibilities": "Billing, payments, and credit oversight",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-036",
+    "name": "Security Stakeholder (Ali)",
+    "type": "internal business stakeholder",
+    "responsibilities": "Security review of the journey/architecture",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-037",
+    "name": "Qatar Visa Center (QVC) Staff",
+    "type": "internal/offshore",
+    "responsibilities": "Offshore prepaid registration via Integrated System",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-038",
+    "name": "Offshore Airport Staff / Third-Party Partner (Offshore Prepaid Activation)",
+    "type": "internal/offshore, external partner",
+    "responsibilities": "Offshore prepaid/postpaid activation via SFTP/VSA; manually activates offshore (airport) prepaid sales, producing an Accept or Reject outcome",
+    "permissions": "Manual activation authority for offshore prepaid sales only",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-039",
+    "name": "Fulfilment Manager Sign-off (Fixed & Mobile Fulfilment and Technical Support)",
+    "type": "internal",
+    "responsibilities": "Fulfilment and technical support sign-off on activation procedure; per revision history, Fulfilment now rejects registrations directly (no email round-trip)",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-040",
+    "name": "GTM & Channel Operations",
+    "type": "internal",
+    "responsibilities": "Go-to-market and channel operations sign-off",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-041",
+    "name": "Team Manager / Approver / Manager (Order Approval, Test Manager)",
+    "type": "Manager / order-approval role",
+    "responsibilities": "Reviews orders in TM SR Queue View / Order Activities Queue / Manage Leads / Leads Queue, self-assigns via 'Assign To Me', reviews Attachments/Order Details/Activities/Agents Details tabs, approves or rejects orders (Reject - Correction or Reject - Drop Order) with a reason and comments; rejects leads with Reject Reason Code + Comment, reassigns Lead Owner; sole authority to cancel FDO Disconnection requests approvals",
+    "permissions": "After one correction round, the Reject - Correction option is no longer offered on re-review; menu restricted to Home, Order Approval, Manage Leads, Leads Queue (or just Home and Order Approval) vs full agent menu; Reject action, Lead Owner reassignment via picker",
+    "restrictedFeatures": "Cannot access full sales/order-creation modules available to front-line agents; menu limited to Home/Order Approval (+/- Manage Leads, Leads Queue), distinct from field-agent tablet menu",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-042",
+    "name": "Retention Team (FDO Disconnection Cancellation)",
+    "type": "Internal/Specialist team",
+    "responsibilities": "Sole authority to cancel FDO Disconnection requests",
+    "permissions": "Cancel Disconnection FDO (restricted to this team only)",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-043",
+    "name": "Retail Agent (Lead Owner, reassignment target)",
+    "type": "Frontline/Retail",
+    "responsibilities": "Receives reassigned leads into own My Leads queue, can edit lead fields (Description)",
+    "permissions": "Standard agent menu: Contacts, Mobile Postpaid, Sales Order, Queue, Passport to QID, MNP Tablet, New Fixed Line Tablet, New Prepaid Tablet, New IOT Tablet, Lead, SIM Swap, New Lead Tablet, My Leads, New FWA Tablet",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-044",
+    "name": "Back Office / Admin (broad org-wide access)",
+    "type": "Back office/Administrative",
+    "responsibilities": "Org-wide lead visibility via All Leads across Org, additional Reject/Retire actions, broader module access spanning almost all functional areas",
+    "permissions": "Reject, Retire on leads; Assign To Me, Send SMS, Product Recommendations, Validate, Submit actions on Lead Details",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-045",
+    "name": "DSA / Store / Field Engineer (sales channel attribution)",
+    "type": "Sales channel / agent-attribution role",
+    "responsibilities": "Recorded as the sales-channel attribution on the signed Acceptance Form (Direct Sales Agent, Store, or Field Engineer)",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-046",
+    "name": "Dispatcher/Back-Office WFM User",
+    "type": "Back Office",
+    "responsibilities": "Views/manages WFM Activity details, reassigns technicians (Move), transfers CPE/SIM inventory between resources",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-047",
+    "name": "CSR / Desktop Agent (Vanilla channel)",
+    "type": "Sales/Customer Service Agent",
+    "responsibilities": "Manually creates and modifies orders through Contact/Account/Sales Order screens (non-wizard); modifies installed CPE asset attributes via Account 360",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-048",
+    "name": "Fulfillment Team (ECR Details - inferred)",
+    "type": "Back-office",
+    "responsibilities": "Fills ECR Details field (referenced but not directly observed acting in these documents)",
+    "permissions": "",
+    "restrictedFeatures": "Field marked as fulfillment-team-only, implying front-line agents should not fill it",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-049",
+    "name": "System Administrator (Product Promotions admin)",
+    "type": "Back-office/admin",
+    "responsibilities": "Configures Bill Limit Mapping / Spend Limit product settings (Agent Min Value, SL Default Value, Active Flag) via Administration - Product > Product Promotions",
+    "permissions": "Can raise/lower Agent Minimum Value thresholds that constrain what Sales agents can enter",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-050",
+    "name": "System user SADMIN (backend/system account)",
+    "type": "System/Automated",
+    "responsibilities": "Creates and processes orders generated automatically by the Unica campaign/Autobase migration engine",
+    "permissions": "System-level order creation distinct from human agent-created orders",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-051",
+    "name": "Channel Manager",
+    "type": "Internal/Approver",
+    "responsibilities": "Approves partner/tablet channel orders before submission",
+    "permissions": "Order approval gate for partner-submitted tablet orders",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-052",
+    "name": "Offshore Retailer / Channel Partner (VSA/BSA)",
+    "type": "External/Channel partner",
+    "responsibilities": "Provisions prepaid/postpaid connections via VSA/BSA channel",
+    "permissions": "",
+    "restrictedFeatures": "Visibility restricted to own orders/leads only",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-053",
+    "name": "Customer Care / Telesales & Retention / Complaints / Direct Sales / Mass Market / Mini Store / Retail & Franchise agents (role families)",
+    "type": "Internal/Frontline and back-office",
+    "responsibilities": "Each performs its named functional area (sales, retention, complaint handling, fulfilment, billing, collections, customer data management) within the CRM",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-054",
+    "name": "Sales / Fulfilment (VFID-KID mapping team)",
+    "type": "Operations",
+    "responsibilities": "Manually resolves ambiguous KID-to-VFID mapping cases",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-055",
+    "name": "Field Survey Team",
+    "type": "Operations",
+    "responsibilities": "Maps generated VFIDs to KIDs on-site",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-056",
+    "name": "Network Team",
+    "type": "Internal/Technical",
+    "responsibilities": "Owns IMS inventory data, outside Technology department control",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-057",
+    "name": "Business/Strategy Team",
+    "type": "Internal/Business",
+    "responsibilities": "Owns GIS-to-IMS process and manual data hot-loads",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-058",
+    "name": "Agent viewing Open UI Desktop (Account 360, Care Agent)",
+    "type": "Frontline/Care Agent",
+    "responsibilities": "Looks up account/asset summary, views usage/balance, manages add-ons/promotions, sends SMS, views contact/communication history, creates leads",
+    "permissions": "Change Limit, Manage Add Ons, Upgrade Promotion, Send SMS, Get Due Amount, Get RTB (Real Time Balance), Get Usages, End Data Session",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-059",
+    "name": "Complaints Team (Mobile and Fixed)",
+    "type": "Back-office/Care",
+    "responsibilities": "Handles trouble tickets categorised by hashtags/actual-issue taxonomy; fills designated Ticket Homepage fields; receives MVA-originated customer request reports, contacts customers, and raises tickets in the system",
+    "permissions": "Field-level write access to fields designated for the Complaints Team; authority to raise tickets on the customer's behalf",
+    "restrictedFeatures": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-060",
+    "name": "Back Office (generic activity channel)",
+    "type": "Back-office",
+    "responsibilities": "Processes activities logged via a 'Back Office' channel (e.g., language change requests)",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-061",
+    "name": "Product Team",
+    "type": "Internal/Business",
+    "responsibilities": "Supplies plan-to-star-number pricing eligibility matrix",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-062",
+    "name": "Solution Architect / Business Owner / IT Owner / Track Lead / Test Manager / Delivery Manager (Governance)",
+    "type": "Governance",
+    "responsibilities": "Formal document governance/sign-off roles, not yet assigned to named individuals",
+    "permissions": "",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-063",
+    "name": "Agent (in DXP)",
+    "type": "Internal/Front-line staff",
+    "responsibilities": "Performs onboarding steps in DXP (ID validation routing, cart building, plan/add-on selection, CAF generation, payment capture); acts as/queries Assisted Care Agent for Customer 360 retrieval; initiates and submits modify orders (suspend/resume), changes plans, captures payment",
+    "permissions": "Initiates and submits modify orders; changes customer plan (Base<->Park); retrieves aggregated customer data",
+    "restrictedFeatures": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-064",
+    "name": "Assisted Care Agent",
+    "type": "Internal/support staff",
+    "responsibilities": "Receives customer queries and searches/retrieves aggregated Customer 360 data (bill info, CDR, network status, order/customer details, payment/billing details)",
+    "permissions": "Search and retrieve aggregated customer data across multiple sources",
+    "restrictedFeatures": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "PERSONA-065",
+    "name": "MNP Team",
+    "type": "Internal/back-office team",
+    "responsibilities": "Validates activities inside MNP Port Out tickets, assigning Success/Failed status",
+    "permissions": "Manual validation authority over MNP port-out ticket activities",
+    "restrictedFeatures": "",
+    "confidence": "high"
+  },
+  {
+    "id": "PERSONA-066",
+    "name": "FL Agents (Front Line Agents)",
+    "type": "Internal/front-line staff",
+    "responsibilities": "Fill designated fields on the Ticket Homepage; fill specific fields for particular trouble ticket (TT) types; create tickets from templates for complaints/issue types",
+    "permissions": "Field-level write access to certain Ticket Homepage fields, differentiated from the Complaints Team's fields",
+    "restrictedFeatures": "Cannot fill fields designated \"Filled By Complaints Team\"",
+    "confidence": "medium"
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "INV-13001",
+    "accountId": "ACC-5003",
+    "billingProfileId": "BILL-7002",
+    "invoicePeriod": "2026-07",
+    "formats": [
+      "PDF",
+      "Excel"
+    ],
+    "layout": "banner/table",
+    "pageSubtotals": true,
+    "groupingKey": "serviceId/circuitId",
+    "taxCode": "QA-VAT-STD",
+    "taxNumber": "TAX-QA-990211",
+    "cdrSort": "date/time",
+    "cdrNumberFilter": "+97433001002",
+    "discountLineItems": [
+      {
+        "type": "prorated",
+        "amountQar": -120
+      },
+      {
+        "type": "month-in-advance",
+        "amountQar": -350
+      }
+    ],
+    "lineItemCount": 84213,
+    "excelFormatUsed": "xlsx",
+    "csvFallbackTriggered": false,
+    "sourceFeed": "Bulk SMS aggregated rated CDRs",
+    "oneOffChargesLinkedCircuit": "CKT-QA-88213"
+  },
+  {
+    "id": "INV-13002",
+    "accountId": "ACC-5004",
+    "billingProfileId": "BILL-7003",
+    "invoicePeriod": "2026-07",
+    "formats": [
+      "PDF",
+      "Excel"
+    ],
+    "layout": "banner/table",
+    "pageSubtotals": true,
+    "groupingKey": "serviceId/circuitId",
+    "taxCode": "QA-VAT-STD",
+    "taxNumber": "TAX-QA-990455",
+    "cdrSort": "date/time",
+    "cdrNumberFilter": null,
+    "discountLineItems": [
+      {
+        "type": "prorated",
+        "amountQar": -45
+      }
+    ],
+    "lineItemCount": 1042871,
+    "excelFormatUsed": "csv",
+    "csvFallbackTriggered": true,
+    "sourceFeed": "Bulk SMS aggregated rated CDRs",
+    "oneOffChargesLinkedCircuit": "CKT-QA-90045"
+  },
+  {
+    "id": "INV-13003",
+    "accountId": "ACC-5001",
+    "billingProfileId": "BILL-7001",
+    "invoicePeriod": "2026-06",
+    "formats": [
+      "PDF",
+      "Excel"
+    ],
+    "layout": "banner/table",
+    "pageSubtotals": true,
+    "groupingKey": "serviceId/circuitId",
+    "taxCode": "QA-VAT-STD",
+    "taxNumber": "TAX-QA-990177",
+    "cdrSort": "date/time",
+    "cdrNumberFilter": "+97433001001",
+    "discountLineItems": [
+      {
+        "type": "prorated",
+        "amountQar": -60
+      },
+      {
+        "type": "month-in-advance",
+        "amountQar": -200
+      }
+    ],
+    "lineItemCount": 412900,
+    "excelFormatUsed": "csv",
+    "csvFallbackTriggered": true,
+    "sourceFeed": "Bulk SMS aggregated rated CDRs",
+    "oneOffChargesLinkedCircuit": "CKT-QA-77064"
+  }
+]

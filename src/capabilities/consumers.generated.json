@@ -1,0 +1,365 @@
+{
+  "root": "/Users/parithimalsaravanan/claude-projects/vodafone-dxp",
+  "capabilities": {
+    "customer-identification": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/identity-customer-management",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/order-management",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration",
+        "workspace/customer360"
+      ],
+      "bypass": []
+    },
+    "special-discounts-identification": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/identity-customer-management",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "number-selection": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/identity-customer-management",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "billing-account": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "service-address": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "plan-selection": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "caf-signature": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "checkout-summary": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "payment": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "appointment-booking": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/new-connection",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "activity-comments": {
+      "areas": [
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "activation-complete": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "selectable-card-styling": {
+      "areas": [
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "side-drawer": {
+      "areas": [
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "toasts": {
+      "areas": [
+        "modules/enterprise-iot-b2b",
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/identity-customer-management",
+        "modules/lead-management",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/order-management",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "modules/trouble-ticketing-complaints",
+        "navigation",
+        "workspace/administration",
+        "workspace/customer360",
+        "workspace/profile",
+        "workspace/support",
+        "workspace/tasks"
+      ],
+      "bypass": []
+    },
+    "guided-activation-wizard": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/identity-customer-management",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "eligibility-gate": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration",
+        "workspace/customer360"
+      ],
+      "bypass": []
+    },
+    "addons-selection": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "customer-qualification": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "line-selection": {
+      "areas": [
+        "modules/mobile-service-changes",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "customer-type": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/order-management",
+        "modules/pre-to-post-migration",
+        "workspace/administration",
+        "workspace/customer360"
+      ],
+      "bypass": []
+    },
+    "cross-sell-offers": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration",
+        "workspace/customer360"
+      ],
+      "bypass": []
+    },
+    "sim-type": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "actual-user": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "pagination": {
+      "areas": [
+        "workspace/administration"
+      ],
+      "bypass": []
+    },
+    "document-upload": {
+      "areas": [
+        "modules/fixed-line-fibre",
+        "modules/fwa-5g-home",
+        "modules/identity-customer-management",
+        "modules/mnp-fnp-porting",
+        "modules/mobile-postpaid",
+        "modules/mobile-prepaid",
+        "modules/mobile-service-changes",
+        "modules/new-connection",
+        "modules/pre-to-post-migration",
+        "modules/sim-number-management",
+        "workspace/administration",
+        "workspace/customer360"
+      ],
+      "bypass": []
+    },
+    "empty-state": {
+      "areas": [
+        "workspace/administration"
+      ],
+      "bypass": []
+    }
+  }
+}

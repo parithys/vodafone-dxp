@@ -1,0 +1,10 @@
+{
+  "_comment": "Pick-list values the app offers, in display order. Edit here to add, remove, rename or reorder an option - no code change. A list that fails to load is empty (the field is then left blank), never guessed.",
+  "salutations": [
+    "Mr",
+    "Mrs",
+    "Ms",
+    "Sheikh",
+    "Sheikha"
+  ]
+}

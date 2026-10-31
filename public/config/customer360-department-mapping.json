@@ -1,0 +1,19 @@
+{
+  "_source": "Customer & Agent 360 View_Overall_Draft.xlsx, sheet 'Mapping' - Department -> Staff ID -> Persona. Keyed here by Staff ID (the join key personas.json already carries) rather than by department name, since a Staff ID identifies exactly one persona while two departments (Call Center - Onshore/Offshore; CMT - Mobile/Fixed & Backoffice) share one Staff ID each in the source.",
+  "_gaps": "Retention (VFQ12353), Fulfilment (VFQ12354) and Back Office Fulfilment (VFQ12355) have no column of their own in 'Customer 360 List - FINAL' (that sheet's 12 department columns cover only the other 10 personas). Per 2026-09-28 direction: Retention inherits the 'Telesales & Retention' column below (its own name contains 'Retention' - the closest evidenced analog). Fulfilment and Back Office Fulfilment map to null - customer360VisibilityEngine.ts's own fallback rule applies to them instead of a department lookup (fields Real Time for every department, plus Assets/Account Information/Activation-Modification Sidebar at Drill Down) rather than inventing a department match that doesn't exist in the source.",
+  "staffIdToDepartment": {
+    "VFQ12351": "Business Care",
+    "VFQ12350": "Call Center - Onshore",
+    "VFQ12366": "CMT - Fixed & Backoffice",
+    "VFQ12359": "Collections & Billing",
+    "VFQ12343": "Direct Sales/Mass Market",
+    "VFQ12348": "EBU Operations",
+    "VFQ12346": "EBU Sales",
+    "VFQ12352": "Premium Team",
+    "VFQ12341": "Retail/Franchise",
+    "VFQ12342": "Telesales & Retention",
+    "VFQ12353": "Telesales & Retention",
+    "VFQ12354": null,
+    "VFQ12355": null
+  }
+}

@@ -1,0 +1,1943 @@
+[
+  {
+    "moduleId": "MOD-lead-management",
+    "module": "Lead Management",
+    "moduleSlug": "lead-management",
+    "screenCount": 15,
+    "subModules": [
+      {
+        "subModule": "Lead Creation & Qualification",
+        "features": [
+          {
+            "feature": "Create and Manage Leads",
+            "capabilities": [
+              "Create lead for fixed/home service with manager reject path",
+              "Create lead for mobile number with owner reassignment",
+              "Full lead lifecycle across 4 personas (create/edit/owner change)",
+              "Tablet lead creation with fixed pre-sales and edit",
+              "Attach lead to existing matching Contact when created from known mobile number",
+              "Conditional 'Fixed Pre-sales' field on Service Needed dropdown for Home service",
+              "Reject Lead requires Reject Reason Code from controlled taxonomy",
+              "Owner-scoped 'My Leads' visibility after reassignment",
+              "Creator-scoped 'My Created Leads' view regardless of ownership changes",
+              "Richer 3-column lead detail layout at Admin/back-office level",
+              "Enterprise lead management and account manager task tracking"
+            ],
+            "relatedEntityIds": [
+              "ENT-057",
+              "ENT-037"
+            ],
+            "relatedJourneyIds": [
+              "UJ-072",
+              "UJ-073",
+              "UJ-074",
+              "UJ-075"
+            ],
+            "relatedRequirementIds": [
+              "REQ-030",
+              "REQ-202",
+              "REQ-203",
+              "REQ-205",
+              "REQ-206",
+              "REQ-207",
+              "REQ-208"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Cross Sales Conversion",
+        "features": [
+          {
+            "feature": "Cross Sales Offer Acceptance",
+            "capabilities": [
+              "Cross sales offer engine surfaces campaign-driven offers for existing customers",
+              "Cross-sales campaign offer auto-applies plan without agent discretion",
+              "QID field locked/read-only after Cross Sales redirect",
+              "No editable add-on/discount control on cross-sell orders",
+              "Cross Sales transaction bundles secondary Modification order onto existing line",
+              "Cross-sales offer acceptance launches corresponding guided journey",
+              "One-time-per-QID free-months offer restriction",
+              "Cross Sales campaign offer surfaced for existing customers via offer engine"
+            ],
+            "relatedEntityIds": [
+              "ENT-054",
+              "ENT-028"
+            ],
+            "relatedJourneyIds": [
+              "UJ-045",
+              "UJ-068",
+              "UJ-077"
+            ],
+            "relatedRequirementIds": [
+              "REQ-135",
+              "REQ-136",
+              "REQ-137",
+              "REQ-213",
+              "REQ-190",
+              "REQ-128",
+              "REQ-212"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-mobile-postpaid",
+    "module": "Mobile Postpaid",
+    "moduleSlug": "mobile-postpaid",
+    "screenCount": 22,
+    "subModules": [
+      {
+        "subModule": "New Postpaid Activation",
+        "features": [
+          {
+            "feature": "Retail/Consumer New Postpaid Order Creation",
+            "capabilities": [
+              "Vanilla new postpaid sales order with bill limit configuration (desktop)",
+              "Retail new postpaid edit bill limit (Open UI desktop)",
+              "New postpaid activation for HRN customer with credit limit edit (desktop)",
+              "New postpaid, B2B2C, with approval (tablet)",
+              "New postpaid, B2B2C, without approval (tablet)",
+              "New postpaid activation for HRN customer with pre-approved credit limit (tablet, with approval)",
+              "New postpaid (non-B2B2C) consumer activation with existing-account credit override (tablet)",
+              "Retail channel activation of new postpaid connection",
+              "Consumer postpaid registration across ECR/Open UI/VSA multi-channel",
+              "Postpaid registration rejection handled directly by Fulfilment without email round-trip",
+              "Customer purchasing postpaid mobile plan through retail agent (target state)",
+              "Mobile post-paid customer onboarding journey",
+              "Editable bill limit and credit limit at plan/promotion selection",
+              "Agent Min Value guardrail on Bill/Smart Limit editing",
+              "Bill limit mapping configuration per product promotion",
+              "Order line items reflect selected Smart Limit as Bill Limit attribute",
+              "Add-on selection references available Bill Limit headroom",
+              "System surfaces HRN advance payment requirement at Connection Details step",
+              "Credit limit change propagates to CAF, Sales Order, and Account record",
+              "Bill limit editable per-order with max = credit limit warning",
+              "System control preventing agents from selecting any credit limit value",
+              "Bill limit value cannot exceed credit limit",
+              "New mobile postpaid guided journey demo (IT stack modernization walkthrough)",
+              "J011 onboarding ID-type-dependent validation",
+              "J011 cart browsing across product types",
+              "J011 SIM handover options",
+              "J011 Unica campaign reference in onboarding"
+            ],
+            "relatedEntityIds": [
+              "ENT-030",
+              "ENT-028",
+              "ENT-006",
+              "ENT-025",
+              "ENT-059"
+            ],
+            "relatedJourneyIds": [
+              "UJ-042",
+              "UJ-044",
+              "UJ-077",
+              "UJ-078",
+              "UJ-079",
+              "UJ-080",
+              "UJ-081",
+              "UJ-082",
+              "UJ-083",
+              "UJ-084",
+              "UJ-093",
+              "UJ-103",
+              "UJ-104"
+            ],
+            "relatedRequirementIds": [
+              "REQ-079",
+              "REQ-113",
+              "REQ-191",
+              "REQ-192",
+              "REQ-193",
+              "REQ-195",
+              "REQ-197",
+              "REQ-218",
+              "REQ-219",
+              "REQ-220",
+              "REQ-284",
+              "REQ-262",
+              "REQ-295",
+              "REQ-296",
+              "REQ-297",
+              "REQ-298"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Postpaid Service Management",
+        "features": [
+          {
+            "feature": "Plan Change & Service State Management",
+            "capabilities": [
+              "Plan change postpaid-to-postpaid",
+              "Real upgrade/downgrade differentiation logic",
+              "Regulatory requirement: commitment period continues across plan upgrade",
+              "Mobile service suspension across multi-channel request intake",
+              "Mobile service resume across multi-channel request intake",
+              "Suspension requires cleared unbilled balance",
+              "Customer communication on suspension/resume"
+            ],
+            "relatedEntityIds": [
+              "ENT-028",
+              "ENT-005",
+              "ENT-024"
+            ],
+            "relatedJourneyIds": [
+              "UJ-029",
+              "UJ-107",
+              "UJ-108"
+            ],
+            "relatedRequirementIds": [
+              "REQ-076",
+              "REQ-064",
+              "REQ-299",
+              "REQ-300",
+              "REQ-301",
+              "REQ-302"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Device Installment",
+        "features": [
+          {
+            "feature": "Device Installment (DOI) Orders",
+            "capabilities": [
+              "Device installment order creation via retail and telesales channels",
+              "Plan and device lock-in with early termination penalty calculation"
+            ],
+            "relatedEntityIds": [
+              "ENT-029"
+            ],
+            "relatedJourneyIds": [
+              "UJ-030"
+            ],
+            "relatedRequirementIds": [
+              "REQ-125"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-mobile-prepaid",
+    "module": "Mobile Prepaid",
+    "moduleSlug": "mobile-prepaid",
+    "screenCount": 0,
+    "subModules": [
+      {
+        "subModule": "Prepaid Activation",
+        "features": [
+          {
+            "feature": "New Prepaid Connection Creation",
+            "capabilities": [
+              "Consumer prepaid activation via ECR/Open UI/VSA multi-channel",
+              "New prepaid connection via Open UI Tablet",
+              "Real-time prepaid ECR/Siebel activation",
+              "Passport without customer signature exception (ref 2.1.13)",
+              "Create virtual/dummy SKUs for digital eSIM to avoid inventory depletion"
+            ],
+            "relatedEntityIds": [
+              "ENT-026",
+              "ENT-081"
+            ],
+            "relatedJourneyIds": [
+              "UJ-043",
+              "UJ-089"
+            ],
+            "relatedRequirementIds": [
+              "REQ-114",
+              "REQ-111",
+              "REQ-107"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-pre-to-post-migration",
+    "module": "Pre-to-Post Migration",
+    "moduleSlug": "pre-to-post-migration",
+    "screenCount": 15,
+    "subModules": [
+      {
+        "subModule": "Prepaid to Postpaid Conversion",
+        "features": [
+          {
+            "feature": "Prepaid-to-Postpaid Conversion Journeys",
+            "capabilities": [
+              "Desktop vanilla manual conversion with bill limit validation failure",
+              "Open UI desktop manual plan selection for QID customer",
+              "Autobase migration with system-recommended offer",
+              "Open UI tablet conversion for expat with credit limit scenario",
+              "Business process/manual eligibility review for prepaid-to-postpaid",
+              "Automate prepaid-to-postpaid migration eligibility checks",
+              "Autobase offers sourced and traceable to Unica campaign engine end-to-end",
+              "Autobase wizard collapses manual cart/catalog/quote into single Accept + 3-step confirmation",
+              "Order progresses asynchronously through backend bulk job queue after Autobase submission",
+              "Guided Pre2Post journey supports manual free-text promotion search and selection"
+            ],
+            "relatedEntityIds": [
+              "ENT-028",
+              "ENT-030"
+            ],
+            "relatedJourneyIds": [
+              "UJ-027",
+              "UJ-085",
+              "UJ-086",
+              "UJ-087",
+              "UJ-088"
+            ],
+            "relatedRequirementIds": [
+              "REQ-077",
+              "REQ-228",
+              "REQ-229",
+              "REQ-230",
+              "REQ-226"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Postpaid to Prepaid Conversion",
+        "features": [
+          {
+            "feature": "Postpaid-to-Prepaid Migration",
+            "capabilities": [
+              "Postpaid-to-prepaid migration journey",
+              "Automate postpaid-to-prepaid migration fee application"
+            ],
+            "relatedEntityIds": [
+              "ENT-028"
+            ],
+            "relatedJourneyIds": [
+              "UJ-028"
+            ],
+            "relatedRequirementIds": [
+              "REQ-078"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Connection Count Validation",
+        "features": [
+          {
+            "feature": "Existing Connection Visibility",
+            "capabilities": [
+              "Display existing prepaid/postpaid connection counts before allowing new/converted connection",
+              "Connection Details advisory for existing multiple postpaid connections"
+            ],
+            "relatedEntityIds": [
+              "ENT-012"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-231",
+              "REQ-184"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-mnp-fnp-porting",
+    "module": "MNP / FNP Porting",
+    "moduleSlug": "mnp-fnp-porting",
+    "screenCount": 17,
+    "subModules": [
+      {
+        "subModule": "MNP Port-In",
+        "features": [
+          {
+            "feature": "MNP Port-In Order Processing",
+            "capabilities": [
+              "MNP port-in postpaid sales front-end journey",
+              "MNP postpaid conversion via cross sales (desktop)",
+              "MNP postpaid port-in desktop (Ooredoo to Vodafone)",
+              "MNP postpaid port-in with add-on (tablet, HRN/expatriate)",
+              "MNP prepaid port-in (tablet)",
+              "MNP switch journey (IT stack modernization walkthrough)",
+              "MNP guided process presents Postpaid/Prepaid choice before data entry",
+              "Contact confirmation reflects MOI Validation result before proceeding",
+              "Order cancellable at Donor Attachment/CAF stages before submission",
+              "CAF form dynamically binds Qatari ID/Passport number field for prepaid subscribers",
+              "DNO verification attachment required for MNP port-in order",
+              "MNP flow: determine if single signature can legally cover both CAF and MNP form",
+              "MNP activation prompt advising customer to send switch SMS to short code 151",
+              "Post-signature operational instruction popup (send switch SMS to 151)",
+              "MNP form selectable by channel type (MNP-Digital/MNP-Touch Screen)",
+              "Reminder SMS automation for MNP",
+              "Automated/removed temporary MSISDN for MNP"
+            ],
+            "relatedEntityIds": [
+              "ENT-013",
+              "ENT-055",
+              "ENT-056",
+              "ENT-015"
+            ],
+            "relatedJourneyIds": [
+              "UJ-014",
+              "UJ-068",
+              "UJ-069",
+              "UJ-070",
+              "UJ-071",
+              "UJ-094"
+            ],
+            "relatedRequirementIds": [
+              "REQ-198",
+              "REQ-199",
+              "REQ-200",
+              "REQ-201",
+              "REQ-282",
+              "REQ-243",
+              "REQ-176",
+              "REQ-196",
+              "REQ-194",
+              "REQ-040",
+              "REQ-043"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "FNP Port-In",
+        "features": [
+          {
+            "feature": "FNP Port-In Order/Trouble Ticket Processing",
+            "capabilities": [
+              "Fixed number portability port-in journey",
+              "Single common journey across submitting channels",
+              "Port status visibility for agents/field teams",
+              "Automated holiday/Ramadan date calculation",
+              "Handover process between order-raising and document-collection teams",
+              "Automated FNP preponement/postponement support",
+              "Hide FNP capability pending execution-date reliability fix",
+              "FNP process diagram needed (gap)",
+              "Fixed line port in (BRSD)"
+            ],
+            "relatedEntityIds": [
+              "ENT-014"
+            ],
+            "relatedJourneyIds": [
+              "UJ-015",
+              "UJ-099"
+            ],
+            "relatedRequirementIds": [
+              "REQ-041",
+              "REQ-042",
+              "REQ-044",
+              "REQ-045",
+              "REQ-046",
+              "REQ-087",
+              "REQ-263"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Post-Port Billing",
+        "features": [
+          {
+            "feature": "Post-Port-In Billing and Dunning",
+            "capabilities": [
+              "Billing and dunning treatment following successful port-in"
+            ],
+            "relatedEntityIds": [
+              "ENT-001",
+              "ENT-004"
+            ],
+            "relatedJourneyIds": [
+              "UJ-016"
+            ],
+            "relatedRequirementIds": []
+          }
+        ]
+      },
+      {
+        "subModule": "Port-Out Handling",
+        "features": [
+          {
+            "feature": "MNP/FNP Port-Out Ticket Processing",
+            "capabilities": [
+              "Port-out ticket handling for consumer/B2B2C, NPass-driven",
+              "MNP port-out trouble ticket variant with NPAS auto-created",
+              "Port out ticket processing overview variant",
+              "Fixed line port out (BRSD)",
+              "Bring NPass MNP/FNP form documents into Siebel via ticket attachment"
+            ],
+            "relatedEntityIds": [
+              "ENT-021"
+            ],
+            "relatedJourneyIds": [
+              "UJ-018",
+              "UJ-026",
+              "UJ-100",
+              "UJ-110"
+            ],
+            "relatedRequirementIds": [
+              "REQ-073"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-fixed-line-fibre",
+    "module": "Fixed Line / Fibre",
+    "moduleSlug": "fixed-line-fibre",
+    "screenCount": 49,
+    "subModules": [
+      {
+        "subModule": "Fixed Line Activation",
+        "features": [
+          {
+            "feature": "New Fixed Line / Broadband Order Creation",
+            "capabilities": [
+              "New fixed line/business broadband order journey",
+              "Fixed line activation business process walkthrough",
+              "Two-phase order completion process for fixed line",
+              "Instant activation (fixed line, tablet-only), eligibility detection and device serial verification",
+              "Instant activation restricted to tablet channel",
+              "Self-serve instant activation",
+              "Cross sales to new fixed line activation",
+              "New fixed line activation back office fulfilment (skip attachments)",
+              "New fixed line desktop triple play (IPTV yes), Project Lusail",
+              "New fixed line tablet - prepatched KID, combo box, normal activation with manager approval and correction cycle",
+              "New fixed line tablet - prepatched KID, non combo box, normal activation full lifecycle incl. approval",
+              "New fixed line tablet - prepatched KID, combo box, instant activation",
+              "New fixed line tablet - prepatched KID, combo box, B2B2C, with approval, instant activation",
+              "New fixed line tablet - normal activation, order approval rejection and correction",
+              "Fiber activation through retail agent (BRSD)",
+              "Fiber instant activation (BRSD)",
+              "Prepatched device detection prompts Instant vs Normal Activation choice",
+              "Prepatched/Non Combo Box detection skips shared-infrastructure selection step",
+              "Attachments step may be skipped per named variant",
+              "Correct activation date for fixed-line orders",
+              "IPTV bundled by default with base plan (removable)",
+              "System-enforced fibre-precedence rule",
+              "CNAP support (25-character limit)",
+              "Store combo box/CPE password for field engineer access",
+              "Integrate TR069/TORUS for mesh configuration",
+              "Fixed/Fibre activation journey (IT stack modernization walkthrough)",
+              "Add installation photo capture to instant activation journey",
+              "Do Not Disturb flag when customer refuses service"
+            ],
+            "relatedEntityIds": [
+              "ENT-006",
+              "ENT-035",
+              "ENT-019",
+              "ENT-078"
+            ],
+            "relatedJourneyIds": [
+              "UJ-002",
+              "UJ-010",
+              "UJ-031",
+              "UJ-034",
+              "UJ-035",
+              "UJ-045",
+              "UJ-046",
+              "UJ-047",
+              "UJ-049",
+              "UJ-050",
+              "UJ-053",
+              "UJ-054",
+              "UJ-055",
+              "UJ-096",
+              "UJ-097",
+              "UJ-095"
+            ],
+            "relatedRequirementIds": [
+              "REQ-253",
+              "REQ-254",
+              "REQ-011",
+              "REQ-252",
+              "REQ-029",
+              "REQ-019",
+              "REQ-095",
+              "REQ-096",
+              "REQ-089",
+              "REQ-144",
+              "REQ-142",
+              "REQ-143",
+              "REQ-152"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Digital Self-Service Fiber",
+        "features": [
+          {
+            "feature": "Digital Fiber Self-Service Activation",
+            "capabilities": [
+              "Digital fiber activation Phase 1 self-service (Combo Box/CPE or 5G)",
+              "Digital self-service fiber activation journey (Phase 1 key flow)",
+              "Duplicate fiber service at same location check (home move lead trigger)",
+              "eKYC validation (ID scan + selfie scan) for digital fiber activation",
+              "eSign requirement in digital fiber activation flow",
+              "Fulfilment routing rule: CPE/ONT vs 5G lead type",
+              "Design retail journey as single scrolling flow, not multi-page navigation",
+              "Mitigate OCR misread risk on QID number defeating two-factor validation",
+              "ID scan enhanced with OCR/capture-in-one-shot"
+            ],
+            "relatedEntityIds": [
+              "ENT-006",
+              "ENT-035"
+            ],
+            "relatedJourneyIds": [
+              "UJ-048"
+            ],
+            "relatedRequirementIds": [
+              "REQ-130",
+              "REQ-131",
+              "REQ-132",
+              "REQ-133",
+              "REQ-134",
+              "REQ-108",
+              "REQ-109",
+              "REQ-238"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Fixed Line Migration & Termination",
+        "features": [
+          {
+            "feature": "Fixed Line Migration / FWA-to-Fiber / Termination",
+            "capabilities": [
+              "Fixed line migration eligibility/verification/WFM appointment",
+              "FWA-to-fiber migration journey",
+              "Automate FWA-to-fiber migration (future automation target)",
+              "Fixed line migration (BRSD)",
+              "Fiber termination (BRSD)",
+              "Mandatory fibre migration within 4 weeks of availability notice",
+              "Disconnection on declined fibre migration",
+              "Fibre outstanding-dues threshold contradiction (gap)"
+            ],
+            "relatedEntityIds": [
+              "ENT-006"
+            ],
+            "relatedJourneyIds": [
+              "UJ-038",
+              "UJ-098",
+              "UJ-101"
+            ],
+            "relatedRequirementIds": [
+              "REQ-255",
+              "REQ-093",
+              "REQ-126",
+              "REQ-127",
+              "REQ-258",
+              "REQ-276"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Fixed-Line Exception Handling",
+        "features": [
+          {
+            "feature": "Order/Installation Exception Handling",
+            "capabilities": [
+              "KID-in-use exception handling",
+              "Fixed-line installation exception handling (splitter full / BID not mapped)",
+              "Move KID-in-use proof requirement to start of journey",
+              "ZSP email/address fields validated for presence only, not format (data-quality gap)",
+              "Club eligibility (customer/QID + location) checks at one early journey point"
+            ],
+            "relatedEntityIds": [
+              "ENT-032",
+              "ENT-071"
+            ],
+            "relatedJourneyIds": [
+              "UJ-032",
+              "UJ-033"
+            ],
+            "relatedRequirementIds": [
+              "REQ-084",
+              "REQ-091",
+              "REQ-083"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Address & Service Feasibility",
+        "features": [
+          {
+            "feature": "Installation Address and RFS Management",
+            "capabilities": [
+              "Installation Address and Service Feasibility Capability",
+              "RFS Data Management Capability",
+              "Installation address cascading zone/street/building selection",
+              "Proof-of-address upload size limit",
+              "Address lock after RFS check",
+              "Split address line 1 into discrete searchable fields (KID/ZSB)",
+              "Maintain address with history across CRM and self-service",
+              "RFS data flow from IMS to downstream systems",
+              "Fixed line RFS (BRSD)",
+              "VFID/KID mapping rule clarification needed",
+              "Enterprise/SMB fibre scope gap",
+              "GTM data-flow frequency confirmation needed",
+              "Provide file structure/sample details for IMS to RPA and RPA to UIM/Siebel",
+              "Clarify current operational frequency for UIM/RFS data refresh",
+              "Change Siebel feed from full file to delta file",
+              "Cluster naming change 1-4 to F1-F4",
+              "Drop displaying all KIDs on ZSB page in RFS Portal",
+              "FL Address must include KID"
+            ],
+            "relatedEntityIds": [
+              "ENT-036",
+              "ENT-032",
+              "ENT-071",
+              "ENT-072",
+              "ENT-062"
+            ],
+            "relatedJourneyIds": [
+              "UJ-105",
+              "UJ-102"
+            ],
+            "relatedRequirementIds": [
+              "REQ-247",
+              "REQ-248",
+              "REQ-249",
+              "REQ-250",
+              "REQ-251",
+              "REQ-097",
+              "REQ-098",
+              "REQ-260",
+              "REQ-261",
+              "REQ-259",
+              "REQ-287",
+              "REQ-288",
+              "REQ-289",
+              "REQ-290",
+              "REQ-291",
+              "REQ-283"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "GigaHome / OSNtv Subscription",
+        "features": [
+          {
+            "feature": "GigaHome/OSNtv Lifecycle Management",
+            "capabilities": [
+              "GigaHome/OSNtv subscription acceptance and lifecycle",
+              "GigaHome Subscription Acceptance Form customer sign-off before activation (v3)",
+              "STB replay/scan functionality dropped due to required OSM changes"
+            ],
+            "relatedEntityIds": [
+              "ENT-018",
+              "ENT-064"
+            ],
+            "relatedJourneyIds": [
+              "UJ-017",
+              "UJ-052"
+            ],
+            "relatedRequirementIds": [
+              "REQ-090"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Home Move",
+        "features": [
+          {
+            "feature": "Home Move Case Handling",
+            "capabilities": [
+              "Home move business process (fiber/5G matrix)",
+              "Home move fixed-to-fixed happy path (guided journey, Open UI desktop)",
+              "Kahramaa duplicate-installation check during Assess Activity",
+              "Fiber-readiness check for home move destination (KID lookup)",
+              "Free home move eligibility for first-time movers",
+              "Resolve whether home move is new order or modification order"
+            ],
+            "relatedEntityIds": [
+              "ENT-060"
+            ],
+            "relatedJourneyIds": [
+              "UJ-039",
+              "UJ-067"
+            ],
+            "relatedRequirementIds": [
+              "REQ-186",
+              "REQ-187",
+              "REQ-188",
+              "REQ-094"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Supplementary & Consumer Forms",
+        "features": [
+          {
+            "feature": "Digitalized Supplementary/Consumer Forms",
+            "capabilities": [
+              "Vodafone Fibre Supplementary Form required for Home Fibre",
+              "Digitalize the supplementary form",
+              "Digitalized consumer application forms",
+              "Signature capture method differs by channel"
+            ],
+            "relatedEntityIds": [
+              "ENT-025",
+              "ENT-083"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-115",
+              "REQ-088",
+              "REQ-305",
+              "REQ-306"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-fwa-5g-home",
+    "module": "FWA / 5G Home",
+    "moduleSlug": "fwa-5g-home",
+    "screenCount": 44,
+    "subModules": [
+      {
+        "subModule": "FWA Indoor/Outdoor Activation",
+        "features": [
+          {
+            "feature": "New FWA Activation (Desktop, Vanilla/Guided)",
+            "capabilities": [
+              "5G indoor/outdoor (FWA) activation - Enterprise/Business Care variant",
+              "New FWA indoor activation - desktop vanilla (manual)",
+              "New FWA outdoor dual play activation with WFM installation (desktop vanilla)",
+              "New FWA indoor postpaid activation - desktop guided wizard (existing mobile customer)",
+              "New FWA postpaid outdoor order (desktop, WFM installation)",
+              "New FWA 5G indoor activation (business process, ZSP/stock control)",
+              "New FWA 5G outdoor activation (business process, WFM appointment)",
+              "Modify FWA indoor CPE serial number",
+              "FWA address/SIM/CPE/CAF negative validation scenarios",
+              "Vanilla (manual, non-wizard) desktop path supports full FWA activation via Contact->Account->Sales Order->Catalog->Line Items->Numbers->CPE Config",
+              "Guided-wizard desktop FWA journey supports existing mobile customer adding new FWA line",
+              "Guided wizard multi-step FWA order creation (Contact through Activity)",
+              "Fair Usage Policy (FUP) throttling on 5G Home plans",
+              "Replace order cancellation with in-place update on outdoor-to-indoor fallback"
+            ],
+            "relatedEntityIds": [
+              "ENT-035",
+              "ENT-011"
+            ],
+            "relatedJourneyIds": [
+              "UJ-011",
+              "UJ-036",
+              "UJ-037",
+              "UJ-056",
+              "UJ-057",
+              "UJ-058",
+              "UJ-059",
+              "UJ-060",
+              "UJ-061"
+            ],
+            "relatedRequirementIds": [
+              "REQ-162",
+              "REQ-173",
+              "REQ-177",
+              "REQ-124",
+              "REQ-092"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "FWA Tablet Channel",
+        "features": [
+          {
+            "feature": "New FWA Tablet Order Creation",
+            "capabilities": [
+              "New FWA tablet indoor B2B2C order with manager approval",
+              "New FWA tablet indoor with manager approval (2+ postpaid connections trigger)",
+              "New FWA tablet indoor without approval (2+ postpaid connections, advisory only)",
+              "New FWA tablet outdoor B2B2C order creation",
+              "New FWA tablet outdoor order through WFM field installation",
+              "Required attachment set for B2B2C FWA orders (Proof of Employment, CAF, Supplementary Form)"
+            ],
+            "relatedEntityIds": [
+              "ENT-035",
+              "ENT-047"
+            ],
+            "relatedJourneyIds": [
+              "UJ-062",
+              "UJ-063",
+              "UJ-064",
+              "UJ-065",
+              "UJ-066"
+            ],
+            "relatedRequirementIds": [
+              "REQ-182"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "CPE Configuration & Field Fulfilment",
+        "features": [
+          {
+            "feature": "CPE Bundle Configuration and Technician Fulfilment",
+            "capabilities": [
+              "FMS CPE bundle configuration supports Indoor IDU, ODU, and Outdoor IDU equipment sub-types",
+              "WFM appointment booking integrates with Oracle Field Service Cloud for technician scheduling and dispatch",
+              "CPE/SIM inventory transferable from warehouse team to assigned technician before installation",
+              "Technician completes serial number check (device activation) before service activation succeeds",
+              "Field technician captures customer signature at installation checklist and end of activity",
+              "CSR can modify installed CPE serial number via Account 360 modify action",
+              "CPE attribute modification generates modification-type sales order with attribute-level audit",
+              "SIM/CPE serial validation calls backend UIM inventory service in real time",
+              "Backend exceptions surface error/service codes and support reference number",
+              "Technician inventory import via Excel + Oracle Field Service integration",
+              "Technician appointment reassignment (Move) with resource-match indicators",
+              "Book unscheduled appointment option with irreversibility warning",
+              "Pre-select next available appointment date/slot bounded by SLA cluster",
+              "Appointment booking enforces slot capacity limits and shows 'Full' state",
+              "Appointment booking cannot be cancelled once confirmed"
+            ],
+            "relatedEntityIds": [
+              "ENT-035",
+              "ENT-052",
+              "ENT-048",
+              "ENT-049",
+              "ENT-040",
+              "ENT-045",
+              "ENT-053"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-163",
+              "REQ-164",
+              "REQ-165",
+              "REQ-166",
+              "REQ-167",
+              "REQ-168",
+              "REQ-169",
+              "REQ-171",
+              "REQ-172",
+              "REQ-179",
+              "REQ-180",
+              "REQ-185",
+              "REQ-161",
+              "REQ-086",
+              "REQ-138"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "CAF & Address Validation (FWA)",
+        "features": [
+          {
+            "feature": "CAF Generation and Address Validation for FWA",
+            "capabilities": [
+              "Address step validates required fields before save",
+              "CAF generation offers multiple form types (Digital, Manual, Touch Screen)",
+              "System notifies customer that signed CAF copy will be emailed",
+              "Digital CAF generation with bilingual EN/AR content and e-signature",
+              "ID-based installation contact capture"
+            ],
+            "relatedEntityIds": [
+              "ENT-025",
+              "ENT-036",
+              "ENT-008"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-170",
+              "REQ-174",
+              "REQ-175",
+              "REQ-178",
+              "REQ-027"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-enterprise-iot-b2b",
+    "module": "Enterprise / IoT / B2B",
+    "moduleSlug": "enterprise-iot-b2b",
+    "screenCount": 6,
+    "subModules": [
+      {
+        "subModule": "Enterprise Account Management",
+        "features": [
+          {
+            "feature": "Enterprise Account Creation and Structure",
+            "capabilities": [
+              "Enterprise account creation journey",
+              "Mandatory CR-number search before account creation",
+              "Sub-account linking validation",
+              "Separate email fields for personal vs corporate contact",
+              "Structured privilege identifier replacing free-text job title",
+              "Chooser off-boarding process",
+              "Performance improvement for large enterprise account/billing profile/CDR pages"
+            ],
+            "relatedEntityIds": [
+              "ENT-007",
+              "ENT-008"
+            ],
+            "relatedJourneyIds": [
+              "UJ-004"
+            ],
+            "relatedRequirementIds": [
+              "REQ-014",
+              "REQ-015",
+              "REQ-016",
+              "REQ-017",
+              "REQ-018",
+              "REQ-034"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Enterprise Sales & Order Fulfilment",
+        "features": [
+          {
+            "feature": "Enterprise Order-to-Billing Flow",
+            "capabilities": [
+              "Enterprise sales-to-fulfilment handover",
+              "Enterprise order-to-billing flow",
+              "Enterprise order journey (vanilla direct)",
+              "Enterprise mobility lead-to-order",
+              "Quantity propagation to billing (auto-explode) for licence line items",
+              "Order form template standardisation and sharing",
+              "Migrate account-level products to generic services with service IDs",
+              "Quarterly/half-yearly/yearly billing cycles for enterprise products",
+              "Enterprise number reservation and number locking"
+            ],
+            "relatedEntityIds": [
+              "ENT-006",
+              "ENT-012",
+              "ENT-039"
+            ],
+            "relatedJourneyIds": [
+              "UJ-003",
+              "UJ-006",
+              "UJ-007",
+              "UJ-008"
+            ],
+            "relatedRequirementIds": [
+              "REQ-025",
+              "REQ-028",
+              "REQ-026",
+              "REQ-032",
+              "REQ-031"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Bulk Operations",
+        "features": [
+          {
+            "feature": "Bulk Adjustment / Activation / SMS / Numbering",
+            "capabilities": [
+              "Bulk adjustment submission (target state)",
+              "Bulk activation current-state journey",
+              "DXP bulk adjustment portal",
+              "Adjustment reason retention beyond BRM purge",
+              "Standardised bulk activation templates on DSP with new Oracle bulk utility API",
+              "Static IP pool search capability",
+              "Bulk number reservation template for DAPN",
+              "DAPN activation journey",
+              "Bulk SMS onboarding to disconnection",
+              "Push to talk (PTT) provisioning"
+            ],
+            "relatedEntityIds": [
+              "ENT-002",
+              "ENT-010",
+              "ENT-017",
+              "ENT-074"
+            ],
+            "relatedJourneyIds": [
+              "UJ-001",
+              "UJ-005",
+              "UJ-009",
+              "UJ-012",
+              "UJ-013"
+            ],
+            "relatedRequirementIds": [
+              "REQ-003",
+              "REQ-004",
+              "REQ-020",
+              "REQ-022",
+              "REQ-023"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Enterprise Invoicing & Export",
+        "features": [
+          {
+            "feature": "Enterprise Invoice Presentation and Export Controls",
+            "capabilities": [
+              "Enterprise invoice (PDF/Excel) generation",
+              "Invoice redesign - banner/table layout fix",
+              "Invoice line-item grouping by service ID/circuit ID",
+              "PDF/Excel ordering consistency and CDR sorting",
+              "Discount line-item presentation correction",
+              "Large Excel/CSV export handling",
+              "Controlled/governed Excel export feature",
+              "Connection count visibility in Siebel and on invoice"
+            ],
+            "relatedEntityIds": [
+              "ENT-016"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-035",
+              "REQ-036",
+              "REQ-037",
+              "REQ-038",
+              "REQ-039",
+              "REQ-033",
+              "REQ-024"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "B2B2C Employer Association",
+        "features": [
+          {
+            "feature": "B2B2C Employer Tagging",
+            "capabilities": [
+              "System supports B2B2C employer association at contact creation",
+              "B2B2C tagging persists onto Account (Special Management) and Contact (Employer)",
+              "System prompts override confirmation when Special Management account attempts non-B2B2C journey"
+            ],
+            "relatedEntityIds": [
+              "ENT-047",
+              "ENT-038",
+              "ENT-037"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-154",
+              "REQ-223",
+              "REQ-224"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-billing-adjustments",
+    "module": "Billing & Adjustments",
+    "moduleSlug": "billing-adjustments",
+    "screenCount": 3,
+    "subModules": [
+      {
+        "subModule": "Billing Profile Management",
+        "features": [
+          {
+            "feature": "Billing Profile Configuration",
+            "capabilities": [
+              "Billing profile unchangeable identifier",
+              "Billing-in-advance/arrears/hybrid flag",
+              "Billing profile/recipient email audit trail",
+              "DXP as single consumption layer for CRM-BRM content",
+              "Multiple bill email recipients (CC) and multiple email types per contact",
+              "Asynchronous email verification before next bill generation",
+              "Separate billing-email opt-in requires confirmation modal",
+              "Order billing profile must match line items' billing profile",
+              "Bill cycle change eligibility must be configurable, not hard-coded",
+              "Auto-resolved ticket even on disallowed bill cycle change"
+            ],
+            "relatedEntityIds": [
+              "ENT-001"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-001",
+              "REQ-002",
+              "REQ-013",
+              "REQ-005",
+              "REQ-057",
+              "REQ-058",
+              "REQ-141",
+              "REQ-278",
+              "REQ-060",
+              "REQ-061"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Bill Viewing & Simulation",
+        "features": [
+          {
+            "feature": "Bill/SOA/Statement Presentation",
+            "capabilities": [
+              "Automated SOA from inception",
+              "Summarised bill landing view",
+              "Bill simulation feature distinct from hot bill",
+              "Unbilled usage screen mandatory filters",
+              "Bill calculator SMS is a capability, not a full journey"
+            ],
+            "relatedEntityIds": [
+              "ENT-003",
+              "ENT-004"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-006",
+              "REQ-007",
+              "REQ-009",
+              "REQ-010",
+              "REQ-123"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Commitments, Penalties & Discounts",
+        "features": [
+          {
+            "feature": "Penalty/Commitment/Discount Calculation",
+            "capabilities": [
+              "On-demand penalty/commitment calculation",
+              "Volumetric discount proration on mid-cycle change",
+              "Volumetric discount auto-downgrade on connection drop",
+              "Automate plan penalty, device dues and locking charges calculation"
+            ],
+            "relatedEntityIds": [
+              "ENT-005",
+              "ENT-009",
+              "ENT-066"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-008",
+              "REQ-012",
+              "REQ-021",
+              "REQ-072"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Deposit & Credit Management",
+        "features": [
+          {
+            "feature": "Deposit Service Bundle and Credit Limit Handling",
+            "capabilities": [
+              "Deposit/credit limit (consumer) handling",
+              "Deposit service bundle management"
+            ],
+            "relatedEntityIds": [
+              "ENT-059",
+              "ENT-075",
+              "ENT-030"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-order-management",
+    "module": "Order Management",
+    "moduleSlug": "order-management",
+    "screenCount": 15,
+    "subModules": [
+      {
+        "subModule": "Order Approval Workflow",
+        "features": [
+          {
+            "feature": "Order Approval and Correction",
+            "capabilities": [
+              "Manager order approval requires attachment verification (QID front/back + CAF)",
+              "Order rejection requires reason selection and drives re-collection of specific fields",
+              "System notifies customer via SMS on order rejection and approval",
+              "Only one correction round permitted before approval-only re-review",
+              "Approve action requires explicit verification acknowledgment",
+              "Orders requiring approval must route to a manager queue with assign-to-me",
+              "Manager approval screen must expose attachments, order details, activities, and agent details tabs",
+              "Approval actions must support approve, reject-correction, and reject-drop order",
+              "Order approval screen must show order expiry timestamp",
+              "Rejected orders must notify originating agent via SMS with correction instructions",
+              "System must provide a dedicated order correction journey/tile",
+              "System must prevent dropping an order that has not gone through order approval",
+              "Order correction (reject-and-resubmit) journey",
+              "Manager approval workflow for flagged orders (multi-journey shared queue)",
+              "Rejection reason capture on order rejection"
+            ],
+            "relatedEntityIds": [
+              "ENT-046",
+              "ENT-042",
+              "ENT-006"
+            ],
+            "relatedJourneyIds": [
+              "UJ-051"
+            ],
+            "relatedRequirementIds": [
+              "REQ-147",
+              "REQ-148",
+              "REQ-149",
+              "REQ-150",
+              "REQ-151",
+              "REQ-155",
+              "REQ-156",
+              "REQ-157",
+              "REQ-158",
+              "REQ-159",
+              "REQ-160",
+              "REQ-236",
+              "REQ-181",
+              "REQ-183"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Order Lifecycle & Status",
+        "features": [
+          {
+            "feature": "Order Status and Completion Notification",
+            "capabilities": [
+              "Confirmation message updated to reflect order submission (not activation)",
+              "Order completion notification must include order number",
+              "Order status must reflect fulfillment progression with per-line status context",
+              "Business account cannot submit pending order if open order exists",
+              "All payments must be authorized before order proceeds",
+              "Serial number required for SIM CARD product"
+            ],
+            "relatedEntityIds": [
+              "ENT-006",
+              "ENT-077",
+              "ENT-039"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-056",
+              "REQ-153",
+              "REQ-225",
+              "REQ-279",
+              "REQ-281",
+              "REQ-280"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Future Dated Orders",
+        "features": [
+          {
+            "feature": "FDO Creation and Lifecycle",
+            "capabilities": [
+              "Future dated order (FDO) request creation and lifecycle",
+              "FDO raiseable via Open UI (Phase 1) with future channel support (Phase 2)",
+              "FDO requests capped at 30 days lead time, cross-stamped with order ID",
+              "FDO notifications via SMS/email in English and Arabic, logged as activity",
+              "Failed FDOs retry automatically up to 3 times, consolidated into daily ops report"
+            ],
+            "relatedEntityIds": [
+              "ENT-068"
+            ],
+            "relatedJourneyIds": [
+              "UJ-092"
+            ],
+            "relatedRequirementIds": [
+              "REQ-232",
+              "REQ-233",
+              "REQ-234",
+              "REQ-235"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-identity-customer-management",
+    "module": "Identity & Customer Management",
+    "moduleSlug": "identity-customer-management",
+    "screenCount": 6,
+    "subModules": [
+      {
+        "subModule": "Identity Validation",
+        "features": [
+          {
+            "feature": "ID Document Validation and MOI Integration",
+            "capabilities": [
+              "Use MOI API as primary ID-data source with Tarasol/manual fallback",
+              "Store all MOI-returned name fields (up to 5-6) and print on bill without truncation",
+              "QID scan-and-attach required only for transactions with account/service change",
+              "Required ID front/back photo uploads before Contact step continues",
+              "Manager-level bypass to edit QID number field only",
+              "Enforce mandatory-field validation catalog on contact records"
+            ],
+            "relatedEntityIds": [
+              "ENT-081",
+              "ENT-033",
+              "ENT-037"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-106",
+              "REQ-105",
+              "REQ-081",
+              "REQ-145",
+              "REQ-062",
+              "REQ-117"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Passport to QID Update",
+        "features": [
+          {
+            "feature": "Passport-to-QID Conversion",
+            "capabilities": [
+              "Passport to QID update journey",
+              "Auto-fetch customer details via MOI Validation after QID entry",
+              "Requires scan/upload of QID front & back images before continuing",
+              "Identification number change form generated and requires customer e-signature"
+            ],
+            "relatedEntityIds": [
+              "ENT-067"
+            ],
+            "relatedJourneyIds": [
+              "UJ-076"
+            ],
+            "relatedRequirementIds": [
+              "REQ-209",
+              "REQ-210",
+              "REQ-211"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Customer 360",
+        "features": [
+          {
+            "feature": "Customer 360 Aggregated View",
+            "capabilities": [
+              "Customer 360 journey",
+              "Customer 360 single-page tab-based partial refresh",
+              "Customer 360 search by customer no / contact no / MSISDN",
+              "Customer 360 data aggregation across sources",
+              "Customer 360 retrieval actions",
+              "Surface indicator of recent My Account app access on agent usage/balance view"
+            ],
+            "relatedEntityIds": [
+              "ENT-082",
+              "ENT-023"
+            ],
+            "relatedJourneyIds": [
+              "UJ-106"
+            ],
+            "relatedRequirementIds": [
+              "REQ-050",
+              "REQ-292",
+              "REQ-293",
+              "REQ-294",
+              "REQ-082"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Consent & Communication Preferences",
+        "features": [
+          {
+            "feature": "Contact Consent and Alt-Phone Management",
+            "capabilities": [
+              "Direct-marketing consent with USSD opt-out code",
+              "Alt. phone # must be a local mobile number used for notifications",
+              "Retail cannot change primary contact",
+              "ECR Details field restricted to Fulfilment team entry"
+            ],
+            "relatedEntityIds": [
+              "ENT-037"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-116",
+              "REQ-140",
+              "REQ-122",
+              "REQ-139"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-sim-number-management",
+    "module": "SIM & Number Management",
+    "moduleSlug": "sim-number-management",
+    "screenCount": 7,
+    "subModules": [
+      {
+        "subModule": "SIM Swap",
+        "features": [
+          {
+            "feature": "SIM Swap Order Processing",
+            "capabilities": [
+              "SIM swap from global search (guided journey, multi-channel)",
+              "SIM swap approval (desktop and tablet queues, with rejection)",
+              "SIM swap retail/back office/MVA, CBS-validated",
+              "Desktop dedicated navigation to view all SIM swap orders and pending SIM swap orders"
+            ],
+            "relatedEntityIds": [
+              "ENT-070",
+              "ENT-026"
+            ],
+            "relatedJourneyIds": [
+              "UJ-020",
+              "UJ-090",
+              "UJ-091"
+            ],
+            "relatedRequirementIds": [
+              "REQ-237"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Number Management",
+        "features": [
+          {
+            "feature": "MSISDN/Number Selection and Reservation",
+            "capabilities": [
+              "Number management portal search experience definition",
+              "Auto-select numbers for fixed/prepaid to reduce agent clicks (mobile postpaid excluded)",
+              "Star/Free/Reserved number tab selection during number selection step",
+              "Plan-price-to-Star-Number-price eligibility matrix required",
+              "Number reservation returns confirmable success token (SBL-EXL-00151 code family)",
+              "IoT vs Non-IoT MSISDN length validation"
+            ],
+            "relatedEntityIds": [
+              "ENT-015",
+              "ENT-058"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-080",
+              "REQ-085",
+              "REQ-222",
+              "REQ-272",
+              "REQ-214",
+              "REQ-285"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Manual Suspension",
+        "features": [
+          {
+            "feature": "Voluntary/Manual Suspension ('Park My Number')",
+            "capabilities": [
+              "Voluntary/manual suspension plan lifecycle"
+            ],
+            "relatedEntityIds": [
+              "ENT-031"
+            ],
+            "relatedJourneyIds": [
+              "UJ-021"
+            ],
+            "relatedRequirementIds": []
+          }
+        ]
+      },
+      {
+        "subModule": "Transfer of Ownership / Number",
+        "features": [
+          {
+            "feature": "TON Case Processing",
+            "capabilities": [
+              "TON retail BAU (four-queue routing)",
+              "TON trouble ticket variant (prepaid-only, fraud control)",
+              "TON claim of ownership (COO)",
+              "TON third-party on cancelled ID",
+              "Automate approvals for TON via rules rather than human approvers",
+              "Automate TON to target 70-80% of cases with business rule engine",
+              "Support split payment steps for party A and party B in TON flow",
+              "Document exact per-scenario TON validation checks for automation review",
+              "Resolve who pays 50 Riyal TON fee (blocking automation)",
+              "Resolve WinCash payment sequencing and disconnection trigger timing in TON",
+              "Remove reliance on prepaid-migration workaround for TON back-office approval delay"
+            ],
+            "relatedEntityIds": [
+              "ENT-022"
+            ],
+            "relatedJourneyIds": [
+              "UJ-019",
+              "UJ-024",
+              "UJ-040",
+              "UJ-041"
+            ],
+            "relatedRequirementIds": [
+              "REQ-063",
+              "REQ-099",
+              "REQ-100",
+              "REQ-101",
+              "REQ-102",
+              "REQ-103",
+              "REQ-104"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-trouble-ticketing-complaints",
+    "module": "Trouble Ticketing & Complaints",
+    "moduleSlug": "trouble-ticketing-complaints",
+    "screenCount": 5,
+    "subModules": [
+      {
+        "subModule": "Ticket Creation & Handling",
+        "features": [
+          {
+            "feature": "General Trouble Ticket Lifecycle",
+            "capabilities": [
+              "Trouble ticket creation and handling (general)",
+              "Complaints management process / agent ticket creation",
+              "Auto-population of ticket fields from account/MSISDN context",
+              "Segregation of requests vs complaints with different SLAs",
+              "Enhanced auto-assignment to agent level based on availability",
+              "Dynamic ticket LOB management without release dependency",
+              "Automatic escalation on ticket delay",
+              "Supervisor visibility across all agents' tickets",
+              "Make public ticket notes as prominent as bell icon notifications",
+              "Direct queue assignment instead of manual ticket export/distribution",
+              "Restore Siebel email notification to group mailbox for ticket receipt/timer expiry",
+              "Ticket creation journey standardization across channels",
+              "Ticket segregation by type",
+              "Add notification/template inventory section to roles/journeys Excel",
+              "Qnomy Q Ticket fallback handling",
+              "Qnomy MPI API spec required",
+              "Comments field minimum length validation on Activity Portal"
+            ],
+            "relatedEntityIds": [
+              "ENT-020",
+              "ENT-079",
+              "ENT-069"
+            ],
+            "relatedJourneyIds": [
+              "UJ-022",
+              "UJ-109"
+            ],
+            "relatedRequirementIds": [
+              "REQ-065",
+              "REQ-066",
+              "REQ-067",
+              "REQ-068",
+              "REQ-069",
+              "REQ-070",
+              "REQ-071",
+              "REQ-074",
+              "REQ-075",
+              "REQ-303",
+              "REQ-304",
+              "REQ-241",
+              "REQ-265",
+              "REQ-274",
+              "REQ-189"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Disconnection",
+        "features": [
+          {
+            "feature": "Disconnection Ticket Processing",
+            "capabilities": [
+              "Disconnection (trouble ticket, retention-first control)",
+              "Disconnection ticket processing (retention team closure triggers auto-order)"
+            ],
+            "relatedEntityIds": [
+              "ENT-020"
+            ],
+            "relatedJourneyIds": [
+              "UJ-025",
+              "UJ-111"
+            ],
+            "relatedRequirementIds": []
+          }
+        ]
+      },
+      {
+        "subModule": "Data Session Management",
+        "features": [
+          {
+            "feature": "End Data Session",
+            "capabilities": [
+              "End data session journey"
+            ],
+            "relatedEntityIds": [
+              "ENT-024"
+            ],
+            "relatedJourneyIds": [
+              "UJ-023"
+            ],
+            "relatedRequirementIds": []
+          }
+        ]
+      },
+      {
+        "subModule": "MVA Channel Handling",
+        "features": [
+          {
+            "feature": "MVA Request Routing",
+            "capabilities": [
+              "Prepaid offshore manual activation by third party",
+              "MVA customer-initiated requests routed as reports"
+            ],
+            "relatedEntityIds": [
+              "ENT-023"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-307",
+              "REQ-308"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-access-roles-approval-governance",
+    "module": "Access, Roles & Approval Governance",
+    "moduleSlug": "access-roles-approval-governance",
+    "screenCount": 3,
+    "subModules": [
+      {
+        "subModule": "Role-Based Access Control",
+        "features": [
+          {
+            "feature": "Journey Initiation and Access Governance",
+            "capabilities": [
+              "Role/team-based access model replacing Siebel profile-based access",
+              "Device/tablet rendering only, not journey governance",
+              "Manager-only menu scoped to Home, Order Approval, Manage Leads, Leads Queue",
+              "Journey initiation from Agent Desktop with role-based authorisation",
+              "In-progress journeys list on agent login page",
+              "Draft order/milestone persistence for resume"
+            ],
+            "relatedEntityIds": [
+              "ENT-044"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-054",
+              "REQ-055",
+              "REQ-204",
+              "REQ-264",
+              "REQ-053",
+              "REQ-266"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Payment & Billing Access Controls",
+        "features": [
+          {
+            "feature": "Payment Authorization and Regulatory View Restrictions",
+            "capabilities": [
+              "Agents view-only for AutoPay status/failure reason (regulatory restriction)",
+              "WinCash integration for zero-payment transactions"
+            ],
+            "relatedEntityIds": [
+              "ENT-080"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-059",
+              "REQ-049"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-caf-attachments-forms",
+    "module": "CAF, Attachments & Forms",
+    "moduleSlug": "caf-attachments-forms",
+    "screenCount": 5,
+    "subModules": [
+      {
+        "subModule": "CAF Lifecycle",
+        "features": [
+          {
+            "feature": "CAF Generation, Signature and Attachment Management",
+            "capabilities": [
+              "E-signature required to complete CAF before order submission",
+              "CAF unique serial/ID and naming convention",
+              "Configurable business-admin-controlled CAF highlighted T&Cs",
+              "System captures customer e-signature as part of CAF completion",
+              "CAF attachment upload supports file management (add/delete)",
+              "CAF/attachment file size must not exceed ~4MB",
+              "Attachments categorized (CAF, QID) with online-only warm-archive retention, no deletion",
+              "CAF template matrix by role/channel/service type required",
+              "Present key-terms summary (lock-ins, penalties, fencing) before CAF signature",
+              "Bilingual (English/Arabic) customer-facing forms",
+              "Digital signature pad migration off OpenUI"
+            ],
+            "relatedEntityIds": [
+              "ENT-025"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-146",
+              "REQ-048",
+              "REQ-052",
+              "REQ-227",
+              "REQ-215",
+              "REQ-242",
+              "REQ-240",
+              "REQ-273",
+              "REQ-239",
+              "REQ-129",
+              "REQ-047"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Activity & Wrap-up",
+        "features": [
+          {
+            "feature": "Activity/Wrap-up Recording",
+            "capabilities": [
+              "Activity/wrap-up step requires call-disposition metadata and comment",
+              "Complex product (bundle) customization/runtime instantiation UI",
+              "Add-on/Discount step must clearly indicate empty state when nothing applicable"
+            ],
+            "relatedEntityIds": [
+              "ENT-069"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-216",
+              "REQ-217",
+              "REQ-221"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "moduleId": "MOD-platform-governance-architecture",
+    "module": "Platform Governance & Architecture",
+    "moduleSlug": "platform-governance-architecture",
+    "screenCount": 1,
+    "subModules": [
+      {
+        "subModule": "Delivery & Traceability Governance",
+        "features": [
+          {
+            "feature": "CRM Journey Catalog and Traceability Model",
+            "capabilities": [
+              "165-row CRM journey/feature inventory classified into 5 Type categories",
+              "Guided Journey vs Vanilla Action classification for CRM journeys",
+              "Traceability model requirement: User journey to Access/Permission hierarchy",
+              "Screen-count estimation model for stack modernization delivery (1,991 total screens)",
+              "Requirement status/owner/traceability missing (governance gap)",
+              "No non-functional requirements documented (gap)",
+              "Acceptance criteria updates for 18 named requirements (v2.0)",
+              "Field-level spec gaps to be supplied by VFQ",
+              "Notification templates/triggers/recipients required",
+              "HRN advance payment matrix required",
+              "Outstanding-dues threshold confirmation by Collections",
+              "Mobile Postpaid BRSD baseline dependency"
+            ],
+            "relatedEntityIds": [
+              "ENT-061",
+              "ENT-062",
+              "ENT-063"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-120",
+              "REQ-119",
+              "REQ-121",
+              "REQ-118",
+              "REQ-257",
+              "REQ-256",
+              "REQ-267",
+              "REQ-271",
+              "REQ-275",
+              "REQ-277",
+              "REQ-276",
+              "REQ-262"
+            ]
+          }
+        ]
+      },
+      {
+        "subModule": "Platform Design Principles",
+        "features": [
+          {
+            "feature": "DXP Architecture and Integration Principles",
+            "capabilities": [
+              "Design of new stack must be business-driven rather than technology-driven",
+              "ECR to be decommissioned and not integrated with new stack; MCCR absorbed; VSA/BSA out of scope",
+              "Consumer segment completed before enterprise segment in delivery sequencing",
+              "Screens align to PIP pre-built APIs rather than new custom APIs",
+              "Build reusable capability building blocks exposed via DXP layer",
+              "Catalogue/eligibility/discount/number-pricing rules as configuration not hard-coded",
+              "Siebel CRM remains system of record",
+              "Existing MOI/IDWise/Qnomy/WinCash/UIM/Medilia interfaces reused without contract change",
+              "Notification and Feedback Capability",
+              "Mandatory ZSB detail capture requirement (refs 2.1.15 and 3.1.12)"
+            ],
+            "relatedEntityIds": [
+              "ENT-082"
+            ],
+            "relatedJourneyIds": [],
+            "relatedRequirementIds": [
+              "REQ-244",
+              "REQ-245",
+              "REQ-246",
+              "REQ-051",
+              "REQ-110",
+              "REQ-268",
+              "REQ-269",
+              "REQ-270",
+              "REQ-286",
+              "REQ-112"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "formTypeId": "EFT-1201",
+    "formType": "Postpaid Mobile",
+    "section": "Enterprise Forms",
+    "customerSegment": "SME-SOHO",
+    "requiresMasterServiceAgreement": false,
+    "contractType": null,
+    "productSchedulesAttached": []
+  },
+  {
+    "formTypeId": "EFT-1202",
+    "formType": "Credit Limit",
+    "section": "Enterprise Forms",
+    "customerSegment": "Enterprise",
+    "requiresMasterServiceAgreement": false,
+    "contractType": null,
+    "productSchedulesAttached": []
+  },
+  {
+    "formTypeId": "EFT-1203",
+    "formType": "Postpaid Fixed",
+    "section": "Enterprise Forms",
+    "customerSegment": "Large Sales",
+    "requiresMasterServiceAgreement": true,
+    "contractType": "Master Service Agreement",
+    "productSchedulesAttached": [
+      "Fixed Line T&C Schedule",
+      "Fibre Broadband T&C Schedule"
+    ]
+  },
+  {
+    "formTypeId": "EFT-1204",
+    "formType": "MNP",
+    "section": "Enterprise Forms",
+    "customerSegment": "SME-SOHO",
+    "requiresMasterServiceAgreement": false,
+    "contractType": "Custom Contract",
+    "productSchedulesAttached": [
+      "Mobile Number Portability Schedule"
+    ]
+  }
+]

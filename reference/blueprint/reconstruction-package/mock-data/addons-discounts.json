@@ -1,0 +1,46 @@
+[
+  {
+    "addonDiscountId": "ADO-7101",
+    "addonType": "IPTV Add-on",
+    "name": "GigaHome TV Basic Pack",
+    "description": "Basic IPTV package with 60 channels",
+    "price": 50,
+    "category": "Paid Add-on",
+    "durationMonths": null,
+    "planId": "PROD-200",
+    "isLockedReadOnly": false
+  },
+  {
+    "addonDiscountId": "ADO-7102",
+    "addonType": "Mass-Market Add-on",
+    "name": "Extra 100GB Data Booster",
+    "description": "Additional mobile data allowance",
+    "price": 30,
+    "category": "Paid Add-on",
+    "durationMonths": 1,
+    "planId": "PROD-100",
+    "isLockedReadOnly": false
+  },
+  {
+    "addonDiscountId": "ADO-7103",
+    "addonType": "Loyalty Discount",
+    "name": "6 Month Retention Discount",
+    "description": "15% discount for retained customers",
+    "price": -0.15,
+    "category": "Discount",
+    "durationMonths": 6,
+    "planId": "PROD-201",
+    "isLockedReadOnly": true
+  },
+  {
+    "addonDiscountId": "ADO-7104",
+    "addonType": "IPTV Add-on",
+    "name": "GigaHome TV Premium Pack",
+    "description": "Premium IPTV package with sports and movies",
+    "price": 120,
+    "category": "Paid Add-on",
+    "durationMonths": null,
+    "planId": "PROD-300",
+    "isLockedReadOnly": true
+  }
+]

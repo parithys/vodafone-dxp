@@ -1,0 +1,80 @@
+[
+  {
+    "id": "MNP-11001",
+    "orderId": "ORD-90002",
+    "customerId": "CUST-1002",
+    "planSelected": "PROD-101",
+    "mnpCategory": "Postpaid Consumer",
+    "portingDetails": {
+      "customerIdNumber": "28556789012",
+      "customerIdType": "QID",
+      "customerType": "Individual",
+      "donorOperator": "Ooredoo",
+      "subscriptionType": "Postpaid",
+      "scheduledPortingDate": "2026-08-25"
+    },
+    "reservedTempMsisdn": "+97433001002",
+    "attachments": [
+      "MNP-Form-2-A-D-11001.pdf",
+      "Donor-Registered-ID-11001.jpg"
+    ],
+    "actionWindowHours": 2,
+    "actionWindowExtendedHours": 24,
+    "status": "submitted to NPAS",
+    "npassTicketId": "NPASS-TCK-77001",
+    "rejectionReasonCode": null,
+    "conditionalAcceptanceTriggered": false
+  },
+  {
+    "id": "MNP-11002",
+    "orderId": "ORD-90004",
+    "customerId": "CUST-1004",
+    "planSelected": "PROD-200",
+    "mnpCategory": "Prepaid Consumer",
+    "portingDetails": {
+      "customerIdNumber": "29187765432",
+      "customerIdType": "QID",
+      "customerType": "Individual",
+      "donorOperator": "Ooredoo",
+      "subscriptionType": "Prepaid",
+      "scheduledPortingDate": "2026-08-24"
+    },
+    "reservedTempMsisdn": "+97433001003",
+    "attachments": [
+      "MNP-Form-2-A-D-11002.pdf"
+    ],
+    "actionWindowHours": 2,
+    "actionWindowExtendedHours": 24,
+    "status": "donor conditional-accept",
+    "npassTicketId": "NPASS-TCK-77002",
+    "rejectionReasonCode": null,
+    "conditionalAcceptanceTriggered": true,
+    "conditionalAcceptanceReason": "billed due over 100 QAR"
+  },
+  {
+    "id": "MNP-11003",
+    "orderId": "ORD-90001",
+    "customerId": "CUST-1001",
+    "planSelected": "PROD-100",
+    "mnpCategory": "Postpaid Consumer",
+    "portingDetails": {
+      "customerIdNumber": "27334561098",
+      "customerIdType": "QID",
+      "customerType": "Individual",
+      "donorOperator": "QTEL",
+      "subscriptionType": "Postpaid",
+      "scheduledPortingDate": "2026-08-10"
+    },
+    "reservedTempMsisdn": "+97433001001",
+    "attachments": [
+      "MNP-Form-2-A-D-11003.pdf",
+      "Donor-Registered-ID-11003.jpg"
+    ],
+    "actionWindowHours": 2,
+    "actionWindowExtendedHours": 24,
+    "status": "rejected",
+    "npassTicketId": "NPASS-TCK-76988",
+    "rejectionReasonCode": "1",
+    "conditionalAcceptanceTriggered": false
+  }
+]

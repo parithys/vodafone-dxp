@@ -1,0 +1,34 @@
+[
+  {
+    "identityDocumentId": "IDD-5501",
+    "customerId": "CUST-1001",
+    "documentType": "QID",
+    "documentNumber": "28456701234",
+    "validationPath": "MOI Validation",
+    "status": "Validated",
+    "scanCompleted": true,
+    "scannedAt": "2026-08-10T09:20:00+03:00"
+  },
+  {
+    "identityDocumentId": "IDD-5502",
+    "customerId": "CUST-1002",
+    "documentType": "Passport",
+    "documentNumber": "P0998812",
+    "issuingCountry": "India",
+    "validationPath": "Capture/Validate Details",
+    "status": "Captured",
+    "scanCompleted": false,
+    "scannedAt": null
+  },
+  {
+    "identityDocumentId": "IDD-5503",
+    "customerId": "CUST-2001",
+    "documentType": "Other ID",
+    "documentNumber": "RES-7788221",
+    "issuingCountry": "Qatar",
+    "validationPath": "Capture/Validate Details",
+    "status": "Validated",
+    "scanCompleted": true,
+    "scannedAt": "2026-08-20T13:50:00+03:00"
+  }
+]

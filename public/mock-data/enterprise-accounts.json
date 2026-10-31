@@ -1,0 +1,911 @@
+[
+  {
+    "enterpriseAccountId": "ENT-ACC-7701",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Lulu Group Qatar Holding",
+    "crType": "Commercial Registration",
+    "crId": "CR-44120",
+    "crNumber": "CR-44120",
+    "agentId": "AGT-2201",
+    "businessType": "B2B",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": true,
+    "contractStartDate": "2024-03-01",
+    "contractEndDate": "2027-02-28",
+    "accountManagerName": "Rashid Al-Marri",
+    "accountManagerMobile": "+97455501201",
+    "accountManagerEmail": "rashid.almarri@vodafone.qa",
+    "_ebuNote": "contractStartDate/contractEndDate and the accountManager* fields are an app-level demo addition (2026-09-28, Customer 360 redesign) - the EBU topic's own field ('Contract start and end date') and Account Information's AM fields have no evidenced source in this corpus's enterprise-accounts data; agentId ('AGT-2201') itself resolves to no record in users-agents.json (a pre-existing gap, not created here), so a fresh, clearly-marked name/mobile/email was added rather than reusing an id that goes nowhere."
+  },
+  {
+    "enterpriseAccountId": "ACC-5003",
+    "accountType": "BUSINESS",
+    "level": "subAccount",
+    "name": "Lulu Hypermarket - Al Waab Branch",
+    "crType": "Commercial Registration",
+    "crId": "CR-44120",
+    "crNumber": "CR-44120-03",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": 50000,
+    "creditLimitNeedsFinanceApproval": false,
+    "parentAccountId": "ENT-ACC-7701",
+    "contactsOnly": false
+  },
+  {
+    "enterpriseAccountId": "ACC-5004",
+    "accountType": "BUSINESS",
+    "level": "subAccount",
+    "name": "Lulu Hypermarket - Doha Industrial Area Branch",
+    "crType": "Commercial Registration",
+    "crId": "CR-44120",
+    "crNumber": "CR-44120-07",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": 35000,
+    "creditLimitNeedsFinanceApproval": false,
+    "parentAccountId": "ENT-ACC-7701",
+    "contactsOnly": false
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-7702",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Rayyan Trading Group",
+    "crType": "Commercial Registration",
+    "crId": "CR-51893",
+    "crNumber": "CR-51893",
+    "agentId": "AGT-2205",
+    "businessType": "B2B",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": true,
+    "contractStartDate": "2025-01-15",
+    "contractEndDate": "2026-01-14",
+    "_ebuNote": "See ENT-ACC-7701's own note - same app-level demo addition."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-7705",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Acme Trading Qatar W.L.L.",
+    "crType": "Commercial Registration",
+    "crId": "CR-60244",
+    "crNumber": "CR-60244",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": false,
+    "_note": "App-level demo addition (2026-09-26) - THREE existing records already named this employer and none of them resolved to anything: CUST-2001.companyName 'Acme Trading Qatar W.L.L.', that customer's email domain @acmeqatar.com, and contacts-b2b2c.json's only row (employer 'Acme Trading Qatar W.L.L.', employeeQid 29144455566). The registry held only Lulu and Al Rayyan, so the B2B2C employer link had no account behind it. Added the missing account rather than repointing those three at Lulu, which would have rewritten seeded data to match an incomplete registry. businessType is B2B2C, not B2B: this account exists to sponsor consumer lines, which is what distinguishes it from the Lulu and Al Rayyan enterprise accounts."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8001",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Aamal Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8002",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Abu Issa Holding",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8003",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Ahli Bank",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8004",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Ahmed Hassan Bilal Trading & Contracting Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8005",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Baida Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8006",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Balagh Trading & Contracting",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8007",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Bandary Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8008",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Faisal Holding",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8009",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Faleh Educational Holding Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8010",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Jaber Engineering",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8011",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Jaber Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8012",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Khaleej Takaful Insurance Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8013",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Mahhar Holding Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8014",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Al Meera Consumer Goods Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8015",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Alfardan Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8016",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Ali Bin Ali Holding",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8017",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Alijarah Holding",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8018",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Almana Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8019",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Aspire Zone Foundation",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8020",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Baladna",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8021",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Barwa Real Estate Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8022",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Blue Salon",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8023",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Damaan Islamic Insurance Company (Beema)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8024",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Darwish Holding",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8025",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Dlala Brokerage and Investment Holding Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8026",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Doha Bank",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8027",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Doha Insurance Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8028",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Dukhan Bank",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8029",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Estithmar Holding",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8030",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Ezdan Holding Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8031",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Ghanim Bin Saad Al Saad & Sons Group (GSSG Holding)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8032",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Gulf Drilling International",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8033",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Gulf Helicopters",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8034",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Gulf International Services",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8035",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Gulf Warehousing Company (GWC)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8036",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Hamad Medical Corporation",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8037",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Hassad Food",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8038",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "HBK Contracting Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8039",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Industries Qatar",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8040",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "INMA Holding Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8041",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Jaidah Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8042",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Kahramaa (Qatar General Electricity & Water Corporation)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8043",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Katara Hospitality",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8044",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Mannai Corporation",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8045",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Masraf Al Rayan (AlRayan Bank)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8046",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Mazaya Real Estate Development",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8047",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Medicare Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8048",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Mekdam Holding Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8049",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Mesaieed Petrochemical Holding Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8050",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Midmac Contracting Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8051",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Mosanada Facility Management Services",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8052",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Mwani Qatar (Qatar Ports Management Company)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8053",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Nakilat (Qatar Gas Transport Company)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8054",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Nebras Energy",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8056",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Pari Gallery",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8057",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Power International Holding (PIH)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8058",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatalum",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8059",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Airways Cargo",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8060",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Airways Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8061",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Aluminium Manufacturing Company (QAMCO)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8062",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Building Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8063",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Chemical Company (Q-Chem)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8064",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Cinema & Film Distribution Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8065",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Development Bank (QDB)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8066",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Electricity & Water Company (QEWC)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8067",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Electronic Systems Company (Techno Q)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8068",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar First Bank (Lesha Bank)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8069",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Fuel Company (WOQOD)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8070",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar General Insurance & Reinsurance Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8071",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Industrial Manufacturing Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8072",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Insurance Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8073",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Islamic Bank (QIB)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8074",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Islamic Insurance Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8075",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar National Cement Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8076",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Navigation (Milaha)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8077",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Oman Investment Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8078",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Petrochemical Company (QAPCO)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8079",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Petroleum District",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8080",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Post",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8081",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Primary Materials Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8082",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Science & Technology Park (QSTP)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8083",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Steel",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8084",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatar Vinyl Company (QVC)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8085",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "QatarEnergy",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8086",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatari Diar",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8087",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatari German Company for Medical Devices",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8088",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatari Investors Group",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8089",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "QatarRail (Qatar Railways Company)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8090",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Qatofin Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8091",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "QLM Life & Medical Insurance Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8092",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "QNB Group (Qatar National Bank)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8093",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "QTerminals",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8094",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Salam International Investment Limited",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8095",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "The Commercial Bank",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8096",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "United Development Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8097",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "UrbaCon Trading & Contracting (UCC)",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8098",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Vodafone Qatar",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8099",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Widam Food Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-8100",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Zad Holding Company",
+    "businessType": "B2B2C",
+    "_note": "App-level demo addition (2026-09-30): supplied company list for the New Connection B2B2C company search. No CR number or other registry fields were provided, so none are invented."
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "enterpriseAccountId": "ENT-ACC-8201",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Doha Contracting Co.",
+    "crType": "Commercial Registration",
+    "crId": "CR-711005",
+    "crNumber": "CR-711005",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": false
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "enterpriseAccountId": "ENT-ACC-8202",
+    "accountType": "BUSINESS",
+    "level": "parent",
+    "name": "Gulf Logistics W.L.L.",
+    "crType": "Commercial Registration",
+    "crId": "CR-721005",
+    "crNumber": "CR-721005",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": false
+  }
+]

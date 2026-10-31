@@ -1,0 +1,62 @@
+[
+  {
+    "id": "GHO-15001",
+    "customerId": "CUST-1001",
+    "accountId": "ACC-5001",
+    "kahramaaId": "KHR-2205871",
+    "acceptanceForm": {
+      "customerName": "Mohammed Al-Emadi",
+      "customerQid": "27889012345",
+      "planName": "GigaHome 500 + OSNtv Premium",
+      "date": "2026-07-01",
+      "signature": "signed"
+    },
+    "billingModel": "postpaid in arrears",
+    "firstBillProrated": true,
+    "tonFacilityUsed": false,
+    "fibreLockInMonths": 12,
+    "personalUseOnly": true,
+    "freeOfferClaimedForKahramaaId": true,
+    "status": "Try & Buy trial"
+  },
+  {
+    "id": "GHO-15002",
+    "customerId": "CUST-1003",
+    "accountId": "ACC-5003",
+    "kahramaaId": "KHR-2298440",
+    "acceptanceForm": {
+      "customerName": "Salman Abdul Rahman",
+      "customerQid": "28112233445",
+      "planName": "GigaHome 1000 + OSNtv Standard",
+      "date": "2026-05-15",
+      "signature": "signed"
+    },
+    "billingModel": "postpaid in arrears",
+    "firstBillProrated": true,
+    "tonFacilityUsed": true,
+    "fibreLockInMonths": 12,
+    "personalUseOnly": true,
+    "freeOfferClaimedForKahramaaId": false,
+    "status": "active subscription"
+  },
+  {
+    "id": "GHO-15003",
+    "customerId": "CUST-1004",
+    "accountId": "ACC-5004",
+    "kahramaaId": "KHR-2310098",
+    "acceptanceForm": {
+      "customerName": "Priya Nair",
+      "customerQid": "29556677889",
+      "planName": "GigaHome 300 + OSNtv Basic",
+      "date": "2026-08-05",
+      "signature": "signed"
+    },
+    "billingModel": "postpaid in arrears",
+    "firstBillProrated": true,
+    "tonFacilityUsed": false,
+    "fibreLockInMonths": 12,
+    "personalUseOnly": true,
+    "freeOfferClaimedForKahramaaId": true,
+    "status": "Home Move / TON"
+  }
+]

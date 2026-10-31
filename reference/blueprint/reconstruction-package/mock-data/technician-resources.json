@@ -1,0 +1,35 @@
+[
+  {
+    "resourceId": "TECH-2001",
+    "resourceName": "Yousef Al-Emadi",
+    "assignedParts": [
+      {
+        "type": "SIM",
+        "serial": "8974412009900123456",
+        "quantity": 1
+      },
+      {
+        "type": "CPE",
+        "serial": "CPE-RTR-88231",
+        "quantity": 1
+      }
+    ],
+    "currentOwner": "TECH-2001",
+    "linkedActivityId": "ORD-90001",
+    "transferStatus": "Transferred From ABATS"
+  },
+  {
+    "resourceId": "TECH-2002",
+    "resourceName": "Rashid Nasser",
+    "assignedParts": [
+      {
+        "type": "SIM",
+        "serial": "8974412009900123999",
+        "quantity": 1
+      }
+    ],
+    "currentOwner": "TECH-2002",
+    "linkedActivityId": "ORD-90004",
+    "transferStatus": "Transfer To technician"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "FNP-12001",
+    "orderId": "ORD-90003",
+    "customerId": "CUST-1003",
+    "troubleTicketId": "TT-40001",
+    "rfsCheckPassed": true,
+    "fnpForm": {
+      "karmaId": "KARMA-QA-559812",
+      "mandatory": true
+    },
+    "idDocument": "QID-Front-Back-12001.pdf",
+    "targetDate": "2026-09-02",
+    "targetDateCalculationMethod": "manual",
+    "donorOperator": "Ooredoo",
+    "status": "donor validation",
+    "conditionalAcceptance": {
+      "triggered": false,
+      "dueAmountQar": 0,
+      "clearanceWindowDays": 3
+    },
+    "technicianVisits": []
+  },
+  {
+    "id": "FNP-12002",
+    "orderId": "ORD-90005",
+    "customerId": "CUST-2001",
+    "troubleTicketId": "TT-40002",
+    "rfsCheckPassed": true,
+    "fnpForm": {
+      "karmaId": "KARMA-QA-560344",
+      "mandatory": true
+    },
+    "idDocument": "QID-Front-Back-12002.pdf",
+    "targetDate": "2026-08-30",
+    "targetDateCalculationMethod": "manual",
+    "donorOperator": "Ooredoo",
+    "status": "conditional acceptance",
+    "conditionalAcceptance": {
+      "triggered": true,
+      "dueAmountQar": 245.5,
+      "clearanceWindowDays": 3
+    },
+    "technicianVisits": [
+      "installation visit scheduled 2026-08-28"
+    ]
+  }
+]

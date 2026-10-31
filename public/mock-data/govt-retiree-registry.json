@@ -1,0 +1,9 @@
+{
+  "_note": "DEMO DATA (2026-10-01) standing in for the government retiree-validation service. Not evidenced anywhere in the source corpus: the service, its contract and its response are assumptions. An ID listed here validates as a retired person; any other ID fails validation.",
+  "retiredIdNumbers": [
+    "26904063400027",
+    "27409063400022",
+    "28456701234",
+    "28512345678"
+  ]
+}

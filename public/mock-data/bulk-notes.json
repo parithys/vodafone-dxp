@@ -1,0 +1,18 @@
+[
+  {
+    "noteId": "BNOTE-9001",
+    "templateId": "TMPL-BILLCYCLE",
+    "content": "System-wide notice: billing cycle processing will run one day later than usual this month.",
+    "accountIds": ["ACC-5001", "ACC-5002", "ACC-5003"],
+    "postedAt": "2026-09-05T09:00:00+03:00",
+    "createdBy": "AGT-BACKOFFICE-01"
+  },
+  {
+    "noteId": "BNOTE-9002",
+    "templateId": "TMPL-KYC",
+    "content": "Reminder: please update KYC documents before the end of this month to avoid service interruption.",
+    "accountIds": ["ACC-5001"],
+    "postedAt": "2026-09-08T11:20:00+03:00",
+    "createdBy": "AGT-BACKOFFICE-01"
+  }
+]

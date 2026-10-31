@@ -1,0 +1,3346 @@
+[
+  {
+    "id": "VAL-001",
+    "validationType": "Business Rule",
+    "name": "Personal-Use-Only Restriction",
+    "description": "The connection is restricted to personal, family, or roommate use at the Premises and may not be used commercially; Vodafone Qatar may suspend or terminate the service if used otherwise.",
+    "sourceRef": "BR-007",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-002",
+    "validationType": "Business Rule",
+    "name": "Billing Profile Unchangeable Correlation ID Requirement",
+    "description": "The billing profile has no unchangeable common correlation ID between CRM and BRM today. Decision: keep the profile name renameable but add an unchangeable identifier (BRM row ID plus a unique CRM identifier) to correlate the two systems reliably.",
+    "sourceRef": "BR-008",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-003",
+    "validationType": "Business Rule",
+    "name": "Unbilled Usage Screen Mandatory Filter Rule",
+    "description": "The unbilled usage screen cannot serve large enterprise accounts today (they are suppressed via an exception list because loading them hangs the system); a mandatory MSISDN plus date range filter (constrained to the current cycle) must be enforced.",
+    "sourceRef": "BR-013",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-004",
+    "validationType": "Business Rule",
+    "name": "Back-Dated Order Completion Non-Compliance Rule",
+    "description": "Decision: accounts/services must be created at the correct (current) activation date rather than back-dated, with any back-dating need escalated to the fulfilment session/PMs, since revenue projection and 24-hour tax reporting requirements make back-dating non-compliant.",
+    "sourceRef": "BR-014",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-005",
+    "validationType": "Business Rule",
+    "name": "Billing Profile / Recipient Email Audit Trail Requirement",
+    "description": "An audit trail must capture who changed the billing profile name and the billing document recipient email, to close a fraud scenario in which a user changes the invoice email, redirects the invoice, then reverts the change with no record.",
+    "sourceRef": "BR-016",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-006",
+    "validationType": "Business Rule",
+    "name": "Mandatory CR-Number Search Before Account Creation",
+    "description": "A Commercial Registration (CR) number search is mandatory before an account can be created.",
+    "sourceRef": "BR-017",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-007",
+    "validationType": "Business Rule",
+    "name": "CNAP Regulatory Mandate Rule",
+    "description": "CNAP (Calling Name Presentation) is regulator-mandated and mandatory for fixed lines today, limited to 25 characters, and is expected to become mandatory for mobile as well.",
+    "sourceRef": "BR-023",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-008",
+    "validationType": "Business Rule",
+    "name": "Bulk Activation Identical-Parameters Constraint",
+    "description": "Bulk activation relies on a very old custom Excel macro (from \"SSI\") that requires identical plan, account, spend limit, and price across the entire batch.",
+    "sourceRef": "BR-027",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-009",
+    "validationType": "Business Rule",
+    "name": "Shared Pool Activation-Only Support Rule",
+    "description": "The shared pool feature supports activation only today; other lifecycle operations are not yet supported.",
+    "sourceRef": "BR-030",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-010",
+    "validationType": "Business Rule",
+    "name": "Excel One-Million-Line-Item Limit / 400k Email Threshold",
+    "description": "Excel has a one-million line item limit, requiring aggregation with a CSV fallback for larger datasets; separately, a 400k-line threshold is driven by email delivery size limits.",
+    "sourceRef": "BR-032",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-011",
+    "validationType": "Business Rule",
+    "name": "Bulk SMS Disconnection Outstanding-Balance Check",
+    "description": "Bulk SMS disconnection requires outstanding-balance checks and OnMobile confirmation before proceeding.",
+    "sourceRef": "BR-034",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-012",
+    "validationType": "Business Rule",
+    "name": "MNP Consent SMS 24-Hour Rule",
+    "description": "The customer must send a consent SMS within 24 hours; the request then goes via NPAS to Ooredoo, who has 24 hours to accept, reject, or conditionally accept if there are outstanding dues.",
+    "sourceRef": "BR-037",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-013",
+    "validationType": "Business Rule",
+    "name": "MNP Outstanding-Dues Payment Window Rule",
+    "description": "When conditionally accepted due to outstanding dues, the stated payment window is 8 business hours, though it is presented to the customer as 24 hours.",
+    "sourceRef": "BR-038",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-014",
+    "validationType": "Business Rule",
+    "name": "MNP Valid Rejection Reasons Rule",
+    "description": "Only 13 documented rejection reasons are valid for MNP; each rejection restarts the entire MNP journey.",
+    "sourceRef": "BR-040",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-015",
+    "validationType": "Business Rule",
+    "name": "Rejection Reason Code Restriction (Consumer: codes 1, 4, 9 only)",
+    "description": "Statuses and the 14-15 rejection reason codes are tightly coupled to NPass and cannot be renamed; consumer uses only reasons 1, 4 and 9.",
+    "sourceRef": "BR-050",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-016",
+    "validationType": "Business Rule",
+    "name": "Commitment Period Continuity on Plan Upgrade (regulatory)",
+    "description": "Regulation requires the original commitment period to continue on plan upgrade; downgrade is treated as a breach that triggers a penalty.",
+    "sourceRef": "BR-063",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-017",
+    "validationType": "Business Rule",
+    "name": "Consumer Billing Profile Cap (max two: one postpaid, one prepaid)",
+    "description": "A consumer can have at most two billing profiles (one postpaid, one prepaid); enterprises can have more.",
+    "sourceRef": "BR-071",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-018",
+    "validationType": "Business Rule",
+    "name": "QID Physical Presence and Scan Requirement for Retail Transactions",
+    "description": "In retail, the customer must be physically present with a valid QID; for every transaction the QID must be scanned and attached to the customer account, with the agent visually matching the ID photo to the customer.",
+    "sourceRef": "BR-077",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-019",
+    "validationType": "Business Rule",
+    "name": "ID Attachment Exemption for No-Change Transactions",
+    "description": "Complaints, inquiries, and bill payments that do NOT result in an account or service change do not require the ID attachment step; the attachment step is required only when there is an actual account/service change.",
+    "sourceRef": "BR-078",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-020",
+    "validationType": "Business Rule",
+    "name": "Security Question Mandatory Set (QID + Account/Holder Name)",
+    "description": "QID and account/holder name are the two mandatory security questions; additional questions are asked flexibly depending on what the customer can answer.",
+    "sourceRef": "BR-079",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-021",
+    "validationType": "Business Rule",
+    "name": "Lighter Contact-Center Verification for Registered Number Callers",
+    "description": "Contact-center verification is lighter if the customer is calling from their registered number.",
+    "sourceRef": "BR-080",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-022",
+    "validationType": "Business Rule",
+    "name": "KID-in-Use Mandatory Order Task and Contract Attachment",
+    "description": "When KID is already in use, the order is created and submitted but held via a mandatory order task; a mandatory contract attachment is required as proof before the flow can proceed, and downstream submission is blocked until the order task is completed.",
+    "sourceRef": "BR-082",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-023",
+    "validationType": "Business Rule",
+    "name": "5G Indoor Site Lock",
+    "description": "Site lock is being introduced because 5G indoor devices/SIMs can currently be removed and used elsewhere.",
+    "sourceRef": "BR-091",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-024",
+    "validationType": "Business Rule",
+    "name": "Device Lock-In Period (12 months)",
+    "description": "Device lock-in period is 12 months; commitment/lock-in reset ONLY happens on disconnection during FWA relocations/moves; any plan change resets the 'limit date' and loses the locking.",
+    "sourceRef": "BR-095",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-025",
+    "validationType": "Business Rule",
+    "name": "STB Certification Limit",
+    "description": "Up to 18 STB (set-top box) subscriptions are certified per connection (highest seen in production: 11-13).",
+    "sourceRef": "BR-096",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-026",
+    "validationType": "Business Rule",
+    "name": "KID mandatory search-only lookup",
+    "description": "Agents can only search for a KID (Known ID/address record); manual entry is not permitted. If no KID is found, the agent is diverted to an FWA journey.",
+    "sourceRef": "BR-098",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-027",
+    "validationType": "Business Rule",
+    "name": "ZSB mandatory for FWA/fixed only, not mobile",
+    "description": "ZSB (zone/street/building) address detail capture is mandatory for FWA 5G and fixed/fiber services, but NOT for mobile, which uses a shared dummy address record. Consumer activation procedure v8.0 formalized mandatory ZSB detail capture (refs 2.1.15, 3.1.12).",
+    "sourceRef": "BR-099",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-028",
+    "validationType": "Business Rule",
+    "name": "FWA geofencing / location lock",
+    "description": "FWA (Fixed Wireless Access) service is geofenced to its registered installation location; the service is disabled/suspended if the customer relocates the device elsewhere.",
+    "sourceRef": "BR-101",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-029",
+    "validationType": "Business Rule",
+    "name": "Star number restoration/declaration form for numbers >= 1500 Riyal",
+    "description": "For star numbers valued 1,500 Riyal and above, a customer data restoration/declaration form (listing recent usage) is required, including a clause allowing Vodafone to reclaim the number if the transfer is later found fraudulent.",
+    "sourceRef": "BR-103",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-030",
+    "validationType": "Business Rule",
+    "name": "TON age validation (must not be a minor)",
+    "description": "Transfer of Ownership (TON) requires age validation confirming the recipient is not a minor, verified via MOI/date-of-birth data, with a known risk of 5-8 day MOI database sync lag.",
+    "sourceRef": "BR-104",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-031",
+    "validationType": "Business Rule",
+    "name": "TON requires clearance of DOI and penalties before transfer",
+    "description": "Before a Transfer of Ownership can proceed, the entire Device on Installment (DOI) balance (not just the first installment) and any remaining lock-in/park-my-number penalties must be fully cleared.",
+    "sourceRef": "BR-106",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-032",
+    "validationType": "Business Rule",
+    "name": "MOI data precedence with secondary-parameter cross-check",
+    "description": "MOI (Ministry of Interior) data takes precedence over OCR-captured document data, but only after a secondary-parameter cross-check (e.g., date of birth, nationality, expiry) passes successfully.",
+    "sourceRef": "BR-109",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-033",
+    "validationType": "Business Rule",
+    "name": "Customer identification requirements for Prepaid",
+    "description": "Prepaid customers must provide a valid QID, GCC ID (issued in UAE, Bahrain, Oman, Saudi Arabia, or Kuwait), Passport, or Diplomatic ID.",
+    "sourceRef": "BR-117",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-034",
+    "validationType": "Business Rule",
+    "name": "Passport without customer signature exception (v8.0)",
+    "description": "Version 8.0 (Jul 2, 2024) of the consumer activation procedure added an exception allowing prepaid activation with a passport lacking customer signature (ref 2.1.13).",
+    "sourceRef": "BR-119",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-035",
+    "validationType": "Business Rule",
+    "name": "Postpaid minimum subscription period (Lock-in) of 3 months",
+    "description": "Postpaid plans carry a minimum subscription period (lock-in) of 3 months.",
+    "sourceRef": "BR-120",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-036",
+    "validationType": "Business Rule",
+    "name": "Minimum deposit or valid credit card for credit limit",
+    "description": "Establishing a postpaid credit limit requires a minimum deposit of QR 2,000 or a valid credit card on file.",
+    "sourceRef": "BR-123",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-037",
+    "validationType": "Business Rule",
+    "name": "Reserved number 90-day hold pending QID submission",
+    "description": "Reserved numbers (including star numbers) are held for 90 days pending the customer's QID submission.",
+    "sourceRef": "BR-124",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-038",
+    "validationType": "Business Rule",
+    "name": "Star Number lock-in tiers by value",
+    "description": "Star numbers carry a lock-in commitment tiered by value: 1 year for numbers valued QR1,500-19,999, and 2 years for numbers valued QR20,000 and above.",
+    "sourceRef": "BR-125",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-039",
+    "validationType": "Business Rule",
+    "name": "Home Fibre and GigaHome/5G Home require supplementary signed forms",
+    "description": "Home Fibre subscriptions require a Vodafone Fibre Supplementary Form; GigaHome/5G Home services require an additional physically signed form.",
+    "sourceRef": "BR-128",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-040",
+    "validationType": "Business Rule",
+    "name": "Cellular phone number format validation (974 prefix, 11 digits)",
+    "description": "Cellular phone numbers must start with the '974' country code prefix and must be 11 digits in total length.",
+    "sourceRef": "BR-131",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-041",
+    "validationType": "Business Rule",
+    "name": "QID must be 11-digit numeric value",
+    "description": "Qatari ID (QID) must be an 11-digit numeric value.",
+    "sourceRef": "BR-132",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-042",
+    "validationType": "Business Rule",
+    "name": "Passport format validation (4-20 alphanumeric)",
+    "description": "Passport numbers must be 4-20 alphanumeric characters, with no non-alphanumeric characters permitted.",
+    "sourceRef": "BR-133",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-043",
+    "validationType": "Business Rule",
+    "name": "GCC ID format validation (8-20 numeric)",
+    "description": "GCC ID must be 8-20 numeric characters.",
+    "sourceRef": "BR-134",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-044",
+    "validationType": "Business Rule",
+    "name": "Business ID format validation (3-20 chars, numeric and /)",
+    "description": "Business ID must be 3-20 characters, containing only numeric characters and the \"/\" symbol.",
+    "sourceRef": "BR-135",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-045",
+    "validationType": "Business Rule",
+    "name": "Email format validation",
+    "description": "Email addresses must conform to standard email format (e.g., \"abc@xyz.com\" pattern); an incorrect-format error is shown otherwise.",
+    "sourceRef": "BR-136",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-046",
+    "validationType": "Business Rule",
+    "name": "ID expiration date must be in the future",
+    "description": "The ID Expiration Date entered for a customer's identification document must be in the future (not expired).",
+    "sourceRef": "BR-137",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-047",
+    "validationType": "Business Rule",
+    "name": "Date of birth must match embedded QID DOB",
+    "description": "Date of Birth entered must match the date of birth embedded within the QID number; a mismatch triggers a \"do not match\" validation error.",
+    "sourceRef": "BR-138",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-048",
+    "validationType": "Business Rule",
+    "name": "Contact under 18 flagged",
+    "description": "A contact record is flagged if the calculated age is under 18.",
+    "sourceRef": "BR-139",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-049",
+    "validationType": "Business Rule",
+    "name": "QID immutable after Cross Sales redirect",
+    "description": "When a Cross Sales order redirects into the journey, the QID (e.g. 28335628851) carries over automatically and is greyed out/read-only \u2014 the agent cannot re-enter or edit it.",
+    "sourceRef": "BR-155",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-050",
+    "validationType": "Business Rule",
+    "name": "Alt. phone # must be a local mobile number (notification contact)",
+    "description": "The alternate phone number field is used as a notification contact and must be a local mobile number, per an info note shown on the field.",
+    "sourceRef": "BR-157",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-051",
+    "validationType": "Business Rule",
+    "name": "Appointment booking irreversibility rule",
+    "description": "Once a technician appointment is booked, it cannot be cancelled. The system presents a warning requiring the agent to confirm (\"Ok\") to proceed or \"Cancel\" to select a different appointment before booking.",
+    "sourceRef": "BR-158",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-052",
+    "validationType": "Business Rule",
+    "name": "Rejection reason drives which evidence must be re-collected on correction",
+    "description": "On order correction after rejection, the specific rejection reason determines which evidence must be re-collected \u2014 e.g. for \"ID image not clear\", the Qatari ID-Front/Back fields reset to empty upload placeholders, requiring re-upload of the flagged ID images.",
+    "sourceRef": "BR-161",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-053",
+    "validationType": "Business Rule",
+    "name": "Order approval requires attachment set (QID Front, QID Back, CAF) verified before Approve/Reject",
+    "description": "Before an order can be Approved or Rejected, the Attachments tab must show QatarIdFront, QatarIdBack, and CAF all verified (green checkmarks); action buttons available are Approve, Reject - Correction, Reject - Drop Order, and Go Back.",
+    "sourceRef": "BR-164",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-054",
+    "validationType": "Business Rule",
+    "name": "90-Day Temporary Number Rule for Non-Resident ID Types",
+    "description": "A number issued against a non-resident ID type (e.g. Passport) is only active for 90 days. To make the number permanent, a valid resident's ID such as QID or Diplomatic ID must be provided.",
+    "sourceRef": "BR-165",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-055",
+    "validationType": "Business Rule",
+    "name": "Get IPTV Mandatory Field on Contact Step",
+    "description": "The \"Get IPTV?\" field on the contact step is a required field, highlighted with a red box in the UI.",
+    "sourceRef": "BR-167",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-056",
+    "validationType": "Business Rule",
+    "name": "Qatari ID Front/Back Photo Upload Mandatory",
+    "description": "Qatari ID-Front and Qatari ID-Back photo uploads are mandatory fields, shown as required uploaded-photo placeholders that must display green checkmarks.",
+    "sourceRef": "BR-168",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-057",
+    "validationType": "Business Rule",
+    "name": "B2B2C Order Requires Proof of Employment Attachment",
+    "description": "For B2B2C orders, the attachments step requires Proof of Employment (required, B2B2C-specific), CAF (auto-generated/required), and optionally a Supplementary Form, plus an Add File option.",
+    "sourceRef": "BR-169",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-058",
+    "validationType": "Business Rule",
+    "name": "Order Approval Reject Reason Taxonomy",
+    "description": "Standard rejection reasons for order approval include: \"ID image not clear\", \"ID type or ID number mismatch\", \"Customer Signature doesn't match with ID\", \"Incorrect add on or discount\", \"Device receipt missing\", \"Missing Speed test result/Building information\", \"Bill explainer missing/Incorrect\".",
+    "sourceRef": "BR-173",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-059",
+    "validationType": "Business Rule",
+    "name": "Address Fields Mandatory (Zone, Street No., Building No., Apt/Flat/Unit, Area)",
+    "description": "Zone, Street No., Building No., Apt/Flat/Unit, and Area are required address fields; the system prompts the user to enter them or, in the FWA Postpaid Business journey, gives the option to click Skip Address to proceed without saving the address.",
+    "sourceRef": "BR-174",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-060",
+    "validationType": "Business Rule",
+    "name": "Building No. Must Be Numeric, Max 5 Characters",
+    "description": "Building No. must be numeric and no more than 5 characters long.",
+    "sourceRef": "BR-175",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-061",
+    "validationType": "Business Rule",
+    "name": "Street No. Must Be Numeric, Max 5 Characters",
+    "description": "Street No. must be numeric and no more than 5 characters long.",
+    "sourceRef": "BR-176",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-062",
+    "validationType": "Business Rule",
+    "name": "SIM Serial Required Before Continue",
+    "description": "A valid SIM Serial number must be entered before the agent can press 'Continue'.",
+    "sourceRef": "BR-177",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-063",
+    "validationType": "Business Rule",
+    "name": "SIM Serial Must Be 19 Digits",
+    "description": "The SIM Serial number must be exactly 19 digits; otherwise the system raises \"Error: SIM Serial # must be 19 digits.\"",
+    "sourceRef": "BR-178",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-064",
+    "validationType": "Business Rule",
+    "name": "SIM Must Exist in UIM Inventory",
+    "description": "The entered SIM card must exist in the UIM inventory system; otherwise the system returns \"SIM Card does not exist in UIM(SBL-EXL-00151)\".",
+    "sourceRef": "BR-179",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-065",
+    "validationType": "Business Rule",
+    "name": "SIM Must Not Already Be Assigned in UIM",
+    "description": "A SIM card must not already be assigned in UIM; otherwise the system returns \"SIM Card already assigned in UIM(SBL-EXL-00151)\".",
+    "sourceRef": "BR-180",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-066",
+    "validationType": "Business Rule",
+    "name": "CPE Serial Must Be Free (Unassigned) in UIM",
+    "description": "The CPE serial number must be free (unassigned) in UIM; otherwise the system returns an error such as \"CPE Serial Number S180P18055025 is not free in UIM(SBL-EXL-00151)\", surfaced via the VFQA Error Handling Service (SBL-BPR-00162) with a support reference format like \"1-DNODWJU\".",
+    "sourceRef": "BR-181",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-067",
+    "validationType": "Business Rule",
+    "name": "Supplementary Form Mandatory for FWA CAF Step",
+    "description": "The Supplementary Form must be selected before continuing on the FWA CAF step; the Supplementary Form tile is marked mandatory with a red asterisk, and omitting it raises \"Error: Please select Supplementary Form before continuing.\"",
+    "sourceRef": "BR-182",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-068",
+    "validationType": "Business Rule",
+    "name": "Work Zone Mismatch Flagged When Reassigning Technician",
+    "description": "When reassigning a technician via the 'Move' dialog in WFM, the system flags a 'Work zones mismatch' warning in red if the new technician's work zone does not match the activity's required zone.",
+    "sourceRef": "BR-190",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-069",
+    "validationType": "Business Rule",
+    "name": "WFM Activity Requires Assess Activity, Checklist, Device Activation, and Mandatory Fields Before Ending",
+    "description": "A WFM field activity cannot be marked 'End' until Assess Activity, Checklist, and all Mandatory Fields (marked with *) are completed; one variant additionally requires Device Activation and verification via the Inventory tab that scanned device(s) are installed.",
+    "sourceRef": "BR-191",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-070",
+    "validationType": "Business Rule",
+    "name": "No Duplicate Kahramaa ID Installation Check (30-Day Lookback)",
+    "description": "The system checks for previous installation records tied to the same Kahramaa ID within the last 30 days to prevent duplicate installations; confirmation message shown when no duplicate is found.",
+    "sourceRef": "BR-192",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-071",
+    "validationType": "Business Rule",
+    "name": "Appointment Booking Capacity/Slot Full Rule",
+    "description": "Appointment booking calendar displays live capacity counts per date/time slot (e.g. '14/15'); slots that reach capacity are marked 'Full' in red and presumably cannot be selected.",
+    "sourceRef": "BR-193",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-072",
+    "validationType": "Business Rule",
+    "name": "Advance Payment Required for HRN Customer",
+    "description": "Customers flagged as High Risk (HRN) are required to pay an advance payment of QR 100 before proceeding, indicated via an info banner.",
+    "sourceRef": "BR-194",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-073",
+    "validationType": "Business Rule",
+    "name": "Address Required Fields Before Saving",
+    "description": "Before saving an address, the required fields Zone, Street No., Building No., Apt/Flat/Unit, and Area must be entered; alternatively the agent can click 'Skip Address' to proceed without saving the address. Confirmed across both FWA outdoor WFM and FWA Indoor B2B2C journeys.",
+    "sourceRef": "BR-195",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-074",
+    "validationType": "Business Rule",
+    "name": "Appointment Once Booked Cannot Be Cancelled",
+    "description": "Once an installation appointment (including unscheduled appointments) is booked, it cannot be cancelled \u2014 either at all, or specifically not within the current journey. The agent must confirm ('OK') to proceed with booking or cancel to pick another slot.",
+    "sourceRef": "BR-196",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-075",
+    "validationType": "Business Rule",
+    "name": "Serial Number Check Required Before Service Activation",
+    "description": "Before service activation, a Serial Number Check (Dual Play) is performed across CPE Indoor/Outdoor/SIM components; all must show validated green checks before the activation request is sent.",
+    "sourceRef": "BR-198",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-076",
+    "validationType": "Business Rule",
+    "name": "SIM Serial Number Must Be 19 Digits",
+    "description": "The SIM Serial number field is validated to require exactly 19 digits; an error is shown otherwise.",
+    "sourceRef": "BR-202",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-077",
+    "validationType": "Business Rule",
+    "name": "CPE Serial Required Before Continue",
+    "description": "A valid CPE Serial number must be entered (field-level 'This field is required' also shown) before the agent can press 'Continue'.",
+    "sourceRef": "BR-203",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-078",
+    "validationType": "Business Rule",
+    "name": "SIM Card Must Not Already Be Assigned in UIM",
+    "description": "The system validates against UIM that the entered SIM Card is not already assigned to another account/service; error code SBL-EXL-00151 raised if already assigned.",
+    "sourceRef": "BR-204",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-079",
+    "validationType": "Business Rule",
+    "name": "SIM Card Must Exist in UIM",
+    "description": "The system validates against UIM that the entered SIM Card exists in the inventory system; error code SBL-EXL-00151 raised if it does not exist.",
+    "sourceRef": "BR-205",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-080",
+    "validationType": "Business Rule",
+    "name": "CPE Serial Number Must Be Free in UIM",
+    "description": "The system validates against UIM that the entered CPE Serial Number is free/unassigned before it can be used; error code SBL-EXL-00151 raised if not free.",
+    "sourceRef": "BR-206",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-081",
+    "validationType": "Business Rule",
+    "name": "Proof of Employment, CAF, Supplementary Form All Required Before Continuing (B2B2C)",
+    "description": "In the FWA Indoor B2B2C journey, Proof of Employment, CAF, and Supplementary Form document selections are all mandatory before the agent can continue; errors are raised individually for missing Supplementary Form and missing Proof of Employment. Confirmed as a mandatory Supplementary Form requirement in the 'with approval' variant as well.",
+    "sourceRef": "BR-207",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-082",
+    "validationType": "Business Rule",
+    "name": "Approve Order Requires Verification Confirmation and Comments",
+    "description": "To approve an order, the approver must confirm via checkbox/statement that they have verified all documents and details ('By clicking submit, I agree that I have verified all the documents and details to proceed with submission') and can enter comments in a Comments box.",
+    "sourceRef": "BR-210",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-083",
+    "validationType": "Business Rule",
+    "name": "Supplementary Form Mandatory Alongside CAF",
+    "description": "The Supplementary Form must be selected alongside the CAF before continuing; an error is raised if omitted. (See also BR-019 for the broader B2B2C document set.)",
+    "sourceRef": "BR-212",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-084",
+    "validationType": "Business Rule",
+    "name": "Order Expiry SLA Timer on Pending Approval",
+    "description": "An order pending approval displays an Order Expiry timestamp (shown in red text), indicating an SLA timer for approval before the order expires.",
+    "sourceRef": "BR-214",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-085",
+    "validationType": "Business Rule",
+    "name": "Rejection Reason Recorded",
+    "description": "When an order is rejected, a rejection reason/comment is recorded (e.g., 'ID image not clear').",
+    "sourceRef": "BR-216",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-086",
+    "validationType": "Business Rule",
+    "name": "Comments Field Must Be Non-Trivial / Meet Minimum Length",
+    "description": "Comments entered by an agent must be non-trivial before proceeding (e.g., Save and Finish): a note instructs agents to record a meaningful comment on actions performed for other advisors' benefit, and in the Home Move journey this is enforced with a validation rule requiring more than 5 characters.",
+    "sourceRef": "BR-218",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-087",
+    "validationType": "Business Rule",
+    "name": "Install Inventory (SNC) Must Follow Service Activation Success",
+    "description": "Inventory installation (via Install Inventory-SNC) must only be performed after the Service Activation Status shows 'Success'.",
+    "sourceRef": "BR-219",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-088",
+    "validationType": "Business Rule",
+    "name": "KID Eligibility Check for Home Move During Assess Activity",
+    "description": "During the Assess Activity step of a Home Move, a validation popup checks whether the KID (Kahramaa ID or Kunden/Kahramaa Identifier) is eligible for Home Move.",
+    "sourceRef": "BR-222",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-089",
+    "validationType": "Business Rule",
+    "name": "Bill Limit / Smart Limit Cannot Be Set Below Agent Min Value",
+    "description": "The Bill Limit / Smart Limit value entered by the agent cannot be set lower than the plan-specific Agent Minimum Value; a validation message blocks lower entries (e.g., entering 28 when Agent Minimum is 50).",
+    "sourceRef": "BR-225",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-090",
+    "validationType": "Business Rule",
+    "name": "Add-On Requires Sufficient Bill Limit Coverage",
+    "description": "If a selected add-on exceeds the current Bill Limit, the system prompts the agent (via info banner) to go back to the Plan step and edit the limit to cover the add-on amount.",
+    "sourceRef": "BR-229",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-091",
+    "validationType": "Business Rule",
+    "name": "MOI Validation required/auto-triggered for Contact confirmation",
+    "description": "Method of Identification (MOI) validation is required and auto-triggered to confirm contact details before proceeding, surfaced via a blue banner prompting the agent to confirm the contact details once validation completes.",
+    "sourceRef": "BR-234",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-092",
+    "validationType": "Business Rule",
+    "name": "SIM Serial entry triggers number reservation check",
+    "description": "Entering the SIM serial number automatically triggers a background check that validates the SIM and reserves the associated number, with a progress indicator shown to the agent while the check runs.",
+    "sourceRef": "BR-235",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-093",
+    "validationType": "Business Rule",
+    "name": "Fixed Pre-sales = Yes requires Preferred Time and address capture",
+    "description": "When a lead's connection type is Home/Fixed and 'Fixed Pre-sales' is set to Yes, additional conditional fields become required: a Preferred Time date/time picker and full address capture (Zone, Street, Building, Unit).",
+    "sourceRef": "BR-236",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-094",
+    "validationType": "Business Rule",
+    "name": "Reject Lead requires Reject Reason Code and Reject Comment",
+    "description": "Rejecting a lead requires the agent to populate a mandatory Reject Reason Code dropdown and a Reject Comment free-text field; leaving these empty is flagged as invalid (shown outlined red).",
+    "sourceRef": "BR-238",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-095",
+    "validationType": "Business Rule",
+    "name": "Created By is immutable across Owner Change",
+    "description": "The Created By field on a lead remains fixed to the original creator and does not change even when the Lead Owner is reassigned to a different agent.",
+    "sourceRef": "BR-241",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-096",
+    "validationType": "Business Rule",
+    "name": "Number reservation blocks number for reserving agent",
+    "description": "Once a number begins the reservation process, its status shows BLOCKED with the reserving agent recorded in Reserved By, preventing other agents from selecting it before formal reservation completes.",
+    "sourceRef": "BR-248",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-097",
+    "validationType": "Business Rule",
+    "name": "Bill Limit cannot be set below Agent Minimum Value",
+    "description": "The system enforces a hard floor on the Bill Limit (a form of Spend Limit) equal to the product's configured Agent Minimum Value; entering a value below that threshold blocks journey progression and surfaces a system error referencing the admin/System Administrator with error code SBL-EXL-00151. Conversely, entering a value at or above the Agent Minimum allows the journey to proceed.",
+    "sourceRef": "BR-249",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-098",
+    "validationType": "Business Rule",
+    "name": "Maximum Bill Limit equals account Credit Limit",
+    "description": "The maximum allowable Bill Limit is capped at (equivalent to) the account's Credit Limit; the agent is instructed by an on-screen note to communicate this cap to the customer.",
+    "sourceRef": "BR-250",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-099",
+    "validationType": "Business Rule",
+    "name": "Order Expiry / approval SLA window",
+    "description": "Orders pending manager approval carry an Order Expiry timestamp representing an approximately 3-day SLA window measured from the order's submission/creation time, after which the order presumably lapses.",
+    "sourceRef": "BR-258",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-100",
+    "validationType": "Business Rule",
+    "name": "Manager approval requires document verification acknowledgement",
+    "description": "When a manager submits/approves an order, they must explicitly acknowledge via an on-screen statement that they have verified all documents and details before the submission can proceed.",
+    "sourceRef": "BR-259",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-101",
+    "validationType": "Business Rule",
+    "name": "Add-on selection constrained by Bill Limit headroom",
+    "description": "Selecting an add-on is constrained by the remaining headroom under the account's Bill Limit; if the add-on amount would exceed that headroom, the agent must return to the Plan step and raise the Bill Limit to cover the add-on before proceeding.",
+    "sourceRef": "BR-262",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-102",
+    "validationType": "Business Rule",
+    "name": "Proof of Employment mandatory for B2B2C attachments",
+    "description": "In the B2B2C order flow, Proof of Employment is a hard-required attachment; the system blocks progression with an error if it is not selected/uploaded.",
+    "sourceRef": "BR-263",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-103",
+    "validationType": "Business Rule",
+    "name": "Number reservation generates a unique reservation token",
+    "description": "Successfully reserving a number generates a unique reservation token returned to the agent via a system success alert, referencing error/success code SBL-EXL-00151.",
+    "sourceRef": "BR-267",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-104",
+    "validationType": "Business Rule",
+    "name": "Connection count check before conversion (existing prepaid/postpaid line counts shown)",
+    "description": "Before a Pre-to-Post conversion, the system displays a Connection Details modal showing the existing total number of prepaid and postpaid connections for the customer, allowing a count check as part of the conversion flow.",
+    "sourceRef": "BR-274",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-105",
+    "validationType": "Business Rule",
+    "name": "Recurring add-ons cannot be purchased twice on the same line; one-off add-ons can be added multiple times",
+    "description": "A recurring add-on already active on a line cannot be purchased a second time on that same line (validation failure), whereas one-off add-ons may be added multiple times on the same line.",
+    "sourceRef": "BR-275",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-106",
+    "validationType": "Business Rule",
+    "name": "Discounts cannot be multi-selected on one order (BAU rule)",
+    "description": "Only a single discount may be selected per order; multi-selecting discounts within one order is disallowed as a business-as-usual rule.",
+    "sourceRef": "BR-276",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-107",
+    "validationType": "Business Rule",
+    "name": "FDO maximum 30 days ahead",
+    "description": "A Future Dated Order (FDO) can be scheduled for execution no more than 30 days ahead of the order creation date.",
+    "sourceRef": "BR-277",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-108",
+    "validationType": "Business Rule",
+    "name": "Failed FDO orders must not be cancelled manually",
+    "description": "If FDO execution fails validation, the request is automatically cancelled with the error captured by the system; agents/users must not manually cancel failed FDO orders.",
+    "sourceRef": "BR-279",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-109",
+    "validationType": "Business Rule",
+    "name": "Order cannot be dropped without going through Approval",
+    "description": "An order cannot be dropped by a user unless it has gone through the Order Approval step; attempting to drop without approval produces an error.",
+    "sourceRef": "BR-285",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-110",
+    "validationType": "Business Rule",
+    "name": "CAF/attachment size limit ~4MB",
+    "description": "Customer Application Form (CAF) and other order attachments are limited to approximately 4MB in file size.",
+    "sourceRef": "BR-290",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-111",
+    "validationType": "Business Rule",
+    "name": "Signed CAF must not be editable after signing",
+    "description": "Once a Customer Application Form (CAF) has been signed, it must become locked/non-editable to preserve the integrity of the signed document.",
+    "sourceRef": "BR-291",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-112",
+    "validationType": "Business Rule",
+    "name": "MNP porting requires mandatory customer SMS confirmation to clearinghouse shortcode (charged QR 1)",
+    "description": "MNP porting requires the customer to send a mandatory confirmation SMS to a clearinghouse shortcode, which is charged QR 1; no confirmation SMS is sent if the port request is rejected.",
+    "sourceRef": "BR-296",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-113",
+    "validationType": "Business Rule",
+    "name": "MNP requires two signatures (legal requirement)",
+    "description": "MNP (mobile number portability) requests require two signatures as a legal requirement confirmed by the review team.",
+    "sourceRef": "BR-297",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-114",
+    "validationType": "Business Rule",
+    "name": "Order Billing Profile must match Line Items' Billing Profile",
+    "description": "The Billing Profile set at the order level must match the Billing Profile of each of the order's Line Items.",
+    "sourceRef": "BR-300",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-115",
+    "validationType": "Business Rule",
+    "name": "Business account open-order block",
+    "description": "For a business account, a new pending order cannot be submitted if there is already an open order existing under that account.",
+    "sourceRef": "BR-301",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-116",
+    "validationType": "Business Rule",
+    "name": "SIM Card serial number mandatory",
+    "description": "A Serial Number is a mandatory field for any SIM CARD product on an order.",
+    "sourceRef": "BR-302",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-117",
+    "validationType": "Business Rule",
+    "name": "Payment authorization requirement",
+    "description": "All payments associated with an order must be authorized before the order can proceed.",
+    "sourceRef": "BR-303",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-118",
+    "validationType": "Business Rule",
+    "name": "MNP Port-In DNO verification attachment requirement",
+    "description": "An MNP Port-In order requires a DNO (Donor Network Operator) Verification Attachment to be provided.",
+    "sourceRef": "BR-304",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-119",
+    "validationType": "Business Rule",
+    "name": "Fixed Line address KID requirement",
+    "description": "A Fixed Line (FL) address on an order must include a KID (unique address/location identifier).",
+    "sourceRef": "BR-305",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-120",
+    "validationType": "Business Rule",
+    "name": "Bill Limit Minimum threshold (Agent) / BL rule series 01-09",
+    "description": "Bill Limit (BL) rules 01 through 09 govern bill-limit modification for agents, including minimum/maximum threshold checks and conflicts with in-flight orders.",
+    "sourceRef": "BR-306",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-121",
+    "validationType": "Business Rule",
+    "name": "IoT vs Non-IoT MSISDN length rule",
+    "description": "MSISDN length must conform to product type: non-IoT MSISDNs are 8 digits, IoT MSISDNs are 10 digits.",
+    "sourceRef": "BR-308",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-122",
+    "validationType": "Business Rule",
+    "name": "iWatch/RIO max one per order",
+    "description": "An order may include a maximum of one iWatch/RIO product; this is part of the broader iWatch/RIO bundle validation which also includes a credit limit check.",
+    "sourceRef": "BR-309",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-123",
+    "validationType": "Business Rule",
+    "name": "iWatch/RIO EID requirement",
+    "description": "An EID (eSIM identifier) is required as part of the iWatch/RIO bundle validation.",
+    "sourceRef": "BR-310",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-124",
+    "validationType": "Business Rule",
+    "name": "Bulk SMS one-active-per-account rule",
+    "description": "An account may have only one active Bulk SMS service at a time.",
+    "sourceRef": "BR-312",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-125",
+    "validationType": "Business Rule",
+    "name": "Bulk SMS mandatory attachment rule",
+    "description": "A Bulk SMS order requires a mandatory supporting attachment.",
+    "sourceRef": "BR-313",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-126",
+    "validationType": "Business Rule",
+    "name": "Account-level APN uniqueness",
+    "description": "APN validation enforces account-level APN uniqueness, alongside related checks for Static IP, Domain Hosting, and Broadband Service Link.",
+    "sourceRef": "BR-315",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-127",
+    "validationType": "Business Rule",
+    "name": "Deposit Service Bundle one-per-account rule",
+    "description": "An account may have only one Deposit Service Bundle at a time.",
+    "sourceRef": "BR-316",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-128",
+    "validationType": "Business Rule",
+    "name": "Deposit Service Bundle cannot combine with TON",
+    "description": "A Deposit Service Bundle cannot be combined with a TON (Transfer of Name/Ownership) on the same order.",
+    "sourceRef": "BR-318",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-129",
+    "validationType": "Business Rule",
+    "name": "IPTV/IDM email uniqueness rule",
+    "description": "IPTV/IDM registrations enforce email-address uniqueness across accounts/subscriptions.",
+    "sourceRef": "BR-320",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-130",
+    "validationType": "Business Rule",
+    "name": "ALP account existence / default billing profile cross-check",
+    "description": "Account Level Product/Bundle (ALP) orders undergo BRM cross-checks validating account existence and the type/status of the default billing profile.",
+    "sourceRef": "BR-321",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-131",
+    "validationType": "Business Rule",
+    "name": "Each activation requires unique KID",
+    "description": "Each activation requires a unique KID; for villa partitions with a shared real address, the first connection uses the real KID and subsequent connections use dummy KIDs to satisfy the uniqueness requirement.",
+    "sourceRef": "BR-322",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-132",
+    "validationType": "Business Rule",
+    "name": "MSISDN required to create a Siebel lead from RFS Portal",
+    "description": "The RFS Portal captures MSISDN and creates a Siebel lead via API; MSISDN is not used as a search key, but no lead can be created without it being present.",
+    "sourceRef": "BR-323",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-133",
+    "validationType": "Business Rule",
+    "name": "Address lock after RFS feasibility check",
+    "description": "The service address is locked after the Ready-for-Service (RFS) feasibility check is completed.",
+    "sourceRef": "BR-325",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-134",
+    "validationType": "Business Rule",
+    "name": "Proof-of-address file size cap (2MB)",
+    "description": "Proof-of-address document uploads are capped at 2MB.",
+    "sourceRef": "BR-326",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-135",
+    "validationType": "Business Rule",
+    "name": "Bill period non-editable in bill profile capture",
+    "description": "During bill profile capture (bill address, bill cycle, bill period, bill mode), the bill period field is non-editable.",
+    "sourceRef": "BR-332",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-136",
+    "validationType": "Business Rule",
+    "name": "Payment Capture via WinCash for Suspension/Resume Orders",
+    "description": "Payment associated with service suspension or resume must be captured/collected through the WinCash payment system before order submission (payment for suspension collected in WinCash per J023; payment for resume service via WinCash per J024).",
+    "sourceRef": "BR-339",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-137",
+    "validationType": "Business Rule",
+    "name": "MNP Port Out Activity Validation and Auto Status Change",
+    "description": "Activities within an MNP Port Out ticket are validated either automatically or by the MNP Team and marked Success/Failed; when all activities are complete, the ticket's overall status changes automatically.",
+    "sourceRef": "BR-343",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-138",
+    "validationType": "Field-Level",
+    "name": "Unbilled Usage Screen - MSISDN",
+    "description": "Mandatory MSISDN + date range (within current cycle) to be enforced",
+    "sourceRef": "FLD-020",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-139",
+    "validationType": "Field-Level",
+    "name": "Unbilled Usage Screen - Date range",
+    "description": "Must be within current billing cycle",
+    "sourceRef": "FLD-021",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-140",
+    "validationType": "Field-Level",
+    "name": "Enterprise Account Creation - CR number",
+    "description": "Mandatory CR-number search required before account creation",
+    "sourceRef": "FLD-025",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-141",
+    "validationType": "Field-Level",
+    "name": "Enterprise Account Creation - Credit limit",
+    "description": "Enterprise has no default credit limit and requires business finance approval",
+    "sourceRef": "FLD-028",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-142",
+    "validationType": "Field-Level",
+    "name": "Sub-account affiliation form - Attachment file name (QID_subaccount)",
+    "description": "Attachment must be named \"QID_subaccount\"",
+    "sourceRef": "FLD-029",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-143",
+    "validationType": "Field-Level",
+    "name": "Authorised Person / Chooser record - Registered email (chooser)",
+    "description": "Requests only accepted from the chooser's registered email",
+    "sourceRef": "FLD-031",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-144",
+    "validationType": "Field-Level",
+    "name": "Contact record (privilege identifier pain point) - Job title (free text)",
+    "description": "No validation performed today (free-text used as privilege identifier)",
+    "sourceRef": "FLD-033",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-145",
+    "validationType": "Field-Level",
+    "name": "CNAP configuration - Calling Name Presentation (CNAP) text",
+    "description": "25-character limit; regulator-mandated, mandatory for fixed lines",
+    "sourceRef": "FLD-034",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-146",
+    "validationType": "Field-Level",
+    "name": "Volumetric Discount Configuration - Minimum number of connections (50)",
+    "description": "Minimum of 50 numbers, slab-based, evaluated at runtime",
+    "sourceRef": "FLD-036",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-147",
+    "validationType": "Field-Level",
+    "name": "DAPN (dedicated APN) order - Static IP",
+    "description": "Static IPs must be found manually in the pool (search does not work) \u2014 noted pain point",
+    "sourceRef": "FLD-042",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-148",
+    "validationType": "Field-Level",
+    "name": "Microsoft Licence Billing Line Item - Licence quantity",
+    "description": "Quantity does not carry to billing without \"auto-explode\"; one line item per licence with manual price changes",
+    "sourceRef": "FLD-043",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-149",
+    "validationType": "Field-Level",
+    "name": "MNP Order (Siebel) - Scheduled porting date",
+    "description": "Porting window Sunday\u2013Thursday 11am\u201312pm; requests before 10:45am make that day's window",
+    "sourceRef": "FLD-062",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-150",
+    "validationType": "Field-Level",
+    "name": "MNP Order (Siebel) - Attachment: MNP form 2-A-D",
+    "description": "Under 2 MB; PDF or JPG only",
+    "sourceRef": "FLD-064",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-151",
+    "validationType": "Field-Level",
+    "name": "MNP Order (Siebel) - Attachment: donor-registered ID",
+    "description": "Under 2 MB; PDF or JPG only; DNO verification type",
+    "sourceRef": "FLD-065",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-152",
+    "validationType": "Field-Level",
+    "name": "MNP Consent - Consent SMS",
+    "description": "Customer must send consent SMS within 24 hours of order creation",
+    "sourceRef": "FLD-066",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-153",
+    "validationType": "Field-Level",
+    "name": "MNP Rejection - Rejection reason (donor)",
+    "description": "Only 13 documented rejection reasons are valid; each rejection restarts the whole MNP journey",
+    "sourceRef": "FLD-067",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-154",
+    "validationType": "Field-Level",
+    "name": "FNP Order / Trouble Ticket - Outstanding due amount (visible)",
+    "description": "Displayed when conditionally accepted; 3 working days for consumer to clear",
+    "sourceRef": "FLD-070",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-155",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Rejection Reason Code",
+    "description": "14-15 rejection reason codes tightly coupled to NPass and cannot be renamed; consumer channel uses only reasons 1, 4 and 9",
+    "sourceRef": "FLD-078",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-156",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Detailed Rejection Explanation (ticket level)",
+    "description": "Captured at ticket level alongside reason code 1/4/9",
+    "sourceRef": "FLD-079",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-157",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Auto-Validation - Customer Name",
+    "description": "Auto-validated by system; auto-reject on failure",
+    "sourceRef": "FLD-080",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-158",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Auto-Validation - QID / ID Type and Number",
+    "description": "Auto-validated by system; auto-reject on failure",
+    "sourceRef": "FLD-081",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-159",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Auto-Validation - Service Type",
+    "description": "Auto-validated by system; auto-reject on failure",
+    "sourceRef": "FLD-082",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-160",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Auto-Validation - Consumer Type",
+    "description": "Auto-validated by system; auto-reject on failure",
+    "sourceRef": "FLD-083",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-161",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Manual/Signature & MNP Form Checks - Signature Match",
+    "description": "Manual check because Siebel cannot read the digital form and documents live only in NPass",
+    "sourceRef": "FLD-084",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-162",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Manual/Signature & MNP Form Checks - MNP Form Date",
+    "description": "Must be within 30 days",
+    "sourceRef": "FLD-085",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-163",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Manual/Signature & MNP Form Checks - Segment",
+    "description": "Manually checked against form",
+    "sourceRef": "FLD-086",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-164",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Manual/Signature & MNP Form Checks - Product (Prepaid/Postpaid)",
+    "description": "Manually checked against form",
+    "sourceRef": "FLD-087",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-165",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out Trouble Ticket (Siebel) - Manual/Signature & MNP Form Checks - Requested Number",
+    "description": "Manually checked against form",
+    "sourceRef": "FLD-088",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-166",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out - Conditional Acceptance (Consumer) - Billed Due Amount (QAR)",
+    "description": "Conditional acceptance triggers automatically when billed due exceeds 100 QAR; unbilled amounts do not trigger it for MNP",
+    "sourceRef": "FLD-089",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-167",
+    "validationType": "Field-Level",
+    "name": "FNP Port-Out - Conditional Acceptance (Consumer) - Unbilled Amount (service level)",
+    "description": "Unlike MNP, FNP allows unbilled amounts to trigger conditional acceptance and operates at service level rather than billing profile level",
+    "sourceRef": "FLD-090",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-168",
+    "validationType": "Field-Level",
+    "name": "MNP Port-Out - Ticket SLA/Timer - Action Window Timer",
+    "description": "Two-hour action window, extended to 24 hours once documents are validated, bound by NPass working hours (~7:30-3:30/4) as hard stop",
+    "sourceRef": "FLD-091",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-169",
+    "validationType": "Field-Level",
+    "name": "TON - Retail Flow (existing/new customer validation) - Number Price",
+    "description": "A null/blank value causes unnecessary CDM queue tickets \u2014 identified as a legacy data/design gap",
+    "sourceRef": "FLD-092",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-170",
+    "validationType": "Field-Level",
+    "name": "TON - Retail Flow (existing/new customer validation) - Signature",
+    "description": "Subject to data-entry rejections",
+    "sourceRef": "FLD-093",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-171",
+    "validationType": "Field-Level",
+    "name": "TON - Retail Flow (existing/new customer validation) - QID",
+    "description": "Subject to data-entry rejections",
+    "sourceRef": "FLD-094",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-172",
+    "validationType": "Field-Level",
+    "name": "TON - Retail Flow (existing/new customer validation) - Attachments",
+    "description": "Frequently missing, a known pain point",
+    "sourceRef": "FLD-095",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-173",
+    "validationType": "Field-Level",
+    "name": "TON - Retail Flow (existing/new customer validation) - TON / Prepaid Migration Fee",
+    "description": "Governed by business rules discussed in session",
+    "sourceRef": "FLD-097",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-174",
+    "validationType": "Field-Level",
+    "name": "Fixed/5G TON - OSN Add-on",
+    "description": "Removed at TON, re-added afterward",
+    "sourceRef": "FLD-099",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-175",
+    "validationType": "Field-Level",
+    "name": "Fixed/5G TON - Login/Email",
+    "description": "Requires re-registration during TON",
+    "sourceRef": "FLD-100",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-176",
+    "validationType": "Field-Level",
+    "name": "Fixed/5G TON - Spend Limit",
+    "description": "Controlled during transition period",
+    "sourceRef": "FLD-101",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-177",
+    "validationType": "Field-Level",
+    "name": "Fixed/5G TON - Bill Cycle",
+    "description": "Adjusted as part of TON",
+    "sourceRef": "FLD-102",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-178",
+    "validationType": "Field-Level",
+    "name": "CAF (Customer Application Form) - Tablet Signature - Highlighted Key T&Cs Section",
+    "description": "Content configured by business admin, not agent-selectable",
+    "sourceRef": "FLD-103",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-179",
+    "validationType": "Field-Level",
+    "name": "CAF (Customer Application Form) - CAF Serial / ID",
+    "description": "Must be unique, follow a defined naming convention",
+    "sourceRef": "FLD-104",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-180",
+    "validationType": "Field-Level",
+    "name": "Incomplete/Pending Order (transient state) - Hold Period / Number Reservation Expiry",
+    "description": "Tied to channel's number reservation expiry, generally up to ~48 hours; not created as an order at GSP layer until complete",
+    "sourceRef": "FLD-107",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-181",
+    "validationType": "Field-Level",
+    "name": "Billing Account / Bill Profile - Bill Profile",
+    "description": "One billing account holds exactly one bill profile; multiple services can link to one billing account",
+    "sourceRef": "FLD-110",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-182",
+    "validationType": "Field-Level",
+    "name": "Billing Account / Bill Profile - Billing Address",
+    "description": "Can differ from customer address",
+    "sourceRef": "FLD-111",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-183",
+    "validationType": "Field-Level",
+    "name": "Billing Account / Bill Profile - Bill Email Recipients (CC)",
+    "description": "Supports multiple recipients and multiple email types per contact (work/personal); billing profile linked to a contact for traceability",
+    "sourceRef": "FLD-112",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-184",
+    "validationType": "Field-Level",
+    "name": "Billing Account / Bill Profile - Email Verification Status",
+    "description": "Captured as unverified at entry, verified asynchronously via callback before next bill generation",
+    "sourceRef": "FLD-113",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-185",
+    "validationType": "Field-Level",
+    "name": "AutoPay - AutoPay Status / Failure Reason",
+    "description": "Agents cannot enroll/cancel AutoPay or see card details (regulatory restriction)",
+    "sourceRef": "FLD-114",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-186",
+    "validationType": "Field-Level",
+    "name": "Bill Medium - Bill Medium (Detailed/Summary)",
+    "description": "Defaults: detailed bill for consumer, summary PDF for enterprise, with customer option for summary only",
+    "sourceRef": "FLD-115",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-187",
+    "validationType": "Field-Level",
+    "name": "Bill Cycle Change - Bill Cycle Change Eligibility",
+    "description": "Restricted to specific roles (billing team); eligibility rule must be configurable, not hard-coded",
+    "sourceRef": "FLD-116",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-188",
+    "validationType": "Field-Level",
+    "name": "SIM Swap - ID Verification - QID Number (SIM Swap manager bypass)",
+    "description": "Agents cannot manually enter ID details, only re-scan; manager-level bypass allows editing QID number only, remaining fields validated against MOI",
+    "sourceRef": "FLD-117",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-189",
+    "validationType": "Field-Level",
+    "name": "SIM Swap - ID Verification - Name, DOB, Nationality (MOI match)",
+    "description": "Validated via MOI API against OCR-scanned ID, then matched against existing CBS/customer information (extra third validation step for SIM Swap)",
+    "sourceRef": "FLD-118",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-190",
+    "validationType": "Field-Level",
+    "name": "SIM Swap - Charging - SIM Swap Charge",
+    "description": "eSIM to eSIM free; eSIM to physical charged; lost SIM chargeable; damaged SIM not charged",
+    "sourceRef": "FLD-119",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-191",
+    "validationType": "Field-Level",
+    "name": "SIM Swap - Approval - Approval / SIM Swap Form / ID Attachment",
+    "description": "Retail requires approval + SIM swap form + ID attachment; Back office some require approval (attachment only, no form), some auto-approved; MVA app requires no approval/form once eKYC done",
+    "sourceRef": "FLD-120",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-192",
+    "validationType": "Field-Level",
+    "name": "Manual Suspension (\"Park My Number\") - Park My Number Plan",
+    "description": "35 Rial, four-month upfront-paid plan; credit limit set to zero; restricted to specific roles; run as back-office ticket-driven process, not a retail journey",
+    "sourceRef": "FLD-121",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-193",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket (Open UI/Siebel) - Ticket Source",
+    "description": "Agent-created, system-generated (eShop/NPAS/portal), Open UI Excel, or customer-originated (MVA requests go to validation queue before becoming agent-created ticket)",
+    "sourceRef": "FLD-122",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-194",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket - Disconnection - Resolution Code (retention)",
+    "description": "Ticket must be closed with a specific resolution code (e.g., \"retained\" or not) before the disconnection order can be submitted on the Orders page",
+    "sourceRef": "FLD-123",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-195",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket - MNP Port-Out - Unbilled Amount (auto-fetched)",
+    "description": "Auto-fetched by system",
+    "sourceRef": "FLD-124",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-196",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket - MNP Port-Out - DOI Outstanding Amount",
+    "description": "NOT auto-fetched, must be entered/checked manually",
+    "sourceRef": "FLD-125",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-197",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket - MNP Port-Out - Star Number Port-Out Block (commitment period)",
+    "description": "Configurable; blocks porting during commitment period; built after customers took high-value star numbers and immediately ported out",
+    "sourceRef": "FLD-126",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-198",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket (general) - Public Notes",
+    "description": "Retained indefinitely, no retention limit",
+    "sourceRef": "FLD-127",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-199",
+    "validationType": "Field-Level",
+    "name": "Trouble Ticket (general) - Assign to Me",
+    "description": "Only works if the agent is in that queue's user list",
+    "sourceRef": "FLD-129",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-200",
+    "validationType": "Field-Level",
+    "name": "Retail Verification - QID - QID Scan (per transaction)",
+    "description": "Required only when there is an actual account/service change; not required for complaints/inquiries/bill payments without a change; agent must visually match ID photo to customer",
+    "sourceRef": "FLD-130",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-201",
+    "validationType": "Field-Level",
+    "name": "Contact Center Security Verification - Security Question - QID",
+    "description": "Mandatory question",
+    "sourceRef": "FLD-131",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-202",
+    "validationType": "Field-Level",
+    "name": "Contact Center Security Verification - Security Question - Account/Holder Name",
+    "description": "Mandatory question",
+    "sourceRef": "FLD-132",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-203",
+    "validationType": "Field-Level",
+    "name": "Contact Center Security Verification - Security Question - Registered Notification Number",
+    "description": "Asked flexibly depending on what customer can answer; validated by agent interpretation, not exact string match",
+    "sourceRef": "FLD-133",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-204",
+    "validationType": "Field-Level",
+    "name": "Contact Center Security Verification - Security Question - Active Add-on",
+    "description": "Asked flexibly, agent-interpreted",
+    "sourceRef": "FLD-134",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-205",
+    "validationType": "Field-Level",
+    "name": "Contact Center Security Verification - Security Question - Email Address",
+    "description": "Asked flexibly, agent-interpreted",
+    "sourceRef": "FLD-135",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-206",
+    "validationType": "Field-Level",
+    "name": "Agent Usage/Balance View - My Account App Recent Access Indicator",
+    "description": "Gap: no such indicator exists today; requirement raised to add it",
+    "sourceRef": "FLD-136",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-207",
+    "validationType": "Field-Level",
+    "name": "Plan Change (Upgrade/Downgrade) - Rental Value (used to infer upgrade vs downgrade)",
+    "description": "System does NOT distinguish upgrade from downgrade; agents infer it from plan/promotion name and rental value (higher rental = upgrade)",
+    "sourceRef": "FLD-137",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-208",
+    "validationType": "Field-Level",
+    "name": "Prepaid-to-Postpaid Migration - Eligibility - Minimum Age on Network",
+    "description": "Minimum one month age on network (manual today, to be automated)",
+    "sourceRef": "FLD-138",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-209",
+    "validationType": "Field-Level",
+    "name": "Prepaid-to-Postpaid Migration - Eligibility - Minimum Recharge Amount (last month)",
+    "description": "Minimum 50 Riyal recharge in last month",
+    "sourceRef": "FLD-139",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-210",
+    "validationType": "Field-Level",
+    "name": "Prepaid-to-Postpaid Migration - Eligibility - CDR-Based Usage History Check",
+    "description": "Manual today, to be automated; prevents abuse of prepaid-to-postpaid migration",
+    "sourceRef": "FLD-140",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-211",
+    "validationType": "Field-Level",
+    "name": "Postpaid-to-Prepaid Migration - Migration Fee",
+    "description": "100 Riyal migration fee applied on final bill; in retail must be MANUALLY added by agent customizing the order (approved by managers) \u2014 not automated, flagged as revenue-leakage risk if forgotten",
+    "sourceRef": "FLD-141",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-212",
+    "validationType": "Field-Level",
+    "name": "Customer Billing Profiles - Number of Billing Profiles (Consumer)",
+    "description": "Consumer can have at most two billing profiles (one postpaid, one prepaid); enterprises can have more",
+    "sourceRef": "FLD-142",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-213",
+    "validationType": "Field-Level",
+    "name": "Multi-SIM/iWatch - Secondary MSISDN",
+    "description": "Linked to primary; invisible to customer; up to 4 multi-SIMs depending on plan",
+    "sourceRef": "FLD-143",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-214",
+    "validationType": "Field-Level",
+    "name": "Multi-SIM/iWatch - Multi-SIM Pricing",
+    "description": "Set automatically by system based on plan (e.g., Platino: first free, second 25 Riyal)",
+    "sourceRef": "FLD-144",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-215",
+    "validationType": "Field-Level",
+    "name": "Number Management - Number Category (Free/Paid)",
+    "description": "Two categories only \u2014 free and paid (paid can become free depending on plan)",
+    "sourceRef": "FLD-145",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-216",
+    "validationType": "Field-Level",
+    "name": "Credit Limit - Credit Limit (default)",
+    "description": "Default 1,000 for expat on new account, dropped to 50 for HRN customers (agent-selected or system-enforced depending on nationality config); no system restriction today preventing any agent selecting any value \u2014 flagged as uncontrolled credit exposure risk",
+    "sourceRef": "FLD-146",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-217",
+    "validationType": "Field-Level",
+    "name": "Device Installment (DOI) - Portal - DOI Eligibility (big data/QID-based)",
+    "description": "Portal eligibility via \"big data\" logic on QID",
+    "sourceRef": "FLD-147",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-218",
+    "validationType": "Field-Level",
+    "name": "Device Installment (DOI) - Portal - Stock Check/Reservation (WinCash)",
+    "description": "Stock validated and reserved via WinCash",
+    "sourceRef": "FLD-148",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-219",
+    "validationType": "Field-Level",
+    "name": "Device Installment (DOI) - Portal - Installment Breakdown",
+    "description": "Target DXP flow: displayed after identity/DOI validation via EDW and product catalog selection",
+    "sourceRef": "FLD-150",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-220",
+    "validationType": "Field-Level",
+    "name": "KID-In-Use Order Task (Fixed Line) - Contract Attachment (proof)",
+    "description": "Mandatory as proof before flow can proceed; downstream submission blocked until order task completed; if disputed, order task marked unsuccessful and order cancelled with no downstream impact",
+    "sourceRef": "FLD-151",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-221",
+    "validationType": "Field-Level",
+    "name": "Fixed Line - IPTV Selection - IPTV Add-on (Basic/Premium)",
+    "description": "Default triple-play bundle includes IPTV; optional/removable \u2014 if removed, dual-play order created with no set-top box and no OSM IPTV provisioning; IPTV basic free, only premium charged",
+    "sourceRef": "FLD-152",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-222",
+    "validationType": "Field-Level",
+    "name": "Fixed Line - Number Selection - Auto-Selected Number (fixed/prepaid)",
+    "description": "Auto-selected for fixed/prepaid (zero-rated) to reduce agent clicks; reserved-number retrieval and list-query options retained; NOT applied to mobile postpaid since those numbers carry a price",
+    "sourceRef": "FLD-153",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-223",
+    "validationType": "Field-Level",
+    "name": "Fixed Line - Appointment Booking - Appointment Date/Slot",
+    "description": "To-be: pre-selects next available date/slot, agent only changes if customer wants different date; bounded by location's SLA cluster (e.g., within 3 days or 1 week)",
+    "sourceRef": "FLD-154",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-224",
+    "validationType": "Field-Level",
+    "name": "Fixed Line Order - FNP (Fixed Number Portability) Option",
+    "description": "Hidden for now (capability retained but not exposed) because execution date field is unreliable and pending bills with other operators block order submission",
+    "sourceRef": "FLD-155",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-225",
+    "validationType": "Field-Level",
+    "name": "Fixed Line Order - Supplementary Form",
+    "description": "Currently a non-digital attachment; action item to digitalize",
+    "sourceRef": "FLD-156",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-226",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 2 Billing Information - Credit card number",
+    "description": "Required when Payment method = credit card",
+    "sourceRef": "FLD-182",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-227",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 2 Billing Information - Credit card expiry date",
+    "description": "Required when Payment method = credit card",
+    "sourceRef": "FLD-183",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-228",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 2 Billing Information - Card holder signature",
+    "description": "Credit-card authorization consent clause applies",
+    "sourceRef": "FLD-187",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-229",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 3 For Postpaid Customers - Postpaid Plan",
+    "description": "minimum subscription period of 3 months applies",
+    "sourceRef": "FLD-190",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-230",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 3 For Postpaid Customers - Signature",
+    "description": "Acknowledgment clause referencing Postpaid Terms & Conditions",
+    "sourceRef": "FLD-192",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-231",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 4 Superfast Broadband & Home Phone - Plan Name",
+    "description": "minimum 3-month subscription applies",
+    "sourceRef": "FLD-195",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-232",
+    "validationType": "Field-Level",
+    "name": "Postpaid CAF - Section 4 Superfast Broadband & Home Phone - Signature",
+    "description": "Acknowledgment clause referencing Vodafone Home T&Cs",
+    "sourceRef": "FLD-198",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-233",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - Email",
+    "description": "Must match \"abc@xyz.com\" pattern Error message: \"Email format entered is incorrect...\"",
+    "sourceRef": "FLD-212",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-234",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - ID Number",
+    "description": "Qatari ID must be an 11-digit numeric value; must match embedded DOB Error message: \"Please enter a valid 11-digit ID number\"",
+    "sourceRef": "FLD-214",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-235",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - ID Expiration Date",
+    "description": "ID Expiration Date must be in the future",
+    "sourceRef": "FLD-215",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-236",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - Birth Date",
+    "description": "Date of Birth and Qatari ID must match; contact age under 18 flagged",
+    "sourceRef": "FLD-217",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-237",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - Alternate/Cellular Phone #",
+    "description": "Must start with '974' and be 11 digits Error message: \"Enter a Cellular Phone# that starts with '974'\"",
+    "sourceRef": "FLD-218",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-238",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - Passport Number",
+    "description": "4-20 alphanumeric characters, no non-alphanumeric characters",
+    "sourceRef": "FLD-220",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-239",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - GCC ID",
+    "description": "8-20 numeric characters",
+    "sourceRef": "FLD-221",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-240",
+    "validationType": "Field-Level",
+    "name": "Contact record (create/update) - CRM - Business ID",
+    "description": "3-20 characters, numeric and '/' only",
+    "sourceRef": "FLD-222",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-241",
+    "validationType": "Field-Level",
+    "name": "Contact record (create) - CRM authorization - Safwa Contact creation authorization flag",
+    "description": "Error message: \"You are not authorized to create Safwa Contact\"",
+    "sourceRef": "FLD-223",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-242",
+    "validationType": "Field-Level",
+    "name": "Contact record (create) - CRM authorization - Qatari Contact creation authorization flag",
+    "description": "Error message: \"You are not authorized to create Qatari Contact\"",
+    "sourceRef": "FLD-224",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-243",
+    "validationType": "Field-Level",
+    "name": "Postpaid New Connection - Retail Journey (ID scan/MOI check) - QID / ID document scan result",
+    "description": "QID mandatory for postpaid; MOI API primary source, Tarasol/manual fallback only if MOI API doesn't respond",
+    "sourceRef": "FLD-225",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-244",
+    "validationType": "Field-Level",
+    "name": "FWA New Connection - Address/ZSP entry - ZSP entry",
+    "description": "presence-only validation (not format) on email/address fields \u2014 flagged as data-quality gap",
+    "sourceRef": "FLD-230",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-245",
+    "validationType": "Field-Level",
+    "name": "Address/Service Point entry (Siebel) - ZSB - ZSB (zone/street/building)",
+    "description": "mandatory only for FWA 5G and fixed/fiber \u2014 NOT for mobile, which uses a shared dummy address record",
+    "sourceRef": "FLD-238",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-246",
+    "validationType": "Field-Level",
+    "name": "GigaHome Subscription Acceptance Form (page 1, English) - Fair Usage Policy (FUP)",
+    "description": "After full FUP usage, speed throttles to up to 1 Mbps until next billing cycle",
+    "sourceRef": "FLD-253",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-247",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line \u2013 Addon & Discount step - Add-on / Discount",
+    "description": "if there are no applicable add-on or discount, the selector will be empty (Fulfilment)",
+    "sourceRef": "FLD-283",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-248",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line \u2013 Book Appointment confirm dialog - Appointment booking confirm (cannot-cancel warning)",
+    "description": "Error message: \"WARNING: Appointment once booked cannot be cancelled. Click \"Ok\" to continue or \"Cancel\" to select another appointment.\"",
+    "sourceRef": "FLD-289",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-249",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line \u2013 Appointment fetched / booking success - Appointment Number / Technician ID / Appointment ID (success result)",
+    "description": "Error message: \"Appointment has been successfully booked. Appointment details will be sent to the customer via SMS. Appointment ID is 113242. (Fulfilment); Appointment ID is 121379 (Cross Sales)\"",
+    "sourceRef": "FLD-290",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-250",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line \u2013 Activity/completion step - Comments / Order completion dialog",
+    "description": "Error message: \"Fixed Line completed successfully. Order Number:- '1-29793912388' (Cross Sales); Order Number:- '1-26921279847' (Fulfilment)\"",
+    "sourceRef": "FLD-292",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-251",
+    "validationType": "Field-Level",
+    "name": "Fulfilment/Tablet Activation \u2013 Step 1 Contact details (IPTV/contact block) - Get IPTV? / Email / Language / Alt. phone #",
+    "description": "This is a notification contact. Please enter a local mobile number.",
+    "sourceRef": "FLD-300",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-252",
+    "validationType": "Field-Level",
+    "name": "Fulfilment \u2013 Fixed Line IPTV popup - Tick box for different billing email / Billing Email",
+    "description": "Error message: \"IDM Created Successfully\"",
+    "sourceRef": "FLD-301",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-253",
+    "validationType": "Field-Level",
+    "name": "Tablet Combo Box Normal Activation \u2013 Prepatched device detection dialog - Activation type choice (Instant/Normal)",
+    "description": "Error message: \"We've detected the device at customer's premises with the ComboBox CPE serial no. ALCLF11E0681CPE and ONT serial no. ALCLF11E0681. Verify that the device's serial number matches the one provided above. Proceed with Instant Activation?\"",
+    "sourceRef": "FLD-306",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-254",
+    "validationType": "Field-Level",
+    "name": "Tablet Combo Box Normal Activation \u2013 Step 1 Contact (ID capture) - Do Not Disturb button",
+    "description": "Set Do Not Disturb if the customer refused the service.",
+    "sourceRef": "FLD-307",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-255",
+    "validationType": "Field-Level",
+    "name": "Tablet Combo Box Normal Activation \u2013 Step 1 Contact (ID capture) - ID Type / ID Number",
+    "description": "verified via green check",
+    "sourceRef": "FLD-308",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-256",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet \u2013 Addon & Discount Step - Select Add-on / Select IPTV Add-on / Select Discount",
+    "description": "If there are no applicable add-on or discount, the selector will be empty.",
+    "sourceRef": "FLD-311",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-257",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet \u2013 Number Selection Step - Free/Available number selection",
+    "description": "Error message: \"SUCCESS:Reservation Token:15332434(SBL-EXL-00151) / SUCCESS:Reservation Token:15332436(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-312",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-258",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet \u2013 Booking Confirmation Dialogs - Booking cancel warning / booking success message",
+    "description": "Error message: \"WARNING: Appointment once booked cannot be cancelled. Click \"Ok\" to continue or \"Cancel\" to select another appointment; \"Appointment has been successfully booked...Appointment ID is 14241\" / \"...Appointment ID is 14243\"\"",
+    "sourceRef": "FLD-314",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-259",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet \u2013 Order Completion Dialog - Order completion message",
+    "description": "Error message: \"\"Fixed Line completed successfully. Order Number:- '1-29795175561'\" / \"...'1-29795232313'\"\"",
+    "sourceRef": "FLD-319",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-260",
+    "validationType": "Field-Level",
+    "name": "Tablet Non Combo Box Normal Activation \u2013 Contact warning - Customer already refused service warning",
+    "description": "Error message: \"Customer already refused the service.\"",
+    "sourceRef": "FLD-325",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-261",
+    "validationType": "Field-Level",
+    "name": "Tablet Non Combo Box Normal Activation \u2013 Contact ID capture - ID Type / ID Number",
+    "description": "Confirmed valid via green check",
+    "sourceRef": "FLD-326",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-262",
+    "validationType": "Field-Level",
+    "name": "Tablet Non Combo Box Normal Activation \u2013 Order Correction resubmit confirmation - Resubmission confirmation message",
+    "description": "Error message: \"Your activation request is submitted for approval. You can check the status of the order in My Sales Order or My Orders for approval\"",
+    "sourceRef": "FLD-331",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-263",
+    "validationType": "Field-Level",
+    "name": "Tablet Non Combo Box Normal Activation \u2013 Approve Order modal - Approve Order confirmation checkbox/comment",
+    "description": "Error message: \"By clicking submit, I agree that I have verified all the documents and details to proceed with submission.\"",
+    "sourceRef": "FLD-332",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-264",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact (Kahramaa lookup) - Kahramaa ID",
+    "description": "appears to trigger backend lookup on Go/search icon",
+    "sourceRef": "FLD-335",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-265",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact (ID capture) - ID Number",
+    "description": "validated via barcode scan, shows green checkmark when valid",
+    "sourceRef": "FLD-339",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-266",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact profile fields - Get IPTV ?",
+    "description": "required field, highlighted with a red box in the screenshot",
+    "sourceRef": "FLD-348",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-267",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact profile fields - Email",
+    "description": "validated (green check)",
+    "sourceRef": "FLD-349",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-268",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact profile fields - Language",
+    "description": "validated",
+    "sourceRef": "FLD-351",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-269",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact profile fields - Alt. phone #",
+    "description": "must be local mobile number Error message: \"This is a notification contact. Please enter a local mobile number.\"",
+    "sourceRef": "FLD-352",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-270",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact attachments - Qatari ID-Front",
+    "description": "required, must be uploaded",
+    "sourceRef": "FLD-353",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-271",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 1 Contact attachments - Qatari ID-Back",
+    "description": "required, must be uploaded",
+    "sourceRef": "FLD-354",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-272",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 5 Number Selection - Number Reserve confirmation",
+    "description": "Error message: \"SUCCESS:Reservation Token:15332433(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-367",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-273",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 7 CAF & Additional Attachments (B2B2C) - Proof of Employment",
+    "description": "required for B2B2C, must be completed before Continue enabled",
+    "sourceRef": "FLD-368",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-274",
+    "validationType": "Field-Level",
+    "name": "Order Approval - Approve Order modal - Approve Order Comments",
+    "description": "Error message: \"By clicking submit,I agree that I have verified all the documents and details to proceed with submission\"",
+    "sourceRef": "FLD-370",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-275",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 4 Addon & Discount - Select Add-on / Select IPTV Add-on / Select Discount",
+    "description": "if there are no applicable add-on or discount, the selector will be empty",
+    "sourceRef": "FLD-371",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-276",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 6 Book Appointment - Time slot",
+    "description": "capacity-limited (slots can be full)",
+    "sourceRef": "FLD-376",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-277",
+    "validationType": "Field-Level",
+    "name": "New Fixed Line Tablet - Step 6 Book Appointment submit - Appointment cancel warning",
+    "description": "Error message: \"WARNING: Appointment once booked cannot be cancelled. Click 'Ok' to continue or 'Cancel' to select another appointment\"",
+    "sourceRef": "FLD-378",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-278",
+    "validationType": "Field-Level",
+    "name": "Rejection SMS (system-generated) - SMS notification text",
+    "description": "Error message: \"New Fixed Line Tablet for MSISDN 97441224335 with Order number 1-29795175561 was rejected. Please Go to Sales Order My Rejected Orders to correct your order.\"",
+    "sourceRef": "FLD-382",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-279",
+    "validationType": "Field-Level",
+    "name": "FWA Desktop Vanilla - Contact/Mobile Eligibility - Cellular Phone #",
+    "description": "temporary-number rule for non-resident ID Error message: \"This number will only be active for 90 days. To make this number permanent, a valid resident's ID such as QID or Diplomatic ID must be provided.\"",
+    "sourceRef": "FLD-389",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-280",
+    "validationType": "Field-Level",
+    "name": "FWA Desktop Vanilla - Numbers tab - Number Reservation confirmation",
+    "description": "Error message: \"SUCCESS: Reservation Token:13758017(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-397",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-281",
+    "validationType": "Field-Level",
+    "name": "FWA Outdoor WFM - Book Appointments dialog - Date/time slot grid",
+    "description": "capacity-limited Error message: \"Full\"",
+    "sourceRef": "FLD-402",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-282",
+    "validationType": "Field-Level",
+    "name": "FWA Outdoor WFM - OFS Installation Checklist - Wi-Fi User name's for 2.5G and 5G network (NO password)",
+    "description": "NO password should be entered",
+    "sourceRef": "FLD-404",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-283",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - Address step / FWA Address (Step 2) - Zone",
+    "description": "required field; required to save address Error message: \"Please enter required fields Zone, Street No., Building No., Apt/Flat/Unit.,Area / Please enter required fields \u2014 Zone, Street No., Building No., Apt/Flat/Unit, Area \u2014 or click Skip Address to proceed without Saving Address.\"",
+    "sourceRef": "FLD-421",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-284",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - Address step - Street No.",
+    "description": "numeric, max 5 characters Error message: \"Please enter an numeric Street No. of 5 characters or less.\"",
+    "sourceRef": "FLD-422",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-285",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - Address step - Building No.",
+    "description": "numeric only, max 5 characters Error message: \"Please enter an numeric Building No. of 5 characters or less.\"",
+    "sourceRef": "FLD-423",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-286",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - Address step - Apt/Flat/Unit",
+    "description": "required",
+    "sourceRef": "FLD-424",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-287",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - Address step - Area",
+    "description": "required",
+    "sourceRef": "FLD-425",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-288",
+    "validationType": "Field-Level",
+    "name": "FWA Postpaid Business - Address step (Skip variant) - Skip Address option",
+    "description": "Error message: \"Please enter required fields\nZone, Street No., Building No., Apt/Flat/Unit, Area\nor click Skip Address to proceed without Saving Address.\"",
+    "sourceRef": "FLD-426",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-289",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - SIM Serial step - SIM Serial",
+    "description": "must be 19 digits; must exist and not already be assigned in UIM Error message: \"Please enter a valid SIM Serial before pressing 'Continue'. / Error: SIM Serial # must be 19 digits. / SIM Card does not exist in UIM(SBL-EXL-00151) / SIM Card already assigned in UIM(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-427",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-290",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - SIM Serial step - CPE Serial Number",
+    "description": "must be free/not-assigned in UIM Error message: \"Please enter a valid CPE Serial before pressing 'Continue'. / CPE Serial Number S180P18055025 is not free in UIM(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-428",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-291",
+    "validationType": "Field-Level",
+    "name": "FWA negative scenarios - CAF & Additional Attachments step - Supplementary Form",
+    "description": "must be selected before Continue Error message: \"Error: Please select Supplementary Form before continuing.\"",
+    "sourceRef": "FLD-429",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-292",
+    "validationType": "Field-Level",
+    "name": "FWA Contact (Step 1) - Qatari ID / Qatari Id (insert or scan)",
+    "description": "Must resolve a valid ID via lookup (Go button); validated (green check)",
+    "sourceRef": "FLD-430",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-293",
+    "validationType": "Field-Level",
+    "name": "Open UI Desktop FWA Indoor - Step 1 Contact / FWA Contact \u2014 Connection Details popup - Connection Details popup (Total Prepaid/Postpaid Connections)",
+    "description": "Triggers advisory note when Postpaid connections count >=2 Error message: \"Note - Customer already has 2 or more Post-paid connections. Please check the credit policy or seek credit control approval before proceeding\"",
+    "sourceRef": "FLD-431",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-294",
+    "validationType": "Field-Level",
+    "name": "Open UI Desktop FWA Indoor - Step 1 Contact - Advance payment banner",
+    "description": "Error message: \"(HRN) Customer needs to pay advance payment of QR 100.\"",
+    "sourceRef": "FLD-433",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-295",
+    "validationType": "Field-Level",
+    "name": "FWA Contact (Step 1) / Open UI Desktop FWA Indoor - Step 1 Contact Attachments - Attachment upload \u2014 Qatari ID-Front / Qatari ID-Back",
+    "description": "Green check on successful upload",
+    "sourceRef": "FLD-434",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-296",
+    "validationType": "Field-Level",
+    "name": "Open UI Desktop FWA Indoor - Order submission popup - Switch-to-151 instruction",
+    "description": "Error message: \"Advise customer to send switch to 151\"",
+    "sourceRef": "FLD-436",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-297",
+    "validationType": "Field-Level",
+    "name": "Open UI Desktop FWA Indoor - CAF signature confirmation - Customer notification confirmation",
+    "description": "Error message: \"Notify customer that a copy of the CAF will be sent to his registered email address.\"",
+    "sourceRef": "FLD-437",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-298",
+    "validationType": "Field-Level",
+    "name": "FWA Contact (Step 1) - Email",
+    "description": "Format validated (green check)",
+    "sourceRef": "FLD-443",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-299",
+    "validationType": "Field-Level",
+    "name": "FWA Contact (Step 1) - Alt. phone #",
+    "description": "Format validated (green check)",
+    "sourceRef": "FLD-446",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-300",
+    "validationType": "Field-Level",
+    "name": "FWA Contact (Step 1) - Company Name",
+    "description": "Autocomplete against existing companies",
+    "sourceRef": "FLD-447",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-301",
+    "validationType": "Field-Level",
+    "name": "FWA Address (Step 2) - Street No.",
+    "description": "Required to save address Error message: \"Please enter required fields / Zone, Street No., Building No., Apt/Flat/Unit., Area\"",
+    "sourceRef": "FLD-449",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-302",
+    "validationType": "Field-Level",
+    "name": "FWA Address (Step 2) - Building No.",
+    "description": "Required to save address Error message: \"Please enter required fields / Zone, Street No., Building No., Apt/Flat/Unit.,Area (via shared Address step validation)\"",
+    "sourceRef": "FLD-450",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-303",
+    "validationType": "Field-Level",
+    "name": "FWA Address (Step 2) - Apt/Flat/Unit",
+    "description": "Required to save address",
+    "sourceRef": "FLD-451",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-304",
+    "validationType": "Field-Level",
+    "name": "FWA Address (Step 2) - Area",
+    "description": "Required to save address",
+    "sourceRef": "FLD-452",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-305",
+    "validationType": "Field-Level",
+    "name": "FWA SIM Serial (Step 6) - SIM Serial",
+    "description": "Must be exactly 19 digits; must not be blank; must not already exist / must be valid & unassigned in UIM; must not already be assigned in UIM Error message: \"Please enter a valid SIM Serial before pressing 'Continue'. / Error: SIM Serial # must be 19 digits. / SIM Card does not exist in UIM(SBL-EXL-00151) / SIM Card already assigned in UIM(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-458",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-306",
+    "validationType": "Field-Level",
+    "name": "FWA SIM Serial (Step 6) - CPE Serial Number",
+    "description": "Must not be blank; must be free/unassigned in UIM Error message: \"Please enter a valid CPE Serial before pressing 'Continue'. / This field is required. / Error invoking service 'VFQA Error Handling Service', method 'HandleException' at step 'Error Handling'.(SBL-BPR-00162) / CPE Serial Number S180P18055021 is not free in UIM(SBL-EXL-00151) / Please Contact the System Administrator with Reference # 1-DNN25H2.(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-459",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-307",
+    "validationType": "Field-Level",
+    "name": "FWA Book Appointment (Step 7) - Time slot",
+    "description": "Some slots disabled based on availability",
+    "sourceRef": "FLD-461",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-308",
+    "validationType": "Field-Level",
+    "name": "FWA Book Appointment (Step 7) - Submit confirmation",
+    "description": "Cannot be cancelled once booked Error message: \"WARNING: Appointment once booked cannot be cancelled. Click \"OK\" to continue or \"Cancel\" to select another appointment\"",
+    "sourceRef": "FLD-463",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-309",
+    "validationType": "Field-Level",
+    "name": "FWA Book Appointment (Step 7) - Book Unscheduled Appointment confirmation",
+    "description": "Cannot be cancelled within the journey once booked Error message: \"WARNING: Once unscheduled appointment is booked, it cannot be cancelled within the journey. Click 'Ok' to continue.\"",
+    "sourceRef": "FLD-464",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-310",
+    "validationType": "Field-Level",
+    "name": "FWA CAF (Step 8) \u2014 Section 4 Superfast Broadband & Home Phone - Landline Number / Plan Name / Appointment Details / Signature",
+    "description": "Must be signed before continuing (Sign Contract flow)",
+    "sourceRef": "FLD-469",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-311",
+    "validationType": "Field-Level",
+    "name": "FWA CAF (Step 8) attachments - Proof of Employment",
+    "description": "Required in B2B2C scenario before continuing Error message: \"Error: Please select Proof of Employment before continuing.\"",
+    "sourceRef": "FLD-470",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-312",
+    "validationType": "Field-Level",
+    "name": "FWA CAF (Step 8) attachments - Supplementary Form",
+    "description": "Required before continuing Error message: \"Error: Please select Supplementary Form before continuing.\"",
+    "sourceRef": "FLD-471",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-313",
+    "validationType": "Field-Level",
+    "name": "WFM Serial Number Check - Dual Play - CPE Indoor serial",
+    "description": "Validated against inventory",
+    "sourceRef": "FLD-478",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-314",
+    "validationType": "Field-Level",
+    "name": "WFM Serial Number Check - Dual Play - CPE Outdoor serial",
+    "description": "Validated against inventory",
+    "sourceRef": "FLD-479",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-315",
+    "validationType": "Field-Level",
+    "name": "WFM Serial Number Check - Dual Play - SIM Card serial",
+    "description": "Validated against inventory",
+    "sourceRef": "FLD-480",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-316",
+    "validationType": "Field-Level",
+    "name": "WFM Assess Activity \u2014 Kahramaa check - Kahrama ID duplicate check result",
+    "description": "Checks last 30 days Error message: \"No previous records are found based on Kahrama ID in last 30 days.\"",
+    "sourceRef": "FLD-484",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-317",
+    "validationType": "Field-Level",
+    "name": "WFM Installation Checklist - Wi-Fi User name's for 2.5G and 5G network (NO password)",
+    "description": "Must not include password",
+    "sourceRef": "FLD-486",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-318",
+    "validationType": "Field-Level",
+    "name": "VFQ Inventory Loading Excel - Inventory Type",
+    "description": "Values from a fixed list Error message: \"Please Choose Values from the List\"",
+    "sourceRef": "FLD-498",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-319",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid Contact (Step 1) - Qatari ID / Id expiry / Nationality / Gender / First name / Last name / Birth date",
+    "description": "Green check confirms validity on lookup",
+    "sourceRef": "FLD-499",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-320",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid Contact (Step 1) - Email",
+    "description": "Green checkmark validation",
+    "sourceRef": "FLD-501",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-321",
+    "validationType": "Field-Level",
+    "name": "Home Move \u2014 KID entry screen - KID (location identifier the user is moving to)",
+    "description": "Triggers Fiber-readiness check",
+    "sourceRef": "FLD-508",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-322",
+    "validationType": "Field-Level",
+    "name": "Home Move \u2014 Activity Portal - Comments",
+    "description": "Comments field should have more than 5 characters Error message: \"comments >5 characters\"",
+    "sourceRef": "FLD-510",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-323",
+    "validationType": "Field-Level",
+    "name": "Home Move \u2014 WFM Assess Activity - KID eligibility for Home Move (validation popup)",
+    "description": "Checks whether KID is eligible for Home Move",
+    "sourceRef": "FLD-513",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-324",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 Contact - Email",
+    "description": "Green check confirms validity; on tablet variant email may be auto-filled with a placeholder address (e.g. noemailid@vodafone.com) when a 'No Email' checkbox is ticked",
+    "sourceRef": "FLD-519",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-325",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 Contact - Preferred Language / Language",
+    "description": "Green check on selection (tablet variant)",
+    "sourceRef": "FLD-520",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-326",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 Contact - Alt. phone #",
+    "description": "green check confirms validity",
+    "sourceRef": "FLD-521",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-327",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 SIM Serial - SIM Serial",
+    "description": "Green check on scan/entry",
+    "sourceRef": "FLD-528",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-328",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 Plan detail modal - Smart Limit",
+    "description": "Bill Limit can not be set lower than Agent Minimum 50 Error message: \"Bill Limit can not be set lower than Agent Minimum 50\"",
+    "sourceRef": "FLD-529",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-329",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 Donor Details - Port-in Number",
+    "description": "green check",
+    "sourceRef": "FLD-531",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-330",
+    "validationType": "Field-Level",
+    "name": "MNP Postpaid \u2013 Donor Details - Donor ID",
+    "description": "green check",
+    "sourceRef": "FLD-532",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-331",
+    "validationType": "Field-Level",
+    "name": "MNP Tablet Postpaid \u2013 Contact - Qatari ID",
+    "description": "green check mark",
+    "sourceRef": "FLD-548",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-332",
+    "validationType": "Field-Level",
+    "name": "MNP Donor Details (Postpaid/Prepaid MNP journeys) - Port-in Number",
+    "description": "green check appears on valid entry",
+    "sourceRef": "FLD-556",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-333",
+    "validationType": "Field-Level",
+    "name": "MNP Donor Details (Postpaid/Prepaid MNP journeys) - Donor ID",
+    "description": "green check appears on valid entry",
+    "sourceRef": "FLD-557",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-334",
+    "validationType": "Field-Level",
+    "name": "MNP Donor Details (Postpaid/Prepaid MNP journeys) - Donor ID Type / Donor Operator",
+    "description": "Error message: \"Note: Make sure correct information is provided to avoid rejection of request.\"",
+    "sourceRef": "FLD-558",
+    "confidence": "low"
+  },
+  {
+    "id": "VAL-335",
+    "validationType": "Field-Level",
+    "name": "MNP Donor Details (Postpaid/Prepaid MNP journeys) - Subscription Type",
+    "description": "Error message: \"Note: Make sure correct information is provided to avoid rejection of request.\"",
+    "sourceRef": "FLD-559",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-336",
+    "validationType": "Field-Level",
+    "name": "MNP Prepaid \u2013 Contact - ID Number",
+    "description": "case sensitive; barcode-scan icon supported",
+    "sourceRef": "FLD-566",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-337",
+    "validationType": "Field-Level",
+    "name": "MNP Prepaid \u2013 SIM Serial - SIM Serial",
+    "description": "green check appears, then status message 'SIM Serial check and number reservation in progress. Please wait...'",
+    "sourceRef": "FLD-570",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-338",
+    "validationType": "Field-Level",
+    "name": "Prepaid Customer Application Form (CAF) - Valid Qatari ID/RP Number / Passport Number",
+    "description": "data-binding gap observed in this build (field displayed literal value 'undefined')",
+    "sourceRef": "FLD-571",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-339",
+    "validationType": "Field-Level",
+    "name": "Lead Details View (Fixed) - Reject Reason Code",
+    "description": "shown invalid/empty, outlined red when required and not filled",
+    "sourceRef": "FLD-581",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-340",
+    "validationType": "Field-Level",
+    "name": "Lead Details View (Lead Edit, Owner Change / Mobile lead) - CallBack Date/Time",
+    "description": "After entering value, Lead Status changes from New to In Progress and Lead Sub Status becomes Call Back (auto-transition)",
+    "sourceRef": "FLD-586",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-341",
+    "validationType": "Field-Level",
+    "name": "Lead Details View (Lead Edit, Owner Change / Mobile lead) - Lead Status",
+    "description": "Changes from 'New' to 'In Progress' upon CallBack Date/Time entry; dropdown options: Accepted, Assigned, In Progress, Lead Converted, New, Rejected, Retired, Submitted",
+    "sourceRef": "FLD-587",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-342",
+    "validationType": "Field-Level",
+    "name": "Cross Sales Contact - Please insert or scan the customer's Qatari Id:",
+    "description": "Verified with green checkmark on valid ID",
+    "sourceRef": "FLD-607",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-343",
+    "validationType": "Field-Level",
+    "name": "Cross Sales - Connection Details modal - Total Number of Postpaid Connections",
+    "description": "Triggers warning banner when >=2 Error message: \"Note - Customer already has 2 or more Post-paid connections. Please check the credit policy or seek credit control approval before proceeding\"",
+    "sourceRef": "FLD-610",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-344",
+    "validationType": "Field-Level",
+    "name": "Postpaid Contact (post cross-sell handoff) - Alt. phone #",
+    "description": "Has own verification checkbox",
+    "sourceRef": "FLD-619",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-345",
+    "validationType": "Field-Level",
+    "name": "Address (New Postpaid wizard) - Zone",
+    "description": "Skip Address allowed",
+    "sourceRef": "FLD-620",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-346",
+    "validationType": "Field-Level",
+    "name": "Address (New Postpaid wizard) - Street No.",
+    "description": "Skip Address allowed",
+    "sourceRef": "FLD-621",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-347",
+    "validationType": "Field-Level",
+    "name": "Address (New Postpaid wizard) - Building No.",
+    "description": "Skip Address allowed",
+    "sourceRef": "FLD-622",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-348",
+    "validationType": "Field-Level",
+    "name": "Address (New Postpaid wizard) - Apt/Flat/Unit",
+    "description": "Skip Address allowed",
+    "sourceRef": "FLD-623",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-349",
+    "validationType": "Field-Level",
+    "name": "Number Selection (New Postpaid wizard) - Reservation success alert",
+    "description": "Error message: \"SUCCESS:Reservation Token:1001357812(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-630",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-350",
+    "validationType": "Field-Level",
+    "name": "SIM Serial (New Postpaid wizard) - SIM Serial number",
+    "description": "Verified with green checkmark",
+    "sourceRef": "FLD-631",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-351",
+    "validationType": "Field-Level",
+    "name": "Payment (New Postpaid wizard) - Reason",
+    "description": "Used for FREE type sales",
+    "sourceRef": "FLD-634",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-352",
+    "validationType": "Field-Level",
+    "name": "Payment (New Postpaid wizard) - Generate CAF",
+    "description": "Triggers 'Validating Order, please wait...'",
+    "sourceRef": "FLD-635",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-353",
+    "validationType": "Field-Level",
+    "name": "CAF step (New Postpaid wizard) - New File (attachment upload)",
+    "description": "At least one attached in example",
+    "sourceRef": "FLD-636",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-354",
+    "validationType": "Field-Level",
+    "name": "Activity (final wrap-up step) - Comments",
+    "description": "Needed before Save and Finish",
+    "sourceRef": "FLD-644",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-355",
+    "validationType": "Field-Level",
+    "name": "Order completion confirmation - Postpaid completed successfully message",
+    "description": "Error message: \"Postpaid completed successfully. Order Number:- '1-225217281463'\"",
+    "sourceRef": "FLD-646",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-356",
+    "validationType": "Field-Level",
+    "name": "Product Promotions admin - Bill Limit Mapping / Spend Limit Mapping applet - Agent Min Value",
+    "description": "Used as floor for agent-entered Bill Limit / SL Limit Amount at order time",
+    "sourceRef": "FLD-652",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-357",
+    "validationType": "Field-Level",
+    "name": "Bill Limit Mobile Plus - Customize detail panel - SL Limit Amount",
+    "description": "Must not be lower than product's Agent Min Value or order validation fails (SBL-EXL-00151) Error message: \"Bill Limit can not be set lower than Agent Minimum 80\nPlease Contact the System Administrator with Reference # 1-DAFQWTQ.(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-666",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-358",
+    "validationType": "Field-Level",
+    "name": "Order header (Validate action) - Validate button",
+    "description": "Fires informational + blocking dialogs based on bill-limit rules Error message: \"Note: Maximum Bill Limit is equivalent to account Credit Limit. Please communicate this to customer.\"",
+    "sourceRef": "FLD-669",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-359",
+    "validationType": "Field-Level",
+    "name": "Retail New Postpaid - Bill Limit edit - Bill Limit value",
+    "description": "Below Agent minimum value blocks the journey; above Agent minimum value allows journey to proceed",
+    "sourceRef": "FLD-670",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-360",
+    "validationType": "Field-Level",
+    "name": "HRN New Postpaid - Connection Details modal - HRN advance payment notice",
+    "description": "Triggered for HRN (high-risk-nationality) customers Error message: \"(HRN) Customer needs to pay advance payment of QR 100.\"",
+    "sourceRef": "FLD-673",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-361",
+    "validationType": "Field-Level",
+    "name": "HRN New Postpaid - Number Selection - Reservation success alert",
+    "description": "Error message: \"SUCCESS:Reservation Token:15632489(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-674",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-362",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step1 Contact confirmation - Lead/Opportunity ID",
+    "description": "blank in example",
+    "sourceRef": "FLD-683",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-363",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step1 Contact confirmation - Company Name",
+    "description": "required for B2B2C linkage",
+    "sourceRef": "FLD-684",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-364",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step1 Contact confirmation - Email",
+    "description": "red asterisk mandatory marker",
+    "sourceRef": "FLD-686",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-365",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step1 Contact confirmation - Language",
+    "description": "red asterisk mandatory marker",
+    "sourceRef": "FLD-688",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-366",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step1 Contact confirmation - Alt. phone #",
+    "description": "red asterisk mandatory marker",
+    "sourceRef": "FLD-689",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-367",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step5 Number Selection - Reserve button / confirmation alert",
+    "description": "Error message: \"10.162.53.100:4443 says \u2014 SUCCESS:Reservation Token:13757449(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-696",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-368",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Step7 CAF & Additional Attachments - Proof of Employment",
+    "description": "required for B2B2C flow",
+    "sourceRef": "FLD-700",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-369",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Submission confirmation - Submitted for approval message",
+    "description": "Error message: \"Your activation request order number: 1-29710853118 is submitted for approval. You can check the status of the order in My Sales Order or My Orders for approval.\"",
+    "sourceRef": "FLD-702",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-370",
+    "validationType": "Field-Level",
+    "name": "B2B2C With Approval - Approve Order modal - Approve confirmation text",
+    "description": "Error message: \"By clicking submit, I agree that I have verified all the documents and details to proceed with submission.\"",
+    "sourceRef": "FLD-706",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-371",
+    "validationType": "Field-Level",
+    "name": "B2B2C Without Approval - Step7 CAF & Additional Attachments - Proof of Employment",
+    "description": "Blocks Continue until provided Error message: \"Error: Please select Proof of Employment before continuing.\"",
+    "sourceRef": "FLD-713",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-372",
+    "validationType": "Field-Level",
+    "name": "B2B2C Without Approval - Order completion confirmation - Postpaid completed successfully message",
+    "description": "Error message: \"Postpaid completed successfully. Order Number:- '1-29726606734'\"",
+    "sourceRef": "FLD-715",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-373",
+    "validationType": "Field-Level",
+    "name": "HRN Credit Limit (Tablet) - Number Selection - Reservation success alert",
+    "description": "Error message: \"SUCCESS:Reservation Token:15557466(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-721",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-374",
+    "validationType": "Field-Level",
+    "name": "HRN Credit Limit (Tablet) - Submission confirmation - Submitted for approval message",
+    "description": "Error message: \"Your activation request order number: 1-29811647643 is submitted for approval. You can check the status of the order in My Sales Order or My Orders for approval.\"",
+    "sourceRef": "FLD-724",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-375",
+    "validationType": "Field-Level",
+    "name": "NON_B2B2C With Approval - Step1 Contact confirmation - Connection Details - credit warning",
+    "description": "Triggered when customer has 2+ existing postpaid connections Error message: \"Note - Customer already has 2 or more Post-paid connections. Please check the credit policy or seek credit control approval before proceeding\"",
+    "sourceRef": "FLD-726",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-376",
+    "validationType": "Field-Level",
+    "name": "NON_B2B2C With Approval - Step1 Contact confirmation - Company Name",
+    "description": "Selecting/skipping triggers Special-Management override confirm",
+    "sourceRef": "FLD-727",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-377",
+    "validationType": "Field-Level",
+    "name": "NON_B2B2C With Approval - B2B2C override confirm dialog - Special Management override confirm",
+    "description": "Appears when Account already carries a Special Management value Error message: \"The Account has already Special Management field value. Do you still want to continue the journey without B2B2C\"",
+    "sourceRef": "FLD-728",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-378",
+    "validationType": "Field-Level",
+    "name": "Product configurator - Bill Limit selection (Vanilla Pre2Post) - Bill Limit radio group",
+    "description": "Selected value cannot be set lower than the Agent Minimum configured for that Bill Limit product in Product Administration",
+    "sourceRef": "FLD-734",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-379",
+    "validationType": "Field-Level",
+    "name": "Order Line Item Detail - Spend Limit Amounts (Vanilla Pre2Post) - SL Limit Amount",
+    "description": "Cannot be set lower than the Agent Minimum for the selected Bill Limit product (e.g. 80 for Bill Limit Mobile Plus) Error message: \"Bill Limit can not be set lower than Agent Minimum 80 Please Contact the System Administrator with Reference # 1-D982OQU.(SBL-EXL-00151)\"",
+    "sourceRef": "FLD-735",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-380",
+    "validationType": "Field-Level",
+    "name": "Order header (Vanilla Pre2Post, on Validate) - Validate action informational alert",
+    "description": "Error message: \"Note: Maximum Bill Limit is equivalent to account Credit Limit. Please communicate this to customer.\"",
+    "sourceRef": "FLD-738",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-381",
+    "validationType": "Field-Level",
+    "name": "Connection Details modal (Open UI Desktop Pre2Post) - info banner",
+    "description": "Error message: \"undefined\"",
+    "sourceRef": "FLD-753",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-382",
+    "validationType": "Field-Level",
+    "name": "Postpaid - Contact (Open UI Desktop Pre2Post, Step 1 continued) - Email",
+    "description": "validated (green checkmark)",
+    "sourceRef": "FLD-754",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-383",
+    "validationType": "Field-Level",
+    "name": "Postpaid - Contact (Open UI Desktop Pre2Post, Step 1 continued) - Alt. phone #",
+    "description": "validated (green checkmark)",
+    "sourceRef": "FLD-756",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-384",
+    "validationType": "Field-Level",
+    "name": "Base Management wizard - Contact confirmation (Autobase Pre2Post) - advance payment info banner",
+    "description": "Error message: \"(HRN) Customer needs to pay advance payment of QR 100.\"",
+    "sourceRef": "FLD-779",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-385",
+    "validationType": "Field-Level",
+    "name": "Base Management wizard / Plan step - Offer Summary / Promotion detail (Autobase Pre2Post, desktop & tablet) - Bill Limit",
+    "description": "Default (Smart) Bill Limit should be communicated to the customer",
+    "sourceRef": "FLD-780",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-386",
+    "validationType": "Field-Level",
+    "name": "Base Management wizard - Activity step (Autobase Pre2Post) - Comments",
+    "description": "Please note down a comment regarding the actions performed. This will be used by other advisors to better understand the customer's history.",
+    "sourceRef": "FLD-784",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-387",
+    "validationType": "Field-Level",
+    "name": "Submission confirmation modal (Autobase Pre2Post) - confirmation message",
+    "description": "Error message: \"Order request is submitted successfully. Please check installed asset of the account to confirm. (HRN) Customer needs to pay advance payment of QR 100.\"",
+    "sourceRef": "FLD-785",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-388",
+    "validationType": "Field-Level",
+    "name": "Prepaid to Postpaid - Contact (Tablet Pre2Post, Step 1) - Qatari ID",
+    "description": "validated (green check)",
+    "sourceRef": "FLD-791",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-389",
+    "validationType": "Field-Level",
+    "name": "Prepaid to Postpaid - Contact (Tablet Pre2Post, Step 1 remaining fields) - Email",
+    "description": "required, empty at this state",
+    "sourceRef": "FLD-793",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-390",
+    "validationType": "Field-Level",
+    "name": "Addon & Discount step (Tablet Pre2Post, Step 3) - Paid Add-ons (Select Add-on)",
+    "description": "Go back to Plan step and edit limit to cover for the add-on amount",
+    "sourceRef": "FLD-800",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-391",
+    "validationType": "Field-Level",
+    "name": "New Prepaid Tablet - Contact (Step 1) - ID Number",
+    "description": "validated (green check)",
+    "sourceRef": "FLD-806",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-392",
+    "validationType": "Field-Level",
+    "name": "New Prepaid Tablet - Contact form continued - Email",
+    "description": "Shown green-checked (validated) in the guided journey",
+    "sourceRef": "FLD-814",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-393",
+    "validationType": "Field-Level",
+    "name": "New Prepaid Tablet - Contact form continued - ID-Front upload",
+    "description": "Shown green-checked (validated) once uploaded",
+    "sourceRef": "FLD-817",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-394",
+    "validationType": "Field-Level",
+    "name": "New Prepaid Tablet - Contact form continued - ID-Back upload",
+    "description": "Shown green-checked (validated) once uploaded",
+    "sourceRef": "FLD-818",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-395",
+    "validationType": "Field-Level",
+    "name": "New Prepaid Tablet - SIM Serial (Step 4) - SIM Serial",
+    "description": "Shown green-checked (validated); supports barcode-scan input via a scan icon",
+    "sourceRef": "FLD-820",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-396",
+    "validationType": "Field-Level",
+    "name": "Prepaid CAF - Documents section (New Prepaid Tablet) - Documents to be attached",
+    "description": "All documents should be valid and not expired at the time of purchase",
+    "sourceRef": "FLD-825",
+    "confidence": "medium"
+  },
+  {
+    "id": "VAL-397",
+    "validationType": "Field-Level",
+    "name": "Drop Order validation (any channel) - Drop Order action",
+    "description": "Error message: \"If without Order Approval Any user try to Drop the Order the below error will appear\"",
+    "sourceRef": "FLD-842",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-398",
+    "validationType": "Field-Level",
+    "name": "Open UI - FDO request (order) - FDO time/date slot",
+    "description": "maximum 30 days ahead for an FDO",
+    "sourceRef": "FLD-847",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-399",
+    "validationType": "Field-Level",
+    "name": "FDO request status - FDO Status",
+    "description": "All modification/cancellation allowed only while status is Initial.",
+    "sourceRef": "FLD-849",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-400",
+    "validationType": "Field-Level",
+    "name": "FDO Pre-to-Post Migration validation - MSISDN eligibility check",
+    "description": "Blocks FMS/MOI/collection-barred/blacklisted MSISDN, rejects passport-ID customers, disallows upfront payment (e.g., HRN fee) within the same FDO order.",
+    "sourceRef": "FLD-850",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-401",
+    "validationType": "Field-Level",
+    "name": "Open UI Desktop - Communications modal - Communication toolbar session limit message",
+    "description": "Error message: \"Communication: User has maximum Communication toolbar sessions.\"",
+    "sourceRef": "FLD-886",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-402",
+    "validationType": "Field-Level",
+    "name": "RFS Portal - lead capture - MSISDN",
+    "description": "no lead is created without it",
+    "sourceRef": "FLD-899",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-403",
+    "validationType": "Field-Level",
+    "name": "Vodafone ID (VFID) identifier - VFID",
+    "description": "format zone + four-digit BID + unit",
+    "sourceRef": "FLD-901",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-404",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - Order Billing Profile vs Line Item Billing Profile consistency",
+    "description": "Error message: \"Order Billing Profile must be same with Line Items' Billing Profile\"",
+    "sourceRef": "FLD-902",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-405",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - Business account pending order block on open order",
+    "description": "Error message: \"For business account, pending order cannot be submitted if open order exists under it\"",
+    "sourceRef": "FLD-903",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-406",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - Serial Number",
+    "description": "required for SIM CARD product Error message: \"Serial Number is required for SIM CARD product\"",
+    "sourceRef": "FLD-904",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-407",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - Payment authorization status",
+    "description": "Error message: \"All Payments should be Authorized\"",
+    "sourceRef": "FLD-905",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-408",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - DNO Verification Attachment",
+    "description": "required for MNP Port-In order Error message: \"DNO Verification Attachment is required for MNP Port-In order\"",
+    "sourceRef": "FLD-906",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-409",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - FL Address KID requirement",
+    "description": "FL Address must have KID in it Error message: \"FL Address must have KID in it\"",
+    "sourceRef": "FLD-907",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-410",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - Bill Limit Value vs Credit Limit",
+    "description": "Error message: \"Bill Limit Value cannot be more than Credit Limit!\"",
+    "sourceRef": "FLD-908",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-411",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - IoT vs Non-IoT MSISDN length",
+    "description": "8 digits non-IoT, 10 digits IoT",
+    "sourceRef": "FLD-909",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-412",
+    "validationType": "Field-Level",
+    "name": "Order Validation Business Rules catalogue - IPTV/IDM email uniqueness",
+    "description": "must be unique",
+    "sourceRef": "FLD-915",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-413",
+    "validationType": "Field-Level",
+    "name": "Fibre Activation BRSD - FAR_001_RFS requirements - Installation address (cascading zone/street/building)",
+    "description": "address lock after check",
+    "sourceRef": "FLD-926",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-414",
+    "validationType": "Field-Level",
+    "name": "Fibre Activation BRSD - FAR_001_RFS requirements - Proof of address upload",
+    "description": "\u22642MB",
+    "sourceRef": "FLD-927",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-415",
+    "validationType": "Field-Level",
+    "name": "Fibre Activation BRSD - FAR_002_INS (Instant Activation) requirements - Device serial number",
+    "description": "device serial verification",
+    "sourceRef": "FLD-930",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-416",
+    "validationType": "Field-Level",
+    "name": "Mobile Postpaid Activation BRSD - MPAR_001_JSM requirements - Agent Role Privilege authorization",
+    "description": "role-based authorisation via TBD Agent Role Privilege Matrix",
+    "sourceRef": "FLD-932",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-417",
+    "validationType": "Field-Level",
+    "name": "Mobile Postpaid Activation BRSD - MPAR_001_JSM requirements - Qnomy Q Ticket",
+    "description": "fallback if Qnomy unavailable",
+    "sourceRef": "FLD-933",
+    "confidence": "high"
+  },
+  {
+    "id": "VAL-418",
+    "validationType": "Field-Level",
+    "name": "MNP Port Out Ticket - Activity Status",
+    "description": "activities inside the ticket are validated automatically or by the MNP Team (Success/Failed status)",
+    "sourceRef": "FLD-970",
+    "confidence": "high"
+  }
+]

@@ -1,0 +1,2516 @@
+[
+  {
+    "id": "ROLE-01",
+    "staffId": "VFQ12341",
+    "name": "Retail Sales",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Hybrid",
+    "customer360Layout": "header-only",
+    "description": "Retail stores, franchise stores, mini stores",
+    "channel": "Retail / in-store",
+    "contextCard": "Queue Number + Ticket Number",
+    "identityUserId": "USR-1101",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "fixedline.new-fixed-line-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.new-fwa-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.serial-number-check",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.appointment-booking",
+        "level": "Create"
+      },
+      {
+        "key": "postpaid.new-postpaid-wizard",
+        "level": "Create",
+        "restrictions": "Smart Limit / Bill Limit editable only down to the Agent Minimum Value"
+      },
+      {
+        "key": "prepaid.new-prepaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.process-choice",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.port-in-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.port-in-status",
+        "level": "Edit"
+      },
+      {
+        "key": "numbers.management-portal",
+        "level": "Create"
+      },
+      {
+        "key": "numbers.ton-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "numbers.sim-swap-queue",
+        "level": "Create"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Create"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "migration.connection-details",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      },
+      {
+        "key": "workspace.qnomy-ticket-history",
+        "level": "View"
+      },
+      {
+        "key": "mobile.change-postpaid-plan",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.change-prepaid-pack",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.add-addon",
+        "level": "Create"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-001",
+      "PERSONA-030",
+      "PERSONA-043",
+      "PERSONA-066"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 1"
+  },
+  {
+    "id": "ROLE-02",
+    "staffId": "VFQ12342",
+    "name": "Telesales",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Tele-sales and assisted sales channels",
+    "channel": "Telephonic / assisted",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1202",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "postpaid.new-postpaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "prepaid.new-prepaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.process-choice",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.port-in-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.port-in-status",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Create"
+      },
+      {
+        "key": "numbers.management-portal",
+        "level": "View"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      },
+      {
+        "key": "mobile.change-postpaid-plan",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.change-prepaid-pack",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.add-addon",
+        "level": "Create"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-053"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 2"
+  },
+  {
+    "id": "ROLE-03",
+    "staffId": "VFQ12343",
+    "name": "Direct Sales",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "EBU",
+    "businessUnits": [
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Enterprise/direct sales representatives",
+    "channel": "Direct / field enterprise",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1203",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.account-creation",
+        "level": "Create"
+      },
+      {
+        "key": "enterprise.billing-profile-grid",
+        "level": "View"
+      },
+      {
+        "key": "fixedline.new-fixed-line-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.new-fwa-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-012",
+      "PERSONA-045"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 3"
+  },
+  {
+    "id": "ROLE-04",
+    "staffId": "VFQ12344",
+    "name": "Field Sales",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "-",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Mobile sales force and field acquisition teams",
+    "channel": "Tablet / field (no queue, no CTI)",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1204",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "prepaid.new-prepaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "postpaid.new-postpaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.new-fwa-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.serial-number-check",
+        "level": "Create"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.change-postpaid-plan",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.change-prepaid-pack",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.add-addon",
+        "level": "Create"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-038",
+      "PERSONA-045"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 4"
+  },
+  {
+    "id": "ROLE-05",
+    "staffId": "VFQ12345",
+    "name": "Mass Market",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Mass-market customer acquisition and servicing",
+    "channel": "Retail / in-store",
+    "contextCard": "Queue Number + Ticket Number",
+    "identityUserId": "USR-1205",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "postpaid.new-postpaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "prepaid.new-prepaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fixedline.new-fixed-line-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.new-fwa-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.process-choice",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.port-in-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.port-in-status",
+        "level": "Edit"
+      },
+      {
+        "key": "numbers.management-portal",
+        "level": "Create"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Create"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      },
+      {
+        "key": "workspace.qnomy-ticket-history",
+        "level": "View"
+      },
+      {
+        "key": "mobile.change-postpaid-plan",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.change-prepaid-pack",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.add-addon",
+        "level": "Create"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-037"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 5"
+  },
+  {
+    "id": "ROLE-06",
+    "staffId": "VFQ12346",
+    "name": "Account Manager",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "EBU",
+    "businessUnits": [
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Enterprise account owners",
+    "channel": "Telephonic / back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1206",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.account-creation",
+        "level": "Create"
+      },
+      {
+        "key": "enterprise.bulk-adjustment-portal",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.billing-profile-grid",
+        "level": "View"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-002"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 6"
+  },
+  {
+    "id": "ROLE-07",
+    "staffId": "VFQ12347",
+    "name": "Key Accounts Manager",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "EBU",
+    "businessUnits": [
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Strategic and large enterprise accounts",
+    "channel": "Telephonic / back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1207",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.account-creation",
+        "level": "Create"
+      },
+      {
+        "key": "enterprise.bulk-adjustment-portal",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.billing-profile-grid",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "View"
+      },
+      {
+        "key": "orders.discount-approval-hierarchy",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-002"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 7"
+  },
+  {
+    "id": "ROLE-08",
+    "staffId": "VFQ12348",
+    "name": "Channel Manager",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Hybrid",
+    "description": "Partner/channel oversight",
+    "channel": "Channel oversight",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1208",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "View"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "View"
+      },
+      {
+        "key": "orders.all-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "admin.product-promotions",
+        "level": "Edit"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-003",
+      "PERSONA-040",
+      "PERSONA-051",
+      "PERSONA-052"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 8"
+  },
+  {
+    "id": "ROLE-09",
+    "staffId": "VFQ12349",
+    "name": "Authorized Officer",
+    "group": "Sales & Acquisition",
+    "businessUnitLabel": "EBU (Customer-side)",
+    "businessUnits": [
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Enterprise customer representative",
+    "channel": "Enterprise customer-side",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1209",
+    "capabilities": [],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View",
+        "restrictions": "Own enterprise account only - INTENT ONLY: no record-level scoping engine exists in this build"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "View",
+        "restrictions": "Own enterprise account only - INTENT ONLY: no record-level scoping engine exists in this build"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-009",
+      "PERSONA-010",
+      "PERSONA-011",
+      "PERSONA-034"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 9"
+  },
+  {
+    "id": "ROLE-10",
+    "staffId": "VFQ12350",
+    "name": "Customer Care",
+    "group": "Customer Service & Retention",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Care, complaints, assisted care, desktop agents",
+    "channel": "Telephonic / assisted care",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1210",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Edit",
+        "restrictions": "Cannot set Resolution Code - resolution is owned by the Complaints role"
+      },
+      {
+        "key": "tickets.field-templates",
+        "level": "View"
+      },
+      {
+        "key": "numbers.sim-swap-queue",
+        "level": "Create"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "mnp.process-choice",
+        "level": "View"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-047",
+      "PERSONA-058",
+      "PERSONA-063",
+      "PERSONA-064"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 10"
+  },
+  {
+    "id": "ROLE-11",
+    "staffId": "VFQ12351",
+    "name": "Business Care",
+    "group": "Customer Service & Retention",
+    "businessUnitLabel": "EBU",
+    "businessUnits": [
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Enterprise customer support",
+    "channel": "Telephonic / enterprise care",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1211",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Edit",
+        "restrictions": "Cannot set Resolution Code - resolution is owned by the Complaints role"
+      },
+      {
+        "key": "tickets.field-templates",
+        "level": "View"
+      },
+      {
+        "key": "enterprise.billing-profile-grid",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-014"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 11"
+  },
+  {
+    "id": "ROLE-12",
+    "staffId": "VFQ12352",
+    "name": "Premium",
+    "group": "Customer Service & Retention",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Premium/VIP customer servicing",
+    "channel": "Retail / in-store premium desk",
+    "contextCard": "Queue Number + Ticket Number",
+    "identityUserId": "USR-1212",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications",
+      "ticket-audit-trail",
+      "view-safwa-customers",
+      "view-safwa-plus-customers",
+      "view-royal-customers"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Edit",
+        "restrictions": "Cannot set Resolution Code - resolution is owned by the Complaints role"
+      },
+      {
+        "key": "numbers.sim-swap-queue",
+        "level": "Create"
+      },
+      {
+        "key": "numbers.ton-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Create"
+      },
+      {
+        "key": "postpaid.new-postpaid-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      },
+      {
+        "key": "workspace.qnomy-ticket-history",
+        "level": "View"
+      },
+      {
+        "key": "mobile.change-postpaid-plan",
+        "level": "Create"
+      },
+      {
+        "key": "mobile.add-addon",
+        "level": "Create"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-058"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 12"
+  },
+  {
+    "id": "ROLE-13",
+    "staffId": "VFQ12353",
+    "name": "Retention",
+    "group": "Customer Service & Retention",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Retention and win-back activities",
+    "channel": "Telephonic / outbound retention",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1213",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.offer-tab",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.pre-to-post-wizard",
+        "level": "Create"
+      },
+      {
+        "key": "migration.connection-details",
+        "level": "View"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Edit",
+        "restrictions": "Cannot set Resolution Code - resolution is owned by the Complaints role"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Create"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-022",
+      "PERSONA-027",
+      "PERSONA-042"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 13"
+  },
+  {
+    "id": "ROLE-14",
+    "staffId": "VFQ12354",
+    "name": "Fulfilment",
+    "group": "Order Fulfilment & Back Office",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Product-First",
+    "description": "Order fulfilment execution",
+    "channel": "Back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1214",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "backoffice-config"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "View"
+      },
+      {
+        "key": "orders.all-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "fwa.serial-number-check",
+        "level": "Create"
+      },
+      {
+        "key": "fwa.appointment-booking",
+        "level": "Edit"
+      },
+      {
+        "key": "fixedline.wfm-activity-details",
+        "level": "View"
+      },
+      {
+        "key": "numbers.sim-swap-queue",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.bulk-jobs",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-004",
+      "PERSONA-048"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 14"
+  },
+  {
+    "id": "ROLE-15",
+    "staffId": "VFQ12355",
+    "name": "Back Office Fulfilment",
+    "group": "Order Fulfilment & Back Office",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Product-First",
+    "description": "Back-office processing and verification",
+    "channel": "Back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1102",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "backoffice-config"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.approval-detail",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.all-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "identity.person-administration",
+        "level": "View"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.bulk-adjustment-portal",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.pre-to-post-wizard",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.bulk-jobs",
+        "level": "Edit"
+      },
+      {
+        "key": "numbers.sim-swap-queue",
+        "level": "Edit"
+      },
+      {
+        "key": "fwa.serial-number-check",
+        "level": "Create"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-005",
+      "PERSONA-044",
+      "PERSONA-060"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 15"
+  },
+  {
+    "id": "ROLE-16",
+    "staffId": "VFQ12356",
+    "name": "CDM",
+    "group": "Order Fulfilment & Back Office",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Customer Data Management",
+    "channel": "Back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1216",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "backoffice-config"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "identity.passport-to-qid",
+        "level": "Full"
+      },
+      {
+        "key": "identity.person-administration",
+        "level": "Edit"
+      },
+      {
+        "key": "identity.agent-360-asset-summary",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-023",
+      "PERSONA-028",
+      "PERSONA-054"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 16"
+  },
+  {
+    "id": "ROLE-17",
+    "staffId": "VFQ12357",
+    "name": "MNP",
+    "group": "Order Fulfilment & Back Office",
+    "businessUnitLabel": "Primarily CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Hybrid",
+    "description": "Mobile Number Portability operations",
+    "channel": "Back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1217",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "backoffice-config"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "mnp.process-choice",
+        "level": "Full"
+      },
+      {
+        "key": "mnp.port-in-wizard",
+        "level": "Full"
+      },
+      {
+        "key": "mnp.port-in-status",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "Edit"
+      },
+      {
+        "key": "numbers.management-portal",
+        "level": "Edit"
+      },
+      {
+        "key": "numbers.sim-swap-queue",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-065"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 17"
+  },
+  {
+    "id": "ROLE-18",
+    "staffId": "VFQ12358",
+    "name": "Billing",
+    "group": "Billing, Credit & Collections",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "description": "Billing operations",
+    "channel": "Back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1218",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "invoice-actions",
+      "backoffice-config"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "Edit"
+      },
+      {
+        "key": "billing.bill-simulation",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.bulk-adjustment-portal",
+        "level": "Edit"
+      },
+      {
+        "key": "enterprise.billing-profile-grid",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-020"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 18"
+  },
+  {
+    "id": "ROLE-19",
+    "staffId": "VFQ12359",
+    "name": "Credit Control",
+    "group": "Billing, Credit & Collections",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Collection and credit management",
+    "channel": "Back-office",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1219",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "invoice-actions",
+      "backoffice-config"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "Edit"
+      },
+      {
+        "key": "billing.bill-simulation",
+        "level": "View"
+      },
+      {
+        "key": "enterprise.billing-profile-grid",
+        "level": "View"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.approval-detail",
+        "level": "Approve"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-006",
+      "PERSONA-021"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 19"
+  },
+  {
+    "id": "ROLE-20",
+    "staffId": "VFQ12360",
+    "name": "Dispatcher",
+    "group": "Field Operations & Workforce Management",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Product-First",
+    "description": "Work allocation and scheduling",
+    "channel": "Back-office WFM",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1220",
+    "capabilities": [
+      "agent-self-service",
+      "backoffice-config",
+      "task-assign",
+      "ticket-reassign-queue",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Full"
+      },
+      {
+        "key": "fixedline.wfm-activity-details",
+        "level": "Full"
+      },
+      {
+        "key": "fwa.appointment-booking",
+        "level": "Full"
+      },
+      {
+        "key": "fwa.serial-number-check",
+        "level": "View"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-046"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 20"
+  },
+  {
+    "id": "ROLE-21",
+    "staffId": "VFQ12361",
+    "name": "Field Engineer",
+    "group": "Field Operations & Workforce Management",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "Product-First",
+    "description": "WFM/OFS field execution",
+    "channel": "Field (no queue, no CTI)",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1221",
+    "capabilities": [
+      "agent-self-service"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "fixedline.wfm-activity-details",
+        "level": "Edit"
+      },
+      {
+        "key": "fwa.appointment-booking",
+        "level": "View"
+      },
+      {
+        "key": "fwa.serial-number-check",
+        "level": "Create"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-025",
+      "PERSONA-055"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 21"
+  },
+  {
+    "id": "ROLE-22",
+    "staffId": "VFQ12362",
+    "name": "Supervisor",
+    "group": "Management, Approval & Governance",
+    "businessUnitLabel": "CBU / EBU / Shared",
+    "businessUnits": [
+      "CBU",
+      "EBU",
+      "Shared"
+    ],
+    "approach": "Hybrid",
+    "description": "Operational supervision",
+    "channel": "Oversight (all channels)",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1222",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "invoice-actions",
+      "view-bell-notifications",
+      "backoffice-config",
+      "agent-oversight",
+      "task-assign",
+      "ticket-resolve",
+      "ticket-reassign-queue",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.admin-role-access-viewer",
+        "level": "View"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.approval-detail",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.all-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.field-templates",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.approval-queue",
+        "level": "Approve"
+      },
+      {
+        "key": "tickets.approval-detail",
+        "level": "Approve"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "fixedline.wfm-activity-details",
+        "level": "Edit"
+      },
+      {
+        "key": "fwa.appointment-booking",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.bulk-jobs",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      },
+      {
+        "key": "workspace.qnomy-ticket-history",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-024"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 22"
+  },
+  {
+    "id": "ROLE-23",
+    "staffId": "VFQ12363",
+    "name": "Manager/Approver",
+    "group": "Management, Approval & Governance",
+    "businessUnitLabel": "CBU / EBU / Shared",
+    "businessUnits": [
+      "CBU",
+      "EBU",
+      "Shared"
+    ],
+    "approach": "Hybrid",
+    "description": "Approval and escalation authority",
+    "channel": "Oversight (all channels)",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1103",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "invoice-actions",
+      "view-bell-notifications",
+      "backoffice-config",
+      "agent-oversight",
+      "task-assign",
+      "ticket-resolve",
+      "ticket-reassign-queue",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.sales-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.admin-role-access-viewer",
+        "level": "View"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.approval-detail",
+        "level": "Approve"
+      },
+      {
+        "key": "orders.all-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "orders.discount-approval-hierarchy",
+        "level": "Approve"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.field-templates",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.approval-queue",
+        "level": "Approve"
+      },
+      {
+        "key": "tickets.approval-detail",
+        "level": "Approve"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "Edit"
+      },
+      {
+        "key": "leads.detail-actions",
+        "level": "Edit"
+      },
+      {
+        "key": "admin.product-promotions",
+        "level": "Edit"
+      },
+      {
+        "key": "migration.bulk-jobs",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      },
+      {
+        "key": "workspace.qnomy-ticket-history",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-007",
+      "PERSONA-017",
+      "PERSONA-019",
+      "PERSONA-039",
+      "PERSONA-041"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 23"
+  },
+  {
+    "id": "ROLE-24",
+    "staffId": "VFQ12364",
+    "name": "System Administrator",
+    "group": "Platform Administration",
+    "businessUnitLabel": "IT / Corporate",
+    "businessUnits": [
+      "Corporate"
+    ],
+    "approach": "Product-First",
+    "description": "User, role and configuration management",
+    "channel": "System / no customer interaction",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1224",
+    "capabilities": [
+      "agent-self-service",
+      "backoffice-config",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.admin-role-access-viewer",
+        "level": "Full"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "View"
+      },
+      {
+        "key": "admin.product-promotions",
+        "level": "Full"
+      },
+      {
+        "key": "platform.integration-monitor",
+        "level": "Full"
+      },
+      {
+        "key": "identity.person-administration",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.field-templates",
+        "level": "Full"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-008",
+      "PERSONA-049"
+    ],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 24"
+  },
+  {
+    "id": "ROLE-25",
+    "staffId": "VFQ12365",
+    "name": "View Only",
+    "group": "View Only",
+    "businessUnitLabel": "CBU + EBU",
+    "businessUnits": [
+      "CBU",
+      "EBU"
+    ],
+    "approach": "None",
+    "description": "View the list, details, approve or reject",
+    "channel": "Read-only / oversight",
+    "contextCard": "Hidden",
+    "identityUserId": "USR-1225",
+    "capabilities": [
+      "agent-self-service"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "View"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.orders-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "View"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "orders.approval-queue",
+        "level": "View",
+        "restrictions": "Approve/reject is the only mutating action granted to this otherwise read-only role, per the role table's \"approve or reject\" wording"
+      },
+      {
+        "key": "orders.approval-detail",
+        "level": "View",
+        "restrictions": "Approve/reject is the only mutating action granted to this otherwise read-only role, per the role table's \"approve or reject\" wording"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "View"
+      },
+      {
+        "key": "leads.list-views",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [],
+    "provenance": "VFQ operational role table (user-supplied 2026-09-23), row 25"
+  },
+  {
+    "id": "ROLE-26",
+    "staffId": "VFQ12366",
+    "name": "Complaints",
+    "group": "Customer Service & Retention",
+    "businessUnitLabel": "CBU",
+    "businessUnits": [
+      "CBU"
+    ],
+    "approach": "Customer-First",
+    "customer360Layout": "header-only",
+    "description": "Complaint handling and resolution (mobile and fixed)",
+    "channel": "Back-office complaints",
+    "contextCard": "CTI Reference only",
+    "identityUserId": "USR-1226",
+    "capabilities": [
+      "agent-self-service",
+      "edit-customer-records",
+      "view-bell-notifications",
+      "ticket-resolve",
+      "ticket-audit-trail"
+    ],
+    "features": [
+      {
+        "key": "workspace.dashboard",
+        "level": "View"
+      },
+      {
+        "key": "workspace.agent-profile",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.customer-search",
+        "level": "View"
+      },
+      {
+        "key": "workspace.customer360-view",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.support-launcher",
+        "level": "View"
+      },
+      {
+        "key": "workspace.task-list",
+        "level": "Edit"
+      },
+      {
+        "key": "workspace.task-detail",
+        "level": "Edit"
+      },
+      {
+        "key": "tickets.dashboard",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.detail-view",
+        "level": "Full"
+      },
+      {
+        "key": "tickets.field-templates",
+        "level": "Edit"
+      },
+      {
+        "key": "orders.my-sales-orders",
+        "level": "View"
+      },
+      {
+        "key": "billing.statement-of-account",
+        "level": "View"
+      },
+      {
+        "key": "search.global-search-screen",
+        "level": "View"
+      }
+    ],
+    "legacyPersonaIds": [
+      "PERSONA-059"
+    ],
+    "provenance": "Added 2026-09-24 to own ticket resolution - the 25-row role table has no Complaints Team successor to PERSONA-059, and widening resolution to every care agent would have discarded the documented raise-vs-resolve separation (BR-067 / RBAC-132)"
+  }
+]

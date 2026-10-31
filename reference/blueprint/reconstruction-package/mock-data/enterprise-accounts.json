@@ -1,0 +1,58 @@
+[
+  {
+    "enterpriseAccountId": "ENT-ACC-7701",
+    "level": "parent",
+    "name": "Lulu Group Qatar Holding",
+    "crType": "Commercial Registration",
+    "crId": "CR-44120",
+    "crNumber": "CR-44120",
+    "agentId": "AGT-2201",
+    "businessType": "B2B",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": true
+  },
+  {
+    "enterpriseAccountId": "ACC-5003",
+    "level": "subAccount",
+    "name": "Lulu Hypermarket - Al Waab Branch",
+    "crType": "Commercial Registration",
+    "crId": "CR-44120",
+    "crNumber": "CR-44120-03",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": 50000,
+    "creditLimitNeedsFinanceApproval": false,
+    "parentAccountId": "ENT-ACC-7701",
+    "contactsOnly": false
+  },
+  {
+    "enterpriseAccountId": "ACC-5004",
+    "level": "subAccount",
+    "name": "Lulu Hypermarket - Doha Industrial Area Branch",
+    "crType": "Commercial Registration",
+    "crId": "CR-44120",
+    "crNumber": "CR-44120-07",
+    "agentId": "AGT-2201",
+    "businessType": "B2B2C",
+    "creditLimit": 35000,
+    "creditLimitNeedsFinanceApproval": false,
+    "parentAccountId": "ENT-ACC-7701",
+    "contactsOnly": false
+  },
+  {
+    "enterpriseAccountId": "ENT-ACC-7702",
+    "level": "parent",
+    "name": "Al Rayyan Trading Group",
+    "crType": "Commercial Registration",
+    "crId": "CR-51893",
+    "crNumber": "CR-51893",
+    "agentId": "AGT-2205",
+    "businessType": "B2B",
+    "creditLimit": null,
+    "creditLimitNeedsFinanceApproval": true,
+    "parentAccountId": null,
+    "contactsOnly": true
+  }
+]

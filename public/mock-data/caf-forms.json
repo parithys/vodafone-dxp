@@ -1,0 +1,27 @@
+[
+  {
+    "cafId": "CAF-90001-01",
+    "formId": "PCA001",
+    "orderId": "ORD-90001",
+    "customerId": "CUST-1001",
+    "signatureMethod": "Touch Screen",
+    "signedDate": "2025-09-10",
+    "language": "Bilingual (EN/AR)",
+    "status": "Active",
+    "uploadDateTime": "2025-09-10T10:00:00+03:00",
+    "serviceReference": "ORD-90001"
+  },
+  {
+    "cafId": "CAF-90003-01",
+    "formId": "PCA001",
+    "orderId": "ORD-90003",
+    "customerId": "CUST-2001",
+    "signatureMethod": "Digital",
+    "signedDate": "2025-09-16",
+    "language": "Bilingual (EN/AR)",
+    "proofOfEmploymentAttached": true,
+    "status": "Archived",
+    "uploadDateTime": "2025-09-16T10:00:00+03:00",
+    "serviceReference": "ORD-90003"
+  }
+]

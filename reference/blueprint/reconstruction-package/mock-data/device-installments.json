@@ -1,0 +1,47 @@
+[
+  {
+    "id": "DOI-3001",
+    "accountId": "ACC-5001",
+    "qid": "28456789012",
+    "deviceName": "Samsung Galaxy S24",
+    "devicePriceQar": 3200,
+    "downPaymentQar": 500,
+    "installmentMonths": 12,
+    "monthlyInstallmentQar": 225,
+    "eligibilityListMembership": "Eligible",
+    "qcbCreditCheckStatus": "Passed",
+    "stockReservationStatus": "Reserved",
+    "accountStanding": "Good Standing",
+    "status": "Approved"
+  },
+  {
+    "id": "DOI-3002",
+    "accountId": "ACC-5003",
+    "qid": "29123456789",
+    "deviceName": "iPhone 15",
+    "devicePriceQar": 3800,
+    "downPaymentQar": 800,
+    "installmentMonths": 24,
+    "monthlyInstallmentQar": 125,
+    "eligibilityListMembership": "Not Eligible",
+    "qcbCreditCheckStatus": "Pending",
+    "stockReservationStatus": "Not Reserved",
+    "accountStanding": "Good Standing",
+    "status": "Rejected"
+  },
+  {
+    "id": "DOI-3003",
+    "accountId": "ACC-5005",
+    "qid": "27890123456",
+    "deviceName": "Samsung Galaxy Watch 6",
+    "devicePriceQar": 1200,
+    "downPaymentQar": 200,
+    "installmentMonths": 6,
+    "monthlyInstallmentQar": 167,
+    "eligibilityListMembership": "Eligible",
+    "qcbCreditCheckStatus": "Failed",
+    "stockReservationStatus": "Released",
+    "accountStanding": "Good Standing",
+    "status": "Declined"
+  }
+]

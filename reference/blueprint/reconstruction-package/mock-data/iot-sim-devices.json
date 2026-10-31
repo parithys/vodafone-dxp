@@ -1,0 +1,51 @@
+[
+  {
+    "iotSimId": "IOT-5501",
+    "sim": "8974412009900123456",
+    "number": "+97433001001",
+    "accountId": "ACC-5003",
+    "serviceType": "Fleet Management",
+    "deviceIdentifier": "VF-DEV-880012",
+    "deviceSuppliedByVodafone": true,
+    "staticIp": null,
+    "managedServiceAccountProduct": "Global M2M",
+    "activationPlatform": "GDSP",
+    "billingOnly": true,
+    "numberReservedFrom": "mobility-only category",
+    "reservedOneAtATime": true,
+    "enterpriseSegment": "Enterprise Large"
+  },
+  {
+    "iotSimId": "IOT-5502",
+    "sim": "8974412009900123999",
+    "number": "+97433001002",
+    "accountId": "ACC-5004",
+    "serviceType": "Asset Tracking",
+    "deviceIdentifier": null,
+    "deviceSuppliedByVodafone": false,
+    "staticIp": null,
+    "managedServiceAccountProduct": "Global M2M",
+    "activationPlatform": "GDSP",
+    "billingOnly": true,
+    "numberReservedFrom": "mobility-only category",
+    "reservedOneAtATime": true,
+    "enterpriseSegment": "Enterprise Large"
+  },
+  {
+    "iotSimId": "IOT-5503",
+    "sim": null,
+    "number": "+97433001003",
+    "accountId": "ENT-ACC-7702",
+    "serviceType": "DAPN",
+    "deviceIdentifier": "VF-DEV-881045",
+    "deviceSuppliedByVodafone": true,
+    "staticIp": "10.204.18.7",
+    "managedServiceAccountProduct": "Global M2M",
+    "activationPlatform": "GDSP",
+    "billingOnly": true,
+    "numberReservedFrom": "mobility-only category",
+    "reservedOneAtATime": true,
+    "enterpriseSegment": "Enterprise Large",
+    "note": "No bulk template available for DAPN numbers; reserved individually."
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "campaignId": "CMP-XSL-0801",
+    "name": "Cross-sell GigaHome to mobile base",
+    "status": "Live",
+    "productLine": "Fibre & Home",
+    "startsAt": "2026-09-01",
+    "endsAt": "2026-10-31",
+    "channel": "Retail + Tele"
+  },
+  {
+    "campaignId": "CMP-UPG-0826",
+    "name": "Postpaid upgrade push",
+    "status": "Live",
+    "productLine": "Mobile",
+    "startsAt": "2026-08-26",
+    "endsAt": "2026-10-15",
+    "channel": "Retail + Tele"
+  },
+  {
+    "campaignId": "CMP-MNP-0819",
+    "name": "MNP port-in incentive",
+    "status": "Live",
+    "productLine": "Mobile",
+    "startsAt": "2026-08-19",
+    "endsAt": "2026-11-30",
+    "channel": "Retail + Tele"
+  },
+  {
+    "campaignId": "C000006358",
+    "name": "Ramadan data booster",
+    "status": "Live",
+    "productLine": "Mobile",
+    "startsAt": "2026-09-10",
+    "endsAt": "2026-10-20",
+    "channel": "Retail + Tele"
+  },
+  {
+    "campaignId": "CMP-IPTV-0915",
+    "name": "IPTV launch teaser",
+    "status": "Draft",
+    "productLine": "Fibre & Home",
+    "startsAt": "2026-10-01",
+    "endsAt": "2026-12-01",
+    "channel": "Retail + Tele"
+  },
+  {
+    "campaignId": "CMP-WIN-0705",
+    "name": "Win-back lapsed prepaid",
+    "status": "Ended",
+    "productLine": "Mobile",
+    "startsAt": "2026-07-05",
+    "endsAt": "2026-08-31",
+    "channel": "Retail + Tele"
+  }
+]

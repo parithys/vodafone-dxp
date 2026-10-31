@@ -1,0 +1,60 @@
+[
+  {
+    "id": "POUT-17001",
+    "customerId": "CUST-1001",
+    "portType": "MNP",
+    "triggerSource": "NPass SMS notification",
+    "actionWindowHours": 2,
+    "actionWindowExtendedHours": 24,
+    "npassWorkingHours": "07:30-15:30",
+    "rejectionReasonCodeUsed": null,
+    "autoValidation": {
+      "customerNameMatch": true,
+      "qidTypeAndNumberMatch": true,
+      "serviceTypeMatch": true,
+      "consumerTypeMatch": true,
+      "result": "pass"
+    },
+    "conditionalAcceptanceTriggered": false,
+    "status": "accepted"
+  },
+  {
+    "id": "POUT-17002",
+    "customerId": "CUST-1002",
+    "portType": "MNP",
+    "triggerSource": "NPass SMS notification",
+    "actionWindowHours": 2,
+    "actionWindowExtendedHours": 24,
+    "npassWorkingHours": "07:30-16:00",
+    "rejectionReasonCodeUsed": "4",
+    "autoValidation": {
+      "customerNameMatch": false,
+      "qidTypeAndNumberMatch": true,
+      "serviceTypeMatch": true,
+      "consumerTypeMatch": true,
+      "result": "fail"
+    },
+    "conditionalAcceptanceTriggered": false,
+    "status": "auto-rejected"
+  },
+  {
+    "id": "POUT-17003",
+    "customerId": "CUST-1003",
+    "portType": "FNP",
+    "triggerSource": "Ooredoo SMS notification",
+    "actionWindowHours": 2,
+    "actionWindowExtendedHours": 24,
+    "npassWorkingHours": "07:30-15:30",
+    "rejectionReasonCodeUsed": null,
+    "autoValidation": {
+      "customerNameMatch": true,
+      "qidTypeAndNumberMatch": true,
+      "serviceTypeMatch": true,
+      "consumerTypeMatch": true,
+      "result": "pass"
+    },
+    "conditionalAcceptanceTriggered": true,
+    "conditionalAcceptanceReason": "unbilled amount at service level",
+    "status": "conditional accept"
+  }
+]

@@ -1,0 +1,645 @@
+[
+  {
+    "userId": "USR-1101",
+    "lastName": "Al-Kuwari",
+    "firstName": "Fatima",
+    "jobTitle": "Retail Sales",
+    "alias": "F.ALKUWARI",
+    "email": "fatima.alkuwari@vodafone.qa",
+    "contactTeam": "Retail Sales - West Bay",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Senior Sales Executive",
+    "position": "Retail Front Office",
+    "location": "West Bay Store",
+    "team": "Retail Sales",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-101",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009001"
+  },
+  {
+    "userId": "USR-1102",
+    "lastName": "Hassan",
+    "firstName": "Omar",
+    "jobTitle": "Back Office Fulfilment",
+    "alias": "O.HASSAN",
+    "email": "omar.hassan@vodafone.qa",
+    "contactTeam": "Back Office Fulfilment",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Fulfilment Specialist",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Order Fulfilment",
+    "company": "Vodafone Qatar",
+    "outletId": null,
+    "managerEmail": "manager.fulfilment@vodafone.qa",
+    "mobileNumber": "+97433009002"
+  },
+  {
+    "userId": "USR-1103",
+    "lastName": "Thompson",
+    "firstName": "Rachel",
+    "jobTitle": "Sales Manager",
+    "alias": "R.THOMPSON",
+    "email": "rachel.thompson@vodafone.qa",
+    "contactTeam": "Approval Managers",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2",
+      "VFQA Sales",
+      "Back Office Fulfilment"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Regional Sales Manager",
+    "position": "Manager",
+    "location": "Doha HQ",
+    "team": "Sales Management",
+    "company": "Vodafone Qatar",
+    "outletId": null,
+    "managerEmail": "director.sales@vodafone.qa",
+    "mobileNumber": "+97433009003"
+  },
+  {
+    "userId": "USR-1202",
+    "lastName": "Al-Mansoori",
+    "firstName": "Noora",
+    "jobTitle": "Telesales",
+    "alias": "N.ALMANSOORI",
+    "email": "noora.almansoori@vodafone.qa",
+    "contactTeam": "Telesales",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Telesales Executive",
+    "position": "Contact Centre",
+    "location": "Doha Contact Centre",
+    "team": "Telesales",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009102"
+  },
+  {
+    "userId": "USR-1203",
+    "lastName": "Bhatti",
+    "firstName": "Imran",
+    "jobTitle": "Direct Sales",
+    "alias": "I.BHATTI",
+    "email": "imran.bhatti@vodafone.qa",
+    "contactTeam": "Enterprise Direct Sales",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Enterprise Sales Executive",
+    "position": "Field Enterprise",
+    "location": "Lusail Business Park",
+    "team": "Enterprise Direct Sales",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009103"
+  },
+  {
+    "userId": "USR-1204",
+    "lastName": "Al-Emadi",
+    "firstName": "Khalid",
+    "jobTitle": "Field Sales",
+    "alias": "K.ALEMADI",
+    "email": "khalid.alemadi@vodafone.qa",
+    "contactTeam": "Field Sales",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Field Sales Executive",
+    "position": "Mobile Sales Force",
+    "location": "Al Wakrah Roadshow",
+    "team": "Field Sales",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009104"
+  },
+  {
+    "userId": "USR-1205",
+    "lastName": "Rahman",
+    "firstName": "Saira",
+    "jobTitle": "Mass Market",
+    "alias": "S.RAHMAN",
+    "email": "saira.rahman@vodafone.qa",
+    "contactTeam": "Mass Market",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Mass Market Advisor",
+    "position": "Retail Front Office",
+    "location": "Villaggio Store",
+    "team": "Mass Market",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-101",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009105"
+  },
+  {
+    "userId": "USR-1206",
+    "lastName": "Al-Thani",
+    "firstName": "Mariam",
+    "jobTitle": "Account Manager",
+    "alias": "M.ALTHANI",
+    "email": "mariam.althani@vodafone.qa",
+    "contactTeam": "Enterprise Accounts",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Enterprise Account Manager",
+    "position": "Account Management",
+    "location": "Doha HQ",
+    "team": "Enterprise Accounts",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009106"
+  },
+  {
+    "userId": "USR-1207",
+    "lastName": "Haddad",
+    "firstName": "Tariq",
+    "jobTitle": "Key Accounts Manager",
+    "alias": "T.HADDAD",
+    "email": "tariq.haddad@vodafone.qa",
+    "contactTeam": "Key Accounts",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Strategic Account Director",
+    "position": "Account Management",
+    "location": "Doha HQ",
+    "team": "Key Accounts",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009107"
+  },
+  {
+    "userId": "USR-1208",
+    "lastName": "Al-Sulaiti",
+    "firstName": "Reem",
+    "jobTitle": "Channel Manager",
+    "alias": "R.ALSULAITI",
+    "email": "reem.alsulaiti@vodafone.qa",
+    "contactTeam": "Channel Operations",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Channel Operations Manager",
+    "position": "Channel Oversight",
+    "location": "Doha HQ",
+    "team": "Channel Operations",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009108"
+  },
+  {
+    "userId": "USR-1209",
+    "lastName": "Nasser",
+    "firstName": "Yousef",
+    "jobTitle": "Authorized Officer",
+    "alias": "Y.NASSER",
+    "email": "yousef.nasser@vodafone.qa",
+    "contactTeam": "Enterprise Customer Contact",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Authorised Officer (customer-side)",
+    "position": "Customer Representative",
+    "location": "Customer Premises",
+    "team": "Enterprise Customer Contact",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009109"
+  },
+  {
+    "userId": "USR-1210",
+    "lastName": "Al-Kaabi",
+    "firstName": "Hessa",
+    "jobTitle": "Customer Care",
+    "alias": "H.ALKAABI",
+    "email": "hessa.alkaabi@vodafone.qa",
+    "contactTeam": "Customer Care",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Care Advisor",
+    "position": "Assisted Care",
+    "location": "Doha Contact Centre",
+    "team": "Customer Care",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009110"
+  },
+  {
+    "userId": "USR-1211",
+    "lastName": "Farouk",
+    "firstName": "Dina",
+    "jobTitle": "Business Care",
+    "alias": "D.FAROUK",
+    "email": "dina.farouk@vodafone.qa",
+    "contactTeam": "Business Care",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Enterprise Care Advisor",
+    "position": "Assisted Care",
+    "location": "Doha HQ",
+    "team": "Business Care",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009111"
+  },
+  {
+    "userId": "USR-1212",
+    "lastName": "Al-Marri",
+    "firstName": "Abdulla",
+    "jobTitle": "Premium",
+    "alias": "A.ALMARRI",
+    "email": "abdulla.almarri@vodafone.qa",
+    "contactTeam": "Premium Care",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Premium Relationship Advisor",
+    "position": "Retail Front Office",
+    "location": "City Center Premium Desk",
+    "team": "Premium Care",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-101",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009112"
+  },
+  {
+    "userId": "USR-1213",
+    "lastName": "Siddiqui",
+    "firstName": "Ayesha",
+    "jobTitle": "Retention",
+    "alias": "A.SIDDIQUI",
+    "email": "ayesha.siddiqui@vodafone.qa",
+    "contactTeam": "Retention",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Retention Specialist",
+    "position": "Outbound Retention",
+    "location": "Doha Contact Centre",
+    "team": "Retention",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009113"
+  },
+  {
+    "userId": "USR-1214",
+    "lastName": "Al-Dosari",
+    "firstName": "Jassim",
+    "jobTitle": "Fulfilment",
+    "alias": "J.ALDOSARI",
+    "email": "jassim.aldosari@vodafone.qa",
+    "contactTeam": "Order Fulfilment",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Fulfilment Executive",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Order Fulfilment",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009114"
+  },
+  {
+    "userId": "USR-1216",
+    "lastName": "Iqbal",
+    "firstName": "Zainab",
+    "jobTitle": "CDM",
+    "alias": "Z.IQBAL",
+    "email": "zainab.iqbal@vodafone.qa",
+    "contactTeam": "Customer Data Management",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Customer Data Specialist",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Customer Data Management",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009116"
+  },
+  {
+    "userId": "USR-1217",
+    "lastName": "Al-Ali",
+    "firstName": "Hamad",
+    "jobTitle": "MNP",
+    "alias": "H.ALALI",
+    "email": "hamad.alali@vodafone.qa",
+    "contactTeam": "MNP Operations",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Number Portability Specialist",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "MNP Operations",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009117"
+  },
+  {
+    "userId": "USR-1218",
+    "lastName": "George",
+    "firstName": "Liya",
+    "jobTitle": "Billing",
+    "alias": "L.GEORGE",
+    "email": "liya.george@vodafone.qa",
+    "contactTeam": "Billing Operations",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Billing Analyst",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Billing Operations",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009118"
+  },
+  {
+    "userId": "USR-1219",
+    "lastName": "Al-Hashmi",
+    "firstName": "Fahad",
+    "jobTitle": "Credit Control",
+    "alias": "F.ALHASHMI",
+    "email": "fahad.alhashmi@vodafone.qa",
+    "contactTeam": "Collections & Credit Control",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Credit Control Analyst",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Collections & Credit Control",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009119"
+  },
+  {
+    "userId": "USR-1220",
+    "lastName": "Pereira",
+    "firstName": "Ryan",
+    "jobTitle": "Dispatcher",
+    "alias": "R.PEREIRA",
+    "email": "ryan.pereira@vodafone.qa",
+    "contactTeam": "Workforce Management",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "WFM Dispatcher",
+    "position": "Back Office WFM",
+    "location": "Doha Network Ops",
+    "team": "Workforce Management",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009120"
+  },
+  {
+    "userId": "USR-1221",
+    "lastName": "Al-Naimi",
+    "firstName": "Salem",
+    "jobTitle": "Field Engineer",
+    "alias": "S.ALNAIMI",
+    "email": "salem.alnaimi@vodafone.qa",
+    "contactTeam": "Field Operations",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Field Installation Engineer",
+    "position": "Field",
+    "location": "Doha Central Zone",
+    "team": "Field Operations",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009121"
+  },
+  {
+    "userId": "USR-1222",
+    "lastName": "Al-Khater",
+    "firstName": "Latifa",
+    "jobTitle": "Supervisor",
+    "alias": "L.ALKHATER",
+    "email": "latifa.alkhater@vodafone.qa",
+    "contactTeam": "Operations Supervision",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Operations Supervisor",
+    "position": "Supervisory",
+    "location": "Doha HQ",
+    "team": "Operations Supervision",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009122"
+  },
+  {
+    "userId": "USR-1224",
+    "lastName": "Varghese",
+    "firstName": "Anand",
+    "jobTitle": "System Administrator",
+    "alias": "A.VARGHESE",
+    "email": "anand.varghese@vodafone.qa",
+    "contactTeam": "Platform Administration",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Platform Administrator",
+    "position": "IT Operations",
+    "location": "Doha HQ",
+    "team": "Platform Administration",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009124"
+  },
+  {
+    "userId": "USR-1225",
+    "lastName": "Al-Jaber",
+    "firstName": "Noof",
+    "jobTitle": "View Only",
+    "alias": "N.ALJABER",
+    "email": "noof.aljaber@vodafone.qa",
+    "contactTeam": "Governance & Audit",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Read-only Reviewer",
+    "position": "Oversight",
+    "location": "Doha HQ",
+    "team": "Governance & Audit",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009125"
+  },
+  {
+    "userId": "USR-1226",
+    "lastName": "Zaman",
+    "firstName": "Bilal",
+    "jobTitle": "Complaints",
+    "alias": "B.ZAMAN",
+    "email": "bilal.zaman@vodafone.qa",
+    "contactTeam": "Complaints (Mobile & Fixed)",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Complaints Resolution Officer",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Complaints (Mobile & Fixed)",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-HQ1",
+    "managerEmail": "manager.ops@vodafone.qa",
+    "mobileNumber": "+97433009126"
+  }
+]

@@ -1,0 +1,266 @@
+{
+  "_comment": "Generated crosswalk between CRM_Journeys_Final_Updated_with_Type.xlsx (Page Type sheet, Unique ID column) and this app's screens/modules. Only entries with a confident, manually-verified name match are included. See the workbook's Mapping Report sheet for the full mapped/unmapped list and rationale. Cards for any screenId/moduleId not present here render exactly as before this feature was added.",
+  "journeys": {
+    "UJ-001": {
+      "name": "Create Lead",
+      "type": "User Journey"
+    },
+    "UJ-005": {
+      "name": "New Fixed line",
+      "type": "User Journey"
+    },
+    "UJ-006": {
+      "name": "New FWA",
+      "type": "User Journey"
+    },
+    "UJ-007": {
+      "name": "New Postpaid",
+      "type": "User Journey"
+    },
+    "UJ-009": {
+      "name": "New Prepaid",
+      "type": "User Journey"
+    },
+    "UJ-010": {
+      "name": "MNP Prepaid",
+      "type": "User Journey"
+    },
+    "UJ-011": {
+      "name": "MNP Postpaid",
+      "type": "User Journey"
+    },
+    "UJ-026": {
+      "name": "Passport to QID",
+      "type": "User Journey"
+    },
+    "WF-025": {
+      "name": "TON",
+      "type": "Workflow/Task"
+    },
+    "AP-068": {
+      "name": "TON Access",
+      "type": "Access/Permission"
+    },
+    "VW-045": {
+      "name": "View and Manage orders",
+      "type": "View"
+    },
+    "VW-048": {
+      "name": "View Surepay balance",
+      "type": "View"
+    },
+    "VW-065": {
+      "name": "View QUEUE",
+      "type": "View"
+    },
+    "VW-067": {
+      "name": "View Assets",
+      "type": "View"
+    },
+    "VW-082": {
+      "name": "Numbers Tab",
+      "type": "View"
+    }
+  },
+  "screens": {
+    "SCR-140": [
+      "UJ-001"
+    ],
+    "SCR-043": [
+      "UJ-005"
+    ],
+    "SCR-045": [
+      "UJ-005"
+    ],
+    "SCR-046": [
+      "UJ-005"
+    ],
+    "SCR-048": [
+      "UJ-005"
+    ],
+    "SCR-050": [
+      "UJ-005"
+    ],
+    "SCR-056": [
+      "UJ-005"
+    ],
+    "SCR-067": [
+      "UJ-005"
+    ],
+    "SCR-077": [
+      "UJ-006"
+    ],
+    "SCR-078": [
+      "UJ-006"
+    ],
+    "SCR-079": [
+      "UJ-006"
+    ],
+    "SCR-080": [
+      "UJ-006"
+    ],
+    "SCR-082": [
+      "UJ-006"
+    ],
+    "SCR-083": [
+      "UJ-006"
+    ],
+    "SCR-084": [
+      "UJ-006"
+    ],
+    "SCR-085": [
+      "UJ-006"
+    ],
+    "SCR-099": [
+      "UJ-006"
+    ],
+    "SCR-036": [
+      "UJ-007"
+    ],
+    "SCR-037": [
+      "UJ-007"
+    ],
+    "SCR-154": [
+      "UJ-007"
+    ],
+    "SCR-155": [
+      "UJ-007"
+    ],
+    "SCR-156": [
+      "UJ-007"
+    ],
+    "SCR-157": [
+      "UJ-007"
+    ],
+    "SCR-158": [
+      "UJ-007"
+    ],
+    "SCR-159": [
+      "UJ-007"
+    ],
+    "SCR-160": [
+      "UJ-007"
+    ],
+    "SCR-161": [
+      "UJ-007"
+    ],
+    "SCR-162": [
+      "UJ-007"
+    ],
+    "SCR-188": [
+      "UJ-007"
+    ],
+    "SCR-190": [
+      "UJ-009"
+    ],
+    "SCR-120": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-121": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-122": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-123": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-124": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-125": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-126": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-127": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-129": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-133": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-134": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "SCR-113": [
+      "UJ-011"
+    ],
+    "SCR-114": [
+      "UJ-011"
+    ],
+    "SCR-151": [
+      "UJ-026"
+    ],
+    "SCR-035": [
+      "WF-025",
+      "AP-068"
+    ],
+    "SCR-023": [
+      "VW-045"
+    ],
+    "SCR-059": [
+      "VW-045",
+      "VW-065"
+    ],
+    "SCR-095": [
+      "VW-048"
+    ],
+    "SCR-060": [
+      "VW-065"
+    ],
+    "SCR-164": [
+      "VW-067"
+    ],
+    "SCR-104": [
+      "VW-082"
+    ]
+  },
+  "modules": {
+    "MOD-fixed-line-fibre": [
+      "UJ-001",
+      "UJ-005"
+    ],
+    "MOD-fwa-5g-home": [
+      "UJ-006"
+    ],
+    "MOD-mobile-postpaid": [
+      "UJ-007",
+      "VW-048",
+      "VW-067"
+    ],
+    "MOD-mobile-prepaid": [
+      "UJ-009"
+    ],
+    "MOD-mnp-fnp-porting": [
+      "UJ-010",
+      "UJ-011"
+    ],
+    "MOD-identity-customer-management": [
+      "UJ-026"
+    ],
+    "MOD-sim-number-management": [
+      "WF-025",
+      "AP-068",
+      "VW-082"
+    ],
+    "MOD-order-management": [
+      "VW-045",
+      "VW-065"
+    ]
+  }
+}

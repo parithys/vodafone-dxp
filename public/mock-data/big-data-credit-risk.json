@@ -1,0 +1,34 @@
+[
+  {
+    "bigDataId": "BDR-9001",
+    "customerId": "CUST-3017",
+    "creditRisk": "Low",
+    "creditRiskExemption": "Low",
+    "creditRiskUpdatedAt": "2026-10-20",
+    "_note": "Demo feed (2026-10-22) - Big Data credit-risk input. Kenyan (HRN) customer with Credit Risk Exemption Low: the HRN fee is not marked."
+  },
+  {
+    "bigDataId": "BDR-9002",
+    "customerId": "CUST-3062",
+    "creditRisk": "High",
+    "creditRiskExemption": "High",
+    "creditRiskUpdatedAt": "2026-10-20",
+    "_note": "Demo feed - Ugandan (HRN) customer with Credit Risk Exemption High: the HRN fee applies as the nationality sets it."
+  },
+  {
+    "bigDataId": "BDR-9003",
+    "customerId": "CUST-3026",
+    "creditRisk": "Medium",
+    "creditRiskExemption": "No",
+    "creditRiskUpdatedAt": "2026-10-21",
+    "_note": "Demo feed - Pakistani (HRN) customer with Credit Risk Exemption No: the HRN fee is not marked."
+  },
+  {
+    "bigDataId": "BDR-9004",
+    "customerId": "CUST-1001",
+    "creditRisk": "Low",
+    "creditRiskExemption": "Low",
+    "creditRiskUpdatedAt": "2026-10-19",
+    "_note": "Demo feed - a Qatari (non-HRN) customer: the feed updates their Credit Risk; there is no HRN fee to exempt."
+  }
+]

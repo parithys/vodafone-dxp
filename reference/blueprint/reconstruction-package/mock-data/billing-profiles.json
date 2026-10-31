@@ -1,0 +1,49 @@
+[
+  {
+    "billingProfileId": "BILL-7001",
+    "accountId": "ACC-5001",
+    "name": "Ahmed Al-Sulaiti - Personal",
+    "billingCycle": "Monthly - Day 5",
+    "billingType": "Arrears",
+    "billingAddress": "Zone 45, Street 12, Doha",
+    "billMedium": "Email",
+    "autoPayStatus": "Enrolled",
+    "collectionStatus": "Good Standing",
+    "creditLimitQAR": 1500
+  },
+  {
+    "billingProfileId": "BILL-7002",
+    "accountId": "ACC-5002",
+    "name": "Bimal Thapa - Personal",
+    "billingCycle": "Monthly - Day 12",
+    "billingType": "Arrears",
+    "billingAddress": "Zone 55, Street 8, Al Sadd, Doha",
+    "billMedium": "Email",
+    "autoPayStatus": "Not Enrolled",
+    "collectionStatus": "Good Standing",
+    "creditLimitQAR": 1000,
+    "hrnAdvancePaymentQAR": 100
+  },
+  {
+    "billingProfileId": "BILL-7003",
+    "accountId": "ACC-5003",
+    "name": "Fatima Al-Kuwari - Home",
+    "billingCycle": "Monthly - Day 1",
+    "billingType": "Arrears",
+    "billingAddress": "Zone 66, Street 214, The Pearl, Doha",
+    "billMedium": "Email + SMS",
+    "collectionStatus": "Good Standing",
+    "creditLimitQAR": 2000
+  },
+  {
+    "billingProfileId": "BILL-7004",
+    "accountId": "ACC-5004",
+    "name": "Acme Trading Qatar - Consolidated",
+    "billingCycle": "Monthly - Day 1",
+    "billingType": "Hybrid (PIA + Arrears)",
+    "billingAddress": "Office 302, West Bay Tower, Doha",
+    "billMedium": "Summary PDF",
+    "collectionStatus": "Good Standing",
+    "creditLimitQAR": 50000
+  }
+]

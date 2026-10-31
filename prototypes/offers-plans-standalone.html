@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offers &amp; Plans - Standalone Prototype</title>
+<!--
+  STANDALONE TEST PAGE. Not part of the application: it imports nothing from it, is imported by nothing in it, and shares no code, styles or data.
+  Open this file directly in a browser. All data is inline (see DATA below).
+-->
+<style>
+  :root {
+    --red: #e60000; --red-dark: #b30000; --red-text: #c70000;
+    --ink: #1f2430; --ink-2: #5a6070; --line: #d9dde5; --line-soft: #eceff4;
+    --page: #f1f4fa; --card: #ffffff; --tint-red: #fff1f1; --tint-blue: #e8f1fd; --blue: #1f5fb8;
+    --tint-teal: #dcf3f1; --teal: #0b5f5b; --tint-green: #e6f5e8; --green: #1f6b2c;
+    --radius: 16px; --focus: 0 0 0 3px rgba(0, 126, 145, .45);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 "Vodafone", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+  .banner { background: #21232b; color: #fff; padding: 8px 24px; font-size: 13px; letter-spacing: .02em; }
+  .banner strong { color: #ffb3b3; }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 24px 64px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  h1 { margin: 0 0 16px; font-size: 24px; }
+  h2 { margin: 0 0 4px; font-size: 20px; }
+  .muted { color: var(--ink-2); }
+  button { font: inherit; cursor: pointer; }
+  :focus-visible { outline: none; box-shadow: var(--focus); }
+
+  /* Level 1 tabs: the horizontal border (underline) strip */
+  .tabs { display: flex; overflow-x: auto; box-shadow: inset 0 -1px 0 var(--line); margin-bottom: 20px; }
+  .tab { flex: 0 0 auto; background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 18px; color: var(--ink); white-space: nowrap; }
+  .tab:hover { color: var(--red-text); }
+  .tab[aria-selected="true"] { color: var(--red-text); font-weight: 700; border-bottom-color: var(--red); }
+
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .card { position: relative; display: flex; flex-direction: column; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .card.recommended { border-color: var(--red); background: linear-gradient(180deg, #fff6f6, #fff); }
+  .tag { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; background: var(--tint-blue); color: var(--blue); }
+  .tag.red { background: var(--red); color: #fff; }
+  .tag.teal { background: var(--tint-teal); color: var(--teal); }
+  .tag.green { background: var(--tint-green); color: var(--green); }
+  .card-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; min-height: 26px; }
+  .plan-name { margin: 0; font-size: 20px; font-weight: 700; line-height: 1.25; }
+  .price { color: var(--red-text); }
+  .price .cur { font-weight: 700; font-size: 15px; }
+  .price .amt { font-size: 34px; font-weight: 800; line-height: 1; }
+  .price .per { color: var(--ink-2); font-size: 14px; }
+  .was { color: var(--ink-2); font-size: 15px; }
+  .was s { margin-right: 6px; }
+  .validity { color: var(--ink-2); font-size: 14px; }
+  .offer-name { font-weight: 600; margin: 4px 0 0; }
+  .view-link { margin-top: auto; align-self: flex-start; background: none; border: 0; padding: 4px 0; min-height: 24px; color: #00708a; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+  .view-link:hover { color: #004f61; }
+
+  .hero { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; border-radius: var(--radius); background: linear-gradient(120deg, #1f2740, #5e2750); color: #fff; padding: 24px; margin-bottom: 20px; }
+  .hero h2 { color: #fff; }
+  .hero .big { font-size: 34px; font-weight: 800; }
+  .perks { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); margin-top: 28px; }
+  .perk { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: #fff; }
+  .perk strong { display: block; margin-bottom: 2px; }
+  .fineprint { margin-top: 20px; color: var(--ink-2); font-size: 13px; }
+  .note { border: 1px dashed var(--line); border-radius: 12px; background: #fafbfd; padding: 10px 14px; font-size: 14px; color: var(--ink-2); margin-bottom: 16px; }
+
+  /* Side drawer: the application's drawer pattern (small uppercase title beside the X, body on the page tint, equal-width footer buttons) */
+  .scrim { position: fixed; inset: 0; background: rgba(0, 0, 0, .8); opacity: 0; visibility: hidden; transition: opacity .22s; z-index: 40; }
+  .scrim.open { opacity: 1; visibility: visible; }
+  .drawer { position: fixed; top: 0; right: 0; height: 100%; width: 50vw; min-width: min(420px, 100vw); max-width: 100%; background: #fff; border-left: 1px solid var(--line-soft); box-shadow: -8px 0 32px rgba(15, 20, 35, .25); transform: translateX(100%); transition: transform .22s; z-index: 50; display: flex; flex-direction: column; visibility: hidden; }
+  .drawer.open { transform: none; visibility: visible; }
+  .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px 12px; flex: none; }
+  .drawer-head h2 { margin: 0; font-size: 14px; font-weight: 400; color: #6b6b6b; text-transform: uppercase; letter-spacing: .06em; }
+  .close { width: 36px; height: 36px; border-radius: 12px; border: 0; background: none; color: var(--ink-2); display: grid; place-items: center; }
+  .close:hover { background: #eef1f8; color: var(--ink); }
+  .drawer-body { flex: 1; overflow-y: auto; background: #f5f7f9; padding: 24px; display: grid; gap: 24px; align-content: start; grid-auto-rows: max-content; }
+  .drawer-foot { flex: none; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 16px; padding: 16px 24px; border-top: 1px solid var(--line-soft); background: #fff; }
+  .btn { min-height: 42px; border-radius: 12px; padding: 8px 16px; font-weight: 600; border: 1px solid var(--line); background: #f1f4fa; color: var(--ink); }
+  .btn:hover { background: #e6ebf5; }
+  .btn.primary { border-color: transparent; color: #fff; background: linear-gradient(90deg, #e53326, #a41f14); }
+  .btn.primary:hover { background: linear-gradient(90deg, #b52519, #5b0b06); }
+  .hero-row { display: flex; gap: 16px; align-items: flex-start; }
+  .hero-tile { flex: none; min-width: 150px; border-radius: 16px; background: #fff; border: 1px solid var(--line-soft); padding: 16px 18px; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+  .hero-tile .amt { font-size: 38px; }
+  .hero-tile .was { font-size: 14px; }
+  .hero-row h3 { margin: 0 0 6px; font-size: 20px; line-height: 1.25; }
+  .hero-row p { margin: 0 0 8px; color: var(--ink-2); }
+  .pill-tag { display: inline-block; border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 500; background: #fff0f0; color: var(--red-text); margin-right: 8px; }
+  .pill-tag.plain { background: #f5f7f9; color: var(--ink-2); border: 1px solid var(--line-soft); }
+  .dsec h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; }
+  .dpanel { border-radius: 16px; border: 1px solid var(--line-soft); background: #fff; padding: 0 16px; }
+  .drow { display: flex; align-items: center; gap: 16px; }
+  .drow .disc { flex: none; width: 40px; height: 40px; border-radius: 50%; background: #f5f7f9; color: var(--ink-2); display: grid; place-items: center; }
+  .drow .disc.red { color: var(--red-text); background: #fff0f0; }
+  .drow .body { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; }
+  .drow + .drow .body { border-top: 1px solid var(--line-soft); }
+  .drow .k { color: var(--ink); }
+  .drow .v { text-align: right; }
+  .drow .text { flex: 1; padding: 14px 0; }
+  .drow + .drow .text { border-top: 1px solid var(--line-soft); }
+  .drow.bullet-row { align-items: stretch; }
+  .drow.bullet-row .disc { align-self: center; }
+  .empty { text-align: center; color: var(--ink-2); padding: 40px 0; }
+  @media (prefers-reduced-motion: reduce) { .drawer, .scrim { transition: none; } }
+</style>
+</head>
+<body>
+<div class="banner"><strong>Prototype</strong> - standalone test page for Offers &amp; Plans. It is not connected to the application.</div>
+<main>
+  <section class="panel" aria-labelledby="page-title">
+    <h1 id="page-title">Offers &amp; Plans</h1>
+    <div class="tabs" role="tablist" aria-label="Offers and plans" id="main-tabs"></div>
+    <div id="tab-panel" role="tabpanel" tabindex="0"></div>
+  </section>
+</main>
+
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Offer details" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 id="drawer-title">Offer Details</h2>
+    <button class="close" id="drawer-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18 M6 6l12 12"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+  <div class="drawer-foot">
+    <button class="btn" type="button" id="drawer-close-2">Close</button>
+    <button class="btn primary" type="button" id="drawer-select">Select this offer</button>
+  </div>
+</aside>
+
+<script>
+/* ============================== DATA (inline, prototype only) ============================== */
+// Offer-bullet icons: 24px-grid line icons (2px stroke, round caps), the same drawing style as the application's icons. Paths are inline copies.
+const ICON_PATHS = {
+  data: 'M4 20V10 M10 20V4 M16 20v-7 M22 20H2',
+  call: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',
+  globe: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 0 20 M12 2a15 15 0 0 0 0 20',
+  gift: 'M20 12v9H4v-9 M2 7h20v5H2z M12 21V7 M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z',
+  parking: 'M5 16h14 M6 16l1.5-6h9L18 16 M7 16v3 M17 16v3 M9 13h.01 M15 13h.01',
+  voucher: 'M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z M12 9v3 M12 15h.01',
+  price: 'M3 6h18v12H3z M3 10h18 M6 15h4',
+  sim: 'M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z M11 18h2',
+  shield: 'M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z M9.5 12l2 2 3-3',
+  star: 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z',
+};
+const iconSvg = (key) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICON_PATHS[key] || ICON_PATHS.star}"/></svg>`;
+
+// The SPECIAL offer supplied for this prototype.
+const SPECIAL_OFFER = {
+  id: 'special-350',
+  planName: 'New Unlimited+ Premium Plan',
+  rental: { discounted: 350, original: 450, validity: 'for 6 months' },
+  offerName: 'SPECIAL Offer: 350 GB & more for QR350',
+  headline: 'New Unlimited+ Premium Plan for just QR 350 and enjoy monthly:',
+  description: [
+    ['data', 'Unlimited Local Data & Local Mins'],
+    ['globe', '50GB GCC roaming Data & 1000 Minutes.'],
+    ['call', 'Free Call+ with 1000 global roaming minutes via MyVodafone App'],
+    ['globe', '20 GB Roaming Data & 100 Roaming Minutes in 175+ countries'],
+    ['parking', 'Free Valet Parking and Vodafone MyBook App Subscription.'],
+    ['voucher', 'Upto QR50 worth voucher for Vodafone World each month to unlock your favorite apps, YouTube Premium, Snoonu, Uber & more.'],
+    ['price', 'Pay only QR350 instead of QR450 for 6 months.'],
+  ],
+  planInfo: [
+    ['Plan', 'New Unlimited+ Premium Plan'],
+    ['Plan rental', 'QR 350 per month for 6 months (instead of QR 450)'],
+    ['Local data', 'First 350 GB at full 5G speed, then unlimited at 15 Mbps'],
+    ['Local minutes & SMS', 'Unlimited'],
+    ['GCC roaming', '50 GB data & 1000 minutes'],
+    ['Global roaming', 'Free Call+: 1000 minutes via the MyVodafone App'],
+    ['Roaming (175+ countries)', '20 GB data & 100 minutes'],
+    ['Perks', 'Free Valet Parking, Vodafone MyBook App subscription'],
+    ['Vodafone World', 'Voucher worth up to QR 50 each month'],
+    ['Offer', 'SPECIAL Offer: 350 GB & more for QR350'],
+  ],
+};
+
+// Other standard offers (figures from the application's catalogue, copied here as inline text only).
+const STANDARD_OFFERS = [
+  SPECIAL_OFFER,
+  {
+    id: 'offer-essential', planName: 'Postpaid Essential', rental: { discounted: 115, original: 130, validity: 'for 4 months' },
+    offerName: 'Essential Welcome Offer', popular: true,
+    description: [['data', '15GB full speed local data'], ['call', '500 local minutes'], ['sim', '300 SMS'], ['globe', 'Up to 300 international minutes'], ['gift', 'Free Star Number worth QAR 1,500'], ['gift', 'Free Vodafone My Book']],
+    planInfo: [['Plan', 'Postpaid Essential'], ['Plan rental', 'QR 115 per month for 4 months (instead of QR 130)'], ['Local data', '15GB full speed'], ['Local minutes', '500 local minutes'], ['SMS', '300 SMS'], ['International minutes', 'Up to 300'], ['Minimum period', '3 months']],
+  },
+  {
+    id: 'offer-extra', planName: 'Postpaid Extra', rental: { discounted: 145, original: 180, validity: 'for 4 months' },
+    offerName: 'Extra Welcome Offer',
+    description: [['data', '40GB full speed local data'], ['call', 'Unlimited local minutes'], ['sim', '300 SMS'], ['globe', 'Up to 300 international minutes'], ['gift', 'Free Star Number worth QAR 2,500'], ['gift', 'Free Vodafone My Book']],
+    planInfo: [['Plan', 'Postpaid Extra'], ['Plan rental', 'QR 145 per month for 4 months (instead of QR 180)'], ['Local data', '40GB full speed'], ['Local minutes', 'Unlimited'], ['SMS', '300 SMS'], ['International minutes', 'Up to 300'], ['Minimum period', '3 months']],
+  },
+  {
+    id: 'offer-max', planName: 'Postpaid Max', rental: { discounted: 180, original: 230, validity: 'for 4 months' },
+    offerName: 'Max Welcome Offer',
+    description: [['data', '60GB full speed local data'], ['call', 'Unlimited local minutes'], ['sim', '300 SMS'], ['globe', 'Up to 300 international minutes'], ['gift', 'Free Star Number worth QAR 3,500'], ['gift', 'Free Vodafone My Book']],
+    planInfo: [['Plan', 'Postpaid Max'], ['Plan rental', 'QR 180 per month for 4 months (instead of QR 230)'], ['Local data', '60GB full speed'], ['Local minutes', 'Unlimited'], ['SMS', '300 SMS'], ['International minutes', 'Up to 300'], ['Minimum period', '3 months']],
+  },
+];
+
+// Standard Plans: structured like https://www.vodafone.qa/Unlimited-Plus-Plans ("Explore our new Unlimited+ plans" / "Explore our new Postpaid+ plans",
+// tabs "New Unlimited+" and "New Postpaid+", "Why Unlimited+ Plans with Vodafone?"). Per-plan figures are the application's catalogue and Vodafone's
+// published tariff notification, because the page's plan tables could not be read.
+const STANDARD_PLANS = {
+  unlimited: [
+    { id: 'unl', planName: 'Unlimited+', rental: { price: 225 }, tag: 'Unlimited', description: [['data', 'Unlimited local data'], ['call', 'Unlimited local minutes & SMS'], ['globe', '200 international minutes'], ['call', 'Roaming: 15GB data and unlimited roaming minutes with Call+'], ['shield', 'International Call Block free for the first 6 months'], ['gift', 'Free Vodafone My Book'], ['voucher', 'Vodafone World worth up to QR 30']],
+      planInfo: [['Plan', 'New Unlimited+'], ['Plan rental', 'QR 225 per month'], ['Local data', 'First 125 GB at full 5G speed, then unlimited at 10 Mbps'], ['Local minutes & SMS', 'Unlimited'], ['International minutes', '200'], ['Roaming', '15GB data and unlimited roaming minutes with Call+ (via the MyVodafone App)'], ['Minimum period', '3 months']] },
+    { id: 'prem', planName: 'Unlimited+ Premium', rental: { price: 450 }, tag: 'Unlimited', description: [['data', 'Unlimited local data'], ['call', 'Unlimited local minutes & SMS'], ['globe', '300 international minutes'], ['call', 'Roaming: 100 minutes & SMS and 20GB data'], ['shield', 'International Call Block free for the first 6 months'], ['parking', 'Regular Valet'], ['gift', 'Free Vodafone My Book'], ['voucher', 'Vodafone World worth up to QR 50']],
+      planInfo: [['Plan', 'Unlimited+ Premium'], ['Plan rental', 'QR 450 per month'], ['Local data', 'First 350 GB at full 5G speed, then unlimited at 15 Mbps'], ['Local minutes & SMS', 'Unlimited'], ['International minutes', '300'], ['Roaming', '100 minutes & SMS and 20GB data'], ['Minimum period', '3 months']] },
+    { id: 'plat', planName: 'Unlimited+ Platinum', rental: { price: 750 }, tag: 'Unlimited', description: [['data', 'Unlimited local data'], ['call', 'Unlimited local minutes & SMS'], ['globe', '400 international minutes'], ['call', 'Roaming: 300 minutes & SMS and 50GB data'], ['parking', 'VIP Valet'], ['gift', 'Free Vodafone My Book'], ['voucher', 'Vodafone World worth up to QR 100']],
+      planInfo: [['Plan', 'Unlimited+ Platinum'], ['Plan rental', 'QR 750 per month'], ['Local data', 'First 750 GB at full 5G speed, then unlimited at 15 Mbps'], ['Local minutes & SMS', 'Unlimited'], ['International minutes', '400'], ['Roaming', '300 minutes & SMS and 50GB data'], ['Minimum period', '3 months']] },
+    { id: 'vip', planName: 'Unlimited+ VIP', rental: { price: 1000 }, tag: 'Unlimited', description: [['data', 'Unlimited local data'], ['call', 'Unlimited local minutes & SMS'], ['globe', '1000 international minutes'], ['call', 'Roaming: 700 minutes & SMS and 100GB data'], ['parking', 'VIP Valet'], ['gift', 'Free Vodafone My Book'], ['voucher', 'Vodafone World worth up to QR 150']],
+      planInfo: [['Plan', 'Unlimited+ VIP'], ['Plan rental', 'QR 1000 per month'], ['Local data', 'Unlimited'], ['Local minutes & SMS', 'Unlimited'], ['International minutes', '1000'], ['Roaming', '700 minutes & SMS and 100GB data'], ['Minimum period', '3 months']] },
+  ],
+  postpaid: [
+    { id: 'ess', planName: 'Postpaid+ Essential', rental: { price: 130 }, tag: 'Postpaid', description: [['data', '15GB full speed local data'], ['call', '500 local minutes'], ['sim', '300 SMS'], ['globe', 'Up to 300 international minutes']],
+      planInfo: [['Plan', 'Postpaid+ Essential'], ['Plan rental', 'QR 130 per month'], ['Local data', '15GB full speed'], ['Local minutes', '500'], ['SMS', '300'], ['International minutes', 'Up to 300'], ['Minimum period', '3 months']] },
+    { id: 'ext', planName: 'Postpaid+ Extra', rental: { price: 180 }, tag: 'Postpaid', description: [['data', '40GB full speed local data'], ['call', 'Unlimited local minutes'], ['sim', '300 SMS'], ['globe', 'Up to 300 international minutes']],
+      planInfo: [['Plan', 'Postpaid+ Extra'], ['Plan rental', 'QR 180 per month'], ['Local data', '40GB full speed'], ['Local minutes', 'Unlimited'], ['SMS', '300'], ['International minutes', 'Up to 300'], ['Minimum period', '3 months']] },
+    { id: 'max', planName: 'Postpaid+ Max', rental: { price: 230 }, tag: 'Postpaid', description: [['data', '60GB full speed local data'], ['call', 'Unlimited local minutes'], ['sim', '300 SMS'], ['globe', 'Up to 300 international minutes']],
+      planInfo: [['Plan', 'Postpaid+ Max'], ['Plan rental', 'QR 230 per month'], ['Local data', '60GB full speed'], ['Local minutes', 'Unlimited'], ['SMS', '300'], ['International minutes', 'Up to 300'], ['Minimum period', '3 months']] },
+  ],
+  perks: [
+    ['Vodafone World', 'Vouchers and discounts on apps, YouTube Premium, Snoonu, Uber and gaming platforms (New Unlimited+ customers).'],
+    ['Multi-SIM', 'Single-number data sharing across devices.'],
+    ['Call+', 'Unlimited roaming calls via the MyVodafone App.'],
+    ['Call Block', 'Block unwanted international calls.'],
+    ['24/7 customer support', 'Exclusive discounts and round-the-clock help.'],
+  ],
+};
+
+// Special Offers: the standard offers for now, prefixed "B2B2C <plan name>" for the prototype.
+const SPECIAL_OFFERS = STANDARD_OFFERS.map((o) => ({
+  ...o, id: 'b2b2c-' + o.id, planName: 'B2B2C ' + o.planName,
+  planInfo: o.planInfo.map(([k, v]) => (k === 'Plan' ? [k, 'B2B2C ' + v] : [k, v])),
+}));
+
+const TABS = [
+  { key: 'recommended', label: 'Recommended Offers' },
+  { key: 'standard-offers', label: 'Standard Offers' },
+  { key: 'standard-plans', label: 'Standard Plans' },
+  { key: 'special-offers', label: 'Special Offers' },
+];
+
+/* ============================== RENDERING ============================== */
+const $ = (sel) => document.querySelector(sel);
+// The price an offer replaces is struck out wherever it is quoted in text ("instead of QR450"), as in the price block.
+const strike = (s) => esc(s).replace(/(instead of )(QR\s?\d[\d,]*)/g, '$1<s>$2</s>');
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const money = (n) => 'QR ' + Number(n).toLocaleString('en-GB');
+const registry = new Map(); // id -> item (for the drawer)
+let activeTab = 'recommended';
+let lastFocus = null;
+
+function priceHtml(r) {
+  if (r.discounted !== undefined) {
+    return `<div class="price"><span class="cur">QR</span> <span class="amt">${Number(r.discounted).toLocaleString('en-GB')}</span> <span class="per">/month</span></div>
+      <div class="was"><s>${money(r.original)}</s> ${esc(r.validity)}</div>`;
+  }
+  return `<div class="price"><span class="cur">QR</span> <span class="amt">${Number(r.price).toLocaleString('en-GB')}</span> <span class="per">/month</span></div>`;
+}
+
+function cardHtml(item, { badge, recommended = false, showOffer = true } = {}) {
+  registry.set(item.id, item);
+  return `<article class="card ${recommended ? 'recommended' : ''}" aria-label="${esc(item.planName)}">
+    <div class="card-top">${badge ? `<span class="tag ${badge.tone || ''}">${esc(badge.text)}</span>` : '<span></span>'}${item.tag ? `<span class="tag">${esc(item.tag)}</span>` : ''}</div>
+    <h3 class="plan-name">${esc(item.planName)}</h3>
+    ${priceHtml(item.rental)}
+    ${showOffer && item.offerName ? `<p class="offer-name">${esc(item.offerName)}</p>` : ''}
+    <button class="view-link" type="button" data-view="${esc(item.id)}" aria-haspopup="dialog" aria-label="View details for ${esc(item.planName)}">View Details</button>
+  </article>`;
+}
+
+function renderOffers(list, { recommendedFirst, note } = {}) {
+  return `${note ? `<p class="note">${note}</p>` : ''}
+    <div class="grid">${list.map((o, i) => cardHtml(o, { badge: i === 0 && recommendedFirst ? { text: 'Recommended', tone: 'red' } : o.popular ? { text: 'Popular', tone: 'red' } : null, recommended: i === 0 && recommendedFirst })).join('')}</div>`;
+}
+
+// All Unlimited+ and Postpaid+ plans together on one page: just the cards.
+function renderPlans() {
+  const all = [...STANDARD_PLANS.unlimited, ...STANDARD_PLANS.postpaid];
+  return `<div class="grid">${all.map((p) => cardHtml(p, { showOffer: false })).join('')}</div>
+    <p class="fineprint">T&amp;C's apply. Plan figures in this prototype come from the application's catalogue and Vodafone Qatar's published tariff notification.</p>`;
+}
+
+function renderPanel() {
+  const panel = $('#tab-panel');
+  panel.setAttribute('aria-labelledby', 'tab-' + activeTab);
+  if (activeTab === 'recommended') panel.innerHTML = renderOffers([SPECIAL_OFFER], { recommendedFirst: true });
+  else if (activeTab === 'standard-offers') panel.innerHTML = renderOffers(STANDARD_OFFERS);
+  else if (activeTab === 'standard-plans') panel.innerHTML = renderPlans();
+  else panel.innerHTML = renderOffers(SPECIAL_OFFERS);
+}
+
+function renderTabs() {
+  $('#main-tabs').innerHTML = TABS.map((t) => `<button class="tab" role="tab" type="button" id="tab-${t.key}" data-tab="${t.key}" aria-selected="${t.key === activeTab}" tabindex="${t.key === activeTab ? 0 : -1}">${esc(t.label)}</button>`).join('');
+}
+
+/* ============================== DRAWER ============================== */
+const PHONE = 'M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z M11 18h2';
+const bigIcon = (path, size) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"/></svg>`;
+const FACT_ICONS = { Plan: 'sim', 'Plan rental': 'price', Offer: 'gift', 'Minimum period': 'shield' };
+let selectedId = null;
+let drawerItem = null;
+function openDrawer(id, trigger) {
+  const item = registry.get(id);
+  if (!item) return;
+  drawerItem = item; lastFocus = trigger;
+  const isOffer = Boolean(item.offerName);
+  const tags = [isOffer ? 'Offer' : 'Standard Plan'];
+  // Nothing is said twice: the plan-information table keeps only what the plan
+  // name, the offer name, the price and the bullets do not already say (the plan and offer names are in the header).
+  const desc = item.description || [];
+  const bulletItems = desc;
+  const bulletText = bulletItems.map(([, t]) => t.toLowerCase());
+  const FACT_KEYS = ['Local data', 'Minimum period']; // the plan rental is the price block under the header
+  const factItems = item.planInfo.filter(([k, v]) => FACT_KEYS.includes(k) && !(k === 'Local data' && bulletText.some((t) => t.includes(v.toLowerCase()))));
+  const bullets = bulletItems.map(([k, text]) => `<div class="drow bullet-row"><span class="disc red">${iconSvg(k)}</span><span class="text">${strike(text)}</span></div>`).join('');
+  const facts = factItems.map(([k, v]) => `<div class="drow"><span class="disc">${iconSvg(FACT_ICONS[k] || 'data')}</span><div class="body"><span class="k">${esc(k)}</span><span class="v">${strike(v)}</span></div></div>`).join('');
+  $('#drawer-body').innerHTML = `
+    <div class="hero-row">
+      <div class="hero-tile" aria-label="Plan fee">${priceHtml(item.rental)}</div>
+      <div><h3>${esc(item.planName)}</h3>${item.offerName ? `<p>${esc(item.offerName)}</p>` : ''}
+        <div>${tags.map((t, i) => `<span class="pill-tag ${i ? 'plain' : ''}">${esc(t)}</span>`).join('')}</div></div>
+    </div>
+    <section class="dsec"><h3>${item.headline ? esc(item.headline) : 'What you get'}</h3><div class="dpanel">${bullets}</div></section>
+    ${facts ? `<section class="dsec"><h3>Plan Information</h3><div class="dpanel">${facts}</div></section>` : ''}
+    <p class="fineprint" style="margin:0">T&amp;C's apply.</p>`;
+  $('#drawer-select').textContent = selectedId === item.id ? 'Selected' : 'Select this offer';
+  $('#drawer').classList.add('open'); $('#scrim').classList.add('open');
+  $('#drawer').setAttribute('aria-hidden', 'false');
+  $('#drawer-close').focus();
+}
+function closeDrawer() {
+  $('#drawer').classList.remove('open'); $('#scrim').classList.remove('open');
+  $('#drawer').setAttribute('aria-hidden', 'true');
+  if (lastFocus) lastFocus.focus();
+}
+
+/* ============================== EVENTS ============================== */
+document.addEventListener('click', (e) => {
+  const tab = e.target.closest('[data-tab]');
+  if (tab) { activeTab = tab.dataset.tab; renderTabs(); renderPanel(); return; }
+  const view = e.target.closest('[data-view]');
+  if (view) { openDrawer(view.dataset.view, view); return; }
+  if (e.target.closest('#drawer-close') || e.target.closest('#drawer-close-2')) { closeDrawer(); return; }
+  if (e.target.closest('#drawer-select') && drawerItem) { selectedId = drawerItem.id; closeDrawer(); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $('#drawer').classList.contains('open')) { closeDrawer(); return; }
+  if ($('#drawer').classList.contains('open') && e.key === 'Tab') { // keep focus inside the drawer
+    const f = [...$('#drawer').querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')];
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+  const tablist = e.target.closest('[role=tablist]');
+  if (tablist && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) { // arrow-key tab navigation
+    const tabs = [...tablist.querySelectorAll('[role=tab]')];
+    let i = tabs.indexOf(document.activeElement);
+    if (i < 0) i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+    i = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    e.preventDefault(); tabs[i].click();
+    // the click re-rendered the tabs: focus the newly selected one
+    $('#main-tabs [aria-selected="true"]')?.focus();
+  }
+});
+
+renderTabs();
+renderPanel();
+</script>
+</body>
+</html>

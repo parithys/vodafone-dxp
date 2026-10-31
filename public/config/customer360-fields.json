@@ -1,0 +1,2206 @@
+[
+  {
+    "sourceId": 87,
+    "topic": "Account Address",
+    "component": "National Address",
+    "details": "Zone",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "drill-down",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 2,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "AM name",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a",
+      "EBU Sales": "real-time"
+    }
+  },
+  {
+    "sourceId": 3,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "AM mobile",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 4,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "AM Email",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 5,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Manager Email",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 6,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Availability/escalation contact",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down"
+    }
+  },
+  {
+    "sourceId": 88,
+    "topic": "Account Address",
+    "component": "National Address",
+    "details": "Street",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "drill-down",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 89,
+    "topic": "Account Address",
+    "component": "National Address",
+    "details": "Building",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "drill-down",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 9,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Account Hierarchy",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 90,
+    "topic": "Account Address",
+    "component": "National Address",
+    "details": "RFS Flag (Y/N)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "drill-down",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 11,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Postpaid - Monthly Recurring Charge",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 12,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Postpaid - Average Bill/Spend",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 13,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Prepaid - Monthly Recharge Amount",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 14,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Prepaid - Top Recharge Type",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 1,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Primary MSISDN",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a",
+      "EBU Sales": "real-time"
+    }
+  },
+  {
+    "sourceId": 16,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Latest Bill",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 17,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Outstanding Balance",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 18,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Unbilled Usage",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 19,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Due Date",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 7,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Segment",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 8,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Service Type Number of Connections (Total Per Account + Total Per Plan Type)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 22,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "OG/IC Barring Dates",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 10,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Billing Email ID (It should show all the email Ids which are marked for Billing Recipient)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 15,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Recent Milestones or Interactions (including all recent purchases add-on, Plan change, activation, change done to MSISDN, account, ticket or activity)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 25,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "PTP Eligible (Y/N)",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 21,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Current Dunning Stage",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time"
+    }
+  },
+  {
+    "sourceId": 27,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Overdue TT",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 28,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "All Orders",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 29,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "All Trouble Tickets",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 30,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "All Billing Profiles",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 31,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Installed Assets",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 32,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Contact Hierarchy",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 24,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "About to OG/IC Bar (Y/N)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 34,
+    "topic": "Audit Trail",
+    "component": "Account/Contact/Asset",
+    "details": "Audit Trail (Orders, Contact, Account, Activity, TT)",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 26,
+    "topic": "Account Information",
+    "component": "Account",
+    "details": "Credit Limit",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Pending TON requests",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Pending Adjustments",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 38,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Plan and Add-ons Benefits",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Pending Sim swap",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Activity (last 5)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Last 5 Orders",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Activity (last 5)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "real-time",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 97,
+    "topic": "Account/Contact Lead",
+    "component": "Lead",
+    "details": "Lead Type",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "drill-down"
+    }
+  },
+  {
+    "sourceId": 98,
+    "topic": "Account/Contact Lead",
+    "component": "Lead",
+    "details": "MSISDN",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "drill-down"
+    }
+  },
+  {
+    "sourceId": 99,
+    "topic": "Account/Contact Lead",
+    "component": "Lead",
+    "details": "Created By",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "drill-down"
+    }
+  },
+  {
+    "sourceId": 100,
+    "topic": "Account/Contact Lead",
+    "component": "Lead",
+    "details": "Comments",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "drill-down"
+    }
+  },
+  {
+    "sourceId": 101,
+    "topic": "Account/Contact Lead",
+    "component": "Lead",
+    "details": "Lead Status",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "drill-down"
+    }
+  },
+  {
+    "sourceId": 48,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Usage Behaviour (High Data, High Roaming, High Local Call, High International Calls)",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 49,
+    "topic": "Blacklist View",
+    "component": "Blacklist ID Status",
+    "details": "Blacklisted ID Status",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 50,
+    "topic": "Blacklist View",
+    "component": "Blacklist ID Status",
+    "details": "Account Number",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 51,
+    "topic": "Blacklist View",
+    "component": "Blacklist ID Status",
+    "details": "Total amount",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 52,
+    "topic": "Blacklist View",
+    "component": "Blacklist ID Status",
+    "details": "Bill Period",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 53,
+    "topic": "Blacklist View",
+    "component": "Blacklist ID Status",
+    "details": "Bill Number",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 54,
+    "topic": "Blacklist View",
+    "component": "Blacklist ID Status",
+    "details": "MSISDNs",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 33,
+    "topic": "Alerts & Risks",
+    "component": "Account/Contact/Asset",
+    "details": "Bell Icon/Bulk Notes",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 35,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "MSISDN Status (Active, Suspended, Barred)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 36,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Pending Discounts",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 37,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Existing Discounts Expiry Date",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 39,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Any Barring Flags",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 40,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "MSISDN Activation Date",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 41,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Postpaid Activation Date",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 42,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Plan Activation Date",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 63,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Authorized person(s)",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 64,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Authorized Role",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 65,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Authorized Mobile",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 66,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Authorized email",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "real-time",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 43,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Repeat Call Flag (Y/N)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 44,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Plan Name",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 45,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Bill Limit",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 46,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Active Add-on",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 47,
+    "topic": "Assets",
+    "component": "Assets",
+    "details": "Active Discount",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 73,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "Last Recharge Amount",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 74,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "Last Recharge Type",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 75,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "App Recent/Last Login (Date & Time)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 76,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "App Active User (Y/N)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 77,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "App Digital Adoption %",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 78,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "App Version",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 79,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "Phone Version",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 80,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "Registered Email ID",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 81,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "Current Balance (Data,Voice, Text, Primary Balance)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 82,
+    "topic": "Assets",
+    "component": "MSISDN",
+    "details": "10 Recent Usages (Data, Calls, Text, OOB)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 92,
+    "topic": "Assets",
+    "component": "Existing DOI View",
+    "details": "DOI Handset Type",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 83,
+    "topic": "Account Address",
+    "component": "Open UI Address",
+    "details": "Zone",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 84,
+    "topic": "Account Address",
+    "component": "Open UI Address",
+    "details": "Street",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 85,
+    "topic": "Account Address",
+    "component": "Open UI Address",
+    "details": "Building",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 86,
+    "topic": "Account Address",
+    "component": "Open UI Address",
+    "details": "RFS Flag (Y/N)",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 93,
+    "topic": "Assets",
+    "component": "Existing DOI View",
+    "details": "DOI Price",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 94,
+    "topic": "Assets",
+    "component": "Existing DOI View",
+    "details": "DOI Remaining Amount",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 95,
+    "topic": "Assets",
+    "component": "Existing DOI View",
+    "details": "DOI Tennure",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Assets",
+    "component": null,
+    "details": "Sim serial",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 91,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "QCB Check",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Assets",
+    "component": null,
+    "details": "Star number value",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Assets",
+    "component": null,
+    "details": "Autobase elegibility flag",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 20,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Last Payment & Channel",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 23,
+    "topic": "Billing & Payments",
+    "component": "Account",
+    "details": "Amount Required to Pay",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 96,
+    "topic": "Activation/Modification Sidebar",
+    "component": "Account/Contact/Asset",
+    "details": "Existing Customer New Activation or Migration Journey - Based on Offers (Cross Sales, Sales App, AutoBase, Migration, Happy Offer) or Standalone trigger Option for Guided Journey",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 55,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "ID Number",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 56,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "ID Status (Blacklisted/Whitelisted)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 57,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Preferred Language",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 58,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Tennure",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 59,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "First Name & Last Name (Full Name)",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Penalty View",
+    "component": null,
+    "details": "Star number Penalty",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Penalty View",
+    "component": null,
+    "details": "Device Penalty (Fiber & 5G)",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 60,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Email",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Assets",
+    "component": null,
+    "details": "Lifestyle Benifits",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Contact Information",
+    "component": null,
+    "details": "Cross sale offers flag",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "drill-down"
+    }
+  },
+  {
+    "sourceId": 61,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "DOB",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 62,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Notification MSISDN",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Assets",
+    "component": null,
+    "details": "Notifications & SMS",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 67,
+    "topic": "Contact Information",
+    "component": "Contact",
+    "details": "Total Number of Connections",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Contact Information",
+    "component": null,
+    "details": "ID Type",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Contact Information",
+    "component": null,
+    "details": "ID Number",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Contact Information",
+    "component": null,
+    "details": "Employer",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 68,
+    "topic": "Contact/Assets Information",
+    "component": "Contact/Asset",
+    "details": "CVM/targeted offers",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 69,
+    "topic": "Contact/Assets Information",
+    "component": "Contact/Asset",
+    "details": "Eligible Discount",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 70,
+    "topic": "Contact/Assets Information",
+    "component": "Contact/Asset",
+    "details": "Next Best Offer",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": 71,
+    "topic": "Contact/Assets Information",
+    "component": "Contact/Asset",
+    "details": "DOI Eligibility",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Contact Information",
+    "component": null,
+    "details": "Sales enhansment offers",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "Special Management",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": 72,
+    "topic": "Contact/Assets Information",
+    "component": "Contact/Asset",
+    "details": "Fixed Line Offer",
+    "departments": {
+      "Call Center - Onshore": "real-time",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "real-time",
+      "CMT - Mobile": "real-time",
+      "CMT - Fixed & Backoffice": "real-time",
+      "Business Care": "real-time",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "drill-down",
+      "Direct Sales/Mass Market": "real-time"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Account Information",
+    "component": null,
+    "details": "NAS/Address",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "drill-down",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "drill-down",
+      "Collections & Billing": "drill-down",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "Contact Information",
+    "component": null,
+    "details": "Credit Score",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Telesales & Retention": "real-time",
+      "Call Center - Offshore": "drill-down",
+      "CMT - Mobile": "drill-down",
+      "CMT - Fixed & Backoffice": "drill-down",
+      "Business Care": "drill-down",
+      "Premium Team": "real-time",
+      "Collections & Billing": "real-time",
+      "Retail/Franchise": "real-time",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  },
+  {
+    "sourceId": null,
+    "topic": "EBU",
+    "component": null,
+    "details": "Contract start and end date",
+    "departments": {
+      "Call Center - Onshore": "drill-down",
+      "Direct Sales/Mass Market": "n-a"
+    }
+  }
+]

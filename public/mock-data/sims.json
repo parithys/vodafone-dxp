@@ -1,0 +1,76 @@
+[
+  {
+    "simSerial": "8974412009900123456",
+    "iccid": "8974412009900123456",
+    "type": "Physical",
+    "stockStatus": "Issued",
+    "swapStatus": "Original"
+  },
+  {
+    "simSerial": "8974412009900123999",
+    "iccid": "8974412009900123999",
+    "type": "Printed eSIM",
+    "stockStatus": "Issued",
+    "swapStatus": "Original"
+  },
+  {
+    "simSerial": "8974412009900129000",
+    "iccid": "8974412009900129000",
+    "type": "Physical",
+    "stockStatus": "Available",
+    "swapStatus": "Original",
+    "_note": "App-level demo addition (not in blueprint/reconstruction-package/mock-data) - the two originally-evidenced SIM records are both already Issued, leaving no available stock to demo a successful SIM-capture step end-to-end."
+  },
+  {
+    "simSerial": "8974412345678901234",
+    "iccid": "8974412345678901234",
+    "type": "Physical",
+    "stockStatus": "Available",
+    "swapStatus": "Original",
+    "_note": "App-level QA test addition - a memorable, always-available SIM Serial Number for consistent testing across every SIM-capture step in the app (New Postpaid, New Prepaid, MNP Port-In, FWA/Fixed-Line Dual-Play install, SIM Swap), all of which validate against this same sims.json via SimSerialScanner."
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "simSerial": "8974412009900130001",
+    "iccid": "8974412009900130001",
+    "type": "Physical",
+    "stockStatus": "Issued",
+    "swapStatus": "Original"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "simSerial": "8974412009900130002",
+    "iccid": "8974412009900130002",
+    "type": "Printed eSIM",
+    "stockStatus": "Issued",
+    "swapStatus": "Original"
+  },
+  {
+    "_note": "Mobile Prepaid BRSD MPRA_001_SIM_02 demo seed (2026-10-13): a Pre-Paired SIM - the MSISDN is already on the SIM, so Number Selection is bypassed (NUM_02). Not in the BRSD corpus; app-level placeholder pending VFQ confirmation of real inventory.",
+    "simSerial": "8974412009900140001",
+    "iccid": "8974412009900140001",
+    "type": "Physical",
+    "stockStatus": "Available",
+    "swapStatus": "Original",
+    "prePaired": true,
+    "msisdn": "+97433990001"
+  },
+  {
+    "_note": "Mobile Prepaid BRSD MPRA_001_SIM_02 demo seed (2026-10-13): a second Pre-Paired SIM, so a multi-subscription cart can use two.",
+    "simSerial": "8974412009900140002",
+    "iccid": "8974412009900140002",
+    "type": "Physical",
+    "stockStatus": "Available",
+    "swapStatus": "Original",
+    "prePaired": true,
+    "msisdn": "+97433990002"
+  },
+  {
+    "_note": "Mobile Prepaid BRSD MPRA_001_PAY_03 demo seed (2026-10-13): an Available Printed eSIM card - stocked in store, so depleted at payment (a Virtual eSIM is not, PAY_04).",
+    "simSerial": "8974412009900140101",
+    "iccid": "8974412009900140101",
+    "type": "Printed eSIM",
+    "stockStatus": "Available",
+    "swapStatus": "Original"
+  }
+]

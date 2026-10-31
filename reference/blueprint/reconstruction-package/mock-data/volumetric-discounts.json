@@ -1,0 +1,75 @@
+[
+  {
+    "discountId": "VOLD-6001",
+    "accountId": "ACC-5003",
+    "level": "account",
+    "flavour": "service-count",
+    "minimumNumbers": 50,
+    "connectedCount": 320,
+    "slabs": [
+      {
+        "minConnections": 50,
+        "maxConnections": 199,
+        "discountPercent": 5
+      },
+      {
+        "minConnections": 200,
+        "maxConnections": 499,
+        "discountPercent": 10
+      },
+      {
+        "minConnections": 500,
+        "maxConnections": null,
+        "discountPercent": 15
+      }
+    ],
+    "appliedSlabDiscountPercent": 10,
+    "distinctFromOnTop": true,
+    "distinctFromPriceOverride": true,
+    "autoDowngradeOnBreach": false
+  },
+  {
+    "discountId": "VOLD-6002",
+    "accountId": "ACC-5004",
+    "level": "serviceItem",
+    "flavour": "revenue",
+    "minimumNumbers": 50,
+    "connectedCount": 75,
+    "slabs": [
+      {
+        "minRevenueQAR": 5000,
+        "maxRevenueQAR": 19999,
+        "discountPercent": 4
+      },
+      {
+        "minRevenueQAR": 20000,
+        "maxRevenueQAR": null,
+        "discountPercent": 8
+      }
+    ],
+    "appliedSlabDiscountPercent": 4,
+    "distinctFromOnTop": true,
+    "distinctFromPriceOverride": true,
+    "autoDowngradeOnBreach": false
+  },
+  {
+    "discountId": "VOLD-6003",
+    "accountId": "ENT-ACC-7702",
+    "level": "account",
+    "flavour": "service-count",
+    "minimumNumbers": 50,
+    "connectedCount": 42,
+    "slabs": [
+      {
+        "minConnections": 50,
+        "maxConnections": 199,
+        "discountPercent": 5
+      }
+    ],
+    "appliedSlabDiscountPercent": 0,
+    "distinctFromOnTop": true,
+    "distinctFromPriceOverride": true,
+    "autoDowngradeOnBreach": false,
+    "note": "Connections dropped below 50-number minimum; discount still active due to no automatic downgrade (revenue leakage risk)."
+  }
+]

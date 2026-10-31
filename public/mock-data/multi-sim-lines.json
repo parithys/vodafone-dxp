@@ -1,0 +1,62 @@
+[
+  {
+    "id": "MSIM-6001",
+    "primaryMsisdn": "+97433001001",
+    "secondaryMsisdn": "+97433011201",
+    "accountId": "ACC-5001",
+    "lineType": "Multi-SIM",
+    "planName": "Platino",
+    "sequenceNumber": 1,
+    "monthlyFeeQar": 0,
+    "eid": null,
+    "creditLimitCheckPassed": true,
+    "primaryBundleStatus": "Active",
+    "orderId": "ORD-90001",
+    "status": "Active"
+  },
+  {
+    "id": "MSIM-6002",
+    "primaryMsisdn": "+97433001001",
+    "secondaryMsisdn": "+97433011202",
+    "accountId": "ACC-5001",
+    "lineType": "Multi-SIM",
+    "planName": "Platino",
+    "sequenceNumber": 2,
+    "monthlyFeeQar": 25,
+    "eid": null,
+    "creditLimitCheckPassed": true,
+    "primaryBundleStatus": "Active",
+    "orderId": "ORD-90001",
+    "status": "Active"
+  },
+  {
+    "id": "MSIM-6003",
+    "primaryMsisdn": "+97433001002",
+    "secondaryMsisdn": "+97433011203",
+    "accountId": "ACC-5002",
+    "lineType": "iWatch",
+    "planName": "RIO Bundle",
+    "sequenceNumber": 1,
+    "monthlyFeeQar": 30,
+    "eid": "35672109876543210987654321098765",
+    "creditLimitCheckPassed": true,
+    "primaryBundleStatus": "Active",
+    "orderId": "ORD-90003",
+    "status": "Active"
+  },
+  {
+    "id": "MSIM-6004",
+    "primaryMsisdn": "+97433001003",
+    "secondaryMsisdn": "+97433011204",
+    "accountId": "ACC-5004",
+    "lineType": "iWatch",
+    "planName": "RIO Bundle",
+    "sequenceNumber": 1,
+    "monthlyFeeQar": 30,
+    "eid": "35672109876543210987654322109988",
+    "creditLimitCheckPassed": false,
+    "primaryBundleStatus": "Suspended",
+    "orderId": "ORD-90004",
+    "status": "Blocked"
+  }
+]

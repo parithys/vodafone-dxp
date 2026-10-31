@@ -1,0 +1,46 @@
+[
+  {
+    "cdrId": "CDR-70001",
+    "accountId": "ACC-5001",
+    "customerId": "CUST-1001",
+    "callDate": "2026-09-12T14:22:00+03:00",
+    "callType": "Voice",
+    "destination": "+97455598211",
+    "durationSeconds": 184,
+    "chargeQAR": 0.0,
+    "_dataRefNote": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  },
+  {
+    "cdrId": "CDR-70002",
+    "accountId": "ACC-5001",
+    "customerId": "CUST-1001",
+    "callDate": "2026-09-11T09:05:00+03:00",
+    "callType": "SMS",
+    "destination": "+97455512099",
+    "durationSeconds": null,
+    "chargeQAR": 0.0,
+    "_dataRefNote": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  },
+  {
+    "cdrId": "CDR-70003",
+    "accountId": "ACC-5001",
+    "customerId": "CUST-1001",
+    "callDate": "2026-09-10T19:40:00+03:00",
+    "callType": "Voice",
+    "destination": "+442071234567",
+    "durationSeconds": 610,
+    "chargeQAR": 12.5,
+    "_dataRefNote": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  },
+  {
+    "cdrId": "CDR-70004",
+    "accountId": "ACC-5002",
+    "customerId": "CUST-1002",
+    "callDate": "2026-09-13T11:12:00+03:00",
+    "callType": "Voice",
+    "destination": "+97455512033",
+    "durationSeconds": 95,
+    "chargeQAR": 0.0,
+    "_dataRefNote": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  }
+]

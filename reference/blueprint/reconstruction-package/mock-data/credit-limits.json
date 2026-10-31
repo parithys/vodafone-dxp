@@ -1,0 +1,35 @@
+[
+  {
+    "id": "CRL-4001",
+    "accountId": "ACC-5001",
+    "customerId": "CUST-1001",
+    "customerSegment": "Expat New Account",
+    "creditLimitQar": 1000,
+    "isHrn": false,
+    "setByAgentId": "AGT-8801",
+    "restrictionApplied": false,
+    "lastUpdated": "2026-06-15"
+  },
+  {
+    "id": "CRL-4002",
+    "accountId": "ACC-5002",
+    "customerId": "CUST-1002",
+    "customerSegment": "HRN",
+    "creditLimitQar": 50,
+    "isHrn": true,
+    "setByAgentId": "AGT-8802",
+    "restrictionApplied": false,
+    "lastUpdated": "2026-07-02"
+  },
+  {
+    "id": "CRL-4003",
+    "accountId": "ACC-5004",
+    "customerId": "CUST-1004",
+    "customerSegment": "Expat New Account",
+    "creditLimitQar": 5000,
+    "isHrn": false,
+    "setByAgentId": "AGT-8803",
+    "restrictionApplied": false,
+    "lastUpdated": "2026-08-01"
+  }
+]

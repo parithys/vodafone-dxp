@@ -1,0 +1,63 @@
+[
+  {
+    "offerId": "OFR-4001",
+    "offerType": "Plan Upgrade",
+    "offerName": "Red Postpaid 500 Upgrade",
+    "monthlyRental": 500,
+    "offerDescription": "Upgrade to Red Postpaid 500 with unlimited local minutes and 50GB data",
+    "campaignCode": "CMP-UPG-0826",
+    "priorityCode": "P1",
+    "serviceIdentifier": "+97433001001",
+    "status": "Offered",
+    "treatmentCode": "TRT-01",
+    "channel": "Guided Journey",
+    "promotionId": "PROMO-9001",
+    "price": 500,
+    "addOnMonthly": 50,
+    "linkedProductIds": [
+      "PROD-200",
+      "PROD-201"
+    ],
+    "contactId": "CONT-3001"
+  },
+  {
+    "offerId": "OFR-4002",
+    "offerType": "MNP",
+    "offerName": "Switch to Vodafone - Welcome Offer",
+    "monthlyRental": 300,
+    "offerDescription": "Port your number to Vodafone and get 3 months free data",
+    "campaignCode": "CMP-MNP-0819",
+    "priorityCode": "P2",
+    "serviceIdentifier": "+97433001003",
+    "status": "Interested",
+    "treatmentCode": "TRT-02",
+    "channel": "Unica Campaign",
+    "promotionId": "PROMO-9002",
+    "price": 300,
+    "addOnMonthly": 0,
+    "linkedProductIds": [
+      "PROD-100"
+    ],
+    "contactId": "CONT-3001"
+  },
+  {
+    "offerId": "OFR-4003",
+    "offerType": "Cross Sell",
+    "offerName": "Add Fixed Broadband 100Mbps",
+    "monthlyRental": 250,
+    "offerDescription": "Bundle home broadband with existing mobile plan",
+    "campaignCode": "CMP-XSL-0801",
+    "priorityCode": "P3",
+    "serviceIdentifier": "+97433001002",
+    "status": "Rejected",
+    "treatmentCode": "TRT-03",
+    "channel": "Unica Campaign",
+    "promotionId": "PROMO-9003",
+    "price": 250,
+    "addOnMonthly": 0,
+    "linkedProductIds": [
+      "PROD-300"
+    ],
+    "contactId": "CONT-3001"
+  }
+]

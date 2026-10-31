@@ -1,0 +1,1216 @@
+[
+  {
+    "msisdn": "+97433001001",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0,
+    "reservedAt": "2026-10-04T09:15:00+03:00",
+    "reservedForQid": "27801063400071"
+  },
+  {
+    "msisdn": "+97433001002",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97433001003",
+    "category": "Free",
+    "status": "BLOCKED",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97433002011",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0,
+    "_note": "App-level demo addition (2026-09-25) - the inventory held three numbers, of which the only two in the Free category were Reserved and BLOCKED, so the Number Selection step had nothing selectable. Seeded 18 Free/AVAILABLE numbers so an agent can actually choose. The original three are kept untouched: they are what demonstrate the Reserved and BLOCKED states, and multi-sim-lines.json references them as primaryMsisdn."
+  },
+  {
+    "msisdn": "+97433002012",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97433002013",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97433002014",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97433002015",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97433002016",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455610021",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455610022",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455610023",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455610024",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455610025",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455610026",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477320031",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477320032",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477320033",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477320034",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477320035",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477320036",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97477778888",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5000,
+    "valueTier": "Platinum",
+    "_note": "App-level demo addition (2026-09-25) - the Star Number (Premium) tab held a single number, so the tab could not demonstrate tiers or price variation. Seeded 11 more across Gold/Silver/Platinum with prices that rise with the pattern strength (repeating digits, sequences, round endings), which is how a premium number inventory is actually priced."
+  },
+  {
+    "msisdn": "+97466666666",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97455555000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97433334444",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2000,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477712345",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97455510000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1200,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97466612321",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 900,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97433221100",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 700,
+    "valueTier": "Silver"
+  },
+  {
+    "msisdn": "+97477654321",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 600,
+    "valueTier": "Silver"
+  },
+  {
+    "msisdn": "+97455566677",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 450,
+    "valueTier": "Silver"
+  },
+  {
+    "msisdn": "+97466650005",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 300,
+    "valueTier": "Silver"
+  },
+  {
+    "msisdn": "+97433002051",
+    "category": "Free",
+    "status": "Reserved",
+    "reservedBy": "Omar Hassan",
+    "priceQAR": 0,
+    "_note": "App-level demo addition (2026-09-26) - the inventory held exactly ONE Reserved number, so the Reserved Numbers tab could not show a list, its one-per-row layout had nothing to justify it, and the tab's whole purpose - that it cuts ACROSS categories, so a reserved Star number stays visible instead of falling out of the UI - was undemonstrable with no reserved Star number in the seed. Held-by names are real users-agents.json records (USR-1102 Omar Hassan, USR-1205 Saira Rahman, USR-1208 Reem Al-Sulaiti, USR-1207 Tariq Haddad) rather than invented ids, so the badge names someone an agent could actually go and ask.",
+    "reservedAt": "2026-10-03T16:40:00+03:00"
+  },
+  {
+    "msisdn": "+97455610091",
+    "category": "Free",
+    "status": "Reserved",
+    "reservedBy": "Saira Rahman",
+    "priceQAR": 0,
+    "reservedAt": "2026-10-03T11:05:00+03:00"
+  },
+  {
+    "msisdn": "+97477700007",
+    "category": "Star",
+    "status": "Reserved",
+    "reservedBy": "Reem Al-Sulaiti",
+    "priceQAR": 2500,
+    "valueTier": "Platinum",
+    "reservedAt": "2026-10-02T15:30:00+03:00"
+  },
+  {
+    "msisdn": "+97466644004",
+    "category": "Star",
+    "status": "Reserved",
+    "reservedBy": "Tariq Haddad",
+    "priceQAR": 800,
+    "valueTier": "Silver",
+    "reservedAt": "2026-10-02T10:20:00+03:00"
+  },
+  {
+    "msisdn": "+97458887777",
+    "category": "Star",
+    "status": "Reserved",
+    "priceQAR": 7500,
+    "valueTier": "Platinum",
+    "_note": "App-level demo addition (2026-09-28) for BR-115's star-number entitlement/overage rule - every other seeded number topped out at QR 5000, which the cheapest plan's own entitlement (QR 250 x 25 = QR 6250) already covers in full, so the 'customer pays the delta' path could never actually trigger. Seeded above every plan's entitlement cap (max QR 750 x 25 = QR 18750 still leaves this one within reach for the priciest plan, while the cheaper ones now show a real overage) so the behaviour is demonstrable, not just implemented.",
+    "reservedBy": "Fatima Al-Kuwari",
+    "reservedAt": "2026-10-04T09:15:00+03:00",
+    "reservedForQid": "27801063400071"
+  },
+  {
+    "msisdn": "+97459990000",
+    "category": "Star",
+    "status": "Reserved",
+    "priceQAR": 20000,
+    "valueTier": "Platinum",
+    "_note": "App-level demo addition (2026-09-28), alongside +97458887777 - priced above even the most expensive seeded plan's entitlement (QR 750 x 25 = QR 18750), so every plan shows SOME overage on this one, not just the cheaper ones.",
+    "reservedBy": "Fatima Al-Kuwari",
+    "reservedAt": "2026-10-04T14:35:00+03:00",
+    "reservedForQid": "27801063400071"
+  },
+  {
+    "msisdn": "+97455610140",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0,
+    "_note": "Demo seed (2026-10-04): second number reserved for the same customer (CUST-3071), made later than +97433001001, so the picker's most-recent-reserved default can be shown."
+  },
+  {
+    "msisdn": "+97455559999",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 9500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97454441111",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477000777",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 12000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97466007777",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 15000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97455500500",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2800,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97433339999",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 35000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477776666",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 32000,
+    "valueTier": "Platinum",
+    "_note": "App-level demo addition (2026-10-25), revised 2026-10-28 - 100 Star numbers in the 7 range (Vodafone Qatar's own mobile range; numbers starting 3, 5 and 6 belong to the other Qatar operator), in patterns a premium inventory is actually sold by: repeated runs, XXYY pairs, ascending and descending sequences, palindromes, round endings and repeating pairs. Priced by pattern strength, QAR 1,500-50,000, so every price range on the Star tab has stock. The number ranges are an assumption to confirm with VFQ Business."
+  },
+  {
+    "msisdn": "+97477779999",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 48000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472228888",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 30000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471119999",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 34000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97470005555",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 22000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97474446666",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 18000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477777000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 26000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477001001",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 24000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471111222",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 15000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472222333",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 14000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477444455",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 9500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477333355",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 9000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97479999000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 16000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477112233",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 21000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477223344",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 20000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477445566",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 19000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477889900",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 17000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477001122",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 16500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471122334",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472233445",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97474455667",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477335577",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5200,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477662288",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97470778899",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4800,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97471886677",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97472997755",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4200,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97471234567",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 38000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477123456",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 34000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477234567",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 29000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477765432",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 33000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477876543",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 27000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472345678",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 31000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97474567890",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 12500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477890123",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 8000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477543210",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 7800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471357900",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3600,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477246810",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3400,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477111234",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3200,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477555678",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3000,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477122177",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 14500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477344377",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 13500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477566577",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 12800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477788777",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 22000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472455442",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 7600,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471677617",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 7200,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97474899847",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477018810",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6400,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97470233207",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97471544517",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3300,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97472877827",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3100,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97474199147",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2900,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477922977",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2800,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477000000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 50000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477100000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 46000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477200000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 42000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477500000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 40000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477900000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 36000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477010000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 28000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477020000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 24500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477030000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 23000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477770000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 35000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477880000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 25000,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477990000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 22500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472500000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 11500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97474100000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 10800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97470050000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 8800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477201111",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 9800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477310000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 8400,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477418888",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 9200,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477529999",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 9600,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477630000",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 7400,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477744444",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 17500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477855555",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 16800,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477966666",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 18500,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97472403333",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5400,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471652222",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5100,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97474078888",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6200,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97470419999",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 6600,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477214455",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2600,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477316677",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477428899",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2400,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477871787",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4400,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477177177",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4600,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477787778",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 5600,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97471787178",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3900,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477808808",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4100,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477878787",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 7900,
+    "valueTier": "Platinum"
+  },
+  {
+    "msisdn": "+97477797979",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3800,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477898989",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 3700,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477686868",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 4300,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97472686868",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2300,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97474686868",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2200,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477707070",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2150,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477727272",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 2050,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477737373",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1950,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477747474",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1850,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477757575",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1750,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477767676",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1650,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477787878",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1550,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97477818181",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 1500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97464386654",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0,
+    "_note": "App-level demo addition (2026-10-26) - Free Numbers brought to 60 available (20 per page, 3 pages). Ordinary numbers, priced QAR 0, Vodafone Qatar mobile ranges 3, 5, 6 and 7."
+  },
+  {
+    "msisdn": "+97431552654",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97459757530",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97432839237",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97453066164",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97458083172",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97456204491",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97435194471",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97456140485",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97478015275",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97476703174",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97478576254",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97466766871",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97432551075",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455344848",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97474255686",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97437385652",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97469471369",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97475862749",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97467539963",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97473245225",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97466978946",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97431981889",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97434177822",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97466901027",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97453503594",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97432080993",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97479301599",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97469721166",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97435761573",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97457866719",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97462031081",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97475090296",
+    "category": "Free",
+    "status": "AVAILABLE",
+    "priceQAR": 0
+  }
+]

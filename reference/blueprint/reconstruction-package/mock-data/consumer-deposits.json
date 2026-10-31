@@ -1,0 +1,26 @@
+[
+  {
+    "depositId": "DEP-7001",
+    "accountId": "ACC-5001",
+    "amount": 500,
+    "currency": "QAR",
+    "refundStatus": "Held",
+    "unclaimedToCharityTimelineMonths": 12
+  },
+  {
+    "depositId": "DEP-7002",
+    "accountId": "ACC-5004",
+    "amount": 300,
+    "currency": "QAR",
+    "refundStatus": "Refunded",
+    "unclaimedToCharityTimelineMonths": 12
+  },
+  {
+    "depositId": "DEP-7003",
+    "accountId": "ACC-5005",
+    "amount": 750,
+    "currency": "QAR",
+    "refundStatus": "Unclaimed",
+    "unclaimedToCharityTimelineMonths": 12
+  }
+]

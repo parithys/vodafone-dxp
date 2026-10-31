@@ -1,0 +1,355 @@
+{
+  "_comment": "Document types for Additional Documents, and when each applies. Edit here - no code change. offerAlways (1-7) lists a type in the Document Type dropdown for everyone, in that order, ahead of the contextual ones. appliesTo dimensions (all given must match; omit one for no restriction; an empty list means never): journeys, personas (role ids), products (postpaid|prepaid|mnp|fixed-line), idTypes, segments (customer segment, matched by prefix: 'Enterprise' matches 'Enterprise (EBU)'), conditions (all must hold). Conditions are computed from the journey draft: number-waiver, minor-applicant, special-discount:mada|b2b2c|retired, actual-user-other, manual-caf, upfront-payment, vat-registration. requiredWhen (conditions) makes the document required, asked for as its own card. basis says where each rule comes from; 'assumed' rules need business confirmation.",
+  "types": [
+    {
+      "id": "qid",
+      "offerAlways": 1,
+      "label": "QID",
+      "appliesTo": {
+        "idTypes": [
+          "QID"
+        ]
+      },
+      "basis": "Offered when the customer was identified by QID."
+    },
+    {
+      "id": "passport",
+      "offerAlways": 2,
+      "label": "Passport",
+      "appliesTo": {
+        "idTypes": [
+          "Passport"
+        ]
+      },
+      "basis": "Offered when the customer was identified by Passport."
+    },
+    {
+      "id": "gcc-id",
+      "offerAlways": 3,
+      "label": "GCC ID",
+      "appliesTo": {
+        "idTypes": [
+          "GCC ID"
+        ]
+      },
+      "basis": "Offered when the customer was identified by GCC ID."
+    },
+    {
+      "id": "employee-id",
+      "offerAlways": 4,
+      "label": "Employee ID",
+      "appliesTo": {
+        "conditions": [
+          "special-discount:b2b2c"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "special-needs-card",
+      "offerAlways": 6,
+      "label": "Special Needs Card",
+      "appliesTo": {
+        "conditions": [
+          "special-discount:mada"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "caf",
+      "offerAlways": 5,
+      "label": "CAF",
+      "appliesTo": {
+        "conditions": [
+          "manual-caf"
+        ]
+      },
+      "basis": "A manually signed CAF is attached; a digital one is the signature on this page."
+    },
+    {
+      "id": "supplementary-form",
+      "label": "Supplementary Form",
+      "appliesTo": {
+        "conditions": [
+          "actual-user-other"
+        ]
+      },
+      "basis": "The line is used by someone other than the customer (Actual User)."
+    },
+    {
+      "id": "mnp-form",
+      "label": "MNP Form",
+      "appliesTo": {
+        "products": [
+          "mnp"
+        ]
+      },
+      "basis": "Port-in orders."
+    },
+    {
+      "id": "ton-form",
+      "label": "TON Form",
+      "appliesTo": {
+        "journeys": [
+          "ton"
+        ]
+      },
+      "basis": "Transfer of Number journey."
+    },
+    {
+      "id": "blue-plate",
+      "label": "Blue Plate",
+      "appliesTo": {
+        "products": [
+          "fixed-line"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "house-contract",
+      "label": "House Contract",
+      "appliesTo": {
+        "products": [
+          "fixed-line"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "star-number-discount-approval",
+      "offerAlways": 7,
+      "label": "Star Number Discount Approval",
+      "appliesTo": {
+        "journeys": [
+          "new-connection"
+        ],
+        "conditions": [
+          "number-waiver"
+        ]
+      },
+      "requiredWhen": [
+        "number-waiver"
+      ],
+      "reason": "Supports the Waive Off of the Star number charge; the order is approved against it.",
+      "basis": "From the journey's own rules."
+    },
+    {
+      "id": "upfront-payment-receipt",
+      "label": "Upfront Payment Receipt",
+      "appliesTo": {
+        "conditions": [
+          "upfront-payment"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "authorized-persons-qid",
+      "label": "Authorized Person's QID",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "chooser-email-confirmation",
+      "label": "Chooser Email Confirmation",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "choosers-qid",
+      "label": "Chooser's QID",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "commercial-registration",
+      "label": "Commercial Registration",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "company-letter-head",
+      "label": "Company Letter Head",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "computer-card",
+      "label": "Computer Card",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "contract-document",
+      "label": "Contract Document",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "customer-acceptance-document",
+      "label": "Customer Acceptance Document",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "customer-po",
+      "label": "Customer PO",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "master-services-agreement",
+      "label": "Master Services Agreement",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "plan-builder-form",
+      "label": "Plan Builder Form",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "plan-discount-approval",
+      "label": "Plan Discount Approval",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "service-handover-document",
+      "label": "Service Handover Document",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "start-billing-confirmation",
+      "label": "Start-Billing Confirmation",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "tender-document",
+      "label": "Tender Document",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "trade-license",
+      "label": "Trade License",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "volumetric-addendum-form",
+      "label": "Volumetric Addendum Form",
+      "appliesTo": {
+        "segments": [
+          "Enterprise"
+        ]
+      },
+      "basis": "Document type named by the business (2026-10-27); applicability not yet specified - assumed, to be confirmed."
+    },
+    {
+      "id": "ekyc",
+      "label": "eKYC",
+      "appliesTo": {
+        "journeys": []
+      },
+      "basis": "Listed by the business; no applicability given, so it is not offered anywhere yet (an empty list means never)."
+    },
+    {
+      "id": "court-type-order",
+      "label": "Court Type Order",
+      "appliesTo": {
+        "conditions": [
+          "minor-applicant"
+        ]
+      },
+      "requiredWhen": [
+        "minor-applicant"
+      ],
+      "reason": "The applicant is under 18: the order is accepted only with the court order that allows it.",
+      "basis": "From the journey's own rules."
+    },
+    {
+      "id": "vat-document",
+      "label": "VAT Document",
+      "appliesTo": {
+        "conditions": [
+          "vat-registration"
+        ]
+      },
+      "requiredWhen": [
+        "vat-registration"
+      ],
+      "reason": "A VAT registration number was entered on the billing account: the VAT document must be attached.",
+      "basis": "Business requirement (2026-10-28): a VAT Registration Number makes the VAT document mandatory."
+    }
+  ]
+}

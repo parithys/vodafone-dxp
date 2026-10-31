@@ -1,0 +1,896 @@
+[
+{
+"id": "B-01",
+"area": "Behaviour",
+"title": "createRecord appends to an array the engine already mutated, so created rows can show twice (or hide the seed rows)",
+"sev": "P1",
+"effort": "S",
+"evidence": "stores/entityStore.ts:22-47; engines/mockDataEngine.ts:81-99 (list returns the engine's own array, create pushes into it, store appends again; an unloaded kind caches only [new] and loadKind then returns early). ~30 createRecord call sites. Confirmed by code reading, not reproduced in the browser.",
+"recommendation": "Clone in list(), or make the store the only writer; never early-return loadKind on a partial cache. Add a test.",
+"status": "Fixed",
+"resolution": "list() returns a copy; createRecord only extends an already-loaded list."
+},
+{
+"id": "B-02",
+"area": "Behaviour",
+"title": "Lead details fall back to the first lead when the id is unknown",
+"sev": "P1",
+"effort": "S",
+"evidence": "modules/lead-management/LeadDetailsView.tsx:51 (find(...) ?? leads[0]) - verified. An agent can reject or reassign the wrong lead.",
+"recommendation": "Missing record = not found, not-yet-loaded = loading; one EntityScreen / useEntityById.",
+"status": "Fixed",
+"resolution": "Fallback removed; unknown id is \"not found\" (EntityMissing)."
+},
+{
+"id": "B-03",
+"area": "Behaviour",
+"title": "Detail screens treat 'not loaded yet' as 'not found'",
+"sev": "P2",
+"effort": "M",
+"evidence": "TaskDetailView.tsx:91, LeadDetailsView.tsx:54, TicketDetail.tsx:30, TicketApprovalReview.tsx:101, OrderApprovalDetail.tsx:~511, SimSwapQueueScreen.tsx:88",
+"recommendation": "useEntityById returning {status}; shared EntityNotFound with a Back link.",
+"status": "Fixed",
+"resolution": "EntityMissing + useKindPending on lead, task, ticket, approval, order approval and SIM swap detail screens."
+},
+{
+"id": "B-04",
+"area": "Behaviour",
+"title": "Sign-out and role switch discard an in-progress journey with no confirmation",
+"sev": "P1",
+"effort": "S",
+"evidence": "navigation/PersonaSwitcher.tsx:290,87; stores/authStore.ts:46; resetSession uses location.replace so useBlocker never fires; no beforeunload",
+"recommendation": "Confirm when a draft or active customer exists; beforeunload for dirty wizards.",
+"status": "Fixed",
+"resolution": "Sign-out and role switch ask first when a journey has progress; beforeunload warns on tab close."
+},
+{
+"id": "B-05",
+"area": "Behaviour",
+"title": "No shared async-state contract: loading / empty / error handled differently per screen",
+"sev": "P1",
+"effort": "M",
+"evidence": "~50 mockDataEngine.list().then(setX) chains with no catch; infinite 'Loading…' at BillingAccountPage.tsx:91 and Customer360Layout.tsx:146; error shown as not-found (Customer360Layout.tsx:176, CustomerSearchResults.tsx:70); DataTable empty flash before load",
+"recommendation": "useAsyncData + AsyncBoundary (loading/empty/error+retry); entityStore sets loading synchronously.",
+"status": "Partly",
+"resolution": "Load-failed state with Try again on Customer 360 and billing account; tables use useKindPending (no empty flash); entityStore error text is plain. The ~50 other list().then chains are not yet on a shared useAsyncData."
+},
+{
+"id": "B-06",
+"area": "Behaviour",
+"title": "Mutations have no submit guard or failure handling; Save buttons stick on 'Saving…'",
+"sev": "P1",
+"effort": "M",
+"evidence": "No guard: LeadDetailsView.tsx:59-81, SimSwapQueueScreen.tsx:92,101, TaskDetailView.tsx:95-121, ticketDetailActions.ts (all), BillingAccountPage.tsx:131, useWizardDraftActions.ts:85 (double Abandon = two activities). setSaving never reset on failure: DemographicEditDrawer.tsx:44-64, AddressSection.tsx:147-155, ContactSection.tsx:136-144",
+"recommendation": "useSubmit(fn) with ref guard, try/catch, toast on failure, always reset.",
+"status": "Partly",
+"resolution": "useSubmit / useSubmitGuard added; applied to the three edit drawers, lead, SIM swap, ticket actions, task detail, billing account; wizard end-of-journey actions guarded. Other mutations still unguarded."
+},
+{
+"id": "B-07",
+"area": "Behaviour",
+"title": "Enter bubbles from drawers/modals into the wizard step's Continue handler",
+"sev": "P2",
+"effort": "S",
+"evidence": "GuidedActivationWizard.tsx:207,255 (onKeyDown on the step panel); Drawer/Modal are not portaled. Unverified in browser.",
+"recommendation": "Portal overlays, or stop key propagation in the overlay root."
+},
+{
+"id": "B-08",
+"area": "Behaviour",
+"title": "Toasts have no timer; outside click or Escape clears all, including errors, and closes the top dialog too",
+"sev": "P2",
+"effort": "S",
+"evidence": "capabilities/Toasts/Toast.tsx:147-160; only 8 of 69 pushToast calls carry a key",
+"recommendation": "Auto-dismiss success/info (6 s), sticky errors, Escape owned by the top overlay, keyed dedupe by default."
+},
+{
+"id": "B-09",
+"area": "Behaviour",
+"title": "Overlay conventions differ: forms in Modal vs Drawer, footer in body vs footer prop, Cancel/Back wording, backdrop click closes Modal but not Drawer",
+"sev": "P2",
+"effort": "M",
+"evidence": "ActivationCompleteScreen.tsx:252 (form in Modal); Lead/Order/SIM-swap/Ticket drawers put buttons in the body; TicketDrawers.tsx:72 'Back' as cancel; Modal.tsx:37 vs Drawer.tsx:54",
+"recommendation": "FormDrawer (sticky footer, Cancel left, primary right) and ConfirmDrawer; one backdrop rule; scroll lock."
+},
+{
+"id": "B-10",
+"area": "Behaviour",
+"title": "No dirty-form guard on edit drawers; Escape/X silently discards; TicketCreationModal X keeps the draft but Cancel resets",
+"sev": "P2",
+"effort": "M",
+"evidence": "DemographicEditDrawer, AddressEditDrawer, ContactEditDrawer, BillingAccountPage drawers, TicketCreationModal.tsx:187 vs :287; useState(props) seeds go stale (DemographicEditDrawer.tsx:36-41)",
+"recommendation": "useUnsavedChangesGuard inside FormDrawer."
+},
+{
+"id": "B-11",
+"area": "Behaviour",
+"title": "Destructive actions are inconsistent: some confirm, some are one click, reasons and variants differ",
+"sev": "P2",
+"effort": "M",
+"evidence": "No confirm: lead reassign (LeadDetailsView.tsx:211-225), ticket close (TicketActionsCard.tsx:74), task close (TaskDetailView.tsx:109), Qnomy Finish/Abandon (SessionReferenceNumbers.tsx:178,218,386), AutoPay->Invoice. Lead reject is primary with a !text-danger hack (:194); abandon-on-leave uses auto-text (useWizardDraftActions.ts:165)",
+"recommendation": "ConfirmDrawer({severity, requireReason}); verbs Reject / Return for correction / Discard / Cancel."
+},
+{
+"id": "B-12",
+"area": "Behaviour",
+"title": "Wizard Continue is disabled with no reason, in every journey",
+"sev": "P2",
+"effort": "M",
+"evidence": "wizardNavigation.ts:20, WizardFooter.tsx:~45; isValid returns boolean",
+"recommendation": "isValid returns {ok, blockers}; footer shows the reason (aria-describedby)."
+},
+{
+"id": "B-13",
+"area": "Behaviour",
+"title": "Required-field marking uses three conventions; internal rule ids appear in labels",
+"sev": "P2",
+"effort": "S",
+"evidence": "Asterisk (Input/Select); '(required)' x8 (TicketDrawers.tsx:35,46,70,78, WizardDialogs.tsx:53, OrderApprovalDetail.tsx:715); nothing (Textarea has no required prop); labels like 'RES-01/02', 'ESC-05', 'BR-060' in TicketDrawers.tsx:36-87",
+"recommendation": "Asterisk everywhere; add required to Textarea/Select; remove rule ids from UI text."
+},
+{
+"id": "B-14",
+"area": "Behaviour",
+"title": "Form validation is almost entirely 'disable the button'; edit drawers validate nothing; no type=email/tel, inputMode or autoComplete",
+"sev": "P2",
+"effort": "M",
+"evidence": "Only 4 onBlur validators; ContactSection.tsx:~190, BillingAccountPage.tsx:~190, DemographicEditDrawer age fields; Enter-to-submit in 5 places only",
+"recommendation": "FormField + useFormValidation (touched -> validate on blur -> revalidate on change); useEnterToSubmit in FormDrawer."
+},
+{
+"id": "B-15",
+"area": "Behaviour",
+"title": "Journeys differ unintentionally: only New Connection and Fixed Activation have Save & Exit, Abandon, customer lock and customer view; seven others have none and complete with a toast + redirect",
+"sev": "P2",
+"effort": "L",
+"evidence": "NewConnectionWizard.tsx:85-99, FixedActivationWizard.tsx:35-44 vs NewPrepaidWizard, InstallationActivationWizard, NewPreToPostWizard, BaseManagementWizard, NewMnpWizard, NewSimSwapWizard, PassportToQidWizard",
+"recommendation": "Make the exit controls, lock and ActivationComplete defaults of GuidedActivationWizard."
+},
+{
+"id": "B-16",
+"area": "Behaviour",
+"title": "Navigation: Back is navigate(-1); tabs are not in the URL; detail ids use two schemes; unknown URLs show three different not-found screens",
+"sev": "P2",
+"effort": "M",
+"evidence": "Breadcrumbs.tsx:58; Tabs.tsx:39; ?id= vs /tasks/:taskId; ModuleScreenList.tsx:66 vs ScreenNotYetBuilt.tsx vs NotFound.tsx; no scroll reset on route change (App.tsx)",
+"recommendation": "useTabParam, BackLink with fallback, one EntityNotFound, scroll+focus reset."
+},
+{
+"id": "B-17",
+"area": "Behaviour",
+"title": "Tables: sort/page state is local and lost; no search debounce; pager renders every page number; generic empty copy",
+"sev": "P3",
+"effort": "M",
+"evidence": "DataTable.tsx, Pager.tsx, GlobalSearch.tsx (no debounce, fires from 1 char), LeadListView.tsx:33-40 ('my' scope is a no-op)",
+"recommendation": "useTableState (URL params), bounded pager, filtered-empty message."
+},
+{
+"id": "B-18",
+"area": "Behaviour",
+"title": "Enterprise account creation writes a different id field than readers use; 'CR verified' is set by pressing Search",
+"sev": "P2",
+"effort": "S",
+"evidence": "modules/enterprise-iot-b2b/screens/EnterpriseAccountCreation.tsx:32-44 (accountId ACC-... vs enterpriseAccountId ENT-ACC-...)",
+"recommendation": "Write the canonical field; remove the fake verification."
+},
+{
+"id": "B-19",
+"area": "Behaviour",
+"title": "Demo data is in-memory but the UI never says so; persisted drafts point at deleted rows after reload; resume silently restarts at step 0",
+"sev": "P2",
+"effort": "S",
+"evidence": "mockDataEngine.ts:94; workflowStore (session) vs memory orders; useJourneyStartResume.ts",
+"recommendation": "Say so (banner), and drop dangling drafts at boot or tell the user."
+},
+{
+"id": "B-20",
+"area": "Behaviour",
+"title": "Production UI ships test controls",
+"sev": "P2",
+"effort": "S",
+"evidence": "TicketActionsCard.tsx:~80-85 'Simulate -> send to approval (test)'; WinCashPaymentStep.tsx:155-167 simulators; demoContentColumn.tsx:13 'Demo Content' column on orders lists",
+"recommendation": "Gate behind demo-only / VITE_SHOW_DEMO."
+},
+{
+"id": "S-01",
+"area": "Structure",
+"title": "Import cycle across 9 files (barrel bypass)",
+"sev": "P1",
+"effort": "S",
+"evidence": "components/patterns/GuidedContactStep.tsx:5, MoiResultPanel.tsx:3 import from '../../capabilities' barrel; VerificationGate.tsx:8; capabilities/CustomerIdentification/*, CustomerQualification/*",
+"recommendation": "Import IdentityDetailsCard from its file; add a no-cycle test.",
+"status": "Fixed",
+"resolution": "Drawer and offer-card parts moved to components/primitives; capabilities no longer imported by primitives; architecture test enforces layers."
+},
+{
+"id": "S-02",
+"area": "Structure",
+"title": "Layer violations: components import workspace; capabilities<->components both ways; workspace imports modules and vice versa",
+"sev": "P1",
+"effort": "M",
+"evidence": "StepSummaryPanel.tsx:3 (fmtDate from workspace/C360Kit); customerActions.ts:3, useStartNewConnection.ts:2, MobileSection.tsx:7; ProductLinePage.tsx:10; LocationInput.tsx:3 (primitive imports engine); 20 components->capabilities and 120 capabilities->components imports",
+"recommendation": "Direction: primitives -> domain -> capabilities -> patterns -> modules/workspace; move Drawer and offerCardParts to primitives; move shared helpers to lib/navigation.",
+"status": "Fixed",
+"resolution": "No import cycles (tests/architecture.test.mjs); components no longer import workspace/modules."
+},
+{
+"id": "S-03",
+"area": "Structure",
+"title": "Hard-coded order actors and channels: orders by one persona are attributed to another",
+"sev": "P1",
+"effort": "S",
+"evidence": "createdBy 'AGENT-VINODHINIR' (submitFixedActivationOrder.ts:70, submitPrepaidOrder.ts:110, QueryFlowCard.tsx:134), 'AGENT-KARTHIKK' (submitNewConnectionOrder.ts:177, NewFwaWizard.tsx:30), 'AGENT-HEMANTHKUMAR' (NewMnpWizard.tsx:89), 'current-agent' (2) - verified; sourceChannel Tablet vs Desktop",
+"recommendation": "Take from the signed-in persona.",
+"status": "Fixed",
+"resolution": "currentAgentId() replaces every hard-coded createdBy."
+},
+{
+"id": "S-04",
+"area": "Structure",
+"title": "Closed-status sets disagree in 8+ places",
+"sev": "P1",
+"effort": "S",
+"evidence": "Customer360Layout.tsx:70, accountInformationResolvers.tsx:22, C360AlertsRisks.tsx:28, C360TicketsSupport.tsx:33-34, C360AddressService.tsx:15, C360Overview.tsx:19, TelesalesOrdersTicketsSection.tsx:31,57, ruleEngine.ts:285 (only Closed/Cancelled)",
+"recommendation": "isClosedTicket / isTerminalStatus in lib/statusTone.ts.",
+"status": "Partly",
+"resolution": "isClosedTicket / isSlaStopped in lib/statusTone; slaEscalationSweep.ts and useZoneMetrics.ts still use local sets."
+},
+{
+"id": "S-05",
+"area": "Structure",
+"title": "Handler contracts differ: onChange(value) vs event vs multi-arg; six onSelect shapes; onRowClick vs onSelect vs onPick",
+"sev": "P2",
+"effort": "M",
+"evidence": "Select.tsx:17 and PhoneNumberInput.tsx:32 are event-based (77 call sites do e.target.value) while FilterSelect and all steps are value-based; NumberSelection.tsx:20, SimSerialScanner.tsx:26, CpeSerialScanner.tsx:15, BillLimitEditor.tsx:15 multi-arg; GridTable onSelect, CustomerActionsMenu onPick",
+"recommendation": "onChange(value) for non-native components; onSelect(item); onRowClick for rows."
+},
+{
+"id": "S-06",
+"area": "Structure",
+"title": "Button API carries 6 dead legacy variants and a compact alias; wrappers add only a boolean",
+"sev": "P2",
+"effort": "S",
+"evidence": "Button.tsx:14-17,144-159 (primary-rect, primary-pill, ghost-rect, glass-pill, content-ghost-pill, secondary-rect: 0 call sites); compact 79 uses vs size 0; ActionButton/HeaderButton primary prop (C360Kit.tsx:141, TelesalesKit.tsx:61); KebabButton vs IconButton bordered",
+"recommendation": "Delete legacy variants; compact -> size=sm; drop the boolean wrappers."
+},
+{
+"id": "S-07",
+"area": "Structure",
+"title": "Prop vocabulary: helperText/hint/description/sub/subtitle/subtext/caption; tabs use active/activeKey/activeTab; className not accepted by most primitives",
+"sev": "P2",
+"effort": "M",
+"evidence": "Input.tsx:7 helperText vs QidInput.tsx:59 hint vs GlobalSearch.tsx:15 sub vs MetricCard.tsx:4 subtext; Tabs.tsx:38 activeKey, SegmentedTabs.tsx:23 active, PlanTabStrip.tsx:6 activeTab; Badge/Modal/Tabs/Tooltip/DataTable have no root className",
+"recommendation": "helperText for fields, description for cards/rows, value/onChange for tabs, className on every primitive root."
+},
+{
+"id": "S-08",
+"area": "Structure",
+"title": "Missing shared primitives for patterns re-implemented 5-14 times",
+"sev": "P2",
+"effort": "L",
+"evidence": "Combobox/Listbox + useOutsideClick (11 click-outside listeners; Select, FilterSelect, PhoneNumberInput, CompanySearchInput, LocationInput, ContactPhoneInput, GlobalSearch, PlanSearchBox); Avatar x5; key-value rows ~14 copies (Field x6, Row x3, KV, DetailRows, DetailRow, FieldRow...); stat tiles x7; Pill x2 + Badge; icon paths 314 literals / 200 distinct / 12 icon maps",
+"recommendation": "Combobox, useOutsideClick, Avatar, DescriptionList/FieldRow, KpiTile, icons.ts registry."
+},
+{
+"id": "S-09",
+"area": "Structure",
+"title": "Order submission logic is copy-pasted across 3 builders and 6 inline wizard submits",
+"sev": "P2",
+"effort": "M",
+"evidence": "submitNewConnectionOrder.ts:28, submitPrepaidOrder.ts:38, submitFixedActivationOrder.ts:25, NewMnpWizard.tsx:73-93, NewPreToPostWizard.tsx:41, BaseManagementWizard.tsx:115,129, NewSimSwapWizard.tsx:120, PassportToQidWizard.tsx:105, NewFwaWizard.tsx:30; B2B2C predicate at submitNewConnectionOrder.ts:84,154 and submitFixedActivationOrder.ts:43,56; ConfirmedOrder defined twice",
+"recommendation": "submitJourneyOrder / buildOrderRecord in engines/; isB2b2cOrder()."
+},
+{
+"id": "S-10",
+"area": "Structure",
+"title": "37 hand-built id snippets Date.now().toString().slice(-6); suffix repeats every ~16 minutes",
+"sev": "P2",
+"effort": "S",
+"evidence": "27 files, e.g. submitNewConnectionOrder.ts:134, useWizardDraftActions.ts:119,133, slaEscalationSweep.ts:51,60; other variants use Math.random (activityEngine.ts:42)",
+"recommendation": "lib/ids.ts newId(prefix)."
+},
+{
+"id": "S-11",
+"area": "Structure",
+"title": "Domain types are redeclared per file and data access is untyped",
+"sev": "P2",
+"effort": "L",
+"evidence": "Order x5, Ticket x6, CustomerRecord x5, Product x4, Activity x4, AddressRecord x3...; mockDataEngine.list<{inline}> x34; as unknown as x49; values.X as T x164; Record<string, unknown> x200; duplicate unions (FibreServiceability = FixedRfsStatus, AccessMode = FieldVisibility, Tone/PillTone)",
+"recommendation": "types/entities.ts keyed by EntityKind; typed list/get/records; typed wizard values."
+},
+{
+"id": "S-12",
+"area": "Structure",
+"title": "Effects: 21 set-state-in-effect, 7 exhaustive-deps (+43 suppressions), ~15 uncancelled .then(setX), component created in render",
+"sev": "P2",
+"effort": "M",
+"evidence": "oxlint output; CompanySearchInput.tsx:67, AppointmentBookingStep.tsx:43, PrepaidCheckoutStep.tsx:69-71; ScreenRouteResolver.tsx:14 (getScreenComponent in render)",
+"recommendation": "useEntityList/useAsync with cancel; derive state during render or use key; fix the resolver."
+},
+{
+"id": "S-13",
+"area": "Structure",
+"title": "Mixed data access and persistence conventions",
+"sev": "P3",
+"effort": "M",
+"evidence": "69 files use mockDataEngine directly, 51 useEntityStore, 15 both; raw fetch in customerTypeModel.ts:54; Tabs.tsx:84 writes localStorage directly; customerContextStore mixes persist with hand-written storage; whole-store subscriptions (Toast.tsx:125, HeaderContextChips.tsx:29, Sidebar.tsx:69)",
+"recommendation": "useEntityStore for reads, engines for writes; zustand persist only (vfq-<name>-store); selectors."
+},
+{
+"id": "S-14",
+"area": "Structure",
+"title": "Files: 41 only-export-components warnings; multi-component kit files; no path alias (513 imports go three levels up); dated-history comments (353)",
+"sev": "P3",
+"effort": "M",
+"evidence": "C360Kit.tsx (20 exports, 7 warnings), TelesalesKit.tsx (15), offerCardParts.tsx (12), previews.tsx (10), TelesalesOverview.tsx; tsconfig/vite have no paths; Button.tsx is 130 comment lines of 187",
+"recommendation": "Move constants to *Model.ts; @/ alias; strip dated history; keep the current rule only."
+},
+{
+"id": "S-15",
+"area": "Structure",
+"title": "Stale comments and READMEs contradict the code",
+"sev": "P3",
+"effort": "S",
+"evidence": "Button.tsx:7-15,46-49,125,141-153 (ghost-rect, #FF4D4D, 8px); SessionReferenceNumbers.tsx:389; OrderConfirmationScreen.tsx:130-135; tokens.css:323; src/README.md:15 (empty steps/ dir), :17 (lib/), :63 (GridTable); capabilities/README.md:46-47 (cycle-free claim); data/README.md:8 (loginMetrics.ts)",
+"recommendation": "Update; delete empty modules/new-connection/steps/."
+},
+{
+"id": "X-01",
+"area": "Content",
+"title": "Case convention: ~56% Title Case vs ~40% sentence case; 81 labels differ only by case",
+"sev": "P2",
+"effort": "M",
+"evidence": "Title clusters: telesales/*, C360*, lead-management, ticket drawers; sentence clusters: administration (27 vs 1), profile, auth, CrossSellOffers, zoneSpecs.ts:40-54, OrderApprovalDetail sections. e.g. 'View All' x32 / 'View all' x4; 'Credit Limit' x12 / 'Credit limit' x4; 'Alert & Risks' (Customer360Layout.tsx:348) vs 'Alerts & Risks' (:470)",
+"recommendation": "Sentence case everywhere (decision needed - round-1 L-06); fix the 81 duplicates first."
+},
+{
+"id": "X-02",
+"area": "Content",
+"title": "'Cancel' means dismiss in 33 places and 'cancel the ticket' in one",
+"sev": "P1",
+"effort": "S",
+"evidence": "TicketActionsCard.tsx:76 vs 33 dialog-dismiss uses",
+"recommendation": "'Cancel ticket'; Cancel = dismiss only.",
+"status": "Fixed",
+"resolution": "\"Cancel\" -> \"Cancel ticket\"."
+},
+{
+"id": "X-03",
+"area": "Content",
+"title": "Save / draft / submit labels overlap: 'Save & Finish' submits the order, 'Save & Exit' saves a draft",
+"sev": "P2",
+"effort": "S",
+"evidence": "WizardFooter.tsx:51; WizardTitleBand.tsx:40; WizardDialogs.tsx:84-139; plus Save Changes x7, Save x4, Submit approval, Confirm rejection, Apply, Update",
+"recommendation": "Save changes / Save draft / Submit order."
+},
+{
+"id": "X-04",
+"area": "Content",
+"title": "Reject / Return / Drop / Abandon / Remove / Clear are used for overlapping meanings",
+"sev": "P2",
+"effort": "S",
+"evidence": "OrderApprovalDetail.tsx:674-729 (drawer 'Reject Order' for both correction and drop); SimSwapQueueScreen.tsx:156,169 'Drop Order' under 'Reject Task'; 'Abandon Order' vs 'Abandon Journey' (WizardDialogs.tsx:42,136); 'Abandoned' as a button label (SessionReferenceNumbers.tsx)",
+"recommendation": "Reject, Return for correction, Discard."
+},
+{
+"id": "X-05",
+"area": "Content",
+"title": "Terminology drift: customer/contact/subscriber/applicant/user; MSISDN vs mobile number vs phone; ticket vs Trouble Ticket vs issue; Add-on/Add-On/Add On",
+"sev": "P2",
+"effort": "M",
+"evidence": "OrderApprovalDetail.tsx:~644 'Contact:' vs 'Customer'; Business360Page.tsx:93 'Subscriber / account ID'; CustomerSearchPage.tsx:42 vs :66 vs CustomerSearchResults.tsx:13-19; QnomyTicketHistory.tsx:146 'Ticket Number' is a queue ticket; MobileSection.tsx:21-22; 'persona' leaks into UI (BellNotificationsSection.tsx:157)",
+"recommendation": "One term per concept (style guide in report)."
+},
+{
+"id": "X-06",
+"area": "Content",
+"title": "Prototype and requirement text visible to users",
+"sev": "P1",
+"effort": "S",
+"evidence": "OfferDetailsDrawer.tsx:238 'not linked in the prototype'; TicketCreationModal.tsx:281 'BRSD dependency D-07'; ticketDetailActions.ts:242 'P-15 placeholder'; AgentProfileWorkspace.tsx:272,288 ('D-03', 'OI-AGN-07'); DemographicEditDrawer.tsx:98 '(DF-DEMO-001-007)'; BillingSection.tsx:35 'BRSD v3.1 Annex_01'; 'mock catalogue' x3 (PrepaidPlanStep.tsx:123, PostpaidPlanAddonsStep.tsx:155, FixedStepViews.tsx:238); ScreenNotYetBuilt.tsx 'blueprint'",
+"recommendation": "Remove from visible text; keep in code comments.",
+"status": "Fixed",
+"resolution": "Prototype / requirement / BRSD text removed from visible strings; test-only buttons are demo-only (hidden with VITE_SHOW_DEMO=false)."
+},
+{
+"id": "X-07",
+"area": "Content",
+"title": "Raw requirement text renders as field labels, with typos",
+"sev": "P1",
+"effort": "S",
+"evidence": "TopicFieldsSection.tsx:171-276 renders field.details from customer360-fields.json: 'Billing Receipent', 'purschages', 'Actiivity (last 5)', 'Audit Trail (Orders,Contact, Account, Activity,TT)'",
+"recommendation": "Display-label map; fix typos in the JSON.",
+"status": "Fixed",
+"resolution": "Typos fixed in config and code; fieldLabel() drops long explanatory brackets from displayed labels."
+},
+{
+"id": "X-08",
+"area": "Content",
+"title": "Raw catalogue names shown as breadcrumbs, search results and titles; h1, breadcrumb, journey label and tab title disagree on 20 of 25 sampled screens",
+"sev": "P1",
+"effort": "M",
+"evidence": "routes.json: 110 of 213 screenName values carry a parenthetical (longest 107 chars); 'Target State', 'DXP', 'Applet', 'Siebel'; Breadcrumbs.tsx:93, GlobalSearch.tsx:275, ModuleScreenList.tsx:108, ScreenNotYetBuilt.tsx:21; screen ids printed in GlobalSearch.tsx:276",
+"recommendation": "displayName in routes.json used by all four surfaces and <title> (round-1 L-11).",
+"status": "Partly",
+"resolution": "screenDisplayName() used by breadcrumbs, search, module list and not-yet-built page; search shows the module, not the screen id. routes.json itself is unchanged."
+},
+{
+"id": "X-09",
+"area": "Content",
+"title": "Error messages expose exceptions and internal codes",
+"sev": "P1",
+"effort": "S",
+"evidence": "entityStore.ts:36 ('Failed to load x: <message>'), OrderApprovalDetail.tsx:564, ErrorBoundary.tsx:45 'Something went wrong'",
+"recommendation": "Plain language plus 'Try again'.",
+"status": "Fixed",
+"resolution": "entityStore, order approval, config boot and ErrorBoundary use plain language with Try again / Reload."
+},
+{
+"id": "X-10",
+"area": "Content",
+"title": "Message wording is inconsistent: 'Please …' vs imperative, try again vs Retry, missing end punctuation, duplicate texts that differ",
+"sev": "P2",
+"effort": "S",
+"evidence": "ProductPlanStep.tsx:73 and FixedStepViews.tsx:182 'Please Select a Plan.'; WinCashPaymentStep.tsx:139; 'Not authorised …' without period (Customer360Layout.tsx:573, BillingAccountPage.tsx:46, InvoiceActions.tsx:31); 'Invalid or expired code.' vs '… verification code.'; 16 of 60 toasts lack a period; 'Lead x has been created' vs 'Lead x created'",
+"recommendation": "Style-guide rules (report section 11)."
+},
+{
+"id": "X-11",
+"area": "Content",
+"title": "Empty, loading and placeholder text are not uniform",
+"sev": "P3",
+"effort": "S",
+"evidence": "'No X on file.' (~46) vs 'Nothing on file.' vs 'No X for this customer.' vs 'No X match…' (6 phrasings); empty values '-' (~310) vs None vs Not on file vs Not recorded; 'Checking...' (ActivationCompleteScreen.tsx:236), 'Searching', 'Loading' vs 'Loading…'; 6 placeholders end '...'",
+"recommendation": "'No x yet.' / 'No x match your filters.'; the ellipsis character."
+},
+{
+"id": "X-12",
+"area": "Content",
+"title": "Currency, date, phone and masking formats still bypass the shared formatters",
+"sev": "P2",
+"effort": "M",
+"evidence": "~31 suffix 'N QAR' (billingResolvers.tsx:21-37, Customer360Layout.tsx:593,598, BillingAccountPage.tsx:170, penaltyViewResolvers.tsx:95), ~40 hand-built 'QAR ${…}'; BaseManagementWizard.tsx:93 'QAR 1000'; MsisdnPicker.tsx:356 en-US + nbsp; formatDate pads the day (format.ts:30 docstring says '12 Mar') while TaskListView.tsx:39, CustomerProfileHeader.tsx:69 do not; customer360Engine.ts:336 en-US; phones printed raw (+97455512001) except ContactPhoneInput; maskEmail (***@****) vs maskAllButLast4 (••••1234)",
+"recommendation": "Route everything through lib/format.ts; fix the docstring; one phone and mask format."
+},
+{
+"id": "X-13",
+"area": "Content",
+"title": "Spelling mixes British and American",
+"sev": "P3",
+"effort": "S",
+"evidence": "authorised x27 vs authorized x17 (contactInformationResolvers.tsx:20-62, C360ContactIdentity.tsx:91 vs :160), 'Call Center' (previews.tsx:53, customer360-fields.json), 'Trade License' (EnterpriseAccountCreation.tsx:71), 'Catalog Sync' (HeaderContextChips.tsx:66), 'CCT-Rude Behavior', ROLE-09 'Authorized Officer'",
+"recommendation": "British throughout."
+},
+{
+"id": "X-14",
+"area": "Content",
+"title": "Abbreviations and vendor names are never expanded in the UI",
+"sev": "P3",
+"effort": "S",
+"evidence": "MOI (15), KYC, SLA (17), CPE, B2B2C (26), MADA (18), EBU (13), BRM, FNP, ICCID; HRN/CAF/TON/WFM/RFS partly; 'Qnomy', 'Surepay', 'WinCash', 'Siebel' leak",
+"recommendation": "Expand on first use or via tooltip; link the glossary."
+},
+{
+"id": "X-15",
+"area": "Content",
+"title": "Mirroring for Arabic is cosmetic: 302 physical-direction utilities, 0 logical, directional glyphs fixed, UI text is English",
+"sev": "P2",
+"effort": "L",
+"evidence": "ml- 26, mr- 8, pl- 33, pr- 27, left- 30, right- 48, text-left 57, text-right 37, border-l 20; no rtl: variants; hard-coded arrows/chevrons (Breadcrumbs.tsx:6-7); App.tsx:37-45 sets dir and lang=ar over English text",
+"recommendation": "Logical utilities (ms-/me-/ps-/pe-/start/end/text-start/text-end); flip icons; keep lang=en until translated."
+},
+{
+"id": "V-01",
+"area": "Visual",
+"title": "Title and heading styles: 5 sizes for page titles, 18/20/24px and 600/700 for card titles, KPI numbers in 4 styles",
+"sev": "P1",
+"effort": "M",
+"evidence": "h1: h4 in PageHeader.tsx:28 and CustomerProfileHeader.tsx:157; h3 in WizardTitleBand.tsx:64, LeadDetailsView.tsx:93, TicketHeaderCard.tsx:19, OrderConfirmationScreen.tsx:83, NotFound.tsx:10, NotYetBuiltPanel.tsx:28, ErrorBoundary.tsx:45; clamp() in Dashboard.tsx:146. Card h2 at 24px in C360Kit.tsx:166, CapabilityLibrarySection.tsx:38, OfferDetailsDrawer.tsx:173. KPI: DashboardZone.tsx:164, Dashboard.tsx:156, MetricCard.tsx:8, TicketsDashboard.tsx:220",
+"recommendation": "Role table in report section 7 (round-1 L-01/L-02 still open).",
+"status": "Partly",
+"resolution": "Content-page h1 now 24px (--fs-h4); card h2 at 20px (--fs-h5). Hero/status headings and KPI numbers not yet unified."
+},
+{
+"id": "V-02",
+"area": "Visual",
+"title": "Wizard and detail grids use viewport breakpoints inside a 280px-sidebar + 352px-summary frame",
+"sev": "P1",
+"effort": "M",
+"evidence": "Step card inner width = viewport - 746: 278px at 1024, 534px at 1280. CustomerTypeStep.tsx:78,84,115; CrossSalesStep.tsx:120; AddonsPicker.tsx:130; PostpaidDiscountsPanel.tsx:84; PlanGroupPanel.tsx:28; SimTypeStep.tsx:64; QidInput.tsx:143; CafSignatureCapture.tsx:350; CheckoutSummaryTables.tsx:15; FixedStepViews.tsx:55,183; LeadDetailsView.tsx:89,123; TicketDetail.tsx:74,101; OrderApprovalDetail.tsx:324,396; DashboardZone.tsx:153",
+"recommendation": "@container on the step card/page wrappers and @md/@lg/@xl, or auto-fill minmax grids (round-1 L-09).",
+"status": "Partly",
+"resolution": "Wizard step grids use auto-fill minmax columns (follow the panel width, not the window). Page-level grids (lead, ticket, order approval, dashboard zone) unchanged."
+},
+{
+"id": "V-03",
+"area": "Visual",
+"title": "Known 1024px defects confirmed in code: top-bar overlap, number-card clipping, identity-card date wrap",
+"sev": "P1",
+"effort": "S",
+"evidence": "PersonaSwitcher.tsx:101 (1fr track resolves to ~0 with the strip and right cluster; overlap persists to ~1700px with an active ticket), SessionReferenceNumbers.tsx:344; MsisdnPicker.tsx:500-508,560,575,613 (~83px for a 2x2 fact grid); IdentityDetailsCard.tsx:33-39 (grid-cols-3 + break-words)",
+"recommendation": "Strip only at xl: and move it to the breadcrumb row below; container-query grids; whitespace-nowrap on dates (round-1 L-10).",
+"status": "Fixed",
+"resolution": "Top-bar grid cannot overlap (verified at 1024); number cards and identity facts follow their panel width."
+},
+{
+"id": "V-04",
+"area": "Visual",
+"title": "No control-height scale: Button 39.6, Input 42, SearchField 50, --field-height 48, steppers 42, hero search ~58",
+"sev": "P1",
+"effort": "M",
+"evidence": "Button.tsx:97-181, Input.tsx:143, SearchField.tsx:37, tokens.css:518 (--field-height 3rem vs comment 42px), BillLimitEditor.tsx:74-81, GlobalSearch.tsx:228; misaligned rows at AgentProfileWorkspace.tsx:294, EnterpriseAccountCreation.tsx:63, TicketsDashboard.tsx:235 (8px)",
+"recommendation": "sm 32 / md 42 / lg 48 tokens; SearchField size prop; min-h per Button size.",
+"status": "Partly",
+"resolution": "--control-h-sm/md/lg scale; Button, Input and SearchField use it (verified aligned on Tickets Dashboard). Hero search and steppers unchanged."
+},
+{
+"id": "V-05",
+"area": "Visual",
+"title": "Page and header insets differ: 16 / 20 / 24 / 32px; page container deviations",
+"sev": "P2",
+"effort": "S",
+"evidence": "PersonaSwitcher.tsx:101 px-4, Breadcrumbs.tsx:43 px-6, PageHeader.tsx:26 px-5, content p-8; SalesWorkspace.tsx:52 + LeadListView.tsx:47 (double padding); ConnectionDetailsPopup.tsx:26 cuts the header band; border greys #e0e0e0 vs #c9ced4 on adjacent bands",
+"recommendation": "One inset (px-8) and one band border colour."
+},
+{
+"id": "V-06",
+"area": "Visual",
+"title": "Card padding and gaps vary by area; same-role sections use mb-4/mb-6; heading margins mb-1/2/3",
+"sev": "P3",
+"effort": "S",
+"evidence": "p-4 (45) / p-5 (36) / p-3 (9) / p-6 (7); administration/profile/tasks p-5, customer360 p-4",
+"recommendation": "p-5 page cards, p-4 dense tiles, p-6 wizard/modal; gap-6 between cards."
+},
+{
+"id": "V-07",
+"area": "Visual",
+"title": "Icons: sizes w-3.5/4/4.5/5/6, strokes 1.5-3, selected-card check badge in 5 geometries, close glyph 20px vs icon button 16px",
+"sev": "P3",
+"effort": "S",
+"evidence": "IdentityDetailsCard.tsx:26 w-[18px]; CloseButton.tsx:18 vs IconButton.tsx:32; Checkbox.tsx:56, PanelIcon.tsx:9, StepSummarySection.tsx:37; check badges at QidInput.tsx:173, MsisdnPicker.tsx:607,568, AddonsPicker.tsx:190, DiscountCard.tsx:24, CafSignatureCapture.tsx:363; inline svg in 5 places that should use Icon",
+"recommendation": "16/18/20 sizes by context, stroke 2 (3 for checks), one SelectedTick."
+},
+{
+"id": "V-08",
+"area": "Visual",
+"title": "Border, radius and elevation roles are unclear; modal has no border, tooltip carries the modal shadow, two scrims",
+"sev": "P2",
+"effort": "S",
+"evidence": "DataTable.tsx:131 #e0e0e0 next to cards #c9ced4; Modal.tsx:40 raised with no border; tooltip uses --elev-raised (60px blur); --black-80 scrim (Modal.tsx:37, Drawer.tsx:58) vs --scrim 40% (Sidebar.tsx:202); Sidebar.tsx:224 shadow-xl; Toast.tsx top-[calc(4rem+0.75rem)] hard-codes the header height",
+"recommendation": "Cards/bands field-card-border, tables/nav --border; two elevation levels; one scrim; --header-h token."
+},
+{
+"id": "V-09",
+"area": "Visual",
+"title": "Dark mode: white text on success/danger fills fails contrast; field borders 1.76-1.98:1; dash-card shadows have no dark value; SignaturePad ink follows the theme",
+"sev": "P1",
+"effort": "M",
+"evidence": "bg-success 2.11:1 (OrderConfirmationScreen.tsx:80, C360AddressService.tsx:160), bg-danger 3.44:1 (Button.tsx:165, CustomerProfileHeader.tsx:198); --shadow-dash-card(-hover) in tokens.css; SignaturePad.tsx:38,55 stores a transparent PNG with theme ink (near-white in dark) used by CafSignatureCapture.tsx:244,396, DonorAttachmentStep.tsx:50, SimSwapFormStep.tsx:29",
+"recommendation": "*-solid tokens for filled status; dark shadow values; fixed dark ink on a white backing.",
+"status": "Fixed",
+"resolution": "--success-solid / --danger-solid for filled status; dark shadows; dark field borders at 3:1; signature ink fixed dark on a white pad."
+},
+{
+"id": "V-10",
+"area": "Visual",
+"title": "Light-mode contrast near-misses",
+"sev": "P3",
+"effort": "S",
+"evidence": "--customer-view-fg 3.33:1 (WizardStepHeader.tsx:56, POSTPAID_PILL), --link on page-bg 4.43:1, --tag-blue-fg 4.28:1, tag-green 4.36:1, error text #e60000 on page-bg 4.37:1, text-link on charcoal 3.21:1 (LoginPage.tsx:233), disabled/field icon #999 2.85:1",
+"recommendation": "Token tweaks (accent-text for error text, lighter on-dark link)."
+},
+{
+"id": "V-11",
+"area": "Visual",
+"title": "78% of hover states have no transition; Tailwind default transition is not bound to the motion tokens; entrances are missing",
+"sev": "P3",
+"effort": "S",
+"evidence": "~90 of ~116 hover: class strings lack transition (PersonaSwitcher.tsx, Toast.tsx, C360Overview.tsx, LoginPage.tsx); Drawer backdrop does not fade; Modal/Select/popover/toast have no enter transition",
+"recommendation": "Map --default-transition-* to --motion-fast/--ease-standard; add transition-colors to interactive hovers; one entrance."
+},
+{
+"id": "V-12",
+"area": "Visual",
+"title": "Print and the customer-view mirror",
+"sev": "P2",
+"effort": "S",
+"evidence": "index.css:204-218 prints dark tokens in dark mode (white-on-white); no @page, print-color-adjust, header repeat or break-inside; mirror stays in the stored theme, has no max-width and mounts the hidden shell",
+"recommendation": "Re-declare light tokens in @media print; force light in the mirror."
+},
+{
+"id": "V-13",
+"area": "Visual",
+"title": "Brand: login renders 'Vodafone' text twice instead of the wordmark; Google Fonts loads all weights + italics; assets duplicated/unoptimised",
+"sev": "P3",
+"effort": "S",
+"evidence": "LoginPage.tsx:25-29,152,259; index.html:5-8; public/Vodafone_Logo.svg unreferenced, brand/vodafone-logo-big|small.svg duplicates; login-bg.jpg 505KB; favicon SVG only",
+"recommendation": "Shared Logo component; self-host 6 weights; prune assets (round-1 L-12)."
+},
+{
+"id": "V-14",
+"area": "Visual",
+"title": "Heading structure and page-header patterns",
+"sev": "P2",
+"effort": "S",
+"evidence": "SalesWorkspace.tsx:53 h2 before the nested LeadListView h1; CustomerMirrorPanel.tsx:25 h2 only; two header patterns (PageHeader band vs card with 32px h1: LeadDetailsView.tsx:90-93, TicketHeaderCard.tsx:18-19); ~35 files skip heading levels; emoji glyphs for UI (TicketHeaderCard.tsx:21, ContactPhoneInput.tsx:130)",
+"recommendation": "PageHeader everywhere; heading components that encode the role table."
+},
+{
+"id": "D-01",
+"area": "Data/config",
+"title": "CI never runs: workflow sits under vfq-dxp-app/ but the git root is one level up",
+"sev": "P1",
+"effort": "S",
+"evidence": "vfq-dxp-app/.github/workflows/ci.yml (untracked); git root is /Users/.../vfq; confirmed no ../.github",
+"recommendation": "Move to <root>/.github/workflows/ci.yml and commit (also fix CLAUDE.md claim).",
+"status": "Open",
+"resolution": "Blocked: the sandbox cannot create <repo root>/.github. Run: mkdir -p ../.github/workflows && cp .github/workflows/ci.yml ../.github/workflows/ci.yml"
+},
+{
+"id": "D-02",
+"area": "Data/config",
+"title": "RBAC is presentational: the router has no guard; 33 of 50 feature keys are never enforced",
+"sev": "P1",
+"effort": "M",
+"evidence": "router.tsx:62-100, ScreenRouteResolver; only workspace.customer-search, workspace.admin-role-access-viewer, journey featureKeys and canPerformAction(SCR-061) are enforced; /administration, /sales, /orders, /support, /leads and any module URL open for every role",
+"recommendation": "RequireFeature wrapper using canUseFeature; or label the matrix informational.",
+"status": "Open",
+"resolution": "Decision needed: enforce grants on routes (hides ~50 destinations from roles that see them today) or label the matrix informational."
+},
+{
+"id": "D-03",
+"area": "Data/config",
+"title": "Sidebar follows approach, not grants: ~50 role/nav mismatches",
+"sev": "P1",
+"effort": "M",
+"evidence": "navigationEngine.ts:29-46 vs personas.json (e.g. ROLE-09/16/17/19 see sales/support/orders without grants; ROLE-14/15 hold orders/customer-search with no nav item; Customer-First roles hold leads.list-views with no Leads item)",
+"recommendation": "Gate nav items on their feature keys or document nav as IA-only; add a parity test.",
+"status": "Open",
+"resolution": "Decision needed with D-02."
+},
+{
+"id": "D-04",
+"area": "Data/config",
+"title": "Unknown URLs do not reach NotFound; /mobile/:category accepts anything; /mobile/new-connection vs /mobile/new-connections",
+"sev": "P1",
+"effort": "S",
+"evidence": "ModuleScreenList.tsx:~66, ScreenNotYetBuilt.tsx:17-24, router.tsx:74,76,99-101, 72",
+"recommendation": "NotFound for unknown module/screen/category; rename the wizard URL.",
+"status": "Fixed",
+"resolution": "NotFound for unknown module, screen and category; wizard URL renamed /mobile/start-connection."
+},
+{
+"id": "D-05",
+"area": "Data/config",
+"title": "validateJourneyCatalogue() is described as a guard but does not exist",
+"sev": "P1",
+"effort": "S",
+"evidence": "navigation/journeyCatalogue.ts:25; only the Python matrix builder checks it; mob-new-connection is 'available' with no featureKey (:~84)",
+"recommendation": "Implement and test it.",
+"status": "Fixed",
+"resolution": "validateJourneyCatalogue() implemented and tested (it found no live errors once list-registered screens were counted)."
+},
+{
+"id": "D-06",
+"area": "Data/config",
+"title": "Mock identity data contradicts itself for the QA customers",
+"sev": "P1",
+"effort": "S",
+"evidence": "CUST-1001 customers.qid 28512345678 vs identity-documents 28456701234; CUST-1002 P-N1234567 vs P0998812; CUST-2001 QID 28855544433 vs 'Other ID' RES-7788221; CUST-9001 idType QID with value P1234567 and a second Passport doc - verified; CUST-9001 is 16 years old",
+"recommendation": "One document row per customer.qid/idType; adult QA identity.",
+"status": "Open",
+"resolution": "Decision needed: which ID is canonical per QA customer (already logged as Q6 in the customer inventory). Customer-Inventory.xlsx on disk was re-saved by Excel and is no longer readable by the generator."
+},
+{
+"id": "D-07",
+"area": "Data/config",
+"title": "Mock data drift: status vocabularies, two order schemas, money-field casing, three actor-id namespaces, dates, dangling references",
+"sev": "P2",
+"effort": "M",
+"evidence": "orders: Complete/Completed/Pending/Open/Draft; tasks 'In Progress' vs 'In-Progress'; lowercase vocabularies in appointments, bills, mnp-*; orders.json two generations (totalQAR not mrc+nrc in 22 records; ORD-92004 addonIds holds PROD-101); mrcQAR/creditLimitQar/amount; USR-1101 vs AGENT-* vs display names; 34 naive/Z dates, 2 DD/MM dob; installed-assets orderNumber ORD-90022/90023 missing; qtickets null customerId",
+"recommendation": "Normalise and add a referential-integrity test."
+},
+{
+"id": "D-08",
+"area": "Data/config",
+"title": "Business-rule numbers live only in code (or in three places); config contradicts itself",
+"sev": "P2",
+"effort": "M",
+"evidence": "line caps ruleEngine.ts:38,169 vs BR-288; passport cap BR-108 vs BR-347; credit limit 1000/50 repeated ruleEngine.ts:316-321, EligibilityGateStep.tsx:179, BaseManagementWizard.tsx:124; HRN 100 in 3 places; VAT 0.05 assumed; stale '346 rules' comment (349 exist); BR-02 vs BR-002 ids",
+"recommendation": "public/config/rule-parameters.json read by engines, plus a test tying values to rule text."
+},
+{
+"id": "D-09",
+"area": "Data/config",
+"title": "No session timeout despite comments claiming one; auth persists in localStorage; no cross-tab sign-out",
+"sev": "P1",
+"effort": "M",
+"evidence": "resetSession.ts:3 and authStore.ts:45 mention it; WinCashPaymentStep.tsx:19 admits none exists; no storage listener",
+"recommendation": "Idle timer + storage event, or remove the comments.",
+"status": "Partly",
+"resolution": "Comments no longer claim an idle timeout; sign-out in one tab signs out the others. No idle timeout implemented."
+},
+{
+"id": "D-10",
+"area": "Data/config",
+"title": "Boot and config failure handling",
+"sev": "P2",
+"effort": "S",
+"evidence": "App.tsx:~43 bare error with no Retry; configEngine.ts:137-152 .catch(() => []) hides approval-matrix and customer360 fields; deploy/nginx.conf try_files returns HTML for missing JSON; ~2.2 MB of config + mock downloaded before the login page",
+"recommendation": "Retry action, warn on optional fallback, 404 for /config and /mock-data, lazy-load per entity."
+},
+{
+"id": "D-11",
+"area": "Data/config",
+"title": "Store versioning gaps",
+"sev": "P2",
+"effort": "S",
+"evidence": "themeStore, regionStore, customerVerificationStore, workflowStore, customerContextStore have no version/migrate; customerVerification persists in localStorage across restarts with no expiry",
+"recommendation": "version + migrate; test hydration of old payloads."
+},
+{
+"id": "D-12",
+"area": "Data/config",
+"title": "Test coverage and lint depth are thin",
+"sev": "P2",
+"effort": "M",
+"evidence": "No tests for router/registry parity, journey catalogue, 7 journeys, mockDataEngine writes, store hydration, resetSession, serviceCall, capability registry, 11 of 32 primitives; weak tests (nav route check only tests a string prefix, rules 'do not throw'); lint 91 warnings pass CI; no strict/noUncheckedIndexedAccess flags written; no typecheck/lint:ci scripts, no engines",
+"recommendation": "Guards G1-G12 in report section 12; oxlint --deny-warnings; enable eqeqeq, no-console, jsx-a11y rules."
+},
+{
+"id": "D-13",
+"area": "Data/config",
+"title": "Generated artefacts and docs drift",
+"sev": "P2",
+"effort": "S",
+"evidence": "Test_Data_Reference.xlsx no longer exists (live file '01 Test_Data.xlsx'; generator writes the old name, drops 3 hand-built sheets); '02 Customer-Inventory.xlsx' differs from Customer-Inventory.xlsx; UI_Component_Route_Inventory and Reusable_Capabilities_Inventory older than 196-213 source files; design-tokens.json still cited (update-capability SKILL.md:47, audit.py, Design Principles reference); README.md is stock Vite; reference/README.md lists missing folders; registry.json 22 vs 30 capability entries; 114 MB xlsx not ignored",
+"recommendation": "Regenerate, choose one naming convention, fix references, gitignore the large workbook."
+},
+{
+"id": "D-14",
+"area": "Data/config",
+"title": "Routes: 20 catalogue screens unregistered, 124 of 213 in no feature, duplicate journey targets overstate 'available', slug/module mismatches, slugs up to 60 characters",
+"sev": "P2",
+"effort": "S",
+"evidence": "13 features show Planned only; mob-portin-new/mob-fnp-change, fib-create-ticket/connectivity-issue/complaint share screens; SCR-016/037/042/113/164 sit under another module's slug; SCR-061 slug ends '-activities-a'; build size: 3 chunks >300 kB; .env* not ignored, CI builds with demo content",
+"recommendation": "Report as counts; slug/shape test; split capabilities and Customer 360 chunks; VITE_SHOW_DEMO=false CI build."
+},
+{
+"id": "A-30",
+"area": "Accessibility",
+"title": "Select listbox model is unusable by screen readers (shared by PhoneNumberInput and FilterSelect)",
+"sev": "P0",
+"effort": "M",
+"evidence": "Select.tsx:159-172,208-231 (focus to a bare ul, no option ids/aria-activedescendant/aria-controls/name, no focus return, no Home/End/type-ahead, no scrollIntoView, error not linked); PhoneNumberInput.tsx:198-215; C360Kit.tsx:356-430",
+"recommendation": "One Listbox primitive (round-1 A-06).",
+"status": "Fixed",
+"resolution": "Select, PhoneNumberInput, FilterSelect: aria-controls, aria-activedescendant, option ids, scrollIntoView, Home/End/PageUp/PageDown, type-ahead, focus return, error linked. Verified in the browser."
+},
+{
+"id": "A-31",
+"area": "Accessibility",
+"title": "Customer/service actions menu is not keyboard operable",
+"sev": "P1",
+"effort": "M",
+"evidence": "CustomerActionsMenu.tsx:103-130,166 (portal far from trigger, no focus in, no arrows, no aria-controls, highlight 1.06:1, no focus return)",
+"recommendation": "Shared Menu with roving focus.",
+"status": "Fixed",
+"resolution": "Actions menus: focus moves in, arrows/Home/End, Esc/Tab close and return focus, aria-controls, visible highlight. Verified in the browser."
+},
+{
+"id": "A-32",
+"area": "Accessibility",
+"title": "Choice cards do not expose their selected state; interactive children sit inside role=button/radio",
+"sev": "P1",
+"effort": "M",
+"evidence": "QidInput.tsx:158-186, CafSignatureCapture.tsx:355-372, BillingAccountStep.tsx:122, ProductPlanStep.tsx:76 (no aria-pressed/checked); PostpaidPlanCard.tsx:32+:104, CrossSalesStep.tsx:137+:190, DataTable.tsx:190 (role=button tr hides cell controls); ~9 hand-copied card variants",
+"recommendation": "SelectableCard primitive (button aria-pressed or native radio/checkbox in fieldset).",
+"status": "Partly",
+"resolution": "aria-pressed on ID-type, CAF-type, plan and billing-account cards; clickable table rows no longer role=button. Plan cards still nest a button inside role=button; no shared SelectableCard primitive yet."
+},
+{
+"id": "A-33",
+"area": "Accessibility",
+"title": "Input/Select/Textarea derive ids from the label (input-undefined, duplicates); six selects unnamed; errors not announced",
+"sev": "P1",
+"effort": "S",
+"evidence": "Input.tsx:40, Select.tsx:65, Textarea.tsx:10; PersonaSwitcher.tsx:282-287, TicketActionsCard.tsx:52, TicketsDashboard.tsx:245,252,258, TaskDetailView.tsx:161; Textarea.tsx:12-42, Input.tsx:178, QidInput.tsx:265-328, LoginPage.tsx:165-179 lack role=alert/aria-invalid/describedby",
+"recommendation": "useId, FieldError with role=alert, label|aria-label required (round-1 A-07/A-08).",
+"status": "Partly",
+"resolution": "useId for Input/Select/Textarea; errors are role=alert and linked; six unnamed selects named. A label-or-aria-label requirement is not enforced by types."
+},
+{
+"id": "A-34",
+"area": "Accessibility",
+"title": "Login carousel auto-advances with no pause; off-screen slides keep a focusable Read-more button; dots are tabs without panels",
+"sev": "P1",
+"effort": "S",
+"evidence": "LoginAnnouncements.tsx:70-75,92-93,118,133-144",
+"recommendation": "Pause/play, focusin pause, reduced-motion stop, inert off-screen slides (round-1 A-10).",
+"status": "Fixed",
+"resolution": "Pause/Play, pause on hover and focus, reduced-motion start state, off-screen slides inert, dots are buttons with aria-current."
+},
+{
+"id": "A-35",
+"area": "Accessibility",
+"title": "Tooltip-only information on non-focusable triggers; Badge cannot hold a tooltip",
+"sev": "P1",
+"effort": "S",
+"evidence": "SessionReferenceNumbers.tsx:359,406,427,475; HeaderContextChips.tsx:64,83; InvoiceActions.tsx:31; ProductActionGroups.tsx:156; tooltip.css pointer-events:none",
+"recommendation": "Tooltip adds tabIndex=0 and a hoverable surface; forward refs in Badge (round-1 A-13).",
+"status": "Fixed",
+"resolution": "Tooltip makes text/badge triggers focusable and the tip hoverable (120ms hide delay); Badge forwards props and ref."
+},
+{
+"id": "A-36",
+"area": "Accessibility",
+"title": "Icon has no aria-hidden (185 uses); Spinner has no text; toast containers unmount when empty and sit after main",
+"sev": "P2",
+"effort": "S",
+"evidence": "Icon.tsx:17; Spinner.tsx:41-43; Toast.tsx:155,167,186-190",
+"recommendation": "aria-hidden default; sr-only label; persistent live regions (round-1 A-14)."
+},
+{
+"id": "A-37",
+"area": "Accessibility",
+"title": "Login and password forms lack form semantics, autocomplete and a main landmark",
+"sev": "P2",
+"effort": "S",
+"evidence": "LoginPage.tsx:149,164-217; ForgotPasswordFlow.tsx:97-125; AgentProfileWorkspace.tsx:203-205; only one <form> in the app (CustomerSearchPage.tsx:46)",
+"recommendation": "form + submit, autocomplete=username/current-password/new-password/one-time-code (round-1 A-09)."
+},
+{
+"id": "A-38",
+"area": "Accessibility",
+"title": "Header popups declare menu semantics they do not implement; profile aria-label overrides the visible name; landmarks and breadcrumb are divs",
+"sev": "P2",
+"effort": "M",
+"evidence": "PersonaSwitcher.tsx:189,232,252-253,197-297,101; Breadcrumbs.tsx:43,79",
+"recommendation": "Disclosure pattern with Escape/focus return; header/search/nav landmarks; nav>ol with aria-current (round-1 A-16)."
+},
+{
+"id": "A-39",
+"area": "Accessibility",
+"title": "DataTable and tab semantics: no caption/aria-busy/scope, hideHeader ignored on sortable columns, SegmentedTabs without tabpanel, vertical Tabs without roles",
+"sev": "P2",
+"effort": "S",
+"evidence": "DataTable.tsx:133,146-180; SegmentedTabs.tsx:49-60; Tabs.tsx:59-79,130; CheckoutSummaryTables.tsx:17 (title as th colSpan)",
+"recommendation": "caption/aria-label props, status for loading/empty, ids + aria-controls + tabpanel (round-1 A-17)."
+},
+{
+"id": "A-40",
+"area": "Accessibility",
+"title": "Reflow at 320px: drawer min-w 420px, grid-cols-3 forms without breakpoints, non-wrapping header",
+"sev": "P2",
+"effort": "M",
+"evidence": "Drawer.tsx:61; 14 forms (GuidedContactStep.tsx:168, ZsbAddressStep.tsx:193,222, AddressSection.tsx:181, ContactSection.tsx:168, BillingAccountStep.tsx:229, ...); PersonaSwitcher.tsx:101; wizard m-8 p-6",
+"recommendation": "min-w-[min(420px,100%)]; shared FormGrid; responsive margins."
+},
+{
+"id": "A-41",
+"area": "Accessibility",
+"title": "Combobox gaps shared by result-list searches: no blur close, Escape always swallowed, no result announcement, non-option li in listbox, dangling aria-controls, GlobalSearch/Sidebar search have no combobox roles",
+"sev": "P2",
+"effort": "S",
+"evidence": "useSearchListNav.ts:56-62; CompanySearchInput.tsx:70-77,204; LocationInput.tsx:55-62,158; ContactPhoneInput.tsx:72-79,191; PlanSearchBox.tsx:60-61; GlobalSearch.tsx:237; Sidebar.tsx:250-263",
+"recommendation": "Extend the hook (status text, blur close, Escape only when open); give GlobalSearch the roles."
+},
+{
+"id": "A-42",
+"area": "Accessibility",
+"title": "Focus and announcement gaps after state changes",
+"sev": "P2",
+"effort": "S",
+"evidence": "Post-submit confirmation replaces the wizard with no focus or announcement (NewConnectionWizard.tsx:80); sidebar toggles unmount the focused button (NavLogoToggle.tsx, PersonaSwitcher.tsx:110-114); mobile drawer has no dialog behaviour (Sidebar.tsx:198-211); route title set once at 150 ms so lazy/data headings keep the generic title (useRouteAnnouncer.ts:26-33); Sales has no h1; async results (FibreReadinessBanner, scans, searching) are visual only; Qnomy Finish/Abandon act immediately",
+"recommendation": "Focus the confirmation h1; focus the counterpart toggle; MutationObserver/usePageTitle; LiveStatus component; confirm Abandon (round-1 A-03/A-11)."
+},
+{
+"id": "A-43",
+"area": "Accessibility",
+"title": "Field and icon contrast, weak focus cues, hidden file inputs, signature pad, modal naming, lang attribute",
+"sev": "P2",
+"effort": "S",
+"evidence": "--field-border 1.32:1, --field-icon 2.85:1 (round-1 A-05); highlight 1.06:1 (Select.tsx:226, C360Kit.tsx:429, GlobalSearch.tsx:256-290); underline-only focus (C360ProductsServices.tsx:361, PhoneNumberInput.tsx:204); file inputs tabbable and unnamed (CafDocumentUpload.tsx:133, AdditionalDocumentsUpload.tsx:139, PostpaidDiscountsPanel.tsx:140); SignaturePad.tsx:60-69; Modal.tsx:44/Drawer.tsx:66 aria-label not labelledby, no inert/scroll lock; App.tsx:43-45 lang=ar over English; navigation done through role=button rows (OrdersSection.tsx:17, TicketsSection.tsx:53, LeadListView.tsx:64, MySalesOrders.tsx:88, TaskListView.tsx:159) and window.location (HeaderContextChips.tsx:79)",
+"recommendation": "Token fix; shared active-option ring; FileTrigger; label the canvas; dialog naming + inert; keep lang=en; real links for navigation."
+}
+]

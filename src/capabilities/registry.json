@@ -1,0 +1,479 @@
+[
+  {
+    "id": "customer-identification",
+    "name": "Customer Verification",
+    "status": "consolidated",
+    "home": "capabilities/CustomerIdentification",
+    "entry": "CustomerIdentification",
+    "stepBuilders": [
+      "idLookupStep"
+    ],
+    "stepLabel": "CUSTOMER_IDENTIFICATION_LABEL",
+    "summary": "Select an ID type, scan the document, validate with MOI and show the validated Identity Details in one card, in every journey.",
+    "parts": [
+      "components/patterns/IdLookupStep.tsx",
+      "components/patterns/GuidedContactStep.tsx",
+      "components/patterns/MoiResultPanel.tsx",
+      "components/patterns/useIdLookup.ts",
+      "components/patterns/IdScannerPanel.tsx",
+      "components/patterns/IdLookupStatus.tsx",
+      "components/patterns/idLookupModel.ts",
+      "components/patterns/guidedContactModel.ts",
+      "components/domain/QidInput.tsx",
+      "components/domain/QidImageUpload.tsx",
+      "components/domain/IdFileUpload.tsx",
+      "components/domain/idUploadModel.ts",
+      "components/domain/PassportScanSections.tsx",
+      "components/domain/qidImageUploadModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": [
+      "components/domain/ScannedIdPreview.tsx"
+    ]
+  },
+  {
+    "id": "special-discounts-identification",
+    "name": "Special Discounts Identification",
+    "status": "consolidated",
+    "home": "capabilities/SpecialDiscountsIdentification",
+    "entry": "SpecialDiscountsIdentification",
+    "stepBuilders": [
+      "specialDiscountsIdentificationStep"
+    ],
+    "stepLabel": "SPECIAL_DISCOUNTS_IDENTIFICATION_LABEL",
+    "summary": "The Special Discounts section of Mobile Postpaid Activation as its own capability: choose Consumer B2B2C, Retiree or MADA, supply the evidence (company, ID number, Office ID scan or upload) and accept or reject the benefit. Independent of Customer Verification and Customer Type; always offers both Initiate scan and Upload document.",
+    "parts": [
+      "capabilities/SpecialDiscountsIdentification/CompanySearchInput.tsx",
+      "capabilities/SpecialDiscountsIdentification/IdFileUpload.tsx",
+      "capabilities/SpecialDiscountsIdentification/PassportScanSections.tsx",
+      "capabilities/SpecialDiscountsIdentification/QidImageUpload.tsx",
+      "capabilities/SpecialDiscountsIdentification/ScanFailureNotice.tsx",
+      "capabilities/SpecialDiscountsIdentification/ScannedIdPreview.tsx",
+      "capabilities/SpecialDiscountsIdentification/SpecialDiscountsStep.tsx",
+      "capabilities/SpecialDiscountsIdentification/idUploadModel.ts",
+      "capabilities/SpecialDiscountsIdentification/qidImageUploadModel.ts",
+      "capabilities/SpecialDiscountsIdentification/specialDiscountsModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "number-selection",
+    "name": "Number Selection",
+    "status": "consolidated",
+    "home": "capabilities/NumberSelection",
+    "entry": "NumberSelection",
+    "stepBuilders": [
+      "numberSelectionStep"
+    ],
+    "stepLabel": "NUMBER_SELECTION_LABEL",
+    "summary": "Choose a number: search, Free and Star bands, price filter, plan entitlement note, reserve and clear.",
+    "parts": [
+      "components/domain/MsisdnPicker.tsx"
+    ],
+    "previewable": true,
+    "publicApi": [
+      "components/domain/msisdnPickerModel.ts"
+    ]
+  },
+  {
+    "id": "billing-account",
+    "name": "Billing Account",
+    "status": "consolidated",
+    "home": "capabilities/BillingAccount",
+    "entry": "BillingAccount",
+    "stepBuilders": [
+      "billingAccountStep"
+    ],
+    "stepLabel": "BILLING_PROFILE_LABEL",
+    "summary": "Set up what an order bills to: one layout everywhere - the customer's existing billing accounts, or Create New Billing Account (contact, billing address, payment, card on file, primary payment profile, billing profile setup).",
+    "parts": [
+      "components/patterns/BillingAccountStep.tsx",
+      "components/patterns/BillingAccountAutoResolver.tsx",
+      "components/patterns/billingAccountModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "service-address",
+    "name": "Service Address",
+    "status": "consolidated",
+    "home": "capabilities/ServiceAddress",
+    "entry": "ServiceAddress",
+    "stepBuilders": [
+      "serviceAddressStep"
+    ],
+    "stepLabel": "SERVICE_ADDRESS_LABEL",
+    "summary": "The address a service is activated at: one layout everywhere: Service Information (Kahramaa Meter ID / Vodafone Premise ID with Search), then Zone / Street / Building, then Additional Details, with Qatari-ID prefill.",
+    "parts": [
+      "components/patterns/ZsbAddressStep.tsx"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "plan-selection",
+    "name": "Plan Selection",
+    "status": "consolidated",
+    "home": "capabilities/PlanSelection",
+    "entry": "PlanSelection",
+    "stepBuilders": [
+      "planSelectionStep",
+      "prepaidExtrasStep",
+      "postpaidPlanStep",
+      "postpaidExtrasStep",
+      "fixedPlanSelectionStep"
+    ],
+    "stepLabel": "PLAN_SELECTION_LABEL",
+    "summary": "Choose the plan: postpaid plan cards then Add-ons (discounts, bill limit), prepaid packs then Add-ons, or the fixed-line / fibre plan cards with the credit check. The line's current plan or pack can be left out of the choices when a journey changes it.",
+    "parts": [
+      "components/patterns/PostpaidPlanAddonsStep.tsx",
+      "components/patterns/PrepaidPlanStep.tsx",
+      "components/patterns/FixedPlanStep.tsx",
+      "components/patterns/PostpaidPlanCard.tsx",
+      "components/patterns/PlanGroupPanel.tsx"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "caf-signature",
+    "name": "CAF & Signature",
+    "status": "consolidated",
+    "home": "capabilities/CafSignature",
+    "entry": "CafSignature",
+    "stepBuilders": [
+      "cafSignatureStep"
+    ],
+    "stepLabel": "CAF_SIGNATURE_LABEL",
+    "summary": "The Customer Agreement Form: terms, CAF type, signature and supporting documents. Standard variant (name, key information, signature) and full variant (the customer reads back the Checkout Summary order, agrees the terms and signs; the journey locks once signed); postpaid and prepaid forms.",
+    "parts": [
+      "components/patterns/CafSignatureCapture.tsx",
+      "components/patterns/KeyInformationPanel.tsx"
+    ],
+    "previewable": true,
+    "publicApi": [
+      "components/patterns/cafTypes.ts"
+    ]
+  },
+  {
+    "id": "checkout-summary",
+    "name": "Checkout Summary",
+    "status": "consolidated",
+    "home": "capabilities/CheckoutSummary",
+    "entry": "CheckoutSummary",
+    "stepBuilders": [
+      "checkoutSummaryStep",
+      "prepaidCartStep",
+      "prepaidCheckoutStep"
+    ],
+    "stepLabel": "CHECKOUT_LABEL",
+    "summary": "The order read-back before signing and payment (plan, add-ons, discount, number, billing, monthly and one-off totals); publishes the totals and read-back rows the CAF and Payment reuse. An optional panel above it (the port-in validation gate). Includes the prepaid cart (Add another subscription) and the prepaid checkout, which a prepaid port-in also uses with its own lines, details and fees.",
+    "parts": [
+      "components/patterns/CheckoutSummaryStep.tsx",
+      "components/patterns/CheckoutSummaryTables.tsx",
+      "components/patterns/CheckoutDefaultLayout.tsx",
+      "components/patterns/useCheckoutSummary.ts",
+      "components/patterns/checkoutSummaryModel.ts",
+      "components/patterns/checkoutSummaryRows.ts",
+      "components/patterns/checkoutDetailedTables.ts",
+      "components/patterns/PrepaidCheckoutStep.tsx",
+      "components/patterns/PrepaidCartStep.tsx",
+      "components/patterns/prepaidCartModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "payment",
+    "name": "Payment",
+    "status": "consolidated",
+    "home": "capabilities/Payment",
+    "entry": "Payment",
+    "stepBuilders": [
+      "paymentStep"
+    ],
+    "stepLabel": "PAYMENT_LABEL",
+    "summary": "Take the amount due at the counter through WinCash and record the outcome.",
+    "parts": [
+      "components/patterns/WinCashPaymentStep.tsx"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "appointment-booking",
+    "name": "Appointment Booking",
+    "status": "consolidated",
+    "home": "capabilities/AppointmentBooking",
+    "entry": "AppointmentBooking",
+    "stepBuilders": [
+      "appointmentBookingStep"
+    ],
+    "stepLabel": "APPOINTMENT_LABEL",
+    "summary": "Book the installation visit: SLA cluster, the date strip (next working days from the earliest, with each day's open slots), the day's time slots and technicians free, the customer's request for a specific date and time (a later date makes the order future-dated), appointment notes and the documents the technician collects (defaulted from the persona).",
+    "parts": [
+      "components/patterns/AppointmentBookingStep.tsx",
+      "components/patterns/appointmentModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "activity-comments",
+    "name": "Activity Comments",
+    "status": "consolidated",
+    "home": "capabilities/ActivityComments",
+    "entry": "ActivityComments",
+    "stepBuilders": [
+      "activityStep"
+    ],
+    "stepLabel": "ACTIVITY_LABEL",
+    "summary": "The closing note on the actions performed, with an optional channel.",
+    "parts": [
+      "components/patterns/ActivityCommentsStep.tsx"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "activation-complete",
+    "name": "Activation Complete",
+    "status": "consolidated",
+    "home": "capabilities/ActivationComplete",
+    "entry": "ActivationComplete",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "The confirmation page for a submitted activation (facts, status, follow-on actions, eSIM handover, email) and the confirmed-order shape journeys hand it.",
+    "parts": [
+      "components/patterns/ActivationCompleteScreen.tsx",
+      "components/patterns/OrderConfirmationScreen.tsx"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "selectable-card-styling",
+    "name": "Selectable card styling",
+    "status": "consolidated",
+    "home": "capabilities/SelectableCard",
+    "entry": "CARD_SELECTED",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "One selected / idle / highlighted surface for plans, offers, numbers, add-ons, discounts and ID/customer type.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "side-drawer",
+    "name": "Side drawer",
+    "status": "consolidated",
+    "home": "capabilities/SideDrawer",
+    "entry": "Drawer",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "Fixed 50%-width drawer for forms, details and multi-step flows: the title as a small uppercase label beside the close control, the body on the page tint, and a footer whose buttons share its width equally.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "toasts",
+    "name": "Toasts and notifications",
+    "status": "consolidated",
+    "home": "capabilities/Toasts",
+    "entry": "ToastContainer",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "One-line toasts below the header; structured cards at the bottom.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": [
+      "stores/notificationStore.ts"
+    ]
+  },
+  {
+    "id": "guided-activation-wizard",
+    "name": "Guided activation wizard",
+    "status": "consolidated",
+    "home": "capabilities/GuidedActivationWizard",
+    "entry": "GuidedActivationWizard",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "The step shell every activation / migration / port-in journey runs in.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "eligibility-gate",
+    "name": "Eligibility gate",
+    "status": "consolidated",
+    "home": "capabilities/EligibilityGate",
+    "entry": "EligibilityGateStep",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "Hard-stop / soft-stop / pass eligibility check shown after identification, with the outcome panel, checks report and footer actions.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "addons-selection",
+    "name": "Add-ons selection",
+    "status": "consolidated",
+    "home": "capabilities/AddonsSelection",
+    "entry": "AddonsPicker",
+    "stepBuilders": [
+      "addonsSelectionStep"
+    ],
+    "stepLabel": null,
+    "summary": "Add-on rows for a plan or prepaid pack, with included-benefit handling; on its own (Add Add-On) as a step that needs at least one add-on.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "customer-qualification",
+    "name": "Customer Qualification",
+    "status": "consolidated",
+    "home": "capabilities/CustomerQualification",
+    "entry": "customerQualificationStep",
+    "stepBuilders": [
+      "customerQualificationStep"
+    ],
+    "stepLabel": "CUSTOMER_IDENTIFICATION_LABEL",
+    "summary": "Identify the customer, run eligibility, then offer the special-discount types - the whole \"Customer Verification\" step of an activation, with its outcomes and footer actions.",
+    "parts": [],
+    "publicApi": [],
+    "previewable": true
+  },
+  {
+    "id": "line-selection",
+    "name": "Line Selection",
+    "status": "consolidated",
+    "home": "capabilities/LineSelection",
+    "entry": "LineSelection",
+    "stepBuilders": [
+      "lineSelectionStep"
+    ],
+    "stepLabel": "LINE_SELECTION_LABEL",
+    "summary": "Choose which of the identified customer's existing mobile lines an order changes (Change Postpaid Plan, Change Prepaid Pack, Add Add-On): postpaid and / or prepaid lines with their current plan and price; a line that is not active, is barred or whose billing profile is in collections is shown with its reason and cannot be chosen.",
+    "parts": [
+      "components/patterns/LineSelectionStep.tsx",
+      "components/patterns/lineSelectionModel.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "customer-type",
+    "name": "Customer Type & Discounts",
+    "status": "consolidated",
+    "home": "capabilities/CustomerType",
+    "entry": "CustomerTypeStep",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "Special customer types (retired, MADA, B2B2C): the evidence the agent collects, the rules for accepting or rejecting the benefit, and the customer's benefits.",
+    "parts": [
+      "components/domain/CompanySearchInput.tsx"
+    ],
+    "publicApi": [],
+    "previewable": true
+  },
+  {
+    "id": "cross-sell-offers",
+    "name": "Cross-Sell Offers",
+    "status": "consolidated",
+    "home": "capabilities/CrossSellOffers",
+    "entry": "CrossSalesStep",
+    "stepBuilders": [
+      "offersStep"
+    ],
+    "stepLabel": null,
+    "summary": "Recommended offers for the identified customer: offer cards, details drawer, interested (lead) and select actions, and hand-off to the other journeys.",
+    "parts": [],
+    "publicApi": [],
+    "previewable": true
+  },
+  {
+    "id": "sim-type",
+    "name": "SIM Type",
+    "status": "consolidated",
+    "home": "capabilities/SimType",
+    "entry": "SimType",
+    "stepBuilders": [
+      "simTypeStep",
+      "simSerialStep"
+    ],
+    "stepLabel": "SIM_TYPE_LABEL",
+    "summary": "Choose and validate the SIM: Physical (scan or enter the serial) or eSIM (issued, handed over after payment).",
+    "parts": [
+      "components/domain/SimTypeStep.tsx",
+      "components/domain/SimSerialScanner.tsx"
+    ],
+    "publicApi": [],
+    "previewable": true
+  },
+  {
+    "id": "actual-user",
+    "name": "Actual User",
+    "status": "consolidated",
+    "home": "capabilities/ActualUser",
+    "entry": "ActualUser",
+    "stepBuilders": [
+      "actualUserStep"
+    ],
+    "stepLabel": "ACTUAL_USER_LABEL",
+    "summary": "Who will use the line when it is not the customer who owns it: the agent adds an actual user, who is identified like the primary customer (ID type, scan or upload, MOI, email, phone). The actual user is named on the Supplementary Form, which the one CAF signature also signs; an existing customer's changed email is written back to their record.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "pagination",
+    "name": "Pagination",
+    "status": "consolidated",
+    "home": "capabilities/Pagination",
+    "entry": "Pagination",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "The one way to page a list: usePagination (1-based pages, a changed list returns to page 1, a page that no longer exists is clamped), the \"Showing a-b of N\" summary and the numbered pager, hidden on a single page. Used by the number picker, data tables and every paged Customer 360 and Telesales list.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "document-upload",
+    "name": "Document Upload",
+    "status": "consolidated",
+    "home": "capabilities/DocumentUpload",
+    "entry": "AdditionalDocumentsUpload",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "The one way to attach documents to an order: Additional Documents (choose the document type, then the file; a type is not offered twice; a document type picked without its file blocks Continue), the signed-CAF upload, and the shared rules every upload reads (accepted types, size limit, refusal wording) so a limit is changed once. Used by the CAF step; the identity-document upload reads the same rules.",
+    "parts": [
+      "components/domain/AdditionalDocumentsUpload.tsx",
+      "components/domain/CafDocumentUpload.tsx",
+      "components/domain/SupportingDocumentField.tsx",
+      "components/domain/documentUploadRules.ts"
+    ],
+    "previewable": true,
+    "publicApi": []
+  },
+  {
+    "id": "empty-state",
+    "name": "Empty State",
+    "status": "consolidated",
+    "home": "capabilities/EmptyState",
+    "entry": "EmptyState",
+    "stepBuilders": [],
+    "stepLabel": null,
+    "summary": "The one empty state: a picture, an optional title, the scenario's own message and an optional action, centred, in a full-page or compact size. Data tables, the number picker, add-ons and discounts, billing accounts, ticket tabs, notifications and the not-found pages all show nothing through it, so what \"empty\" looks like is changed once.",
+    "parts": [],
+    "previewable": true,
+    "publicApi": []
+  }
+]

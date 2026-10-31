@@ -1,0 +1,398 @@
+[
+  {
+    "id": "PERSONA-001",
+    "name": "Retail/Sales Agent (Frontline/Cross-Sell/Front-Office)",
+    "personaDescription": "Frontline agent who closes consumer/enterprise deals, runs guided activation wizards (Postpaid/Prepaid/Fixed Line/FWA/MNP), builds sales orders, and executes SIM swaps, plan changes, and CAF signing.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-002",
+    "name": "Account Manager",
+    "personaDescription": "Closes enterprise deals, approves EBU discount requests via MS Dynamics, and manages fixed/mobility account relationships for assigned customers.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-003",
+    "name": "Account Manager / Channel Partner (External enterprise)",
+    "personaDescription": "External enterprise account manager/channel partner supported via the 117 support channel rather than direct CRM access.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-004",
+    "name": "Fulfilment Agent / Fulfilment Team",
+    "personaDescription": "Back-office role that validates and creates MNP/FNP/enterprise orders in Siebel, handles ECR/DOI submission, and manages WFM scheduling and KID/VFID mapping exceptions.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-005",
+    "name": "Back Office Fulfilment Agent (Siebel Responsibility)",
+    "personaDescription": "Runs the New Fixed Line guided journey end-to-end in Siebel Open UI Desktop under the “Back Office Fulfilment” responsibility.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-006",
+    "name": "Credit Control / Collection & Credit Control",
+    "personaDescription": "Sets billing-in-advance/arrears flags, approves enterprise credit terms, and confirms outstanding-dues thresholds during collections.",
+    "systemRoleKey": "Finance / Credit"
+  },
+  {
+    "id": "PERSONA-007",
+    "name": "Business Finance",
+    "personaDescription": "Approves enterprise account credit limits where no default limit exists.",
+    "systemRoleKey": "Finance / Credit"
+  },
+  {
+    "id": "PERSONA-008",
+    "name": "IT Operations",
+    "personaDescription": "Retains legacy Siebel/BRM system access for mixed CRM-BRM content after other users move to DXP.",
+    "systemRoleKey": "System / IT / Admin"
+  },
+  {
+    "id": "PERSONA-009",
+    "name": "Chooser",
+    "personaDescription": "Sole authorised requester acting on behalf of an enterprise company, nominated on the change request.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-010",
+    "name": "Payment Support Contact",
+    "personaDescription": "Enterprise customer-side contact who handles payment-related matters for the account.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-011",
+    "name": "Technical Contact",
+    "personaDescription": "Enterprise customer-side contact who handles technical matters and serves as the installation site point of contact.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-012",
+    "name": "EBU Operations",
+    "personaDescription": "Qualifies enterprise leads before assigning them to an account manager.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-013",
+    "name": "EBU PM (Project Manager)",
+    "personaDescription": "Collects contract documents for DAPN and other enterprise services, acting as the central point of the enterprise order/IoT flow.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-014",
+    "name": "Business Care",
+    "personaDescription": "Frontline enterprise customer support handling inquiries and post-activation issues for 5G/FWA devices.",
+    "systemRoleKey": "Enterprise"
+  },
+  {
+    "id": "PERSONA-015",
+    "name": "Customer (Consumer/Enterprise/B2B2C End User)",
+    "personaDescription": "End subscriber who signs CAFs/consent forms, provides ID documents, requests service changes (Home Move/TON), and can self-serve instant activation.",
+    "systemRoleKey": "Customer-side"
+  },
+  {
+    "id": "PERSONA-016",
+    "name": "Donor Operator (Ooredoo/QTEL)",
+    "personaDescription": "External telecom operator that accepts/rejects/conditionally-accepts MNP/FNP port requests within SLA and manages post-port dunning.",
+    "systemRoleKey": "External / Offshore / Third-party"
+  },
+  {
+    "id": "PERSONA-017",
+    "name": "Manager/Approver (Delegation of Authority / DOA hierarchy)",
+    "personaDescription": "Approves individual billing adjustments through the Delegation of Authority hierarchy.",
+    "systemRoleKey": "Management / Approval / Supervisory"
+  },
+  {
+    "id": "PERSONA-018",
+    "name": "Presenter (Enterprise Knowledge Base SME)",
+    "personaDescription": "Internal SME who demonstrates the enterprise process knowledge base and as-is product processes.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-019",
+    "name": "Manager (Approver/Bypass/System Admin role, general)",
+    "personaDescription": "Supervisory role approving migration fees, bypassing QID edits, resolving escalated limit-validation failures, and configuring Bill/Spend Limit product settings.",
+    "systemRoleKey": "Management / Approval / Supervisory"
+  },
+  {
+    "id": "PERSONA-020",
+    "name": "Billing Team / Billing Role",
+    "personaDescription": "The only role permitted to change a customer's bill cycle.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-021",
+    "name": "Collection/Credit Control Team (Manual Suspension via Taurus)",
+    "personaDescription": "Runs manual account suspension (“park my number”) as a back-office ticket process using Taurus.",
+    "systemRoleKey": "Support / Care / Complaints / Retention"
+  },
+  {
+    "id": "PERSONA-022",
+    "name": "Retention Agent / Retention Team",
+    "personaDescription": "Checks penalties before disconnection, runs win-back retention offers, and closes disconnection tickets that trigger the disconnection order.",
+    "systemRoleKey": "Support / Care / Complaints / Retention"
+  },
+  {
+    "id": "PERSONA-023",
+    "name": "CDM Team / Customer Data Management",
+    "personaDescription": "Handles sequential Transfer-of-Number approvals, minor-customer exceptions, and customer data governance.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-024",
+    "name": "Supervisor",
+    "personaDescription": "Needs cross-agent ticket visibility — flagged in the source evidence as a gap not yet implemented.",
+    "systemRoleKey": "Management / Approval / Supervisory"
+  },
+  {
+    "id": "PERSONA-025",
+    "name": "Field Technician / Field Engineer (WFM/OFS/OFSC)",
+    "personaDescription": "Performs on-site installations via the Oracle Field Service app — activity assessment, serial checks, activation, signature capture — and raises WFM issues/win-back tickets.",
+    "systemRoleKey": "Field / Technical / Network"
+  },
+  {
+    "id": "PERSONA-026",
+    "name": "Rollout Team",
+    "personaDescription": "Back-office team that receives Siebel order tasks generated from field-technician WFM activities.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-027",
+    "name": "Sales Team (Win-back)",
+    "personaDescription": "Handles win-back retention offers before a fixed-line installation is cancelled.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-028",
+    "name": "Managing Queue / CDM / BOQ / QATQ (routing queues)",
+    "personaDescription": "The set of back-office ticket-routing queues used for Transfer-of-Number processing.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-029",
+    "name": "MOI (Ministry of Interior, external system/authority)",
+    "personaDescription": "External authority supplying ID validity/cancellation data used to detect third-party Transfer-of-Number fraud.",
+    "systemRoleKey": "External / Offshore / Third-party"
+  },
+  {
+    "id": "PERSONA-030",
+    "name": "Store Agent (TON)",
+    "personaDescription": "Validates documents and processes Transfer of Number transactions in-store.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-031",
+    "name": "Business Analyst (Rana)",
+    "personaDescription": "Internal delivery-team role performing revenue-management business analysis.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-032",
+    "name": "Solution/Financial Architect (Marishi)",
+    "personaDescription": "Internal delivery-team role covering solution and financial architecture.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-033",
+    "name": "Retail Agent (Retail Operations Stakeholder - Giri)",
+    "personaDescription": "Internal stakeholder providing retail operations oversight.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-034",
+    "name": "Authorized Officer",
+    "personaDescription": "Can flag an account to override the maximum mobility line cap under CRA rules.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-035",
+    "name": "Credit Control / Billing Stakeholder (Anwar Mishra)",
+    "personaDescription": "Internal stakeholder overseeing billing, payments, and credit policy.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-036",
+    "name": "Security Stakeholder (Ali)",
+    "personaDescription": "Internal stakeholder responsible for security review of the journey/architecture.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-037",
+    "name": "Qatar Visa Center (QVC) Staff",
+    "personaDescription": "Offshore staff performing prepaid registration via the Integrated System channel.",
+    "systemRoleKey": "External / Offshore / Third-party"
+  },
+  {
+    "id": "PERSONA-038",
+    "name": "Offshore Airport Staff / Third-Party Partner (Offshore Prepaid Activation)",
+    "personaDescription": "Manually activates offshore airport prepaid/postpaid sales via SFTP/VSA, producing an Accept or Reject outcome.",
+    "systemRoleKey": "External / Offshore / Third-party"
+  },
+  {
+    "id": "PERSONA-039",
+    "name": "Fulfilment Manager Sign-off (Fixed & Mobile Fulfilment and Technical Support)",
+    "personaDescription": "Gives fulfilment/technical-support sign-off on activation procedures, including direct registration rejection.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-040",
+    "name": "GTM & Channel Operations",
+    "personaDescription": "Provides go-to-market and channel-operations sign-off.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-041",
+    "name": "Team Manager / Approver / Manager (Order Approval, Test Manager)",
+    "personaDescription": "Reviews and approves/rejects orders and leads in the approval queues, reassigns lead ownership, and holds sole authority to cancel FDO disconnection requests.",
+    "systemRoleKey": "Management / Approval / Supervisory"
+  },
+  {
+    "id": "PERSONA-042",
+    "name": "Retention Team (FDO Disconnection Cancellation)",
+    "personaDescription": "Sole role authorised to cancel Future-Dated-Order disconnection requests.",
+    "systemRoleKey": "Support / Care / Complaints / Retention"
+  },
+  {
+    "id": "PERSONA-043",
+    "name": "Retail Agent (Lead Owner, reassignment target)",
+    "personaDescription": "Receives reassigned leads into their own queue and can edit lead details.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-044",
+    "name": "Back Office / Admin (broad org-wide access)",
+    "personaDescription": "Has org-wide lead visibility and broader module access spanning nearly all functional areas, including Reject/Retire actions.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-045",
+    "name": "DSA / Store / Field Engineer (sales channel attribution)",
+    "personaDescription": "Recorded as the sales-channel attribution (Direct Sales Agent, Store, or Field Engineer) on the signed acceptance form.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-046",
+    "name": "Dispatcher/Back-Office WFM User",
+    "personaDescription": "Views and manages WFM technician activities, reassigns technicians, and transfers CPE/SIM inventory between resources.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-047",
+    "name": "CSR / Desktop Agent (Vanilla channel)",
+    "personaDescription": "Manually creates/modifies orders through non-wizard Contact/Account/Sales Order screens and edits installed CPE asset attributes.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-048",
+    "name": "Fulfillment Team (ECR Details - inferred)",
+    "personaDescription": "Fills the ECR Details field on orders — referenced in source documents but not directly observed acting.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-049",
+    "name": "System Administrator (Product Promotions admin)",
+    "personaDescription": "Configures Bill Limit Mapping/Spend Limit product settings (Agent Min Value, SL Default, Active Flag).",
+    "systemRoleKey": "System / IT / Admin"
+  },
+  {
+    "id": "PERSONA-050",
+    "name": "System user SADMIN (backend/system account)",
+    "personaDescription": "Automated backend account that creates/processes orders generated by the Unica campaign/Autobase migration engine.",
+    "systemRoleKey": "System / IT / Admin"
+  },
+  {
+    "id": "PERSONA-051",
+    "name": "Channel Manager",
+    "personaDescription": "Approves partner/tablet-channel orders before submission.",
+    "systemRoleKey": "Management / Approval / Supervisory"
+  },
+  {
+    "id": "PERSONA-052",
+    "name": "Offshore Retailer / Channel Partner (VSA/BSA)",
+    "personaDescription": "External channel partner provisioning prepaid/postpaid connections via the VSA/BSA system.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-053",
+    "name": "Customer Care / Telesales & Retention / Complaints / Direct Sales / Mass Market / Mini Store / Retail & Franchise agents (role families)",
+    "personaDescription": "A grouped family of frontline and back-office roles, each performing its own named function (sales, retention, complaints, fulfilment, billing, collections, data management).",
+    "systemRoleKey": "Customer-side"
+  },
+  {
+    "id": "PERSONA-054",
+    "name": "Sales / Fulfilment (VFID-KID mapping team)",
+    "personaDescription": "Manually resolves ambiguous KID-to-VFID address-mapping cases.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-055",
+    "name": "Field Survey Team",
+    "personaDescription": "Maps generated Vodafone IDs (VFID) to Kahramaa IDs (KID) on-site.",
+    "systemRoleKey": "Field / Technical / Network"
+  },
+  {
+    "id": "PERSONA-056",
+    "name": "Network Team",
+    "personaDescription": "Owns IMS inventory data, outside Technology department control.",
+    "systemRoleKey": "Field / Technical / Network"
+  },
+  {
+    "id": "PERSONA-057",
+    "name": "Business/Strategy Team",
+    "personaDescription": "Owns the GIS-to-IMS process and manual data hot-loads.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-058",
+    "name": "Agent viewing Open UI Desktop (Account 360, Care Agent)",
+    "personaDescription": "Looks up account/asset summaries, usage/balance, manages add-ons/promotions, and creates leads from Account 360.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-059",
+    "name": "Complaints Team (Mobile and Fixed)",
+    "personaDescription": "Handles trouble tickets by hashtag/actual-issue taxonomy and raises tickets from MVA-originated customer request reports.",
+    "systemRoleKey": "Support / Care / Complaints / Retention"
+  },
+  {
+    "id": "PERSONA-060",
+    "name": "Back Office (generic activity channel)",
+    "personaDescription": "Processes activities logged via a generic “Back Office” channel, e.g. language-change requests.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-061",
+    "name": "Product Team",
+    "personaDescription": "Supplies the plan-to-star-number pricing eligibility matrix.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-062",
+    "name": "Solution Architect / Business Owner / IT Owner / Track Lead / Test Manager / Delivery Manager (Governance)",
+    "personaDescription": "Formal document governance/sign-off roles not yet assigned to named individuals.",
+    "systemRoleKey": "Internal Delivery Team / Governance / Stakeholders"
+  },
+  {
+    "id": "PERSONA-063",
+    "name": "Agent (in DXP)",
+    "personaDescription": "Performs DXP onboarding steps (ID validation, cart building, plan selection, CAF, payment) and initiates modify orders (suspend/resume/plan change).",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  },
+  {
+    "id": "PERSONA-064",
+    "name": "Assisted Care Agent",
+    "personaDescription": "Receives customer queries and retrieves aggregated Customer 360 data (billing, CDR, network status, orders).",
+    "systemRoleKey": "Support / Care / Complaints / Retention"
+  },
+  {
+    "id": "PERSONA-065",
+    "name": "MNP Team",
+    "personaDescription": "Validates activities inside MNP Port-Out tickets, assigning Success/Failed status.",
+    "systemRoleKey": "Back-office / Fulfilment"
+  },
+  {
+    "id": "PERSONA-066",
+    "name": "FL Agents (Front Line Agents)",
+    "personaDescription": "Fills designated Ticket Homepage fields per trouble-ticket type and creates tickets from templates for complaints/issues.",
+    "systemRoleKey": "Front-line / Retail / Sales"
+  }
+]

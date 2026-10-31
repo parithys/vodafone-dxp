@@ -1,0 +1,29 @@
+[
+  {
+    "bucketId": "BKT-6001",
+    "bucketName": "Vodafone Red Data Bundle 10GB",
+    "billingProfileId": "BILL-7001",
+    "msisdn": "+97433001001",
+    "remainingDataKb": 4823400,
+    "status": "Active",
+    "expirationDate": "2026-09-21"
+  },
+  {
+    "bucketId": "BKT-6002",
+    "bucketName": "Weekend Data Booster 5GB",
+    "billingProfileId": "BILL-7002",
+    "msisdn": "+97433001002",
+    "remainingDataKb": 1258291,
+    "status": "Active",
+    "expirationDate": "2026-08-24"
+  },
+  {
+    "bucketId": "BKT-6003",
+    "bucketName": "Surepay Prepaid Data 2GB",
+    "billingProfileId": "BILL-7003",
+    "msisdn": "+97433001003",
+    "remainingDataKb": 0,
+    "status": "Expired",
+    "expirationDate": "2026-08-10"
+  }
+]

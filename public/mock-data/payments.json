@@ -1,0 +1,63 @@
+[
+  {
+    "paymentId": "PAY-8101",
+    "orderId": "ORD-90001",
+    "customerId": "CUST-1001",
+    "paymentMethod": "Full Payment",
+    "captureChannel": "WinCash",
+    "receiptNumber": "RCPT-330011",
+    "chargeType": "First Month Subscription",
+    "amountQar": 350,
+    "status": "Authorized",
+    "capturedAt": "2026-08-10T09:40:00+03:00"
+  },
+  {
+    "paymentId": "PAY-8102",
+    "orderId": "ORD-90003",
+    "customerId": "CUST-1003",
+    "paymentMethod": "DOI",
+    "captureChannel": "WinCash",
+    "receiptNumber": "RCPT-330019",
+    "chargeType": "Deposit",
+    "amountQar": 500,
+    "status": "Authorized",
+    "capturedAt": "2026-07-28T13:10:00+03:00"
+  },
+  {
+    "paymentId": "PAY-8103",
+    "orderId": "ORD-90004",
+    "customerId": "CUST-1004",
+    "paymentMethod": "Full Payment",
+    "captureChannel": "WinCash",
+    "receiptNumber": "RCPT-330027",
+    "chargeType": "HRN Advance",
+    "amountQar": 1200,
+    "status": "Pending Authorization",
+    "capturedAt": "2026-08-18T12:05:00+03:00"
+  },
+  {
+    "paymentId": "PAY-8104",
+    "orderId": "ORD-90005",
+    "customerId": "CUST-2001",
+    "paymentMethod": "Full Payment",
+    "captureChannel": "WinCash",
+    "receiptNumber": "RCPT-330033",
+    "chargeType": "Premium Number Charge",
+    "amountQar": 2500,
+    "status": "Authorized",
+    "capturedAt": "2026-08-20T14:25:00+03:00"
+  },
+  {
+    "_note": "Customer-Inventory overview details (2026-10-11)",
+    "paymentId": "PAY-8301",
+    "orderId": null,
+    "customerId": "CUST-3081",
+    "paymentMethod": "Credit Card",
+    "captureChannel": "MyVodafone App",
+    "receiptNumber": "RCPT-330301",
+    "chargeType": "Monthly Bill",
+    "amountQar": 1180.0,
+    "status": "Authorized",
+    "capturedAt": "2026-08-12T10:15:00+03:00"
+  }
+]

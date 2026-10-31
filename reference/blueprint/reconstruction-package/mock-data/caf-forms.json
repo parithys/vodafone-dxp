@@ -1,0 +1,21 @@
+[
+  {
+    "cafId": "CAF-90001-01",
+    "formId": "PCA001",
+    "orderId": "ORD-90001",
+    "customerId": "CUST-1001",
+    "signatureMethod": "Touch Screen",
+    "signedDate": "2025-09-10",
+    "language": "Bilingual (EN/AR)"
+  },
+  {
+    "cafId": "CAF-90003-01",
+    "formId": "PCA001",
+    "orderId": "ORD-90003",
+    "customerId": "CUST-2001",
+    "signatureMethod": "Digital",
+    "signedDate": "2025-09-16",
+    "language": "Bilingual (EN/AR)",
+    "proofOfEmploymentAttached": true
+  }
+]

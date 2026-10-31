@@ -1,0 +1,71 @@
+[
+  {
+    "templateId": "SMT-6001",
+    "keyword": "TT_OPEN_CONFIRM",
+    "language": "English",
+    "languageCode": "EN",
+    "locale": "en-QA",
+    "script": "English",
+    "templateType": "Automatic",
+    "systemTemplateFlag": true,
+    "linkedTtSource": "Web Self-Service",
+    "linkedTtCategory": "Billing",
+    "linkedTtArea": "Postpaid",
+    "linkedTtSubArea": "Invoice Dispute",
+    "linkedTtStatus": "Open",
+    "description": "Sent to customer when a billing trouble ticket is opened",
+    "mergeFields": [
+      "{customerName}",
+      "{ticketNumber}"
+    ],
+    "createdDate": "2026-01-10",
+    "createdBy": "system.admin",
+    "updatedDate": "2026-05-02",
+    "updatedBy": "fatima.alkuwari"
+  },
+  {
+    "templateId": "SMT-6002",
+    "keyword": "LEAD_FOLLOWUP_AR",
+    "language": "Arabic",
+    "languageCode": "AR",
+    "locale": "ar-QA",
+    "script": "Arabic",
+    "templateType": "Lead",
+    "systemTemplateFlag": false,
+    "linkedServiceNeeded": "Fibre Broadband",
+    "description": "Follow-up SMS for fibre broadband leads not yet converted",
+    "mergeFields": [
+      "{leadName}",
+      "{agentName}"
+    ],
+    "createdDate": "2026-02-14",
+    "createdBy": "ahmed.almansoori",
+    "updatedDate": "2026-06-20",
+    "updatedBy": "ahmed.almansoori"
+  },
+  {
+    "templateId": "SMT-6003",
+    "keyword": "TT_RESOLVED",
+    "language": "Malayalam",
+    "languageCode": "ML",
+    "locale": "ml-IN",
+    "script": "Malayalam",
+    "templateType": "Automatic",
+    "systemTemplateFlag": true,
+    "linkedTtSource": "Call Centre",
+    "linkedTtCategory": "Technical",
+    "linkedTtArea": "Mobile",
+    "linkedTtSubArea": "Network Issue",
+    "linkedTtStatus": "Resolved",
+    "description": "Notifies customer their technical trouble ticket is resolved",
+    "mergeFields": [
+      "{customerName}",
+      "{ticketNumber}",
+      "{resolutionDate}"
+    ],
+    "createdDate": "2026-03-05",
+    "createdBy": "system.admin",
+    "updatedDate": "2026-03-05",
+    "updatedBy": "system.admin"
+  }
+]

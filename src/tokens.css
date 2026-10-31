@@ -1,0 +1,719 @@
+:root {
+  /* ── Visual standard ──────────────────────────────────────────────────
+     Light-mode palette is derived from the Mobile Postpaid reference
+     supplied 2026-09-24 (three SVG states of New Postpaid Activation /
+     Step 1 Contact Verification). Values below were read out of those
+     files rather than eyeballed: surface fills by area histogram, text
+     greys and status colours from the export's declared fills, radii from
+     rect geometry (Figma insets a stroked rect by 0.5px, so the recurring
+     rx="7.5" is an 8px corner - already what --radius-card/-button hold).
+
+     It supersedes the warm pink-grey field chrome of the 2026-09-15
+     reference for NEUTRAL borders: that asset's --field-border #cdbebe and
+     --field-border-filled #c09696 are absent from this palette, which
+     borders every field, card and panel in #e0e0e0. Still standing from
+     2026-09-15, because the new reference shows neither state and so
+     cannot contradict them: the #c09696 focus ring and the checkbox/radio
+     accent (see the --field-focus-border note below).
+
+     Type scale is deliberately NOT changed. The reference runs about one
+     step denser than this app (body 14 vs 16, section heading 20 vs 24,
+     page title 28 vs 32); adopting it was considered and declined on
+     2026-09-24 to keep every screen's density and wrapping as-is. The
+     --fs-* ramp below is therefore the app's own, not the reference's. */
+  --accent: #e60000;
+  /* Primary button while disabled - the reference's "Next: Step 2
+     Eligibility" and pre-selection scanner CTA. A flat tint, not the
+     accent at reduced opacity, so it stays solid over both --bg and
+     --surface. */
+  --accent-disabled: #ffb3b3;
+  --accent-active: color-mix(in oklab, var(--accent), black 14%);
+  --accent-hover: color-mix(in oklab, var(--accent), black 8%);
+  /* Primary-fill gradient for every primary CTA in the app. Read straight
+     out of the supplied Normal.svg / hover.svg (2026-09-27), which replace
+     the first written spec of the same day - both stop pairs AND the
+     geometry changed, so nothing here is carried over from it.
+
+     Geometry: each SVG's linearGradient runs x1=0,y1=22.5 -> x2=199,y2=22.5.
+     Equal y means a purely horizontal axis, which is CSS `90deg` (0deg is
+     to-top, 90deg to-right) - not the 68deg the written spec asked for. The
+     two <stop>s sit at offset 0 and 1, hence 0%/100% rather than the
+     earlier 6.6%/92.22% insets.
+
+     Hover now DARKENS. The first spec brightened on hover; these assets
+     invert that - hover's #6A0001 end is far deeper than normal's #C10004.
+     Taken as intentional, since it is what both files actually contain.
+
+     NOT derived from --accent and deliberately not reconciled with it:
+     neither normal stop is #e60000 (they straddle it, #FF000E brighter and
+     #C10004 deeper), so the flat accent is no longer the primary button's
+     fill. --accent itself is unchanged and still drives borders, icons,
+     links and text.
+
+     These are background-IMAGEs, not colours: anything that sets only
+     background-color on top of one (a disabled tint, an active shade)
+     paints UNDER it and is invisible unless background-image is cleared
+     first - see Button.tsx's disabled:bg-none.
+     Constant across themes, like every other brand colour here. */
+  /* Primary button gradient (2026-10-08 reference): bright red into deep red; hover is the same sweep one step darker. */
+  --accent-gradient: linear-gradient(90deg, #e53326 0%, #a41f14 100%);
+  --accent-gradient-hover: linear-gradient(90deg, #b52519 0%, #5b0b06 100%);
+  --accent-on: #ffffff;
+  /* Base white surface (#FFFFFF). Used by cards and by the Customer 360 profile header (flush variant), which sits on
+     the grey page ground; dark mode remaps it below. Reach for this rather than a literal white. */
+  --bg: #ffffff;
+  /* Solid-fill success pill (Badge variant 'success-solid'). Darker than
+     --success (#2e7d32-family) because that value is tuned to be read AS
+     text on a light surface; inverted to carry white text it drops under
+     the 4.5:1 that white-on-fill needs at --fs-tag. This is the same hue,
+     taken down until white on it clears that. */
+  --badge-success-solid: #2a5d2e;
+  --black-80: rgba(0,0,0,.8);
+  --border: #e0e0e0;
+  --border-soft: #eeeeee;
+  --charcoal-panel: #21232b;
+  /* The page title band (PageHeader, the wizard title): charcoal in the light theme, the section-header surface in dark. */
+  --title-band-bg: var(--charcoal-panel);
+  --danger: #d0342b;
+  /* Solid status fills that carry a white label. --success and --danger are tuned as TEXT and border colours, and the dark
+     theme lightens them for a dark page, which leaves white on them at 2.1:1 (green) and 3.4:1 (red); these stay as they
+     are in both themes (white on them is 5.1:1 and 5.2:1). */
+  --success-solid: #2e7d32;
+  --danger-solid: #c8322a;
+  --divider-on-dark: rgba(255,255,255,.25);
+  --ease-standard: cubic-bezier(.2,0,0,1);
+  --elev-raised: 0 1px 2px rgba(38,38,43,.06), 0 24px 60px -24px rgba(38,38,43,.28);
+  --elev-ring: 0 0 0 1px var(--border);
+  --fg: #313131;
+  --fg-2: #5d5d5d;
+  /* Textbox/search/dropdown/currency field chrome - light-mode reference
+     supplied 2026-09-15, revised set ("Field Designs" folder: Dropdown-
+     {Normal,Filled,Disabled}.svg, PhoneNumber-{Normal,Filled,Disabled,
+     Error}.svg, Textbox-{Normal,Filled,Disabled,Error}.svg, Searchbox.svg).
+     "Filled" was the border a field took once it held a value, distinct
+     from the transient focus-ring. As of 2026-09-24 it is no longer
+     distinct in light mode: the new reference borders every field
+     #e0e0e0 whatever its contents, so --field-border-filled now equals
+     --field-border and the filled state is effectively retired here. The
+     token is kept rather than deleted because the call sites that branch
+     on it are still correct, dark mode still distinguishes the state
+     (index.css maps filled to --accent), and collapsing it would mean
+     editing every input to drop a branch the reference simply does not
+     exercise. The revised Textbox-Disabled.svg now
+     matches Dropdown/PhoneNumber on the disabled border (#cccccc) - the
+     earlier asset that left it at the Normal color has been corrected
+     upstream. No dedicated currency-field mockup was supplied; currency
+     inputs share this same chrome via the shared Input component. Dark-mode
+     equivalents are set in index.css so this reference only touches the
+     light theme. */
+  /* 2026-10-26: every form control takes the card border, so fields and cards outline alike. */
+  --field-border: var(--field-card-border);
+  --field-border-disabled: #cccccc;
+  /* Fill for a DISABLED field (2026-09-26) - none existed, so every disabled
+     control across the app kept the same white --bg an enabled one uses and
+     read as identical to it apart from a slightly paler border, which several
+     screens surfaced as ad-hoc bg-bg divs standing in for a disabled input
+     (DeviceInstallmentStep's Upfront payment, the old billing settings' Payment
+     Type). Deliberately NOT --surface (#f5f7f9), which readOnly fields
+     already use: disabled and readOnly are documented elsewhere in this file
+     as different states - readOnly is real data the agent reads back,
+     disabled is a control that is unavailable - and giving them the same
+     fill would erase that distinction. #eeeeee is --border-soft's own value,
+     already used as a neutral fill (Badge's 'filled-neutral'), one step
+     greyer than --surface. */
+  --field-bg-disabled: #eeeeee;
+  --field-border-error: #e60000;
+  /* 2026-10-01: filled, hover and focus all share one colour (the dark text
+     colour), so a text box reads the same in every state but resting-empty. */
+  --field-border-filled: var(--field-border); /* filled = unfilled: only the text colour changes with a value */
+  /* Calendar range-picker + location-pin accent - from Date Specific-Open.svg
+     (#00b0ca in-range day fill, #007c92 start/end anchor day fill) and
+     Location-Open.svg (#007c92 result-row pin icon, same dark teal as the
+     calendar anchor color). */
+  --field-calendar-range: #00b0ca;
+  /* Divider between list rows in an open dropdown/results panel. */
+  --field-divider: rgba(204,204,204,.5);
+  /* Request (2026-09-15): focused/selected form controls must never read as
+     the brand red (--accent) - use this warm pink-brown instead, the same
+     #c09696 the field reference already uses for "filled".
+
+     Superseded in part (2026-09-24): choice-CARD selectors were pulled back
+     to the brand red - see --field-card-selected below. The 2026-09-15 rule
+     still governs the rest of what it covered and the values here are
+     unchanged: the focus outline on text/search/dropdown/date fields, and
+     the checked state on native checkboxes and radios, which tint from
+     --field-selected via `accent-[…]`. Dark mode keeps the previous red
+     behavior via the index.css override - both directives were scoped to
+     light mode like the rest of this field system. */
+  /* Form-field state colours (2026-10-05). Every field primitive reads these, so a
+     screen never hardcodes them: the focused border + inset ring, and the colour
+     of the text an agent has entered. Placeholder, label, error and disabled
+     colours are separate tokens and unchanged. */
+  --color-field-border-focus: #007e91;
+  --color-field-text-filled: #212121;
+  /* Hover takes the colour of the focus ring (--field-focus-ring), so every form control hovers the same way. The ring is a shadow, not a
+     colour, so the colour it is drawn in is named here. */
+  --field-hover-border: var(--color-field-border-focus);
+  /* 2026-10-01: focused fields are a dark 2px outline (1px border + 1px inset
+     ring), no outer glow - per the large-input reference. */
+  --field-focus-border: var(--color-field-border-focus);
+  /* Deliberately darker than --surface (#f5f7f9): that was invisible on a white
+     field and on the pale-grey cards some fields sit on. */
+  /* A light tint of the hover/focus border colour (not a grey), so the highlighted field matches its own outline. */
+  --field-focus-bg: color-mix(in srgb, var(--field-hover-border) 8%, var(--bg));
+  --field-focus-ring: inset 0 0 0 1px var(--color-field-border-focus);
+  /* Choice-card selected state (2026-09-24, superseding the above for cards
+     only): brand-red border, check badge and label on a near-white pink
+     fill. Deliberately NOT --field-selected, so the checkbox/radio accent
+     can stay #c09696 - the two states sit side by side inside one card on
+     the plan and add-on steps, where the card is chosen but the radio in it
+     is a separate control. --accent is not reused directly either: that
+     would silently re-couple these cards to the brand ramp the 2026-09-15
+     note was written to break them off. */
+  /* 2026-10-04: one selected-card look for every selectable card, taken from the Recommended-offers
+     cards: the full brand red (#e60000) border/ring on the pale --surface-warm fill. Was #ff4d4d on
+     --highlight-bg (#ffd6d6), which made number, plan, ID-type and discount cards read as a different,
+     heavier red from the offer cards. --highlight-bg itself is unchanged (selected rows, text selection). */
+  --field-card-selected: #e60000;
+  /* Label + border of the secondary (outlined) button. */
+  --accent-secondary: #e60000; /* brand red (was #ff4d4d, 3.3:1 as text on white) */
+  /* Text links (inline links, linked table cells, "read more" links). */
+  --link: #007c92; /* brand teal; 5:1 on white. Text links are never red. */
+  /* Default highlight: selected cards/rows, active options, text selection. */
+  --highlight-bg: #ffd6d6;
+  --field-card-selected-bg: var(--surface-warm);
+  /* Hover on a selectable card: a lighter wash of the selected fill. */
+  --field-card-hover-bg: #fff4f4;
+  /* Hover border/ring of a selectable card: softer than the selected #ff4d4d. */
+  --field-card-hover-border: #ff9a9a;
+  /* Resting border of an unselected selectable card (darker than --border-soft). */
+  --field-card-border: #c9ced4;
+  /* CHECKBOXES, 2026-09-25. Superseding the 2026-09-15 rule above for
+     checkboxes only: a checked box is a solid brand-red tile with a white
+     tick, per the supplied asset. The note above is now accurate for RADIOS
+     alone, which still tint from --field-selected at #c09696.
+     Split into its own token rather than pointed at --field-card-selected so
+     that split survives: a checkbox and a choice card are different controls,
+     and the plan/add-on steps put a checkbox INSIDE a selectable card, where
+     one token driving both would make the inner control invisible against
+     the outer one whenever the card is chosen. */
+  --field-checkbox-selected: #e60000;
+  /* RADIOS, 2026-09-25. Same red as the checkbox and for the same reason, but
+     its OWN token rather than a reuse: a radio and a checkbox are different
+     controls, and the plan/add-on steps put a radio inside a selectable card
+     exactly as the checkbox note describes - so if either ever needs to move
+     off the brand red, it must be able to without dragging the other with it.
+     The duplicated value is the cheap half of that trade. */
+  --field-radio-selected: #e60000;
+  /* 4px on an 18px box - the asset's corner is 21.6% of its side, and the
+     radius is measured off that ratio rather than copied from the 496px
+     artboard, where the literal value would have been a 100px corner. */
+  --radius-checkbox: 4px;
+  --field-icon: #999999;
+  --field-icon-active: #000000;
+  --field-label-disabled: #b2b2b2;
+  /* 12px, from the 2026-09-24 asset: its bordered text input is a 219x51 rect
+     with rx="11.5", i.e. 12px once the 0.5px stroke inset is removed. Fields
+     are the one element that does NOT share the 8px used by cards, buttons and
+     choice cards - worth not "tidying" to 8 for consistency, the asset is
+     deliberate about it. Was 16px. */
+  --field-radius: 12px;
+  /* The reference's topbar search is the one field that is filled rather
+     than outlined - a flat #eeeeee well with no border, which is what makes
+     it read as interactive against the white topbar that a white,
+     hairline-bordered input would not. */
+  --focus-outline: var(--color-field-border-focus);  /* teal 4.7:1 on white; --fg in dark */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--focus-outline);
+  /* Selected-card ring for choice-card selectors (installment term, plan,
+     handover method, etc). Follows --field-card-selected red as of
+     2026-09-24 - it rings the same cards, so leaving it pink would have
+     haloed a red border in the old color. Alpha drops .4 -> .22 to match
+     --focus-ring, the established weight for a red ring here: red at .4
+     reads as a second, brighter border rather than a halo. Dark mode keeps
+     its own value via the index.css override. */
+  --shadow-selected-ring: inset 0 0 0 1px var(--field-card-selected);
+  /* Figtree is loaded via Google Fonts (index.html) - unlike the previous
+     Space Grotesk/DM Sans targets, this one is real, not aspirational. The
+     request is the variable font (wght 300..900), so 400 body text and 700
+     headings are real weights. The fallback is Arial, sans-serif for the
+     pre-load flash and for any environment where the CDN request fails: it is
+     a family with proper regular/bold faces, unlike the Segoe UI names, which
+     macOS Chrome could resolve to a local "Segoe UI Black". */
+  --font-body: "Figtree",Arial,sans-serif;
+  --fs-body: 16px;
+  --fs-body-lg: 18px;
+  --fs-btn: 14.4px;
+  --fs-btn-compact: 14px;
+  --fs-caption: 14px;
+  --fs-caption-upper: 14px;
+  --fs-h2: 40px;
+  /* Dashboard figures and their small labels - named so the landing page needs no literal sizes. */
+  --fs-stat: 28px;
+  --fs-stat-sm: 22px;
+  --fs-sm: 13px;
+  --fs-xs: 12px;
+  --fs-2xs: 11px;
+  --fs-h3: 32px;
+  --fs-h4: 24px;
+  --fs-h5: 20px;
+  --fs-label: 16px;
+  --fs-lead: 20px;
+  --fs-micro: 14px;
+  --fs-tag: 14px;
+  --grey-disabled: #bebebe;
+  --grey-form: #e0e0e0;
+  /* Status pills in the reference ("Eligible - No Approval Needed",
+     "Requires Approval") are outlined, not filled: white interior, 1px
+     tinted border, coloured label, 4px corner. So each status needs a
+     border tone alongside its text tone -- the fill is --bg. --info is
+     new; the reference uses violet for "needs approval / in review",
+     which this app had no colour for.
+
+     Only the success and info borders are read from the asset. The warn
+     and danger borders are derived by extension (same lightness step off
+     their text tone) so all four statuses can share one pill treatment --
+     the reference never shows a warning or error pill. */
+  --info: #6926dc;
+  --info-border: #d9c5fb;
+  /* Same green as --success (was a pale #ade2ae), so outlined success pills and
+     the success banners share one border colour. */
+  --success-border: var(--success);
+  --warn-border: #f0d9a1;
+  --danger-border: #f5b5b0;
+  --light-neutral: #f5f7f9;
+  --motion-base: 220ms;
+  --motion-fast: 150ms;
+  /* One full rotation of Spinner. Its own token rather than --motion-base,
+     which paces state CHANGES (a hover, a panel opening) and is far too quick
+     for a continuous loop - at 220ms a ring reads as a flicker rather than as
+     something turning. Long enough to look calm, short enough to still look
+     alive while a scan or a fetch resolves. */
+  --motion-spin: 800ms;
+  /* Navigation rail surface. The 2026-09-24 reference puts the sidebar on
+     white with dark labels and a solid-red active row, where this app had
+     a charcoal panel with white labels -- the single largest departure in
+     the whole re-skin. Routed through tokens rather than swapping literals
+     in Sidebar.tsx, so dark mode can keep the charcoal it already has
+     (see index.css) instead of inverting to an unreferenced design.
+     Replacing the white/X utilities the rail used also retires a real
+     constraint: the rail could not use --accent for the active row,
+     because red on charcoal was too low-contrast to read. On white it is
+     the reference's own treatment. */
+  --nav-bg: #ffffff;
+  --nav-border: #e0e0e0;
+  --nav-fg: #313131;
+  --nav-fg-muted: #757575;
+  --nav-section: #9e9e9e;
+  --nav-hover-bg: #f5f7f9;
+  --nav-active-bg: #e60000;
+  --nav-active-image: var(--accent-gradient); /* the active menu / rail row: same gradient as the primary button */
+  --nav-active-fg: #ffffff;
+  --nav-group-bg: #fff0f0;
+  --muted: #6b6b6b; /* 4.8:1 on --page-bg (was #757575: 4.2:1, below AA for body-size text) */
+  /* The reference runs two greys below --fg-2 where this app had one:
+     #757575 for meta/secondary copy (4.6:1 on white, AA at small sizes)
+     and #9e9e9e for placeholders and decorative glyphs (2.8:1, which is
+     why it is kept off body text). --muted takes the darker of the two so
+     nothing already using it loses contrast. */
+  --muted-2: #9e9e9e;
+  /* Distinct from --surface (which still drives hover states elsewhere) so
+     the main content background and table header rows can be tuned
+     independently. Both now carry the reference's cool #f5f7f9 page fill,
+     replacing the warmer #f7f6f9 they shared before. */
+  --page-bg: var(--icon-tile-bg);
+  /* Secondary button fill and hover; index.css sets the pair per surface (white on the grey page, page tint on white surfaces). */
+  --btn-secondary-fill: var(--icon-tile-bg);
+  --btn-secondary-hover: var(--bg);
+  --radius-button: 12px;
+  --radius-card: 16px;
+  --radius-card-lg: 20px; /* landing-page cards and result panels */
+  --radius-circle: 50%;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  /* THE pill radius, used by every pill-shaped control app-wide as of
+     2026-09-27 - status badges, the Other Operator mark, nav/filter/category chips,
+     and Button's pill variants. It absorbed three other radii that had
+     each been carrying a fixed pixel value for one corner of the app's pill
+     family: --radius-tag (4px, badges - a deliberate 2026-09-24 reference
+     decision to NOT round pill ends off fully, now superseded), and
+     --radius-cta-pill (60px) / --radius-glass-pill (24px), both on Button's
+     unused pill variants and already visually full capsules at those
+     buttons' height - a border-radius past half the box height clamps to a
+     capsule regardless of the literal value, so folding them into this one
+     token changed no rendered pixel. --radius-badge-pill (32px) predated all
+     of this, was already an orphaned token with zero consumers, and is
+     removed rather than folded in for the same reason. */
+  --radius-pill: 9999px;
+  --radius-sm: 8px;
+  --shadow-brand: none;
+  --signal-blue: #3860be;
+  --success: #2e7d32; /* 4.65:1 on --page-bg (was #388e3c: 3.7:1) */
+  --surface: #f5f7f9;
+  /* Inset panels nested inside a card - the reference's liveliness-check
+     and scanner strips. One step off white, bordered in --border, so a
+     panel reads as recessed without a shadow. */
+  --surface-subtle: #f5f7f9;
+  --surface-warm: #fff0f0;
+  /* Icon tile on an unselected selectable card: pale blue-grey tile, navy glyph. */
+  /* Landing page: dark slate-to-plum hero, and the soft borderless card shadow its tiles use. */
+  --dash-hero-gradient: linear-gradient(120deg, #1f2740 0%, #2d2a4a 40%, #5e2750 80%, #6b2d4a 100%); /* dark navy into brand aubergine (2026-10-08 reference) */
+  --shadow-dash-card: 0 1px 2px rgba(20,30,50,0.05), 0 8px 24px -10px rgba(20,30,50,0.16);
+  --shadow-dash-card-hover: 0 2px 4px rgba(20,30,50,0.06), 0 14px 30px -10px rgba(20,30,50,0.24);
+  /* "Customer view" toggle (idle): pale teal-grey fill, teal label. */
+  --brand-plum: #5e2750; /* brand aubergine */
+  --summary-milestone: #eb9700; /* Step Summary: progress fill and milestone discs (brand orange in both themes; the flag on it is white) */
+  --accent-text: #d40000; /* accent used AS TEXT: 5.0:1 on the page background (the fill red #e60000 is 4.4:1 there) */
+  --priority: #eb9700; /* the priority star on tasks (brand orange) */
+  --shadow-icon-tile: 0 4px 14px -4px rgba(20,30,50,0.18);
+  /* The running-total panel on the Add-ons step: a fixed dark navy in both themes, white text on it (15:1). */
+  --summary-bg: #1b2a41;
+  --summary-fg: #ffffff;
+  --customer-view-bg: #edf3f6;
+  --customer-view-fg: #256f81; /* 5.1:1 on --customer-view-bg (was #3a8fa3, 3.3:1) */
+  --icon-tile-bg: #f1f4fa;
+  --icon-tile-fg: #3a4161;
+  /* --surface-warm-border lived here from 2026-09-27 until later the same day.
+     It was the resting border of the secondary button back when --surface-warm
+     was that button's resting FILL and the border hovered from transparent to
+     accent. secondary-normal.svg/secondary-hover.svg inverted that - the border
+     is --accent in both states and the fill is what moves - which left the
+     token with no consumer, so it was removed rather than kept as debt. */
+  /* Tables are not in the 2026-09-24 reference, so these are derived from
+     its structural rules rather than read off it: a table is a bordered
+     container, so its border takes --border's #e0e0e0, and its header row
+     takes the same one-step-off-white used for inset panels (#f5f7f9)
+     rather than the cooler #f3f5f9 it had. Kept as their own tokens so
+     tables can still diverge from every other card/panel border later.
+     (These used to be "the same value as --border-soft" - no longer true,
+     that token is now #eeeeee for soft dividers.) */
+  --table-border: #e0e0e0;
+  --table-header-bg: #f5f7f9;
+  --tracking-btn: 0.144px;
+  --warn: #f5b400;
+  /* Advisory banner fill from the reference's "ID Document Unselected"
+     strip - a pale amber wash carrying --warn-text copy, distinct from
+     --warn itself, which stays an icon/fill colour. */
+  --warn-bg: #fff8e1;
+  /* Darkened amber tuned for >=4.5:1 text contrast on white/near-white -
+     --warn itself (#f5b400) is ~1.84:1 as text and only meant for fills/icons. */
+  --warn-text: #9a5b00;
+  --white-glass-10: rgba(255,255,255,.1);
+
+  /* ---- Component palette & sizes (refactor Phase 3) --------------------------------
+     Values that used to be hard-coded in screens and components. Each keeps its exact
+     original value; dark mode inherits them unchanged, as it did when they were literals. */
+  /* Soft journey / service tints: pale fill + same-hue label (journey pills, offer pills). */
+  --tint-blue-bg: #e3effd;   --tint-blue-fg: #0b4a99;
+  --tint-green-bg: #e3f4e6;  --tint-green-fg: #1f6b2c;
+  --tint-teal-bg: #dcf3f1;   --tint-teal-fg: #0b5f5b;
+  --tint-amber-bg: #fff1d6;  --tint-amber-fg: #8a5200;
+  --tint-pink-bg: #fde4f1;   --tint-pink-fg: #9b1c63;
+  --tint-indigo-bg: #e6e9f5; --tint-indigo-fg: #3a4486;
+  /* Badge 'tag-blue' (number-card category tag). */
+  --tag-blue-bg: #e6f0fd;    --tag-blue-fg: #2a66c2;
+  --tag-primary-bg: #5e2750; --tag-primary-fg: #ffffff; /* Badge 'tag-primary': the Primary marker, solid plum + white in both themes */
+  --tag-amber-bg: #fff3d9;   /* 'tag-amber' fill; its label is --warn-text */
+  /* Info banner (e.g. MSISDN picker notice). */
+  --info-banner-bg: #eaf4fd;
+  /* Eligibility 'approval-routing' wash. */
+  --approval-routing: #ff8a00;
+  /* Brand marks: the Vodafone speech-mark red (a different red from --accent) and the Qatar maroon. */
+  --brand-vodafone: #ee3023;
+  --brand-qatar: #8d1b3d;
+  /* Telesales Customer 360: chart series, status dots, module tag, map placeholder. */
+  --telesales-chart-slate: #546a91;
+  --telesales-blue: #2563eb;
+  --telesales-amber: #d97706;
+  --telesales-module-tag-bg: #e3e8ff; --telesales-module-tag-fg: #3b3fb5;
+  --telesales-map-from: #d5f7e3;      --telesales-map-to: #a7f0c8;
+  /* Login page: dark hero, its scrim, and the glass card shadow. */
+  --login-bg: #0a0a0d;
+  /* Staff-portal design: the skyline reads through at the top; the headline and the update cards sit on the darker navy below. */
+  --login-scrim: linear-gradient(180deg, rgba(8,14,34,0.35) 0%, rgba(8,14,34,0.5) 40%, rgba(8,14,34,0.88) 100%);
+  /* Width of the red accent bar on a selected table row (DataTable). */
+  --selected-row-bar: 10px;
+  --shadow-login-card: 0 8px 24px rgba(0,0,0,0.35);
+  /* Toast 'info' status dot. */
+  --toast-dot-info: rgba(255,255,255,.55);
+  /* ── Derived colours ─────────────────────────────────────────────
+     Every translucent or mixed colour the app renders is named here, so no
+     component writes `white/70`, `bg-black/40` or an inline color-mix().
+     Added 2026-10-10 after a rendered-DOM audit found these as the only
+     computed colours outside the token set. */
+
+  /* Text, fills and hairlines on a DARK surface (the dashboard hero, login panel, dark toasts, the
+     scanner and query-flow cards). Constant across themes: those surfaces are dark in both. */
+  --on-dark: #ffffff;
+  --on-dark-2: rgb(255 255 255 / 0.75);      /* secondary text */
+  --on-dark-3: rgb(255 255 255 / 0.6);       /* tertiary text, placeholders */
+  --on-dark-4: rgb(255 255 255 / 0.4);       /* inactive dots, disabled */
+  --on-dark-fill-1: rgb(255 255 255 / 0.05); /* field fill */
+  --on-dark-fill-2: rgb(255 255 255 / 0.1);  /* glass card, chip, hover */
+  --on-dark-fill-3: rgb(255 255 255 / 0.2);  /* chip hover */
+  --on-dark-line-1: rgb(255 255 255 / 0.1);  /* divider */
+  --on-dark-line-2: rgb(255 255 255 / 0.15); /* card edge */
+  --on-dark-line-3: rgb(255 255 255 / 0.25); /* field edge, divider on hero */
+  --on-dark-danger-fill: color-mix(in oklab, var(--danger) 10%, transparent);
+  --on-dark-danger-line: color-mix(in oklab, var(--danger) 50%, transparent);
+  /* Modal/drawer backdrop. */
+  --scrim: rgb(0 0 0 / 0.4);
+  /* A surface that must stay white in both themes: a QR code, a photographed ID, a partner plate. */
+  --paper: #ffffff;
+  --signature-ink: #111827; /* signature stroke: dark on the white pad and on the white CAF it is printed on, in either theme */
+  /* Translucent app header (blurred page shows through). */
+  --header-glass: color-mix(in oklab, var(--bg) 85%, transparent);
+  /* Half-way between the card and page surfaces (secondary panels inside Customer 360). */
+  --surface-half: color-mix(in oklab, var(--surface), var(--bg) 50%);
+
+  /* Soft tone fills for banners, pills, icon tiles and selected rows. `-bg` is the standard strength,
+     `-bg-soft` the quiet one. Mixed with --bg so they follow the active theme. */
+  --tone-success-bg: color-mix(in oklab, var(--success), var(--bg) 88%);
+  --tone-success-bg-soft: color-mix(in oklab, var(--success), var(--bg) 94%);
+  --tone-success-border: color-mix(in oklab, var(--success), var(--bg) 72%);
+  --tone-danger-bg: color-mix(in oklab, var(--danger), var(--bg) 90%);
+  --tone-danger-bg-soft: color-mix(in oklab, var(--danger), var(--bg) 94%);
+  --tone-warn-bg: color-mix(in oklab, var(--warn), var(--bg) 88%);
+  --tone-warn-bg-soft: color-mix(in oklab, var(--warn), var(--bg) 92%);
+  --tone-info-bg: color-mix(in oklab, var(--info), var(--bg) 90%);
+  --tone-info-bg-soft: color-mix(in oklab, var(--info), var(--bg) 94%);
+  --tone-accent-bg: color-mix(in oklab, var(--accent), var(--bg) 90%);
+  --tone-accent-bg-soft: color-mix(in oklab, var(--accent), var(--bg) 95%);
+  --accent-border: color-mix(in oklab, var(--accent), var(--bg) 60%);
+  --tone-blue-bg: color-mix(in oklab, var(--signal-blue), var(--bg) 88%);
+  --tone-blue-bg-soft: color-mix(in oklab, var(--signal-blue), var(--bg) 90%);
+  --tone-blue-bg-hover: color-mix(in oklab, var(--signal-blue), var(--bg) 82%);
+  --tone-blue-border: color-mix(in oklab, var(--signal-blue), var(--bg) 70%);
+
+  /* Dark toast: tone text, reference-number text, and the status dots. */
+  --toast-fg-success: color-mix(in oklab, var(--success), white 35%);
+  --toast-fg-id: color-mix(in oklab, var(--field-calendar-range), white 45%);
+  --toast-dot-success: color-mix(in oklab, var(--success), white 30%);
+  --toast-dot-error: color-mix(in oklab, var(--danger), white 30%);
+  --toast-dot-warning: color-mix(in oklab, var(--warn), white 15%);
+  --danger-hover: color-mix(in oklab, var(--danger), black 15%);
+  --danger-solid-hover: color-mix(in oklab, var(--danger-solid), black 15%);
+  --tone-approval-bg: color-mix(in oklab, var(--approval-routing), var(--bg) 88%);
+  /* Customer-view button hover. */
+  --customer-view-bg-hover: color-mix(in oklab, var(--customer-view-bg), var(--customer-view-fg) 8%);
+
+  /* Select chevron (an SVG data URI cannot read CSS variables, so the stroke colour is baked in per theme). */
+  --icon-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+
+  /* Native controls (scrollbars, date pickers, the <select> popup, autofill) follow the theme. */
+  color-scheme: light;
+
+  /* ── Scales ──────────────────────────────────────────────────────
+     Spacing, font weight, stacking and motion. Tailwind's own utilities are bound to these in index.css
+     (@theme: --spacing, --font-weight-*), so p-4 / gap-3 / font-semibold read the tokens with no call-site edits. */
+  --space-unit: 0.25rem;                      /* one spacing step: p-1 = 4px, p-4 = 16px */
+  /* Tab strip lines (TabStrip): the full-width rule under the tabs, and - thicker - the selected tab's underline that sits
+     on it. Two tokens so the selected tab can stand out while the rule stays as it is. */
+  --tab-line-w: 1px;
+  --tab-active-w: 3px;
+  /* ...and its colour: the standard card/field border, so the rule matches every card edge on the page. */
+  --tab-line-color: var(--field-card-border);
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  /* Stacking order. Values are named by role; popovers and overlays share a level on purpose
+     (a popover inside a drawer stacks within the drawer's own context). */
+  --z-below: -10;                             /* decorative layer behind its card */
+  --z-sticky: 10;                             /* sticky table / panel headers */
+  --z-sticky-raised: 20;                      /* sticky identity strip */
+  --z-raised: 30;                             /* rails, filter menus, floating cards */
+  --z-header: 35;                             /* app header */
+  --z-scrim: 40;                              /* mobile nav backdrop */
+  --z-overlay: 50;                            /* sidebar, drawer, modal */
+  --z-popover: 50;                            /* dropdowns and menus */
+  --z-toast: 100;
+  --z-tooltip: 9999;
+  /* Motion. --motion-spin paces a continuous loop; the others pace state changes. */
+  --motion-slow: 300ms;                       /* panels and drawers sliding */
+  --motion-slower: 700ms;                     /* login announcement rotator */
+  /* Control and container sizes used in more than one place. */
+  --size-choice-box: 18px;          /* checkbox / radio box */
+  --size-btn-compact-h: 42px;       /* stepper buttons beside a 42px field */
+  --size-dropzone-min-h: 9rem;      /* upload drop zones */
+  --size-field-message-max-w: 24rem;/* wrapped error lists under an upload zone */
+}
+
+/* Control heights: one scale for buttons, inputs, selects and search boxes that share a row, set once, never per screen.
+   sm is the compact toolbar control, md the default, lg the prominent one (login, hero actions, number fields). */
+:root {
+  --control-h-sm: 2rem;
+  --control-h-md: 2.625rem;
+  --control-h-lg: 3rem;
+  --field-height: var(--control-h-lg);
+}
+
+/* Touch devices: a journey that adapts to the device sets data-device="tablet" on its root, and every control inside
+   it grows to a finger-sized target. Same tokens, same components - nothing else in the journey changes. */
+[data-device='tablet'] {
+  --control-h-sm: 2.75rem;
+  --control-h-md: 3rem;
+  --control-h-lg: 3.5rem;
+}
+
+/* Dark theme - overrides the structural surface/text/border tokens only;
+   brand/status colors (accent, success, warn, danger) stay constant across
+   themes. Toggled via themeStore adding/removing `.dark` on <html>. */
+:root.dark {
+  /* Header and body follow the side navigation's scheme: every structural colour below is derived from the --nav-*
+     tokens (set further down) so the three regions stay one palette. Cards and the header sit one step above the
+     page, mixed from --nav-bg toward --nav-fg rather than a separate hex. */
+  --bg: color-mix(in oklab, var(--nav-bg), var(--nav-fg) 5%);
+  /* Dark mode only: the page title band takes the section-header surface (--bg), not the fixed charcoal of the light theme. */
+  --title-band-bg: var(--bg);
+  --surface: var(--nav-bg);
+  --surface-warm: color-mix(in oklab, var(--nav-bg), var(--accent) 12%);
+  /* --page-bg/--table-header-bg have no separate dark-mode design of their
+     own yet - fall back to --surface's existing dark value so they don't
+     resolve to nothing (transparent) when the theme toggles. */
+  --page-bg: var(--nav-bg);
+  --table-header-bg: var(--nav-bg);
+  --fg: var(--nav-fg);
+  --fg-2: color-mix(in oklab, var(--nav-fg), var(--nav-fg-muted) 40%);
+  --muted: var(--nav-fg-muted);
+  --border: color-mix(in oklab, var(--nav-bg), var(--nav-fg) 22%);
+  --border-soft: var(--nav-border);
+  /* Tokens introduced by the 2026-09-24 light-mode reference. That asset is
+     light-only, so each maps to an existing dark value rather than a new
+     shade: the pale fills it specifies (#f5f7f9, #fff8e1, #ffb3b3) would
+     all be near-white panels on a dark surface. Pill BORDERS keep their
+     light values on purpose - they sit on --bg, read fine against it in
+     both themes, and are the only thing distinguishing the four statuses
+     once the fill is transparent. */
+  --surface-subtle: color-mix(in oklab, var(--nav-bg), var(--nav-fg) 3%);
+  --muted-2: var(--muted);
+  /* The nav rail stays charcoal in dark mode - the reference is a
+     light-mode asset, and inverting it to white here would be inventing a
+     dark design rather than applying one. These reproduce the exact
+     white/X utilities the rail carried before it was tokenised, so dark
+     mode renders unchanged. The one exception is --nav-active-bg: red on
+     charcoal was too low-contrast for the active row, which is why the
+     rail marked it with a left border instead, so dark keeps the subtle
+     fill and the border does the work. */
+  /* Side navigation dark scheme (Collapsible Sidebar / Dark.svg): #0F172A rail, #A3A7AC idle icons and labels,
+     #F8FAFC on the active item, the active pill a #BBB7FF tint at 25%, and #E2E8F0 at 10% for dividers and borders. */
+  --nav-bg: #0f172a;
+  --nav-border: rgba(226,232,240,.1);
+  --nav-fg: #f8fafc;
+  --nav-fg-muted: #a3a7ac;
+  --nav-section: #a3a7ac;
+  --nav-hover-bg: rgba(187,183,255,.12);
+  --nav-active-bg: rgba(187,183,255,.25);
+  --nav-active-image: none; /* dark mode keeps the soft translucent highlight */
+  /* Tokens added with the 2026-10 redesign: without a dark value the pale tiles and pills stayed light on dark. */
+  --icon-tile-bg: rgba(187,183,255,.14);
+  --icon-tile-fg: #c9cdd6;
+  --customer-view-bg: rgba(0,176,202,.16);
+  --customer-view-fg: #5fd3e6;
+  --brand-plum: #e3b8d8;
+  --priority: #f5c36a;
+  --shadow-icon-tile: none;
+  --shadow-dash-card: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -10px rgba(0,0,0,0.6);
+  --shadow-dash-card-hover: 0 2px 4px rgba(0,0,0,0.45), 0 14px 30px -10px rgba(0,0,0,0.7);
+  --tint-green-bg: rgba(62,203,110,.16);  --tint-green-fg: #7ee2a0;
+  --tint-teal-bg: rgba(0,176,202,.16);    --tint-teal-fg: #6fd8e8;
+  --tint-amber-bg: rgba(235,151,0,.18);   --tint-amber-fg: #f5c36a;
+  --tint-pink-bg: rgba(156,42,160,.2);    --tint-pink-fg: #e9a8ec;
+  --nav-active-fg: #f8fafc;
+  --nav-group-bg: rgba(187,183,255,.12);
+  --accent-disabled: color-mix(in oklab, var(--accent), var(--bg) 55%);
+  --warn-bg: color-mix(in oklab, var(--warn), var(--bg) 82%);
+  /* No separate dark-mode design of its own yet - light-mode #e0e0e0 is
+     --border's own light value, so reuse --border's dark value rather than
+     introducing a new dark shade. */
+  --table-border: var(--border);
+  --light-neutral: var(--border-soft);
+  --grey-form: #6b6e72;
+  --black-80: rgba(0,0,0,.6);
+
+  /* Field chrome (see tokens.css) has no dark-mode design of its own yet -
+     reuse the existing dark structural/status tokens so dark mode keeps
+     today's appearance unchanged by the light-mode field reference. */
+  --field-border: var(--field-card-border);
+  --field-border-disabled: var(--border-soft);
+  --field-bg-disabled: var(--border-soft);
+  --field-border-error: var(--danger);
+  --field-border-filled: var(--field-border);
+  --field-divider: var(--border-soft);
+  --color-field-border-focus: var(--fg);
+  --color-field-text-filled: var(--fg);
+  --field-hover-border: var(--color-field-border-focus);
+  --field-focus-border: var(--fg);
+  --field-focus-bg: color-mix(in srgb, var(--field-hover-border) 12%, var(--bg));
+  --field-focus-ring: inset 0 0 0 1px var(--fg);
+  --field-icon: var(--muted);
+  --field-icon-active: var(--fg);
+  --field-label-disabled: var(--muted);
+  /* Choice cards split off from --field-selected in light mode (2026-09-24);
+     dark mode was already red for both, so these keep it that way. The fill
+     stays --surface-warm (#241a1a here) rather than the light mode's
+     near-white #fef9f9, which would be a white card on a dark surface. */
+  --field-card-selected: #ff4d4d;
+  --accent-secondary: #ff4d4d;
+  --link: #4fc8dc;
+  --highlight-bg: var(--surface-warm);
+  --field-card-selected-bg: var(--highlight-bg);
+  --field-card-hover-bg: var(--surface-warm);
+  --field-card-hover-border: #ff9a9a;
+  --field-card-border: var(--border);
+  /* Checkboxes were already red here before the light-mode change, since dark
+     mode never adopted the #c09696 accent - this keeps that, and the white
+     tick reads on --accent in both themes. */
+  --field-checkbox-selected: var(--accent);
+  --field-radio-selected: var(--accent);
+  --shadow-selected-ring: inset 0 0 0 1px var(--field-card-selected);
+
+  /* Status colors and elevation/shadow tokens were tuned against the light
+     surfaces above and read as too saturated/low-contrast on the dark ones -
+     brightened slightly for legibility; elevation shadows reduced in opacity
+     since a dark backdrop needs less shadow to read as "raised". */
+  --danger: #f0554a;
+  --success: #3ecb6e;
+  --warn: #ffc94d;
+  --warn-text: #ffc94d;
+  --elev-raised: 0 1px 2px rgba(0,0,0,.3), 0 24px 60px -24px rgba(0,0,0,.55);
+  --elev-ring: 0 0 0 1px var(--border);
+  /* No coloured CTA glow anywhere in the app. */
+  --shadow-brand: none;
+}
+
+/* Linked-user segment badges (Business 360 and the Linked business card). Solid tints with dark text, not colour
+   alone: each badge also carries its label. Contrast is >= 7:1 in both themes. */
+:root {
+  --segment-ebu-bg: #E3ECFF;
+  --segment-ebu-fg: #12307A;
+  --segment-cbu-bg: #FFE3F1;
+  --segment-cbu-fg: #7A0045;
+}
+:root.dark {
+  color-scheme: dark;
+  --segment-ebu-bg: #1B2A55;
+  --segment-ebu-fg: #BCD0FF;
+  --segment-cbu-bg: #4D1537;
+  --segment-cbu-fg: #FFC2E0;
+  /* Added 2026-10-10 (token audit): dark values for tokens that were stuck on their light value. */
+  --info: #b79cff;
+  --signal-blue: #8fb0ff;
+  --accent-text: #ff6b6b;
+  --warn-border: rgba(245,180,0,.4);
+  --danger-border: rgba(255,107,107,.45);
+  --info-border: rgba(183,156,255,.4);
+  --tag-amber-bg: rgba(235,151,0,.18);
+  --tag-blue-bg: rgba(80,140,255,.16);
+  --tag-blue-fg: #9cc4ff;
+  --tint-blue-bg: rgba(80,140,255,.16);  --tint-blue-fg: #9cc4ff;
+  --tint-indigo-bg: rgba(130,140,255,.16); --tint-indigo-fg: #b5bbff;
+  --info-banner-bg: rgba(80,140,255,.12);
+  --telesales-module-tag-bg: rgba(130,140,255,.16); --telesales-module-tag-fg: #b5bbff;
+  --telesales-map-from: rgba(62,203,110,.12); --telesales-map-to: rgba(62,203,110,.2);
+  /* Tooltips are an inverse surface: light on a dark page so they do not merge into the dark chrome. */
+  --tooltip-bg: #e6eaf2;
+  --tooltip-text: #101725;
+  --icon-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b6bcc6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}

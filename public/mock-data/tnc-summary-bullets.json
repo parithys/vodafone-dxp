@@ -1,0 +1,40 @@
+[
+  {
+    "scenarioKey": "plan-lockin",
+    "template": "This plan carries a {months}-month minimum commitment. Ending it early may incur charges under the full Terms & Conditions.",
+    "_note": "App-level demo addition (2026-09-28) for the 'dynamic, business-maintained bullet points' requested for the CAF/T&C step. No evidenced T&C wording exists in the corpus for these scenarios (business-rules.json covers policy rules like commitment penalties, not customer-facing legal prose) - these are representative, editable templates a business owner would maintain, not evidenced legal text. {placeholders} are filled from the order's own real figures (plan.commitmentMonths, star-number-tiers' lockInDurationMonths, the chosen discount's name/durationMonths, and the HRN advance amount) by buildTncBullets() in CafSignatureCapture.tsx - only the bullets whose scenario actually applies to the order are shown."
+  },
+  {
+    "scenarioKey": "star-lockin",
+    "template": "The Star Number selected carries its own {months}-month lock-in, separate from the plan's."
+  },
+  {
+    "scenarioKey": "discount-expiry",
+    "template": "The {name} applies for {months} months, after which the standard rate resumes."
+  },
+  {
+    "scenarioKey": "discount-no-expiry",
+    "template": "The {name} applies for the life of the plan."
+  },
+  {
+    "scenarioKey": "hrn-advance",
+    "template": "An upfront advance payment of QR {amount} applies to this account, per Vodafone Qatar policy."
+  },
+  {
+    "scenarioKey": "no-lockin",
+    "template": "This order carries no minimum commitment period."
+  },
+  {
+    "scenarioKey": "prepaid-no-lockin",
+    "template": "No plan lock-in period applies to prepaid packs.",
+    "_note": "Mobile Prepaid BRSD MPRA_001_CAF_02 (Key Information). Wording carried over from the statements the prepaid CAF step already showed; business-maintained like the others."
+  },
+  {
+    "scenarioKey": "prepaid-no-doi",
+    "template": "No Device on Installment applies - this is a SIM/number activation only."
+  },
+  {
+    "scenarioKey": "prepaid-validity",
+    "template": "Pack validity and balance terms apply per the selected pack."
+  }
+]

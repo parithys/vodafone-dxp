@@ -1,0 +1,749 @@
+[
+  {
+    "id": "ENT-001",
+    "name": "Billing Profile / Billing Account",
+    "description": "Driver of billing, barring and payment posting for an account/service. New target-state entity distinct from customer/service account; holds one bill profile; multiple services can link to one billing account. Attributes include freely renameable name (agent-set), billing cycle, PIA/arrears/hybrid flag (requested by Collections), billing address (can differ from customer address), bill medium (detailed for consumer, summary PDF for enterprise), AutoPay status/failure reason (view-only for agents), multiple bill email recipients (CC), email verification status. Consumer can have at most two billing profiles (one postpaid, one prepaid); enterprises can have more. Currently no unchangeable ID links CRM and BRM (decision made to add BRM row ID + unique CRM identifier). A billing profile enters collection once overdue exceeds 100, with lifecycle states good standing, overdue, in collection, blacklisted.",
+    "attributes": "name (freely renameable), billing cycle, PIA/arrears/hybrid flag, billing address, bill medium, bill cycle, AutoPay status/failure reason, multiple bill email recipients (CC), email verification status, credit limit, payment method, collection status, blacklist status, Bill Profile #, Bill Profile Status, Payment Type, Bill Cycle, Email Bill To, Over Due/Total Due Amount",
+    "relationships": "linked to Account/Service; drives Statement of Account and payment posting; billing profile linked to a contact for traceability; each billing account holds one bill profile; multiple services can link to one billing account; belongs to Account; referenced by Orders/Line Items",
+    "lifecycleStates": "good standing, overdue, in collection, blacklisted; Active/Inactive",
+    "validationRules": "Collections requested a billing-in-advance/arrears/hybrid flag; no system restriction preventing agents selecting excessive credit limits (flagged risk)"
+  },
+  {
+    "id": "ENT-002",
+    "name": "Adjustment (Bill Adjustment)",
+    "description": "A credit/debit correction applied to a customer bill, individually or in bulk. Individual adjustments go through ticketing + DOA (delegation of authority) hierarchy; bulk adjustments go through a PowerApps portal with offline approval and manual Excel handling. Target state moves bulk adjustments into a DXP portal integrated with BRM.",
+    "attributes": "reason (purged after 6 months by BRM policy), unit of measurement, multi-bucket submission, free-text comment",
+    "relationships": "tied to ticketing + DOA hierarchy (individual) or PowerApps portal (bulk); target state moves bulk adjustments into a DXP portal integrated with BRM",
+    "lifecycleStates": "request status (target state), failure/re-upload (target state)",
+    "validationRules": "role-based access, billing profile filtration"
+  },
+  {
+    "id": "ENT-003",
+    "name": "Statement of Account (SOA)",
+    "description": "Customer account statement showing bill history, payments, adjustments and allocations. Must show data from inception (one line per bill, plus payments/adjustments/allocations); currently sent manually via SR in Excel. The from-inception requirement conflicts with BRM purge policy.",
+    "attributes": "one line per bill, payments/adjustments/allocations, must show data from inception",
+    "relationships": "derived from Billing Profile and bill history; currently sent manually via SR in Excel",
+    "lifecycleStates": "",
+    "validationRules": "from-inception requirement conflicts with BRM purge policy"
+  },
+  {
+    "id": "ENT-004",
+    "name": "Bill / Hot Bill / Bill Simulation",
+    "description": "Three related billing artifacts: the actual bill, the hot bill (current unbilled + outstanding without changing item status), and bill simulation (shows disconnection penalty implications without disrupting the upcoming bill).",
+    "attributes": "MRC, VAS, VAT (summarised landing view fields); explicitly-not-a-tax-invoice flag for bill simulation",
+    "relationships": "hot bill vs bill simulation are distinct; bill simulation triggered from guided journeys or on-demand button",
+    "lifecycleStates": "unbilled -> hot bill -> billed",
+    "validationRules": "two invoices cannot be generated for the same charges"
+  },
+  {
+    "id": "ENT-005",
+    "name": "Commitment/Penalty",
+    "description": "A contractual commitment or penalty amount tied to disconnection, MNP port-out, upgrade/downgrade, park or put-off actions. Value not currently stored anywhere; calculated on-demand from guided journeys; cannot be quoted without creating an order today.",
+    "attributes": "value not currently stored anywhere",
+    "relationships": "calculated on-demand from guided journeys",
+    "lifecycleStates": "",
+    "validationRules": "cannot be quoted without creating an order today"
+  },
+  {
+    "id": "ENT-006",
+    "name": "Order",
+    "description": "Represents a sale/service transaction across channels and products: fixed-line (two-phase, completion confirmed by PM), postpaid activation, DOI, disconnection, TON, MNP port-in, enterprise, bulk activation, etc. Held in a transient/pending state (not created at GSP layer until finalized) with hold period tied to channel number reservation expiry (~48 hours). OSM auto-completes/purges fixed-line orders older than ~12 months. Includes CRM-tracked fields (Order #, Type, Sub Type, Status, Fulfillment Status, Priority, Billing Profile, Price List, Currency, Total, MRC/NRC Total, Credit Limit, Created By, Source, Service Type) and hierarchical Line Items. Disconnection order cannot be submitted until retention ticket closed with resolution code; DOI order auto-created and auto-closed since no delivery step in retail. Enterprise order: one order equals one location, starts from CR number.",
+    "attributes": "activation date, completion date, auto-purge after ~12 months, transient/pending state, hold period ~48 hours, Order #, Revision, Order Type, Order Sub Type, Status, Fulfillment Status, Priority, Credit Limit, Service Type, Billing Profile, Price List, Currency, Total, MRC Total, NRC Total, Created By/date, Source, SubChannel, Approval Status, Hold flag/Reason",
+    "relationships": "CDRs flow to BRM; bill formatter only shows active services; belongs to Account/Contact; contains Line Items; linked to Billing Profile, Appointment, CAF; prerequisites for enterprise are care form/CIO copy/oversight copy plus site survey; installation contact captured only as free-text comment",
+    "lifecycleStates": "open/pending/transient -> created (GSP layer) -> submitted -> PM-confirmed complete / Approved / Complete -> auto-completed/purged (~12 months); also Abandoned, Cancelled, Rejected (Correction/Drop Order) -> resubmitted",
+    "validationRules": "back-dated completion causes billing disputes; must use correct activation date; disconnection order cannot be submitted until retention ticket closed with resolution code; MOI Validation; toolbar actions Revise/Validate/Submit/Drop Order/Cancel Order/ReSubmit gate state transitions; Order Billing Profile must match Line Items' Billing Profile (ORD_VALD_RULE_001); pending order cannot be submitted if open order exists for business account (ORD_VALD_RULE_005); all payments must be Authorized (ORD_VALD_RULE_030)"
+  },
+  {
+    "id": "ENT-007",
+    "name": "Enterprise Account (Parent/Sub-Account)",
+    "description": "Two-level enterprise account hierarchy: parent (documentation-only, holds CR number and contacts) and sub-accounts (hold active numbers, billing, activation, modification). All activation, billing and modification happens at sub-account level; only two levels exist; one unique parent per customer.",
+    "attributes": "name, CR type/ID type, CR number, agent ID, business type (incl. B2B2C), credit limit (no default for enterprise, needs finance approval)",
+    "relationships": "one unique parent per customer; parent has contacts only; sub-accounts under a parent (e.g. Lulu Group subsidiaries/branches)",
+    "lifecycleStates": "",
+    "validationRules": "mandatory CR-number search before account creation; no validation exists today when linking sub-accounts to parents"
+  },
+  {
+    "id": "ENT-008",
+    "name": "Authorised Person / Chooser (Contact)",
+    "description": "Individuals nominated by a company on the CR who can act on the account; one or more flagged 'chooser'. Account affiliation (attached form + AM approval) grants privileges/Web Self-Care access. Requests only accepted from chooser's registered email; no off-boarding process for departed choosers.",
+    "attributes": "single shared email field (personal vs corporate conflict); free-text job title used as privilege identifier (no validation); roles: chooser, payment support, technical contact",
+    "relationships": "account affiliation (attached form + AM approval) grants privileges/Web Self-Care access",
+    "lifecycleStates": "",
+    "validationRules": "requests only accepted from chooser's registered email; no off-boarding process for departed choosers; attachment must be named QID_subaccount"
+  },
+  {
+    "id": "ENT-009",
+    "name": "Volumetric Discount",
+    "description": "Commercial discount evaluated at runtime based on connection/revenue volume. Minimum 50 numbers, slab-based, revenue or service-count flavours. Account-level vs service-item-level discounts; distinct from management-approved on-top discounts and price overrides. No automatic downgrade when connections drop below threshold (revenue leakage).",
+    "attributes": "minimum 50 numbers, slab-based, revenue or service-count flavours",
+    "relationships": "account-level vs service-item-level discounts; distinct from management-approved on-top discounts and price overrides",
+    "lifecycleStates": "",
+    "validationRules": "no automatic downgrade when connections drop below threshold (revenue leakage)"
+  },
+  {
+    "id": "ENT-010",
+    "name": "Bulk Activation Order",
+    "description": "A batch of numbers/plans activated together for enterprise, currently via Excel macro. Current state requires identical plan/account/spend limit/price; target state supports varying plans/spend limits/discounts/price overrides per row via new Oracle bulk utility API on DSP front end, with per-row success/failure reporting.",
+    "attributes": "identical plan/account/spend limit/price required today (current state); target: varying plans/spend limits/discounts/price overrides per row",
+    "relationships": "pending replica order used for reference; target uses new Oracle bulk utility API on DSP front end",
+    "lifecycleStates": "",
+    "validationRules": "per-row success/failure reporting (target requirement)"
+  },
+  {
+    "id": "ENT-011",
+    "name": "IoT SIM / Device",
+    "description": "SIM and device used for Fleet Management, Asset Tracking, DAPN and other IoT services. Tied to Global M2M managed service account product (billing only, activation on GDSP platform); DAPN tied to Enterprise Large segment.",
+    "attributes": "device identifier held when Vodafone-supplied; static IP (DAPN); numbers reserved one at a time from mobility-only category",
+    "relationships": "tied to Global M2M managed service account product (billing only, activation on GDSP platform); DAPN tied to Enterprise Large segment",
+    "lifecycleStates": "",
+    "validationRules": "no bulk template for DAPN numbers"
+  },
+  {
+    "id": "ENT-012",
+    "name": "Account-Level Product",
+    "description": "A product modelled at account level (e.g. Microsoft licences, Starlink) with no Service ID, provisioned manually by business teams. One line item per licence; manual price changes because quantity doesn't propagate without 'auto-explode'. Architectural ask is to replace with generic services with Service IDs under which such products sit.",
+    "attributes": "one line item per licence; manual price changes because quantity doesn't propagate without 'auto-explode'",
+    "relationships": "architectural ask is to replace with generic services with Service IDs",
+    "lifecycleStates": "",
+    "validationRules": "heavy reliance flagged as a pain point"
+  },
+  {
+    "id": "ENT-013",
+    "name": "MNP Port-In Order",
+    "description": "An order in Siebel representing an incoming mobile number port from another operator. Fulfilment validates and creates the order, selecting plan, MNP category, porting details, a reserved zero-value temporary MSISDN, and attachments. Auto-created ticket via NPass triggers a 2-hour action window (extendable to 24 hours once documents validated), bound by NPass working hours. Auto-validates customer name, QID/ID type and number, service type, consumer type; auto-rejects on failure. Conditional acceptance auto-triggered on billed due over 100 QAR (MNP) or any unbilled amount at service level (FNP).",
+    "attributes": "plan, MNP category, porting details (customer ID number/type, customer type, donor operator, subscription type, scheduled porting date), reserved zero-value temporary MSISDN, attachments (MNP form 2-A-D, donor-registered ID), 2-hour action window extended to 24 hours, 14-15 rejection reason codes tightly coupled to NPass, consumer uses only reason codes 1,4,9",
+    "relationships": "linked to donor operator (QTEL/Ooredoo) via NPAS",
+    "lifecycleStates": "created -> consent pending -> submitted to NPAS -> donor accept/reject/conditional-accept -> porting window -> ported; rejection restarts the whole journey",
+    "validationRules": "consent SMS required within 24 hours; only 13 valid rejection reasons; attachments under 2MB, PDF or JPG; auto-validates customer name, QID/ID type and number, service type, consumer type; auto-rejects on failure; conditional acceptance auto-triggered on billed due over 100 QAR (MNP) or any unbilled amount at service level (FNP)"
+  },
+  {
+    "id": "ENT-014",
+    "name": "FNP Port-In Order / Trouble Ticket",
+    "description": "A fiber-to-fiber number port order at service level, requiring RFS check, trouble ticket, and two technician visits. FNP form (mandatory Karma ID), ID document, target date (manually calculated). Submitted via NPAS to Ooredoo for document validation and acceptance. Conditional acceptance shows visible due amount, with 3 working days for consumer to clear.",
+    "attributes": "FNP form (mandatory Karma ID), ID document, target date (manually calculated)",
+    "relationships": "submitted via NPAS to Ooredoo for document validation and acceptance",
+    "lifecycleStates": "RFS check -> trouble ticket -> form/ID submission -> donor validation -> conditional/accept -> installation visit -> porting-date visit -> ported",
+    "validationRules": "conditional acceptance shows visible due amount, 3 working days for consumer to clear"
+  },
+  {
+    "id": "ENT-015",
+    "name": "MSISDN / Number",
+    "description": "Mobile or fixed number subject to reservation, porting, locking and disconnection. Reserved via number management team or EBU number portal; temporary reserved zero-value MSISDN used for MNP; unpaired SIM serials are an issue. Categorized free/paid (paid can become free depending on plan); star/reserved numbers have special lock-in rules; numbers auto-selected for fixed/prepaid (zero-rated), not for mobile postpaid (priced). Number of connections not shown in Siebel or on invoice for enterprise. Star number port-out control blocks porting during commitment period (configurable). Also modeled at UI level with 8-digit number, price, Free/Reserved/BLOCKED status, Reservation Token, and full MSISDN with country/operator prefix.",
+    "attributes": "reserved (via number management team or EBU number portal), temporary reserved zero-value MSISDN for MNP, unpaired SIM serials (issue), category (free or paid), star number status, value tier, lock-in period, ownership/registration status, 8-digit number, price (QR0.00 for free numbers), status (Free/Reserved/BLOCKED/AVAILABLE), Reserved By, Reservation Token, full MSISDN with country/operator prefix (e.g. 97441224317)",
+    "relationships": "tied to Account/Service; subject to porting window and dunning ladder after port-in; linked to customer via Transfer of Number (TON); reserved to Contact/Order; becomes Service Id on Line Item",
+    "lifecycleStates": "reserved -> activated -> (post-port-in) barred outgoing (day 31) -> barred incoming (day 45) -> disconnected -> quarantine (30 days); Free -> Reserved/Blocked -> assigned to order -> Active",
+    "validationRules": "number of connections not shown in Siebel or on invoice for enterprise; star number lock-in tiers, entitlement by plan value; star number port-out control blocks porting during commitment period (configurable); numbers auto-selected for fixed/prepaid (zero-rated), not for mobile postpaid (priced)"
+  },
+  {
+    "id": "ENT-016",
+    "name": "Enterprise Invoice (PDF/Excel)",
+    "description": "Enterprise customer invoice document generated in PDF and Excel formats, with banner/table layout, page-level subtotals, service ID/circuit ID grouping, tax code/number placeholders, CDR sort by date/time with number filter, and discount shown as two line items (prorated and month-in-advance). Aggregated rated CDRs from Bulk SMS platform feed into invoice; one-off charges linked to circuit.",
+    "attributes": "banner/table layout, page-level subtotals, service ID/circuit ID grouping, tax code and tax number placeholders, CDR sort by date/time with number filter, discount as two line items (prorated and month-in-advance)",
+    "relationships": "aggregated rated CDRs from Bulk SMS platform feed into invoice; one-off charges linked to circuit",
+    "lifecycleStates": "",
+    "validationRules": "Excel one-million line item limit with CSV fallback; 400k-line threshold from email size limits; PDF and Excel ordering must match"
+  },
+  {
+    "id": "ENT-017",
+    "name": "Bulk SMS Account/Order",
+    "description": "An account/order for the Bulk SMS enterprise service, provisioned in Siebel with billing owned by a separate Bulk SMS platform. Assisted onboarding via account manager with short code and SMTP checks and external international short code registration; billed via aggregated rated CDRs received on the first of the month. Support split between Remedy tickets (OnMobile) and Siebel adjustments. Disconnection requires outstanding-balance checks and OnMobile confirmation. Validation rules include billing profile type/status, one active Bulk SMS per account, mandatory attachment, blacklist check.",
+    "attributes": "short code, SMTP checks, external international short code registration, billing profile type/status, attachment requirement",
+    "relationships": "integration through OSM to Bulk SMS platform; support split between Remedy tickets (OnMobile) and Siebel adjustments",
+    "lifecycleStates": "onboarding -> account/order creation -> active (billed via aggregated CDRs monthly) -> disconnection",
+    "validationRules": "disconnection requires outstanding-balance checks and OnMobile confirmation; one active Bulk SMS per account; mandatory attachment; blacklist check"
+  },
+  {
+    "id": "ENT-018",
+    "name": "GigaHome/OSNtv Subscription",
+    "description": "A customer subscription combining GigaHome fibre broadband and OSNtv, signed via an acceptance form. Postpaid billing in arrears, first bill prorated. Tied to a Premises via Kahramaa ID; Transfer of Number (TON) facility on move. 12-month fibre lock-in; personal use only; one free-offer per Kahramaa ID.",
+    "attributes": "Customer Name, Customer QID, Plan Name, Date, Signature; postpaid billing in arrears, first bill prorated",
+    "relationships": "tied to a Premises via Kahramaa ID; Transfer of Number (TON) facility on move",
+    "lifecycleStates": "Try & Buy trial (first 2 months) -> active subscription -> (optional) Home Move / TON -> disconnection",
+    "validationRules": "12-month fibre lock-in; personal use only; one free-offer per Kahramaa ID"
+  },
+  {
+    "id": "ENT-019",
+    "name": "Smart Device (Smart Viper)",
+    "description": "Vodafone's own IoT/smart device product with its own device ID and non-mobile number range. WFM not required for small/indoor devices.",
+    "attributes": "device ID, non-mobile number range",
+    "relationships": "WFM not required for small/indoor devices",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-020",
+    "name": "Trouble Ticket (TT)",
+    "description": "Ticket record in Siebel/Open UI representing service requests, complaints, or system-generated events (e.g., MNP port-out, TON, disconnection). Includes team/queue assignment, status, rejection reason code, priority (unused today), public notes, audit trail. Also used to tag/categorise via LOV taxonomies (hashtags, actual issue). Also generated by Retail (Complaints/SOC/Human Error) and system triggers; closure by Retention Team auto-creates a Disconnection Order.",
+    "attributes": "team/queue assignment, status, rejection reason code, priority (unused today), public notes, audit trail, Hashtag(s) (VFQA_TT_HASHTAGS taxonomy), Actual Issue (VFQA_TT_ACTUAL_ISSUE taxonomy), Source, Category, Area, Sub Area, Type/category (Mobile Complaints, Fixed/5G Complaints, SOC, Human Error Complaints, MNP/FNP port out/in, Plan Change Request, Add-on Request, Bill Limit, Disconnection, Migration, Plan Downgrade, Language Change, End Data Session)",
+    "relationships": "linked to Account, Customer, MSISDN, Order; closure by Retention Team auto-creates a Disconnection Order; tied to suspension/resume orders requiring approval",
+    "lifecycleStates": "created (not submitted = no queue routing) -> submitted/routed to queue -> assigned -> action window (2hr auto, extendable to 24hr) -> closed/resolved with resolution code; can be auto-rejected; Created (manual or auto) -> activities validated -> status change -> closed",
+    "validationRules": "assigned at team/queue level not agent level; no automatic reassignment on delay; 'assign to me' only works if agent is in queue's user list; customer cannot reopen, only agent can; activities inside ticket validated automatically or by MNP Team with Success/Failed outcome"
+  },
+  {
+    "id": "ENT-021",
+    "name": "MNP/FNP Port-Out Ticket",
+    "description": "Auto-created ticket triggered by NPass (MNP) or similar (FNP) SMS notification for port-out requests. 2-hour action window extended to 24 hours once documents validated, bound by NPass working hours (~7:30-3:30/4); 14-15 rejection reason codes tightly coupled to NPass and cannot be renamed; consumer uses only reason codes 1,4,9. Auto-validates customer name, QID/ID type and number, service type, consumer type; auto-rejects on failure. Conditional acceptance auto-triggered on billed due over 100 QAR (MNP) or any unbilled amount at service level (FNP).",
+    "attributes": "2-hour action window extended to 24 hours once documents validated, bound by NPass working hours (~7:30-3:30/4); 14-15 rejection reason codes tightly coupled to NPass and cannot be renamed; consumer uses only reason codes 1,4,9",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": "auto-validates customer name, QID/ID type and number, service type, consumer type; auto-rejects on failure; conditional acceptance auto-triggered on billed due over 100 QAR (MNP) or any unbilled amount at service level (FNP)"
+  },
+  {
+    "id": "ENT-022",
+    "name": "Transfer of Ownership / Transfer of Number (TON) case",
+    "description": "Order/process entity for transferring ownership or number between customers. Includes TON and prepaid-migration fees, OCR bypass by role, POA-based exceptions. System and document validations for existing and new customers; four sequential approvals routed to CDM team (prepaid only). Three TON types: BAU TON, COO/claim of ownership, third-party TON on cancelled ID. Order visibility only on new account (known gap); address not updated after TON in some cases.",
+    "attributes": "TON and prepaid-migration fees, OCR bypass by role, POA-based exceptions, type (BAU, COO, third-party/cancelled ID), party A/party B, associated documents (TON form, QID, restoration form)",
+    "relationships": "linked to new Account (order visibility only on new account, a known gap)",
+    "lifecycleStates": "created, routed through four queues (Managing, CDM, BOQ, QATQ), completed with SIM swap on success; raised, migrated to prepaid, transferred, on hold",
+    "validationRules": "system and document validations for existing and new customers; four sequential approvals routed to CDM team (prepaid only)"
+  },
+  {
+    "id": "ENT-023",
+    "name": "Customer",
+    "description": "Core party entity; distinguished as consumer vs enterprise, prepaid vs postpaid. QID scanned and attached to account for every transaction resulting in account/service change (not required for complaints/inquiries/bill payments with no change); customer must be physically present with valid QID for retail transactions. Also the end customer/subscriber, an actor across all journeys and the subject of Customer 360 aggregation, searchable by Customer No/Contact No/MSISDN.",
+    "attributes": "QID/ID type and number, name, segment/consumer type, nationality (used for credit limit config), Customer No, Contact No, MSISDN (search keys)",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": "customer must be physically present with valid QID for retail transactions; QID scanned and attached to account for every transaction resulting in account/service change (not required for complaints/inquiries/bill payments with no change)"
+  },
+  {
+    "id": "ENT-024",
+    "name": "Service Account",
+    "description": "Account level tied to one MSISDN, part of the account hierarchy: customer legal entity \u2192 billing account entities (each with one bill profile) \u2192 service accounts (each with one MSISDN).",
+    "attributes": "one MSISDN per service account",
+    "relationships": "customer legal entity \u2192 billing account entities (each with one bill profile) \u2192 service accounts (each with one MSISDN)",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-025",
+    "name": "Customer Application Form (CAF)",
+    "description": "Digital signature form generated during activation/onboarding checkout across channels (Consumer and Enterprise/SME-SOHO). Requires unique serial/ID and naming convention, configurable admin-controlled highlighted key T&Cs section. Bilingual (Arabic/English) PDF with Section 1 Applicant details, Section 2 Billing information, Section 3 Postpaid customers, Section 4 Superfast Broadband & Home Phone. Signed via signature pad (retail) or tablet (Direct Sales); generated -> checkout/submission -> sign-off; attached to Sales Order/Account and required alongside ID images for Order Approval. Consumer application forms are digitalized except supplementary forms.",
+    "attributes": "Form ID (e.g. PCA001), unique serial/ID and naming convention, configurable admin-controlled highlighted key T&Cs section, Date, Retailer ID, applicant details, billing info, plan selection, signatures, Digital signature (signature pad vs tablet)",
+    "relationships": "produced per customer/order; companion Fibre/GigaHome supplementary forms; attached to Sales Order/Account; Consumer CAFs vs Enterprise/SME-SOHO CAFs are distinct sub-types",
+    "lifecycleStates": "blank template, filled/signed; generated (unsigned) -> signed (e-signature captured) -> attached/verified in Order Approval Attachments tab",
+    "validationRules": "Required signature and QID before activation; Consumer application forms are digitalized except supplementary forms"
+  },
+  {
+    "id": "ENT-026",
+    "name": "SIM",
+    "description": "SIM card entity involved in SIM Swap journeys, retail activation, WinCash/UIM inventory. Type (eSIM/physical); swap charging status (eSIM to eSIM free, eSIM to physical charged, lost SIM chargeable, damaged SIM not charged). Separately scanned/depleted stock item (from WinCash) with its own SPO; becomes free in UIM for reassignment on disconnection.",
+    "attributes": "type (eSIM/physical), swap charging status, serial, stock status, SIM Serial (ICCID)",
+    "relationships": "linked to CPE and order; linked to Order Line Item, MSISDN, Asset",
+    "lifecycleStates": "in-stock, issued",
+    "validationRules": "eSIM to eSIM free, eSIM to physical charged, lost SIM chargeable, damaged SIM not charged; Serial Number is required for SIM CARD product (ORD_VALD_RULE_019)"
+  },
+  {
+    "id": "ENT-027",
+    "name": "Multi-SIM / iWatch secondary line",
+    "description": "Secondary MSISDN linked to a primary line, invisible to the customer. Up to 4 multi-SIMs depending on plan; pricing auto-set by system based on plan (e.g., Platino: first free, second 25 Riyal). iWatch/RIO bundle validation limits max one iWatch per order, requires EID, checks credit limit, blocks on suspended primary bundle.",
+    "attributes": "up to 4 multi-SIMs depending on plan; pricing auto-set by system based on plan; EID, max-one-per-order constraint",
+    "relationships": "linked to primary MSISDN",
+    "lifecycleStates": "",
+    "validationRules": "max one iWatch per order; EID requirement; credit limit check; suspended-primary-bundle block"
+  },
+  {
+    "id": "ENT-028",
+    "name": "Promotion / Plan / Product (bundled plan/discount/add-on)",
+    "description": "Named bundle combining plan, discounts, and add-ons, used across mobile, fixed, and FWA products to control agent discount authority and structure order line items. Selected during order creation; expands into hierarchical line items (e.g., CPE Bundle, Broadband Internet Service, Mobile Service Bundle). Includes Bill Limit Mapping (SL List Price, Agent Min Value, SL Min Value, SL Default Value) and entitlements (VoIP, Voicemail, Call Waiting, Call Forwarding, Three Way Conference, CLI, IPTV, SIM Card). Legacy plan customers require brand-new fiber order vs. plan-change for post-Oct/Sep-2025 FWA plan customers.",
+    "attributes": "Promotion ID, Type, Payment Type, Effective Dates, Instances, Show in Catalog, Track as Asset, Bill Limit Mapping (SL List Price, Agent Min Value, SL Min Value, SL Default Value, Default Flag, Active Flag), plan type (fiber, FWA indoor/outdoor, postpaid mobile), pricing/benefit tier",
+    "relationships": "plans, discounts and add-ons are bundled into named 'promotions' specifically to prevent agent misuse of discounts; determines available Addon & Discount options; drives Sales Order line items; mapped to Bill Limit products; linked to Order and star number entitlement",
+    "lifecycleStates": "active, changed",
+    "validationRules": "BL RULE 07: Bill Limit Value cannot exceed Credit Limit"
+  },
+  {
+    "id": "ENT-029",
+    "name": "Device Installment (DOI)",
+    "description": "Device financing entity/process tied to eligibility, stock, and payment. Explicitly kept OUT of the main postpaid journey for a phase; requires existing postpaid account in good standing, presence on internal big-data eligibility list, and a QCB credit check.",
+    "attributes": "eligibility (via EDW/big data logic on QID), installment breakdown, stock reservation status, eligibility list membership, credit check status",
+    "relationships": "linked to postpaid Account",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-030",
+    "name": "Credit Limit",
+    "description": "Numeric limit attribute on customer/account governing credit exposure. Default 1,000 for expat new account; dropped to 50 for HRN customers. No system restriction today preventing any agent from selecting any credit limit value (flagged as uncontrolled credit exposure risk).",
+    "attributes": "default 1,000 for expat new account; dropped to 50 for HRN customers",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": "no system restriction today preventing any agent from selecting any credit limit value (flagged as uncontrolled credit exposure risk)"
+  },
+  {
+    "id": "ENT-031",
+    "name": "Manual Suspension ('Park My Number') Plan",
+    "description": "A plan-change-based product replacing voluntary suspension. Delivered via a 35 Rial, four-month upfront-paid plan with credit limit set to zero.",
+    "attributes": "35 Rial, four-month upfront-paid plan, credit limit set to zero",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-032",
+    "name": "KID (Karama ID / Kahramaa ID) / Service Point",
+    "description": "Backend identifier tied to a physical location used for fixed-line eligibility and provisioning; distinct from Karama ID (a government utility ID) issued by the electricity/water authority, though used interchangeably in some sources as \"Kahramaa ID\". Mapped via weekly IMS file to zone/street/building. One government KID may map to multiple Vodafone service points/VFIDs. KID-in-use exception: order created/submitted but held via mandatory order task pending contract attachment proof. Agents can only search, not manually enter KID. Lookup returns PatchingType, KIDStatus, ONT device, Area, ServiceAvailabilityDate, SLA, FieldPartner.",
+    "attributes": "mapped via weekly IMS file to zone/street/building, KID, VFID (Vodafone ID), underscore index for partitioned units, RFS status, PatchingType (Prepatched/Non Prepatched), KIDStatus, ONT device ID, Area, ServiceAvailabilityDate, SLA, FieldPartner, address line/city/state/POBox/zip/country, Service Point ID, Install Date, Location, Status, Product, Service Type, Device Type",
+    "relationships": "one government KID may map to multiple Vodafone service points/VFIDs; linked to Address and installed ONT/CPE device; linked to Contact and Sales Order; belongs to a Kahramaa ID address",
+    "lifecycleStates": "Prepatched vs Non Prepatched drives whether Instant or Normal Activation / Combo Box detection prompt appears",
+    "validationRules": "KID-in-use exception: order created/submitted but held via mandatory order task pending contract attachment proof; agents can only search, not manually enter KID"
+  },
+  {
+    "id": "ENT-033",
+    "name": "Vodafone ID (VFID)",
+    "description": "Vodafone's own alternative customer/location identifier with QR code enabling self-activation without a field engineer if ONT boxes are already installed. Format 'zone + four-digit BID + unit'; CEO-approved branded identifier. Normally one-to-one with KID; many-KIDs-to-one-VFID and one-VFID-to-many-KIDs supported corner cases; mapping lives in UIM not IMS.",
+    "attributes": "format zone + 4-digit BID + unit, QR code",
+    "relationships": "normally one-to-one with KID; many-KIDs-to-one-VFID and one-VFID-to-many-KIDs supported corner cases; mapping lives in UIM not IMS",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-034",
+    "name": "WFM Activity / Siebel Order Task",
+    "description": "Field workforce management activity that maps to a Siebel order task via integration. Raised in WFM by technician; creates Siebel order tasks for rollout team via integration; when Siebel task closed, WFM activity closed and agent notified. Oracle Field Service Cloud activity with Activity ID, Type, Start/End time, Duration, Service Window, Resource ID, Correlation Id, Booking Channel, Activity Status; includes Assess Activity, Checklist, Device Activation steps and requires an Installation Checklist before End.",
+    "attributes": "Activity ID, Type (Installation), Start/End time, Duration, Service Window, Resource ID, Correlation Id, Booking Channel, Activity Status (started/pending), Customer Details, Service Details",
+    "relationships": "raises issues as child activities in WFM, which via integration create Siebel order tasks for the rollout team; linked to Sales Order (Siebel Order Number), technician resource, inventory transfer",
+    "lifecycleStates": "raised in WFM by technician -> creates Siebel order task -> Siebel task closed -> WFM activity closed -> agent notified; scheduled -> started -> Assess Activity -> Checklist -> Device Activation -> End",
+    "validationRules": "requires Assess Activity, Checklist, Device Activation, Mandatory Fields completed before End"
+  },
+  {
+    "id": "ENT-035",
+    "name": "CPE (Customer Premises Equipment) / ONT / Combo Box",
+    "description": "Customer premises equipment device (ONT, indoor/outdoor unit, combo box) separately scanned/depleted stock item from UIM with its own SPO; serial simply becomes free in UIM for reassignment on disconnection. Attribute updates (e.g., serial swaps) tracked with Action=Update and prior value retained in description.",
+    "attributes": "serial number, KID mapping, stock/depleted status, CPE Model, MAC Address, Serial Number, IPTV Service Id, VoIP Number, Device Type (Indoor IDU/ODU/Outdoor IDU/Combo Box)",
+    "relationships": "linked to SIM, service point/KID, order; attached to FMS CPE Bundle line item on Sales Order/Installed Asset",
+    "lifecycleStates": "in-stock, sold/assigned, freed on disconnection; installed -> modifiable (serial number update) -> active",
+    "validationRules": "attribute update tracked with Action=Update and prior value in Description; must be free/unassigned in UIM before use"
+  },
+  {
+    "id": "ENT-036",
+    "name": "Address",
+    "description": "Maintained as a separate entity with history \u2014 old address marked discontinued/replaced with effective from/to dates, new address created as primary. Zone/street/building (ZSB) attributes with auto-formatted lookup.",
+    "attributes": "zone/street/building (ZSB), effective from/to dates, discontinued/primary status, Zone, Street No., Building No., Apt/Flat/Unit, City, Country, Postal Code, Start Date, Active flag",
+    "relationships": "linked to service point/KID and customer; belongs to Contact/Account; belongs to Lead/Contact",
+    "lifecycleStates": "primary, discontinued/replaced; Active",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-037",
+    "name": "Customer / Contact",
+    "description": "Individual customer/contact record identified by ID, with personal, address and company attributes. Fields include First Name, Last Name, Nationality, Email, ID Type, ID Number, ID Expiration Date, Preferred language, Birth Date, Alternate/Cellular Phone #, Gender. Validation includes mandatory-field checks, format/length checks (email, phone, passport, GCC ID, Business ID), cross-field checks (DOB vs QID), age under 18 flag. Auto-populates read-only from ID scan; linked to Account, Order, Kahramaa ID address record, Employer (B2B2C). MOI Validation Status tracked; Alt phone # must be local mobile number; ID images required uploads with green-check verification.",
+    "attributes": "Name, DOB, ID Type/Number/Expiry, Nationality, Email, Phone, Gender, Preferred language, Qatari ID, ID Expiry, Digital Lead/Sale flag, Lead/Opportunity ID, Enter ECR Details flag, Get IPTV? flag, Alt. phone #, MOI Validation Status, Company Name (B2B2C), Blacklisted flag",
+    "relationships": "linked to Order/Account via applicant details; Linked to Kahramaa ID (KID) address record; linked to Account; linked to Sales Order; linked to Employer (B2B2C); has Address record; owned by a User (Lead Owner)",
+    "lifecycleStates": "Looked up -> confirmed -> edited fields marked with green checkmark; created -> validated (green check) -> linked to Account",
+    "validationRules": "mandatory-field checks, format/length checks (email, phone, passport, GCC ID, Business ID), cross-field checks (DOB vs QID), age under 18 flag; Alt. phone # must be a local mobile number (notification contact); ID images (Qatari ID-Front/Back) required uploads with green-check verification; ID must be validated (green checkmark); Employer/Special Management populate only after order approval"
+  },
+  {
+    "id": "ENT-038",
+    "name": "Account",
+    "description": "Customer account record holding installed assets, billing, credit status, contacts, orders. Attributes include Account Name/#, Account Class, Account Type (Residential/Business), Customer Since, Customer Segment (Expatriate), Address, Primary Contact, Notification Contact/Language/Number, Pre-approved credit (Expatriate/Qatari), Credit Risk score, Primary MSISDN, Kahramaa ID, Account Team, Status, Special Management, Parent Account Id (B2B2C linkage). Has multiple Orders, Contacts, Billing Profiles, Installed Assets, Trouble Tickets tabs. Audit trail tracks field changes with employee/user, field, new value, timestamp.",
+    "attributes": "Account Name, Account #, Account Class, Account Type, Customer Since, Customer Segment, Address, City, Country, Primary Contact, Notification Contact/Language/Number, Pre-approved credit, Credit Risk score, Primary MSISDN, Kahramaa ID, Account Team, Status, Special Management, Parent Account Id, LastMonthRevenue",
+    "relationships": "Has multiple Orders (Sales Order history including Abandoned/Complete/Open); linked to Contact; has Contacts, Orders, Billing Profiles, Installed Assets; linked to Employer via Parent Account Id for B2B2C",
+    "lifecycleStates": "Active",
+    "validationRules": "none stated beyond audit trail tracking of field changes"
+  },
+  {
+    "id": "ENT-039",
+    "name": "Line Item / Line Item Attribute",
+    "description": "Hierarchical parent/child product/service components of a Sales Order (e.g. Promotion -> Broadband Internet Service -> component services; CPE Bundle; SIM Card; Bill Manager). Attribute changes recorded with Action=Update and old value retained in description. One order has multiple hierarchical line items.",
+    "attributes": "Line #, Action (Add/Update/Delete), Billing Profile, Address, Status Context (e.g. FULFILL BILLING START: reached, INITIATE WFM START: reached), Service Id, Start Price, Device Model, Device Number/Serial No, Device Type, MAC Address, OUI, Product Class, VoIP Number, Port ID, Name/Value/Action/Description/Data Type",
+    "relationships": "Hierarchical parent/child structure under a Sales Order; child of Sales Order",
+    "lifecycleStates": "Pending -> Complete; reached milestones progress to Complete",
+    "validationRules": "Attribute changes recorded with Action=Update and old value retained in Description"
+  },
+  {
+    "id": "ENT-040",
+    "name": "Appointment",
+    "description": "Field installation appointment booked during order creation, tracked through WFM/OFSC. Cannot be cancelled once booked.",
+    "attributes": "Appointment Number, Technician ID, Status (pending), Appointment Date, Channel, Appointment ID, Time Slot, Cluster",
+    "relationships": "linked to Sales Order line item (Book Appointment action); assigned to Technician resource",
+    "lifecycleStates": "Booked (irreversible once confirmed) -> pending -> assigned -> started -> completed by technician (implied)",
+    "validationRules": "Warning: appointment once booked cannot be cancelled; slot capacity limited"
+  },
+  {
+    "id": "ENT-041",
+    "name": "Sales Order (see Order ENT-006)",
+    "description": "NOTE: This item is fully merged into ENT-006 (Order). All sources listed here contribute to ENT-006's consolidated Sales Order attributes/lifecycle. Retained separately only for traceability of raw items describing 'Sales Order' as a term distinct in labeling from generic 'Order' rows, but describes the same real-world entity as ENT-006.",
+    "attributes": "see ENT-006",
+    "relationships": "see ENT-006",
+    "lifecycleStates": "see ENT-006",
+    "validationRules": "see ENT-006"
+  },
+  {
+    "id": "ENT-042",
+    "name": "Reject Reason (Order Rejection)",
+    "description": "Multi-select reject reason field attached to a rejected Sales Order, driving which fields must be re-collected in Order Correction.",
+    "attributes": "Reason code/label, associated free-text Comments",
+    "relationships": "Attached to a rejected Sales Order; drives which fields must be re-collected in Order Correction",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-043",
+    "name": "Notification / SMS Message (OSB)",
+    "description": "Message triggered by Order status change (rejection or approval) via Oracle Service Bus.",
+    "attributes": "Message ID, Database/Logging Timestamp, Server, State, Node, Pipeline, Stage, Inbound Service (PS_VFQA_Communication), Operation (CreateCommunication), SMSTXT payload",
+    "relationships": "Triggered by Order status change (rejection or approval) via Oracle Service Bus",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-044",
+    "name": "User / Agent / Responsibility (Siebel access role)",
+    "description": "Employee/user record with job title, alias, email, team, and one or more assigned Responsibilities (roles, e.g. Back Office Fulfilment, VFQ Base 2, VFQA Sales) that govern accessible tiles/journeys.",
+    "attributes": "User ID, Last Name, First Name, Job Title, Alias, Email, Contact Team, Responsibility (Available/Selected list), Organization, Designation, Position, Location, Team, Company, Outlet Id, Manager Email, Mobile Number",
+    "relationships": "Assigned one or more Responsibilities that govern accessible tiles/journeys; executes Orders; linked to Order Approval Activity",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-045",
+    "name": "Installed Asset",
+    "description": "Provisioned products/services on the customer account, visible under Account > Installed Assets once fulfilled. Created from completed Sales Order; account has multiple installed assets.",
+    "attributes": "Product/Service name, Service Id, Status (Active), Effective From/To, Service Account, Price, Billing Profile, Promotion, Order Date, Order #, Order Type, Postpaid Activation Date",
+    "relationships": "belongs to Account and Billing Profile; created from completed Sales Order; represents provisioned product/service",
+    "lifecycleStates": "provisioned -> Active",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-046",
+    "name": "Order Approval / Activity (Approval Queue)",
+    "description": "Queue/activity record used by manager approvers to track and action pending orders, requiring Approve or Reject action with comment. Includes Approval Queue holding activities/orders awaiting a manager's action, and Agent Details tab showing agent record.",
+    "attributes": "Approval Status (Submitted for Approval/Pending), Activity Status (Ready To Assign/Assigned), Activity #, Owner, Channel, Type, Topic, Sub Topic, Area, Journey Name, Mobile #, Order#, Service Account, Order Approval Status, Order Created Date",
+    "relationships": "linked to Sales Order; assigned to Manager persona via queue; linked to Contact, Agent",
+    "lifecycleStates": "Ready To Assign -> Assigned -> Approved/Rejected; Closed",
+    "validationRules": "requires Approve or Reject action with comment"
+  },
+  {
+    "id": "ENT-047",
+    "name": "Employer / Company (B2B2C)",
+    "description": "Company/corporate sponsor entity linked to Contact/Account via B2B2C sponsorship, driving account Special Management tagging.",
+    "attributes": "Company Name",
+    "relationships": "linked to Contact/Account via B2B2C sponsorship; linked to Contact as Employer",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-048",
+    "name": "Inventory Transfer Record",
+    "description": "Transfers CPE/SIM items from warehouse/team (ABATS) to technician, tracked in Oracle Field Service Cloud.",
+    "attributes": "Part Number, Serial No, Quantity, Current Owner, Transfer To, Total Items",
+    "relationships": "transfers CPE/SIM items from warehouse/team (ABATS) to technician; linked to Activity/Appointment",
+    "lifecycleStates": "Transferred From ABATS -> Transfer To technician",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-049",
+    "name": "Installation Checklist",
+    "description": "Checklist completed as part of a WFM Activity before ending, covering speed tests, Wi-Fi setup, optical power readings, splitter ports, customer briefing and signature.",
+    "attributes": "Speed test results, Wi-Fi username, Timestamp of calls, WiFi Coverage Tested checkbox, Optical Power Meter Reading, Splitter Free Port Details, attachments, customer briefing checklist items, Customer Signature",
+    "relationships": "completed as part of WFM Activity before ending",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-050",
+    "name": "Billing Bucket / Data Bucket (Surepay Bucket)",
+    "description": "Data allowance bucket tracked in the billing/usage system per MSISDN/Billing Profile.",
+    "attributes": "Bucket Id, Bucket Name, Remaining data (KB), Status, expiration date",
+    "relationships": "linked to MSISDN/Billing Profile after activation; belongs to Billing Profile / MSISDN",
+    "lifecycleStates": "Active",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-051",
+    "name": "Audit Trail",
+    "description": "Tracks changes on Account and Contact records \u2014 employee/user, field modified, new value, timestamp.",
+    "attributes": "employee/user, field modified, new value, timestamp",
+    "relationships": "tracks changes on Account and Contact records",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-052",
+    "name": "Technician Resource / Inventory",
+    "description": "Field technician resource with assigned inventory items tracked/transferred in Oracle Field Service Cloud, linked to Activity/Appointment.",
+    "attributes": "Resource Id, Resource name, assigned parts (CPE/SIM), quantities, Current Owner",
+    "relationships": "linked to Activity/Appointment",
+    "lifecycleStates": "Transferred From ABATS -> Transfer To technician",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-053",
+    "name": "UIM Custom Object (SIM/CPE inventory record)",
+    "description": "Oracle UIM inventory record used to validate SIM/CPE serials against Inventory Status, Assignment Status, Device Status.",
+    "attributes": "Specification, Inventory Status, Assignment Status, Device Status, ICCID, IMSI1, MSISDN",
+    "relationships": "referenced during Order Line Item SIM/CPE serial validation",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-054",
+    "name": "Cross Sales Offer / Migration Offer",
+    "description": "Targeted marketing/offer record shown on a Contact's Cross Sales tab or sourced from Unica campaign engine, that can be accepted to launch a guided journey (e.g., MNP, Plan Upgrade). Attached to Installed Asset or Contact.",
+    "attributes": "OfferType, OfferName, MonthlyRental, OfferDescription, CampaignCode, PriorityCode, ServiceIdentifier, Status, TreatmentCode, Channel, PromotionId, Price, AddOn_Monthly, linked Product IDs",
+    "relationships": "linked to Contact; drives launch of a guided journey; attached to Installed Asset; sourced from Unica campaign engine; drives resulting Order",
+    "lifecycleStates": "Offered -> Accepted/Interested/Rejected/Closed",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-055",
+    "name": "Donor Details / Donor Attachment (MNP)",
+    "description": "MNP-specific data captured about the donor (losing) network operator as part of the port-in process.",
+    "attributes": "Port-in Number, Donor ID, Donor ID Type, Donor Type, Donor Operator, Subscription Type",
+    "relationships": "part of MNP Order/journey",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-056",
+    "name": "MNP Application Form (contract document)",
+    "description": "Bilingual (Arabic/English) Vodafone-branded Mobile Number Portability Application Form generated -> signed -> attached to Order under Donor Attachment step.",
+    "attributes": "Date, Retailer ID, Segment, Switching type, Current service type, Applicant details (name, current provider, number to switch, ID type/number), declaration clauses, e-signature, Multi number switching table",
+    "relationships": "attached to Order under Donor Attachment step",
+    "lifecycleStates": "generated -> signed -> attached",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-057",
+    "name": "Lead",
+    "description": "Created for non-standard customers instead of a direct order. Tracked with mobile number, service needed, status/sub-status, ownership, and conversion tracking to order.",
+    "attributes": "Lead Num, Mobile Number, Service Needed, First/Last Name, Preferred Time/CallBack Date-Time, Zone/Street/Building/Unit, Fixed Pre Sales, Description, Lead Status, Lead Sub Status, Lead Owner, Created By, Created date, OrderId, Date Converted, Convert Agent Id, Reject Reason Code, Reject Comment, Alternate Mobile#, Outlet Id, Assigned Team, Manager, Lead Channel, Lead Contact",
+    "relationships": "created for non-standard customers instead of direct order; has Address record; owned by a User (Lead Owner); created by a User (Created By, immutable); may convert to Order; belongs to Contact; Portal captures MSISDN and creates a Siebel lead via API",
+    "lifecycleStates": "New -> In Progress (Call Back/No Answer sub-status) -> Rejected / Lead Converted / Retired / Submitted / Assigned / Accepted",
+    "validationRules": "no lead created without MSISDN"
+  },
+  {
+    "id": "ENT-058",
+    "name": "Star Number Value Tier",
+    "description": "Value tier and lock-in duration for star numbers.",
+    "attributes": "value range, lock-in duration",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-059",
+    "name": "Deposit / Credit Limit (Consumer)",
+    "description": "Deposit rules for consumer accounts, including minimum deposit or valid credit card, with unclaimed-to-charity timeline.",
+    "attributes": "amount, refund status, unclaimed-to-charity timeline (12 months)",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-060",
+    "name": "Home Move Case",
+    "description": "Matrix of fiber/5G \u00d7 indoor/outdoor combinations, each with WFM-installation-required and dismantle-required flags. Old service remains live until new location provisioned.",
+    "attributes": "service type combination (fiber/5G x indoor/outdoor), WFM install flag, dismantle flag",
+    "relationships": "",
+    "lifecycleStates": "old service live until new location provisioned",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-061",
+    "name": "CRM Journey/Feature Catalog (Page Type Row)",
+    "description": "165 distinct journey/feature rows describing CRM journeys and features, with columns for journey category, type, description, platform availability, and CBU/EBU applicability. Extended with a Type Taxonomy (User Journey/Workflow-Task/View/Action/Access-Permission) and traceability model (User Journey -> Workflow/Process -> Task -> View/Screen -> Action -> Access/Permission), grouped into 15 analytical Functional Clusters.",
+    "attributes": "#, Journey Category (Lead/Sales/Support/Manage/Disconnect), Journey Type, Type (User Journey/Workflow-Task/View/Action/Access-Permission), Description, Comment, Guided journey Desktop, Guided journey Tablet, Desktop vanilla, CBU, EBU, AI Comments",
+    "relationships": "Traceability model: User Journey -> Workflow/Process -> Task -> View/Screen -> Action -> Access/Permission, grouped into 15 analytical Functional Clusters",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-062",
+    "name": "Functional Cluster",
+    "description": "15 analytical clusters introduced to reconstruct the Workflow/Process/Task layer, grouping multiple Page Type rows; 9 of 15 clusters are BAU/account-servicing with no anchor User Journey.",
+    "attributes": "cluster ID (e.g. CL02), name, completeness status",
+    "relationships": "Groups multiple Page Type rows; 9 of 15 clusters are BAU/account-servicing with no anchor User Journey",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-063",
+    "name": "Type Taxonomy Category",
+    "description": "5-row lookup table defining each Type category (User Journey, Workflow/Task, View, Action, Access/Permission) with its definition and use case.",
+    "attributes": "Type name (User Journey, Workflow/Task, View, Action, Access/Permission), definition, use case",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-064",
+    "name": "GigaHome Subscription Acceptance Form",
+    "description": "Customer acceptance form for GigaHome 5G Plans, with T&Cs, plan/billing details and signature.",
+    "attributes": "18 numbered T&C clauses, Upfront Fee, Bill Cycle, Discount %/months, Internet speed tier, FUP threshold, plan lock-in period, install address (Zone/Street/Building/Unit), Customer Name, Customer QID, Customer Signature, Date, agent-attribution (DSA/Store/Field Engineer)",
+    "relationships": "",
+    "lifecycleStates": "Blank template -> customer-signed",
+    "validationRules": "Required signature and QID before activation; specific FUP/speed/lock-in selections captured via checkbox fields"
+  },
+  {
+    "id": "ENT-065",
+    "name": "Kahramaa ID (KID) / Address Record",
+    "description": "Kahramaa ID address record returned via lookup, distinct sub-entry describing the same KID concept as ENT-032, used in guided journey fixed-line fulfillment context.",
+    "attributes": "Kahramaa ID, PatchingType (Prepatched/Non Prepatched), KIDStatus (Available), ONT device ID, Area, ServiceAvailabilityDate, SLA, FieldPartner, address line/city/state/POBox/zip/country",
+    "relationships": "Linked to one or more Service Points/ONT devices; linked to Contact and Sales Order",
+    "lifecycleStates": "Prepatched vs Non Prepatched drives whether Instant or Normal Activation / Combo Box detection prompt appears",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-066",
+    "name": "Addon/Discount",
+    "description": "Add-on or discount tied to a selected Plan; auto-populated or agent-selectable depending on channel/journey (locked/read-only on cross-sell orders). Includes IPTV add-ons, mass-market add-ons, and paid add-ons/discounts with duration.",
+    "attributes": "Addon type (e.g. IPTV Add-on), Discount name/description, price, category (paid add-on vs discount), duration (e.g. '6 Months')",
+    "relationships": "Tied to selected Plan; auto-populated or agent-selectable depending on channel/journey (locked/read-only on cross-sell orders); consumes Bill Limit headroom",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-067",
+    "name": "Passport-to-QID Update record",
+    "description": "Process/record for updating a customer's identification from passport to QID, driven by MSISDN lookup and MOI Validation.",
+    "attributes": "MSISDN, Passport Number, QID Number, QID Front/Back images, Identification number change form, e-signature",
+    "relationships": "linked to Contact/Account via MSISDN",
+    "lifecycleStates": "initiated -> ID fetched via MOI Validation -> documents uploaded -> form generated/signed -> attached/finished",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-068",
+    "name": "Future Dated Order (FDO) request",
+    "description": "A request cross-stamped 1:1 with an underlying Order, applying to Pre-to-Post/Post-to-Pre/Plan Change/Disconnection/Add-on-Discount order types, tracked via a custom table and orchestrated by a Bulk Job/Backend Batch process.",
+    "attributes": "FDO request ID, cross-stamped order ID, execution date/time slot, status, Job Name, Status (In Processing/Processed/Error), Attrib01-09 fields (MSISDN, promotion, billing profile, source, channel, bill limit, treatment code, job type)",
+    "relationships": "linked 1:1 (cross-stamped) to underlying Order; applies to Pre-to-Post/Post-to-Pre/Plan Change/Disconnection/Add-on-Discount order types; orchestrates ChangeMSISDNChannelOrder, ActivationChannelOrder, BILLPROFILE_CREATE_UPDATE, MigrationChannelOrder, FixedPairedActivation/ECRProcessing, ChannelUnpostedPayments, EDR_Dunn_Unbar sub-jobs",
+    "lifecycleStates": "Initial, In-Progress, Order Submitted, Success, Failed, Cancelled; In Processing, Processed, Error",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-069",
+    "name": "Activity (Customer Interaction)",
+    "description": "CRM activity record capturing a customer interaction event (e.g. plan migration, ticket resolution), distinct from Trouble Ticket and Order Approval Activity though structurally similar.",
+    "attributes": "Activity #, Language, Channel, Comments, Status, Transaction Date, Customer Segment, Customer Type, Area, Journey, MSISDN, Topic, Resolution Code, Type, Sub-Topic, Interaction Type, Agent ID",
+    "relationships": "linked to Account, Order, Agent",
+    "lifecycleStates": "Solved",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-070",
+    "name": "SIM Swap Order / Task",
+    "description": "Order/task for swapping a customer's SIM, requiring SIM serial number, reason, attached form, and routed through Order Approval Queue.",
+    "attributes": "SIM Serial Number, SIM Swap Reason, attached SIM Swap Form, comments",
+    "relationships": "linked to MSISDN/Installed Asset; routed through Order Approval Queue",
+    "lifecycleStates": "Created, Pending Approval, Assigned, Approved/Completed, Rejected/Dropped",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-071",
+    "name": "IMS Site/ZSB (Zone-Street-Building)",
+    "description": "Holds site/zone-street-building (ZSB) data, BIDs, CTPs (cable termination points, sub-sites), splitters/ports. Physical chain: OLT \u2192 splitter \u2192 telecom room \u2192 each KID/unit; one GTM building entry can map to many BIDs/CTPs/KIDs.",
+    "attributes": "BID, CTP, splitter/port, business-added consumer/enterprise potential/forecast",
+    "relationships": "Physical chain: OLT \u2192 splitter \u2192 telecom room \u2192 each KID/unit; one GTM building entry can map to many BIDs/CTPs/KIDs",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-072",
+    "name": "RFS (Ready For Sale) Record / Status",
+    "description": "Shows RFS status, potentials, SLA/cluster (renamed from 1-4 to F1-F4). Top-level data from IMS via GTM file; live active-service/KID status from UIM with reverse sync back to IMS.",
+    "attributes": "RFS status, potentials, SLA/cluster (F1-F4)",
+    "relationships": "top-level data from IMS via GTM file; live active-service/KID status from UIM with reverse sync back to IMS",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-073",
+    "name": "SMS Template",
+    "description": "Template used for automatic or lead-driven SMS communication, keyed by TT source/category/area/sub area/status or Service Needed, with multi-language script support.",
+    "attributes": "Keyword, Language, Language Code, Locale, Script (English/Arabic/Hindi/Malayalam), Template Type, System Template Flag, Created/Updated Date/By, Description, merge fields",
+    "relationships": "Automatic templates linked to TT Source/Category/Area/Sub Area/Status; Lead templates linked to Service Needed",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-074",
+    "name": "APN (Access Point Name)",
+    "description": "Access Point Name entity validated for Static IP, Domain Hosting, and Broadband Service Link association, with account-level uniqueness.",
+    "attributes": "Static IP, Domain Hosting, Broadband Service Link association; account-level uniqueness",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-075",
+    "name": "Deposit Service Bundle",
+    "description": "Deposit service bundle with a one-per-account constraint; cannot be the first service on an account nor combined with TON.",
+    "attributes": "one per account constraint",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": "cannot be first service on account; cannot be combined with TON"
+  },
+  {
+    "id": "ENT-076",
+    "name": "Data Field (Annex data catalogue)",
+    "description": "Fibre BRSD annex data catalogue of 135 rows with DF-xx identifiers and field-level metadata.",
+    "attributes": "DF-xx identifiers, field-level metadata",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-077",
+    "name": "Status Model (Order/Asset lifecycle states)",
+    "description": "Fibre BRSD annex describing 33 rows of lifecycle status definitions for orders/assets.",
+    "attributes": "lifecycle status definitions",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-078",
+    "name": "IPTV / STB (Set-Top Box) bundle",
+    "description": "IPTV bundled by default with base plan in fibre BRSD, removable \u2014 flagged in Open Items as contested.",
+    "attributes": "bundled-by-default flag, removability",
+    "relationships": "",
+    "lifecycleStates": "",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-079",
+    "name": "QTicket",
+    "description": "A ticket generated at the start of the J011 Mobile Post-Paid Customer onboarding journey when the customer is engaged in QNomy, feeding into the Agent-in-DXP onboarding flow.",
+    "attributes": "",
+    "relationships": "Generated in QNomy; feeds into the Agent-in-DXP onboarding flow.",
+    "lifecycleStates": "Generated at start of onboarding journey.",
+    "validationRules": ""
+  },
+  {
+    "id": "ENT-080",
+    "name": "Payment",
+    "description": "Payment captured during onboarding (Full Payment vs DOI, via WinCash with receipt), during suspension/resume (via WinCash), and covering deposit/HRN advance/premium number charge. All payments must be Authorized before order proceeds.",
+    "attributes": "Method/branch: Full Payment vs DOI; captured via WinCash; produces a receipt; deposit, HRN advance, premium number charge",
+    "relationships": "Tied to CAF checkout/submission (J011); tied to suspension order (J023) and resume order (J024)",
+    "lifecycleStates": "Captured -> receipted",
+    "validationRules": "Suspension order requires cleared unbilled balance before submission; All Payments should be Authorized (ORD_VALD_RULE_030)"
+  },
+  {
+    "id": "ENT-081",
+    "name": "Identity Document (QID / Other ID / Passport)",
+    "description": "Identity document type captured and validated during onboarding, driving downstream validation and plan-display logic (QID -> MOI Validation path; Other ID/Passport -> capture/validate details path).",
+    "attributes": "Type: QID vs Other ID/Passport",
+    "relationships": "QID \u2192 MOI Validation path; Other ID/Passport \u2192 capture/validate details path; ID scan step later in flow",
+    "lifecycleStates": "Captured -> validated -> scanned",
+    "validationRules": "ID type branching determines validation method used"
+  },
+  {
+    "id": "ENT-082",
+    "name": "Customer 360 (aggregated data view)",
+    "description": "An aggregated view/entity combining multiple data sources for a customer, retrieved on search in J017 by Customer No / Contact No / MSISDN, sectioned as Overview, Order, Trouble Tickets, Installed Assets, Billing Profile, Credit Risk.",
+    "attributes": "CDR/Usage View, Billing Profile Management, Bill Viewing & Download, Payment Processing & View, Real-Time Balance & Usage Fetch, Network Status Check, Unbilled & Billing Balance View, Ticket History, Order History",
+    "relationships": "Aggregates Customer, Order, Ticket, Billing, Payment, Network status data; sectioned in UI as Overview, Order, Trouble Tickets, Installed Assets, Billing Profile, Credit Risk",
+    "lifecycleStates": "",
+    "validationRules": "Search performed by Customer No / Contact No / MSISDN"
+  },
+  {
+    "id": "ENT-083",
+    "name": "Application Form Types (Enterprise/SME-SOHO)",
+    "description": "Distinct enterprise sales application form entities: Postpaid Mobile, Plan Builder Mobile, Credit Limit, MNP, Postpaid Fixed, FNP, Fixed Supplementary; Large Sales forms include Master Service Agreement or custom contract with product-specific schedules (T&C). Used within Enterprise Forms section, distinct from Consumer Forms.",
+    "attributes": "Types: Postpaid Mobile, Plan Builder Mobile, Credit Limit, MNP, Postpaid Fixed, FNP, Fixed Supplementary; Large Sales forms include Master Service Agreement or custom contract with product-specific schedules (T&C)",
+    "relationships": "Used within Enterprise Forms section, distinct from Consumer Forms",
+    "lifecycleStates": "",
+    "validationRules": ""
+  }
+]

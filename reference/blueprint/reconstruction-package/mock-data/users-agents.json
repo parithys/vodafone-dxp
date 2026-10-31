@@ -1,0 +1,78 @@
+[
+  {
+    "userId": "USR-1101",
+    "lastName": "Al-Kuwari",
+    "firstName": "Fatima",
+    "jobTitle": "Sales Agent",
+    "alias": "F.ALKUWARI",
+    "email": "fatima.alkuwari@vodafone.qa",
+    "contactTeam": "Retail Sales - West Bay",
+    "responsibilitySelected": [
+      "VFQA Sales"
+    ],
+    "responsibilityAvailable": [
+      "VFQA Sales",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Senior Sales Executive",
+    "position": "Retail Front Office",
+    "location": "West Bay Store",
+    "team": "Retail Sales",
+    "company": "Vodafone Qatar",
+    "outletId": "OUT-101",
+    "managerEmail": "manager.sales@vodafone.qa",
+    "mobileNumber": "+97433009001"
+  },
+  {
+    "userId": "USR-1102",
+    "lastName": "Hassan",
+    "firstName": "Omar",
+    "jobTitle": "Back Office Fulfilment Agent",
+    "alias": "O.HASSAN",
+    "email": "omar.hassan@vodafone.qa",
+    "contactTeam": "Back Office Fulfilment",
+    "responsibilitySelected": [
+      "Back Office Fulfilment"
+    ],
+    "responsibilityAvailable": [
+      "Back Office Fulfilment",
+      "VFQ Base 2"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Fulfilment Specialist",
+    "position": "Back Office",
+    "location": "Doha HQ",
+    "team": "Order Fulfilment",
+    "company": "Vodafone Qatar",
+    "outletId": null,
+    "managerEmail": "manager.fulfilment@vodafone.qa",
+    "mobileNumber": "+97433009002"
+  },
+  {
+    "userId": "USR-1103",
+    "lastName": "Thompson",
+    "firstName": "Rachel",
+    "jobTitle": "Sales Manager",
+    "alias": "R.THOMPSON",
+    "email": "rachel.thompson@vodafone.qa",
+    "contactTeam": "Approval Managers",
+    "responsibilitySelected": [
+      "VFQ Base 2"
+    ],
+    "responsibilityAvailable": [
+      "VFQ Base 2",
+      "VFQA Sales",
+      "Back Office Fulfilment"
+    ],
+    "organization": "Vodafone Qatar",
+    "designation": "Regional Sales Manager",
+    "position": "Manager",
+    "location": "Doha HQ",
+    "team": "Sales Management",
+    "company": "Vodafone Qatar",
+    "outletId": null,
+    "managerEmail": "director.sales@vodafone.qa",
+    "mobileNumber": "+97433009003"
+  }
+]

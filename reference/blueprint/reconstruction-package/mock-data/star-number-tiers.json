@@ -1,0 +1,23 @@
+[
+  {
+    "tierId": "STAR-TIER-01",
+    "valueRangeMin": 5000,
+    "valueRangeMax": 15000,
+    "valueRangeCurrency": "QAR",
+    "lockInDurationMonths": 24
+  },
+  {
+    "tierId": "STAR-TIER-02",
+    "valueRangeMin": 1000,
+    "valueRangeMax": 4999,
+    "valueRangeCurrency": "QAR",
+    "lockInDurationMonths": 12
+  },
+  {
+    "tierId": "STAR-TIER-03",
+    "valueRangeMin": 15001,
+    "valueRangeMax": 50000,
+    "valueRangeCurrency": "QAR",
+    "lockInDurationMonths": 36
+  }
+]

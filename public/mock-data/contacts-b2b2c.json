@@ -1,0 +1,68 @@
+[
+  {
+    "contactId": "CONT-3001",
+    "employer": "Acme Trading Qatar W.L.L.",
+    "employeeName": "Bimal Bahadur Thapa",
+    "employeeQid": "P0998812",
+    "b2b2cEligible": true,
+    "planEligibility": "Postpaid Extra Promotion",
+    "employerAccountId": "ENT-ACC-7705",
+    "_note": "employeeQid was 29144455566 and employeeName 'Youssef Nasser' - a person present in no other file: no customer, no identity document, nothing. The row was unreachable and so was every path depending on an employer link. Repointed at CUST-1002 (Bimal Thapa), whose Passport P0998812 IS in identity-documents, so the sponsored party can actually be resolved. Not pointed at CUST-2001 despite that record carrying the same employer: 'Layla Hassan (Employer Contact)' is the EMPLOYER's representative (segment Enterprise (EBU)), not a sponsored consumer, and her only document is an 'Other ID' - a type the ID selector does not offer, so she is unreachable by lookup regardless. employerAccountId added so the employer resolves to a registry account rather than by matching a name string.",
+    "employeeCustomerId": "CUST-1002"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "contactId": "CONT-3101",
+    "employer": "Gulf Logistics W.L.L.",
+    "employeeName": "Nasser Mohammed Saad Al-Hajri",
+    "employeeQid": "28105063400024",
+    "b2b2cEligible": true,
+    "planEligibility": "Postpaid Red 500 Promotion",
+    "employeeCustomerId": "CUST-3024",
+    "employerAccountId": "ENT-ACC-8202"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "contactId": "CONT-3102",
+    "employer": "Gulf Logistics W.L.L.",
+    "employeeName": "Priya Suresh Nair",
+    "employeeQid": "29302035600025",
+    "b2b2cEligible": true,
+    "planEligibility": "Postpaid Red 500 Promotion",
+    "employeeCustomerId": "CUST-3025",
+    "employerAccountId": "ENT-ACC-8202"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "contactId": "CONT-3103",
+    "employer": "Doha Contracting Co.",
+    "employeeName": "Imran Ahmed Khan Qureshi",
+    "employeeQid": "28707058600026",
+    "b2b2cEligible": true,
+    "planEligibility": "Postpaid Red 500 Promotion",
+    "employeeCustomerId": "CUST-3026",
+    "employerAccountId": "ENT-ACC-8201"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "contactId": "CONT-3104",
+    "employer": "Doha Contracting Co.",
+    "employeeName": "Tariq Mahmood Aziz Malik",
+    "employeeQid": "28605058600033",
+    "b2b2cEligible": true,
+    "planEligibility": "Postpaid Red 500 Promotion",
+    "employeeCustomerId": "CUST-3033",
+    "employerAccountId": "ENT-ACC-8201"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "contactId": "CONT-3105",
+    "employer": "Gulf Logistics W.L.L.",
+    "employeeName": "Samuel Okello Mugisha",
+    "employeeQid": "29207052400062",
+    "b2b2cEligible": true,
+    "planEligibility": "Postpaid Red 500 Promotion",
+    "employeeCustomerId": "CUST-3062",
+    "employerAccountId": "ENT-ACC-8202"
+  }
+]

@@ -1,0 +1,839 @@
+{
+  "version": 1,
+  "source": "/Users/parithimalsaravanan/claude-projects/vfq/data",
+  "created": "2026-08-20T16:18:35+00:00",
+  "entries": {
+    "250604-supplementary-form-reg-v2-final-475e97bb": {
+      "relpath": "250604 Supplementary Form (Reg) v2_FINAL.pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/250604 Supplementary Form (Reg) v2_FINAL.pdf",
+      "sha256": "9091565d705dc76b18464d373e8a54a2f8d2eb296b0fc028ed8a528191f14c3e",
+      "size": 86699,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day10-session-1-20260708-100858-meeting-rec-b1dfc39a": {
+      "relpath": "Business Process - Day10 - Session 1-20260708_100858-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day10 - Session 1-20260708_100858-Meeting Recording.docx",
+      "sha256": "ee33bae972a31479f0a5999510ef6a594b9b42869b0b62898bb9d151a6410cd4",
+      "size": 94102,
+      "mtime": "2026-08-20T15:20:58+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day11-session-1-20260709-124548-meeting-rec-edcba1f0": {
+      "relpath": "Business Process - Day11 - Session 1-20260709_124548-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day11 - Session 1-20260709_124548-Meeting Recording.docx",
+      "sha256": "61fec26d6a39629cb9e65dc99add36d65d2ca0fa3794b385154601609de8509d",
+      "size": 92064,
+      "mtime": "2026-08-20T15:20:52+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day11-session-2-20260709-155305-meeting-rec-a4630d1c": {
+      "relpath": "Business Process - Day11 - Session 2-20260709_155305-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day11 - Session 2-20260709_155305-Meeting Recording.docx",
+      "sha256": "23b2698099f771d0f87a9f28bc8ba2c6b792fc590e2abc6a45aca8a8af1baaff",
+      "size": 85459,
+      "mtime": "2026-08-20T15:20:45+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day12-session-1-20260712-110503-meeting-rec-d4eafd01": {
+      "relpath": "Business Process - Day12 - Session 1-20260712_110503-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day12 - Session 1-20260712_110503-Meeting Recording.docx",
+      "sha256": "152ade36213883b951e89bfe9e82ad3638a4d7a4301d436575c2b68897792198",
+      "size": 81735,
+      "mtime": "2026-08-20T15:20:38+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day12-session-1-20260712-124834-meeting-rec-d6e051a4": {
+      "relpath": "Business Process - Day12 - Session 1-20260712_124834-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day12 - Session 1-20260712_124834-Meeting Recording.docx",
+      "sha256": "8aede51e5de86bca60948cac66773926ab9b8dce54222c575a5b232f66bd08dc",
+      "size": 83291,
+      "mtime": "2026-08-20T15:20:31+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day12-session-2-20260712-155508-meeting-rec-4e628b9b": {
+      "relpath": "Business Process - Day12 - Session 2-20260712_155508-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day12 - Session 2-20260712_155508-Meeting Recording.docx",
+      "sha256": "8f04f4f9ecace3c6c44406e0c7b16d6fdd50f5c63a24412f2c03747ba712d668",
+      "size": 90397,
+      "mtime": "2026-08-20T15:20:24+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day9-session-1-20260707-123707-meeting-reco-4158a38d": {
+      "relpath": "Business Process - Day9 - Session 1-20260707_123707-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day9 - Session 1-20260707_123707-Meeting Recording.docx",
+      "sha256": "bd623e1fc7ec124081ccc966428466a672d21a01ed452ee1f48becaacbe7f8e1",
+      "size": 84486,
+      "mtime": "2026-08-20T15:17:17+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-process-day9-session-2-20260707-131317-meeting-reco-e3243830": {
+      "relpath": "Business Process - Day9 - Session 2-20260707_131317-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Process - Day9 - Session 2-20260707_131317-Meeting Recording.docx",
+      "sha256": "a0726e7b8a1f76db208183c5033a811f22476a93f03f7476580e30c4f2119ee0",
+      "size": 86947,
+      "mtime": "2026-08-20T15:23:09+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-processes-day7-session-2-20260705-154408-meeting-re-8709f98d": {
+      "relpath": "Business Processes- Day7 - Session 2-20260705_154408-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Processes- Day7 - Session 2-20260705_154408-Meeting Recording.docx",
+      "sha256": "c265dfc77934da63d7b35d73c22e543c1ccea6de749833932012b13d4aed27d8",
+      "size": 86978,
+      "mtime": "2026-08-20T15:20:17+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:24:59+00:00"
+    },
+    "business-workshop-day2-session-1-postpaid-service-20260628-1-663e2320": {
+      "relpath": "Business Workshop - Day2 - Session 1 - Postpaid Service-20260628_124041-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day2 - Session 1 - Postpaid Service-20260628_124041-Meeting Recording.docx",
+      "sha256": "47bc4073fe416c481933945059f61a082ad3b07ca7ae0ba64c45de5ac625f516",
+      "size": 95460,
+      "mtime": "2026-08-20T15:20:10+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day2-session-2-postpaid-service-20260628-1-bf394204": {
+      "relpath": "Business Workshop - Day2 - Session 2 - Postpaid Service-20260628_154317-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day2 - Session 2 - Postpaid Service-20260628_154317-Meeting Recording.docx",
+      "sha256": "9e5295c8444936f7467b49bbf539f989bea921aed0c6eec6d7c2eae97513432a",
+      "size": 91967,
+      "mtime": "2026-08-20T15:20:03+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day4-session-2-postpaid-service-20260630-1-aa302f2d": {
+      "relpath": "Business Workshop - Day4 - Session 2 - Postpaid Service-20260630_153123-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day4 - Session 2 - Postpaid Service-20260630_153123-Meeting Recording.docx",
+      "sha256": "5d491741208996487aae130ee22c7dff3fa71c34b30391726d0eeacc677eb677",
+      "size": 93639,
+      "mtime": "2026-08-20T15:19:57+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day5-session-1-postpaid-service-20260701-0-a55f2808": {
+      "relpath": "Business Workshop - Day5 - Session 1 - Postpaid Service-20260701_065917UTC-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day5 - Session 1 - Postpaid Service-20260701_065917UTC-Meeting Recording.docx",
+      "sha256": "1a44e5d5f0865271e819f5d63bec2446d5ad189406007001ed3f7895672142d2",
+      "size": 58595,
+      "mtime": "2026-08-20T15:19:48+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day5-session-2-postpaid-service-20260701-1-d62f0cd4": {
+      "relpath": "Business Workshop - Day5 - Session 2 - Postpaid Service-20260701_131351-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day5 - Session 2 - Postpaid Service-20260701_131351-Meeting Recording.docx",
+      "sha256": "7a68c75f13e5010f03c110ea04ef2b8d857dba8f4eeaf4b82a2e028ac6dffa71",
+      "size": 83865,
+      "mtime": "2026-08-20T15:19:42+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day6-session-1-postpaid-service-20260702-1-27cbc94e": {
+      "relpath": "Business Workshop - Day6 - Session 1 - Postpaid Service-20260702_101216-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day6 - Session 1 - Postpaid Service-20260702_101216-Meeting Recording.docx",
+      "sha256": "5f9463bd4d3158ce2fd676ad7ceae8c1cf60468c187c694512e752051f9af045",
+      "size": 86987,
+      "mtime": "2026-08-20T15:19:35+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day6-session-2-postpaid-service-20260702-1-2441891e": {
+      "relpath": "Business Workshop - Day6 - Session 2 - Postpaid Service-20260702_131308-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day6 - Session 2 - Postpaid Service-20260702_131308-Meeting Recording.docx",
+      "sha256": "3670df09262445190276bcbb1410729bd5cfae19786dcb4d56d359d906dc6afd",
+      "size": 85457,
+      "mtime": "2026-08-20T15:19:27+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-day7-session-1-postpaid-service-20260705-1-e2799976": {
+      "relpath": "Business Workshop - Day7 - Session 1 - Postpaid Service-20260705_124049-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Day7 - Session 1 - Postpaid Service-20260705_124049-Meeting Recording.docx",
+      "sha256": "abc1cd7c39ef52807a9e0b1362a143422194560e975fe06d979a8840dfb1514d",
+      "size": 87035,
+      "mtime": "2026-08-20T15:19:19+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "business-workshop-session-1-postpaid-service-20260625-124533-4b09c0db": {
+      "relpath": "Business Workshop - Session 1 - Postpaid Service-20260625_124533-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Business Workshop - Session 1 - Postpaid Service-20260625_124533-Meeting Recording.docx",
+      "sha256": "2545ec56df7e599f392aade6483961d518a968334e4e3a2774ee816659359601",
+      "size": 95462,
+      "mtime": "2026-08-20T15:19:12+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "crm-journeys-final-updated-a23640a5": {
+      "relpath": "CRM Journeys_Final_Updated.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/CRM Journeys_Final_Updated.xlsx",
+      "sha256": "006edec73c293885ea113b64c8c4eb091a27871fbc2d527a155eeeb8eb92e23f",
+      "size": 51529,
+      "mtime": "2026-08-20T16:09:16+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:31:54+00:00"
+    },
+    "crm-journeys-final-updated-with-type-634b83d3": {
+      "relpath": "CRM_Journeys_Final_Updated_with_Type.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/CRM_Journeys_Final_Updated_with_Type.xlsx",
+      "sha256": "a76c3ceae9107e0e1c8cb1bc78378fe1974836ad5015f7bd3639dab1a12dabe8",
+      "size": 57062,
+      "mtime": "2026-08-20T18:36:09+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T18:36:48+00:00"
+    },
+    "consumer-activation-processprocedure-ver-8-0-wm-22022024-202-a05af201": {
+      "relpath": "Consumer Activation ProcessProcedure_Ver _8.0_WM_22022024 2024.pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Consumer Activation ProcessProcedure_Ver _8.0_WM_22022024 2024.pdf",
+      "sha256": "91a36d235679c299e31c651ebfd5289f8116b7459877716b86b02fd608ca2ffd",
+      "size": 1192289,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "consumer-postpaid-caf-v4-110525-editable-915fde96": {
+      "relpath": "Consumer Postpaid CAF V4_110525_Editable.pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Consumer Postpaid CAF V4_110525_Editable.pdf",
+      "sha256": "3698c6423b31f64240c337a4729c08d65ff05ec6daec1af9273b314ed9b2443c",
+      "size": 647590,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "consumer-prepaid-caf-v2-110525-editable-0c369437": {
+      "relpath": "Consumer Prepaid CAF V2_110525_Editable.pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Consumer Prepaid CAF V2_110525_Editable.pdf",
+      "sha256": "bb373bf67d788af36494f29c03cfe1e34b5f702bb97d534eb412ba5e6ed7d158",
+      "size": 640057,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "contact-validation-business-rules-b5d58c84": {
+      "relpath": "Contact Validation Business Rules.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Contact Validation Business Rules.xlsx",
+      "sha256": "682bd79c3674ea9f06ad4f23c651d3c88b2eaf4c9568e626bee563dfe3006d92",
+      "size": 14627,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "gigahome-subscription-acceptance-form-5g-home-plans-v3-revis-ec26a52d": {
+      "relpath": "GigaHome Subscription Acceptance Form 5G Home Plans V3-revised.pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/GigaHome Subscription Acceptance Form 5G Home Plans V3-revised.pdf",
+      "sha256": "103aa5186db66bcd9f8984d3cfd45b895efd3e81a29e2cddffd0660eeb5782ac",
+      "size": 152336,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "guided-journeys-fwa-desktop-vanilla-fwa-indoor-f964a90a": {
+      "relpath": "Guided Journeys/FWA/Desktop Vanilla_FWA_Indoor.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Desktop Vanilla_FWA_Indoor.docx",
+      "sha256": "199aaa5b0b6d20eafd65743fd4fdf4c9b0109124a78201a9d05bb90e25474185",
+      "size": 4063510,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "guided-journeys-fwa-desktop-vanilla-fwa-outdoor-wfm-4edebda3": {
+      "relpath": "Guided Journeys/FWA/Desktop Vanilla_FWA_Outdoor_WFM.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Desktop Vanilla_FWA_Outdoor_WFM.docx",
+      "sha256": "53e9e6ea04ba76724db4eedb284cd24b35903b5e0fe9f9bc9e0de3326262a9d2",
+      "size": 4821326,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "guided-journeys-fwa-desktop-vanilla-indoor-modify-cpe-25b6dab3": {
+      "relpath": "Guided Journeys/FWA/Desktop Vanilla_Indoor_Modify CPE.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Desktop Vanilla_Indoor_Modify CPE.docx",
+      "sha256": "1eaf6ea5edaecaf1816b09f8d0c1f7ed9becc93be9b082de6ce1e1e5b08b46c0",
+      "size": 1089141,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "guided-journeys-fwa-fwa-indoor-outdoor-negative-scenarios-1644123c": {
+      "relpath": "Guided Journeys/FWA/FWA_Indoor & Outdoor_Negative Scenarios.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/FWA_Indoor & Outdoor_Negative Scenarios.docx",
+      "sha256": "d161dde6e8b1ecbf30c6fbc306442fb12da032999afc4ed6bad04bcccccf68eb",
+      "size": 833067,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:37:51+00:00"
+    },
+    "guided-journeys-fwa-open-ui-desktop-fwa-indoor-5fd143cf": {
+      "relpath": "Guided Journeys/FWA/Open UI Desktop_FWA_Indoor.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Desktop_FWA_Indoor.docx",
+      "sha256": "eff983589d642970797ef67cbd05b1e69d55da429ca063b422f0b6f344fc7c7c",
+      "size": 3906518,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fwa-open-ui-desktop-fwa-outdoor-wfm-b581b4d7": {
+      "relpath": "Guided Journeys/FWA/Open UI Desktop_FWA_Outdoor_WFM.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Desktop_FWA_Outdoor_WFM.docx",
+      "sha256": "543e86e301fbea45ec7a9062eca835c3714298cb5f801792c41c0fed64dd31b7",
+      "size": 7015724,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fwa-open-ui-tabelt-fwa-indoor-b2b2c-808aeb09": {
+      "relpath": "Guided Journeys/FWA/Open UI Tabelt_FWA_Indoor_B2B2C.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Tabelt_FWA_Indoor_B2B2C.docx",
+      "sha256": "e44f2ae21ff16792f906fa622349eb51bc08f4df4f049aef415665c440258129",
+      "size": 18406655,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fwa-open-ui-tablet-fwa-indoor-with-approval-20d1253f": {
+      "relpath": "Guided Journeys/FWA/Open UI Tablet_FWA_Indoor_With Approval.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Tablet_FWA_Indoor_With Approval.docx",
+      "sha256": "fdb39d31933b89de0f53b6351697427490411e36c3186643c8e58cc9c6343a4a",
+      "size": 6575267,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fwa-open-ui-tablet-fwa-indoor-without-approv-1a874ad1": {
+      "relpath": "Guided Journeys/FWA/Open UI Tablet_FWA_Indoor_Without Approval.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Tablet_FWA_Indoor_Without Approval.docx",
+      "sha256": "6e62ec78a0ef45ff2055a88e24e6b1d1281bcf888664218e98dd021499cd8290",
+      "size": 2408671,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fwa-open-ui-tablet-fwa-outdoor-b2b2c-b37e4359": {
+      "relpath": "Guided Journeys/FWA/Open UI Tablet_FWA_Outdoor_B2B2C.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Tablet_FWA_Outdoor_B2B2C.docx",
+      "sha256": "057c9212a2aad2175b42a6fbce74784b5751d9667aa60246a6d63d0b32abcd0d",
+      "size": 3006893,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fwa-open-ui-tablet-fwa-outdoor-wfm-88197754": {
+      "relpath": "Guided Journeys/FWA/Open UI Tablet_FWA_Outdoor_WFM.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/FWA/Open UI Tablet_FWA_Outdoor_WFM.docx",
+      "sha256": "fe94a8f94f3373204d942ad534053b1ffb0e4ec57694047ef33c9fa4e32d0b86",
+      "size": 6362835,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fixed-line-digital-fixed-line-instant-activa-1a336edf": {
+      "relpath": "Guided Journeys/Fixed Line/Digital_Fixed Line (Instant Activation - Dual Play).pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Digital_Fixed Line (Instant Activation - Dual Play).pdf",
+      "sha256": "7f2be3751934ab04eb378bec80916685cca6dc2336d735f39432b0a8921c69ab",
+      "size": 1724529,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-desktop-cross-sales-fixed-9a023e20": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Desktop_Cross Sales_Fixed Line.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Desktop_Cross Sales_Fixed Line.docx",
+      "sha256": "e255ce98428fd17fd90a9c8ac746e5c7d910ab0f5bc7f64e1fceec5914408e1c",
+      "size": 5772089,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-desktop-fixed-line-fulfil-f6dfc479": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Desktop_Fixed Line_Fulfilment Team (Skip Attachments).docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Desktop_Fixed Line_Fulfilment Team (Skip Attachments).docx",
+      "sha256": "a73d352ff4e47f41c425ab0613eb08653c0709fadb4ee9c4a4726a6f9635cbce",
+      "size": 5813425,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:42:15+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-desktop-fixed-line-triple-6e2f9c41": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Desktop_Fixed Line_Triple play.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Desktop_Fixed Line_Triple play.docx",
+      "sha256": "ef00f906e365069dcfe954ff3aa52dd2ce33178aacdb62d6ccd0dce663599322",
+      "size": 13225384,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-tablet-fixed-line-prepatc-aa41d84a": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Combo Box_B2B2C_With Approval_Instant Activation.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Combo Box_B2B2C_With Approval_Instant Activation.docx",
+      "sha256": "0dd9077eb5b2f3cc2d7a8086732f7b610c7da6566d47ac747a42f2ede4a1798d",
+      "size": 13471057,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-tablet-fixed-line-prepatc-5d0677b9": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Combo Box_Instant Activation.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Combo Box_Instant Activation.docx",
+      "sha256": "9eaad5cdb298e1140bc1acc9d546e2d84ab75b4832826240a9d56ca640d59b05",
+      "size": 7813635,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-tablet-fixed-line-prepatc-0518ffc2": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Combo Box_Normal Activation.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Combo Box_Normal Activation.docx",
+      "sha256": "669fda4cf678e2a7413ecd698c48f06d352403c50d87cf87d339c4ae7be8a7f2",
+      "size": 10903563,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-tablet-fixed-line-prepatc-5627824b": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Non Combo Box_Normal Activation.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_Prepatched KID_Non Combo Box_Normal Activation.docx",
+      "sha256": "16b714f3223c4304449a43c4b42a099c8cba95761d362f8eb394452f41f33d75",
+      "size": 9021835,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-fixed-line-open-ui-tablet-fixed-line-with-ap-430ea4f6": {
+      "relpath": "Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_with Approval.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Fixed Line/Open UI Tablet_Fixed Line_with Approval.docx",
+      "sha256": "761847adc48fc1c79b69c8932efd5717aa58fe58051b4b0374e3b2044cd3cc5a",
+      "size": 10901584,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-home-move-open-ui-desktop-home-move-fixed-to-3889c8d5": {
+      "relpath": "Guided Journeys/Home Move/Open UI Desktop_Home Move_Fixed to Fixed_Happy Path.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Home Move/Open UI Desktop_Home Move_Fixed to Fixed_Happy Path.docx",
+      "sha256": "49f59dc8633ebe31f29ef1b8e1c45e3aa1316d7f7051c61a92a305c40b785fdf",
+      "size": 13539084,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-mnp-postpaid-open-ui-desktop-cross-sales-mnp-b0370d82": {
+      "relpath": "Guided Journeys/MNP Postpaid/Open UI Desktop_Cross Sales_MNP Postpaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/MNP Postpaid/Open UI Desktop_Cross Sales_MNP Postpaid.docx",
+      "sha256": "9a94b326dfe6f39980b170eda63016bb29b87dd7423982bcd78b5038d338795e",
+      "size": 1315842,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-mnp-postpaid-open-ui-desktop-mnp-postpaid-6cb03f33": {
+      "relpath": "Guided Journeys/MNP Postpaid/Open UI Desktop_MNP Postpaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/MNP Postpaid/Open UI Desktop_MNP Postpaid.docx",
+      "sha256": "2933c5a6120c8b0b4746c2cbfc9d5ea48988aa4b43b898a650e1551a7d860189",
+      "size": 7846147,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-mnp-postpaid-open-ui-tablet-mnp-postpaid-hrn-10ba9743": {
+      "relpath": "Guided Journeys/MNP Postpaid/Open UI Tablet_MNP Postpaid_HRN_Add-on.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/MNP Postpaid/Open UI Tablet_MNP Postpaid_HRN_Add-on.docx",
+      "sha256": "81c895387d3fee1095e2209613ff3692a7d47472e401507a9fd3cf2e8e611c82",
+      "size": 7751527,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:45:42+00:00"
+    },
+    "guided-journeys-mnp-prepaid-open-ui-tablet-mnp-prepaid-515ab9aa": {
+      "relpath": "Guided Journeys/MNP Prepaid/Open UI Tablet_MNP Prepaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/MNP Prepaid/Open UI Tablet_MNP Prepaid.docx",
+      "sha256": "4764df0dec58bd63bf0b55622843f17762946562c9146b89acb54f68c7503058",
+      "size": 6500832,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-open-ui-tablet-lead-lead-creation-mobile-08523753": {
+      "relpath": "Guided Journeys/Open UI Tablet_Lead/Lead Creation Mobile.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Open UI Tablet_Lead/Lead Creation Mobile.docx",
+      "sha256": "22749aaad579315f442a620d985cb8924628aa82ff0589adb988f402137b152d",
+      "size": 5985951,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-open-ui-tablet-lead-lead-creation-fixed-0cfca63c": {
+      "relpath": "Guided Journeys/Open UI Tablet_Lead/Lead Creation – Fixed.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Open UI Tablet_Lead/Lead Creation – Fixed.docx",
+      "sha256": "885274017797ddba1926d1761d336795fbe6d22d5b04dc5a21c232c563e14fa6",
+      "size": 5642753,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-open-ui-tablet-lead-lead-creation-lead-edit-53663c45": {
+      "relpath": "Guided Journeys/Open UI Tablet_Lead/Lead Creation, Lead Edit, Owner Change.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Open UI Tablet_Lead/Lead Creation, Lead Edit, Owner Change.docx",
+      "sha256": "58a30a65f30c793e769dead0ffc7819063faee276e641e0dd7e677d046ab124c",
+      "size": 8567309,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-open-ui-tablet-lead-tablet-lead-creation-wit-0e35d62b": {
+      "relpath": "Guided Journeys/Open UI Tablet_Lead/Tablet Lead Creation with Fixed Presales and Edit Lead details.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Open UI Tablet_Lead/Tablet Lead Creation with Fixed Presales and Edit Lead details.docx",
+      "sha256": "a592ef125af6865e56bb4b69a178db0145b8bdd472d47ffbf799a658cf3fca30",
+      "size": 3379801,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-passport-to-qid-journey-open-ui-tablet-passp-fc5d9271": {
+      "relpath": "Guided Journeys/Passport to QID Journey/Open UI Tablet_Passport to QID Update(Passport).docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Passport to QID Journey/Open UI Tablet_Passport to QID Update(Passport).docx",
+      "sha256": "0885b60925ff0b33415f4b67ac3e26a8e9cfe491002f7610b4bb30ab2d553cc2",
+      "size": 3178739,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-postpaid-cross-sales-open-ui-desktop-new-pos-7b5ae323": {
+      "relpath": "Guided Journeys/Postpaid/Cross Sales_Open UI Desktop_New Postpaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Cross Sales_Open UI Desktop_New Postpaid.docx",
+      "sha256": "1c7d43e90bd820a7696bf4834b85ba6ced61956cc5ee66c1d5ca2b4a720db57a",
+      "size": 4557202,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-postpaid-desktop-vanilla-new-postpaid-2847b2de": {
+      "relpath": "Guided Journeys/Postpaid/Desktop Vanilla_New Postpaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Desktop Vanilla_New Postpaid.docx",
+      "sha256": "f56c7e5903aaf056625681109ae0833c641d02f5a1deac179f2d33251397a020",
+      "size": 2754583,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-postpaid-open-ui-desktop-new-postpaid-f8227f90": {
+      "relpath": "Guided Journeys/Postpaid/Open UI Desktop_New Postpaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Open UI Desktop_New Postpaid.docx",
+      "sha256": "cb8f630db8f3cf9c53a9822002b4d675f6b1499399efbafaafddeec4b679b84b",
+      "size": 5532273,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-postpaid-open-ui-desktop-new-postpaid-hrn-cu-9d77c0e2": {
+      "relpath": "Guided Journeys/Postpaid/Open UI Desktop_New Postpaid_HRN Customer_Credit Limit.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Open UI Desktop_New Postpaid_HRN Customer_Credit Limit.docx",
+      "sha256": "4e87ad3130ed53e3865d6c4487f322ed2e44c95b6156bb49fa2589ab67755fe7",
+      "size": 5499104,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:49:40+00:00"
+    },
+    "guided-journeys-postpaid-open-ui-tablet-new-postpaid-b2b2c-w-e24116bd": {
+      "relpath": "Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_B2B2C_With Approval.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_B2B2C_With Approval.docx",
+      "sha256": "74d13d8b60d1b5fbe4eaacd550e3c4e03089fb945d8723a43a95d95b5e8cb6c0",
+      "size": 6363593,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-postpaid-open-ui-tablet-new-postpaid-b2b2c-w-f4fc93f7": {
+      "relpath": "Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_B2B2C_Without Approval.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_B2B2C_Without Approval.docx",
+      "sha256": "ad0c3ab69220ca960e82aa6027cf240641c178baa662afb9538d513920526e51",
+      "size": 3798320,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-postpaid-open-ui-tablet-new-postpaid-hrn-cus-5c169dbc": {
+      "relpath": "Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_HRN Customer_Credit Limit.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_HRN Customer_Credit Limit.docx",
+      "sha256": "277c0a200df7c88362bc8ffc81e6de5f0e2c2e21e938279307ed507930b1e721",
+      "size": 8245265,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-postpaid-open-ui-tablet-new-postpaid-non-b2b-48d70eca": {
+      "relpath": "Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_NON_B2B2C_With Approval.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Postpaid/Open UI Tablet_New Postpaid_NON_B2B2C_With Approval.docx",
+      "sha256": "c50b9be90f4457af5c96abb153a5184b3a1b07491552d561f148786de31d2682",
+      "size": 2441954,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-pre-to-post-desktop-vanilla-pre-to-post-6d6b61ce": {
+      "relpath": "Guided Journeys/Pre to Post/Desktop Vanilla_Pre to Post.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Pre to Post/Desktop Vanilla_Pre to Post.docx",
+      "sha256": "6ebf37b41bf7bc7a7046462c2dfd3e38e29265dd603c4fa448a9b706a86623ba",
+      "size": 3227028,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-pre-to-post-open-ui-desktop-pre-to-post-auto-7cb45c57": {
+      "relpath": "Guided Journeys/Pre to Post/Open UI Desktop_Pre to Post (Autobase).docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Pre to Post/Open UI Desktop_Pre to Post (Autobase).docx",
+      "sha256": "a2ead353ed13b75106982011cf4f5b76bd2eee9ed5ed277b2aedbb89cef57d6e",
+      "size": 4122638,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-pre-to-post-open-ui-desktop-pre-to-post-2e309556": {
+      "relpath": "Guided Journeys/Pre to Post/Open UI Desktop_Pre to Post.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Pre to Post/Open UI Desktop_Pre to Post.docx",
+      "sha256": "17c30f5c113c4d9513bef084e0b64043594e7110fe7d5743d53b5b6825a417f1",
+      "size": 3243923,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-pre-to-post-open-ui-tablet-pre-to-post-176db740": {
+      "relpath": "Guided Journeys/Pre to Post/Open UI Tablet_Pre to Post.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Pre to Post/Open UI Tablet_Pre to Post.docx",
+      "sha256": "22c9b5fb53bdb3c5ca136ae969ebb5d61976901f4d7affefc4bcb5181d8f37ea",
+      "size": 2398895,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-prepaid-open-ui-tablet-new-prepaid-0202dd13": {
+      "relpath": "Guided Journeys/Prepaid/Open UI Tablet_New Prepaid.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Prepaid/Open UI Tablet_New Prepaid.docx",
+      "sha256": "3fcb5b8c83f6558cd877ddf7a1c879f56f5b3c73839711a9d11a720ec889e69d",
+      "size": 1582790,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-sim-swap-sim-swap-tablet-desktop-vanilla-ord-8923a493": {
+      "relpath": "Guided Journeys/SIM Swap/SIM Swap - Tablet, Desktop & Vanilla Order Approval Journey.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/SIM Swap/SIM Swap - Tablet, Desktop & Vanilla Order Approval Journey.docx",
+      "sha256": "f8a3f1ce85d2d4d648e18d5b5b7cd5056fd63d8a1594fef6a9cccbc6e90dd9c9",
+      "size": 5611448,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T16:53:15+00:00"
+    },
+    "guided-journeys-vanilla-views-modifications-future-dated-ord-640e50be": {
+      "relpath": "Guided Journeys/Vanilla views_modifications/Future Dated Orders_training pack.pdf",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Guided Journeys/Vanilla views_modifications/Future Dated Orders_training pack.pdf",
+      "sha256": "6ddb034e81c1fc9c5d7e2576ab24eb1d2bccab75e8cbcb3a4a0a11aeec5cb4f6",
+      "size": 1314208,
+      "mtime": "2026-08-19T22:54:00+00:00",
+      "ext": ".pdf",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "it-stack-modernization-overview-of-rfsvodafone-idims-systems-026836b0": {
+      "relpath": "IT Stack modernization Overview of RFSVodafone IDIMS Systems-20260706_130401-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/IT Stack modernization Overview of RFSVodafone IDIMS Systems-20260706_130401-Meeting Recording.docx",
+      "sha256": "ada617c1478940cbcc50703c6a62238db7587c4d1a5a0c1bbcad5f2a3b1047ce",
+      "size": 83067,
+      "mtime": "2026-08-20T15:18:39+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "it-stack-modernization-existing-processes-giga-26-23rd-floor-5c4b9d9d": {
+      "relpath": "IT stack modernization  Existing processes  Giga-26 (23rd floor)-20260629_093816-Meeting Recording.docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/IT stack modernization  Existing processes  Giga-26 (23rd floor)-20260629_093816-Meeting Recording.docx",
+      "sha256": "2db92c1c4529fd9d438a24d2a3ae88667bda855bd73e6c571112935442fb05f7",
+      "size": 82632,
+      "mtime": "2026-08-20T15:18:55+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "open-ui-desktop-agent-360-cti-view-8b495725": {
+      "relpath": "Open UI Desktop (Agent 360 & CTI View).docx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Open UI Desktop (Agent 360 & CTI View).docx",
+      "sha256": "1ddd62195995b5ed83fb6e6e947db48dc53925e1751f85c0f56617dca4a36dde",
+      "size": 680450,
+      "mtime": "2026-08-19T22:55:00+00:00",
+      "ext": ".docx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "order-validation-business-rules-45d0e9f0": {
+      "relpath": "Order Validation Business Rules.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Order Validation Business Rules.xlsx",
+      "sha256": "b59d2b8c6a00378b3951d496c479fe1454e4e67bde9b77b9b08f68c8a538c0d5",
+      "size": 124656,
+      "mtime": "2026-08-19T22:55:00+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "sms-templates-0603d3eb": {
+      "relpath": "SMS Templates.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/SMS Templates.xlsx",
+      "sha256": "281abd87d29c0b5d74009cfb8485f384515aa6a26664df0ad0e56bb2a77c9734",
+      "size": 212107,
+      "mtime": "2026-08-19T22:55:00+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "tt-hashtags-and-actual-issue-8d8ccaa5": {
+      "relpath": "TT Hashtags and Actual Issue.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/TT Hashtags and Actual Issue.xlsx",
+      "sha256": "a0fe27ee13de151edd5da792af49824f03f3a0b7cede578b2ae52b4324eab203",
+      "size": 56517,
+      "mtime": "2026-08-19T22:55:00+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "vfq-fibre-brsd-v1-2-068eebe3": {
+      "relpath": "VFQ_Fibre_BRSD_v1.2.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/VFQ_Fibre_BRSD_v1.2.xlsx",
+      "sha256": "91c209f18d3b9afda57fc5d55dc3e9e7024c81b74457efb4a6575690b13c45db",
+      "size": 106733,
+      "mtime": "2026-08-19T23:01:00+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "vfq-mobile-postpaid-activation-brsd-v2-0-b8b7164d": {
+      "relpath": "VFQ_Mobile_Postpaid_Activation_BRSD_V2.0.xlsx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/VFQ_Mobile_Postpaid_Activation_BRSD_V2.0.xlsx",
+      "sha256": "0719311d42aa5b04613d01f94c692ad0dd34117156b8b8f3f76a9db043d62f84",
+      "size": 90281,
+      "mtime": "2026-08-19T23:01:00+00:00",
+      "ext": ".xlsx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "vfq-stack-modernization-br-25jun-03c2aa09": {
+      "relpath": "VFQ_Stack Modernization_ BR_25Jun.pptx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/VFQ_Stack Modernization_ BR_25Jun.pptx",
+      "sha256": "4e19ef72f5a1dcd651757bde7c28b9ea94f4a043cd426e4fa9810ef665aa4e31",
+      "size": 3624725,
+      "mtime": "2026-08-17T05:47:00+00:00",
+      "ext": ".pptx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:01:02+00:00"
+    },
+    "vfq-stack-modernization-br-28jun-75f28727": {
+      "relpath": "VFQ_Stack Modernization_ BR_28Jun.pptx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/VFQ_Stack Modernization_ BR_28Jun.pptx",
+      "sha256": "de5dadb3b5c7a44e46f9bc35f04910cc6885b62c4f21cf9eaaa09bf20b48d071",
+      "size": 2376492,
+      "mtime": "2026-08-17T05:51:00+00:00",
+      "ext": ".pptx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:04:31+00:00"
+    },
+    "vfq-stack-modernization-br-29jun-updatev1-0-af309fe2": {
+      "relpath": "VFQ_Stack Modernization_ BR_29Jun_UpdateV1.0.pptx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/VFQ_Stack Modernization_ BR_29Jun_UpdateV1.0.pptx",
+      "sha256": "d78708cf7673cc71888dd8f55424949546b16422019d0534201e3a98b646c707",
+      "size": 1581708,
+      "mtime": "2026-08-17T05:51:00+00:00",
+      "ext": ".pptx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:04:31+00:00"
+    },
+    "vodafone-process-overview-290626-ec-1ed338b9": {
+      "relpath": "Vodafone Process Overview_290626_EC.pptx",
+      "path": "/Users/parithimalsaravanan/claude-projects/vfq/data/Vodafone Process Overview_290626_EC.pptx",
+      "sha256": "b5c07d10354129a01162f167799b8822818adfcb7f569f80c2893018208d32f5",
+      "size": 13565901,
+      "mtime": "2026-08-17T05:51:00+00:00",
+      "ext": ".pptx",
+      "status": "indexed",
+      "indexed_at": "2026-08-20T17:04:31+00:00"
+    }
+  },
+  "last_plan": "2026-08-20T18:36:22+00:00",
+  "last_commit": "2026-08-20T18:36:48+00:00"
+}

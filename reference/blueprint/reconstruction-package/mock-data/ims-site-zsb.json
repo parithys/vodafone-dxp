@@ -1,0 +1,38 @@
+[
+  {
+    "zsbRecordId": "ZSB-3301",
+    "bid": "BID-990011",
+    "ctp": "CTP-110022",
+    "splitterPort": "SPL-04/PORT-12",
+    "businessAddedConsumerPotential": 120,
+    "businessAddedEnterprisePotential": 8,
+    "forecast": "High",
+    "zone": "Zone 55",
+    "street": "Street 830",
+    "building": "Building 12"
+  },
+  {
+    "zsbRecordId": "ZSB-3302",
+    "bid": "BID-990045",
+    "ctp": "CTP-110078",
+    "splitterPort": "SPL-02/PORT-05",
+    "businessAddedConsumerPotential": 64,
+    "businessAddedEnterprisePotential": 2,
+    "forecast": "Medium",
+    "zone": "Zone 25",
+    "street": "Street 210",
+    "building": "Building 4"
+  },
+  {
+    "zsbRecordId": "ZSB-3303",
+    "bid": "BID-990102",
+    "ctp": "CTP-110134",
+    "splitterPort": "SPL-01/PORT-01",
+    "businessAddedConsumerPotential": 30,
+    "businessAddedEnterprisePotential": 0,
+    "forecast": "Low",
+    "zone": "Zone 66",
+    "street": "Street 12",
+    "building": "Building 9"
+  }
+]

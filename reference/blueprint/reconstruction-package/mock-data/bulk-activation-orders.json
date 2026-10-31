@@ -1,0 +1,67 @@
+[
+  {
+    "bulkOrderId": "BULK-9201",
+    "accountId": "ACC-5003",
+    "method": "Excel macro",
+    "orderIdReference": "ORD-90003",
+    "pendingReplicaOrderId": "ORD-90001",
+    "identicalPlanRequired": true,
+    "planId": "PROD-200",
+    "spendLimit": 500,
+    "priceOverride": null,
+    "rows": [
+      {
+        "rowNumber": 1,
+        "number": "+97433001001",
+        "sim": "8974412009900123456",
+        "status": "Success"
+      },
+      {
+        "rowNumber": 2,
+        "number": "+97433001002",
+        "sim": "8974412009900123999",
+        "status": "Success"
+      }
+    ],
+    "overallStatus": "Completed"
+  },
+  {
+    "bulkOrderId": "BULK-9202",
+    "accountId": "ACC-5004",
+    "method": "Oracle bulk utility API (DSP)",
+    "orderIdReference": "ORD-90004",
+    "pendingReplicaOrderId": null,
+    "identicalPlanRequired": false,
+    "rows": [
+      {
+        "rowNumber": 1,
+        "number": "+97433001003",
+        "planId": "PROD-201",
+        "spendLimit": 300,
+        "discount": "VOLD-6002",
+        "priceOverride": null,
+        "status": "Success"
+      },
+      {
+        "rowNumber": 2,
+        "number": "+97433001004",
+        "planId": "PROD-200",
+        "spendLimit": 400,
+        "discount": null,
+        "priceOverride": 275,
+        "status": "Failed",
+        "failureReason": "Credit limit exceeded"
+      },
+      {
+        "rowNumber": 3,
+        "number": "+97433001005",
+        "planId": "PROD-101",
+        "spendLimit": 200,
+        "discount": null,
+        "priceOverride": null,
+        "status": "Success"
+      }
+    ],
+    "overallStatus": "Partial Success"
+  }
+]

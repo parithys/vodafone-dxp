@@ -1,0 +1,183 @@
+{
+ "_note": "Captured 2026-10-05 as Retail Sales Agent (Fatima Al-Kuwari), immediately after a fresh page load, on commit 8c7177e (before Phase 1 deletions) via reference/scripts/refactor_ui_capture.js; reproduced identically on a second run and after the Phase 1 deletions. CAUTION: app state changes over a session (e.g. TT-40001 auto-escalates, which alters CUST-1001 Overview/Tickets/Activities/Alerts), so always reload the page before capturing. Tab keys have no space after the number. /mobile/new-connection depends on the tab's persisted wizard draft (sessionStorage 'vfq-workflow-store'): with a clean tab it is text b7005352 / style a14ca0fa / 119 nodes. Clear sessionStorage before capturing that route.",
+ "routes": [
+  "/",
+  "/customer-search",
+  "/mobile",
+  "/mobile/new-connection",
+  "/fibre-home",
+  "/leads",
+  "/orders",
+  "/tasks",
+  "/profile",
+  "/customer/CUST-1001",
+  "/customer/CUST-1002"
+ ],
+ "fingerprints": {
+  "/": {
+   "text": "ed37185b",
+   "style": "5fd7d8c2",
+   "nodes": 84
+  },
+  "/customer-search": {
+   "text": "6e0891d",
+   "style": "94befd11",
+   "nodes": 14
+  },
+  "/mobile": {
+   "text": "f1aede8",
+   "style": "61eef97a",
+   "nodes": 271
+  },
+  "/mobile/new-connection": {
+   "text": "b7005352",
+   "style": "a14ca0fa",
+   "nodes": 119
+  },
+  "/fibre-home": {
+   "text": "ea6ac8fb",
+   "style": "714f2821",
+   "nodes": 275
+  },
+  "/leads": {
+   "text": "f1c6ed6f",
+   "style": "3a496d6a",
+   "nodes": 107
+  },
+  "/orders": {
+   "text": "16ac7b36",
+   "style": "fd3af5d3",
+   "nodes": 136
+  },
+  "/tasks": {
+   "text": "4a308049",
+   "style": "8b777fe5",
+   "nodes": 86
+  },
+  "/profile": {
+   "text": "a3180f1b",
+   "style": "10d4ba51",
+   "nodes": 64
+  },
+  "/customer/CUST-1001": {
+   "text": "60d63dc0",
+   "style": "f98af35",
+   "nodes": 587
+  },
+  "/customer/CUST-1001#1Overview": {
+   "text": "60d63dc0",
+   "style": "f98af35",
+   "nodes": 587
+  },
+  "/customer/CUST-1001#2Account Information": {
+   "text": "a579cad4",
+   "style": "2ee0b5c3",
+   "nodes": 430
+  },
+  "/customer/CUST-1001#3Products & Services": {
+   "text": "c5a550ad",
+   "style": "86c7c98",
+   "nodes": 465
+  },
+  "/customer/CUST-1001#4Billing & Payments": {
+   "text": "b7954737",
+   "style": "9b3fd77f",
+   "nodes": 314
+  },
+  "/customer/CUST-1001#5Offers & Leads": {
+   "text": "1118abac",
+   "style": "a9f9701f",
+   "nodes": 388
+  },
+  "/customer/CUST-1001#6Contact & Identity": {
+   "text": "60007b52",
+   "style": "d78f33d0",
+   "nodes": 338
+  },
+  "/customer/CUST-1001#7Orders": {
+   "text": "c1248404",
+   "style": "3e49b8d6",
+   "nodes": 307
+  },
+  "/customer/CUST-1001#8Tickets & Support": {
+   "text": "9e016188",
+   "style": "683ed598",
+   "nodes": 358
+  },
+  "/customer/CUST-1001#9Activities": {
+   "text": "7f481651",
+   "style": "3088aaa1",
+   "nodes": 527
+  },
+  "/customer/CUST-1001#10Alerts & Risks": {
+   "text": "927a7dc0",
+   "style": "3f367df3",
+   "nodes": 349
+  },
+  "/customer/CUST-1001#11Address & Service": {
+   "text": "42da5676",
+   "style": "8e3d4ea5",
+   "nodes": 364
+  },
+  "/customer/CUST-1002": {
+   "text": "5d116b2",
+   "style": "52a5045b",
+   "nodes": 294
+  },
+  "/customer/CUST-1002#1Overview": {
+   "text": "9c47b682",
+   "style": "306a434",
+   "nodes": 531
+  },
+  "/customer/CUST-1002#2Account Information": {
+   "text": "4dc9f72",
+   "style": "fd432469",
+   "nodes": 410
+  },
+  "/customer/CUST-1002#3Products & Services": {
+   "text": "48cd6f4d",
+   "style": "bcd83e59",
+   "nodes": 411
+  },
+  "/customer/CUST-1002#4Billing & Payments": {
+   "text": "57635832",
+   "style": "d7d2b765",
+   "nodes": 291
+  },
+  "/customer/CUST-1002#5Offers & Leads": {
+   "text": "c1c750e4",
+   "style": "6055fd22",
+   "nodes": 378
+  },
+  "/customer/CUST-1002#6Contact & Identity": {
+   "text": "a4be0683",
+   "style": "a12af164",
+   "nodes": 321
+  },
+  "/customer/CUST-1002#7Orders": {
+   "text": "8ea32b4f",
+   "style": "3b3681c0",
+   "nodes": 290
+  },
+  "/customer/CUST-1002#8Tickets & Support": {
+   "text": "73eb626a",
+   "style": "5bacd277",
+   "nodes": 374
+  },
+  "/customer/CUST-1002#9Activities": {
+   "text": "7031304e",
+   "style": "639f5f26",
+   "nodes": 391
+  },
+  "/customer/CUST-1002#10Alerts & Risks": {
+   "text": "b799594c",
+   "style": "c1f204e7",
+   "nodes": 385
+  },
+  "/customer/CUST-1002#11Address & Service": {
+   "text": "5d116b2",
+   "style": "52a5045b",
+   "nodes": 294
+  }
+ }
+}

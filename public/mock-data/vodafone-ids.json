@@ -1,0 +1,48 @@
+[
+  {
+    "id": "VFID-WKR0231A",
+    "format": "WKR-0231-A",
+    "zone": "WKR",
+    "bid": "0231",
+    "unit": "A",
+    "qrCode": "QR-VFID-WKR0231A-9981",
+    "mappedKidIds": [
+      "KID-70011234"
+    ],
+    "mappingSource": "UIM",
+    "mappingType": "One-to-One",
+    "selfActivationEnabled": true,
+    "status": "Active"
+  },
+  {
+    "id": "VFID-PRL0987C",
+    "format": "PRL-0987-C",
+    "zone": "PRL",
+    "bid": "0987",
+    "unit": "C",
+    "qrCode": "QR-VFID-PRL0987C-4471",
+    "mappedKidIds": [
+      "KID-70045678"
+    ],
+    "mappingSource": "UIM",
+    "mappingType": "One-to-One",
+    "selfActivationEnabled": false,
+    "status": "Active"
+  },
+  {
+    "id": "VFID-LSL0456D",
+    "format": "LSL-0456-D",
+    "zone": "LSL",
+    "bid": "0456",
+    "unit": "D",
+    "qrCode": "QR-VFID-LSL0456D-2290",
+    "mappedKidIds": [
+      "KID-70011234",
+      "KID-70045678"
+    ],
+    "mappingSource": "UIM",
+    "mappingType": "Many-KIDs-to-One-VFID",
+    "selfActivationEnabled": true,
+    "status": "Active"
+  }
+]

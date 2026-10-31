@@ -1,0 +1,54 @@
+[
+  {
+    "rfsId": "RFS-9001",
+    "addressId": "ADDR-Doha-1140",
+    "rfsStatus": "Ready For Sale",
+    "potentials": 48,
+    "slaCluster": "F1",
+    "sourceSystem": "IMS",
+    "gtmFileRef": "GTM-2026-08-0021",
+    "liveActiveServiceStatus": "Active",
+    "kidStatus": "Assigned",
+    "reverseSyncToImsStatus": "Synced",
+    "lastSyncDate": "2026-08-15"
+  },
+  {
+    "rfsId": "RFS-9002",
+    "addressId": "ADDR-Lusail-0087",
+    "rfsStatus": "Planned",
+    "potentials": 120,
+    "slaCluster": "F2",
+    "sourceSystem": "IMS",
+    "gtmFileRef": "GTM-2026-08-0022",
+    "liveActiveServiceStatus": "Pending",
+    "kidStatus": "Unassigned",
+    "reverseSyncToImsStatus": "Pending",
+    "lastSyncDate": "2026-08-18"
+  },
+  {
+    "rfsId": "RFS-9003",
+    "addressId": "ADDR-AlWakrah-0233",
+    "rfsStatus": "Ready For Sale",
+    "potentials": 76,
+    "slaCluster": "F3",
+    "sourceSystem": "IMS",
+    "gtmFileRef": "GTM-2026-07-0019",
+    "liveActiveServiceStatus": "Active",
+    "kidStatus": "Assigned",
+    "reverseSyncToImsStatus": "Synced",
+    "lastSyncDate": "2026-08-01"
+  },
+  {
+    "rfsId": "RFS-9004",
+    "addressId": "ADDR-TheView-0056",
+    "rfsStatus": "Not Ready",
+    "potentials": 30,
+    "slaCluster": "F4",
+    "sourceSystem": "IMS",
+    "gtmFileRef": "GTM-2026-08-0024",
+    "liveActiveServiceStatus": "Inactive",
+    "kidStatus": "Unassigned",
+    "reverseSyncToImsStatus": "Not Started",
+    "lastSyncDate": "2026-08-20"
+  }
+]

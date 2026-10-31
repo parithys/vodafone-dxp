@@ -1,0 +1,1402 @@
+[
+  {
+    "productId": "PROD-100",
+    "name": "Postpaid Extra Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 250,
+    "dataAllowanceGB": 30,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "benefits": [
+      "Free 10GB roaming data",
+      "Free caller tune"
+    ],
+    "preBundledOffer": true,
+    "_benefitsNote": "App-level demo addition (2026-09-28) for the 'display each plan's free bundles and benefits' request - no evidenced per-plan benefits/bundles field exists in the corpus (products.json previously carried only data/voice/speed/commitment). preBundledOffer is the SAME kind of addition for 'pre-bundled eligible offers skip Plan/Add-on Selection' - marked on this one plan only, as a representative demo rather than assuming every 'Offers for this QID' plan qualifies.",
+    "_commitmentNote": "Corrected 2026-09-28 from an invented 12 to the evidenced BR-120 figure ('Postpaid plans carry a minimum subscription period (lock-in) of 3 months').",
+    "planClass": "Postpaid Voice Plans",
+    "_planClassNote": "planClass (2026-10-26) by the plan's primary focus, from its stated benefits: Postpaid Broadband Plans where data leads (a data allowance of 60 GB or more, or unlimited data) with international calling under 300 minutes; Postpaid Voice Plans where calling leads (300 or more international minutes, 'up to 300' counted as 300) or data is the lower tiers (15 / 30 / 40 GB). Both classes still include voice and data."
+  },
+  {
+    "productId": "PROD-101",
+    "name": "International 50 Add-on",
+    "type": "Add-on",
+    "mrcQAR": 50,
+    "description": "50 international minutes bundle",
+    "addonCategory": "International Calls"
+  },
+  {
+    "productId": "PROD-104",
+    "name": "Postpaid Red 350 Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 350,
+    "dataAllowanceGB": 100,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "benefits": [
+      "Free GigaHome TV Basic Pack for 3 months",
+      "Free International 50 Add-on for 1 month"
+    ],
+    "_commitmentNote": "Corrected 2026-09-28 from an invented 12 to the evidenced BR-269 figure - this exact plan ('Red 350') is BR-269's own named example of a postpaid plan disclosing a 3-month Minimum Subscription Period.",
+    "planClass": "Postpaid Broadband Plans"
+  },
+  {
+    "productId": "PROD-105",
+    "name": "Postpaid Red 500 Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 500,
+    "dataAllowanceGB": 250,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "benefits": [
+      "Free GigaHome TV Basic Pack for 6 months",
+      "Free 20GB roaming data"
+    ],
+    "_commitmentNote": "Corrected 2026-09-28 from an invented 12 to the evidenced BR-120 figure ('Postpaid plans carry a minimum subscription period (lock-in) of 3 months').",
+    "planClass": "Postpaid Broadband Plans"
+  },
+  {
+    "productId": "PROD-106",
+    "name": "Postpaid RED Unlimited Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 750,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Priority",
+    "commitmentMonths": 3,
+    "benefits": [
+      "Free GigaHome TV Premium Pack",
+      "Free international roaming pack",
+      "Priority customer support"
+    ],
+    "_commitmentNote": "Corrected 2026-09-28 from an invented 24 to the evidenced BR-120 figure ('Postpaid plans carry a minimum subscription period (lock-in) of 3 months') - BR-120 states this as a blanket rule for postpaid plans generally, with no evidenced exception for a premium/VIP tier's own plan commitment (BR-289's 2-year figure is the STAR NUMBER's lock-in on a VIP plan, not the plan's own).",
+    "planClass": "Postpaid Broadband Plans"
+  },
+  {
+    "productId": "PROD-200",
+    "name": "GigaHome Premium 5G Outdoor New",
+    "type": "FWA 5G Home Plan",
+    "mrcQAR": 350,
+    "speedTierMbps": 300,
+    "fupGB": 1000,
+    "lockInMonths": 12,
+    "disconnectionFeeQAR": 800
+  },
+  {
+    "productId": "PROD-201",
+    "name": "GigaHome Fiber Triple Play",
+    "type": "Fixed Line Plan",
+    "mrcQAR": 450,
+    "iptvIncluded": true,
+    "speedTierMbps": 500,
+    "lockInMonths": 12,
+    "disconnectionFeeSchedule": "QR80 x remaining months of 12"
+  },
+  {
+    "productId": "PROD-300",
+    "name": "New Prepaid Standard SIM",
+    "type": "Prepaid Plan",
+    "activationFeeQAR": 0,
+    "starterPackChargeQAR": 0,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Pay as you go",
+    "packValidityDays": null,
+    "_note": "SIM-only / pay-as-you-go option - no bundle, agent tops up separately later. Kept distinct from the tiered Prepaid Red packs below (PROD-301/302/303) so the Plan step has a genuine zero-cost baseline choice, matching how prepaid is actually sold."
+  },
+  {
+    "productId": "PROD-301",
+    "name": "Prepaid Red 25",
+    "type": "Prepaid Plan",
+    "starterPackChargeQAR": 25,
+    "dataAllowanceGB": 5,
+    "minutesAllowance": "100 local minutes",
+    "packValidityDays": 30,
+    "_note": "App-level demo addition - the BRSD's own MPRA_001_QPC_02 requires a filterable prepaid plan catalogue but only one bare-activation prepaid product (PROD-300) existed; these three tiers follow the same 'Postpaid Red <price> Promotion' naming family already used for postpaid (PROD-104/105/106) and the same field convention, adapted to prepaid's starter-pack-charge/pack-validity model (DF-21) instead of a monthly recurring charge."
+  },
+  {
+    "productId": "PROD-302",
+    "name": "Prepaid Red 50",
+    "type": "Prepaid Plan",
+    "starterPackChargeQAR": 50,
+    "dataAllowanceGB": 15,
+    "minutesAllowance": "300 local minutes",
+    "packValidityDays": 30,
+    "popular": true
+  },
+  {
+    "productId": "PROD-303",
+    "name": "Prepaid Red 100",
+    "type": "Prepaid Plan",
+    "starterPackChargeQAR": 100,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local",
+    "packValidityDays": 30
+  },
+  {
+    "productId": "PROD-107",
+    "name": "Postpaid Essential",
+    "type": "Postpaid Plan",
+    "mrcQAR": 115,
+    "originalMrcQAR": 130,
+    "promoMonths": 4,
+    "dataAllowanceGB": 15,
+    "minutesAllowance": "500 local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "offer": true,
+    "popular": true,
+    "fup": [
+      "First 15 GB is at full 5G speed and then unlimited data at the speed of 128 Kbps.",
+      "QR 15 Discount on plan fee will be applicable for first 4 months",
+      "This promo is valid starting from 2 August 2026 till 3 November 2026."
+    ],
+    "features": [
+      "15GB full speed local data",
+      "500 local minutes",
+      "300 SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 1,500",
+      "Free Vodafone My Book"
+    ],
+    "_note": "Offers-tab plan (2026-10-06 design). mrcQAR is the promotional price for promoMonths months; originalMrcQAR is the price after.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-108",
+    "name": "Postpaid Extra",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "originalMrcQAR": 180,
+    "promoMonths": 4,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "offer": true,
+    "fup": [
+      "First 40 GB at full 5G speed and then unlimited data at the speed of 512 Kbps",
+      "QR 35 Discount on plan fee will be applicable for first 4 month",
+      "Local mins FUP: 10000 / monthly",
+      "This promo is valid starting from 2 August 2026 till 3 November 2026."
+    ],
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 2,500",
+      "Free Vodafone My Book"
+    ],
+    "_note": "Offers-tab plan (2026-10-06 design). mrcQAR is the promotional price for promoMonths months; originalMrcQAR is the price after.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-109",
+    "name": "Postpaid Max",
+    "type": "Postpaid Plan",
+    "mrcQAR": 180,
+    "originalMrcQAR": 230,
+    "promoMonths": 4,
+    "dataAllowanceGB": 60,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "offer": true,
+    "fup": [
+      "First 60 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
+      "QR 50 Discount on plan fee will be applicable for first 4 months",
+      "Local mins FUP: 10000 / monthly",
+      "This promo is valid starting from 2 August 2026 till 3 November 2026."
+    ],
+    "features": [
+      "60GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 3,500",
+      "Free Vodafone My Book"
+    ],
+    "_note": "Offers-tab plan (2026-10-06 design). mrcQAR is the promotional price for promoMonths months; originalMrcQAR is the price after.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-146",
+    "name": "Postpaid Max Plus",
+    "type": "Postpaid Plan",
+    "mrcQAR": 220,
+    "originalMrcQAR": 280,
+    "promoMonths": 4,
+    "dataAllowanceGB": 100,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "offer": true,
+    "fup": [
+      "First 100 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
+      "QR 60 Discount on plan fee will be applicable for first 4 months",
+      "Local mins FUP: 10000 / monthly",
+      "This promo is valid starting from 2 August 2026 till 3 November 2026."
+    ],
+    "features": [
+      "100GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 4,500",
+      "Free Vodafone My Book"
+    ],
+    "_note": "Offers-tab plan added 2026-10-27 so the Offers tab always lists exactly six offers for the demo. Name, prices, data and benefit values are DEMO values following the Max offer's pattern - no such offer is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-147",
+    "name": "Postpaid Max Pro",
+    "type": "Postpaid Plan",
+    "mrcQAR": 290,
+    "originalMrcQAR": 370,
+    "promoMonths": 4,
+    "dataAllowanceGB": 150,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "offer": true,
+    "fup": [
+      "First 150 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
+      "QR 80 Discount on plan fee will be applicable for first 4 months",
+      "Local mins FUP: 10000 / monthly",
+      "This promo is valid starting from 2 August 2026 till 3 November 2026."
+    ],
+    "features": [
+      "150GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 5,500",
+      "Free Vodafone My Book"
+    ],
+    "_note": "Offers-tab plan added 2026-10-27 so the Offers tab always lists exactly six offers for the demo. Name, prices, data and benefit values are DEMO values following the Max offer's pattern - no such offer is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-148",
+    "name": "Postpaid Max Elite",
+    "type": "Postpaid Plan",
+    "mrcQAR": 380,
+    "originalMrcQAR": 480,
+    "promoMonths": 4,
+    "dataAllowanceGB": 200,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "offer": true,
+    "fup": [
+      "First 200 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
+      "QR 100 Discount on plan fee will be applicable for first 4 months",
+      "Local mins FUP: 10000 / monthly",
+      "This promo is valid starting from 2 August 2026 till 3 November 2026."
+    ],
+    "features": [
+      "200GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 7,500",
+      "Free Vodafone My Book"
+    ],
+    "_note": "Offers-tab plan added 2026-10-27 so the Offers tab always lists exactly six offers for the demo. Name, prices, data and benefit values are DEMO values following the Max offer's pattern - no such offer is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-110",
+    "name": "Postpaid Unlimited VIP",
+    "type": "Postpaid Plan",
+    "mrcQAR": 1000,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "Unlimited local data",
+      "Unlimited local minutes & SMS",
+      "1000 international minutes",
+      "Roaming: 700 minutes & SMS and 100GB data"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 25,000",
+      "VIP Valet",
+      "Free Vodafone My Book",
+      "Vodafone World worth up to QAR 150"
+    ],
+    "_note": "Plans-tab plan (2026-10-06 design: Unlimited range). The offer flag was removed (2026-10-25): it put these Plans-tab plans on the Offers tab, where a plan is pre-bundled and its add-ons and discounts are locked.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-111",
+    "name": "Postpaid Unlimited",
+    "type": "Postpaid Plan",
+    "mrcQAR": 225,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "originalMrcQAR": 300,
+    "promoMonths": 6,
+    "features": [
+      "Unlimited local data",
+      "Unlimited local minutes & SMS",
+      "200 international minutes",
+      "International Call Block free for the first 6 months",
+      "Roaming: 15GB data and unlimited roaming minutes with Call+"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 5,000",
+      "Free Vodafone My Book",
+      "Vodafone Call+",
+      "Vodafone World worth up to QAR 30"
+    ],
+    "_note": "Plans-tab plan (2026-10-06 design: Unlimited range). The offer flag was removed (2026-10-25): it put these Plans-tab plans on the Offers tab, where a plan is pre-bundled and its add-ons and discounts are locked.",
+    "planClass": "Postpaid Broadband Plans"
+  },
+  {
+    "productId": "PROD-112",
+    "name": "Postpaid Unlimited Premium",
+    "type": "Postpaid Plan",
+    "mrcQAR": 350,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "originalMrcQAR": 450,
+    "promoMonths": 6,
+    "features": [
+      "Unlimited local data",
+      "Unlimited local minutes & SMS",
+      "300 international minutes",
+      "International Call Block free for the first 6 months",
+      "Roaming: 100 minutes & SMS and 20GB data"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 10,000",
+      "Regular Valet",
+      "Free Vodafone My Book",
+      "Vodafone World worth up to QAR 50"
+    ],
+    "_note": "Plans-tab plan (2026-10-06 design: Unlimited range). The offer flag was removed (2026-10-25): it put these Plans-tab plans on the Offers tab, where a plan is pre-bundled and its add-ons and discounts are locked.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-113",
+    "name": "Postpaid Unlimited Platinum",
+    "type": "Postpaid Plan",
+    "mrcQAR": 650,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "originalMrcQAR": 750,
+    "promoMonths": 6,
+    "features": [
+      "Unlimited local data",
+      "Unlimited local minutes & SMS",
+      "400 international minutes",
+      "Roaming: 300 minutes & SMS and 50GB data"
+    ],
+    "benefits": [
+      "Free Star Number worth QAR 20,000",
+      "VIP Valet",
+      "Free Vodafone My Book",
+      "Vodafone World worth up to QAR 100"
+    ],
+    "_note": "Plans-tab plan (2026-10-06 design: Unlimited range). The offer flag was removed (2026-10-25): it put these Plans-tab plans on the Offers tab, where a plan is pre-bundled and its add-ons and discounts are locked.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-130",
+    "name": "Postpaid Plus Essential India Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 115,
+    "dataAllowanceGB": 15,
+    "minutesAllowance": "500 local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "15GB full speed local data",
+      "500 local minutes",
+      "300 SMS",
+      "300 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Essential tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Indian"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-131",
+    "name": "Postpaid Plus Essential Pakistan Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 115,
+    "dataAllowanceGB": 15,
+    "minutesAllowance": "500 local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "15GB full speed local data",
+      "500 local minutes",
+      "300 SMS",
+      "150 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Essential tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Pakistani"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-132",
+    "name": "Postpaid Plus Essential Philippines Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 115,
+    "dataAllowanceGB": 15,
+    "minutesAllowance": "500 local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "15GB full speed local data",
+      "500 local minutes",
+      "300 SMS",
+      "150 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Essential tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Filipino"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-133",
+    "name": "Postpaid Plus Essential Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 115,
+    "dataAllowanceGB": 15,
+    "minutesAllowance": "500 local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "15GB full speed local data",
+      "500 local minutes",
+      "300 SMS",
+      "50 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Essential tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-134",
+    "name": "BIA Postpaid Plus Extra Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "50 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Extra tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-135",
+    "name": "Postpaid Plus Extra Bangladesh Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "300 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Extra tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Bangladeshi"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-136",
+    "name": "Postpaid Plus Extra India Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "300 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Extra tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Indian"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-137",
+    "name": "Postpaid Plus Extra Pakistan Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "150 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Extra tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Pakistani"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-138",
+    "name": "Postpaid Plus Extra Philippines Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "150 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Extra tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Filipino"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-139",
+    "name": "Postpaid Plus Extra Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 145,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "50 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Extra tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-140",
+    "name": "BIA Postpaid Plus Max Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 180,
+    "dataAllowanceGB": 60,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "60GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "50 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Max tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "planClass": "Postpaid Broadband Plans"
+  },
+  {
+    "productId": "PROD-141",
+    "name": "Postpaid Plus Max Bangladesh Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 180,
+    "dataAllowanceGB": 60,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "60GB full speed local data",
+      "Unlimited local minutes",
+      "300 SMS",
+      "300 international minutes"
+    ],
+    "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Max tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
+    "eligibleNationalities": [
+      "Bangladeshi"
+    ],
+    "_eligibilityNote": "Offered only to customers of this nationality (2026-10-25). The plan was supplied by name only ('... India Promotion'); the nationality is read from that name and needs the business's confirmation. The BIA plans (PROD-134, PROD-140) name no nationality here and stay open to all.",
+    "planClass": "Postpaid Voice Plans"
+  },
+  {
+    "productId": "PROD-142",
+    "name": "Postpaid Family Share 150",
+    "type": "Postpaid Plan",
+    "mrcQAR": 150,
+    "dataAllowanceGB": 40,
+    "minutesAllowance": "500 local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "40GB full speed local data, shared across the family",
+      "500 local minutes",
+      "300 SMS",
+      "100 international minutes"
+    ],
+    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Family Plans"
+  },
+  {
+    "productId": "PROD-143",
+    "name": "Postpaid Family Share 250",
+    "type": "Postpaid Plan",
+    "mrcQAR": 250,
+    "dataAllowanceGB": 100,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "100GB full speed local data, shared across the family",
+      "Unlimited local minutes",
+      "500 SMS",
+      "200 international minutes"
+    ],
+    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Family Plans"
+  },
+  {
+    "productId": "PROD-144",
+    "name": "Postpaid Family Share 400",
+    "type": "Postpaid Plan",
+    "mrcQAR": 400,
+    "dataAllowanceGB": 200,
+    "minutesAllowance": "Unlimited local minutes",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "200GB full speed local data, shared across the family",
+      "Unlimited local minutes",
+      "Unlimited SMS",
+      "300 international minutes"
+    ],
+    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Family Plans"
+  },
+  {
+    "productId": "PROD-145",
+    "name": "Postpaid Family Share 600",
+    "type": "Postpaid Plan",
+    "mrcQAR": 600,
+    "dataAllowanceGB": null,
+    "minutesAllowance": "Unlimited local",
+    "speedTier": "5G Ready",
+    "commitmentMonths": 3,
+    "features": [
+      "Unlimited local data, shared across the family",
+      "Unlimited local minutes & SMS",
+      "400 international minutes",
+      "Roaming: 300 minutes & SMS and 50GB data"
+    ],
+    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "planClass": "Postpaid Family Plans"
+  },
+  {
+    "productId": "PROD-304",
+    "name": "Prepaid Premium 150",
+    "type": "Prepaid Plan",
+    "starterPackChargeQAR": 150,
+    "dataAllowanceGB": 80,
+    "minutesAllowance": "Unlimited local",
+    "packValidityDays": 30,
+    "eligibleSegments": [
+      "Premium"
+    ],
+    "_note": "Mobile Prepaid BRSD MPRA_001_QPC_02 demo seed (2026-10-13): a segment-restricted prepaid pack, so the plan filter by customer segment has something to filter. The BRSD requires the filter but names no segment rules, so this row and its eligibleSegments are app-level placeholders pending the VFQ prepaid catalogue; a pack with no eligibleSegments is offered to every segment."
+  },
+  {
+    "productId": "PROD-160",
+    "name": "Data Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "2.5 GB full-speed data",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "_note": "Add-ons catalogue from the business workbook Addons.xlsx (2026-10-25), by category (Local Data, Local Calls, International Calls, Roaming, Combo, Others). mrcQAR is the price in QAR where the workbook gives a fixed QR amount, otherwise 0 with priceLabel carrying the workbook's own wording (TBC, Plan-based, Plan-dependent, QR 10 after promotional period ...); pricing is 'free' only where the workbook says included with an eligible plan. addonStatus is the workbook's, unchanged; the workbook's validity is not carried (a postpaid add-on is monthly, so validity does not apply). A prepaid-only add-on (Local Minutes Booster) is not in this postpaid catalogue. Plan restrictions the workbook words in text (Essential / Extra / Unlimited plans) are not applied: the products carry no plan-family field.",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-161",
+    "name": "Data Booster",
+    "type": "Add-on",
+    "mrcQAR": 50,
+    "description": "25 GB full-speed data",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-162",
+    "name": "Data Add-on",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "2 GB for eligible Postpaid Essential plans",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "eligibility": {
+      "plans": [
+        "PROD-107",
+        "PROD-130",
+        "PROD-131",
+        "PROD-132",
+        "PROD-133"
+      ]
+    },
+    "_eligibilityNote": "Limited to the plans of the family the workbook names (2026-10-25): the plan names carry 'Essential' / 'Extra' / 'Unlimited', and the products have no plan-family field of their own.",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-163",
+    "name": "Data Add-on",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "5 GB for eligible Postpaid Extra plans",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "eligibility": {
+      "plans": [
+        "PROD-100",
+        "PROD-108",
+        "PROD-134",
+        "PROD-135",
+        "PROD-136",
+        "PROD-137",
+        "PROD-138",
+        "PROD-139"
+      ]
+    },
+    "_eligibilityNote": "Limited to the plans of the family the workbook names (2026-10-25): the plan names carry 'Essential' / 'Extra' / 'Unlimited', and the products have no plan-family field of their own.",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-164",
+    "name": "Data Add-on",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "8 GB for eligible Unlimited plans",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "eligibility": {
+      "plans": [
+        "PROD-106",
+        "PROD-110",
+        "PROD-111",
+        "PROD-112",
+        "PROD-113"
+      ]
+    },
+    "_eligibilityNote": "Limited to the plans of the family the workbook names (2026-10-25): the plan names carry 'Essential' / 'Extra' / 'Unlimited', and the products have no plan-family field of their own.",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-165",
+    "name": "5G Data Booster",
+    "type": "Add-on",
+    "mrcQAR": 10,
+    "description": "5 GB",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-166",
+    "name": "5G Data Booster",
+    "type": "Add-on",
+    "mrcQAR": 100,
+    "description": "100 GB",
+    "addonCategory": "Local Data",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-167",
+    "name": "Local Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "150 local minutes",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Confirmed, Postpaid",
+    "pricing": "paid",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-168",
+    "name": "Local Add-on Essential",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "200 local minutes",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-169",
+    "name": "Local Add-on Extra",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "300 local minutes",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "pricingModel": "standard"
+  },
+  {
+    "productId": "PROD-170",
+    "name": "Local Minutes Plus",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "500 local minutes",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Demo Only / TBC",
+    "pricing": "paid",
+    "priceLabel": "TBC"
+  },
+  {
+    "productId": "PROD-171",
+    "name": "International Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "40 international minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-172",
+    "name": "India Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "200 India minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-173",
+    "name": "Pakistan Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "50 Pakistan minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-174",
+    "name": "Philippines Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "50 Globe Philippines minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-175",
+    "name": "Bangladesh Booster",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "80 Bangladesh minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-176",
+    "name": "Egypt Add-on",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "100 Egypt minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Benefit confirmed",
+    "pricing": "paid",
+    "priceLabel": "Price/validity TBC"
+  },
+  {
+    "productId": "PROD-177",
+    "name": "Sri Lanka Add-on",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "70 Sri Lanka minutes",
+    "addonCategory": "International Calls",
+    "addonStatus": "Benefit confirmed",
+    "pricing": "paid",
+    "priceLabel": "Price/validity TBC"
+  },
+  {
+    "productId": "PROD-178",
+    "name": "Daily Passport Pack",
+    "type": "Add-on",
+    "mrcQAR": 35,
+    "description": "500 MB roaming data and 30 roaming minutes",
+    "addonCategory": "Roaming",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-179",
+    "name": "Weekly Passport Pack",
+    "type": "Add-on",
+    "mrcQAR": 100,
+    "description": "4 GB roaming data, 100 incoming minutes and unlimited inflight roaming",
+    "addonCategory": "Roaming",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-180",
+    "name": "Monthly Passport Pack",
+    "type": "Add-on",
+    "mrcQAR": 320,
+    "description": "16 GB roaming data and 350 roaming minutes",
+    "addonCategory": "Roaming",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-181",
+    "name": "GCC Roaming Pack",
+    "type": "Add-on",
+    "mrcQAR": 150,
+    "description": "5 GB GCC roaming data and 100 roaming minutes",
+    "addonCategory": "Roaming",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-182",
+    "name": "Roam Like Home Daily",
+    "type": "Add-on",
+    "mrcQAR": 50,
+    "description": "Converts eligible local benefits to roaming in 35 countries",
+    "addonCategory": "Roaming",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-183",
+    "name": "Roam Like Home Weekly",
+    "type": "Add-on",
+    "mrcQAR": 150,
+    "description": "Converts eligible local benefits to roaming in 35 countries",
+    "addonCategory": "Roaming",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-184",
+    "name": "Data and Local Combo",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "2 GB data and 150 local minutes",
+    "addonCategory": "Combo",
+    "addonStatus": "Demo Only / TBC",
+    "pricing": "paid",
+    "priceLabel": "TBC"
+  },
+  {
+    "productId": "PROD-185",
+    "name": "Data and International Combo",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "2 GB data and international minutes",
+    "addonCategory": "Combo",
+    "addonStatus": "Demo Only / TBC",
+    "pricing": "paid",
+    "priceLabel": "TBC"
+  },
+  {
+    "productId": "PROD-186",
+    "name": "Sri Lanka Combo",
+    "type": "Add-on",
+    "mrcQAR": 10,
+    "description": "100 MB data, 10 local minutes and 15 Sri Lanka minutes",
+    "addonCategory": "Combo",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-187",
+    "name": "Sri Lanka Combo Plus",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "200 MB data, 20 local minutes and 50 Sri Lanka minutes",
+    "addonCategory": "Combo",
+    "addonStatus": "Confirmed",
+    "pricing": "paid"
+  },
+  {
+    "productId": "PROD-188",
+    "name": "Combo Plus Booster",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Combined data and minute allowance",
+    "addonCategory": "Combo",
+    "addonStatus": "Category confirmed, details TBC",
+    "pricing": "paid",
+    "priceLabel": "Plan-dependent"
+  },
+  {
+    "productId": "PROD-189",
+    "name": "Vodafone World QR 30",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Lifestyle benefits worth up to QR 30",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "Plan-based"
+  },
+  {
+    "productId": "PROD-190",
+    "name": "Vodafone World QR 50",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Lifestyle benefits worth up to QR 50",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "Plan-based"
+  },
+  {
+    "productId": "PROD-191",
+    "name": "Vodafone World QR 100",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Lifestyle benefits worth up to QR 100",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "Plan-based"
+  },
+  {
+    "productId": "PROD-192",
+    "name": "Vodafone World QR 150",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Lifestyle benefits worth up to QR 150",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "Plan-based"
+  },
+  {
+    "productId": "PROD-193",
+    "name": "Mute Service",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Blocks selected unwanted calls or interruptions",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "QR 10 after promotional period"
+  },
+  {
+    "productId": "PROD-194",
+    "name": "International Call Block",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Controls international calling",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "QR 10 after promotional period"
+  },
+  {
+    "productId": "PROD-195",
+    "name": "Multi SIM",
+    "type": "Add-on",
+    "mrcQAR": 50,
+    "description": "Links an additional SIM to the primary plan",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "paid",
+    "priceLabel": "QR 50 per additional SIM"
+  },
+  {
+    "productId": "PROD-196",
+    "name": "Free Local Multi SIM",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "One additional local Multi SIM",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "free",
+    "priceLabel": "Included with an eligible plan"
+  },
+  {
+    "productId": "PROD-197",
+    "name": "Two Free Multi SIMs",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "Two additional Multi SIMs",
+    "addonCategory": "Others",
+    "addonStatus": "Confirmed",
+    "pricing": "free",
+    "priceLabel": "Included with an eligible plan"
+  },
+  {
+    "productId": "PROD-210",
+    "name": "Welcome Data",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "1 GB local data, for every customer",
+    "addonCategory": "Local Data",
+    "addonStatus": "Sample",
+    "pricing": "free",
+    "pricingModel": "free-all",
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-211",
+    "name": "Plan Data Bonus",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "5 GB local data, included with this plan",
+    "addonCategory": "Local Data",
+    "addonStatus": "Sample",
+    "pricing": "free",
+    "pricingModel": "free-with-plan",
+    "eligibility": {
+      "plans": [
+        "PROD-106",
+        "PROD-110",
+        "PROD-111",
+        "PROD-112",
+        "PROD-113"
+      ]
+    },
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-212",
+    "name": "Data Trial",
+    "type": "Add-on",
+    "mrcQAR": 25,
+    "description": "10 GB local data",
+    "addonCategory": "Local Data",
+    "addonStatus": "Sample",
+    "pricing": "free",
+    "pricingModel": "free-first-3",
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-213",
+    "name": "Data Booster Intro",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "5 GB full-speed data",
+    "addonCategory": "Local Data",
+    "addonStatus": "Sample",
+    "pricing": "paid",
+    "pricingModel": "intro-discount",
+    "introPriceQAR": 10,
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-214",
+    "name": "Welcome Minutes",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "50 local minutes, for every customer",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Sample",
+    "pricing": "free",
+    "pricingModel": "free-all",
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-215",
+    "name": "Plan Minutes Bonus",
+    "type": "Add-on",
+    "mrcQAR": 0,
+    "description": "300 local minutes, included with this plan",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Sample",
+    "pricing": "free",
+    "pricingModel": "free-with-plan",
+    "eligibility": {
+      "plans": [
+        "PROD-106",
+        "PROD-110",
+        "PROD-111",
+        "PROD-112",
+        "PROD-113"
+      ]
+    },
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-216",
+    "name": "Local Calls Trial",
+    "type": "Add-on",
+    "mrcQAR": 15,
+    "description": "500 local minutes",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Sample",
+    "pricing": "free",
+    "pricingModel": "free-first-3",
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-217",
+    "name": "Local Booster Intro",
+    "type": "Add-on",
+    "mrcQAR": 20,
+    "description": "150 local minutes",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Sample",
+    "pricing": "paid",
+    "pricingModel": "intro-discount",
+    "introPriceQAR": 8,
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+  },
+  {
+    "productId": "PROD-250",
+    "name": "Weekend Data Pass",
+    "type": "Add-on",
+    "mrcQAR": 5,
+    "description": "2 GB data every week",
+    "addonCategory": "Local Data",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "weekly",
+    "billingOptions": [
+      { "frequency": "monthly", "priceQAR": 20 },
+      { "frequency": "weekly", "priceQAR": 5 }
+    ],
+    "_note": "Demo add-on matching the supplied weekly/monthly selector reference. billingFrequency is the default; billingOptions are the choices offered to the agent."
+  },
+  {
+    "productId": "PROD-251",
+    "name": "Weekly Minutes",
+    "type": "Add-on",
+    "mrcQAR": 8,
+    "description": "100 local minutes every week",
+    "addonCategory": "Local Calls",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "weekly",
+    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  },
+  {
+    "productId": "PROD-252",
+    "name": "Weekly Roaming Pass",
+    "type": "Add-on",
+    "mrcQAR": 15,
+    "description": "1 GB roaming data every week",
+    "addonCategory": "Roaming",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "weekly",
+    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  },
+  {
+    "productId": "PROD-253",
+    "name": "Data Top-up",
+    "type": "Add-on",
+    "mrcQAR": 30,
+    "description": "10 GB data, added once",
+    "addonCategory": "Local Data",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "one-time",
+    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  },
+  {
+    "productId": "PROD-254",
+    "name": "International Minutes Top-up",
+    "type": "Add-on",
+    "mrcQAR": 25,
+    "description": "60 international minutes, added once",
+    "addonCategory": "International Calls",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "one-time",
+    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  },
+  {
+    "productId": "PROD-255",
+    "name": "Number Change Service",
+    "type": "Add-on",
+    "mrcQAR": 50,
+    "description": "One-off change of number",
+    "addonCategory": "Others",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "one-time",
+    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  }
+]

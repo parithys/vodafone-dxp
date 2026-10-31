@@ -1,0 +1,64 @@
+[
+  {
+    "soaId": "SOA-8501",
+    "customerId": "CUST-1001",
+    "accountId": "ACC-5001",
+    "billingProfileId": "BILL-7001",
+    "requestedVia": "SR",
+    "srNumber": "SR-330011",
+    "periodFrom": "2022-04-01",
+    "periodTo": "2026-08-01",
+    "fromInception": true,
+    "lineItems": [
+      {
+        "billId": "BILL-2022-04",
+        "type": "bill",
+        "amount": 210
+      },
+      {
+        "billId": "PAY-2022-04-01",
+        "type": "payment",
+        "amount": -210
+      },
+      {
+        "billId": "ADJ-8001",
+        "type": "adjustment",
+        "amount": -150
+      }
+    ],
+    "generationMethod": "Manual Excel export",
+    "generatedBy": "agent.hassan@vodafone.qa",
+    "conflictNote": "Bills older than 6 months already purged by BRM policy; earliest available line is 2023-01."
+  },
+  {
+    "soaId": "SOA-8502",
+    "customerId": "CUST-2001",
+    "accountId": "ACC-5003",
+    "billingProfileId": "BILL-7003",
+    "requestedVia": "SR",
+    "srNumber": "SR-330045",
+    "periodFrom": "2020-01-01",
+    "periodTo": "2026-08-01",
+    "fromInception": true,
+    "lineItems": [
+      {
+        "billId": "BILL-2024-06",
+        "type": "bill",
+        "amount": 5400
+      },
+      {
+        "billId": "ADJ-8003",
+        "type": "adjustment",
+        "amount": -12500
+      },
+      {
+        "billId": "ALLOC-2024-06-01",
+        "type": "allocation",
+        "amount": -5400
+      }
+    ],
+    "generationMethod": "Manual Excel export",
+    "generatedBy": "agent.fatima@vodafone.qa",
+    "conflictNote": "Requested inception date 2020 predates BRM retention window; partial history only."
+  }
+]

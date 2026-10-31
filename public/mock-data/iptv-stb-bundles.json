@@ -1,0 +1,35 @@
+[
+  {
+    "iptvBundleId": "IPTV-2001",
+    "accountId": "ACC-5001",
+    "orderId": "ORD-90001",
+    "basePlanProductId": "PROD-300",
+    "bundledByDefaultFlag": true,
+    "removable": true,
+    "removedByCustomer": true,
+    "stbCount": 0,
+    "openItemStatus": "Contested"
+  },
+  {
+    "iptvBundleId": "IPTV-2002",
+    "accountId": "ACC-5004",
+    "orderId": "ORD-90004",
+    "basePlanProductId": "PROD-300",
+    "bundledByDefaultFlag": true,
+    "removable": true,
+    "removedByCustomer": true,
+    "stbCount": 0,
+    "openItemStatus": "Contested"
+  },
+  {
+    "iptvBundleId": "IPTV-2003",
+    "accountId": "ACC-5005",
+    "orderId": "ORD-90005",
+    "basePlanProductId": "PROD-300",
+    "bundledByDefaultFlag": true,
+    "removable": true,
+    "removedByCustomer": false,
+    "stbCount": 2,
+    "openItemStatus": "Contested"
+  }
+]

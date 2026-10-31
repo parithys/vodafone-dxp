@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ALP-6001",
+    "accountId": "ACC-5002",
+    "productName": "Microsoft 365 E3 Licence",
+    "productType": "Software Licence",
+    "hasServiceId": false,
+    "lineItemPerLicence": true,
+    "quantity": 25,
+    "unitPriceQar": 62.5,
+    "autoExplodeEnabled": false,
+    "priceChangeMethod": "manual",
+    "lastManualPriceUpdate": "2026-07-15",
+    "updatedBy": "biz.ops.fatima@vodafone.qa",
+    "replacementArchitectureFlag": "pending migration to generic service with Service ID"
+  },
+  {
+    "id": "ALP-6002",
+    "accountId": "ACC-5004",
+    "productName": "Starlink Business Terminal",
+    "productType": "Hardware/Connectivity",
+    "hasServiceId": false,
+    "lineItemPerLicence": true,
+    "quantity": 3,
+    "unitPriceQar": 1450,
+    "autoExplodeEnabled": false,
+    "priceChangeMethod": "manual",
+    "lastManualPriceUpdate": "2026-06-02",
+    "updatedBy": "biz.ops.ahmed@vodafone.qa",
+    "replacementArchitectureFlag": "pending migration to generic service with Service ID"
+  },
+  {
+    "id": "ALP-6003",
+    "accountId": "ACC-5002",
+    "productName": "Microsoft 365 E5 Licence",
+    "productType": "Software Licence",
+    "hasServiceId": false,
+    "lineItemPerLicence": true,
+    "quantity": 10,
+    "unitPriceQar": 98,
+    "autoExplodeEnabled": false,
+    "priceChangeMethod": "manual",
+    "lastManualPriceUpdate": "2026-05-20",
+    "updatedBy": "biz.ops.fatima@vodafone.qa",
+    "replacementArchitectureFlag": "pending migration to generic service with Service ID"
+  }
+]

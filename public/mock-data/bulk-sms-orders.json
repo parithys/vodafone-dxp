@@ -1,0 +1,66 @@
+[
+  {
+    "id": "BSMS-14001",
+    "accountId": "ACC-5003",
+    "orderId": "ORD-90003",
+    "shortCode": "92200",
+    "smtpChecksPassed": true,
+    "externalShortCodeRegistration": {
+      "country": "UAE",
+      "status": "registered",
+      "registeredCode": "SC-UAE-4471"
+    },
+    "billingProfileId": "BILL-7002",
+    "billingProfileType": "Corporate",
+    "billingProfileStatus": "Active",
+    "attachmentProvided": "Bulk-SMS-Agreement-14001.pdf",
+    "blacklistCheckPassed": true,
+    "oneActiveBulkSmsOnAccount": true,
+    "status": "active",
+    "supportChannel": "OnMobile Remedy",
+    "accountManager": "Yusuf Al-Kaabi"
+  },
+  {
+    "id": "BSMS-14002",
+    "accountId": "ACC-5004",
+    "orderId": "ORD-90004",
+    "shortCode": "92255",
+    "smtpChecksPassed": true,
+    "externalShortCodeRegistration": {
+      "country": "KSA",
+      "status": "pending",
+      "registeredCode": null
+    },
+    "billingProfileId": "BILL-7003",
+    "billingProfileType": "Corporate",
+    "billingProfileStatus": "Active",
+    "attachmentProvided": "Bulk-SMS-Agreement-14002.pdf",
+    "blacklistCheckPassed": true,
+    "oneActiveBulkSmsOnAccount": true,
+    "status": "onboarding",
+    "supportChannel": "Siebel Adjustment",
+    "accountManager": "Noora Al-Sulaiti"
+  },
+  {
+    "id": "BSMS-14003",
+    "accountId": "ACC-5001",
+    "orderId": "ORD-90001",
+    "shortCode": "92100",
+    "smtpChecksPassed": false,
+    "externalShortCodeRegistration": {
+      "country": "Qatar",
+      "status": "not required",
+      "registeredCode": null
+    },
+    "billingProfileId": "BILL-7001",
+    "billingProfileType": "SME",
+    "billingProfileStatus": "Suspended",
+    "attachmentProvided": "Bulk-SMS-Agreement-14003.pdf",
+    "blacklistCheckPassed": true,
+    "oneActiveBulkSmsOnAccount": false,
+    "status": "disconnection",
+    "supportChannel": "OnMobile Remedy",
+    "accountManager": "Yusuf Al-Kaabi",
+    "outstandingBalanceCheck": "flagged - QAR 1,250 due"
+  }
+]

@@ -1,0 +1,360 @@
+@import "tailwindcss" source(".");
+@import "./tokens.css";
+@import "./components/primitives/tooltip-tokens.css";
+@import "./components/primitives/tooltip.css";
+
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-accent-on: var(--accent-on);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-warm: var(--surface-warm);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-muted-2: var(--muted-2);
+  --color-accent-disabled: var(--accent-disabled);
+  --color-danger: var(--danger);
+  --color-danger-border: var(--danger-border);
+  --color-success: var(--success);
+  --color-link: var(--link);
+  --color-success-border: var(--success-border);
+  --color-info: var(--info);
+  --color-info-border: var(--info-border);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-border: var(--warn-border);
+  --color-charcoal-panel: var(--charcoal-panel);
+  --color-light-neutral: var(--light-neutral);
+  --color-grey-disabled: var(--grey-disabled);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-2: var(--on-dark-2);
+  --color-on-dark-3: var(--on-dark-3);
+  --color-on-dark-4: var(--on-dark-4);
+  --color-on-dark-fill-1: var(--on-dark-fill-1);
+  --color-on-dark-fill-2: var(--on-dark-fill-2);
+  --color-on-dark-fill-3: var(--on-dark-fill-3);
+  --color-on-dark-line-1: var(--on-dark-line-1);
+  --color-on-dark-line-2: var(--on-dark-line-2);
+  --color-on-dark-line-3: var(--on-dark-line-3);
+  --color-on-dark-danger-fill: var(--on-dark-danger-fill);
+  --color-on-dark-danger-line: var(--on-dark-danger-line);
+  --color-scrim: var(--scrim);
+  --color-paper: var(--paper);
+  --color-header-glass: var(--header-glass);
+  --color-surface-half: var(--surface-half);
+  --color-accent-border: var(--accent-border);
+  --color-tone-success: var(--tone-success-bg);
+  --color-tone-success-soft: var(--tone-success-bg-soft);
+  --color-tone-danger: var(--tone-danger-bg);
+  --color-tone-danger-soft: var(--tone-danger-bg-soft);
+  --color-tone-warn: var(--tone-warn-bg);
+  --color-tone-warn-soft: var(--tone-warn-bg-soft);
+  --color-tone-info: var(--tone-info-bg);
+  --color-tone-info-soft: var(--tone-info-bg-soft);
+  --color-tone-accent: var(--tone-accent-bg);
+  --color-tone-accent-soft: var(--tone-accent-bg-soft);
+  --color-tone-blue: var(--tone-blue-bg);
+  --color-tone-blue-soft: var(--tone-blue-bg-soft);
+  --color-tone-blue-hover: var(--tone-blue-bg-hover);
+  --color-tone-blue-border: var(--tone-blue-border);
+  --color-tone-success-border: var(--tone-success-border);
+  --color-tone-approval: var(--tone-approval-bg);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-solid: var(--danger-solid);
+  --color-danger-solid-hover: var(--danger-solid-hover);
+  --color-success-solid: var(--success-solid);
+
+  --font-sans: var(--font-body);
+  --spacing: var(--space-unit);
+  --font-weight-light: var(--fw-light);
+  --font-weight-normal: var(--fw-regular);
+  --font-weight-medium: var(--fw-medium);
+  --font-weight-semibold: var(--fw-semibold);
+  --font-weight-bold: var(--fw-bold);
+  --font-weight-extrabold: var(--fw-extrabold);
+
+  --radius-btn: var(--radius-button);
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+
+  --shadow-raised: var(--elev-raised);
+  --shadow-ring: var(--elev-ring);
+  --shadow-brand: var(--shadow-brand);
+}
+
+
+/* Cursor affordance baseline (UI cursor remediation). Tailwind v4 removed the
+   v3 preflight rule that gave buttons `cursor: pointer` - every button in this
+   app was silently showing the browser default (`cursor: default`) on hover
+   despite being fully clickable. This restores it for every native
+   actionable element in one place, so all shared components (Button, Select,
+   Tabs, Modal, Toast, and every raw <button> across the app) inherit it
+   automatically with no per-component changes needed. Disabled convention
+   matches what Button.tsx/MsisdnPicker.tsx/AppointmentBookingStep.tsx already
+   used before this fix: `cursor: not-allowed`, not `default`. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href],
+  label[for],
+  select:not(:disabled),
+  summary,
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled),
+  input[type="submit"]:not(:disabled),
+  input[type="button"]:not(:disabled),
+  input[type="reset"]:not(:disabled),
+  input[type="file"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  [aria-disabled="true"],
+  [data-disabled] {
+    cursor: not-allowed;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--fg);
+  background: var(--page-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* In @layer base (not left unlayered like the rules above) so that
+   Tailwind's own focus-visible:/focus-within: utility variants - used
+   throughout the field components to set a field-specific focus color -
+   can actually override this default via normal layer ordering. Left
+   unlayered, this default previously beat those utilities outright
+   regardless of specificity, which happened to go unnoticed only because
+   every override used to resolve to the same red. */
+@layer base {
+  /* A real outline, not a box-shadow: outlines survive forced-colours (Windows High Contrast) and are not clipped by
+     overflow. 2px at 4.7:1 (light) / --fg (dark) clears the 3:1 non-text contrast requirement (SC 1.4.11). */
+  :focus-visible {
+    outline: 2px solid var(--focus-outline);
+    outline-offset: 2px;
+  }
+  /* No focus box around text-entry controls (2026-10-05): the field's own border / fill change already marks focus,
+     and a second ring inside it read as a stray rectangle. Buttons, links and tabs keep their keyboard ring. */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+/* Native dropdowns: the browser draws the arrow flush against the right edge. Draw it ourselves with clear space
+   after it, and reserve that space so the text never runs under it. (Selects that already carry their own chevron use
+   Tailwind's appearance-none and are left alone.) Unlayered on purpose, so it wins over a field's own px-* utility. */
+/* A number the agent must key in (no stepper arrows). */
+input.no-spinner::-webkit-outer-spin-button,
+input.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input.no-spinner {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+select:not([multiple]):not([size]):not(.appearance-none) {
+  appearance: none;
+  background-image: var(--icon-chevron-down);
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  background-size: 1rem 1rem;
+  padding-right: 2.75rem;
+}
+
+/* Text selection uses the default highlight colour. */
+::selection {
+  background: var(--highlight-bg);
+  color: inherit;
+}
+
+/* Demo-only content (see src/data/synthetic/syntheticMarker.ts): drawn in the surrounding text colour (no longer
+   violet, 2026-10-08), and hidden everywhere at once when SHOW_DEMO_CONTENT is false. The class stays as the marker
+   the hide switch targets. */
+.demo-only {
+}
+.hide-demo .demo-only {
+  display: none !important;
+}
+
+/* Customer-view pop-up window: hide the app chrome (sidebar, header, breadcrumbs, toasts). */
+.mirror-window .no-print,
+.mirror-window .agent-only {
+  display: none !important;
+}
+
+/* Printing (e.g. the order confirmation's Print button): only the page content
+   is printed - never the sidebar, top bar, breadcrumbs, toasts or action
+   buttons (all marked .no-print). The app shell is a fixed-height flex row with
+   a scrolling <main>; that is released here so the content flows onto the
+   page instead of being clipped to the viewport. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .flex.h-screen,
+  .flex.h-screen > .flex-1,
+  .flex.h-screen main {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body {
+    background: var(--paper);
+  }
+}
+
+/* Linked-user segment badges (Business 360 and the Linked business card): colours are the --segment-* tokens. */
+.badge-segment-ebu,
+.badge-segment-cbu {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  padding: calc(var(--space-unit) * 0.5) calc(var(--space-unit) * 2.5);
+  font-size: var(--fs-tag);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+.badge-segment-ebu {
+  background: var(--segment-ebu-bg);
+  color: var(--segment-ebu-fg);
+}
+.badge-segment-cbu {
+  background: var(--segment-cbu-bg);
+  color: var(--segment-cbu-fg);
+}
+
+/* Breadcrumb "Back" chip (navigation/Breadcrumbs): the page-tint fill (--icon-tile-bg) with the standard grey border,
+   bold label and --radius-button corners; goes white on hover. Not the Button `secondary` variant, which is white at rest. */
+.breadcrumb-back {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: calc(var(--space-unit) * 1);
+  margin-left: calc(var(--space-unit) * -1);
+  padding: calc(var(--space-unit) * 1) calc(var(--space-unit) * 2.5) calc(var(--space-unit) * 1) calc(var(--space-unit) * 2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-button);
+  background: var(--icon-tile-bg);
+  color: var(--fg);
+  font-weight: var(--fw-bold);
+  transition: color var(--motion-fast), background-color var(--motion-fast), border-color var(--motion-fast);
+}
+.breadcrumb-back:hover {
+  background: var(--bg);
+}
+
+/* Secondary button surface (Button variant "secondary", and the link-styled buttons beside it): colour only - the page-tint
+   fill (--icon-tile-bg), the standard grey border and a bold label; white on hover. Geometry (padding, radius, size) stays
+   with the Button / call site. Same look as .breadcrumb-back above, kept as its own class so the two can be restyled
+   independently. In @layer components so a call site's own utility (e.g. a custom bg) still overrides it. */
+@layer components {
+  /* Sign-in fields keep their dark fill when the browser autofills them. Chrome paints autofill pale blue, which left the white
+     show/hide-password eye (and the text) unreadable on it - so the toggle looked like it disappeared once a password was filled in. */
+  .login-field:-webkit-autofill,
+  .login-field:-webkit-autofill:hover,
+  .login-field:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--on-dark);
+    caret-color: var(--on-dark);
+    box-shadow: 0 0 0 1000px var(--charcoal-panel) inset;
+    transition: background-color 9999s ease-out 0s;
+  }
+  /* The card shell, defined once: radius, 1px card border and the page-card fill. Spacing and any one-off colour stay on the
+     element (utilities outrank this layer). .card-surface swaps the fill for the quieter --surface. */
+  .card {
+    border-radius: var(--radius-card);
+    border: 1px solid var(--field-card-border);
+    background-color: var(--bg);
+  }
+  .card-surface {
+    background-color: var(--surface);
+  }
+  /* The fill follows what the button sits on: the page tint on a white surface (card, dialog, header band), white on the
+     grey page itself - a page-tint button there would disappear into the background. The surface sets the pair below. */
+  #main-content {
+    --btn-secondary-fill: var(--bg);
+    --btn-secondary-hover: var(--icon-tile-bg);
+  }
+  .card,
+  header,
+  [role='dialog'] {
+    --btn-secondary-fill: var(--icon-tile-bg);
+    --btn-secondary-hover: var(--bg);
+  }
+  .btn-secondary {
+    border-color: var(--border);
+    background: var(--btn-secondary-fill);
+    color: var(--fg);
+    /* !important: Button's base `font-medium` utility would otherwise win over this layered class. */
+    font-weight: var(--fw-bold) !important;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--btn-secondary-hover);
+  }
+}
+
+
+/* Focused text fields everywhere: the focus border and the focus fill (--field-focus-bg), including plain inputs, selects
+   and textareas that are not built on the Input / Select primitives. Unlayered so it wins over a field's own bg utility;
+   fields that sit on a dark surface or are deliberately see-through (bg-transparent, bg-white/..) are left alone. */
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not(.bg-transparent):not([class*='bg-on-dark']):focus-visible,
+textarea:not(.bg-transparent):not([class*='bg-on-dark']):focus-visible,
+select:not(.bg-transparent):not([class*='bg-on-dark']):focus-visible {
+  background-color: var(--field-focus-bg);
+  border-color: var(--field-focus-border);
+}
+
+/* Red text must clear 4.5:1 on the tinted page background: the fill red (#e60000) is 4.4:1 there, so text uses --accent-text.
+   Fills, borders and gradients keep --accent. */
+.text-accent {
+  color: var(--accent-text);
+}
+
+/* Reduced motion: collapse every animation and transition app-wide (Spinner, drawers, sidebar, carousel, smooth scroll).
+   State is still shown - it just changes instantly. The tooltip pack has its own matching rule. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Forced-colours: utilities that remove the outline and paint a box-shadow ring (focus:outline-none + shadow) show nothing in
+   Windows High Contrast, because box-shadow is not drawn. Restore a system-coloured outline for every focused element. */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+  }
+}

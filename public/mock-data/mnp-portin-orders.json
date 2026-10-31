@@ -1,0 +1,203 @@
+[
+  {
+    "id": "MNP-11001",
+    "orderId": "ORD-90002",
+    "customerId": "CUST-1002",
+    "customerName": "Bimal Bahadur Thapa",
+    "idNumber": "28556789012",
+    "mnpCategory": "Postpaid Consumer",
+    "planSelected": "PROD-101",
+    "portInNumber": "97466001102",
+    "donorCustomerId": "28556789012",
+    "donorIdType": "QID",
+    "donorCustomerType": "Individual",
+    "donorOperator": "Other Operator",
+    "donorSubscriptionType": "Postpaid",
+    "scheduledPortInDate": "2026-08-25",
+    "mnpFormNumber": "MNPF-260824-110001",
+    "mnpFormSigned": true,
+    "mnpFormType": "MNP-Digital",
+    "orderStatus": "Pending NPAS Approval",
+    "portStatus": "Pending Approval",
+    "trackingStatus": "In Progress",
+    "npasReference": "NPAS-77001",
+    "submittedAt": "2026-08-24T09:10:00.000Z",
+    "npasDeadline": "2026-08-25T09:10:00.000Z",
+    "notifications": [
+      {
+        "type": "Submission",
+        "channel": "SMS",
+        "to": "97466001102",
+        "message": "Your request to port 97466001102 to Vodafone Qatar has been submitted (order ORD-90002). We will update you once the donor operator responds.",
+        "status": "Sent",
+        "at": "2026-08-24T09:10:00.000Z"
+      }
+    ],
+    "history": [
+      {
+        "status": "Submitted",
+        "at": "2026-08-24T09:10:00.000Z",
+        "note": "Order submitted and forwarded to NPAS."
+      },
+      {
+        "status": "Pending NPAS Approval",
+        "at": "2026-08-24T09:10:00.000Z",
+        "note": "Waiting for the final NPAS response; nothing is activated until then."
+      }
+    ],
+    "draftSnapshot": {
+      "mnpType": "postpaid",
+      "productId": "PROD-101",
+      "donorDetails": {
+        "portInNumber": "97466001102",
+        "donorId": "28556789012",
+        "donorIdType": "QID",
+        "donorCustomerType": "Individual",
+        "donorOperator": "Other Operator",
+        "donorSubscriptionType": "Postpaid"
+      }
+    }
+  },
+  {
+    "id": "MNP-11002",
+    "orderId": "ORD-90004",
+    "customerId": "CUST-1004",
+    "customerName": "Mohammed Rashid Khalid Al-Emadi",
+    "idNumber": "29187765432",
+    "mnpCategory": "Prepaid Consumer",
+    "planSelected": "PROD-200",
+    "portInNumber": "97466001103",
+    "donorCustomerId": "29187765432",
+    "donorIdType": "QID",
+    "donorCustomerType": "Individual",
+    "donorOperator": "Other Operator",
+    "donorSubscriptionType": "Prepaid",
+    "scheduledPortInDate": "2026-08-24",
+    "mnpFormNumber": "MNPF-260823-110002",
+    "mnpFormSigned": true,
+    "mnpFormType": "MNP-Digital",
+    "orderStatus": "Pending NPAS Approval",
+    "portStatus": "Pending Approval",
+    "trackingStatus": "In Progress",
+    "npasReference": "NPAS-77002",
+    "submittedAt": "2026-08-23T08:40:00.000Z",
+    "npasDeadline": "2026-08-24T08:40:00.000Z",
+    "notifications": [
+      {
+        "type": "Submission",
+        "channel": "SMS",
+        "to": "97466001103",
+        "message": "Your request to port 97466001103 to Vodafone Qatar has been submitted (order ORD-90004). We will update you once the donor operator responds.",
+        "status": "Sent",
+        "at": "2026-08-23T08:40:00.000Z"
+      }
+    ],
+    "history": [
+      {
+        "status": "Submitted",
+        "at": "2026-08-23T08:40:00.000Z",
+        "note": "Order submitted and forwarded to NPAS."
+      },
+      {
+        "status": "Pending NPAS Approval",
+        "at": "2026-08-23T08:40:00.000Z",
+        "note": "Waiting for the final NPAS response; nothing is activated until then."
+      }
+    ],
+    "draftSnapshot": {
+      "mnpType": "prepaid",
+      "productId": "PROD-200",
+      "donorDetails": {
+        "portInNumber": "97466001103",
+        "donorId": "29187765432",
+        "donorIdType": "QID",
+        "donorCustomerType": "Individual",
+        "donorOperator": "Other Operator",
+        "donorSubscriptionType": "Prepaid"
+      }
+    }
+  },
+  {
+    "id": "MNP-11003",
+    "orderId": "ORD-90001",
+    "customerId": "CUST-1001",
+    "customerName": "Ahmed Abdulla Hassan Al-Sulaiti",
+    "idNumber": "27334561098",
+    "mnpCategory": "Postpaid Consumer",
+    "planSelected": "PROD-100",
+    "portInNumber": "97466001101",
+    "donorCustomerId": "27334561098",
+    "donorIdType": "QID",
+    "donorCustomerType": "Individual",
+    "donorOperator": "QTEL",
+    "donorSubscriptionType": "Postpaid",
+    "scheduledPortInDate": "2026-08-10",
+    "mnpFormNumber": "MNPF-260808-110003",
+    "mnpFormSigned": true,
+    "mnpFormType": "MNP-Digital",
+    "orderStatus": "Closed",
+    "portStatus": "Rejected",
+    "trackingStatus": "Cancelled",
+    "npasReference": "NPAS-76988",
+    "submittedAt": "2026-08-08T10:00:00.000Z",
+    "npasDeadline": "2026-08-09T10:00:00.000Z",
+    "npasResponseAt": "2026-08-09T07:30:00.000Z",
+    "rejectionReasonCode": "1",
+    "rejectionReason": "ID Number does not match",
+    "draftSnapshot": {
+      "mnpType": "postpaid",
+      "productId": "PROD-100",
+      "donorDetails": {
+        "portInNumber": "97466001101",
+        "donorId": "27334561098",
+        "donorIdType": "QID",
+        "donorCustomerType": "Individual",
+        "donorOperator": "Other Operator",
+        "donorSubscriptionType": "Postpaid"
+      }
+    },
+    "notifications": [
+      {
+        "type": "Submission",
+        "channel": "SMS",
+        "to": "97466001101",
+        "message": "Your request to port 97466001101 to Vodafone Qatar has been submitted (order ORD-90001). We will update you once the donor operator responds.",
+        "status": "Sent",
+        "at": "2026-08-08T10:00:00.000Z"
+      },
+      {
+        "type": "Cancellation",
+        "channel": "SMS",
+        "to": "97466001101",
+        "message": "Your request to port 97466001101 was cancelled: ID Number does not match.",
+        "status": "Sent",
+        "at": "2026-08-09T07:30:00.000Z"
+      }
+    ],
+    "history": [
+      {
+        "status": "Submitted",
+        "at": "2026-08-08T10:00:00.000Z",
+        "note": "Order submitted and forwarded to NPAS."
+      },
+      {
+        "status": "Pending NPAS Approval",
+        "at": "2026-08-08T10:00:00.000Z",
+        "note": "Waiting for the final NPAS response; nothing is activated until then."
+      },
+      {
+        "status": "NPAS Rejected",
+        "at": "2026-08-09T07:30:00.000Z",
+        "note": "Reason 1: ID Number does not match."
+      },
+      {
+        "status": "Completed Rejected",
+        "at": "2026-08-09T07:30:00.000Z"
+      },
+      {
+        "status": "Closed",
+        "at": "2026-08-09T07:30:00.000Z"
+      }
+    ]
+  }
+]

@@ -1,0 +1,89 @@
+[
+  {
+    "orderId": "ORD-90001",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-1001",
+    "accountId": "ACC-5001",
+    "billingProfileId": "BILL-7001",
+    "productIds": [
+      "PROD-100",
+      "PROD-101"
+    ],
+    "msisdn": "+97433001001",
+    "simSerial": "8974412009900123456",
+    "totalQAR": 300,
+    "mrcTotalQAR": 300,
+    "nrcTotalQAR": 0,
+    "approvalStatus": "Not Required",
+    "createdBy": "AGENT-KARTHIKK",
+    "sourceChannel": "Retail Store"
+  },
+  {
+    "orderId": "ORD-90002",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "HRN Customer",
+    "status": "Pending",
+    "customerId": "CUST-1002",
+    "accountId": "ACC-5002",
+    "billingProfileId": "BILL-7002",
+    "productIds": [
+      "PROD-100"
+    ],
+    "totalQAR": 250,
+    "approvalStatus": "Pending Credit Control",
+    "createdBy": "AGENT-VINODHINIR",
+    "sourceChannel": "Retail Store (Tablet)",
+    "holdFlag": true,
+    "holdReason": "HRN advance payment outstanding"
+  },
+  {
+    "orderId": "ORD-90003",
+    "orderType": "New FWA 5G Outdoor Activation",
+    "orderSubType": "B2B2C",
+    "status": "Open",
+    "customerId": "CUST-2001",
+    "accountId": "ACC-5005",
+    "billingProfileId": "BILL-7004",
+    "productIds": [
+      "PROD-200"
+    ],
+    "totalQAR": 350,
+    "approvalStatus": "Approved",
+    "createdBy": "AGENT-VINODHINIR",
+    "sourceChannel": "Retail Store (Tablet)",
+    "fulfillmentStatus": "Awaiting WFM Appointment"
+  },
+  {
+    "orderId": "ORD-90004",
+    "orderType": "New Fixed Line - Triple Play",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-1003",
+    "accountId": "ACC-5003",
+    "billingProfileId": "BILL-7003",
+    "productIds": [
+      "PROD-201"
+    ],
+    "totalQAR": 450,
+    "approvalStatus": "Not Required",
+    "createdBy": "AGENT-HALEEMI",
+    "sourceChannel": "Retail Store (Tablet)",
+    "kidUsed": "KID-334455"
+  },
+  {
+    "orderId": "ORD-90005",
+    "orderType": "MNP Postpaid Port-In",
+    "orderSubType": "Consumer",
+    "status": "Pending",
+    "customerId": "CUST-1004",
+    "donorOperator": "Ooredoo",
+    "productIds": [
+      "PROD-100"
+    ],
+    "approvalStatus": "Not Required",
+    "createdBy": "AGENT-HEMANTHKUMAR",
+    "portingWindowDays": 5
+  }
+]

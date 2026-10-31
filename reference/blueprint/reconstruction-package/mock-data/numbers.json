@@ -1,0 +1,22 @@
+[
+  {
+    "msisdn": "+97433001001",
+    "category": "Free",
+    "status": "Reserved",
+    "reservedBy": "AGENT-KARTHIKK",
+    "priceQAR": 0
+  },
+  {
+    "msisdn": "+97433001002",
+    "category": "Star",
+    "status": "AVAILABLE",
+    "priceQAR": 500,
+    "valueTier": "Gold"
+  },
+  {
+    "msisdn": "+97433001003",
+    "category": "Free",
+    "status": "BLOCKED",
+    "priceQAR": 0
+  }
+]

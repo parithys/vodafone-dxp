@@ -1,0 +1,165 @@
+[
+  {
+    "catalogId": "TS-DEMO-CATALOG",
+    "nextBestOffers": [
+      {
+        "badge": "Recommended",
+        "name": "RED Unlimited+",
+        "tagline": "More data. More possibilities.",
+        "benefits": [
+          "Unlimited Local Data",
+          "Unlimited Local Calls",
+          "100 International Minutes",
+          "Free Roaming in GCC"
+        ],
+        "personalised": true
+      },
+      {
+        "badge": "Popular",
+        "name": "RED Plus",
+        "tagline": "Great value for everyday.",
+        "benefits": [
+          "50 GB Local Data",
+          "Unlimited Local Calls",
+          "50 International Minutes",
+          "Free Social Apps"
+        ],
+        "personalised": false
+      }
+    ],
+    "otherEligible": [
+      {
+        "name": "Family Share",
+        "sub": "Add a line for your loved ones",
+        "icon": "user"
+      },
+      {
+        "name": "Roaming Pack",
+        "sub": "Stay connected worldwide",
+        "icon": "globe"
+      },
+      {
+        "name": "International Minutes Pack",
+        "sub": "More minutes, less limits",
+        "icon": "phone"
+      },
+      {
+        "name": "Device Upgrade (DOI)",
+        "sub": "Latest devices, flexible payments",
+        "icon": "card"
+      },
+      {
+        "name": "GigaHome Fibre",
+        "sub": "Superfast home internet",
+        "icon": "globe"
+      },
+      {
+        "name": "TV Entertainment",
+        "sub": "More of what you love",
+        "icon": "grid"
+      }
+    ],
+    "eligibleDiscounts": [
+      {
+        "name": "Loyalty Discount",
+        "sub": "20% on monthly rental"
+      },
+      {
+        "name": "Multi-line Discount",
+        "sub": "15% for 3+ lines"
+      },
+      {
+        "name": "eBill Discount",
+        "sub": "QAR 10 per month"
+      }
+    ],
+    "additionalOpportunities": [
+      {
+        "name": "Migration Offer",
+        "sub": "Migrate to RED and get more",
+        "status": "Targeted"
+      },
+      {
+        "name": "AutoBase Opportunity",
+        "sub": "Eligible for AutoBase plan",
+        "status": "Eligible"
+      },
+      {
+        "name": "Happy Offer",
+        "sub": "Exclusive offer for valued customers",
+        "status": "Eligible"
+      }
+    ],
+    "crossSell": [
+      {
+        "service": "Fixed Line",
+        "offer": "Home Fibre 1Gbps",
+        "benefit": "Superfast internet",
+        "eligibility": "Eligible"
+      },
+      {
+        "service": "TV",
+        "offer": "TV Entertainment",
+        "benefit": "200+ channels",
+        "eligibility": "Eligible"
+      },
+      {
+        "service": "GigaHome",
+        "offer": "Smart Home Bundle",
+        "benefit": "Internet + TV + WiFi",
+        "eligibility": "Eligible"
+      },
+      {
+        "service": "Additional Line",
+        "offer": "RED Plus",
+        "benefit": "Special rate for family",
+        "eligibility": "Eligible"
+      }
+    ],
+    "salesEnhancement": [
+      {
+        "offer": "Add-on Discount",
+        "type": "Usage based",
+        "validTill": "2027-01-12",
+        "status": "Eligible"
+      },
+      {
+        "offer": "International Pack",
+        "type": "Targeted",
+        "validTill": "2026-11-30",
+        "status": "Eligible"
+      },
+      {
+        "offer": "Device Trade-in",
+        "type": "Campaign",
+        "validTill": "2026-12-31",
+        "status": "Eligible"
+      },
+      {
+        "offer": "Roaming Discount",
+        "type": "Segment based",
+        "validTill": "2027-01-15",
+        "status": "Eligible"
+      }
+    ],
+    "usageInsights": [
+      {
+        "name": "High Data User",
+        "sub": "Uses more data than 80% of similar customers"
+      },
+      {
+        "name": "High Roaming User",
+        "sub": "Frequent international roaming usage"
+      },
+      {
+        "name": "High Local Calls",
+        "sub": "Above average local call usage"
+      },
+      {
+        "name": "High International Calls",
+        "sub": "Above average international call usage"
+      }
+    ],
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  }
+]

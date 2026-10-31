@@ -1,0 +1,11 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/config/*", "/mock-data/*", "/brand/*", "/news/*", "*.{svg,png,jpg,webp,ico,json}"]
+  },
+  "routes": [
+    { "route": "/", "rewrite": "/index.html", "allowedRoles": ["authenticated"] },
+    { "route": "/*", "allowedRoles": ["authenticated"] }
+  ],
+  "responseOverrides": { "401": { "redirect": "/.auth/login/aad?post_login_redirect_uri=/", "statusCode": 302 } }
+}

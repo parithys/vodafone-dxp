@@ -1,0 +1,11 @@
+[
+  { "category": "New Postpaid Activation", "requiredRole": "Back Office Fulfilment" },
+  { "category": "New FWA Postpaid Outdoor Order", "requiredRole": "Back Office Fulfilment" },
+  { "category": "New Fixed Line Activation", "requiredRole": "Back Office Fulfilment" },
+  { "category": "MNP Postpaid Port-In", "requiredRole": "Sales Manager" },
+  { "category": "New Prepaid Activation", "requiredRole": "Back Office Fulfilment" },
+  { "category": "MNP Prepaid Port-In", "requiredRole": "Sales Manager" },
+  { "category": "Plan Change", "requiredRole": "Back Office Fulfilment" },
+  { "category": "Prepaid Pack Change", "requiredRole": "Back Office Fulfilment" },
+  { "category": "Add-On", "requiredRole": "Back Office Fulfilment" }
+]

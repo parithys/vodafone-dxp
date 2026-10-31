@@ -1,0 +1,27 @@
+[
+  {
+    "sectionId": "TNC-1",
+    "title": "Plan Lock-In",
+    "body": "Your plan may include a 3-month minimum commitment period. Early cancellation may result in applicable charges."
+  },
+  {
+    "sectionId": "TNC-2",
+    "title": "Star Number Lock-In",
+    "body": "Star Numbers may have a 1- or 2-year commitment period, depending on the number selected."
+  },
+  {
+    "sectionId": "TNC-3",
+    "title": "Early Exit Charges",
+    "body": "Cancelling, downgrading, transferring, porting out, or changing your service before the lock-in period ends may result in applicable penalties."
+  },
+  {
+    "sectionId": "TNC-4",
+    "title": "Lock-In Calculation",
+    "body": "Any PYN or service barring period is not counted towards the lock-in period."
+  },
+  {
+    "sectionId": "TNC-5",
+    "title": "Number Reuse",
+    "body": "If your service is cancelled, the mobile number may be reassigned after 180 days."
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "simSerial": "8974412009900123456",
+    "iccid": "8974412009900123456",
+    "type": "Physical",
+    "stockStatus": "Issued",
+    "swapStatus": "Original"
+  },
+  {
+    "simSerial": "8974412009900123999",
+    "iccid": "8974412009900123999",
+    "type": "Printed eSIM",
+    "stockStatus": "Issued",
+    "swapStatus": "Original"
+  }
+]

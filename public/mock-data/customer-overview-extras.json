@@ -1,0 +1,522 @@
+[
+  {
+    "customerId": "CUST-1001",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 306,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-1002",
+    "aboutToBar": "Yes",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 167,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-1003",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 482,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-1004",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 385,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-2001",
+    "aboutToBar": "Yes",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 271,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-1005",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 310,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-1006",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 368,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-9001",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 214,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-1007",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 387,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3001",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 190,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3002",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 207,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3004",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 420,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3003",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 163,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3011",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 412,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3012",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 168,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3013",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 244,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3014",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 328,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3015",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 242,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3016",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 440,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3017",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 376,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3021",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 261,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3022",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 449,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3023",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 267,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3024",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 326,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3025",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 313,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3026",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 179,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3027",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 330,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3028",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 363,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3029",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 168,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3031",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 408,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3032",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 191,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3033",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 473,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3041",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 358,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3042",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 403,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3043",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 388,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3044",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 338,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3045",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 170,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3046",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 178,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3051",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 149,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3052",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 385,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3053",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 393,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3054",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 174,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3061",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 416,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3062",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 121,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3063",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 232,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3064",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 264,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3065",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 119,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3066",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 273,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3067",
+    "aboutToBar": "No",
+    "eligibleDiscount": "Loyalty 15%",
+    "phoneVersion": "Android 15",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 355,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3068",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 17.5",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 252,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3069",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "Android 14",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 482,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "customerId": "CUST-3070",
+    "aboutToBar": "No",
+    "eligibleDiscount": null,
+    "phoneVersion": "iOS 18.0",
+    "voiceAllowanceMin": 500,
+    "smsAllowance": 500,
+    "smsRemaining": 445,
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  }
+]

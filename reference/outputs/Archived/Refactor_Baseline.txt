@@ -1,0 +1,15 @@
+== typecheck (tsc -b)
+PASS
+== lint (oxlint) summary
+warnings: 90
+errors: 0
+== build (vite build)
+PASS
+== bundle files (name, bytes)
+index-HASH.css 87916
+index-HASH.js 1190057
+== registered screens
+      58
+== source files / lines
+     280
+   49554

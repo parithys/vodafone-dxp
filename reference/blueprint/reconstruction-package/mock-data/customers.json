@@ -1,0 +1,72 @@
+[
+  {
+    "customerId": "CUST-1001",
+    "qid": "28512345678",
+    "idType": "QID",
+    "name": "Ahmed Al-Sulaiti",
+    "dob": "1985-03-12",
+    "nationality": "Qatari",
+    "segment": "Consumer",
+    "email": "ahmed.alsulaiti@example.qa",
+    "phone": "+97455512001",
+    "preferredLanguage": "Arabic",
+    "blacklisted": false,
+    "moiValidationStatus": "Verified"
+  },
+  {
+    "customerId": "CUST-1002",
+    "qid": "P-N1234567",
+    "idType": "Passport",
+    "name": "Bimal Thapa",
+    "dob": "1990-07-22",
+    "nationality": "Nepalese",
+    "segment": "Consumer (HRN)",
+    "email": "bimal.thapa@example.com",
+    "phone": "+97455512002",
+    "preferredLanguage": "English",
+    "blacklisted": false,
+    "moiValidationStatus": "Verified",
+    "hrnAdvancePaymentRequired": true
+  },
+  {
+    "customerId": "CUST-1003",
+    "qid": "27798765432",
+    "idType": "QID",
+    "name": "Fatima Al-Kuwari",
+    "dob": "1978-11-05",
+    "nationality": "Qatari",
+    "segment": "Consumer",
+    "email": "fatima.alkuwari@example.qa",
+    "phone": "+97455512003",
+    "preferredLanguage": "Arabic",
+    "blacklisted": false,
+    "moiValidationStatus": "Verified"
+  },
+  {
+    "customerId": "CUST-1004",
+    "qid": "29011122233",
+    "idType": "QID",
+    "name": "Mohammed Al-Emadi",
+    "dob": "1995-01-30",
+    "nationality": "Qatari",
+    "segment": "Consumer",
+    "email": "mohammed.alemadi@example.qa",
+    "phone": "+97455512004",
+    "preferredLanguage": "English",
+    "blacklisted": true,
+    "blacklistReason": "Outstanding dues > threshold"
+  },
+  {
+    "customerId": "CUST-2001",
+    "qid": "28855544433",
+    "idType": "QID",
+    "name": "Layla Hassan (Employer Contact)",
+    "dob": "1982-06-18",
+    "nationality": "Qatari",
+    "segment": "Enterprise (EBU)",
+    "email": "layla.hassan@acmeqatar.com",
+    "phone": "+97455512005",
+    "preferredLanguage": "English",
+    "companyName": "Acme Trading Qatar W.L.L."
+  }
+]

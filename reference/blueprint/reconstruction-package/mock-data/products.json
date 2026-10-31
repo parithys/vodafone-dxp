@@ -1,0 +1,44 @@
+[
+  {
+    "productId": "PROD-100",
+    "name": "Postpaid Extra Promotion",
+    "type": "Postpaid Plan",
+    "mrcQAR": 250,
+    "dataAllowanceGB": 30,
+    "minutesAllowance": "Unlimited local",
+    "commitmentMonths": 12
+  },
+  {
+    "productId": "PROD-101",
+    "name": "International 50 Add-on",
+    "type": "Add-on",
+    "mrcQAR": 50,
+    "description": "50 international minutes bundle"
+  },
+  {
+    "productId": "PROD-200",
+    "name": "GigaHome Premium 5G Outdoor New",
+    "type": "FWA 5G Home Plan",
+    "mrcQAR": 350,
+    "speedTierMbps": 300,
+    "fupGB": 1000,
+    "lockInMonths": 12,
+    "disconnectionFeeQAR": 800
+  },
+  {
+    "productId": "PROD-201",
+    "name": "GigaHome Fiber Triple Play",
+    "type": "Fixed Line Plan",
+    "mrcQAR": 450,
+    "iptvIncluded": true,
+    "speedTierMbps": 500,
+    "lockInMonths": 12,
+    "disconnectionFeeSchedule": "QR80 x remaining months of 12"
+  },
+  {
+    "productId": "PROD-300",
+    "name": "New Prepaid Standard SIM",
+    "type": "Prepaid Plan",
+    "activationFeeQAR": 0
+  }
+]

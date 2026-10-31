@@ -1,0 +1,66 @@
+[
+  {
+    "changeRequestId": "CCR-2001",
+    "catalogItemId": "CAT-1002",
+    "status": "Queued",
+    "summary": "Publish bundle pricing",
+    "requestedAt": "2026-09-23T11:10:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2002",
+    "catalogItemId": "CAT-1003",
+    "status": "Queued",
+    "summary": "Activate SIM-only tier",
+    "requestedAt": "2026-09-22T17:00:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2003",
+    "catalogItemId": "CAT-1009",
+    "status": "Queued",
+    "summary": "Add 5GB booster to catalogue",
+    "requestedAt": "2026-09-21T10:30:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2004",
+    "catalogItemId": "CAT-1010",
+    "status": "Queued",
+    "summary": "IPTV pack price change",
+    "requestedAt": "2026-09-20T14:15:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2005",
+    "catalogItemId": "CAT-1012",
+    "status": "Queued",
+    "summary": "Business Fibre 300 launch",
+    "requestedAt": "2026-09-19T09:40:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2006",
+    "catalogItemId": "CAT-1001",
+    "status": "Published",
+    "summary": "Family plan allowance uplift",
+    "requestedAt": "2026-09-18T12:00:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2007",
+    "catalogItemId": "CAT-1006",
+    "status": "Published",
+    "summary": "GigaHome speed tier rename",
+    "requestedAt": "2026-09-16T08:20:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  },
+  {
+    "changeRequestId": "CCR-2008",
+    "catalogItemId": "CAT-1015",
+    "status": "Rejected",
+    "summary": "Extend OSNtv promotion",
+    "requestedAt": "2026-09-08T15:45:00Z",
+    "requestedBy": "Youssef Al-Naimi"
+  }
+]

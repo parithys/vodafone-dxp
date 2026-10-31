@@ -1,0 +1,41 @@
+[
+  {
+    "penaltyId": "PEN-8101",
+    "accountId": "ACC-5001",
+    "customerId": "CUST-1001",
+    "actionType": "disconnection",
+    "calculatedValue": 500,
+    "currency": "QAR",
+    "valueStoredPersistently": false,
+    "calculationSource": "guided journey - disconnection",
+    "orderId": null,
+    "quoteRequiresOrder": true,
+    "calculatedAt": "2026-08-20T10:15:00+03:00"
+  },
+  {
+    "penaltyId": "PEN-8102",
+    "accountId": "ACC-5003",
+    "customerId": "CUST-2001",
+    "actionType": "MNP port-out",
+    "calculatedValue": 250,
+    "currency": "QAR",
+    "valueStoredPersistently": false,
+    "calculationSource": "guided journey - port-out",
+    "orderId": "ORD-90003",
+    "quoteRequiresOrder": true,
+    "calculatedAt": "2026-08-19T14:40:00+03:00"
+  },
+  {
+    "penaltyId": "PEN-8103",
+    "accountId": "ACC-5002",
+    "customerId": "CUST-1002",
+    "actionType": "upgrade",
+    "calculatedValue": 0,
+    "currency": "QAR",
+    "valueStoredPersistently": false,
+    "calculationSource": "guided journey - upgrade/downgrade",
+    "orderId": "ORD-90002",
+    "quoteRequiresOrder": true,
+    "calculatedAt": "2026-08-18T09:05:00+03:00"
+  }
+]

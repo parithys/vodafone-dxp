@@ -1,0 +1,1901 @@
+[
+  {
+    "routeId": "RT-SCR-001",
+    "path": "/enterprise-iot-b2b/bulk-adjustment-portal-dxp-target-state",
+    "screenId": "SCR-001",
+    "screenName": "Bulk Adjustment Portal (DXP, Target State)",
+    "screenType": "Wizard",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": "Agent (role-based access)"
+  },
+  {
+    "routeId": "RT-SCR-002",
+    "path": "/enterprise-iot-b2b/powerapps-bulk-adjustment-portal-current-state",
+    "screenId": "SCR-002",
+    "screenName": "PowerApps Bulk Adjustment Portal (Current State)",
+    "screenType": "Page",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": "Agent"
+  },
+  {
+    "routeId": "RT-SCR-003",
+    "path": "/billing-adjustments/statement-of-account-soa-view",
+    "screenId": "SCR-003",
+    "screenName": "Statement of Account (SOA) View",
+    "screenType": "Page",
+    "module": "Billing & Adjustments",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-004",
+    "path": "/identity-customer-management/bill-landing-view",
+    "screenId": "SCR-004",
+    "screenName": "Bill Landing View",
+    "screenType": "Page",
+    "module": "Identity & Customer Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-005",
+    "path": "/billing-adjustments/bill-simulation-screen",
+    "screenId": "SCR-005",
+    "screenName": "Bill Simulation Screen",
+    "screenType": "Modal",
+    "module": "Billing & Adjustments",
+    "personaAccess": "Agent"
+  },
+  {
+    "routeId": "RT-SCR-006",
+    "path": "/fixed-line-fibre/unbilled-usage-screen",
+    "screenId": "SCR-006",
+    "screenName": "Unbilled Usage Screen",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-007",
+    "path": "/enterprise-iot-b2b/account-creation-screen",
+    "screenId": "SCR-007",
+    "screenName": "Account Creation Screen",
+    "screenType": "Screen",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": "Fulfilment"
+  },
+  {
+    "routeId": "RT-SCR-008",
+    "path": "/fixed-line-fibre/ebu-number-portal",
+    "screenId": "SCR-008",
+    "screenName": "EBU Number Portal",
+    "screenType": "Page",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-009",
+    "path": "/fwa-5g-home/bulk-activation-control-sheet-excel-macro-current-state",
+    "screenId": "SCR-009",
+    "screenName": "Bulk Activation Control Sheet (Excel Macro, Current State)",
+    "screenType": "Page",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Fulfilment/activation team"
+  },
+  {
+    "routeId": "RT-SCR-010",
+    "path": "/enterprise-iot-b2b/dsp-bulk-activation-templates-target-state",
+    "screenId": "SCR-010",
+    "screenName": "DSP Bulk Activation Templates (Target State)",
+    "screenType": "Wizard",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": "Fulfilment"
+  },
+  {
+    "routeId": "RT-SCR-011",
+    "path": "/order-management/ms-dynamics-discount-approval-hierarchy-screen",
+    "screenId": "SCR-011",
+    "screenName": "MS Dynamics Discount Approval Hierarchy Screen",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": "Account Manager, EBU hierarchy approvers"
+  },
+  {
+    "routeId": "RT-SCR-012",
+    "path": "/fixed-line-fibre/rfs-feasibility-portal-grafana",
+    "screenId": "SCR-012",
+    "screenName": "RFS/Feasibility Portal (Grafana)",
+    "screenType": "Dashboard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Sales"
+  },
+  {
+    "routeId": "RT-SCR-013",
+    "path": "/fixed-line-fibre/enterprise-process-knowledge-base-dashboard",
+    "screenId": "SCR-013",
+    "screenName": "Enterprise Process Knowledge Base Dashboard",
+    "screenType": "Dashboard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Presenter/internal SME"
+  },
+  {
+    "routeId": "RT-SCR-014",
+    "path": "/enterprise-iot-b2b/enterprise-invoice-pdf",
+    "screenId": "SCR-014",
+    "screenName": "Enterprise Invoice (PDF)",
+    "screenType": "Page",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": "Enterprise customer, Account Manager"
+  },
+  {
+    "routeId": "RT-SCR-015",
+    "path": "/fixed-line-fibre/enterprise-invoice-excel",
+    "screenId": "SCR-015",
+    "screenName": "Enterprise Invoice (Excel)",
+    "screenType": "Page",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Enterprise customer, Account Manager"
+  },
+  {
+    "routeId": "RT-SCR-016",
+    "path": "/trouble-ticketing-complaints/siebel-excel-export-uncontrolled",
+    "screenId": "SCR-016",
+    "screenName": "Siebel Excel Export (Uncontrolled)",
+    "screenType": "Screen",
+    "module": "Platform Governance & Architecture",
+    "personaAccess": "All Siebel users (uncontrolled today)"
+  },
+  {
+    "routeId": "RT-SCR-017",
+    "path": "/mnp-fnp-porting/siebel-order-creation-screen-mnp",
+    "screenId": "SCR-017",
+    "screenName": "Siebel Order Creation Screen (MNP)",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Fulfilment"
+  },
+  {
+    "routeId": "RT-SCR-018",
+    "path": "/fixed-line-fibre/gigahome-osntv-subscription-acceptance-form",
+    "screenId": "SCR-018",
+    "screenName": "GigaHome & OSNtv Subscription Acceptance Form",
+    "screenType": "Page",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Customer"
+  },
+  {
+    "routeId": "RT-SCR-019",
+    "path": "/mnp-fnp-porting/caf-customer-application-form-tablet-signature-view",
+    "screenId": "SCR-019",
+    "screenName": "CAF (Customer Application Form) tablet signature view",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-020",
+    "path": "/access-roles-approval-governance/in-progress-journeys-list-agent-login-page",
+    "screenId": "SCR-020",
+    "screenName": "In-progress journeys list (agent login page)",
+    "screenType": "Screen",
+    "module": "Access, Roles & Approval Governance",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-021",
+    "path": "/mnp-fnp-porting/customer-360",
+    "screenId": "SCR-021",
+    "screenName": "Customer 360",
+    "screenType": "Dashboard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Agent / Assisted Care Agent (via J017 Customer 360 journey)"
+  },
+  {
+    "routeId": "RT-SCR-022",
+    "path": "/identity-customer-management/agent-360-asset-summary",
+    "screenId": "SCR-022",
+    "screenName": "Agent 360 / Asset summary",
+    "screenType": "Screen",
+    "module": "Identity & Customer Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-023",
+    "path": "/order-management/orders-page",
+    "screenId": "SCR-023",
+    "screenName": "Orders page",
+    "screenType": "Page",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-024",
+    "path": "/sim-number-management/number-management-portal",
+    "screenId": "SCR-024",
+    "screenName": "Number Management Portal",
+    "screenType": "Screen",
+    "module": "SIM & Number Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-025",
+    "path": "/fixed-line-fibre/device-installment-portal",
+    "screenId": "SCR-025",
+    "screenName": "Device Installment Portal",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-026",
+    "path": "/mobile-postpaid/dxp-product-catalog-target-state",
+    "screenId": "SCR-026",
+    "screenName": "DXP Product Catalog (target state)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-027",
+    "path": "/fixed-line-fibre/eligibility-web-portal-external",
+    "screenId": "SCR-027",
+    "screenName": "Eligibility Web Portal (external)",
+    "screenType": "Page",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-028",
+    "path": "/fwa-5g-home/appointment-booking-calendar-selection-screen",
+    "screenId": "SCR-028",
+    "screenName": "Appointment booking / calendar selection screen",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-029",
+    "path": "/trouble-ticketing-complaints/ticket-detail-screen-public-notes-bell-icon-notifications",
+    "screenId": "SCR-029",
+    "screenName": "Ticket detail screen (public notes / bell icon notifications)",
+    "screenType": "Screen",
+    "module": "Trouble Ticketing & Complaints",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-030",
+    "path": "/identity-customer-management/usage-balance-view-agent",
+    "screenId": "SCR-030",
+    "screenName": "Usage/balance view (agent)",
+    "screenType": "Screen",
+    "module": "Identity & Customer Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-031",
+    "path": "/fixed-line-fibre/opengate-tablet-instant-activation-flow",
+    "screenId": "SCR-031",
+    "screenName": "OpenGate Tablet Instant Activation Flow",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-032",
+    "path": "/fixed-line-fibre/cap-signature-screen",
+    "screenId": "SCR-032",
+    "screenName": "CAP Signature Screen",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-033",
+    "path": "/fixed-line-fibre/zsp-entry-screen",
+    "screenId": "SCR-033",
+    "screenName": "ZSP Entry Screen",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-034",
+    "path": "/fixed-line-fibre/address-service-point-search-screen-kid-lookup",
+    "screenId": "SCR-034",
+    "screenName": "Address / Service Point Search Screen (KID lookup)",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-035",
+    "path": "/sim-number-management/ton-transfer-of-number-wizard",
+    "screenId": "SCR-035",
+    "screenName": "TON (Transfer of Number) Wizard",
+    "screenType": "Wizard",
+    "module": "SIM & Number Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-036",
+    "path": "/mobile-postpaid/checkout-screen-retail-new-postpaid",
+    "screenId": "SCR-036",
+    "screenName": "Checkout Screen (Retail New Postpaid)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-037",
+    "path": "/sim-number-management/new-postpaid-connection-journey-single-scroll-flow",
+    "screenId": "SCR-037",
+    "screenName": "New Postpaid Connection Journey (single-scroll flow)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-038",
+    "path": "/fixed-line-fibre/consumer-postpaid-caf-pca001-form",
+    "screenId": "SCR-038",
+    "screenName": "Consumer Postpaid CAF (PCA001) Form",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-039",
+    "path": "/fwa-5g-home/consumer-prepaid-caf-pca001-form",
+    "screenId": "SCR-039",
+    "screenName": "Consumer Prepaid CAF (PCA001) Form",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-040",
+    "path": "/fixed-line-fibre/crm-open-ui-desktop-home-page",
+    "screenId": "SCR-040",
+    "screenName": "CRM Open UI Desktop Home Page",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-041",
+    "path": "/lead-management/cross-sales-contact-qid-entry",
+    "screenId": "SCR-041",
+    "screenName": "Cross Sales - Contact/QID entry",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-042",
+    "path": "/pre-to-post-migration/qid-offers-grid",
+    "screenId": "SCR-042",
+    "screenName": "QID Offers grid",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-043",
+    "path": "/fixed-line-fibre/new-fixed-line-wizard-contact-step",
+    "screenId": "SCR-043",
+    "screenName": "New Fixed Line wizard - Contact step",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-044",
+    "path": "/billing-adjustments/fixed-line-iptv-popup-billing-email-opt-in",
+    "screenId": "SCR-044",
+    "screenName": "Fixed Line IPTV popup (billing email opt-in)",
+    "screenType": "Modal",
+    "module": "Billing & Adjustments",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-045",
+    "path": "/fixed-line-fibre/new-fixed-line-wizard-address-step",
+    "screenId": "SCR-045",
+    "screenName": "New Fixed Line wizard - Address step",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-046",
+    "path": "/fixed-line-fibre/new-fixed-line-wizard-plan-step",
+    "screenId": "SCR-046",
+    "screenName": "New Fixed Line wizard - Plan step",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-047",
+    "path": "/lead-management/new-fixed-line-wizard-addon-discount-step",
+    "screenId": "SCR-047",
+    "screenName": "New Fixed Line wizard - Addon & Discount step",
+    "screenType": "Wizard",
+    "module": "Lead Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-048",
+    "path": "/fixed-line-fibre/new-fixed-line-wizard-number-selection-step",
+    "screenId": "SCR-048",
+    "screenName": "New Fixed Line wizard - Number Selection step",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-049",
+    "path": "/fwa-5g-home/book-appointment-modal-fixed-line",
+    "screenId": "SCR-049",
+    "screenName": "Book Appointment modal (Fixed Line)",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-050",
+    "path": "/fixed-line-fibre/new-fixed-line-wizard-caf-attachments-step",
+    "screenId": "SCR-050",
+    "screenName": "New Fixed Line wizard - CAF/Attachments step",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-051",
+    "path": "/fwa-5g-home/account-orders-view-account-360",
+    "screenId": "SCR-051",
+    "screenName": "Account Orders view (Account 360)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-052",
+    "path": "/lead-management/sales-order-detail-header-and-line-items-tab",
+    "screenId": "SCR-052",
+    "screenName": "Sales Order detail - header and Line Items tab",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-053",
+    "path": "/fixed-line-fibre/siebel-web-call-center-home-page-tile-grid",
+    "screenId": "SCR-053",
+    "screenName": "Siebel Web Call Center Home page (tile grid)",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-054",
+    "path": "/identity-customer-management/all-person-administration-screen",
+    "screenId": "SCR-054",
+    "screenName": "All Person Administration screen",
+    "screenType": "Screen",
+    "module": "Identity & Customer Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-055",
+    "path": "/fwa-5g-home/responsibilities-dialog",
+    "screenId": "SCR-055",
+    "screenName": "Responsibilities dialog",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-056",
+    "path": "/fixed-line-fibre/new-fixed-line-tablet-home-dashboard",
+    "screenId": "SCR-056",
+    "screenName": "New Fixed Line Tablet Home Dashboard",
+    "screenType": "Dashboard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-057",
+    "path": "/fixed-line-fibre/prepatched-device-detection-dialog",
+    "screenId": "SCR-057",
+    "screenName": "Prepatched device detection dialog",
+    "screenType": "Popup",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-058",
+    "path": "/fixed-line-fibre/caf-preview-modal-with-e-signature-pad",
+    "screenId": "SCR-058",
+    "screenName": "CAF preview modal (with e-signature pad)",
+    "screenType": "Modal",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-059",
+    "path": "/order-management/my-sales-orders-my-pending-approval-orders-queue",
+    "screenId": "SCR-059",
+    "screenName": "My Sales Orders / My Pending Approval Orders queue",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-060",
+    "path": "/order-management/tm-sr-queue-view-order-activities-queue",
+    "screenId": "SCR-060",
+    "screenName": "TM SR Queue View - Order Activities Queue",
+    "screenType": "Dashboard",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-061",
+    "path": "/order-management/order-approval-detail-attachments-order-details-activities-a",
+    "screenId": "SCR-061",
+    "screenName": "Order Approval detail (Attachments / Order Details / Activities / Agents Details tabs)",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-062",
+    "path": "/order-management/reject-order-modal",
+    "screenId": "SCR-062",
+    "screenName": "Reject Order modal",
+    "screenType": "Modal",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-063",
+    "path": "/order-management/approve-order-modal",
+    "screenId": "SCR-063",
+    "screenName": "Approve Order modal",
+    "screenType": "Modal",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-064",
+    "path": "/fixed-line-fibre/order-correction-wizard",
+    "screenId": "SCR-064",
+    "screenName": "Order Correction wizard",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-065",
+    "path": "/platform-governance-architecture/oracle-enterprise-manager-service-bus-message-detail-screen",
+    "screenId": "SCR-065",
+    "screenName": "Oracle Enterprise Manager / Service Bus Message Detail screen",
+    "screenType": "Screen",
+    "module": "Platform Governance & Architecture",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-066",
+    "path": "/fixed-line-fibre/gigahome-subscription-acceptance-form-bilingual-paper-pdf-fo",
+    "screenId": "SCR-066",
+    "screenName": "GigaHome Subscription Acceptance Form (bilingual paper/PDF form)",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-067",
+    "path": "/fwa-5g-home/new-fixed-line-tablet-guided-journey-contact-address-plan-ad",
+    "screenId": "SCR-067",
+    "screenName": "New Fixed Line Tablet Guided Journey (Contact/Address/Plan/Addon/Number/Appointment/CAF/Activity accordion)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Tablet field agent"
+  },
+  {
+    "routeId": "RT-SCR-068",
+    "path": "/fixed-line-fibre/combo-box-cpe-detection-dialog-instant-vs-normal-activation",
+    "screenId": "SCR-068",
+    "screenName": "Combo Box CPE Detection Dialog (Instant vs Normal Activation)",
+    "screenType": "Modal",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Tablet field agent"
+  },
+  {
+    "routeId": "RT-SCR-069",
+    "path": "/mnp-fnp-porting/customer-application-form-caf-preview-sign",
+    "screenId": "SCR-069",
+    "screenName": "Customer Application Form (CAF) Preview/Sign",
+    "screenType": "Modal",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Tablet field agent, Customer (signature)"
+  },
+  {
+    "routeId": "RT-SCR-070",
+    "path": "/mnp-fnp-porting/signature-capture-pad",
+    "screenId": "SCR-070",
+    "screenName": "Signature Capture Pad",
+    "screenType": "Modal",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Tablet field agent/Customer"
+  },
+  {
+    "routeId": "RT-SCR-071",
+    "path": "/lead-management/backend-sales-order-record-siebel-order-entry",
+    "screenId": "SCR-071",
+    "screenName": "Backend Sales Order Record (Siebel Order Entry)",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Back office/admin"
+  },
+  {
+    "routeId": "RT-SCR-072",
+    "path": "/fwa-5g-home/line-items-tab-order",
+    "screenId": "SCR-072",
+    "screenName": "Line Items Tab (Order)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Back office/admin"
+  },
+  {
+    "routeId": "RT-SCR-073",
+    "path": "/fwa-5g-home/account-summary-installed-assets-and-orders",
+    "screenId": "SCR-073",
+    "screenName": "Account Summary (Installed Assets and Orders)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Back office/agent"
+  },
+  {
+    "routeId": "RT-SCR-074",
+    "path": "/mnp-fnp-porting/attachment-viewer-qatari-id-caf-supplementary-form",
+    "screenId": "SCR-074",
+    "screenName": "Attachment Viewer (Qatari ID/CAF/Supplementary Form)",
+    "screenType": "Modal",
+    "module": "MNP / FNP Porting",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-075",
+    "path": "/pre-to-post-migration/connection-details-popup",
+    "screenId": "SCR-075",
+    "screenName": "Connection Details Popup",
+    "screenType": "Popup",
+    "module": "Pre-to-Post Migration",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-076",
+    "path": "/fwa-5g-home/caf-dropdown-digital-manual-touch-screen",
+    "screenId": "SCR-076",
+    "screenName": "CAF Dropdown (Digital/Manual/Touch Screen)",
+    "screenType": "Popup",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-077",
+    "path": "/fwa-5g-home/new-fwa-tile-home-screen",
+    "screenId": "SCR-077",
+    "screenName": "New FWA Tile / Home Screen",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-078",
+    "path": "/fwa-5g-home/fwa-contact-step",
+    "screenId": "SCR-078",
+    "screenName": "FWA Contact Step",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-079",
+    "path": "/fwa-5g-home/address-step-fwa",
+    "screenId": "SCR-079",
+    "screenName": "Address Step (FWA)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Field/desktop agent"
+  },
+  {
+    "routeId": "RT-SCR-080",
+    "path": "/fwa-5g-home/plan-step-fwa",
+    "screenId": "SCR-080",
+    "screenName": "Plan Step (FWA)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-081",
+    "path": "/caf-attachments-forms/addon-discount-step-fwa",
+    "screenId": "SCR-081",
+    "screenName": "Addon & Discount Step (FWA)",
+    "screenType": "Wizard",
+    "module": "CAF, Attachments & Forms",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-082",
+    "path": "/fwa-5g-home/number-selection-step-fwa",
+    "screenId": "SCR-082",
+    "screenName": "Number Selection Step (FWA)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-083",
+    "path": "/fwa-5g-home/book-appointment-step-modal-fwa-wfm",
+    "screenId": "SCR-083",
+    "screenName": "Book Appointment Step / Modal (FWA & WFM)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-084",
+    "path": "/fwa-5g-home/caf-modal-fwa",
+    "screenId": "SCR-084",
+    "screenName": "CAF Modal (FWA)",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-085",
+    "path": "/fwa-5g-home/activity-step-comments",
+    "screenId": "SCR-085",
+    "screenName": "Activity Step (Comments)",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-086",
+    "path": "/fwa-5g-home/line-items-appointments-sub-tab",
+    "screenId": "SCR-086",
+    "screenName": "Line Items > Appointments Sub-tab",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-087",
+    "path": "/fwa-5g-home/vfq-inventory-loading-excel-tool",
+    "screenId": "SCR-087",
+    "screenName": "VFQ Inventory Loading Excel Tool",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-088",
+    "path": "/fwa-5g-home/resource-inventory-import-field-service-import-add-in",
+    "screenId": "SCR-088",
+    "screenName": "Resource Inventory Import / Field Service Import Add-in",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-089",
+    "path": "/fwa-5g-home/move-dialog-technician-reassignment",
+    "screenId": "SCR-089",
+    "screenName": "Move Dialog (Technician Reassignment)",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Dispatcher/Back-Office WFM user"
+  },
+  {
+    "routeId": "RT-SCR-090",
+    "path": "/fwa-5g-home/inventory-management-non-serialized-inventory-transfer",
+    "screenId": "SCR-090",
+    "screenName": "Inventory Management - Non-Serialized Inventory Transfer",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Dispatcher/Back-Office WFM user"
+  },
+  {
+    "routeId": "RT-SCR-091",
+    "path": "/fwa-5g-home/ofs-my-route-technician",
+    "screenId": "SCR-091",
+    "screenName": "OFS My Route (Technician)",
+    "screenType": "Dashboard",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Field Technician"
+  },
+  {
+    "routeId": "RT-SCR-092",
+    "path": "/fixed-line-fibre/ofs-activity-details-start-end-activity",
+    "screenId": "SCR-092",
+    "screenName": "OFS Activity Details / Start-End Activity",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Field Technician"
+  },
+  {
+    "routeId": "RT-SCR-093",
+    "path": "/fwa-5g-home/serial-number-check-screen-dual-play",
+    "screenId": "SCR-093",
+    "screenName": "Serial Number Check Screen (Dual Play)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Field Technician"
+  },
+  {
+    "routeId": "RT-SCR-094",
+    "path": "/fixed-line-fibre/installation-checklist-screen",
+    "screenId": "SCR-094",
+    "screenName": "Installation Checklist Screen",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Field Technician"
+  },
+  {
+    "routeId": "RT-SCR-095",
+    "path": "/mobile-postpaid/customer-portal-billing-profile-unbilled-usage-surepay-bucke",
+    "screenId": "SCR-095",
+    "screenName": "Customer Portal - Billing Profile / Unbilled Usage / Surepay Bucket View",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Back office/agent"
+  },
+  {
+    "routeId": "RT-SCR-096",
+    "path": "/fwa-5g-home/installed-assets-grid-account-360-fwa",
+    "screenId": "SCR-096",
+    "screenName": "Installed Assets Grid (Account 360, FWA)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-097",
+    "path": "/fwa-5g-home/fms-cpe-bundle-configuration-modify-screen-equipment-tab",
+    "screenId": "SCR-097",
+    "screenName": "FMS CPE Bundle Configuration / Modify Screen (Equipment tab)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-098",
+    "path": "/fwa-5g-home/order-line-items-attributes-tab-change-audit",
+    "screenId": "SCR-098",
+    "screenName": "Order Line Items > Attributes Tab (Change Audit)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-099",
+    "path": "/fwa-5g-home/sim-serial-step-fwa-with-validation",
+    "screenId": "SCR-099",
+    "screenName": "SIM Serial Step (FWA, with validation)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Field/desktop agent"
+  },
+  {
+    "routeId": "RT-SCR-100",
+    "path": "/fixed-line-fibre/caf-additional-attachments-step-fwa",
+    "screenId": "SCR-100",
+    "screenName": "CAF & Additional Attachments Step (FWA)",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-101",
+    "path": "/enterprise-iot-b2b/account-360-view-fwa-created",
+    "screenId": "SCR-101",
+    "screenName": "Account 360 View (FWA, created)",
+    "screenType": "Screen",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-102",
+    "path": "/fwa-5g-home/sales-order-detail-more-info-tab",
+    "screenId": "SCR-102",
+    "screenName": "Sales Order Detail (More Info tab)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-103",
+    "path": "/sim-number-management/catalog-tab",
+    "screenId": "SCR-103",
+    "screenName": "Catalog Tab",
+    "screenType": "Screen",
+    "module": "SIM & Number Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-104",
+    "path": "/sim-number-management/numbers-tab-order",
+    "screenId": "SCR-104",
+    "screenName": "Numbers Tab (Order)",
+    "screenType": "Screen",
+    "module": "SIM & Number Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-105",
+    "path": "/fwa-5g-home/uim-custom-object-summary",
+    "screenId": "SCR-105",
+    "screenName": "UIM Custom Object Summary",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-106",
+    "path": "/fwa-5g-home/order-entry-backend-order-record",
+    "screenId": "SCR-106",
+    "screenName": "Order Entry (Backend Order Record)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-107",
+    "path": "/fixed-line-fibre/manager-home-screen-test-manager",
+    "screenId": "SCR-107",
+    "screenName": "Manager Home Screen (Test Manager)",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Manager/Approver"
+  },
+  {
+    "routeId": "RT-SCR-108",
+    "path": "/mobile-postpaid/sales-order-record-backend-approved",
+    "screenId": "SCR-108",
+    "screenName": "Sales Order Record (Backend, Approved)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-109",
+    "path": "/fwa-5g-home/book-appointment-book-unscheduled-appointment-step",
+    "screenId": "SCR-109",
+    "screenName": "Book Appointment / Book Unscheduled Appointment Step",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-110",
+    "path": "/fixed-line-fibre/wfm-activity-details-admin-technician-view",
+    "screenId": "SCR-110",
+    "screenName": "WFM Activity Details - Admin/Technician View",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Field Technician"
+  },
+  {
+    "routeId": "RT-SCR-111",
+    "path": "/fwa-5g-home/end-activity-form",
+    "screenId": "SCR-111",
+    "screenName": "End Activity Form",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Field Technician"
+  },
+  {
+    "routeId": "RT-SCR-112",
+    "path": "/lead-management/contact-cross-sales-offers-screen-mnp",
+    "screenId": "SCR-112",
+    "screenName": "Contact / Cross Sales Offers Screen (MNP)",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-113",
+    "path": "/pre-to-post-migration/mnp-postpaid-billing-step",
+    "screenId": "SCR-113",
+    "screenName": "MNP Postpaid Billing Step",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-114",
+    "path": "/mobile-postpaid/mnp-postpaid-plan-step-promotion-detail-modal",
+    "screenId": "SCR-114",
+    "screenName": "MNP Postpaid Plan Step / Promotion Detail Modal",
+    "screenType": "Modal",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-115",
+    "path": "/fwa-5g-home/book-appointment-home-move",
+    "screenId": "SCR-115",
+    "screenName": "Book Appointment (Home Move)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-116",
+    "path": "/fwa-5g-home/home-move-checklist",
+    "screenId": "SCR-116",
+    "screenName": "Home Move Checklist",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-117",
+    "path": "/caf-attachments-forms/product-promotions-admin-more-info-tab",
+    "screenId": "SCR-117",
+    "screenName": "Product Promotions admin - More Info tab",
+    "screenType": "Screen",
+    "module": "CAF, Attachments & Forms",
+    "personaAccess": "Admin"
+  },
+  {
+    "routeId": "RT-SCR-118",
+    "path": "/mobile-postpaid/product-promotions-admin-bill-limit-mapping-spend-limit-mapp",
+    "screenId": "SCR-118",
+    "screenName": "Product Promotions admin - Bill Limit Mapping / Spend Limit Mapping tab",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Admin"
+  },
+  {
+    "routeId": "RT-SCR-119",
+    "path": "/identity-customer-management/agent-home-app-launcher",
+    "screenId": "SCR-119",
+    "screenName": "Agent Home / App Launcher",
+    "screenType": "Dashboard",
+    "module": "Identity & Customer Management",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-120",
+    "path": "/mnp-fnp-porting/mnp-guided-process-choose-process",
+    "screenId": "SCR-120",
+    "screenName": "MNP Guided Process - Choose process",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-121",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-contact",
+    "screenId": "SCR-121",
+    "screenName": "MNP wizard step: Contact",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-122",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-address",
+    "screenId": "SCR-122",
+    "screenName": "MNP wizard step: Address",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-123",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-billing",
+    "screenId": "SCR-123",
+    "screenName": "MNP wizard step: Billing",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-124",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-sim-serial",
+    "screenId": "SCR-124",
+    "screenName": "MNP wizard step: SIM Serial",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-125",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-plan-plan-selection-grid",
+    "screenId": "SCR-125",
+    "screenName": "MNP wizard step: Plan (plan selection grid)",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-126",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-donor-details",
+    "screenId": "SCR-126",
+    "screenName": "MNP wizard step: Donor Details",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-127",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-donor-attachment",
+    "screenId": "SCR-127",
+    "screenName": "MNP wizard step: Donor Attachment",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-128",
+    "path": "/mnp-fnp-porting/mobile-number-portability-application-form-mnp-contract",
+    "screenId": "SCR-128",
+    "screenName": "Mobile Number Portability Application Form (MNP contract)",
+    "screenType": "Modal",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales + Customer"
+  },
+  {
+    "routeId": "RT-SCR-129",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-caf",
+    "screenId": "SCR-129",
+    "screenName": "MNP wizard step: CAF",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-130",
+    "path": "/mnp-fnp-porting/vodafone-customer-application-form-caf-mnp-variant",
+    "screenId": "SCR-130",
+    "screenName": "Vodafone Customer Application Form (CAF, MNP variant)",
+    "screenType": "Modal",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales + Customer"
+  },
+  {
+    "routeId": "RT-SCR-131",
+    "path": "/mnp-fnp-porting/siebel-sales-order-screen-mnp",
+    "screenId": "SCR-131",
+    "screenName": "Siebel Sales Order screen (MNP)",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-132",
+    "path": "/mnp-fnp-porting/order-line-items-line-item-attributes-grid-mnp",
+    "screenId": "SCR-132",
+    "screenName": "Order Line Items / Line Item Attributes grid (MNP)",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-133",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-addon-discount",
+    "screenId": "SCR-133",
+    "screenName": "MNP wizard step: Addon & Discount",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-134",
+    "path": "/mnp-fnp-porting/mnp-wizard-step-activity-comments",
+    "screenId": "SCR-134",
+    "screenName": "MNP wizard step: Activity (Comments)",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-135",
+    "path": "/mnp-fnp-porting/completion-popup-mnp-order-confirmation",
+    "screenId": "SCR-135",
+    "screenName": "Completion popup (MNP order confirmation)",
+    "screenType": "Popup",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-136",
+    "path": "/mnp-fnp-porting/order-entry-header-detail-view-mnp",
+    "screenId": "SCR-136",
+    "screenName": "Order Entry - header/detail view (MNP)",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-137",
+    "path": "/mobile-postpaid/account-summary",
+    "screenId": "SCR-137",
+    "screenName": "Account Summary",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail Sales / Retail-CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-138",
+    "path": "/fwa-5g-home/mass-market-addons-checklist-modal",
+    "screenId": "SCR-138",
+    "screenName": "Mass Market Addons checklist modal",
+    "screenType": "Modal",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-139",
+    "path": "/caf-attachments-forms/prepaid-customer-application-form-caf",
+    "screenId": "SCR-139",
+    "screenName": "Prepaid Customer Application Form (CAF)",
+    "screenType": "Modal",
+    "module": "CAF, Attachments & Forms",
+    "personaAccess": "Retail Sales + Customer"
+  },
+  {
+    "routeId": "RT-SCR-140",
+    "path": "/fixed-line-fibre/new-lead-tablet-create-a-lead-form",
+    "screenId": "SCR-140",
+    "screenName": "New Lead Tablet - Create a Lead form",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-141",
+    "path": "/lead-management/lead-details-view",
+    "screenId": "SCR-141",
+    "screenName": "Lead Details View",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Retail Sales, Manager, Admin"
+  },
+  {
+    "routeId": "RT-SCR-142",
+    "path": "/lead-management/my-leads-list",
+    "screenId": "SCR-142",
+    "screenName": "My Leads list",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-143",
+    "path": "/lead-management/my-created-leads-view",
+    "screenId": "SCR-143",
+    "screenName": "My Created Leads view",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-144",
+    "path": "/lead-management/manage-leads-my-team-s-leads",
+    "screenId": "SCR-144",
+    "screenName": "Manage Leads - My Team's Leads",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Manager/Approver"
+  },
+  {
+    "routeId": "RT-SCR-145",
+    "path": "/lead-management/reject-lead-modal",
+    "screenId": "SCR-145",
+    "screenName": "Reject Lead modal",
+    "screenType": "Modal",
+    "module": "Lead Management",
+    "personaAccess": "Manager/Approver"
+  },
+  {
+    "routeId": "RT-SCR-146",
+    "path": "/lead-management/lead-owner-reassignment-picker",
+    "screenId": "SCR-146",
+    "screenName": "Lead Owner reassignment picker",
+    "screenType": "Modal",
+    "module": "Lead Management",
+    "personaAccess": "Manager/Approver"
+  },
+  {
+    "routeId": "RT-SCR-147",
+    "path": "/lead-management/all-leads-across-org",
+    "screenId": "SCR-147",
+    "screenName": "All Leads across Org",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Back Office / Admin"
+  },
+  {
+    "routeId": "RT-SCR-148",
+    "path": "/lead-management/description-edit-popup",
+    "screenId": "SCR-148",
+    "screenName": "Description edit popup",
+    "screenType": "Modal",
+    "module": "Lead Management",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-149",
+    "path": "/lead-management/callback-date-time-picker",
+    "screenId": "SCR-149",
+    "screenName": "CallBack Date/Time picker",
+    "screenType": "Modal",
+    "module": "Lead Management",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-150",
+    "path": "/lead-management/contact-record-leads-sub-tab",
+    "screenId": "SCR-150",
+    "screenName": "Contact record - Leads sub-tab",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Retail Sales, Manager, Admin"
+  },
+  {
+    "routeId": "RT-SCR-151",
+    "path": "/identity-customer-management/passport-to-qid-update-wizard",
+    "screenId": "SCR-151",
+    "screenName": "Passport to QID Update wizard",
+    "screenType": "Wizard",
+    "module": "Identity & Customer Management",
+    "personaAccess": "Retail Sales + Customer"
+  },
+  {
+    "routeId": "RT-SCR-152",
+    "path": "/mnp-fnp-porting/cross-sales-contact-step-postpaid",
+    "screenId": "SCR-152",
+    "screenName": "Cross Sales Contact step (Postpaid)",
+    "screenType": "Wizard",
+    "module": "MNP / FNP Porting",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-153",
+    "path": "/lead-management/cross-sales-offers-step-postpaid",
+    "screenId": "SCR-153",
+    "screenName": "Cross Sales Offers step (Postpaid)",
+    "screenType": "Wizard",
+    "module": "Lead Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-154",
+    "path": "/mobile-postpaid/postpaid-contact-step-wizard",
+    "screenId": "SCR-154",
+    "screenName": "Postpaid Contact step (wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-155",
+    "path": "/mobile-postpaid/address-step-postpaid-wizard",
+    "screenId": "SCR-155",
+    "screenName": "Address step (Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-156",
+    "path": "/mobile-postpaid/billing-step-postpaid-wizard",
+    "screenId": "SCR-156",
+    "screenName": "Billing step (Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-157",
+    "path": "/mobile-postpaid/number-selection-step-postpaid-wizard",
+    "screenId": "SCR-157",
+    "screenName": "Number Selection step (Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-158",
+    "path": "/mobile-postpaid/sim-serial-step-postpaid-wizard",
+    "screenId": "SCR-158",
+    "screenName": "SIM Serial step (Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-159",
+    "path": "/mobile-postpaid/product-catalog-plan-step-postpaid-wizard",
+    "screenId": "SCR-159",
+    "screenName": "Product Catalog / Plan step (Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-160",
+    "path": "/mobile-postpaid/payment-step-wizard",
+    "screenId": "SCR-160",
+    "screenName": "Payment step (wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-161",
+    "path": "/mobile-postpaid/caf-attachments-step-postpaid-wizard",
+    "screenId": "SCR-161",
+    "screenName": "CAF/Attachments step (Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-162",
+    "path": "/mobile-postpaid/activity-step-call-disposition-postpaid-wizard",
+    "screenId": "SCR-162",
+    "screenName": "Activity step (call disposition, Postpaid wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-163",
+    "path": "/lead-management/sales-order-detail-back-office-postpaid",
+    "screenId": "SCR-163",
+    "screenName": "Sales Order detail (back-office, Postpaid)",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Retail/CRM Agent, Back office"
+  },
+  {
+    "routeId": "RT-SCR-164",
+    "path": "/pre-to-post-migration/assets-complex-assets-view",
+    "screenId": "SCR-164",
+    "screenName": "Assets / Complex Assets view",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent, Back office"
+  },
+  {
+    "routeId": "RT-SCR-165",
+    "path": "/caf-attachments-forms/complex-product-runtime-instantiation-customization-screen",
+    "screenId": "SCR-165",
+    "screenName": "Complex Product Runtime Instantiation (customization screen)",
+    "screenType": "Screen",
+    "module": "CAF, Attachments & Forms",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-166",
+    "path": "/mobile-postpaid/bill-limit-mobile-plus-customize-detail-panel",
+    "screenId": "SCR-166",
+    "screenName": "Bill Limit Mobile Plus - Customize detail panel",
+    "screenType": "Modal",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-167",
+    "path": "/mobile-postpaid/order-validation-dialogs",
+    "screenId": "SCR-167",
+    "screenName": "Order Validation dialogs",
+    "screenType": "Popup",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-168",
+    "path": "/mnp-fnp-porting/home-guided-process-choose-process-screen",
+    "screenId": "SCR-168",
+    "screenName": "Home / Guided Process 'Choose process' screen",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-169",
+    "path": "/mnp-fnp-porting/caf-customer-application-form-document-view-postpaid-hrn",
+    "screenId": "SCR-169",
+    "screenName": "CAF (Customer Application Form) document view (Postpaid HRN)",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Retail/CRM Agent, Customer (signs)"
+  },
+  {
+    "routeId": "RT-SCR-170",
+    "path": "/fixed-line-fibre/caf-additional-attachments-step-b2b2c",
+    "screenId": "SCR-170",
+    "screenName": "CAF & Additional Attachments step (B2B2C)",
+    "screenType": "Wizard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-171",
+    "path": "/mobile-postpaid/b2b2c-override-confirm-dialog",
+    "screenId": "SCR-171",
+    "screenName": "B2B2C override confirm dialog",
+    "screenType": "Popup",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail/CRM Agent"
+  },
+  {
+    "routeId": "RT-SCR-172",
+    "path": "/mobile-postpaid/promotion-upgrades-picker-modal",
+    "screenId": "SCR-172",
+    "screenName": "Promotion Upgrades picker (modal)",
+    "screenType": "Modal",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-173",
+    "path": "/mobile-postpaid/sales-order-line-items-screen-pre-to-post",
+    "screenId": "SCR-173",
+    "screenName": "Sales Order Line Items screen (Pre-to-Post)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-174",
+    "path": "/mobile-postpaid/product-configurator-bill-limit-selection-pre-to-post",
+    "screenId": "SCR-174",
+    "screenName": "Product configurator (Bill Limit selection, Pre-to-Post)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-175",
+    "path": "/lead-management/order-header-order-detail-screen-pre-to-post",
+    "screenId": "SCR-175",
+    "screenName": "Order header / Order detail screen (Pre-to-Post)",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-176",
+    "path": "/fixed-line-fibre/home-menu-app-icon-grid-pre-to-post-desktop",
+    "screenId": "SCR-176",
+    "screenName": "Home menu (app-icon grid, Pre-to-Post desktop)",
+    "screenType": "Dashboard",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-177",
+    "path": "/pre-to-post-migration/postpaid-contact-wizard-step-pre-to-post",
+    "screenId": "SCR-177",
+    "screenName": "Postpaid - Contact wizard step (Pre-to-Post)",
+    "screenType": "Wizard",
+    "module": "Pre-to-Post Migration",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-178",
+    "path": "/mobile-postpaid/sales-order-record-screen-line-items-pre-to-post",
+    "screenId": "SCR-178",
+    "screenName": "Sales Order record screen (Line Items, Pre-to-Post)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-179",
+    "path": "/pre-to-post-migration/migration-offer-tab-complex-asset-list-applet",
+    "screenId": "SCR-179",
+    "screenName": "Migration Offer tab (Complex Asset List Applet)",
+    "screenType": "Screen",
+    "module": "Pre-to-Post Migration",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-180",
+    "path": "/pre-to-post-migration/base-management-wizard-contact-offer-summary-activity",
+    "screenId": "SCR-180",
+    "screenName": "Base Management wizard (Contact / Offer Summary / Activity)",
+    "screenType": "Wizard",
+    "module": "Pre-to-Post Migration",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-181",
+    "path": "/fixed-line-fibre/comments-modal-base-management",
+    "screenId": "SCR-181",
+    "screenName": "Comments modal (Base Management)",
+    "screenType": "Modal",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-182",
+    "path": "/order-management/submission-confirmation-modal",
+    "screenId": "SCR-182",
+    "screenName": "Submission confirmation modal",
+    "screenType": "Modal",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-183",
+    "path": "/pre-to-post-migration/bulk-jobs-bulk-processing-screen-tm-bulk-batch-list-applet",
+    "screenId": "SCR-183",
+    "screenName": "Bulk Jobs / Bulk Processing screen (TM Bulk Batch List Applet)",
+    "screenType": "Dashboard",
+    "module": "Pre-to-Post Migration",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-184",
+    "path": "/order-management/account-activities-tab",
+    "screenId": "SCR-184",
+    "screenName": "Account Activities tab",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-185",
+    "path": "/fwa-5g-home/account-360-view-account-summary-tile-view",
+    "screenId": "SCR-185",
+    "screenName": "Account 360 View / Account Summary tile view",
+    "screenType": "Dashboard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-186",
+    "path": "/enterprise-iot-b2b/billing-profile-grid-account-level",
+    "screenId": "SCR-186",
+    "screenName": "Billing Profile grid (account level)",
+    "screenType": "Screen",
+    "module": "Enterprise / IoT / B2B",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-187",
+    "path": "/fwa-5g-home/mobile-postpaid-guided-process-choose-process-tablet",
+    "screenId": "SCR-187",
+    "screenName": "Mobile Postpaid > Guided Process Choose process (tablet)",
+    "screenType": "Wizard",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-188",
+    "path": "/mobile-postpaid/step-2-plan-edit-credit-limit-dropdown",
+    "screenId": "SCR-188",
+    "screenName": "Step 2 Plan - Edit Credit Limit dropdown",
+    "screenType": "Modal",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-189",
+    "path": "/mobile-postpaid/step-3-addon-discount-pre-to-post-tablet",
+    "screenId": "SCR-189",
+    "screenName": "Step 3 Addon & Discount (Pre-to-Post tablet)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-190",
+    "path": "/mobile-prepaid/new-prepaid",
+    "screenId": "SCR-190",
+    "screenName": "New Prepaid Activation",
+    "screenType": "Wizard",
+    "module": "Mobile Prepaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-193",
+    "path": "/mnp-fnp-porting/prepaid-customer-application-form-unsigned",
+    "screenId": "SCR-193",
+    "screenName": "Prepaid Customer Application Form (unsigned)",
+    "screenType": "Modal",
+    "module": "MNP / FNP Porting",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-194",
+    "path": "/mobile-postpaid/sales-order-line-items-tab-new-prepaid",
+    "screenId": "SCR-194",
+    "screenName": "Sales Order - Line Items tab (New Prepaid)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-195",
+    "path": "/sim-number-management/global-search",
+    "screenId": "SCR-195",
+    "screenName": "Global Search",
+    "screenType": "Screen",
+    "module": "SIM & Number Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-196",
+    "path": "/sim-number-management/sim-swap-queue-order-tasks-tab",
+    "screenId": "SCR-196",
+    "screenName": "SIM Swap Queue / Order tasks tab",
+    "screenType": "Screen",
+    "module": "SIM & Number Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-197",
+    "path": "/order-management/order-approval-queue-order-activities-queue-tablet",
+    "screenId": "SCR-197",
+    "screenName": "Order Approval Queue / Order Activities Queue (Tablet)",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-198",
+    "path": "/order-management/all-sales-order-screen-with-all-sim-swap-orders-all-pending-",
+    "screenId": "SCR-198",
+    "screenName": "All Sales Order screen (with All SIM Swap Orders / All Pending SIM Swap Orders filter)",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-199",
+    "path": "/order-management/fdo-requests-tab-in-account-summary",
+    "screenId": "SCR-199",
+    "screenName": "FDO requests tab (in account summary)",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-200",
+    "path": "/order-management/fdo-request-view-icon-homepage",
+    "screenId": "SCR-200",
+    "screenName": "FDO request view icon (homepage)",
+    "screenType": "Screen",
+    "module": "Order Management",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-201",
+    "path": "/fixed-line-fibre/rfs-portal",
+    "screenId": "SCR-201",
+    "screenName": "RFS Portal",
+    "screenType": "Page",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-202",
+    "path": "/fwa-5g-home/account-summary-account-360-cti-view",
+    "screenId": "SCR-202",
+    "screenName": "Account Summary (Account 360, CTI View)",
+    "screenType": "Screen",
+    "module": "FWA / 5G Home",
+    "personaAccess": "Agent (Open UI Desktop)"
+  },
+  {
+    "routeId": "RT-SCR-203",
+    "path": "/lead-management/asset-summary-cti-view",
+    "screenId": "SCR-203",
+    "screenName": "Asset Summary (CTI View)",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Agent"
+  },
+  {
+    "routeId": "RT-SCR-204",
+    "path": "/lead-management/asset-detail-expanded-view",
+    "screenId": "SCR-204",
+    "screenName": "Asset Detail Expanded View",
+    "screenType": "Screen",
+    "module": "Lead Management",
+    "personaAccess": "Agent"
+  },
+  {
+    "routeId": "RT-SCR-205",
+    "path": "/mobile-postpaid/communications-modal-real-time-balance",
+    "screenId": "SCR-205",
+    "screenName": "Communications Modal / Real Time Balance",
+    "screenType": "Modal",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Agent"
+  },
+  {
+    "routeId": "RT-SCR-206",
+    "path": "/fixed-line-fibre/contact-history-tab",
+    "screenId": "SCR-206",
+    "screenName": "Contact History Tab",
+    "screenType": "Screen",
+    "module": "Fixed Line / Fibre",
+    "personaAccess": "Agent"
+  },
+  {
+    "routeId": "RT-SCR-207",
+    "path": "/fwa-5g-home/contact-portal",
+    "screenId": "SCR-207",
+    "screenName": "Contact Portal",
+    "screenType": "Page",
+    "module": "FWA / 5G Home",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-208",
+    "path": "/mobile-postpaid/dxp-agent-portal-wireframes-13-step-onboarding-wizard",
+    "screenId": "SCR-208",
+    "screenName": "DXP Agent Portal Wireframes (13-step onboarding wizard)",
+    "screenType": "Wizard",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-209",
+    "path": "/mobile-postpaid/agent-desktop-journey-initiation",
+    "screenId": "SCR-209",
+    "screenName": "Agent Desktop (Journey initiation)",
+    "screenType": "Screen",
+    "module": "Mobile Postpaid",
+    "personaAccess": "Retail Sales"
+  },
+  {
+    "routeId": "RT-SCR-210",
+    "path": "/trouble-ticketing-complaints/ticket-homepage",
+    "screenId": "SCR-210",
+    "screenName": "Ticket Homepage",
+    "screenType": "Page",
+    "module": "Trouble Ticketing & Complaints",
+    "personaAccess": "FL Agents, Complaints Team"
+  },
+  {
+    "routeId": "RT-SCR-211",
+    "path": "/trouble-ticketing-complaints/tickets-dashboard",
+    "screenId": "SCR-211",
+    "screenName": "Tickets Dashboard",
+    "screenType": "Dashboard",
+    "module": "Trouble Ticketing & Complaints",
+    "personaAccess": ""
+  },
+  {
+    "routeId": "RT-SCR-212",
+    "path": "/mnp-fnp-porting/ticket-status-on-vf-app",
+    "screenId": "SCR-212",
+    "screenName": "Ticket Status on VF App",
+    "screenType": "Screen",
+    "module": "MNP / FNP Porting",
+    "personaAccess": "Customer"
+  },
+  {
+    "routeId": "RT-SCR-213",
+    "path": "/trouble-ticketing-complaints/open-ui-tickets-fields-per-issue-type-template",
+    "screenId": "SCR-213",
+    "screenName": "Open UI Tickets Fields (per-issue-type template)",
+    "screenType": "Modal",
+    "module": "Trouble Ticketing & Complaints",
+    "personaAccess": "Agents"
+  }
+]

@@ -1,0 +1,120 @@
+/**
+ * Tooltip surface - hover-tooltip skill. Rendered via React portal
+ * (Tooltip.tsx), never nested inside the trigger's own DOM subtree, so it
+ * is never clipped by an ancestor `overflow` and floats above dropdowns/
+ * modals via --tooltip-z-index. Requires tooltip-tokens.css.
+ *
+ * No `.tooltip-trigger` chip class here on purpose - this app's icon
+ * buttons (topbar, sidebar) already have their own established visual
+ * style; the tooltip is layered on top of them, not a restyle.
+ */
+.tooltip-surface {
+  position: fixed;
+  z-index: var(--tooltip-z-index);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  border-radius: var(--tooltip-radius);
+  padding: var(--tooltip-padding-y) var(--tooltip-padding-x);
+  font-size: var(--tooltip-font-size);
+  font-weight: var(--tooltip-font-weight);
+  line-height: var(--tooltip-line-height);
+  font-family: var(--tooltip-font-family);
+  max-width: var(--tooltip-max-width);
+  box-shadow: var(--tooltip-shadow);
+  pointer-events: auto; /* hoverable: the pointer can move onto it without it vanishing (WCAG 1.4.13) */
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateY(0);
+  transition:
+    opacity var(--tooltip-transition-duration) var(--tooltip-transition-easing),
+    transform var(--tooltip-transition-duration) var(--tooltip-transition-easing);
+}
+
+/* Truncation lives on an inner element, not the surface: the pointer below is
+ * drawn outside the surface's box, so the surface cannot clip its overflow. */
+.tooltip-surface__label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tooltip-surface--wrap {
+  white-space: normal;
+}
+
+.tooltip-surface--wrap .tooltip-surface__label {
+  text-overflow: initial;
+}
+
+/* Pointer triangle - a zero-size box with one filled border, so it needs no
+ * extra markup and stays out of layout (an absolutely positioned pseudo-
+ * element adds nothing to getBoundingClientRect, which Tooltip.tsx measures
+ * to place the surface). Always on the edge facing the trigger, so a
+ * collision flip re-aims it automatically. */
+.tooltip-surface::after {
+  content: '';
+  position: absolute;
+  border: var(--tooltip-arrow-size) solid transparent;
+}
+
+/* Surface sits right of the trigger → pointer on its left edge, facing left. */
+.tooltip-surface[data-placement='right']::after {
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border-right-color: var(--tooltip-bg);
+}
+
+.tooltip-surface[data-placement='left']::after {
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-left-color: var(--tooltip-bg);
+}
+
+.tooltip-surface[data-placement='top']::after {
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border-top-color: var(--tooltip-bg);
+}
+
+.tooltip-surface[data-placement='bottom']::after {
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--tooltip-bg);
+}
+
+.tooltip-surface[data-state='visible'] {
+  opacity: 1;
+}
+
+.tooltip-surface[data-placement='right'] {
+  transform: translateX(calc(-1 * var(--tooltip-transition-distance)));
+}
+.tooltip-surface[data-placement='right'][data-state='visible'] {
+  transform: translateX(0);
+}
+
+.tooltip-surface[data-placement='left'] {
+  transform: translateX(var(--tooltip-transition-distance));
+}
+.tooltip-surface[data-placement='left'][data-state='visible'] {
+  transform: translateX(0);
+}
+
+.tooltip-surface[data-placement='top'] {
+  transform: translateY(var(--tooltip-transition-distance));
+}
+.tooltip-surface[data-placement='top'][data-state='visible'] {
+  transform: translateY(0);
+}
+
+.tooltip-surface[data-placement='bottom'] {
+  transform: translateY(calc(-1 * var(--tooltip-transition-distance)));
+}
+.tooltip-surface[data-placement='bottom'][data-state='visible'] {
+  transform: translateY(0);
+}

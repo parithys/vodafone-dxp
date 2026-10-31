@@ -1,0 +1,3116 @@
+[
+  {
+    "id": "BR-001",
+    "name": "Fibre 12-Month Lock-in Disconnection Fee",
+    "ruleType": "Calculation",
+    "description": "If the customer disconnects before completing the 12-month Fibre Lock-in, they must pay the remainder of the 3-month minimum service period plus a Fibre Lock-in charge of QR 80 x remaining months (of the 12). If the customer leaves after the 12-month lock-in has completed, no disconnection fee applies.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Fibre 12-Month Lock-in Disconnection Fee; raw:No Disconnection Fee After Lock-in Completion",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-002",
+    "name": "OSNtv Termination Penalty Calculation",
+    "ruleType": "Calculation",
+    "description": "OSNtv termination penalty is calculated as the remainder of 12 months x QR 30 (OSN Lite) or QR 60 (OSN Premium). Both the Plan disconnection penalty and the OSNtv penalty apply together (are additive) when both are in effect.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:OSNtv Termination Penalty Calculation",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-003",
+    "name": "Try & Buy 30-Day Waiver Condition",
+    "ruleType": "Eligibility",
+    "description": "For Try & Buy subscriptions only, disconnecting within the first 30 days waives disconnection charges, but the OSN Box must be returned to a Vodafone store in good working condition. If the box is not returned, or not returned in good working condition, a penalty of QAR 165 applies.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Try & Buy 30-Day Waiver Condition",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-004",
+    "name": "Home Move Free-Once-Per-Cycle Rule",
+    "ruleType": "Eligibility",
+    "description": "Home Move service is free once every 12-month cycle and must be requested at least 14 days before shifting. If fibre is unavailable at the new address, the customer is offered alternate Broadband Plans or must pay Disconnection Fees. Home Move is also confirmed as a common product offered to both consumer and enterprise segments (along with 5G Indoor).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Home Move Free-Once-Per-Cycle Rule; raw:Consumer/Enterprise Common Products Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-005",
+    "name": "Kahramaa ID One-Offer-Per-Household Rule",
+    "ruleType": "Eligibility",
+    "description": "The offer permits only one connection per household, identified by Kahramaa ID; multiple QID activations within the same household attempting to re-qualify for the offer are not permitted and result in removal of the offer.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Kahramaa ID One-Offer-Per-Household Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-006",
+    "name": "Kahramaa ID Reuse by New Tenant",
+    "ruleType": "Eligibility",
+    "description": "Vodafone may disconnect service without notice if the customer relocates or leaves the Premises. A new tenant at the same Premises is permitted to reuse the same Kahramaa ID for their own subscription.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Kahramaa ID Reuse by New Tenant",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-007",
+    "name": "Personal-Use-Only Restriction",
+    "ruleType": "Validation",
+    "description": "The connection is restricted to personal, family, or roommate use at the Premises and may not be used commercially; Vodafone Qatar may suspend or terminate the service if used otherwise.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "raw:Personal-Use-Only Restriction",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-008",
+    "name": "Billing Profile Unchangeable Correlation ID Requirement",
+    "ruleType": "Validation",
+    "description": "The billing profile has no unchangeable common correlation ID between CRM and BRM today. Decision: keep the profile name renameable but add an unchangeable identifier (BRM row ID plus a unique CRM identifier) to correlate the two systems reliably.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Billing Profile Unchangeable Correlation ID Requirement",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-009",
+    "name": "BRM 6-Plus-1 Event Purge Policy",
+    "ruleType": "Derivation",
+    "description": "BRM's \"6 plus 1\" event purge policy causes the adjustment reason to be lost after 6 months \u2014 the underlying item data remains but the reason text is purged.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:BRM 6-Plus-1 Event Purge Policy",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-010",
+    "name": "SOA From-Inception Display Rule",
+    "ruleType": "Visibility",
+    "description": "The Statement of Account (SOA) must show data from inception, with one line per bill plus payments, adjustments, and allocations.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:SOA From-Inception Display Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-011",
+    "name": "Penalty Calculation Trigger Restriction",
+    "ruleType": "Routing",
+    "description": "Decision: the penalty calculation is triggered only from specific guided journeys (disconnection, MNP port-out, plan upgrade/downgrade, park number, put off) or via an on-demand button, rather than on every view, due to performance impact.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Penalty Calculation Trigger Restriction",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-012",
+    "name": "Bill Simulation Not a Tax Invoice Disclosure Rule",
+    "ruleType": "Visibility",
+    "description": "A \"bill simulation\" must explicitly disclose on its face that it is not a tax invoice, since two invoices cannot be generated for the same charges.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "raw:Bill Simulation Not a Tax Invoice Disclosure Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-013",
+    "name": "Unbilled Usage Screen Mandatory Filter Rule",
+    "ruleType": "Validation",
+    "description": "The unbilled usage screen cannot serve large enterprise accounts today (they are suppressed via an exception list because loading them hangs the system); a mandatory MSISDN plus date range filter (constrained to the current cycle) must be enforced.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "raw:Unbilled Usage Screen Mandatory Filter Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-014",
+    "name": "Back-Dated Order Completion Non-Compliance Rule",
+    "ruleType": "Validation",
+    "description": "Decision: accounts/services must be created at the correct (current) activation date rather than back-dated, with any back-dating need escalated to the fulfilment session/PMs, since revenue projection and 24-hour tax reporting requirements make back-dating non-compliant.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Back-Dated Order Completion Non-Compliance Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-015",
+    "name": "Volumetric Discount Proration Rule",
+    "ruleType": "Calculation",
+    "description": "Volumetric commitments/discounts: the current full-cycle discount cancellation setting causes overlapping discounts on mid-cycle changes, requiring proration. Proration behaviour must differ for plan change vs. cancellation, and for enterprise vs. consumer segments.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Volumetric Discount Proration Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-016",
+    "name": "Billing Profile / Recipient Email Audit Trail Requirement",
+    "ruleType": "Validation",
+    "description": "An audit trail must capture who changed the billing profile name and the billing document recipient email, to close a fraud scenario in which a user changes the invoice email, redirects the invoice, then reverts the change with no record.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Billing Profile / Recipient Email Audit Trail Requirement",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-017",
+    "name": "Mandatory CR-Number Search Before Account Creation",
+    "ruleType": "Validation",
+    "description": "A Commercial Registration (CR) number search is mandatory before an account can be created.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "raw:Mandatory CR-Number Search Before Account Creation",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-018",
+    "name": "Enterprise Credit Limit Approval Rule",
+    "ruleType": "Eligibility",
+    "description": "Enterprise accounts have no default credit limit and require business finance approval to establish one.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Enterprise Credit Limit Approval Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-019",
+    "name": "Segmentation Manual Decision Rule",
+    "ruleType": "Derivation",
+    "description": "Customer segmentation (SOHO, SME, Large Enterprise, Government) is a manual business decision with no automated system rule: SOHO is under 10 connections (implied), SME is 10-200, Large Enterprise is above 100.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Segmentation Manual Decision Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-020",
+    "name": "Parent Account Single Documentation Role Rule",
+    "ruleType": "Derivation",
+    "description": "In the parent/sub-account model, the parent is a documentation-only placeholder carrying the CR number; all activation, billing, and modification happens at the sub-account level. Only two levels exist (parent and sub-account), and there is only one unique parent per customer.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Parent Account Single Documentation Role Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-021",
+    "name": "Chooser Email Request Restriction",
+    "ruleType": "Permission",
+    "description": "A company nominates authorised persons on its CR, one or more of whom are flagged as \"chooser\"; requests are only accepted from the chooser's registered email address.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Chooser Email Request Restriction",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-022",
+    "name": "Account Affiliation Grants Privileges Rule",
+    "ruleType": "Permission",
+    "description": "Account affiliation \u2014 an attached form plus account manager approval \u2014 is what actually grants privileges and Web Self-Care access; the attachment must be named \"QID_subaccount\".",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Account Affiliation Grants Privileges Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-023",
+    "name": "CNAP Regulatory Mandate Rule",
+    "ruleType": "Validation",
+    "description": "CNAP (Calling Name Presentation) is regulator-mandated and mandatory for fixed lines today, limited to 25 characters, and is expected to become mandatory for mobile as well.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "raw:CNAP Regulatory Mandate Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-024",
+    "name": "Default Postpaid Billing Cycle Rule",
+    "ruleType": "Derivation",
+    "description": "Billing profiles default to postpaid with automatic 1st/15th bill cycles; prepaid is handled via a separate billing profile line item.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Default Postpaid Billing Cycle Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-025",
+    "name": "Volumetric Discount Minimum Threshold Rule",
+    "ruleType": "Eligibility",
+    "description": "The volumetric discount has a minimum threshold of 50 numbers, is slab-based, and comes in revenue and service-count variants; it is evaluated at runtime and has no automatic downgrade when connection counts drop \u2014 flagged as a key revenue-leakage pain point.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Volumetric Discount Minimum Threshold Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-026",
+    "name": "Access-Restricted Price Override Rule",
+    "ruleType": "Permission",
+    "description": "An access-restricted price override is used when the required discount exceeds the plan maximum; it hides the base vs. offered price distinction for reporting purposes.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Access-Restricted Price Override Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-027",
+    "name": "Bulk Activation Identical-Parameters Constraint",
+    "ruleType": "Validation",
+    "description": "Bulk activation relies on a very old custom Excel macro (from \"SSI\") that requires identical plan, account, spend limit, and price across the entire batch.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Bulk Activation Identical-Parameters Constraint",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-028",
+    "name": "Fibre Precedence Over 5G Rule",
+    "ruleType": "Routing",
+    "description": "Fibre takes precedence over 5G as a business rule. This rule, along with other key rules for lead creation, approvals, and validation, is currently enforced manually via offline email processes rather than by the system \u2014 the first system entry occurs only when the request reaches fulfilment.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Fibre Precedence Over 5G Rule; raw:Manual Enforcement of Offline Approvals Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-029",
+    "name": "5G-to-Fiber Requires Disconnect/Reconnect Rule",
+    "ruleType": "Routing",
+    "description": "Migrating from 5G to fiber requires disconnection and reconnection because the assigned numbers differ, whereas migrating from FWA to fiber is seamless.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:5G-to-Fiber Requires Disconnect/Reconnect Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-030",
+    "name": "Shared Pool Activation-Only Support Rule",
+    "ruleType": "Validation",
+    "description": "The shared pool feature supports activation only today; other lifecycle operations are not yet supported.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Shared Pool Activation-Only Support Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-031",
+    "name": "Fixed Agent ID Is a View, Not a True Agent ID",
+    "ruleType": "Derivation",
+    "description": "The fixed agent ID should be treated as a view mapping what the account manager handles, rather than functioning as a true agent identifier.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Fixed Agent ID Is a View, Not a True Agent ID",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-032",
+    "name": "Excel One-Million-Line-Item Limit / 400k Email Threshold",
+    "ruleType": "Validation",
+    "description": "Excel has a one-million line item limit, requiring aggregation with a CSV fallback for larger datasets; separately, a 400k-line threshold is driven by email delivery size limits.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "raw:Excel One-Million-Line-Item Limit / 400k Email Threshold",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-033",
+    "name": "Discount Presentation as Two Line Items Rule",
+    "ruleType": "Calculation",
+    "description": "Correct discount presentation requires discounts to appear as two line items (prorated and month-in-advance), shown against the charge to which they apply.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Discount Presentation as Two Line Items Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-034",
+    "name": "Bulk SMS Disconnection Outstanding-Balance Check",
+    "ruleType": "Validation",
+    "description": "Bulk SMS disconnection requires outstanding-balance checks and OnMobile confirmation before proceeding.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Bulk SMS Disconnection Outstanding-Balance Check",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-035",
+    "name": "Enterprise Quarterly/Half-Yearly/Yearly Billing Ask",
+    "ruleType": "Calculation",
+    "description": "Enterprise customers have asked that products be made chargeable on quarterly, half-yearly, and yearly cycles, rather than the current monthly-only billing.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Enterprise Quarterly/Half-Yearly/Yearly Billing Ask",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-036",
+    "name": "MNP Donor Operator Fixed Rule (QTEL/Ooredoo)",
+    "ruleType": "Derivation",
+    "description": "In mobile number portability (MNP), the donor operator is always QTEL/Ooredoo; porting details captured include customer ID number/type, customer type, donor operator, subscription type, and scheduled porting date.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:MNP Donor Operator Fixed Rule (QTEL/Ooredoo)",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-037",
+    "name": "MNP Consent SMS 24-Hour Rule",
+    "ruleType": "Validation",
+    "description": "The customer must send a consent SMS within 24 hours; the request then goes via NPAS to Ooredoo, who has 24 hours to accept, reject, or conditionally accept if there are outstanding dues.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:MNP Consent SMS 24-Hour Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-038",
+    "name": "MNP Outstanding-Dues Payment Window Rule",
+    "ruleType": "Validation",
+    "description": "When conditionally accepted due to outstanding dues, the stated payment window is 8 business hours, though it is presented to the customer as 24 hours.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:MNP Outstanding-Dues Payment Window Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-039",
+    "name": "MNP Porting Window Rule",
+    "ruleType": "Routing",
+    "description": "The MNP porting window runs Sunday-Thursday, 11am-12pm \u2014 a shared one-hour window in which the donor disconnects and Vodafone connects; requests accepted before 10:45am make that day's window.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:MNP Porting Window Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-040",
+    "name": "MNP Valid Rejection Reasons Rule",
+    "ruleType": "Validation",
+    "description": "Only 13 documented rejection reasons are valid for MNP; each rejection restarts the entire MNP journey.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:MNP Valid Rejection Reasons Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-041",
+    "name": "FNP Consumer-Only, Fiber-to-Fiber Scope Rule",
+    "ruleType": "Eligibility",
+    "description": "Fixed Number Portability (FNP) is scoped to fiber-to-fiber only, for consumer customers only, with a 5 working day process.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:FNP Consumer-Only, Fiber-to-Fiber Scope Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-042",
+    "name": "FNP Outstanding Balance Clearance Rule",
+    "ruleType": "Eligibility",
+    "description": "For FNP, conditional acceptance is given with a visible due amount, giving the consumer 3 working days to clear it, after which the request is accepted with a porting date.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:FNP Outstanding Balance Clearance Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-043",
+    "name": "FNP Dual Technician Visit Rule",
+    "ruleType": "Routing",
+    "description": "FNP porting operates at the service level (versus MNP's number level) and always requires two technician visits \u2014 one for installation per WFM, and one on the porting date for MSISDN configuration/testing.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:FNP Dual Technician Visit Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-044",
+    "name": "Post-Port-In Dunning Ladder Rule",
+    "ruleType": "Routing",
+    "description": "A final bill covers the last bill cycle up to the porting date and is payable within 30 days; a three-level degradation/dunning ladder then runs (outgoing bar on day 31, incoming bar on day 45, disconnection plus number return, followed by a 30-day quarantine).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Post-Port-In Dunning Ladder Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-045",
+    "name": "Dunning Initiator and De-automation Rule",
+    "ruleType": "Routing",
+    "description": "Degradation (dunning) is initiated by Ooredoo (the donor operator), and the process was de-automated to manual handling after complaints from customers with legitimate bill disputes.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:Dunning Initiator and De-automation Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-046",
+    "name": "MNP Reserved Temporary MSISDN Rule",
+    "ruleType": "Derivation",
+    "description": "MNP uses a reserved zero-value temporary MSISDN during the porting process, along with required attachments: MNP form 2-A-D and donor-registered ID, DNO verification type, file size under 2 MB, in PDF or JPG format.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "raw:MNP Reserved Temporary MSISDN Rule",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-047",
+    "name": "MNP Conditional Acceptance Billed-Due Threshold (100 QAR)",
+    "ruleType": "Eligibility",
+    "description": "Conditional acceptance for consumer MNP requests is automated when the billed due amount exceeds 100 QAR; unbilled amounts do not trigger conditional acceptance in MNP.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "raw:MNP Conditional Acceptance Billed-Due Threshold (100 QAR)",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-048",
+    "name": "FNP Conditional Acceptance at Service Level (unbilled amounts trigger)",
+    "ruleType": "Eligibility",
+    "description": "FNP (Fixed Number Portability) allows unbilled amounts to trigger conditional acceptance and operates at service level rather than MNP's billing profile level.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-049",
+    "name": "MNP/FNP Ticket Action Window (2hr auto-extend to 24hr)",
+    "ruleType": "Routing",
+    "description": "Siebel auto-creates a trouble ticket with a two-hour action window, extended to 24 hours once documents are validated, bound by NPass working hours.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-050",
+    "name": "Rejection Reason Code Restriction (Consumer: codes 1, 4, 9 only)",
+    "ruleType": "Validation",
+    "description": "Statuses and the 14-15 rejection reason codes are tightly coupled to NPass and cannot be renamed; consumer uses only reasons 1, 4 and 9.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-051",
+    "name": "Manual Suspension Requires SLA Action Before Escalation",
+    "ruleType": "Routing",
+    "description": "Agents need to act at least an hour before SLA expiry; suspension and CRM escalation are triggered when action is missed.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-052",
+    "name": "TON Null/Blank Number Price CDM Queue Trigger (legacy gap)",
+    "ruleType": "Routing",
+    "description": "A null/blank number price causes unnecessary CDM queue tickets; identified as a legacy data and design gap in the TON process.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-053",
+    "name": "SIM Swap on TON Success + Mandatory Approvals",
+    "ruleType": "Permission",
+    "description": "Agreed controls for TON: SIM swap occurs on success, and mandatory approvals are required.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-054",
+    "name": "Bill Medium Default (Detailed for Consumer, Summary PDF for Enterprise)",
+    "ruleType": "Derivation",
+    "description": "Bill medium defaults to a detailed bill for consumer customers and a summary PDF for enterprise customers, with the customer having the option to select summary only.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-055",
+    "name": "Bill Cycle Change Restricted to Billing Team Role",
+    "ruleType": "Permission",
+    "description": "Bill cycle change is restricted to specific roles, namely the billing team.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-056",
+    "name": "SIM Swap Charging Rule (eSIM/physical/lost/damaged)",
+    "ruleType": "Calculation",
+    "description": "eSIM to eSIM swap is free; eSIM to physical is charged; lost SIM replacement is chargeable; damaged SIM replacement is not charged.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-057",
+    "name": "SIM Swap Approval Matrix by Channel",
+    "ruleType": "Permission",
+    "description": "Approval matrix by channel for SIM swap: Retail requires approval plus SIM swap form plus ID attachment; Back office requires approval with attachment only (no form) for some cases and is auto-approved for others; MVA app requires no approval or form once eKYC is done.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-058",
+    "name": "Manager QID Bypass Field Restriction",
+    "ruleType": "Permission",
+    "description": "A manager-level bypass allows editing the QID number only, with all remaining fields validated against MOI (Ministry of Interior).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-059",
+    "name": "Park My Number Plan Definition (35 Rial / 4 months / zero credit limit)",
+    "ruleType": "Calculation",
+    "description": "The 'park my number' service is delivered via a 35 Rial, four-month upfront-paid plan with the credit limit set to zero.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-060",
+    "name": "Disconnection Retention-First Rule",
+    "ruleType": "Routing",
+    "description": "A ticket must be closed with a specific resolution code (e.g., 'retained' or not) before the disconnection order can be submitted on the Orders page.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-061",
+    "name": "Star Number Port-Out Control (commitment-period block)",
+    "ruleType": "Routing",
+    "description": "Star number port-out control blocks porting during the (configurable) commitment period; built after customers took high-value star numbers and immediately ported out.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-062",
+    "name": "TON Four Sequential Approval Fraud Control (prepaid-only)",
+    "ruleType": "Permission",
+    "description": "TON requires four sequential approvals routed to the CDM team, applicable to prepaid only; built as a fraud control after historical fraud where a fraudster collected money from two people for the same number at different stores.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-063",
+    "name": "Commitment Period Continuity on Plan Upgrade (regulatory)",
+    "ruleType": "Validation",
+    "description": "Regulation requires the original commitment period to continue on plan upgrade; downgrade is treated as a breach that triggers a penalty.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-064",
+    "name": "Ticket Assignment at Team/Queue Level Only (no auto-reassignment)",
+    "ruleType": "Routing",
+    "description": "Tickets are assigned at team/queue level, not agent level, and there is no automatic reassignment on delay.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-065",
+    "name": "Assign-to-Me Requires Queue Membership",
+    "ruleType": "Permission",
+    "description": "'Assign to me' only works if the agent is in that queue's user list.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-066",
+    "name": "Only Agent Can Reopen a Ticket (Customer Cannot)",
+    "ruleType": "Permission",
+    "description": "A customer cannot reopen a ticket from the app; only an agent can reopen a ticket.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-067",
+    "name": "Audit Trail Role-Restricted from Agents",
+    "ruleType": "Visibility",
+    "description": "An audit trail exists on tickets and account tabs but is role-restricted from agents.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-068",
+    "name": "Unsubmitted Ticket Does Not Route to Queue",
+    "ruleType": "Routing",
+    "description": "A ticket that is created but not submitted does not route to any queue.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-069",
+    "name": "Prepaid-to-Postpaid Migration Eligibility (network age, recharge, CDR usage)",
+    "ruleType": "Eligibility",
+    "description": "Eligibility checks for prepaid-to-postpaid migration (currently manual, to be automated): minimum one month age on network, minimum 50 Riyal recharge in the last month, and a CDR-based usage history check.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-070",
+    "name": "Postpaid-to-Prepaid Migration Fee (100 Riyal)",
+    "ruleType": "Calculation",
+    "description": "A 100 Riyal migration fee is applied on the final bill when migrating from postpaid to prepaid.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-071",
+    "name": "Consumer Billing Profile Cap (max two: one postpaid, one prepaid)",
+    "ruleType": "Validation",
+    "description": "A consumer can have at most two billing profiles (one postpaid, one prepaid); enterprises can have more.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-072",
+    "name": "Migration Balance Transfer Rule (monetary transfers, non-monetary lost)",
+    "ruleType": "Derivation",
+    "description": "On migration, remaining prepaid balance posts as an overpayment in BRM; monetary balance transfers as advance/credit, but non-monetary voice/data buckets are lost.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-073",
+    "name": "Multi-SIM Pricing Rule (plan-based, e.g., Platino: first free, second 25 Riyal)",
+    "ruleType": "Calculation",
+    "description": "Pricing for additional SIMs is set automatically by the system based on plan (e.g., Platino plan: first additional SIM free, second 25 Riyal).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-074",
+    "name": "Number Category Rule (Free/Paid, paid can become free by plan)",
+    "ruleType": "Derivation",
+    "description": "Number management recognizes two categories only: free and paid; a paid number can become free depending on the plan.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-075",
+    "name": "Direct Number Reservation from Siebel Generally Disallowed",
+    "ruleType": "Permission",
+    "description": "Direct number reservation from Siebel is generally not allowed except in special cases.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-076",
+    "name": "Credit Limit Default by Nationality (1000 expat / 50 HRN)",
+    "ruleType": "Calculation",
+    "description": "Default credit limit is 1,000 for an expat on a new account, dropped to 50 for HRN (high-risk nationality) customers, agent-selected or system-enforced depending on nationality configuration.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-077",
+    "name": "QID Physical Presence and Scan Requirement for Retail Transactions",
+    "ruleType": "Validation",
+    "description": "In retail, the customer must be physically present with a valid QID; for every transaction the QID must be scanned and attached to the customer account, with the agent visually matching the ID photo to the customer.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-078",
+    "name": "ID Attachment Exemption for No-Change Transactions",
+    "ruleType": "Validation",
+    "description": "Complaints, inquiries, and bill payments that do NOT result in an account or service change do not require the ID attachment step; the attachment step is required only when there is an actual account/service change.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-079",
+    "name": "Security Question Mandatory Set (QID + Account/Holder Name)",
+    "ruleType": "Validation",
+    "description": "QID and account/holder name are the two mandatory security questions; additional questions are asked flexibly depending on what the customer can answer.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-080",
+    "name": "Lighter Contact-Center Verification for Registered Number Callers",
+    "ruleType": "Validation",
+    "description": "Contact-center verification is lighter if the customer is calling from their registered number.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-081",
+    "name": "Eligibility-First Gating for Fixed-Line (customer + location clubbed)",
+    "ruleType": "Eligibility",
+    "description": "Eligibility checks (customer/QID eligibility and location eligibility) are clubbed together at one point early in the fixed-line journey, before plan/service discussion, since there's no point discussing plans if the location or customer isn't eligible.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-082",
+    "name": "KID-in-Use Mandatory Order Task and Contract Attachment",
+    "ruleType": "Validation",
+    "description": "When KID is already in use, the order is created and submitted but held via a mandatory order task; a mandatory contract attachment is required as proof before the flow can proceed, and downstream submission is blocked until the order task is completed.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-083",
+    "name": "Number Auto-Selection Rule (fixed/prepaid zero-rated only, not mobile postpaid)",
+    "ruleType": "Derivation",
+    "description": "Numbers are auto-selected for fixed/prepaid (zero-rated) to reduce agent clicks; this is NOT applied to mobile postpaid since those numbers carry a price.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-084",
+    "name": "Fixed Plan Default Triple-Play with Optional IPTV",
+    "ruleType": "Derivation",
+    "description": "Fixed plans default to a triple-play bundle including IPTV; IPTV is optional and removable \u2014 if removed, a dual-play order is created at the backend with no set-top box and no IPTV provisioning in OSM; IPTV basic is free, only premium is charged.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-085",
+    "name": "FNP Hidden Pending Fix (execution date unreliable)",
+    "ruleType": "Visibility",
+    "description": "FNP (Fixed Number Portability) is hidden for now (capability retained but not exposed) because the execution date field is unreliable and pending bills with other operators block order submission.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-086",
+    "name": "Splitter-Full Minimum SLA Extension (5 days)",
+    "ruleType": "Routing",
+    "description": "Splitter-full and BID-not-mapped conditions extend SLA (splitter full forces a minimum 5-day SLA) and are auto-created from UIM data.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-087",
+    "name": "Fixed-Line Cancellation Window (up to network activation, with win-back)",
+    "ruleType": "Eligibility",
+    "description": "Cancellation of a fixed-line order is allowed up to network activation, with a win-back path available via the sales team.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-088",
+    "name": "Fiber-First Selling Policy for FWA",
+    "ruleType": "Eligibility",
+    "description": "FWA/5G is only offered if fiber cannot be sold at that location; this is not a customer choice.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-089",
+    "name": "Self-Serve Instant Activation Restricted to Standard Customers",
+    "ruleType": "Eligibility",
+    "description": "Self-serve instant activation is restricted to 'standard' customers only \u2014 non-standard customers get a lead created instead.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-090",
+    "name": "Devices Sold Are Not Recovered on Disconnection",
+    "ruleType": "Derivation",
+    "description": "Devices once sold are not returned or recovered on disconnection \u2014 the CPE serial simply becomes free in UIM for reassignment.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-091",
+    "name": "5G Indoor Site Lock",
+    "ruleType": "Validation",
+    "description": "Site lock is being introduced because 5G indoor devices/SIMs can currently be removed and used elsewhere.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-092",
+    "name": "FWA Outdoor Install Fallback to Indoor",
+    "ruleType": "Routing",
+    "description": "If outdoor install fails due to access/glass issues, indoor is offered as a fallback, or the order is cancelled.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-093",
+    "name": "Mesh/LAN Pricing Rule",
+    "ruleType": "Calculation",
+    "description": "Premium plans get 2 free mesh units, with additional mesh charged as ongoing rental (not one-time); LAN cable extension charged 10 riyal/meter as a one-off add-on; on 5G only premium gets mesh, others must pay for LAN if needed.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-094",
+    "name": "FWA-to-Fiber Automatic Migration Rule (stated but not implemented)",
+    "ruleType": "Routing",
+    "description": "Once a location becomes fiber-covered, the customer is stated to be 'moved' from 5G to fiber, but the actual process today is only a BI report \u2014 it is NOT automated.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-095",
+    "name": "Device Lock-In Period (12 months)",
+    "ruleType": "Validation",
+    "description": "Device lock-in period is 12 months; commitment/lock-in reset ONLY happens on disconnection during FWA relocations/moves; any plan change resets the 'limit date' and loses the locking.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-096",
+    "name": "STB Certification Limit",
+    "ruleType": "Validation",
+    "description": "Up to 18 STB (set-top box) subscriptions are certified per connection (highest seen in production: 11-13).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-097",
+    "name": "Combo Box Password Confidentiality",
+    "ruleType": "Permission",
+    "description": "Combo box/CPE password is fetched from UIM and is never disclosed to the customer or, currently, even to the field engineer.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-098",
+    "name": "KID mandatory search-only lookup",
+    "ruleType": "Validation",
+    "description": "Agents can only search for a KID (Known ID/address record); manual entry is not permitted. If no KID is found, the agent is diverted to an FWA journey.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-099",
+    "name": "ZSB mandatory for FWA/fixed only, not mobile",
+    "ruleType": "Validation",
+    "description": "ZSB (zone/street/building) address detail capture is mandatory for FWA 5G and fixed/fiber services, but NOT for mobile, which uses a shared dummy address record. Consumer activation procedure v8.0 formalized mandatory ZSB detail capture (refs 2.1.15, 3.1.12).",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-100",
+    "name": "Address change creates new record with history, no in-place update",
+    "ruleType": "Derivation",
+    "description": "When a customer's address changes, the old address record is marked discontinued/replaced with effective from/to dates and a new address record is created as primary, rather than updating the existing address record in place \u2014 preserving address history.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-101",
+    "name": "FWA geofencing / location lock",
+    "ruleType": "Validation",
+    "description": "FWA (Fixed Wireless Access) service is geofenced to its registered installation location; the service is disabled/suspended if the customer relocates the device elsewhere.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-102",
+    "name": "Star number transfer requires postpaid commitment or prepaid payment",
+    "ruleType": "Eligibility",
+    "description": "Transferring a star number requires either a one-year postpaid commitment scaled to the number's value, or full payment of the star number's value if moving to prepaid; any commitment restarts from month one upon transfer.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-103",
+    "name": "Star number restoration/declaration form for numbers >= 1500 Riyal",
+    "ruleType": "Validation",
+    "description": "For star numbers valued 1,500 Riyal and above, a customer data restoration/declaration form (listing recent usage) is required, including a clause allowing Vodafone to reclaim the number if the transfer is later found fraudulent.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-104",
+    "name": "TON age validation (must not be a minor)",
+    "ruleType": "Validation",
+    "description": "Transfer of Ownership (TON) requires age validation confirming the recipient is not a minor, verified via MOI/date-of-birth data, with a known risk of 5-8 day MOI database sync lag.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-105",
+    "name": "TON pre-validate collection status before flow entry",
+    "ruleType": "Eligibility",
+    "description": "For Transfer of Ownership (TON), both party A (transferor) and party B (transferee) must be pre-validated as not being in collection status BEFORE entering the TON flow, rather than checked within the flow itself.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-106",
+    "name": "TON requires clearance of DOI and penalties before transfer",
+    "ruleType": "Validation",
+    "description": "Before a Transfer of Ownership can proceed, the entire Device on Installment (DOI) balance (not just the first installment) and any remaining lock-in/park-my-number penalties must be fully cleared.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-107",
+    "name": "QID mandatory for postpaid",
+    "ruleType": "Eligibility",
+    "description": "QID (Qatari ID) is mandatory for postpaid subscriptions; postpaid cannot be sold against any other identification type, with one unspecified exception noted for later discussion.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-108",
+    "name": "Expat passport holders limited to prepaid, max 5 numbers",
+    "ruleType": "Eligibility",
+    "description": "Expatriates holding only a passport (no QID/GCC ID) are generally limited to prepaid service, with a maximum of 5 numbers.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-109",
+    "name": "MOI data precedence with secondary-parameter cross-check",
+    "ruleType": "Validation",
+    "description": "MOI (Ministry of Interior) data takes precedence over OCR-captured document data, but only after a secondary-parameter cross-check (e.g., date of birth, nationality, expiry) passes successfully.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-110",
+    "name": "Maximum mobility lines cap (nationals unlimited, non-nationals 5 per operator)",
+    "ruleType": "Eligibility",
+    "description": "Maximum mobility lines (prepaid + postpaid combined) are unlimited for Qatari nationals but capped at 5 for non-nationals; the 5-line cap applies per operator, not cumulatively across operators.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-111",
+    "name": "Line-cap override requires authorized-officer role flag (CRA compliance)",
+    "ruleType": "Permission",
+    "description": "Overriding the maximum mobility lines cap requires an authorized-officer role flag set on the account (not an in-journey bypass), because the cap is a CRA (regulator) compliance rule.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-112",
+    "name": "HRN upfront advance calculation",
+    "ruleType": "Calculation",
+    "description": "HRN (High Risk Nationality) customers pay an upfront advance whose amount is driven by nationality and sales channel; explicitly confirmed to NOT be driven by plan value.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-113",
+    "name": "Postpaid eligibility based on collection/blacklist status, not outstanding amount",
+    "ruleType": "Eligibility",
+    "description": "Eligibility for new postpaid subscriptions is based on 'in collection' status and blacklist status, NOT the outstanding amount owed; a billing profile enters collection status once the overdue amount exceeds 100.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-114",
+    "name": "DOI eligibility requirements",
+    "ruleType": "Eligibility",
+    "description": "Device on Installment (DOI) eligibility requires an existing postpaid account in good standing, presence on an internal big-data eligibility list, and a QCB (Qatar Central Bank) credit check.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-115",
+    "name": "Star number entitlement by plan value",
+    "ruleType": "Calculation",
+    "description": "Plan value determines the star-number value entitlement (e.g., a 200 Riyal plan entitles ~5,000 Riyal worth of star number). If the customer selects a number exceeding their entitlement, they pay the delta at point of sale.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-116",
+    "name": "Digital eSIM requires dummy/virtual SKU with no inventory depletion",
+    "ruleType": "Derivation",
+    "description": "Digital eSIM issuance requires virtual/dummy SKUs with no inventory tracking, since the WinCash system otherwise expects physical inventory depletion for any SIM issuance.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-117",
+    "name": "Customer identification requirements for Prepaid",
+    "ruleType": "Validation",
+    "description": "Prepaid customers must provide a valid QID, GCC ID (issued in UAE, Bahrain, Oman, Saudi Arabia, or Kuwait), Passport, or Diplomatic ID.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-118",
+    "name": "Age limit 18+ for Prepaid with minor exception process",
+    "ruleType": "Eligibility",
+    "description": "Prepaid customers must be 18 or older; an exception process exists for minors requiring Supreme Judicial Council approval plus Customer Data Management team approval.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-119",
+    "name": "Passport without customer signature exception (v8.0)",
+    "ruleType": "Validation",
+    "description": "Version 8.0 (Jul 2, 2024) of the consumer activation procedure added an exception allowing prepaid activation with a passport lacking customer signature (ref 2.1.13).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-120",
+    "name": "Postpaid minimum subscription period (Lock-in) of 3 months",
+    "ruleType": "Validation",
+    "description": "Postpaid plans carry a minimum subscription period (lock-in) of 3 months.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-121",
+    "name": "First month proration plus full following month charge",
+    "ruleType": "Calculation",
+    "description": "For postpaid subscriptions, the first month's charges are prorated, plus a full charge is applied for the following month.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-122",
+    "name": "Credit card recovery after 90 days unpaid",
+    "ruleType": "Calculation",
+    "description": "A credit-card authorization consent clause allows Vodafone to charge the customer's card periodically and to recover amounts that remain unpaid 90 or more days after bill issue.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-123",
+    "name": "Minimum deposit or valid credit card for credit limit",
+    "ruleType": "Validation",
+    "description": "Establishing a postpaid credit limit requires a minimum deposit of QR 2,000 or a valid credit card on file.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-124",
+    "name": "Reserved number 90-day hold pending QID submission",
+    "ruleType": "Validation",
+    "description": "Reserved numbers (including star numbers) are held for 90 days pending the customer's QID submission.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-125",
+    "name": "Star Number lock-in tiers by value",
+    "ruleType": "Validation",
+    "description": "Star numbers carry a lock-in commitment tiered by value: 1 year for numbers valued QR1,500-19,999, and 2 years for numbers valued QR20,000 and above.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-126",
+    "name": "Roaming charging delay up to 31 days",
+    "ruleType": "Calculation",
+    "description": "Roaming charges may be applied either in real-time or with a delay of up to 31 days, depending on the roaming partner network.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-127",
+    "name": "Unclaimed deposit transferred to charity after 12 months",
+    "ruleType": "Derivation",
+    "description": "Customer deposits are refundable upon account closure, but if unclaimed for 12 months, the deposit is transferred to charity.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-128",
+    "name": "Home Fibre and GigaHome/5G Home require supplementary signed forms",
+    "ruleType": "Validation",
+    "description": "Home Fibre subscriptions require a Vodafone Fibre Supplementary Form; GigaHome/5G Home services require an additional physically signed form.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-129",
+    "name": "No refund of remaining prepaid balance on cancellation",
+    "ruleType": "Derivation",
+    "description": "Remaining prepaid balance is not refunded upon plan cancellation.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-130",
+    "name": "Prepaid minimum registration age 18",
+    "ruleType": "Eligibility",
+    "description": "Prepaid registration requires a minimum age of 18 along with a valid QID, GCC ID, or Passport.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-131",
+    "name": "Cellular phone number format validation (974 prefix, 11 digits)",
+    "ruleType": "Validation",
+    "description": "Cellular phone numbers must start with the '974' country code prefix and must be 11 digits in total length.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-132",
+    "name": "QID must be 11-digit numeric value",
+    "ruleType": "Validation",
+    "description": "Qatari ID (QID) must be an 11-digit numeric value.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-133",
+    "name": "Passport format validation (4-20 alphanumeric)",
+    "ruleType": "Validation",
+    "description": "Passport numbers must be 4-20 alphanumeric characters, with no non-alphanumeric characters permitted.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-134",
+    "name": "GCC ID format validation (8-20 numeric)",
+    "ruleType": "Validation",
+    "description": "GCC ID must be 8-20 numeric characters.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-135",
+    "name": "Business ID format validation (3-20 chars, numeric and /)",
+    "ruleType": "Validation",
+    "description": "Business ID must be 3-20 characters, containing only numeric characters and the \"/\" symbol.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-136",
+    "name": "Email format validation",
+    "ruleType": "Validation",
+    "description": "Email addresses must conform to standard email format (e.g., \"abc@xyz.com\" pattern); an incorrect-format error is shown otherwise.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-137",
+    "name": "ID expiration date must be in the future",
+    "ruleType": "Validation",
+    "description": "The ID Expiration Date entered for a customer's identification document must be in the future (not expired).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-138",
+    "name": "Date of birth must match embedded QID DOB",
+    "ruleType": "Validation",
+    "description": "Date of Birth entered must match the date of birth embedded within the QID number; a mismatch triggers a \"do not match\" validation error.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-139",
+    "name": "Contact under 18 flagged",
+    "ruleType": "Validation",
+    "description": "A contact record is flagged if the calculated age is under 18.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-140",
+    "name": "Safwa/Qatari contact creation requires authorization",
+    "ruleType": "Permission",
+    "description": "Creating a Safwa or Qatari contact record requires specific authorization; unauthorized users are blocked with an explicit error message.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-141",
+    "name": "Retail cannot change primary contact",
+    "ruleType": "Permission",
+    "description": "The Retail channel is restricted from changing a customer's primary contact; this permission restriction is noted in both the CRM journeys documentation and its type-classified revision.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-142",
+    "name": "Bill calculator SMS is a capability, not a journey",
+    "ruleType": "Derivation",
+    "description": "The Bill calculator SMS feature is classified as a capability rather than a full user journey.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-143",
+    "name": "Type Taxonomy classification rule (User Journey/Workflow-Task/View/Action/Access-Permission)",
+    "ruleType": "Derivation",
+    "description": "CRM feature rows are classified into a five-category type taxonomy: User Journey (guided, multi-step workflows for customer-facing service activations), Workflow/Task (operational multi-step administrative operations), View (read-only data displays), Action (quick single/minimal-step transactional operations), and Access/Permission (role/responsibility-based access controls).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-144",
+    "name": "86.7% of CRM feature rows lack a confident User Journey parent",
+    "ruleType": "Derivation",
+    "description": "Analysis finding: 143 of 165 CRM feature records (86.7%) have no confident User Journey parent; 9 of 15 functional clusters are BAU/account-servicing capabilities with no anchor journey.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-145",
+    "name": "GigaHome Fair Usage Policy throttle rule",
+    "ruleType": "Calculation",
+    "description": "GigaHome 5G Home plans carry a Fair Usage Policy with monthly data allowances of 1 TB / 2 TB / 10 TB depending on plan tier; once fully consumed, speed is throttled to up to 1 Mbps until the next billing cycle.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-146",
+    "name": "GigaHome lock-in and early-termination fee calculation",
+    "ruleType": "Calculation",
+    "description": "GigaHome 5G Home plan lock-in periods: 3 months for the Plan itself, 12 months for installation cost/devices. If the customer terminates before completing the 12-month device lock-in, a 500 QAR early termination fee applies; alternatively, the customer may return the 5G CPE or pay an 800 QAR CPE charge if the device is not returned.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "1",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-147",
+    "name": "LAN cabling / Home Move fee calculation",
+    "ruleType": "Calculation",
+    "description": "LAN cabling charges: 10 QAR per meter for Mesh-to-Mesh cabling; 20 QAR per meter if installed with PVC trunking. Home Move Fee is free once per 12-month cycle, otherwise 200 QAR applies for additional moves within the cycle.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "2",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-148",
+    "name": "Free-months offer once-per-QID eligibility rule",
+    "ruleType": "Eligibility",
+    "description": "The free-months promotional offer is usable only once per QID. Moving to a new location forfeits reuse of the offer. Disconnecting and reconnecting under the same or a different QID also forfeits the offer and risks account suspension/blacklisting.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "3",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-149",
+    "name": "5G Home reasonable-use / location restriction rule",
+    "ruleType": "Eligibility",
+    "description": "The 5G Home connection is intended for reasonable personal use only at the registered Home location. Use outside that location risks temporary suspension; continued out-of-location use over successive months risks permanent disconnection.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "4",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-150",
+    "name": "Mandatory Fibre migration within 4 weeks / disconnection rule",
+    "ruleType": "Eligibility",
+    "description": "When Fibre becomes available at a customer's location, Vodafone notifies the customer, who agrees to migrate to Fibre within 4 weeks. If the customer declines migration, Vodafone may disconnect the current Home service after a 4-week grace period.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "5",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-151",
+    "name": "Duplicate-fiber-at-address routing rule (home move lead)",
+    "ruleType": "Routing",
+    "description": "During fixed-line instant activation, the system checks whether the QID already has fiber service; if so, the order is routed/led as a home move rather than a new activation.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "6",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-152",
+    "name": "Device-type fulfilment routing rule (CPE/ONT vs 5G)",
+    "ruleType": "Routing",
+    "description": "Fulfilment routing depends on device type: if the device is CPE/ONT, the order is routed to Vodafone Field Force (FF) to fulfill; if the device is 5G, the lead is routed to Vodafone.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "7",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-153",
+    "name": "Non Prepatched KID skips device-locate step",
+    "ruleType": "Routing",
+    "description": "In the fixed-line instant activation journey, the step to confirm the serial number for a previously installed Combo Box or CPE is skipped when the KID is Non Prepatched.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "8",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-154",
+    "name": "Cross-sell offer locks plan and add-on/discount selection",
+    "ruleType": "Permission",
+    "description": "On a cross-sell order journey, no plan-selection control is exposed to the agent \u2014 the journey auto-applies the plan tied to the accepted offer. There is also no editable add-on control, confirming the agent cannot add extra discounts/add-ons on a cross-sell order.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "9",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-155",
+    "name": "QID immutable after Cross Sales redirect",
+    "ruleType": "Validation",
+    "description": "When a Cross Sales order redirects into the journey, the QID (e.g. 28335628851) carries over automatically and is greyed out/read-only \u2014 the agent cannot re-enter or edit it.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "10",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-156",
+    "name": "ECR Details field is Fulfilment-team-only",
+    "ruleType": "Permission",
+    "description": "The Enter ECR Details field is restricted for completion by the Fulfillment team only, as indicated by a tooltip on the field.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "11",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-157",
+    "name": "Alt. phone # must be a local mobile number (notification contact)",
+    "ruleType": "Validation",
+    "description": "The alternate phone number field is used as a notification contact and must be a local mobile number, per an info note shown on the field.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "12",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-158",
+    "name": "Appointment booking irreversibility rule",
+    "ruleType": "Validation",
+    "description": "Once a technician appointment is booked, it cannot be cancelled. The system presents a warning requiring the agent to confirm (\"Ok\") to proceed or \"Cancel\" to select a different appointment before booking.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "13,35",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-159",
+    "name": "Empty add-on/discount selector rule",
+    "ruleType": "Derivation",
+    "description": "If there is no applicable add-on or discount available for the order, the add-on/discount selector control simply displays empty rather than showing an error.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "14",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-160",
+    "name": "Device-detection prompt determines Instant vs Normal Activation eligibility",
+    "ruleType": "Eligibility",
+    "description": "When the system detects the device (Combo Box CPE and/or ONT) already present at the customer's premises, it prompts the agent to verify the device's serial number matches the one provided, then choose between Instant Activation and Normal Activation.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "15,21",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-161",
+    "name": "Rejection reason drives which evidence must be re-collected on correction",
+    "ruleType": "Validation",
+    "description": "On order correction after rejection, the specific rejection reason determines which evidence must be re-collected \u2014 e.g. for \"ID image not clear\", the Qatari ID-Front/Back fields reset to empty upload placeholders, requiring re-upload of the flagged ID images.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "16,29",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-162",
+    "name": "Single correction round-trip rule (no second Reject-Correction)",
+    "ruleType": "Permission",
+    "description": "Only one correction round-trip is permitted per order. When reopening the order approval detail after a correction round has already occurred, only Approve and Reject - Drop Order options are shown; \"Reject - Correction\" is no longer offered.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "17",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-163",
+    "name": "Prepatched Non Combo Box topology skips shared-infrastructure step",
+    "ruleType": "Derivation",
+    "description": "When the KID is Prepatched (per backend SOAP trace: PatchingType=Prepatched, KIDStatus=Available), no separate Combo Box selection or shared-infrastructure step appears in the journey \u2014 it goes directly from Address confirmation to Plan selection.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "18",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-164",
+    "name": "Order approval requires attachment set (QID Front, QID Back, CAF) verified before Approve/Reject",
+    "ruleType": "Validation",
+    "description": "Before an order can be Approved or Rejected, the Attachments tab must show QatarIdFront, QatarIdBack, and CAF all verified (green checkmarks); action buttons available are Approve, Reject - Correction, Reject - Drop Order, and Go Back.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "19",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-165",
+    "name": "90-Day Temporary Number Rule for Non-Resident ID Types",
+    "ruleType": "Validation",
+    "description": "A number issued against a non-resident ID type (e.g. Passport) is only active for 90 days. To make the number permanent, a valid resident's ID such as QID or Diplomatic ID must be provided.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "20,22",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-166",
+    "name": "Instant Activation Bypasses Appointment Booking",
+    "ruleType": "Derivation",
+    "description": "When Instant Activation is selected, Book Appointment is auto-saved with no manual appointment booking step shown anywhere in the walkthrough, consistent with Instant Activation bypassing a technician visit; the order went from Open to Complete in approximately 4 minutes.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "23",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-167",
+    "name": "Get IPTV Mandatory Field on Contact Step",
+    "ruleType": "Validation",
+    "description": "The \"Get IPTV?\" field on the contact step is a required field, highlighted with a red box in the UI.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "24",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-168",
+    "name": "Qatari ID Front/Back Photo Upload Mandatory",
+    "ruleType": "Validation",
+    "description": "Qatari ID-Front and Qatari ID-Back photo uploads are mandatory fields, shown as required uploaded-photo placeholders that must display green checkmarks.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "25",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-169",
+    "name": "B2B2C Order Requires Proof of Employment Attachment",
+    "ruleType": "Validation",
+    "description": "For B2B2C orders, the attachments step requires Proof of Employment (required, B2B2C-specific), CAF (auto-generated/required), and optionally a Supplementary Form, plus an Add File option.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "26",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-170",
+    "name": "B2B2C With Approval Requires Manager Sign-off Before Provisioning",
+    "ruleType": "Routing",
+    "description": "For the B2B2C \"With Approval\" order variant, the order status (Pending/Submitted for Approval) is routed to a manager queue and requires manager sign-off before it can provision.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "27",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-171",
+    "name": "Manager Approve Action Requires Document Verification Acknowledgement",
+    "ruleType": "Permission",
+    "description": "The manager's \"Approve Order\" modal requires an explicit acknowledgement: \"By clicking submit, I agree that I have verified all the documents and details to proceed with submission.\"",
+    "engineHint": "procedural",
+    "sourceRuleIds": "28",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-172",
+    "name": "Order Rejection Reasons Trigger SMS Notification to Agent",
+    "ruleType": "Routing",
+    "description": "When an order is rejected, an SMS notification is sent to the agent via OSB CreateCommunication, informing them of the rejected order (with MSISDN and order number) and directing them to Sales Order > My Rejected Orders to correct it.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "30",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-173",
+    "name": "Order Approval Reject Reason Taxonomy",
+    "ruleType": "Validation",
+    "description": "Standard rejection reasons for order approval include: \"ID image not clear\", \"ID type or ID number mismatch\", \"Customer Signature doesn't match with ID\", \"Incorrect add on or discount\", \"Device receipt missing\", \"Missing Speed test result/Building information\", \"Bill explainer missing/Incorrect\".",
+    "engineHint": "procedural",
+    "sourceRuleIds": "31",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-174",
+    "name": "Address Fields Mandatory (Zone, Street No., Building No., Apt/Flat/Unit, Area)",
+    "ruleType": "Validation",
+    "description": "Zone, Street No., Building No., Apt/Flat/Unit, and Area are required address fields; the system prompts the user to enter them or, in the FWA Postpaid Business journey, gives the option to click Skip Address to proceed without saving the address.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "32,36",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-175",
+    "name": "Building No. Must Be Numeric, Max 5 Characters",
+    "ruleType": "Validation",
+    "description": "Building No. must be numeric and no more than 5 characters long.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "33",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-176",
+    "name": "Street No. Must Be Numeric, Max 5 Characters",
+    "ruleType": "Validation",
+    "description": "Street No. must be numeric and no more than 5 characters long.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "34",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-177",
+    "name": "SIM Serial Required Before Continue",
+    "ruleType": "Validation",
+    "description": "A valid SIM Serial number must be entered before the agent can press 'Continue'.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "37",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-178",
+    "name": "SIM Serial Must Be 19 Digits",
+    "ruleType": "Validation",
+    "description": "The SIM Serial number must be exactly 19 digits; otherwise the system raises \"Error: SIM Serial # must be 19 digits.\"",
+    "engineHint": "procedural",
+    "sourceRuleIds": "38",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-179",
+    "name": "SIM Must Exist in UIM Inventory",
+    "ruleType": "Validation",
+    "description": "The entered SIM card must exist in the UIM inventory system; otherwise the system returns \"SIM Card does not exist in UIM(SBL-EXL-00151)\".",
+    "engineHint": "procedural",
+    "sourceRuleIds": "39",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-180",
+    "name": "SIM Must Not Already Be Assigned in UIM",
+    "ruleType": "Validation",
+    "description": "A SIM card must not already be assigned in UIM; otherwise the system returns \"SIM Card already assigned in UIM(SBL-EXL-00151)\".",
+    "engineHint": "restriction",
+    "sourceRuleIds": "40",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-181",
+    "name": "CPE Serial Must Be Free (Unassigned) in UIM",
+    "ruleType": "Validation",
+    "description": "The CPE serial number must be free (unassigned) in UIM; otherwise the system returns an error such as \"CPE Serial Number S180P18055025 is not free in UIM(SBL-EXL-00151)\", surfaced via the VFQA Error Handling Service (SBL-BPR-00162) with a support reference format like \"1-DNODWJU\".",
+    "engineHint": "procedural",
+    "sourceRuleIds": "41",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-182",
+    "name": "Supplementary Form Mandatory for FWA CAF Step",
+    "ruleType": "Validation",
+    "description": "The Supplementary Form must be selected before continuing on the FWA CAF step; the Supplementary Form tile is marked mandatory with a red asterisk, and omitting it raises \"Error: Please select Supplementary Form before continuing.\"",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "42",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-183",
+    "name": "Free Number Reservation Priced at QR0.00",
+    "ruleType": "Calculation",
+    "description": "In the Number Selection dialog, an available FREE-category number is priced at QR0.00.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "43",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-184",
+    "name": "Order Status Progression: Pending -> Open -> Complete",
+    "ruleType": "Derivation",
+    "description": "Orders progress through status transitions Open \u2192 In Progress \u2192 Complete, with Status Context \"All order lines are completed\" and Fulfillment Status: Complete at the end of the flow.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "44",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-185",
+    "name": "CPE/Attribute-Only Modification Order Is Zero-Charge",
+    "ruleType": "Calculation",
+    "description": "An order that only modifies CPE attributes (e.g. serial number update) is zero-charge, with Totals remaining QR0.00 (Total, MRC Total, NRC Total), consistent with a no-charge attribute-only modification.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "45",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-186",
+    "name": "Attribute Change Tracked as Discrete Update Action with Old/New Value Retained",
+    "ruleType": "Derivation",
+    "description": "When an attribute such as Indoor Unit Serial Number is changed, the system tracks it as a discrete Update action, where the Value column holds the new value and the Description column preserves the prior/original value.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "46",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-187",
+    "name": "HRN Customer Advance Payment Requirement",
+    "ruleType": "Eligibility",
+    "description": "HRN (High Risk Number / High Risk Nationality) customers are required to pay an advance payment of QR 100.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "47",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-188",
+    "name": "FWA/GigaHome Plan Minimum Subscription Period of 3 Months",
+    "ruleType": "Eligibility",
+    "description": "FWA and GigaHome fixed-line plans carry a minimum subscription period of 3 months \u2014 e.g. \"GigaHome 5G Classic New Indoor - FWA\" plan and \"Gigahome 5Gbps\" fixed-line plan both specify a minimum 3-month subscription.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "48,49",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-189",
+    "name": "CAF Digital Signature Timestamped With Signing Agent Identity",
+    "ruleType": "Derivation",
+    "description": "The Customer Application Form (CAF) digital signature is recorded with the signing agent's login/user ID and a timestamp, e.g. printed line \"VINODHINIR 02/03/2026 14:33:27\".",
+    "engineHint": "procedural",
+    "sourceRuleIds": "50",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-190",
+    "name": "Work Zone Mismatch Flagged When Reassigning Technician",
+    "ruleType": "Validation",
+    "description": "When reassigning a technician via the 'Move' dialog in WFM, the system flags a 'Work zones mismatch' warning in red if the new technician's work zone does not match the activity's required zone.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-191",
+    "name": "WFM Activity Requires Assess Activity, Checklist, Device Activation, and Mandatory Fields Before Ending",
+    "ruleType": "Validation",
+    "description": "A WFM field activity cannot be marked 'End' until Assess Activity, Checklist, and all Mandatory Fields (marked with *) are completed; one variant additionally requires Device Activation and verification via the Inventory tab that scanned device(s) are installed.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-192",
+    "name": "No Duplicate Kahramaa ID Installation Check (30-Day Lookback)",
+    "ruleType": "Validation",
+    "description": "The system checks for previous installation records tied to the same Kahramaa ID within the last 30 days to prevent duplicate installations; confirmation message shown when no duplicate is found.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-193",
+    "name": "Appointment Booking Capacity/Slot Full Rule",
+    "ruleType": "Validation",
+    "description": "Appointment booking calendar displays live capacity counts per date/time slot (e.g. '14/15'); slots that reach capacity are marked 'Full' in red and presumably cannot be selected.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-194",
+    "name": "Advance Payment Required for HRN Customer",
+    "ruleType": "Validation",
+    "description": "Customers flagged as High Risk (HRN) are required to pay an advance payment of QR 100 before proceeding, indicated via an info banner.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-195",
+    "name": "Address Required Fields Before Saving",
+    "ruleType": "Validation",
+    "description": "Before saving an address, the required fields Zone, Street No., Building No., Apt/Flat/Unit, and Area must be entered; alternatively the agent can click 'Skip Address' to proceed without saving the address. Confirmed across both FWA outdoor WFM and FWA Indoor B2B2C journeys.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-196",
+    "name": "Appointment Once Booked Cannot Be Cancelled",
+    "ruleType": "Validation",
+    "description": "Once an installation appointment (including unscheduled appointments) is booked, it cannot be cancelled \u2014 either at all, or specifically not within the current journey. The agent must confirm ('OK') to proceed with booking or cancel to pick another slot.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-197",
+    "name": "CAF Email Notification to Customer",
+    "ruleType": "Visibility",
+    "description": "The system notifies the customer that a copy of the Customer Application Form (CAF) will be sent to their registered email address.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-198",
+    "name": "Serial Number Check Required Before Service Activation",
+    "ruleType": "Validation",
+    "description": "Before service activation, a Serial Number Check (Dual Play) is performed across CPE Indoor/Outdoor/SIM components; all must show validated green checks before the activation request is sent.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-199",
+    "name": "100% Discount for 2 Months -FWA Auto-Applied on FWA Plan Selection",
+    "ruleType": "Calculation",
+    "description": "Selecting an FWA plan automatically applies a '100% Discount for 2 Months -FWA' promotional discount.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-200",
+    "name": "Number Reservation via Free or Reserved Number Toggle",
+    "ruleType": "Eligibility",
+    "description": "Agents select a phone number via a Free Number / Reserved Number toggle; reserved numbers can be chosen (e.g., at QR0.00) as part of the order.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-201",
+    "name": "FWA Journey Surfaces Only Fixed-Line Reserved Number, Not Mobile",
+    "ruleType": "Visibility",
+    "description": "In the FWA Indoor B2B2C journey, only the fixed-line (FL) reserved number is offered/surfaced to the agent; any mobile number reservation on the account is not shown.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-202",
+    "name": "SIM Serial Number Must Be 19 Digits",
+    "ruleType": "Validation",
+    "description": "The SIM Serial number field is validated to require exactly 19 digits; an error is shown otherwise.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-203",
+    "name": "CPE Serial Required Before Continue",
+    "ruleType": "Validation",
+    "description": "A valid CPE Serial number must be entered (field-level 'This field is required' also shown) before the agent can press 'Continue'.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-204",
+    "name": "SIM Card Must Not Already Be Assigned in UIM",
+    "ruleType": "Validation",
+    "description": "The system validates against UIM that the entered SIM Card is not already assigned to another account/service; error code SBL-EXL-00151 raised if already assigned.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-205",
+    "name": "SIM Card Must Exist in UIM",
+    "ruleType": "Validation",
+    "description": "The system validates against UIM that the entered SIM Card exists in the inventory system; error code SBL-EXL-00151 raised if it does not exist.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-206",
+    "name": "CPE Serial Number Must Be Free in UIM",
+    "ruleType": "Validation",
+    "description": "The system validates against UIM that the entered CPE Serial Number is free/unassigned before it can be used; error code SBL-EXL-00151 raised if not free.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-207",
+    "name": "Proof of Employment, CAF, Supplementary Form All Required Before Continuing (B2B2C)",
+    "ruleType": "Validation",
+    "description": "In the FWA Indoor B2B2C journey, Proof of Employment, CAF, and Supplementary Form document selections are all mandatory before the agent can continue; errors are raised individually for missing Supplementary Form and missing Proof of Employment. Confirmed as a mandatory Supplementary Form requirement in the 'with approval' variant as well.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-208",
+    "name": "Order Routed to Manager Approval on Submission",
+    "ruleType": "Routing",
+    "description": "On submission, the activation request order is routed for manager approval; the agent can check status via My Sales Order or My Orders for approval.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-209",
+    "name": "Employer/Special Management Fields Populate Only After Order Approval/Completion",
+    "ruleType": "Derivation",
+    "description": "The Employer field (and related special management fields) on the Contact record remain blank while the order is Pending and only populate after the order is approved/completed \u2014 indicating no provisioning occurs until approval.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-210",
+    "name": "Approve Order Requires Verification Confirmation and Comments",
+    "ruleType": "Validation",
+    "description": "To approve an order, the approver must confirm via checkbox/statement that they have verified all documents and details ('By clicking submit, I agree that I have verified all the documents and details to proceed with submission') and can enter comments in a Comments box.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-211",
+    "name": "2+ Postpaid Connections Triggers Credit-Policy Advisory",
+    "ruleType": "Eligibility",
+    "description": "When a customer already has 2 or more postpaid connections, an advisory note appears instructing the agent to check the credit policy or seek credit control approval before proceeding. In the 'without approval' journey variant, this advisory is confirmed to be informational-only (not a hard gate) \u2014 no approval request, queue, or manager sign-off screen appears. A related Connection Details modal surfaces the customer's total prepaid/postpaid connection counts (e.g. 1 prepaid, 1 postpaid) with a 'Show Postpaid Plan Details' option before MNP proceeds.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-212",
+    "name": "Supplementary Form Mandatory Alongside CAF",
+    "ruleType": "Validation",
+    "description": "The Supplementary Form must be selected alongside the CAF before continuing; an error is raised if omitted. (See also BR-019 for the broader B2B2C document set.)",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-213",
+    "name": "Manager Approval Has Three Decision Paths: Approve, Reject-Correction, Reject-Drop Order",
+    "ruleType": "Routing",
+    "description": "During manager approval review, the approver has three decision paths available via top-right action buttons: Approve, Reject - Correction, Reject - Drop Order (plus a Go Back option).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-214",
+    "name": "Order Expiry SLA Timer on Pending Approval",
+    "ruleType": "Validation",
+    "description": "An order pending approval displays an Order Expiry timestamp (shown in red text), indicating an SLA timer for approval before the order expires.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-215",
+    "name": "Approval Gates Provisioning/Activation",
+    "ruleType": "Routing",
+    "description": "Manager approval gates backend provisioning/activation: only after approval does the order reach Status Complete / Fulfillment Status Complete, with FWA service line items appearing as Active installed assets on the account.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-216",
+    "name": "Rejection Reason Recorded",
+    "ruleType": "Validation",
+    "description": "When an order is rejected, a rejection reason/comment is recorded (e.g., 'ID image not clear').",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-217",
+    "name": "Order Can Reach Complete Without Approved Checkbox Being Set",
+    "ruleType": "Derivation",
+    "description": "In the 'without approval' journey variant, the final order record can reach Status: Complete / Fulfillment Status: Complete even though the Approved checkbox remains unchecked and Approved By is blank \u2014 confirming that approval is not universally required to complete an order.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-218",
+    "name": "Comments Field Must Be Non-Trivial / Meet Minimum Length",
+    "ruleType": "Validation",
+    "description": "Comments entered by an agent must be non-trivial before proceeding (e.g., Save and Finish): a note instructs agents to record a meaningful comment on actions performed for other advisors' benefit, and in the Home Move journey this is enforced with a validation rule requiring more than 5 characters.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-219",
+    "name": "Install Inventory (SNC) Must Follow Service Activation Success",
+    "ruleType": "Validation",
+    "description": "Inventory installation (via Install Inventory-SNC) must only be performed after the Service Activation Status shows 'Success'.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-220",
+    "name": "Location Must Be Fiber-Ready to Proceed with Home Move",
+    "ruleType": "Eligibility",
+    "description": "Before proceeding with a Home Move, the system confirms the new location is Fiber-ready via a pop-up prompt asking the agent to confirm continuation.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-221",
+    "name": "First-Time Home Move Customers Eligible for Free Home Move",
+    "ruleType": "Eligibility",
+    "description": "Customers performing their first Home Move are flagged by the system as eligible for a Free Home Move.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-222",
+    "name": "KID Eligibility Check for Home Move During Assess Activity",
+    "ruleType": "Validation",
+    "description": "During the Assess Activity step of a Home Move, a validation popup checks whether the KID (Kahramaa ID or Kunden/Kahramaa Identifier) is eligible for Home Move.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-223",
+    "name": "Cross-Sales Offer Acceptance Launches Full MNP Postpaid Guided Journey",
+    "ruleType": "Routing",
+    "description": "Accepting a cross-sales 'New MNP' offer row launches the full MNP Postpaid guided journey starting at Step 1 (Contact).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-224",
+    "name": "Bill Limit and Credit Limit Editable at Plan Selection",
+    "ruleType": "Calculation",
+    "description": "At plan selection, agents can edit the Bill Limit and Credit Limit values via dedicated 'Edit Bill Limit' and 'Edit Credit Limit' controls.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-225",
+    "name": "Bill Limit / Smart Limit Cannot Be Set Below Agent Min Value",
+    "ruleType": "Validation",
+    "description": "The Bill Limit / Smart Limit value entered by the agent cannot be set lower than the plan-specific Agent Minimum Value; a validation message blocks lower entries (e.g., entering 28 when Agent Minimum is 50).",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-226",
+    "name": "Bill Limit Mobile Promotion Agent Min Value Threshold = 50 (Postpaid U Start)",
+    "ruleType": "Calculation",
+    "description": "For the Bill Limit Mobile promotion (Postpaid U Start plan), pricing parameters are: SL List Price 3, Agent Min Value 50, SL Min Value 0.01, SL Default Value 20.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-227",
+    "name": "Bill Limit Mobile Plus Promotion Agent Min Value Threshold = 75",
+    "ruleType": "Calculation",
+    "description": "For the Bill Limit Mobile Plus promotion, pricing parameters are: SL List Price 0, Agent Min Value 75, SL Min Value 0.01, SL Default Value 20, with the Default Flag checked.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-228",
+    "name": "Default Smart/Bill Limit Must Be Communicated to Customer",
+    "ruleType": "Visibility",
+    "description": "The agent is instructed that the Default Smart Limit (Bill Limit) value must be communicated to the customer.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-229",
+    "name": "Add-On Requires Sufficient Bill Limit Coverage",
+    "ruleType": "Validation",
+    "description": "If a selected add-on exceeds the current Bill Limit, the system prompts the agent (via info banner) to go back to the Plan step and edit the limit to cover the add-on amount.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-230",
+    "name": "Donor Operator Field Is Read-Only/Derived, Not Agent-Editable",
+    "ruleType": "Derivation",
+    "description": "The Donor Operator field (identifying the losing operator in an MNP port, e.g. Qtel/Ooredoo) is system-derived and read-only, not directly editable by the agent.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-231",
+    "name": "Post-Port SMS Instruction: Customer Must Text 'Switch' to 151 (Cost 1 QR)",
+    "ruleType": "Routing",
+    "description": "As part of the MNP port process, the agent must advise the customer to send an SMS with the text 'switch' to short code 151, which costs 1 QR (Dhs).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-232",
+    "name": "MNP declaration: unpaid postpaid bills must be settled within 30 days of switching",
+    "ruleType": "Eligibility",
+    "description": "Postpaid-specific MNP (Mobile Number Portability) declaration clause requiring that any unpaid or final postpaid bills be settled within 30 days of switching the number to another operator.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-233",
+    "name": "Prepaid MNP declaration: unused prepaid balance is lost upon switching",
+    "ruleType": "Eligibility",
+    "description": "Prepaid MNP declaration clause informing the customer that any unused prepaid balance must be used before the number is switched, as any remaining balance will be forfeited/lost upon switching to another operator.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-234",
+    "name": "MOI Validation required/auto-triggered for Contact confirmation",
+    "ruleType": "Validation",
+    "description": "Method of Identification (MOI) validation is required and auto-triggered to confirm contact details before proceeding, surfaced via a blue banner prompting the agent to confirm the contact details once validation completes.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-235",
+    "name": "SIM Serial entry triggers number reservation check",
+    "ruleType": "Validation",
+    "description": "Entering the SIM serial number automatically triggers a background check that validates the SIM and reserves the associated number, with a progress indicator shown to the agent while the check runs.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-236",
+    "name": "Fixed Pre-sales = Yes requires Preferred Time and address capture",
+    "ruleType": "Validation",
+    "description": "When a lead's connection type is Home/Fixed and 'Fixed Pre-sales' is set to Yes, additional conditional fields become required: a Preferred Time date/time picker and full address capture (Zone, Street, Building, Unit).",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-237",
+    "name": "Rejected leads are never converted to an order",
+    "ruleType": "Derivation",
+    "description": "Once a lead is rejected, its Order Id and Date Converted fields remain permanently blank, reflecting that rejected leads are never converted into an order.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-238",
+    "name": "Reject Lead requires Reject Reason Code and Reject Comment",
+    "ruleType": "Validation",
+    "description": "Rejecting a lead requires the agent to populate a mandatory Reject Reason Code dropdown and a Reject Comment free-text field; leaving these empty is flagged as invalid (shown outlined red).",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-239",
+    "name": "Setting CallBack Date/Time auto-transitions Lead Status New -> In Progress, Sub Status -> Call Back",
+    "ruleType": "Derivation",
+    "description": "Entering a value into the CallBack Date/Time field on a lead automatically transitions the Lead Status from 'New' to 'In Progress' and sets the Lead Sub Status to 'Call Back', without any separate manual status update.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-240",
+    "name": "My Leads view filters by Lead Owner; My Created Leads filters by Created By",
+    "ruleType": "Visibility",
+    "description": "The 'My Leads' view is filtered by the Lead Owner field, so a lead disappears from that view after ownership is reassigned; the separate 'My Created Leads' view is filtered by Created By, so a lead persists in that view regardless of subsequent ownership changes.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-241",
+    "name": "Created By is immutable across Owner Change",
+    "ruleType": "Validation",
+    "description": "The Created By field on a lead remains fixed to the original creator and does not change even when the Lead Owner is reassigned to a different agent.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-242",
+    "name": "Lead Owner reassignment restricted to a candidate-agent picker list",
+    "ruleType": "Permission",
+    "description": "Reassigning a lead's Owner is done via a searchable popup picker that only lists a constrained set of candidate owners (shown with Job Title), rather than allowing free-text entry of any user.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-243",
+    "name": "Admin/back-office role has additional Reject and Retire actions on leads",
+    "ruleType": "Permission",
+    "description": "Users with an admin/back-office role see additional Reject and Retire action buttons on the Lead Details panel that are not available to regular agent-level users.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-244",
+    "name": "Lead created via mobile number attaches to existing matching Contact rather than creating a duplicate",
+    "ruleType": "Derivation",
+    "description": "When a new lead is created using a mobile number that matches an existing Contact record, the system attaches the new lead to that existing contact instead of creating a duplicate contact \u2014 expected Siebel/CRM matching behavior.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-245",
+    "name": "QID Number entry triggers MOI Validation to auto-fetch customer details (Passport-to-QID)",
+    "ruleType": "Derivation",
+    "description": "In the Passport-to-QID journey, clicking 'Update ID' after entering the QID number triggers MOI Validation, which automatically fetches and populates all customer details based on the validated QID.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-246",
+    "name": "Two-or-more postpaid connections credit warning",
+    "ruleType": "Eligibility",
+    "description": "When a customer already has two or more existing postpaid connections, the system displays a warning instructing the agent to check the credit policy or obtain credit control approval before proceeding with a new postpaid sale.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-247",
+    "name": "Cross Sales offer disposition actions (Accept/Interested/Reject/Close)",
+    "ruleType": "Routing",
+    "description": "System-generated Cross Sales Offers are presented in a grid where the agent must disposition each offer using one of four actions: Accept, Interested, Reject, or Close.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-248",
+    "name": "Number reservation blocks number for reserving agent",
+    "ruleType": "Validation",
+    "description": "Once a number begins the reservation process, its status shows BLOCKED with the reserving agent recorded in Reserved By, preventing other agents from selecting it before formal reservation completes.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-249",
+    "name": "Bill Limit cannot be set below Agent Minimum Value",
+    "ruleType": "Validation",
+    "description": "The system enforces a hard floor on the Bill Limit (a form of Spend Limit) equal to the product's configured Agent Minimum Value; entering a value below that threshold blocks journey progression and surfaces a system error referencing the admin/System Administrator with error code SBL-EXL-00151. Conversely, entering a value at or above the Agent Minimum allows the journey to proceed.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "SBL-EXL-00151",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-250",
+    "name": "Maximum Bill Limit equals account Credit Limit",
+    "ruleType": "Validation",
+    "description": "The maximum allowable Bill Limit is capped at (equivalent to) the account's Credit Limit; the agent is instructed by an on-screen note to communicate this cap to the customer.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-251",
+    "name": "Agent Minimum Value is admin-configurable per Bill Limit/Spend Limit product",
+    "ruleType": "Calculation",
+    "description": "Each Bill Limit / Spend Limit product (e.g. 'Bill Limit Mobile' with Agent Min 50, 'Bill Limit Mobile Plus' with Agent Min 80 and Default Flag checked) has an Agent Minimum Value that is configured and editable by an administrator in the Product Promotions admin Bill Limit Mapping tab.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-252",
+    "name": "HRN (High-Risk Nationality) advance payment requirement",
+    "ruleType": "Eligibility",
+    "description": "Customers classified as High-Risk Nationality (HRN) are required to pay an advance payment of QR 100 as a condition of the sale/migration; this requirement blocks completion until satisfied.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-253",
+    "name": "Account pre-approved credit limit defaults from Expatriate/Qatari classification",
+    "ruleType": "Derivation",
+    "description": "An account's default/pre-approved credit limit is derived from a CR Type classification of 'Pre-approved (Expatriate/Qatari)', which carries a pre-set numeric value (e.g. 800) established before the sales journey begins.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-254",
+    "name": "Agent-editable Credit Limit from a preset value list",
+    "ruleType": "Permission",
+    "description": "Agents can override an account's Credit Limit, but only by selecting from a fixed, preset dropdown list of allowed values (e.g. 0, 1000, 1500, 200, 2000, 50, 500, 800), not by entering an arbitrary number.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-255",
+    "name": "Credit Limit override persists back to account record",
+    "ruleType": "Derivation",
+    "description": "When an agent overrides the Credit Limit during a sales/migration journey, the change persists back to the account's pre-approved credit limit field, which reflects the new value after the journey completes.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-256",
+    "name": "B2B2C Company Name linkage during Contact step",
+    "ruleType": "Derivation",
+    "description": "Selecting a Company Name from a dropdown during the Contact step of a B2B2C order links the consumer contact to a sponsoring corporate account; this linkage is later surfaced as the contact's Employer field and sets the account's Special Management field to 'B2B2C Consum...'.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-257",
+    "name": "B2B2C order requires manager approval before fulfillment",
+    "ruleType": "Routing",
+    "description": "B2B2C activation orders are submitted for manager approval rather than fulfilling automatically; the order's status can be tracked via My Sales Order / My Orders pending approval sign-off.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-258",
+    "name": "Order Expiry / approval SLA window",
+    "ruleType": "Validation",
+    "description": "Orders pending manager approval carry an Order Expiry timestamp representing an approximately 3-day SLA window measured from the order's submission/creation time, after which the order presumably lapses.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-259",
+    "name": "Manager approval requires document verification acknowledgement",
+    "ruleType": "Validation",
+    "description": "When a manager submits/approves an order, they must explicitly acknowledge via an on-screen statement that they have verified all documents and details before the submission can proceed.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-260",
+    "name": "Default Bill Limit must be communicated to customer",
+    "ruleType": "Visibility",
+    "description": "An informational banner requires the agent to communicate the Default Bill Limit to the customer as part of the sales journey.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-261",
+    "name": "ECR Details entry restricted to Fulfillment team",
+    "ruleType": "Permission",
+    "description": "The 'Enter ECR Details' field/step is restricted to the Fulfillment team; front-line agents leave it set to No, with the system noting it is 'to be filled by Fulfillment team only.'",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-262",
+    "name": "Add-on selection constrained by Bill Limit headroom",
+    "ruleType": "Validation",
+    "description": "Selecting an add-on is constrained by the remaining headroom under the account's Bill Limit; if the add-on amount would exceed that headroom, the agent must return to the Plan step and raise the Bill Limit to cover the add-on before proceeding.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-263",
+    "name": "Proof of Employment mandatory for B2B2C attachments",
+    "ruleType": "Validation",
+    "description": "In the B2B2C order flow, Proof of Employment is a hard-required attachment; the system blocks progression with an error if it is not selected/uploaded.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-264",
+    "name": "B2B2C without pre-existing Special Management completes without approval",
+    "ruleType": "Routing",
+    "description": "When a B2B2C order is placed on an account that has no pre-existing Special Management flag, the order reaches Complete status (both order and fulfillment) automatically, with the Approved checkbox left unchecked and no hold applied \u2014 it is never routed to anyone for sign-off.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-265",
+    "name": "Special Management account flag triggers B2B2C override prompt",
+    "ruleType": "Routing",
+    "description": "When an account already carries a Special Management field value, the system prompts the agent with an explicit confirmation asking whether to continue the journey without applying B2B2C.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-266",
+    "name": "Orders on accounts with Special Management/multiple postpaid lines route to Pending approval",
+    "ruleType": "Routing",
+    "description": "Orders placed on accounts already carrying a Special Management flag or multiple existing postpaid lines are routed to a Pending status with the Approved checkbox unchecked and Approved By left blank, consistent with the credit-control warning raised for such accounts.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-267",
+    "name": "Number reservation generates a unique reservation token",
+    "ruleType": "Validation",
+    "description": "Successfully reserving a number generates a unique reservation token returned to the agent via a system success alert, referencing error/success code SBL-EXL-00151.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "SBL-EXL-00151",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-268",
+    "name": "HRN/Credit-Limit variant routes order to manager approval rather than auto-completion",
+    "ruleType": "Routing",
+    "description": "For the HRN Customer / Credit Limit variant of the postpaid journey, the resulting activation order is submitted for manager approval rather than completing automatically \u2014 the defining characteristic distinguishing this variant from the standard flow.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-269",
+    "name": "Minimum Subscription Period of 3 months applies to certain postpaid plans",
+    "ruleType": "Eligibility",
+    "description": "Certain postpaid plans (e.g. 'U Start', 'Red 350') carry a disclosed Minimum Subscription Period of 3 months, shown as a footnote on the CAF/plan selection screen.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-270",
+    "name": "Pre2Post conversion order created before asset removal",
+    "ruleType": "Derivation",
+    "description": "When converting a prepaid line to postpaid, the new order is created while the old prepaid asset (e.g. Prepaid Red Promotion) is still present on the account, indicating the conversion completes via asynchronous order fulfillment rather than an instant swap.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-271",
+    "name": "First month prorated billing on plan conversion",
+    "ruleType": "Calculation",
+    "description": "On plan conversion (e.g. Pre2Post), the first month's charges are prorated, with the full plan charge applying starting from the following billing month.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-272",
+    "name": "Autobase migration offer sourced from Unica campaign engine, agent Accept/Interested/Reject only",
+    "ruleType": "Routing",
+    "description": "Pre2Post migration offers are system pre-populated from the Unica campaign engine (identified by a Campaign Code) into a Migration Offers grid; the agent may only disposition each offer via Accept, Interested, or Reject.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-273",
+    "name": "Migration order fulfilled asynchronously via backend bulk job queue",
+    "ruleType": "Routing",
+    "description": "Once a Pre2Post migration order is auto-created, it progresses asynchronously to Complete status via a backend Bulk Processing job queue (job type 'PreToPost'), rather than completing synchronously in the UI.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-274",
+    "name": "Connection count check before conversion (existing prepaid/postpaid line counts shown)",
+    "ruleType": "Validation",
+    "description": "Before a Pre-to-Post conversion, the system displays a Connection Details modal showing the existing total number of prepaid and postpaid connections for the customer, allowing a count check as part of the conversion flow.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-275",
+    "name": "Recurring add-ons cannot be purchased twice on the same line; one-off add-ons can be added multiple times",
+    "ruleType": "Validation",
+    "description": "A recurring add-on already active on a line cannot be purchased a second time on that same line (validation failure), whereas one-off add-ons may be added multiple times on the same line.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-276",
+    "name": "Discounts cannot be multi-selected on one order (BAU rule)",
+    "ruleType": "Validation",
+    "description": "Only a single discount may be selected per order; multi-selecting discounts within one order is disallowed as a business-as-usual rule.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-277",
+    "name": "FDO maximum 30 days ahead",
+    "ruleType": "Validation",
+    "description": "A Future Dated Order (FDO) can be scheduled for execution no more than 30 days ahead of the order creation date.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-278",
+    "name": "FDO modification/cancellation only allowed while status is Initial",
+    "ruleType": "Permission",
+    "description": "A Future Dated Order can only be modified or cancelled while its status remains 'Initial'; once it progresses beyond that status, modification/cancellation is no longer permitted through normal means.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-279",
+    "name": "Failed FDO orders must not be cancelled manually",
+    "ruleType": "Validation",
+    "description": "If FDO execution fails validation, the request is automatically cancelled with the error captured by the system; agents/users must not manually cancel failed FDO orders.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-280",
+    "name": "Pre-to-Post FDO blocks FMS/MOI/collection-barred/blacklisted MSISDN and passport-ID customers",
+    "ruleType": "Eligibility",
+    "description": "For Pre-to-Post future dated orders, system validation blocks MSISDNs that are FMS/MOI/collection-barred or blacklisted, rejects customers identified by passport ID, and disallows any upfront payment (e.g., HRN fee) being combined within the same FDO order.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-281",
+    "name": "Post-to-Pre Migration requires outstanding balance <=0 and 100 QR migration fee upfront",
+    "ruleType": "Eligibility",
+    "description": "A Post-to-Pre migration requires the outstanding balance to be system-validated as cleared (\u22640), the execution date is limited to the next bill cycle, and a 100 QR migration fee must be collected upfront.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-282",
+    "name": "All scheduled FDOs cancelled after a plan change executes",
+    "ruleType": "Derivation",
+    "description": "Once a plan change executes, all other scheduled Future Dated Orders for that line/account are automatically cancelled.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-283",
+    "name": "Disconnection FDO can only be raised via Siebel, cancellable only by retention team",
+    "ruleType": "Permission",
+    "description": "A Disconnection FDO can only be raised via Siebel (not via MVA); it cannot be cancelled through the app \u2014 only the retention team has authority to cancel it.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-284",
+    "name": "Automatic 3x retry for FDO failures caused by open orders",
+    "ruleType": "Routing",
+    "description": "FDO requests that fail due to open orders are automatically retried up to 3 times; failures that remain unresolved after retries are consolidated into a daily operations report.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-285",
+    "name": "Order cannot be dropped without going through Approval",
+    "ruleType": "Validation",
+    "description": "An order cannot be dropped by a user unless it has gone through the Order Approval step; attempting to drop without approval produces an error.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-286",
+    "name": "SIM Swap rejection drops (cancels) the order",
+    "ruleType": "Routing",
+    "description": "When a SIM Swap task is rejected, a pop-up requires a Rejection Reason and comments, then upon clicking Drop Order the order is dropped and marked as cancelled.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-287",
+    "name": "Postpaid activation requires QID; prepaid accepts passport/GCC ID/QID (no driving licence)",
+    "ruleType": "Eligibility",
+    "description": "Postpaid activation requires a Qatar ID (QID); prepaid activation accepts a passport, GCC ID, or QID, but a driving licence is not an accepted identification document for either.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-288",
+    "name": "Max two postpaid mobiles per expat QID (business rule, though technically five allowed)",
+    "ruleType": "Eligibility",
+    "description": "Business rule caps an expat QID holder at a maximum of two postpaid mobile lines, even though the underlying system technically permits up to five.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-289",
+    "name": "Star number carries 1-year plan commitment vs 3-month for free number; up to 2-year lock-in for 20,000 QAR star number on VIP plan",
+    "ruleType": "Eligibility",
+    "description": "Selecting a star number carries a 1-year plan commitment, compared to a 3-month commitment for a free number; a premium 20,000 QAR star number on a VIP plan carries up to a 2-year lock-in.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-290",
+    "name": "CAF/attachment size limit ~4MB",
+    "ruleType": "Validation",
+    "description": "Customer Application Form (CAF) and other order attachments are limited to approximately 4MB in file size.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-291",
+    "name": "Signed CAF must not be editable after signing",
+    "ruleType": "Validation",
+    "description": "Once a Customer Application Form (CAF) has been signed, it must become locked/non-editable to preserve the integrity of the signed document.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-292",
+    "name": "Port-out requires zero overdue/outstanding and cleared device instalments",
+    "ruleType": "Eligibility",
+    "description": "A customer requesting to port their number out (MNP port-out) must have zero overdue balance/outstanding amount and any device instalment plan must be fully cleared.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-293",
+    "name": "Port-in executes next working day in a defined window",
+    "ruleType": "Routing",
+    "description": "MNP port-in requests execute on the next working day within a defined execution window, typically between 11am and 12pm.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-294",
+    "name": "IPTV only via OSN/fixed and always defaulted on (triple play)",
+    "ruleType": "Derivation",
+    "description": "IPTV/TV service is only offered via OSN on fixed lines and is always defaulted to 'on' as part of the triple-play bundle.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-295",
+    "name": "Fiber instant vs non-instant activation determined by back-end box type, not customer choice",
+    "ruleType": "Derivation",
+    "description": "Whether a Fiber activation is instant or non-instant is determined by a back-end check of the box type at the premises, not by customer selection.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-296",
+    "name": "MNP porting requires mandatory customer SMS confirmation to clearinghouse shortcode (charged QR 1)",
+    "ruleType": "Validation",
+    "description": "MNP porting requires the customer to send a mandatory confirmation SMS to a clearinghouse shortcode, which is charged QR 1; no confirmation SMS is sent if the port request is rejected.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-297",
+    "name": "MNP requires two signatures (legal requirement)",
+    "ruleType": "Validation",
+    "description": "MNP (mobile number portability) requests require two signatures as a legal requirement confirmed by the review team.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-298",
+    "name": "Tablet/partner orders require channel-manager approval before submission",
+    "ruleType": "Permission",
+    "description": "Orders placed via Tablet channel, which are mostly partner orders, require channel-manager approval before they can be submitted.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-299",
+    "name": "Partner visibility restricted to own orders/leads",
+    "ruleType": "Visibility",
+    "description": "A partner user's visibility is restricted to only its own orders and leads, not those of other partners.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-300",
+    "name": "Order Billing Profile must match Line Items' Billing Profile",
+    "ruleType": "Validation",
+    "description": "The Billing Profile set at the order level must match the Billing Profile of each of the order's Line Items.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "ORD_VALD_RULE_001",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-301",
+    "name": "Business account open-order block",
+    "ruleType": "Validation",
+    "description": "For a business account, a new pending order cannot be submitted if there is already an open order existing under that account.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "ORD_VALD_RULE_005",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-302",
+    "name": "SIM Card serial number mandatory",
+    "ruleType": "Validation",
+    "description": "A Serial Number is a mandatory field for any SIM CARD product on an order.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "ORD_VALD_RULE_019",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-303",
+    "name": "Payment authorization requirement",
+    "ruleType": "Validation",
+    "description": "All payments associated with an order must be authorized before the order can proceed.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "ORD_VALD_RULE_030",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-304",
+    "name": "MNP Port-In DNO verification attachment requirement",
+    "ruleType": "Validation",
+    "description": "An MNP Port-In order requires a DNO (Donor Network Operator) Verification Attachment to be provided.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "ORD_VALD_RULE_110",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-305",
+    "name": "Fixed Line address KID requirement",
+    "ruleType": "Validation",
+    "description": "A Fixed Line (FL) address on an order must include a KID (unique address/location identifier).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "ORD_VALD_RULE_161",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-306",
+    "name": "Bill Limit Minimum threshold (Agent) / BL rule series 01-09",
+    "ruleType": "Validation",
+    "description": "Bill Limit (BL) rules 01 through 09 govern bill-limit modification for agents, including minimum/maximum threshold checks and conflicts with in-flight orders.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "BL RULE 01-09 series",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-307",
+    "name": "Bill Limit cannot exceed Credit Limit",
+    "ruleType": "Calculation",
+    "description": "The Bill Limit value set on an account cannot exceed the account's Credit Limit (BL Rule 07).",
+    "engineHint": "threshold",
+    "sourceRuleIds": "BL RULE 07",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-308",
+    "name": "IoT vs Non-IoT MSISDN length rule",
+    "ruleType": "Validation",
+    "description": "MSISDN length must conform to product type: non-IoT MSISDNs are 8 digits, IoT MSISDNs are 10 digits.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-309",
+    "name": "iWatch/RIO max one per order",
+    "ruleType": "Validation",
+    "description": "An order may include a maximum of one iWatch/RIO product; this is part of the broader iWatch/RIO bundle validation which also includes a credit limit check.",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-310",
+    "name": "iWatch/RIO EID requirement",
+    "ruleType": "Validation",
+    "description": "An EID (eSIM identifier) is required as part of the iWatch/RIO bundle validation.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-311",
+    "name": "iWatch/RIO suspended-primary-bundle block",
+    "ruleType": "Eligibility",
+    "description": "An iWatch/RIO order is blocked if the associated primary bundle/line is suspended.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-312",
+    "name": "Bulk SMS one-active-per-account rule",
+    "ruleType": "Validation",
+    "description": "An account may have only one active Bulk SMS service at a time.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-313",
+    "name": "Bulk SMS mandatory attachment rule",
+    "ruleType": "Validation",
+    "description": "A Bulk SMS order requires a mandatory supporting attachment.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-314",
+    "name": "Bulk SMS blacklist check",
+    "ruleType": "Eligibility",
+    "description": "A Bulk SMS order is subject to a blacklist eligibility check.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-315",
+    "name": "Account-level APN uniqueness",
+    "ruleType": "Validation",
+    "description": "APN validation enforces account-level APN uniqueness, alongside related checks for Static IP, Domain Hosting, and Broadband Service Link.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-316",
+    "name": "Deposit Service Bundle one-per-account rule",
+    "ruleType": "Validation",
+    "description": "An account may have only one Deposit Service Bundle at a time.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-317",
+    "name": "Deposit Service Bundle cannot be first service",
+    "ruleType": "Eligibility",
+    "description": "A Deposit Service Bundle cannot be established as the first/only service on an account.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-318",
+    "name": "Deposit Service Bundle cannot combine with TON",
+    "ruleType": "Validation",
+    "description": "A Deposit Service Bundle cannot be combined with a TON (Transfer of Name/Ownership) on the same order.",
+    "engineHint": "restriction",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-319",
+    "name": "Star Number pricing/approval rule",
+    "ruleType": "Calculation",
+    "description": "Star Number selections are subject to pricing and approval rules governing their cost tier and required sign-off.",
+    "engineHint": "mandatory-field",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-320",
+    "name": "IPTV/IDM email uniqueness rule",
+    "ruleType": "Validation",
+    "description": "IPTV/IDM registrations enforce email-address uniqueness across accounts/subscriptions.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-321",
+    "name": "ALP account existence / default billing profile cross-check",
+    "ruleType": "Validation",
+    "description": "Account Level Product/Bundle (ALP) orders undergo BRM cross-checks validating account existence and the type/status of the default billing profile.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-322",
+    "name": "Each activation requires unique KID",
+    "ruleType": "Validation",
+    "description": "Each activation requires a unique KID; for villa partitions with a shared real address, the first connection uses the real KID and subsequent connections use dummy KIDs to satisfy the uniqueness requirement.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-323",
+    "name": "MSISDN required to create a Siebel lead from RFS Portal",
+    "ruleType": "Validation",
+    "description": "The RFS Portal captures MSISDN and creates a Siebel lead via API; MSISDN is not used as a search key, but no lead can be created without it being present.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-324",
+    "name": "Instant Activation restricted to tablet channel",
+    "ruleType": "Eligibility",
+    "description": "Instant Activation is constrained to the tablet-only channel.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-325",
+    "name": "Address lock after RFS feasibility check",
+    "ruleType": "Validation",
+    "description": "The service address is locked after the Ready-for-Service (RFS) feasibility check is completed.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-326",
+    "name": "Proof-of-address file size cap (2MB)",
+    "ruleType": "Validation",
+    "description": "Proof-of-address document uploads are capped at 2MB.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-327",
+    "name": "Number type branching: Normal vs Star Number",
+    "ruleType": "Routing",
+    "description": "When adding a SIM/MSISDN in the onboarding flow (J011 and related order-capture processes), the process branches based on whether the selected number is a Normal number or a Star Number.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-328",
+    "name": "Add-on branching: Non-Telco vs Telco",
+    "ruleType": "Routing",
+    "description": "Add-ons selected during checkout/cart (J011 and related order-capture processes) branch by category into Non-Telco Add-On and Telco Add-On paths.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-329",
+    "name": "Payment branching: Full Payment vs Device on Installment (DOI)",
+    "ruleType": "Routing",
+    "description": "At checkout (J011 and related order-capture processes), payment is branched between Full Payment and Device on Installment (DOI).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-330",
+    "name": "ID type branching: QID vs Other ID/Passport",
+    "ruleType": "Routing",
+    "description": "In the J011 Mobile Post-Paid Customer onboarding journey (and related order-capture processes), the customer's ID type determines the validation path: QID routes to MOI Validation, while Other ID/Passport routes to manual capture of customer details and address validation.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-331",
+    "name": "Plan display logic conditional on ID type",
+    "ruleType": "Visibility",
+    "description": "Which plans are displayed to the agent depends on the customer's ID type \u2014 e.g. Postpaid and Prepaid plans are shown if the ID type is QID, otherwise only Prepaid Type is shown (J011 onboarding flow).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-332",
+    "name": "Bill period non-editable in bill profile capture",
+    "ruleType": "Validation",
+    "description": "During bill profile capture (bill address, bill cycle, bill period, bill mode), the bill period field is non-editable.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-333",
+    "name": "J023 Modify Order Initiation and Submission (Suspension)",
+    "ruleType": "Routing",
+    "description": "For J023 Mobile Service Suspension, the modify order is initiated by the Agent in DXP, who either suspends the service or changes the plan to a park plan, and the Agent submits the order in DXP to apply the change. The J024 Mobile Service Resume slide states identical rule text (flagged in the source as a likely copy-paste/drafting artifact rather than a rule specific to resume).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "low"
+  },
+  {
+    "id": "BR-334",
+    "name": "Suspension Eligibility Requires Cleared Unbilled Balance",
+    "ruleType": "Eligibility",
+    "description": "Before a Mobile Service Suspension (J023) order can be submitted, any pending/current unbilled balance must be cleared.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-335",
+    "name": "Resume Reverts to Base Plan Billing",
+    "ruleType": "Calculation",
+    "description": "Upon Mobile Service Resume (J024), the customer's Base Plan (reverted from Park Plan) becomes the billed plan.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-336",
+    "name": "Park Plan Minimum Services Sourced from Launch X",
+    "ruleType": "Derivation",
+    "description": "When suspending service, the Park Plan's minimum services set is fetched from a system/module referred to as \"Launch X\".",
+    "engineHint": "threshold",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-337",
+    "name": "Base Plan Sourced from Launch X on Resume",
+    "ruleType": "Derivation",
+    "description": "When resuming service, the Base Plan to revert to is fetched from the \"Launch X\" system/module.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-338",
+    "name": "Ticket/Order Approval Required for Suspension and Resume",
+    "ruleType": "Routing",
+    "description": "Both Mobile Service Suspension (J023) and Mobile Service Resume (J024) require ticket creation and an approval step before/alongside order submission (stated identically on both flows).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-339",
+    "name": "Payment Capture via WinCash for Suspension/Resume Orders",
+    "ruleType": "Validation",
+    "description": "Payment associated with service suspension or resume must be captured/collected through the WinCash payment system before order submission (payment for suspension collected in WinCash per J023; payment for resume service via WinCash per J024).",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-340",
+    "name": "Prepaid Channel Migration: ECR to VSA",
+    "ruleType": "Routing",
+    "description": "Stores and Direct Sales channels are migrating prepaid (Paired SIM) sales from the ECR system to VSA, as ECR is being phased out for prepaid selling.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-341",
+    "name": "Disconnection Ticket Closure Auto-Creates Disconnection Order",
+    "ruleType": "Derivation",
+    "description": "When a disconnection-related ticket is closed by the Retention Team, the system automatically generates a disconnection order.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-342",
+    "name": "MNP Port Out Ticket Auto-Created from NPAS",
+    "ruleType": "Derivation",
+    "description": "MNP Port Out tickets are automatically created from the NPAS system rather than manually raised by an agent.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-343",
+    "name": "MNP Port Out Activity Validation and Auto Status Change",
+    "ruleType": "Validation",
+    "description": "Activities within an MNP Port Out ticket are validated either automatically or by the MNP Team and marked Success/Failed; when all activities are complete, the ticket's overall status changes automatically.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "high"
+  },
+  {
+    "id": "BR-344",
+    "name": "SMS Content Controlled Within Teams",
+    "ruleType": "Permission",
+    "description": "The content of both automated SMS (e.g. New Ticket, Re-Opened Ticket) and manual SMS notifications sent for tickets is controlled/owned within individual teams rather than centrally.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-345",
+    "name": "Ticket Field Ownership by Role (Front Line vs Complaints Team)",
+    "ruleType": "Permission",
+    "description": "Specific fields on the Ticket Homepage are designated to be filled by different roles: Front Line (FL) Agents, the Complaints Team, or FL Agents only for specific trouble ticket types.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  },
+  {
+    "id": "BR-346",
+    "name": "Ticket Auto-Assignment to Queue",
+    "ruleType": "Routing",
+    "description": "Tickets are automatically assigned to a queue based on criteria not further specified in the extracted text, as part of the current-state process.",
+    "engineHint": "procedural",
+    "sourceRuleIds": "",
+    "confidence": "medium"
+  }
+]

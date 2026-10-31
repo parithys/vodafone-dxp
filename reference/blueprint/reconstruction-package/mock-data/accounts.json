@@ -1,0 +1,41 @@
+[
+  {
+    "accountId": "ACC-5001",
+    "customerId": "CUST-1001",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7001"
+  },
+  {
+    "accountId": "ACC-5002",
+    "customerId": "CUST-1002",
+    "accountType": "Consumer Mobile Postpaid (HRN)",
+    "status": "Active",
+    "billingProfileId": "BILL-7002"
+  },
+  {
+    "accountId": "ACC-5003",
+    "customerId": "CUST-1003",
+    "accountType": "Consumer Fixed Line (GigaHome)",
+    "status": "Active",
+    "billingProfileId": "BILL-7003"
+  },
+  {
+    "accountId": "ACC-5004",
+    "customerId": "CUST-2001",
+    "accountType": "Enterprise (EBU) Parent Account",
+    "status": "Active",
+    "billingProfileId": "BILL-7004",
+    "subAccountIds": [
+      "ACC-5005"
+    ]
+  },
+  {
+    "accountId": "ACC-5005",
+    "customerId": "CUST-2001",
+    "accountType": "Enterprise (EBU) Sub-Account",
+    "status": "Active",
+    "parentAccountId": "ACC-5004",
+    "billingProfileId": "BILL-7004"
+  }
+]

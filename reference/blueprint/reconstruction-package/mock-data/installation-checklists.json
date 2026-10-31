@@ -1,0 +1,45 @@
+[
+  {
+    "checklistId": "CHK-7701",
+    "appointmentId": "APT-5501",
+    "speedTestResult": "Download 512 Mbps / Upload 98 Mbps",
+    "wifiUsername": "VFQ_WestBay_5501",
+    "callTimestamps": [
+      "2026-08-25T10:05:00Z",
+      "2026-08-25T11:40:00Z"
+    ],
+    "wifiCoverageTested": true,
+    "opticalPowerMeterReading": "-18.5 dBm",
+    "splitterFreePortDetails": "Splitter SP-04, 2 free ports remaining",
+    "attachments": [
+      "ont_photo.jpg",
+      "signature.png"
+    ],
+    "customerBriefingItems": [
+      "Router placement explained",
+      "Wi-Fi password shared",
+      "Speed test demonstrated"
+    ],
+    "customerSignature": "captured"
+  },
+  {
+    "checklistId": "CHK-7702",
+    "appointmentId": "APT-5503",
+    "speedTestResult": "Download 98 Mbps / Upload 20 Mbps",
+    "wifiUsername": "VFQ_Pearl_5503",
+    "callTimestamps": [
+      "2026-08-20T09:10:00Z"
+    ],
+    "wifiCoverageTested": true,
+    "opticalPowerMeterReading": "-21.2 dBm",
+    "splitterFreePortDetails": "Splitter SP-11, 0 free ports remaining",
+    "attachments": [
+      "signature.png"
+    ],
+    "customerBriefingItems": [
+      "Router placement explained",
+      "Customer briefed on billing cycle"
+    ],
+    "customerSignature": "captured"
+  }
+]

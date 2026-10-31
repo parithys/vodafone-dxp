@@ -1,0 +1,111 @@
+[
+  {
+    "authorisedPersonId": "AUTH-3101",
+    "contactId": "CONT-3001",
+    "accountId": "ACC-5003",
+    "parentAccountId": "ENT-ACC-7701",
+    "name": "Mohammed Rashid Ali Al-Kubaisi",
+    "email": "mohammed.kubaisi@lulugroup.qa",
+    "emailType": "corporate",
+    "jobTitle": "Procurement Manager",
+    "roles": [
+      "chooser"
+    ],
+    "isChooser": true,
+    "accountAffiliationApproved": true,
+    "affiliationFormAttached": "QID_ACC-5003",
+    "webSelfCareAccess": true,
+    "offBoarded": false,
+    "mobile": "+97455580001"
+  },
+  {
+    "authorisedPersonId": "AUTH-3102",
+    "contactId": "CONT-3002",
+    "accountId": "ACC-5003",
+    "parentAccountId": "ENT-ACC-7701",
+    "name": "Aisha Abdulla Saeed Al-Sulaiti",
+    "email": "aisha.sulaiti@gmail.com",
+    "emailType": "personal",
+    "jobTitle": "Finance Officer",
+    "roles": [
+      "payment support"
+    ],
+    "isChooser": false,
+    "accountAffiliationApproved": true,
+    "affiliationFormAttached": "QID_ACC-5003",
+    "webSelfCareAccess": true,
+    "offBoarded": false,
+    "mobile": "+97455580002"
+  },
+  {
+    "authorisedPersonId": "AUTH-3103",
+    "contactId": "CONT-3003",
+    "accountId": "ACC-5004",
+    "parentAccountId": "ENT-ACC-7701",
+    "name": "Rashid Saud Hamad Al-Marri",
+    "email": "rashid.marri@lulugroup.qa",
+    "emailType": "corporate",
+    "jobTitle": "IT Technical Lead",
+    "roles": [
+      "technical contact",
+      "chooser"
+    ],
+    "isChooser": true,
+    "accountAffiliationApproved": false,
+    "affiliationFormAttached": null,
+    "webSelfCareAccess": false,
+    "offBoarded": true,
+    "mobile": "+97455580003"
+  },
+  {
+    "authorisedPersonId": "AUTH-3201",
+    "accountId": "ACC-5001",
+    "name": "Noora Ahmed Al-Sulaiti",
+    "email": "noora.alsulaiti@example.qa",
+    "emailType": "personal",
+    "jobTitle": "Spouse",
+    "roles": [
+      "spouse"
+    ],
+    "isChooser": false,
+    "accountAffiliationApproved": true,
+    "webSelfCareAccess": false,
+    "offBoarded": false,
+    "mobile": "+97455580101",
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "authorisedPersonId": "AUTH-3202",
+    "accountId": "ACC-5003",
+    "name": "Saud Hamad Al-Kuwari",
+    "email": "saud.alkuwari@example.qa",
+    "emailType": "personal",
+    "jobTitle": "Parent",
+    "roles": [
+      "parent"
+    ],
+    "isChooser": false,
+    "accountAffiliationApproved": true,
+    "webSelfCareAccess": false,
+    "offBoarded": false,
+    "mobile": "+97455580102",
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  },
+  {
+    "authorisedPersonId": "AUTH-3203",
+    "accountId": "ACC-5601",
+    "name": "Jassim Hamad Al-Thani",
+    "email": "jassim.althani@example.qa",
+    "emailType": "personal",
+    "jobTitle": "Sibling",
+    "roles": [
+      "sibling"
+    ],
+    "isChooser": false,
+    "accountAffiliationApproved": true,
+    "webSelfCareAccess": false,
+    "offBoarded": false,
+    "mobile": "+97455580103",
+    "_note": "Demo seed (2026-10-03) for the Telesales Customer 360 - not sourced from a BRSD."
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "scopeId": "NATIONAL",
+    "scopeLabel": "Vodafone Qatar",
+    "period": "Q3 2026",
+    "mobileAttachRatePct": 62,
+    "fibreHomeTakeUpPct": 28,
+    "leadToActivationPct": 34,
+    "topPerformingPlan": "Postpaid 20GB Family",
+    "topPerformingPlanDeltaPct": 18,
+    "channelMixRetailPct": 54,
+    "channelMixDirectPct": 31,
+    "channelMixTelePct": 15,
+    "customersOnFile": 1284,
+    "catalogSyncedMinutesAgo": 12,
+    "_note": "Seeded rollup, not derived from the mock records. The seed set is far too small to produce a meaningful rate; these stand in for a reporting feed."
+  },
+  {
+    "scopeId": "DOHA-CENTRAL",
+    "scopeLabel": "Doha Central",
+    "period": "Q3 2026",
+    "mobileAttachRatePct": 58,
+    "fibreHomeTakeUpPct": 26,
+    "leadToActivationPct": 31,
+    "topPerformingPlan": "Postpaid 20GB Family",
+    "topPerformingPlanDeltaPct": 14,
+    "channelMixRetailPct": 54,
+    "channelMixDirectPct": 31,
+    "channelMixTelePct": 15,
+    "customersOnFile": 182,
+    "catalogSyncedMinutesAgo": 12,
+    "_note": "Seeded rollup, not derived from the mock records. The seed set is far too small to produce a meaningful rate; these stand in for a reporting feed."
+  },
+  {
+    "scopeId": "AL-WAKRAH",
+    "scopeLabel": "Al Wakrah",
+    "period": "Q3 2026",
+    "mobileAttachRatePct": 49,
+    "fibreHomeTakeUpPct": 22,
+    "leadToActivationPct": 27,
+    "topPerformingPlan": "SIM-Only Flex 10GB",
+    "topPerformingPlanDeltaPct": 9,
+    "channelMixRetailPct": 61,
+    "channelMixDirectPct": 24,
+    "channelMixTelePct": 15,
+    "customersOnFile": 96,
+    "catalogSyncedMinutesAgo": 12,
+    "_note": "Seeded rollup, not derived from the mock records. The seed set is far too small to produce a meaningful rate; these stand in for a reporting feed."
+  }
+]

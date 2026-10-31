@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ADDR-1101",
+    "contactId": "CONT-3001",
+    "customerId": "CUST-1001",
+    "zone": "55",
+    "streetNo": "12",
+    "buildingNo": "34",
+    "aptFlatUnit": "Flat 2",
+    "city": "Doha",
+    "country": "Qatar",
+    "postalCode": "00000",
+    "startDate": "2024-03-01",
+    "effectiveFrom": "2024-03-01",
+    "effectiveTo": null,
+    "primaryStatus": "Primary",
+    "activeFlag": true
+  },
+  {
+    "id": "ADDR-1102",
+    "contactId": "CONT-3001",
+    "customerId": "CUST-1001",
+    "zone": "39",
+    "streetNo": "820",
+    "buildingNo": "9",
+    "aptFlatUnit": "Villa 9",
+    "city": "Al Rayyan",
+    "country": "Qatar",
+    "postalCode": "00000",
+    "startDate": "2022-01-15",
+    "effectiveFrom": "2022-01-15",
+    "effectiveTo": "2024-02-28",
+    "primaryStatus": "Discontinued",
+    "activeFlag": false
+  },
+  {
+    "id": "ADDR-1103",
+    "leadId": "LEAD-20001",
+    "zone": "12",
+    "streetNo": "5",
+    "buildingNo": "7",
+    "aptFlatUnit": "Unit 1204",
+    "city": "Doha",
+    "country": "Qatar",
+    "postalCode": "00000",
+    "startDate": "2026-06-01",
+    "effectiveFrom": "2026-06-01",
+    "effectiveTo": null,
+    "primaryStatus": "Primary",
+    "activeFlag": true
+  }
+]

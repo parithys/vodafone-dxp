@@ -1,0 +1,32 @@
+[
+  {
+    "uimRecordId": "UIM-3001",
+    "specification": "SIM Card - Nano",
+    "inventoryStatus": "In Stock",
+    "assignmentStatus": "Unassigned",
+    "deviceStatus": "New",
+    "iccid": "8974412009900123456",
+    "imsi1": "427011234567890",
+    "msisdn": null
+  },
+  {
+    "uimRecordId": "UIM-3002",
+    "specification": "SIM Card - eSIM",
+    "inventoryStatus": "Allocated",
+    "assignmentStatus": "Assigned",
+    "deviceStatus": "Active",
+    "iccid": "8974412009900123999",
+    "imsi1": "427019876543210",
+    "msisdn": "+97433001002"
+  },
+  {
+    "uimRecordId": "UIM-3003",
+    "specification": "CPE - 5G Router",
+    "inventoryStatus": "Allocated",
+    "assignmentStatus": "Assigned",
+    "deviceStatus": "Active",
+    "iccid": null,
+    "imsi1": null,
+    "msisdn": "+97433001001"
+  }
+]

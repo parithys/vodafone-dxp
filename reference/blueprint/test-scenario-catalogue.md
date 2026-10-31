@@ -1,0 +1,2986 @@
+# Test Scenario Catalogue (Phase 33)
+
+Positive, negative, validation, workflow, and persona test scenarios generated module-by-module directly from `requirements.md` and `journeys.md` (16 parallel agents, one per module, each required to reference every requirement ID in its module at least once), plus three deterministic scenario sets — Navigation, Boundary, and Security — computed directly from `config/routes.json`, `rbac-matrix.md`, and `business-rules.md` (no LLM judgment needed for these three, since they're mechanical derivations of already-structured data).
+
+**Totals:** 493 module-level scenarios (Positive: 169, Negative: 140, Workflow: 92, Validation: 62, Persona: 30) + 213 Navigation + 40 Security + 29 Boundary = **775 total scenarios**.
+
+**Requirement coverage:** 308 of 308 requirements (100%) are referenced by at least one scenario below. 0 are not — listed in §5.
+
+---
+
+## 1. Module-level scenarios (Positive / Negative / Validation / Workflow / Persona)
+
+### Lead Management (22 scenarios)
+
+**Positive scenarios:**
+
+- **TC-LEA-001** [Positive] Create Postpaid lead from mobile number via New Lead Tablet (Priority: High)
+  - Covers: REQ-208
+  - Preconditions: Agent (e.g. Hemanth Kumar) is logged into Open UI Tablet; mobile number 97431243124 already exists on Contact SAHID ANSARI in the system.
+  - Steps: 1. Agent opens 'New Lead Tablet' tile. 2. Enter Mobile Number 97431243124. 3. Select Service Needed. 4. Click Create Lead.
+  - Expected: System shows 'Lead created successfully!' confirmation; the new lead's Lead Details View shows First Name/Last Name auto-populated as SAHID/ANSARI (the existing matching Contact), not blank or a new contact; Created By/Lead Owner = agent; the lead also appears under that Contact's Leads sub-tab.
+- **TC-LEA-002** [Positive] Create Home service lead with Fixed Pre-sales = Yes shows appointment picker and address block (Priority: High)
+  - Covers: REQ-202
+  - Preconditions: Agent logged into Open UI Tablet, on the 'Create a Lead' form.
+  - Steps: 1. Enter Mobile Number. 2. Open Service Needed dropdown and select 'Home'. 3. Observe the Fixed Pre-sales dropdown appears (Yes/No). 4. Select 'Yes'. 5. Observe a Preferred Time date/time picker and Zone/Street/Building/Unit address fields appear. 6. Fill Preferred Time (e.g. 12/25/2025 16:00:00) and address fields. 7. Click Create Lead.
+  - Expected: Fixed Pre-sales field is only rendered when Service Needed = Home; selecting Yes surfaces the date/time picker and address sub-fields; lead is created successfully with Fixed Pre Sales = Yes and the address values saved and visible on the lead's Address tab.
+- **TC-LEA-003** [Positive] My Created Leads view persists across multiple ownership changes (Priority: Medium)
+  - Covers: REQ-206
+  - Preconditions: A lead created by Agent Hemanth has already been reassigned once to VINODHINIR.
+  - Steps: 1. As a Manager or admin, reassign the same lead's owner again to a different agent (e.g. rpa_user). 2. Log in as original creator Hemanth and open 'My Created Leads'.
+  - Expected: The lead remains visible in Hemanth's 'My Created Leads' view regardless of how many times ownership has changed, because this view is scoped to Created By = HEMANTH, not to current Lead Owner.
+- **TC-LEA-004** [Positive] Enterprise Lead Management supports the account-manager, request-to-fulfilment lead process (Priority: Medium)
+  - Covers: REQ-030
+  - Preconditions: An Account Manager persona is available; an enterprise customer requests a new fixed line.
+  - Steps: 1. Account Manager records/creates a lead for the enterprise customer's fixed-line request. 2. Track the lead/task through to fulfilment, both in-system and out-of-system steps, using an Account Manager Task Tracking view.
+  - Expected: System supports capturing and tracking an enterprise lead end-to-end from the customer's request through to fulfilment, consistent with the enterprise-lead-management/account-manager-task-tracking gap identified as a required capability for account managers.
+- **TC-LEA-005** [Positive] Cross Sales offer engine surfaces campaign-driven offers for an existing customer (Priority: High)
+  - Covers: REQ-212
+  - Preconditions: Existing customer with an active postpaid connection (e.g. HEMANTH GOVARDHANAN, QID 29735617987) has an active campaign (CampaignCode C000009053).
+  - Steps: 1. Agent opens Cross Sales module. 2. Enter/scan the customer's Qatari ID and click Go. 3. Wait for the Connection Details modal, then dismiss it. 4. View the '2. Offers' step.
+  - Expected: System auto-populates the Cross Sales Offers grid with system-generated, campaign-driven offers for this customer (e.g. OfferType 'New MNP' and 'New Postpaid' both under CampaignCode C000009053), each with Accept/Interested/Reject/Close actions — without the agent manually searching for offers.
+
+**Negative scenarios:**
+
+- **TC-LEA-006** [Negative] Service Needed values other than Home do not show Fixed Pre-sales field (Priority: Medium)
+  - Covers: REQ-202
+  - Preconditions: Agent on the 'Create a Lead' form.
+  - Steps: 1. Enter Mobile Number. 2. Open Service Needed dropdown and select a non-Home option (e.g. MNP, Postpaid, Prepaid, FNP, Plan upgrades, Pre to Post). 3. Observe the rest of the form.
+  - Expected: The Fixed Pre-sales dropdown and its conditional appointment/address fields do NOT render for any Service Needed value other than Home.
+- **TC-LEA-007** [Negative] Reject Lead cannot be submitted without a Reject Reason Code (Priority: High)
+  - Covers: REQ-203
+  - Preconditions: Manager has opened a lead in 'In Progress' status and clicked Reject to open the 'Reject Lead' modal.
+  - Steps: 1. Enter a Reject Comment only (e.g. 'Test'), leaving Reject Reason Code unselected. 2. Click OK.
+  - Expected: System rejects the submission and highlights the Reject Reason Code field as invalid/required; the lead's status remains unchanged ('In Progress') and no Rejected state is recorded until a Reject Reason Code from the controlled taxonomy is selected.
+- **TC-LEA-008** [Negative] My Leads view does not surface leads the logged-in user only created but no longer owns (Priority: High)
+  - Covers: REQ-205
+  - Preconditions: Agent Hemanth created a lead that has since been reassigned to VINODHINIR.
+  - Steps: 1. Log in as Hemanth. 2. Navigate to 'My Leads' (owner-scoped view, not 'My Created Leads').
+  - Expected: The reassigned lead is absent from Hemanth's 'My Leads' list even though he is the original creator; the list only contains leads currently owned by Hemanth.
+- **TC-LEA-009** [Negative] Agent-level Lead Details view does not expose admin-only fields or Retire action (Priority: Low)
+  - Covers: REQ-207
+  - Preconditions: Agent is viewing a lead's Lead Details from 'My Leads'.
+  - Steps: 1. Inspect available fields and buttons on the Agent's Lead Details applet.
+  - Expected: Fields such as Alternate Mobile#, Outlet Id, Assigned Team, Ownership History, and Last Updated, and the 'Retire' action button, are not present in the agent-level view — these are only surfaced in the admin/back-office 3-column layout.
+- **TC-LEA-010** [Negative] Agent cannot add or edit discounts/add-ons on a cross-sell order's Addon & Discount step (Priority: Medium)
+  - Covers: REQ-137
+  - Preconditions: Agent is in the Addon & Discount step of a journey launched from an accepted Cross Sales offer.
+  - Steps: 1. Attempt to locate an 'Add' control or editable field for adding a new discount or add-on beyond the one pre-populated by the offer.
+  - Expected: No editable add-on/discount control is exposed; only a read-only Discount field tied to the accepted offer is shown (with note that the selector will be empty if no applicable add-on/discount exists) — the agent has no discretion to add extra discounts or add-ons on a cross-sell order.
+- **TC-LEA-011** [Negative] Plan step on a Cross Sales-originated order offers no plan-selection control (auto-applied plan) (Priority: Medium)
+  - Covers: REQ-135
+  - Preconditions: Agent has accepted a Cross Sales campaign offer and reached the Plan step of the resulting guided journey.
+  - Steps: 1. Inspect the Plan step for a plan picker/dropdown or 'change plan' control.
+  - Expected: The Plan step displays only a locked/read-only plan card reflecting the plan tied to the accepted campaign offer; no dropdown or control exists to let the agent choose a different plan, confirming the campaign offer's plan is auto-applied without agent discretion.
+
+**Validation scenarios:**
+
+- **TC-LEA-012** [Validation] QID field is locked/read-only immediately after Cross Sales redirect and cannot be re-entered (Priority: High)
+  - Covers: REQ-136
+  - Preconditions: Agent has just accepted a Cross Sales offer and been redirected into the New Fixed Line (or equivalent) guided journey Contact step.
+  - Steps: 1. On the redirected Contact/Kahramaa step, attempt to click into or edit the QID field that was carried over from Cross Sales.
+  - Expected: The QID field is disabled/read-only (greyed out) and cannot be edited or re-entered by the agent; only the newly required field (e.g. Kahramaa ID) remains editable.
+- **TC-LEA-013** [Validation] One-time-per-QID free-months offer is not re-applied on relocation, disconnect/reconnect, or duplicate household QID (Priority: Medium)
+  - Covers: REQ-128
+  - Preconditions: A customer's Kahramaa ID/QID already received the free-months offer at their current Premises.
+  - Steps: 1. Customer moves to a different Kahramaa ID/Premises and attempts to re-avail the free-months offer. 2. Alternatively, the same or a different QID at the same household attempts to disconnect/reconnect or activate an additional connection to re-qualify for the offer.
+  - Expected: The free-months offer is not granted again: it is tied one-time to the original Kahramaa ID/Premises and is not available again after a move to a different Kahramaa ID, after disconnect/reconnect, or via multiple QID activations in the same household attempting to re-qualify; such attempts are flagged as risking account suspension/blacklisting rather than being silently re-granted.
+
+**Workflow scenarios:**
+
+- **TC-LEA-014** [Workflow] Manager rejects a Home lead with a Reject Reason Code and Comment (Priority: High)
+  - Covers: REQ-203
+  - Preconditions: A Home/Fixed lead exists in 'In Progress' status (e.g. Lead Num 1-DO3J040), created by an agent; a Manager/Approver user is logged in and has opened the lead via Manage Leads > My Team's Leads.
+  - Steps: 1. Manager opens the lead's Lead Details view. 2. Click 'Reject' button. 3. In the 'Reject Lead' modal, leave Reject Reason Code empty and click OK. 4. Observe validation. 5. Select a Reject Reason Code (e.g. 'Ineligible') from the dropdown. 6. Enter a Reject Comment (e.g. 'Test'). 7. Click OK.
+  - Expected: Step 3 is blocked: the Reject Reason Code field is shown outlined/invalid and submission does not proceed without a selection. After selecting a valid Reject Reason Code and comment and clicking OK, Lead Status updates to 'Rejected', the Reject button becomes disabled, and the rejected status is visible in both the manager's and the original agent's ('My Created Leads') views.
+- **TC-LEA-015** [Workflow] Full lead lifecycle: create, callback-driven status change, owner reassignment, edit, cross-persona verification (Priority: High)
+  - Covers: REQ-205, REQ-206
+  - Preconditions: Agent Hemanth is logged in; contact SAHID ANSARI (mobile 97431243124) exists with no prior leads.
+  - Steps: 1. Agent creates a lead for the contact (Service Needed = Plan upgrades). 2. Agent sets CallBack Date/Time on the lead. 3. Observe Lead Status auto-transitions from New to In Progress and Sub Status to Call Back. 4. Log in as Manager; open Manage Leads > My Team's Leads; open the lead; use the Lead Owner lookup to reassign owner from HEMANTH to VINODHINIR. 5. Log back in as Hemanth; open 'My Leads' view. 6. Switch view selector to 'My Created Leads'. 7. Log in as the new owner VINODHINIR; open 'My Leads'.
+  - Expected: After reassignment: (a) the lead no longer appears in Hemanth's 'My Leads' (owner-scoped) view [REQ-205]; (b) the lead still appears in Hemanth's 'My Created Leads' view, scoped by Created By rather than current Owner [REQ-206]; (c) the lead appears at the top of new owner VINODHINIR's 'My Leads' view with Lead Owner = VINODHINIR and Created By unchanged (HEMANTH).
+- **TC-LEA-016** [Workflow] Edit a saved lead's Service Needed and Description after creation (Priority: Medium)
+  - Covers: REQ-202
+  - Preconditions: A Home-service lead (Fixed Pre-Sales = Yes) has been created and saved, attached to contact TAMER ABDELHALIM, mobile 97498129812.
+  - Steps: 1. Reopen the lead's Lead Details view. 2. Open the Service Needed dropdown and change the value from 'Home' to 'MNP'. 3. Open the Description field edit dialog and change the text to 'MNP from Home'. 4. Click OK/Save.
+  - Expected: Service Needed updates to 'MNP' and Description updates to 'MNP from Home' in both the header and detail grid; other lead attributes (Lead Status, Lead Sub Status, Fixed Pre Sales=Yes, Lead Owner, Created By) remain unchanged; the change is reflected on the linked Contact's Leads sub-tab.
+- **TC-LEA-017** [Workflow] Accepting a Cross Sales 'New MNP' offer launches the full MNP Postpaid guided journey (Priority: High)
+  - Covers: REQ-190
+  - Preconditions: Agent is on an existing contact's Cross Sales Offers tab showing an Offered 'New MNP' offer.
+  - Steps: 1. Click Accept on the 'New MNP' offer row. 2. Observe the resulting screen/breadcrumb.
+  - Expected: The system transitions from Cross Sales straight into the standard MNP Postpaid guided journey (breadcrumb 'MNP Postpaid - Contact:'), reusing the same 9-step wizard structure (Contact, Address, Billing, SIM Serial, Plan, Donor Details, Donor Attachment, CAF, Activity) used for a direct MNP Postpaid sale, rather than a separate custom cross-sell-only flow.
+- **TC-LEA-018** [Workflow] Accepting a Cross Sales 'New Postpaid' offer launches the full New Postpaid provisioning wizard to order completion (Priority: High)
+  - Covers: REQ-190, REQ-212
+  - Preconditions: Existing customer HEMANTH GOVARDHANAN with 2 existing postpaid connections is on the Cross Sales Offers screen with an Offered 'New Postpaid' offer.
+  - Steps: 1. Accept the 'New Postpaid' offer. 2. Progress through the resulting wizard: Contact re-confirm, Address, Account, Billing, Number Selection, SIM Serial, Plan, Payment, CAF, Activity. 3. Click Save and Finish.
+  - Expected: Breadcrumb changes to 'Postpaid - Contact:' confirming handoff into the same standard New Postpaid wizard used for a non-cross-sell sale; the wizard reaches a final confirmation ('Postpaid completed successfully. Order Number:- ...') producing a completed Sales Order with Order Type Activation, Status Complete.
+- **TC-LEA-019** [Workflow] Cross Sales to New Fixed Line: accept offer, complete appointment/CAF, order reaches WFM in progress (Priority: High)
+  - Covers: REQ-190, REQ-135, REQ-136, REQ-137
+  - Preconditions: Existing customer KHALID MAMMU (QID 28335628851) has a targeted 'New Fiber' campaign offer ('New Gigahome Testahil plan').
+  - Steps: 1. Agent enters/scans the customer's QID in Cross Sales. 2. Accept the 'New Gigahome Testahil plan' offer. 3. Observe QID field state on the redirected New Fixed Line screen. 4. Progress through Address, Plan, Addon & Discount, Number Selection, Book Appointment, CAF, Activity steps to Save and Finish.
+  - Expected: QID carries over automatically and is greyed out/read-only on the New Fixed Line Contact step [REQ-136]; the Plan step shows a locked, read-only plan card with no plan-selection control — the plan tied to the accepted offer is auto-applied [REQ-135]; the Addon & Discount step shows only a read-only discount value tied to the offer with no editable add-on/discount control [REQ-137]; the journey completes with 'Fixed Line completed successfully. Order Number:- ...' and the resulting order shows Fulfillment Status 'In Progress' awaiting WFM.
+- **TC-LEA-020** [Workflow] Cross Sales New Postpaid transaction also creates a linked Modification order on an existing line (Priority: Medium)
+  - Covers: REQ-213
+  - Preconditions: Customer HEMANTH GOVARDHANAN has an existing secondary line (Service Id 97430355458) in addition to the new line being activated via Cross Sales.
+  - Steps: 1. Complete the Cross Sales-originated New Postpaid activation through Save and Finish/order completion. 2. Return to Account Summary and inspect the Orders grid.
+  - Expected: In addition to the completed Activation order for the new line, a second, linked Modification order (e.g. Order Type Modification, Status Complete) appears against the customer's existing secondary MSISDN, with a line item showing Action 'Add' for a bundled add-on (e.g. '2GB Data 12 months') while all other lines on that order show Action '-' (no change) — confirming the Cross Sales transaction bundles a secondary Modification order onto an existing line as part of the same overall transaction.
+
+**Persona scenarios:**
+
+- **TC-LEA-021** [Persona] Retail Agent home menu excludes Manage Leads / Order Approval / Leads Queue tiles that Manager sees (Priority: Medium)
+  - Covers: REQ-203
+  - Preconditions: Two accounts available: a Retail Agent (e.g. Hemanth Kumar) and a Retail Store Manager (e.g. Test Manager).
+  - Steps: 1. Log in as Retail Agent; inspect the Home tile grid. 2. Log out; log in as Test Manager; inspect the Home tile grid.
+  - Expected: Agent's tile grid includes agent-facing tiles (New Lead Tablet, My Leads, Sales Order, Mobile Postpaid, etc.) but no Manage Leads/Order Approval/Leads Queue tiles. Manager's tile grid shows Home, Order Approval, Manage Leads, Leads Queue and omits agent-only sales tiles (Sales Order, Mobile Postpaid) — confirming the Reject action (and lead approval capability) is only reachable through the Manager's menu.
+- **TC-LEA-022** [Persona] Back-office/Admin user sees expanded 3-column Lead Details layout with additional fields not visible to Agent/Manager (Priority: Medium)
+  - Covers: REQ-207
+  - Preconditions: A lead exists with Status In Progress, Owner VINODHINIR, Created By HEMANTH; an admin/back-office user (e.g. KARTHIKK) is available.
+  - Steps: 1. Log in as Agent; open the lead's Lead Details view; note the fields/layout shown. 2. Log in as back-office/admin user KARTHIKK; navigate to 'All Leads across Org'; open the same lead's full Lead Details view.
+  - Expected: Agent-level view shows the standard single-panel Lead Details fields (Mobile#, Service Needed, Status, Sub Status, Owner, etc.) with Reject/Validate actions only. Admin-level view shows a richer 3-column layout (Customer Information / Lead Details / Order Details) with additional fields not present at agent level — e.g. Alternate Mobile#, Outlet Id, Assigned Team, Ownership History, Last Updated timestamp, UTM Campaign/Medium/Source — plus extra action buttons Assign To Me, Send SMS, Product Recommendations, and Reject/Retire.
+
+### Mobile Postpaid (26 scenarios)
+
+**Positive scenarios:**
+
+- **TC-MOB-023** [Positive] J011 onboarding cart supports browsing across base plan, add-on, number, and device tiles (Priority: High)
+  - Covers: REQ-296 | Journey: UJ-104
+  - Preconditions: Agent is in the DXP onboarding cart step (J011 Cart) with the VFQA Sales-equivalent role logged in; catalog is loaded with active base plans, add-ons, numbers, and devices.
+  - Steps: 1. Open the onboarding cart step. 2. Browse/select a base plan product. 3. Browse/select an add-on product. 4. Browse/select an available number. 5. Browse/select a device product. 6. Confirm all four selections appear together in the cart.
+  - Expected: All four product types (base plan, add-on, number, device) can be browsed and added within the same cart without navigating out of the onboarding cart step, and the cart reflects all selected items concurrently.
+- **TC-MOB-024** [Positive] Editing Credit Limit in the wizard propagates to CAF, Sales Order, and Account record (Priority: High)
+  - Covers: REQ-220 | Journey: UJ-083
+  - Preconditions: Agent is on the Plan step of a New Postpaid journey for an account with a pre-approved default Credit Limit (e.g. 800, per HRN customer flow).
+  - Steps: 1. On the Plan step detail panel, click 'Edit Credit Limit'. 2. Select a new preset value from the dropdown (e.g. change 800 to 1000) and click Go. 3. Proceed to generate the CAF. 4. Sign and submit the Sales Order. 5. Open the generated CAF, the Sales Order record, and the Account record.
+  - Expected: The CAF's 'Account credit limit' field shows 1000; the Sales Order's Credit Limit field shows 1,000; and the Account record's pre-approved credit limit field is updated from 800 to 1,000 — all three consistently reflecting the edited value.
+- **TC-MOB-025** [Positive] J011 onboarding references Unica Campaign during the flow (Priority: Low)
+  - Covers: REQ-298 | Journey: UJ-104
+  - Preconditions: Agent is progressing through the J011 onboarding journey at the point where campaign integration occurs.
+  - Steps: 1. Proceed through the J011 onboarding steps to the point in the process flow where Unica Campaign integration is invoked. 2. Observe whether campaign-linked content/reference is surfaced or logged.
+  - Expected: The onboarding flow successfully invokes/references the Unica Campaign system at the documented point in the process without error, consistent with the J011 process-flow diagram.
+- **TC-MOB-026** [Positive] Mobile Service Suspension request accepted via Email, Phone, and Retail Counter channels (Priority: Medium)
+  - Covers: REQ-299 | Journey: UJ-107
+  - Preconditions: Customer has an active postpaid line and no pending unbilled balance.
+  - Steps: 1. Submit a suspension request via Email channel; confirm agent can intake and process it in DXP. 2. Repeat the same request via Phone channel. 3. Repeat the same request via Retail Counter channel.
+  - Expected: In all three channel scenarios, the agent is able to intake the suspension request and proceed with subscriber identification (MSISDN/Account search) in DXP; no channel is rejected as invalid intake.
+- **TC-MOB-027** [Positive] Mobile Service Resume request accepted via Email, Phone, and Retail Counter channels (Priority: Medium)
+  - Covers: REQ-302 | Journey: UJ-108
+  - Preconditions: Customer has a suspended (Park Plan) postpaid line eligible for resume.
+  - Steps: 1. Submit a resume request via Email channel; confirm agent can intake and process it in DXP. 2. Repeat via Phone channel. 3. Repeat via Retail Counter channel.
+  - Expected: In all three channel scenarios, the agent is able to intake the resume request and proceed with subscriber identification (MSISDN/Account search) in DXP; no channel is rejected as invalid intake.
+- **TC-MOB-028** [Positive] Mobile Postpaid BRSD baseline requirements are the governing source for the module (Priority: Medium)
+  - Covers: REQ-262 | Journey: UJ-103
+  - Preconditions: VFQ_Mobile_Postpaid_Activation_BRSD_V2.0 (use case MOB_POST_ACT_RETL_001) is the approved baseline document for the retail-assisted postpaid activation journey.
+  - Steps: 1. Cross-check a sampled set of implemented Mobile Postpaid journey behaviors (Contact/ID, Plan, Bill Limit, CAF, Order Submission) against the BRSD's CAP-01..CAP-13 capability definitions and MPAR_001_* requirement IDs. 2. Confirm no implemented behavior conflicts with the BRSD's stated scope (retail-store assisted channel, up to order submission).
+  - Expected: All sampled Mobile Postpaid journey behaviors trace back to and are consistent with the BRSD baseline; no behavior falls outside the BRSD's defined scope without being flagged as an open item.
+- **TC-MOB-029** [Positive] Commitment period continues (does not reset) across a plan upgrade (Priority: High)
+  - Covers: REQ-064 | Journey: UJ-029
+  - Preconditions: An active postpaid line is under an existing lock-in/commitment period from a prior plan or device contract.
+  - Steps: 1. Initiate a Plan Change (Postpaid-to-Postpaid) upgrade on the line partway through its commitment period. 2. Complete the plan upgrade order. 3. Check the account's commitment/lock-in end date after the upgrade.
+  - Expected: The original commitment period's end date is preserved/continues unchanged after the plan upgrade — the upgrade does not reset or restart the lock-in period, per the regulatory requirement.
+- **TC-MOB-030** [Positive] Early termination penalty is calculated for plan and device lock-in (Priority: High)
+  - Covers: REQ-125 | Journey: UJ-030
+  - Preconditions: A postpaid line has an active plan lock-in and a Device on Installment (DOI) lock-in, both within their commitment periods.
+  - Steps: 1. Initiate a request to terminate/disconnect the line before the plan lock-in and DOI lock-in periods expire. 2. Trigger the early termination penalty calculation for both the plan and the device.
+  - Expected: The system calculates and surfaces an early termination penalty reflecting both the plan lock-in and the device lock-in, rather than allowing termination with no penalty or applying only one of the two.
+- **TC-MOB-031** [Positive] Selected Smart/Bill Limit is captured as a Bill Limit Mobile line-item attribute on the order (Priority: Medium)
+  - Covers: REQ-195 | Journey: UJ-078
+  - Preconditions: Agent is building a New Postpaid or MNP Postpaid order and selects/edits a Smart Limit value on the Plan step (e.g. 67).
+  - Steps: 1. Edit the Smart Limit to an accepted value (e.g. 67, above Agent Minimum). 2. Proceed to order submission. 3. Open the order's Line Items > Line Item Attributes grid for the Bill Limit Mobile line.
+  - Expected: The Bill Limit Mobile line item's attributes grid shows 'SL Limit Amount' matching the selected Smart Limit value (e.g. 67), alongside SL Default Value and SL Min Value, confirming the selection is persisted as an order line-item attribute.
+- **TC-MOB-032** [Positive] System surfaces HRN advance payment requirement at the Connection Details step (Priority: Medium)
+  - Covers: REQ-219 | Journey: UJ-083
+  - Preconditions: Agent is onboarding a customer whose nationality/profile is flagged High-Risk-Nationality (HRN), e.g. Nepalese nationality, on a New Postpaid journey.
+  - Steps: 1. Enter the customer's QID and proceed past the ID confirmation step. 2. Observe the Connection Details popup at that step.
+  - Expected: The Connection Details step displays the message '(HRN) Customer needs to pay advance payment of QR 100' (or the equivalent configured HRN advance amount), surfacing the requirement to the agent before the journey proceeds.
+- **TC-MOB-033** [Positive] Bill Limit Mapping (Spend Limit Mapping grid) is configurable per Product Promotion (Priority: Medium)
+  - Covers: REQ-193 | Journey: UJ-078
+  - Preconditions: Admin user has access to Administration > Product > Product Promotions for a given promotion (e.g. Postpaid U Plus Promotion).
+  - Steps: 1. Navigate to the promotion's Bill Limit Mapping / Spend Limit Mapping tab. 2. Confirm the grid exposes editable fields: SL List Price, Agent Min Value, SL Min Value, SL Default Value, Default Flag, Active Flag for each mapped bill-limit product (e.g. Bill Limit Mobile, Bill Limit Mobile Plus). 3. Edit the Agent Min Value for one row (e.g. raise Bill Limit Mobile Plus's Agent Min Value from a prior value to 80) and save.
+  - Expected: All listed fields are editable per product promotion in the Spend Limit Mapping grid, and the change (e.g. Agent Min Value = 80) is persisted and takes effect on subsequent orders using that promotion.
+- **TC-MOB-034** [Positive] Mobile Service Resume accepted via multi-channel intake and completes to Base Plan billed (Priority: High)
+  - Covers: REQ-302, REQ-301 | Journey: UJ-108
+  - Preconditions: A customer's line is currently suspended on a Park Plan.
+  - Steps: 1. Customer requests resume via Phone channel. 2. Agent in DXP identifies subscriber by MSISDN/Account, fetches customer & billing details, validates resume eligibility. 3. Agent changes the current Park Plan back to the Base Plan. 4. System sends communication to the customer. 5. Ticket creation/approval proceeds, payment for resume captured via WinCash, order submitted.
+  - Expected: The resume order completes with the line moved back onto the Base Plan, which is then billed as stated in the J024 process outcome, and a customer communication was sent during the workflow.
+- **TC-MOB-035** [Positive] J011 onboarding supports both eSIM provisioning and Physical SIM handover/delivery (Priority: Medium)
+  - Covers: REQ-297 | Journey: UJ-104
+  - Preconditions: Agent has reached the SIM/MSISDN step of the J011 onboarding journey with both eSIM and Physical SIM options configured.
+  - Steps: 1. Select eSIM as the fulfilment option and confirm provisioning proceeds. 2. Restart/branch the journey and select Physical SIM with 'Handover now' option. 3. Branch again and select Physical SIM with 'Deliver' option.
+  - Expected: All three fulfilment paths (eSIM provisioning, Physical SIM handover-now, Physical SIM deliver) are selectable and each proceeds through the remaining onboarding steps without error.
+- **TC-MOB-036** [Positive] Add-on selection is constrained by available Bill Limit headroom (Priority: Medium)
+  - Covers: REQ-197 | Journey: UJ-081
+  - Preconditions: Order has a Bill Limit set (e.g. 65) with plan components already consuming part of it.
+  - Steps: 1. On the Addon & Discount step, attempt to select a paid add-on whose amount would exceed the remaining Bill Limit headroom. 2. Observe system guidance/behavior (e.g. 'Go back to Plan step and edit limit to cover for the add-on amount').
+  - Expected: The system references available Bill Limit headroom when the agent selects an add-on, guiding the agent to increase the Bill Limit at the Plan step if the add-on would exceed the remaining headroom, rather than silently allowing an over-limit selection.
+- **TC-MOB-037** [Positive] Agent edits Bill Limit and Credit Limit via dedicated Edit controls at Plan step, consistent across journeys (Priority: Medium)
+  - Covers: REQ-191 | Journey: UJ-078
+  - Preconditions: Agent is on the Plan step of (a) a Postpaid New activation, (b) an MNP journey, and (c) a Pre-to-Post journey, each with a plan showing default Bill Limit and Credit Limit values.
+  - Steps: 1. In the Postpaid journey, click 'Edit Bill Limit' and 'Edit Credit Limit', selecting new values from the preset dropdown for each. 2. Repeat the same two edit actions in the MNP journey (Edit Smart Limit used as the Bill Limit equivalent) and Credit Limit edit. 3. Repeat in the Pre-to-Post journey.
+  - Expected: In all three journeys, the Plan step exposes dedicated Edit Bill Limit/Smart Limit and Edit Credit Limit controls backed by a bounded preset value list, and edits are accepted consistently across all three journey types.
+
+**Negative scenarios:**
+
+- **TC-MOB-038** [Negative] Real upgrade vs downgrade differentiation logic rejects a downgrade being misclassified as an upgrade (Priority: Medium)
+  - Covers: REQ-076 | Journey: UJ-029
+  - Preconditions: Existing postpaid customer on Plan Change (Postpaid-to-Postpaid) journey moving to a plan with a lower price/value than their current plan.
+  - Steps: 1. Select a target plan with a lower MRC/value than the customer's current plan. 2. Submit the plan change. 3. Inspect how the system classifies/logs the change (upgrade vs downgrade) and any resulting business rule application (e.g. commitment handling, proration).
+  - Expected: The system correctly classifies the change as a downgrade (not an upgrade) and applies the differentiated business logic associated with downgrades, rather than defaulting all plan changes to a single undifferentiated 'change' outcome.
+- **TC-MOB-039** [Negative] Agent cannot freely select an arbitrary Credit Limit value outside the permitted preset list (Priority: High)
+  - Covers: REQ-079 | Journey: UJ-080
+  - Preconditions: Agent is on the Plan step's 'Edit Credit Limit' control for a New Postpaid order.
+  - Steps: 1. Open the Edit Credit Limit dropdown. 2. Attempt to enter or select a Credit Limit value not present in the preset list (e.g. a free-text value like 1750, when presets are 0, 50, 200, 500, 800, 1000, 1500, 2000). 3. Attempt to save.
+  - Expected: The system restricts the agent to the bounded preset dropdown list of Credit Limit values and does not allow entry/selection of an arbitrary value outside that list.
+
+**Validation scenarios:**
+
+- **TC-MOB-040** [Validation] Bill Limit value cannot exceed the account Credit Limit (Priority: High)
+  - Covers: REQ-284 | Journey: UJ-078
+  - Preconditions: Agent is on the Plan/Bill Limit step of a New Postpaid order with a known account Credit Limit (e.g. Credit Limit = 1000).
+  - Steps: 1. Attempt to set the Bill Limit value to an amount greater than the account Credit Limit (e.g. Bill Limit = 1200 when Credit Limit = 1000). 2. Attempt to validate/submit the order.
+  - Expected: The system rejects the Bill Limit entry (or blocks order validation) because the entered Bill Limit exceeds the account Credit Limit, consistent with the documented rule that maximum Bill Limit equals account Credit Limit.
+- **TC-MOB-041** [Validation] Bill Limit editable per-order with warning that max equals Credit Limit (Priority: Medium)
+  - Covers: REQ-218 | Journey: UJ-079
+  - Preconditions: Agent is on the Plan step of a Postpaid, MNP, or Pre-to-Post order with an account Credit Limit of 1000.
+  - Steps: 1. Click 'Edit Bill Limit' on the order. 2. Attempt to set a Bill Limit value at exactly the account Credit Limit (1000) and click Validate. 3. Observe the informational dialog.
+  - Expected: On Validate, the system displays the warning 'Note: Maximum Bill Limit is equivalent to account Credit Limit. Please communicate this to customer.' and allows the agent to proceed (informational, not blocking) when the Bill Limit is set at or below the Credit Limit.
+- **TC-MOB-042** [Validation] Suspension order blocked when a pending/current unbilled amount exists (Priority: High)
+  - Covers: REQ-300 | Journey: UJ-107
+  - Preconditions: Customer's postpaid account has a pending/current unbilled balance greater than zero.
+  - Steps: 1. Agent identifies the subscriber and initiates a Mobile Service Suspension request. 2. Agent validates the customer/suspend eligibility. 3. Attempt to submit the suspension order while the unbilled balance remains uncleared.
+  - Expected: The system blocks submission of the suspension order until the pending/current unbilled amount is cleared, consistent with the stated condition 'Pending Bill, Current unbilled must be cleared.'
+- **TC-MOB-043** [Validation] Bill/Smart Limit entry below configured Agent Minimum Value is blocked with error SBL-EXL-00151 (Priority: High)
+  - Covers: REQ-192 | Journey: UJ-078
+  - Preconditions: A product promotion's Bill Limit Mobile has Agent Min Value configured to 50 (per Spend Limit Mapping grid); agent is on the Plan step of an MNP Postpaid, New Postpaid, or Pre-to-Post order.
+  - Steps: 1. Click Edit Smart Limit / Edit Bill Limit. 2. Enter a value below the Agent Min Value (e.g. 28, when Agent Min Value = 50). 3. Click Go/Save.
+  - Expected: The system displays the blocking validation message 'Bill Limit can not be set lower than Agent Minimum 50' and prevents journey progression; error is referenced under code SBL-EXL-00151. Re-entering a value at or above 50 (e.g. 67) is accepted and the journey proceeds.
+
+**Workflow scenarios:**
+
+- **TC-MOB-044** [Workflow] J023 Suspension and J024 Resume both trigger a customer communication step (Priority: Medium)
+  - Covers: REQ-301 | Journey: UJ-107
+  - Preconditions: An active mobile postpaid line exists with no pending unbilled balance, eligible for suspension; a suspended line with a Park Plan exists, eligible for resume.
+  - Steps: 1. In J023, agent identifies the subscriber, validates suspend eligibility, and changes the plan to 'Park Plan'. 2. Observe the 'send communication to customer' step firing before ticket creation/approval. 3. Separately, in J024, agent identifies the subscriber, validates resume eligibility, and changes the Park Plan back to the Base Plan. 4. Observe the 'send communication to customer' step firing before ticket creation/approval.
+  - Expected: Both the suspension workflow and the resume workflow each generate and send a customer communication as a discrete step in their process flow, prior to order submission.
+- **TC-MOB-045** [Workflow] J011 onboarding validation branches correctly for QID vs Other ID/Passport (Priority: High)
+  - Covers: REQ-295 | Journey: UJ-104
+  - Preconditions: Agent is at the ID-capture/Contact step of the J011 onboarding journey.
+  - Steps: 1. Enter a Qatari ID (QID) number for a new customer and proceed. 2. Confirm the journey triggers MOI Validation automatically. 3. Restart the journey and enter an Other ID/Passport number instead. 4. Confirm the journey instead prompts manual capture and validation of customer details (no MOI Validation call).
+  - Expected: QID entry routes the journey through automated MOI Validation; Other ID/Passport entry routes the journey through manual detail capture and validation, with no MOI Validation triggered.
+- **TC-MOB-046** [Workflow] Postpaid registration rejection is handled directly by Fulfilment without an email round-trip (Priority: Medium)
+  - Covers: REQ-113 | Journey: UJ-044
+  - Preconditions: A postpaid registration/order reaches a state requiring rejection (e.g. failed validation or ineligible customer) and is routed to the Fulfilment team.
+  - Steps: 1. Submit a postpaid registration order that fails a Fulfilment-side check. 2. Have the Fulfilment team action the rejection directly within the system. 3. Confirm no external email exchange step is required to communicate or process the rejection.
+  - Expected: The rejection is recorded and actioned directly by Fulfilment within the platform (e.g. status/reason update), with no dependency on an email round-trip to another party to complete the rejection.
+- **TC-MOB-047** [Workflow] New Postpaid B2B2C order requiring approval routes through Manager Order Approval queue to Complete (Priority: High)
+  - Covers: REQ-191, REQ-218 | Journey: UJ-081
+  - Preconditions: Agent completes a New Postpaid B2B2C journey (Contact linked to a Company Name) with Bill Limit and Credit Limit edited at the Plan step, on the 'With Approval' variant.
+  - Steps: 1. Complete Contact (with Company Name linkage), Address, Plan (Edit Bill Limit to 100, Edit Credit Limit to 1000), Addon & Discount, Number Selection, SIM Serial, CAF signature, and Activity/comment steps. 2. Submit via 'Save And Finish'. 3. Confirm the 'submitted for approval' dialog appears. 4. Log in as Manager/Test Manager, assign the order to self in the Order Approval queue, review Attachments/Order Details, click Approve with a comment. 5. Confirm order state transitions.
+  - Expected: Order submission shows 'Your activation request order number: <order#> is submitted for approval.' Order status is Pending/Submitted for Approval until the Manager approves; after Approve, order moves to Open/In Progress and then to Complete/Complete with all line items marked Complete.
+
+**Persona scenarios:**
+
+- **TC-MOB-048** [Persona] Only the Manager persona can access the Order Approval queue and Approve/Reject actions (Priority: High)
+  - Covers: REQ-191 | Journey: UJ-081
+  - Preconditions: An order has been submitted for approval under a B2B2C or HRN Credit Limit 'With Approval' New Postpaid journey.
+  - Steps: 1. Log in as the submitting Sales agent (e.g. VFQA Sales responsibility) and attempt to locate an Order Approval action/queue for the submitted order. 2. Log out and log in as 'Test Manager' persona. 3. Navigate to Order Approval / TM SR Queue View, assign the order to self, and access Approve / Reject-Correction / Reject-Drop Order actions.
+  - Expected: The submitting Sales agent's session does not expose Approve/Reject actions for their own submitted order (only a 'My Pending Approval Orders' status view); the Manager persona's session exposes the Order Approval queue with Approve, Reject-Correction, and Reject-Drop Order actions.
+
+### Mobile Prepaid (6 scenarios)
+
+**Positive scenarios:**
+
+- **TC-MOB-049** [Positive] Prepaid activation completes end-to-end via Open UI Tablet (New Prepaid journey) (Priority: High)
+  - Covers: REQ-114 | Journey: UJ-089
+  - Preconditions: Agent (e.g. 'Hemanth Kumar') logged into Open UI Tablet CRM; customer has zero existing Prepaid/Postpaid connections; a Prepaid plan/promotion and a free MSISDN are available for reservation.
+  - Steps: 1. From the agent Home screen, open 'New Prepaid Tablet'. 2. In Step 1 Contact, select ID Type and enter a valid ID/Passport number, scan ID-Front/ID-Back, and confirm the 'Total Number of Prepaid/Postpaid Connections: 0' dialog. 3. Complete required contact fields (Email, Language, Alt. phone#). 4. In Step 2 Plan, select a Prepaid promotion (e.g. 'Prepaid Red Promotion') and Add it. 5. In Step 3 Number Selection, choose a Free Number and reserve it. 6. In Step 4 SIM Serial, scan/enter the SIM serial number. 7. In Step 5, review the auto-generated bilingual Prepaid CAF, capture the customer's e-signature via the signature pad, and click Done. 8. Observe the resulting Sales Order record.
+  - Expected: Each accordion step (Contact, Plan, Number Selection, SIM Serial) shows a green 'Saved!' status after completion; the CAF is generated with the correct MSISDN/SIM serial/applicant details and captures the signature with agent name and timestamp; a Sales Order is created in Siebel with Order Type 'Activation', Billing Profile Type 'Prepaid', and the reserved MSISDN, SIM serial, and selected plan reflected as Line Items, confirming real-time ECR/Siebel order creation from the Open UI Tablet channel.
+- **TC-MOB-050** [Positive] Digital eSIM allocation on Prepaid activation uses a virtual/dummy SKU without decrementing physical SIM stock (Priority: High)
+  - Covers: REQ-107 | Journey: UJ-043
+  - Preconditions: Prepaid activation order in progress; agent reaches SIM/eSIM handover selection; a virtual/dummy SKU with no inventory tracking exists in WinCash/Siebel catalog for digital eSIM.
+  - Steps: 1. Proceed through Prepaid activation (Contact, Plan, Number Selection) as in a normal ECR/Open UI/VSA activation. 2. At SIM handover, select 'eSIM' (digital eSIM, auto-allocated/emailed with ICCID) rather than Physical SIM. 3. Complete CAF/payment and submit the order. 4. Check the physical SIM inventory count in WinCash before and after order submission.
+  - Expected: The order line item for the digital eSIM is fulfilled against the designated virtual/dummy SKU; the physical SIM stock count in WinCash remains unchanged (no inventory depletion is triggered for the digital eSIM issuance), while the order still completes and the customer receives the ICCID via email.
+
+**Negative scenarios:**
+
+- **TC-MOB-051** [Negative] Prepaid activation rejects passport ID lacking customer signature outside the ref 2.1.13 exception (Priority: High)
+  - Covers: REQ-111 | Journey: UJ-043
+  - Preconditions: Agent processing a Prepaid activation via ECR/Open UI where the customer's ID Type is Passport and the specific ref 2.1.13 exception scenario does not apply.
+  - Steps: 1. Begin Prepaid activation and capture ID Type = Passport with a valid passport number. 2. Proceed to CAF generation. 3. Attempt to complete/submit the CAF's 'Accepting Terms and Conditions' section leaving the 'Signature of applicant*' field blank, without meeting the documented ref 2.1.13 exception conditions.
+  - Expected: The system blocks CAF completion/order submission because the mandatory 'Signature of applicant*' field is required by default for Passport-ID Prepaid activations; the exception path (passport without customer signature) is not invoked, and the order cannot progress past the CAF step without either a captured signature or explicit application of the 2.1.13 exception.
+- **TC-MOB-052** [Negative] Prepaid Sales Order left incomplete surfaces as Abandoned rather than silently disappearing (Priority: Medium)
+  - Covers: REQ-114 | Journey: UJ-089
+  - Preconditions: Agent has progressed a New Prepaid Tablet journey through Contact, Plan, Number Selection, SIM Serial, and CAF signature, but does not click a final Submit/order-confirmation action.
+  - Steps: 1. Complete Steps 1-5 of the New Prepaid Tablet journey (Contact, Plan, Number Selection, SIM Serial, CAF with signature). 2. Do not perform a final order Submit action; instead navigate away or let the session idle. 3. Return to the order record via Contact/Account/Order lookup.
+  - Expected: The Sales Order record persists with Status = 'Abandoned' and Priority reflecting 'Medium-Abandoned' rather than being lost or silently completed; Line Items remain in 'Pending' status, giving the agent/back office visibility that the order requires an explicit Submit to reach an activated state.
+
+**Validation scenarios:**
+
+- **TC-MOB-053** [Validation] Passport-without-signature exception (ref 2.1.13) is applied only for Passport ID Type on Prepaid activation (Priority: Medium)
+  - Covers: REQ-111 | Journey: UJ-043
+  - Preconditions: Agent has a Prepaid activation in progress with the ref 2.1.13 exception feature available in the current business-rule configuration (v8.0 SOP).
+  - Steps: 1. Start a Prepaid activation with ID Type = QID (not Passport). 2. Attempt to invoke the 'passport without customer signature' exception at the CAF signature step. 3. Separately, repeat with ID Type = Passport and invoke the same exception under its documented conditions.
+  - Expected: For ID Type = QID, the passport-without-signature exception is not available/applicable and the standard signature requirement stands; for ID Type = Passport under the documented exception conditions, the CAF can proceed to order submission without a captured customer signature, per business rule ref 2.1.13.
+
+**Workflow scenarios:**
+
+- **TC-MOB-054** [Workflow] Full multi-step Prepaid activation wizard reaches Sales Order submission across Contact, Plan, Number, SIM, and CAF steps (Priority: High)
+  - Covers: REQ-114 | Journey: UJ-089
+  - Preconditions: Agent logged into Open UI Tablet; no existing prepaid/postpaid connections for the test ID; plan, number, and SIM inventory available.
+  - Steps: 1. Step 1 Contact: scan/enter ID, confirm auto-populated details, fill required Email/Language/Alt phone, capture ID-Front/ID-Back. 2. Step 2 Plan: search and select a Prepaid promotion. 3. Step 3 Number Selection: choose Free Number tab, select an available number, and Continue (reserving the final MSISDN). 4. Step 4 SIM Serial: scan/enter SIM serial. 5. Step 5 CAF: review generated bilingual CAF, sign via signature modal, click Done. 6. Navigate to the resulting Sales Order and check the Line Items tab.
+  - Expected: Each step transitions the accordion to a 'Saved!' state in sequence (Contact -> Plan -> Number Selection -> SIM Serial -> CAF) without allowing a later step to be reached before the prior one is saved; the final Sales Order is created with Order Type 'Activation', correct MSISDN/SIM serial carried through from Steps 3-4, and Line Items showing the selected Prepaid plan and Mobile Service Bundle in Pending status pending submission/activation.
+
+### Pre-to-Post Migration (18 scenarios)
+
+**Positive scenarios:**
+
+- **TC-PRE-055** [Positive] Manual free-text promotion search returns and applies matching postpaid plan (Desktop Vanilla-guided) (Priority: High)
+  - Covers: REQ-226 | Journey: UJ-086
+  - Preconditions: Agent is logged into Open UI Desktop, has located an existing prepaid customer (e.g., ALLAN GRANADA, QID 28260821189) and reached the Guided Pre2Post journey's Plan step.
+  - Steps: 1. From Guided Process > Prepaid to Postpaid > Plan step, type a free-text keyword (e.g., 'red') into the promotion search box. 2. Observe the Promotion Upgrades List Applet filters to matching postpaid plan tiles (e.g., Postpaid Red 750, Postpaid Business Red M 225, Postpaid Red 350, etc.). 3. Click 'Apply +' on the desired tile (Postpaid Red 350 Promotion). 4. Confirm the plan detail popup shows the selected plan's Smart Limit, Credit Limit, and included components with a green checkmark.
+  - Expected: The typed keyword filters the promotion grid to matching tiles only; selecting Apply on a tile confirms that specific promotion (e.g., 'Postpaid Red 350 Promotion') as the chosen plan and carries its Smart Limit/Credit Limit/components into the next wizard step, with no automatic/base-driven plan pre-selected.
+- **TC-PRE-056** [Positive] Manual free-text search on Tablet Pre2Post journey filters plan tiles by keyword (Priority: Medium)
+  - Covers: REQ-226 | Journey: UJ-088
+  - Preconditions: Agent on Open UI Tablet has completed Step 1 Contact for an expat customer and reached Step 2 Plan.
+  - Steps: 1. In Step 2 Plan search box, type 'U'. 2. Observe grid returns all postpaid promotion tiles containing 'U' (e.g., Postpaid Unlimited Mobile WiFi 150, Postpaid U Start - India, Postpaid U Start Promotion, Postpaid U Plus Promotion). 3. Select and Apply 'Postpaid U Start Promotion'.
+  - Expected: Only promotions matching the free-text term are shown; the agent can select any matching tile and Apply it as the chosen plan, confirming manual search/selection is supported (not restricted to a fixed offer list).
+- **TC-PRE-057** [Positive] Autobase wizard collapses to single Accept + 3-step confirmation and completes migration via bulk job (Priority: High)
+  - Covers: REQ-229, REQ-228, REQ-230 | Journey: UJ-087
+  - Preconditions: Customer account has a system-generated Migration Offer (Status 'Offered', sourced from Unica campaign engine, CampaignCode populated) attached to their Prepaid asset.
+  - Steps: 1. Open the Prepaid asset's flyout and click 'Go to offer migration'. 2. On the Migration Offer tab, review the pre-populated Migration Offers grid (OfferName, PromotionId, CampaignCode, Status 'Offered'); click Accept. 3. Base Management wizard opens with 3 steps: Contact (confirm prefilled identity, Continue), Offer Summary (review Bill Limit/Credit Limit/benefits, Continue), Activity (select Channel, enter Comments, click Save and Finish). 4. Observe submission confirmation modal and click Finish Process. 5. Navigate to Bulk Processing / TM Bulk Batch List and locate the job row for this MSISDN. 6. Re-open the account after a delay and check Orders grid and order detail.
+  - Expected: No manual cart/catalog/quote steps are presented — only Contact, Offer Summary, and Activity confirmation steps are shown before submission. A single 'Order request is submitted successfully' modal appears. A backend bulk job (job type 'PreToPost') appears with Attrib04='UNICA' and Attrib09='PreToPost', initially 'In Processing', and the order (Order Sub Type 'Pre2Post', Source 'UNICA') progresses asynchronously from Status 'Open' to 'Complete' with all line items reaching Fulfillment Status 'Complete', without requiring further agent action.
+- **TC-PRE-058** [Positive] Connection Details modal displays accurate prepaid/postpaid connection counts at the Pre2Post Contact step (Priority: High)
+  - Covers: REQ-184, REQ-231 | Journey: UJ-086
+  - Preconditions: Agent has entered a prepaid number/Qatari ID at Step 1 Contact of the Guided Pre2Post journey for a customer with 1 existing prepaid and 1 existing postpaid connection.
+  - Steps: 1. Enter the prepaid number and click Go. 2. Observe the Connection Details modal that appears automatically over the confirmed contact details. 3. Read the 'Total Number of Prepaid Connections' and 'Total Number of Postpaid Connections' values. 4. Click 'Show Postpaid Plan Details' if enabled.
+  - Expected: The modal displays 'Total Number of Prepaid Connections: 1' and 'Total Number of Postpaid Connections: 1', matching the customer's actual installed assets; the 'Show Postpaid Plan Details' button is enabled only when a postpaid connection count > 0 exists, consistent with the pattern observed across FWA, MNP Postpaid, and Pre2Post journeys.
+- **TC-PRE-059** [Positive] Prepaid-to-postpaid eligibility check passes for a customer meeting all three automated criteria (Priority: High)
+  - Covers: REQ-077 | Journey: UJ-027
+  - Preconditions: Customer has been on the network for 3 months, recharged QR 120 in the last month, and has a normal CDR usage history.
+  - Steps: 1. Trigger the automated eligibility check for this customer ahead of/at the start of the Pre2Post journey. 2. Verify each of the three criteria (tenure, recharge amount, usage history) is evaluated against the stated thresholds.
+  - Expected: All three criteria pass (tenure >= 1 month, recharge >= QR 50, usage history acceptable); the system marks the customer eligible and allows the Guided Pre2Post journey to proceed without manual override.
+- **TC-PRE-060** [Positive] Postpaid-to-prepaid migration automatically applies the QR 100 fee and correctly handles remaining balance/buckets (Priority: Medium)
+  - Covers: REQ-078 | Journey: UJ-028
+  - Preconditions: Customer has an active postpaid line with billing profile and is converting to prepaid; consumer already holds at most the maximum two allowed billing profiles.
+  - Steps: 1. Initiate Postpaid-to-Prepaid migration for the customer. 2. Verify the QR 100 migration fee is automatically applied to the final postpaid bill without requiring manual order customization. 3. Verify any monetary balance transfers as advance/credit and non-monetary voice/data buckets are handled per the documented rule (lost, not carried forward).
+  - Expected: The final bill includes the QR 100 migration fee automatically; any remaining monetary balance is transferred as an advance/credit on the new prepaid profile, while non-monetary (voice/data bucket) balances are forfeited, matching the documented business rule, with no manager-approval workaround required for the fee itself.
+
+**Negative scenarios:**
+
+- **TC-PRE-061** [Negative] Promotion search with no matching keyword returns empty result and blocks progression (Priority: Medium)
+  - Covers: REQ-226 | Journey: UJ-086
+  - Preconditions: Agent is at the Guided Pre2Post Plan step promotion search box.
+  - Steps: 1. Type a free-text term that matches no promotion name (e.g., 'zzznotaplan'). 2. Observe the Promotion Upgrades List Applet grid. 3. Attempt to click Continue without applying a plan.
+  - Expected: The grid returns no tiles/results for the unmatched search term, and the wizard does not allow Continue to the next step (CAF/Addon) until a promotion has been selected via Apply.
+- **TC-PRE-062** [Negative] Autobase bulk job reports Error status when a downstream condition blocks migration (e.g., service already barred or open order exists) (Priority: High)
+  - Covers: REQ-230, REQ-228 | Journey: UJ-087
+  - Preconditions: An Autobase migration offer has been Accepted and submitted, and the target account has a conflicting state (service barred or an existing open order) recognized by the bulk engine.
+  - Steps: 1. Accept and submit an Autobase Migration Offer per the standard 3-step wizard. 2. Navigate to Bulk Processing / TM Bulk Batch List and locate the corresponding job row for the MSISDN. 3. Observe the job Status field.
+  - Expected: The bulk job row shows Status = 'Error' with a reason such as 'Service already barred' or 'OpenOrderExists' (as seen in sibling job rows of the same PreToPost/PostToPost job type), and the associated Sales Order does not progress to Complete — it remains in a non-terminal or failed state pending remediation, rather than silently succeeding.
+- **TC-PRE-063** [Negative] Connection Details modal blocks silent progression when connection counts cannot be retrieved (info banner shows placeholder/undefined) (Priority: Medium)
+  - Covers: REQ-184, REQ-231 | Journey: UJ-086
+  - Preconditions: Backend connection-count service returns an unresolved/placeholder value for a given account (reproducing the observed 'undefined' info banner defect).
+  - Steps: 1. Enter a prepaid number at Step 1 Contact and click Go. 2. Observe the Connection Details modal's info banner text. 3. Attempt to Continue.
+  - Expected: The system must not display a raw unresolved placeholder string (e.g., literal 'undefined') in the advisory banner; the banner must resolve to a real, correctly bound advisory message or, if data is genuinely unavailable, present a clear error/retry state rather than allowing the agent to silently proceed with an unexplained blank/placeholder condition.
+- **TC-PRE-064** [Negative] Postpaid-to-prepaid migration fee is not silently omitted when the agent forgets to add it manually (Priority: High)
+  - Covers: REQ-078 | Journey: UJ-028
+  - Preconditions: Agent is processing a Postpaid-to-Prepaid migration in retail; the QR 100 migration fee is currently a manual add-on to the order requiring manager approval (per documented as-is process).
+  - Steps: 1. Agent builds the Postpaid-to-Prepaid migration order. 2. Agent does not manually add the QR 100 migration fee line item. 3. Submit the order.
+  - Expected: Per the current documented process this fee is manually applied and there is a known revenue-leakage risk if the agent forgets — a conformant automated implementation must apply the QR 100 migration fee to the final bill without relying on the agent remembering to add it, and must not allow the order to complete with the fee silently omitted.
+- **TC-PRE-065** [Negative] Bill Limit entry below the configured Agent Minimum is rejected at order Validate for a Pre2Post conversion (Priority: High)
+  - Covers: REQ-231 | Journey: UJ-085
+  - Preconditions: Product Administration has Bill Limit Mobile Plus configured with Agent Min Value 80; agent is building a manual Pre2Post order and enters a Spend Limit Amount of 55.
+  - Steps: 1. In the Plan/Bill Limit configurator step, select 'Bill Limit Mobile Plus' and enter SL Limit Amount = 55. 2. Run Check Errors (observe it may report 0 errors at this stage). 3. Proceed to order Validate.
+  - Expected: At Validate, the system blocks the order with the error 'Bill Limit can not be set lower than Agent Minimum 80... (SBL-EXL-00151)', preventing the Pre2Post order from completing with a Bill Limit below the configured Agent Minimum, even though an earlier Check Errors pass reported zero errors.
+
+**Validation scenarios:**
+
+- **TC-PRE-066** [Validation] Autobase order, bulk job, and activity record are all stamped with the Unica source for end-to-end traceability (Priority: High)
+  - Covers: REQ-228 | Journey: UJ-087
+  - Preconditions: An Autobase Pre2Post migration has been accepted and submitted (order 1-28829245642 or equivalent).
+  - Steps: 1. Open the created order's detail screen and check the 'Source' field. 2. Open the corresponding Bulk Processing job row and check Attrib04 and Attrib09 fields. 3. Open the Account Activities tab and check the Comments, Area, and Topic fields for the new activity row.
+  - Expected: Order detail shows Source = 'UNICA'; the bulk job row shows Attrib04 = 'UNICA' and Attrib09 = 'PreToPost'; the Activity record shows Comments referencing the campaign/test text, Area = 'Migration to Postpay', and Topic = 'Automated Guided Journey' — confirming order, bulk job, and activity are each independently traceable back to the Unica campaign engine.
+- **TC-PRE-067** [Validation] Connection Details advisory is surfaced when customer already has 2+ postpaid connections (Priority: High)
+  - Covers: REQ-184, REQ-231 | Journey: UJ-086
+  - Preconditions: Customer account already has 3 existing postpaid connections (e.g., YAM POKHAREL pattern: Total Postpaid Connections = 3) and is initiating a new Pre2Post conversion.
+  - Steps: 1. At the Pre2Post Contact step, enter the prepaid number and click Go. 2. Observe the Connection Details modal values. 3. Attempt to Continue past the modal.
+  - Expected: The Connection Details modal shows 'Total Number of Postpaid Connections: 3' and displays an advisory note flagging the existing multiple postpaid connections before allowing the agent to proceed; the agent can still Continue only after acknowledging the advisory, consistent with the credit-control advisory pattern seen when an account already carries multiple postpaid connections.
+
+**Workflow scenarios:**
+
+- **TC-PRE-068** [Workflow] End-to-end manual Prepaid-to-Postpaid conversion from Contact through Sales Order creation (Desktop) (Priority: High)
+  - Covers: REQ-226, REQ-184, REQ-231 | Journey: UJ-086
+  - Preconditions: Agent logged in as VFQA Sales/retail role; existing prepaid customer (ALLAN GRANADA, MSISDN 97479025243) located.
+  - Steps: 1. Home > Guided Process > Choose process > select 'Prepaid to Postpaid'. 2. Step 1 Contact: enter prepaid number, click Go; confirm auto-populated identity fields; observe Connection Details modal showing Total Prepaid/Postpaid Connections; click Continue. 3. Fill remaining Contact fields (Email, Language, Alt phone) until validated (green checks); Continue. 4. Step 2 Plan: manually search and Apply a postpaid promotion (e.g., Postpaid Red 350); confirm plan detail popup; Continue. 5. CAF step: verify bilingual CAF auto-populates Applicant/Billing sections and Section 3 (Postpaid plan, mobile number); capture e-signature; Done. 6. Observe resulting Sales Order record.
+  - Expected: A Sales Order is created with Order Type 'Plan Change' and Order Sub Type 'Pre2Post', Status 'Pending', correct Billing Profile (Postpaid) and MRC Total reflecting the selected plan — ready for Submit; each wizard step (Contact/Plan/CAF/Activity) shows 'Saved' before advancing to the next.
+- **TC-PRE-069** [Workflow] End-to-end Tablet Prepaid-to-Postpaid conversion including credit limit edit and Addon step reaches Pending order (Priority: High)
+  - Covers: REQ-226, REQ-184, REQ-231 | Journey: UJ-088
+  - Preconditions: Agent on Open UI Tablet; expat customer (ALLAN GRANADA) with existing Prepaid Red Promotion and Pre-approved Credit Limit 1000.
+  - Steps: 1. Home > Mobile Postpaid > Choose process > Prepaid to Postpaid. 2. Step 1 Contact: search by prepaid number + Qatari ID; confirm identity; observe Connection Details modal (Prepaid: 1, Postpaid: 0); Continue; complete Email/Language/Alt phone/ID upload fields. 3. Step 2 Plan: search 'U', Apply 'Postpaid U Start Promotion'; open Edit Credit Limit dropdown; change Credit Limit from 1000 to 50; Continue. 4. Step 3 Addon & Discount: confirm U Plan benefit selection, review Paid Add-ons, skip Discount; Continue. 5. Step 4 CAF: verify bilingual CAF reflects the edited Credit Limit (50) and Smart Limit (20); capture e-signature. 6. Review resulting account and order records.
+  - Expected: The account's Pre-approved credit limit updates to the edited value (50); a new Postpaid billing profile is created/linked; the resulting Sales Order (Order Type Plan Change, Sub Type Pre2Post) is created in Pending status with MRC Total reflecting plan + add-ons, awaiting Submit.
+- **TC-PRE-070** [Workflow] Manual prepaid-to-postpaid eligibility check (age-on-network, recharge, usage history) as a business-process gate before conversion (Priority: High)
+  - Covers: REQ-077 | Journey: UJ-027
+  - Preconditions: Agent is processing a Prepaid-to-Postpaid migration request for a customer whose network tenure and recharge history are available in CDR/billing systems.
+  - Steps: 1. Agent (or automated check, once implemented) evaluates: (a) minimum one month age on network, (b) minimum 50 Riyal recharge in the last month, (c) CDR-based usage history check. 2. Record the outcome of each of the three checks for a customer who fails at least one (e.g., only 2 weeks on network). 3. Attempt to proceed with the Pre2Post conversion despite the failed check.
+  - Expected: The migration eligibility check evaluates all three documented criteria (network tenure >= 1 month, last-month recharge >= QR 50, usage history via CDR); when any criterion fails, the system flags the customer as ineligible for migration and the conversion should not be allowed to proceed automatically, preventing the documented abuse pattern (migrate immediately then exploit postpaid credit).
+
+**Persona scenarios:**
+
+- **TC-PRE-071** [Persona] Retail/VFQA Sales agent role can execute the manual Pre2Post guided journey end-to-end (Priority: Medium)
+  - Covers: REQ-226 | Journey: UJ-086
+  - Preconditions: User is provisioned under Responsibility 'VFQA Sales' (as confirmed for agent Hemanth Kumar / Team Leader in Administration-User).
+  - Steps: 1. Log in as a user provisioned under VFQA Sales responsibility. 2. Navigate to Guided Process > Prepaid to Postpaid. 3. Complete Contact, Plan (manual search), and CAF steps through to Sales Order creation.
+  - Expected: A user under the VFQA Sales responsibility can complete the full manual Pre2Post journey and generate a Sales Order (Order Sub Type Pre2Post) in Pending status, confirming the persona is authorized to perform manual promotion search/selection and journey completion.
+- **TC-PRE-072** [Persona] System/backend identity (SADMIN) is the recorded actor for Autobase-originated orders, distinct from the accepting agent (Priority: Low)
+  - Covers: REQ-228, REQ-229 | Journey: UJ-087
+  - Preconditions: An Autobase migration offer has been Accepted by a human agent (e.g., KARTHIKK) and processed through the backend bulk engine.
+  - Steps: 1. Accept and submit an Autobase Migration Offer as agent KARTHIKK. 2. Open the resulting order detail and check the 'Created By' field. 3. Open the Account Activities tab and compare Agent ID values across the human-initiated and system-generated activity rows.
+  - Expected: The order's 'Created By' field shows the system/backend identity ('SADMIN') for the channel-order-migration record, while the human agent (KARTHIKK) is separately recorded on the related activity row — confirming the Autobase flow distinguishes the accepting agent persona from the automated backend processing identity in the audit trail.
+
+### MNP / FNP Porting (40 scenarios)
+
+**Positive scenarios:**
+
+- **TC-MNP-073** [Positive] MNP guided process presents Postpaid/Prepaid choice before data entry (Priority: High)
+  - Covers: REQ-198
+  - Preconditions: Agent is logged into Open UI (Desktop or Tablet) with sales/service responsibility assigned.
+  - Steps: 1. Agent opens the MNP tile from the home page. 2. Observe the 'MNP Guided Process: Choose process' screen that appears immediately. 3. Confirm no customer/contact data entry field is present on this screen. 4. Select 'Switch as Postpaid' (or 'Switch as Prepaid' on Tablet where both options exist).
+  - Expected: The 'Choose process' panel with Postpaid/Prepaid buttons is shown before any Contact/ID entry field is rendered; selecting a process routes the agent into the corresponding guided journey (Contact step) matching the chosen type.
+- **TC-MNP-074** [Positive] MNP Touch Screen form variant selectable as an alternate channel form (Priority: Medium)
+  - Covers: REQ-194
+  - Preconditions: Agent is at the '7. Donor Attachment' step of an MNP guided journey.
+  - Steps: 1. Click 'MNP Form'. 2. Select 'MNP-Touch Screen' from the dropdown instead of 'MNP-Digital'.
+  - Expected: The MNP-Touch Screen form variant is launched in place of the Digital variant, confirming both channel-typed forms are independently selectable from the same control.
+- **TC-MNP-075** [Positive] Temporary MSISDN is automatically reserved and removed without manual agent handling (Priority: High)
+  - Covers: REQ-043
+  - Preconditions: Fulfilment team is processing an MNP port-in order in Siebel with donor operator, porting date, and customer details already captured.
+  - Steps: 1. Trigger the order creation step that reserves a temporary MSISDN. 2. Confirm the reserved number is a zero-value temporary MSISDN. 3. Progress the order through to port completion. 4. Check the temporary MSISDN's status/record after port completion.
+  - Expected: The temporary MSISDN is automatically reserved at order creation and automatically removed/deactivated once porting completes, with no manual agent action required to reserve or release it (per the agreed removal/automation of the temporary-number concept on regulatory, security and inventory-wastage grounds).
+- **TC-MNP-076** [Positive] Automated holiday/Ramadan calendar correctly shifts FNP target date calculation (Priority: Medium)
+  - Covers: REQ-044
+  - Preconditions: An FNP trouble ticket is being raised with a target date that would otherwise fall on a public holiday or during Ramadan per the configured calendar.
+  - Steps: 1. Raise an FNP trouble ticket for a request whose standard 5-working-day target date lands on a configured holiday. 2. Trigger automated target-date calculation.
+  - Expected: The system automatically adjusts the target date to account for the holiday/Ramadan calendar without requiring manual recalculation by the agent, replacing the previously manual holiday/Ramadan date handling.
+- **TC-MNP-077** [Positive] FNP process diagram accurately reflects the fibre-to-fibre, consumer, 5-working-day port-in flow (Priority: Low)
+  - Covers: REQ-263 | Journey: UJ-015
+  - Preconditions: An FNP process diagram deliverable exists documenting installation/RFS check, trouble ticket, NPAS routing to Ooredoo, conditional acceptance, and dual technician visits.
+  - Steps: 1. Review the FNP process diagram against the evidenced Day 9 Session 1 process narrative. 2. Confirm each stage (installation/RFS check first, trouble ticket with manually/automatically calculated target date, FNP form with mandatory Karma ID sent via NPAS, Ooredoo validation, conditional acceptance with visible due amount and 3-working-day clearance window, final acceptance with porting date, two technician visits) is represented.
+  - Expected: The FNP process diagram matches the evidenced end-to-end sequence with no missing or contradictory stages, confirming the diagram deliverable satisfies the documented business requirement.
+- **TC-MNP-078** [Positive] Reminder SMS is automatically sent to the customer during the MNP porting window (Priority: Medium)
+  - Covers: REQ-040 | Journey: UJ-014
+  - Preconditions: An MNP port-in order has been submitted and the customer has not yet sent the required consent SMS within the 24-hour window.
+  - Steps: 1. Submit an MNP order and note the timestamp. 2. Allow time to pass without the customer sending consent. 3. Observe whether a reminder SMS is triggered automatically before the 24-hour consent window expires.
+  - Expected: The system automatically sends a reminder SMS to the customer ahead of the consent deadline without requiring manual agent intervention, replacing any manual reminder process.
+- **TC-MNP-079** [Positive] FNP capability is hidden from agents pending execution-date reliability fix (Priority: High)
+  - Covers: REQ-087
+  - Preconditions: The known FNP execution-date reliability defect has not yet been resolved.
+  - Steps: 1. Log in as an agent with standard sales/service responsibility. 2. Search the application's navigation (Home tiles, guided process menus) for any FNP entry point.
+  - Expected: No FNP capability/tile/menu entry is visible or accessible to the agent while the execution-date issue remains open, confirming the capability is hidden rather than exposed with a known defect.
+- **TC-MNP-080** [Positive] MNP Postpaid selectable via desktop channel for a Postpaid/Prepaid choice (Priority: Medium)
+  - Covers: REQ-194 | Journey: UJ-069
+  - Preconditions: Agent logged into Open UI Desktop.
+  - Steps: 1. Open the MNP tile on Desktop. 2. Confirm the 'Choose process' screen presents 'Switch as Postpaid' (Desktop is confirmed to support only the Postpaid guided journey per the corpus). 3. Select it and proceed.
+  - Expected: Desktop channel correctly exposes the Postpaid MNP guided journey entry point consistent with the channel/journey mapping.
+- **TC-MNP-081** [Positive] Contact confirmation reflects successful MOI Validation before the journey proceeds (Priority: High)
+  - Covers: REQ-199 | Journey: UJ-071
+  - Preconditions: Agent enters a valid Qatari ID/Passport in the MNP Contact step.
+  - Steps: 1. Enter the ID and click Go. 2. Observe the loading/validation state. 3. Observe the resulting banner/message.
+  - Expected: On successful MOI Validation, a banner reading 'MOI Validation completed, please confirm the contact details' is shown and pre-filled contact fields (ID type, expiry, nationality, gender, name, birth date) appear with green validation checks before the agent can click Continue.
+- **TC-MNP-082** [Positive] DNO Verification attachment is present and required on a submitted MNP Port-In order (Priority: High)
+  - Covers: REQ-282 | Journey: UJ-071
+  - Preconditions: An MNP Port-In order is ready for submission with Donor Attachment and CAF completed.
+  - Steps: 1. Complete the MNP journey through CAF signature. 2. Before/at submission, review the Order's Attachments tab. 3. Confirm attachment type entries.
+  - Expected: The submitted MNP Port-In order's Attachments tab includes files typed 'DNO Verification' (e.g., signed CAF and ID-Front/ID-Back images), consistent with the required DNO Verification attachment type for port-in orders.
+- **TC-MNP-083** [Positive] Post-CAF-signature popup advises agent to instruct customer to send switch SMS to 151 (Priority: High)
+  - Covers: REQ-176, REQ-196 | Journey: UJ-069
+  - Preconditions: Agent has just completed e-signature on either the MNP form or the CAF within an MNP guided journey.
+  - Steps: 1. Complete the signature capture ('Please Sign' pad, click Done). 2. Observe any resulting dialog/popup.
+  - Expected: A popup/alert appears reading 'Advise customer to send switch to 151' with the stated SMS cost (e.g., '1Dhs'/'QR1'), and requires the agent to click OK/acknowledge before continuing — occurring after CAF/MNP signature as an operational instruction, not before.
+- **TC-MNP-084** [Positive] Open item: determine whether a single signature can legally cover both CAF and MNP form (Priority: Low)
+  - Covers: REQ-243 | Journey: UJ-069
+  - Preconditions: Current build requires two separate e-signature captures — one for the MNP form (Donor Attachment) and one for the CAF — within the same guided journey.
+  - Steps: 1. Complete the MNP form signature at Donor Attachment. 2. Proceed to CAF and observe whether a second, independent signature capture is still required. 3. Document as an open legal/product decision rather than asserting a resolution.
+  - Expected: As currently evidenced, two distinct signature captures are required (one per form); this scenario documents that behavior as the current state and flags REQ-243 as an open item requiring a legal/business decision before any single-signature consolidation could be tested as a future state.
+- **TC-MNP-085** [Positive] Field/agent users can view current port status for an in-flight MNP order (Priority: Medium)
+  - Covers: REQ-042
+  - Preconditions: An MNP order is in progress (e.g., status 'Pending' or 'In Progress' in Siebel) and has been routed via NPAS.
+  - Steps: 1. As the submitting agent or field team member, navigate to the order/ticket status view. 2. Look for a specific port status field beyond generic order status.
+  - Expected: Agents/field teams can see a specific port status indicator, addressing the documented gap where Siebel only showed generic in-progress/failed states with no dedicated port status visibility.
+
+**Negative scenarios:**
+
+- **TC-MNP-086** [Negative] MNP journey cannot be entered without selecting a process type (Priority: Medium)
+  - Covers: REQ-198
+  - Preconditions: Agent has opened the MNP guided process 'Choose process' screen.
+  - Steps: 1. On the 'Choose process' screen, attempt to navigate directly to the Contact step (e.g., via browser back/forward, deep link, or skipping the button click). 2. Observe system behavior.
+  - Expected: The system does not allow the Contact/data-entry step to load without a prior Postpaid/Prepaid process selection; the agent is returned to or kept on the 'Choose process' screen.
+- **TC-MNP-087** [Negative] MNP Prepaid CAF ID field must not render 'undefined' when Qatari ID/Passport binding fails (Priority: High)
+  - Covers: REQ-201 | Journey: UJ-071
+  - Preconditions: Agent has completed Contact and Donor Details in an MNP Prepaid journey and reaches the CAF (Prepaid Customer Application Form) step.
+  - Steps: 1. Reach the Prepaid CAF form. 2. Inspect the 'Valid Qatari ID/RP Number / Passport Number' field. 3. Compare against the ID value captured during the Contact step.
+  - Expected: The CAF's ID field is dynamically populated with the actual Qatari ID/Passport number captured in Contact; the field must never display the literal string 'undefined' — this is treated as a data-binding defect to be rejected in test, not accepted as expected behavior.
+- **TC-MNP-088** [Negative] MNP order cannot proceed past Plan step with a Smart Limit below Agent Min Value (Priority: Medium)
+  - Covers: REQ-041 | Journey: UJ-069
+  - Preconditions: Agent is in the Plan step Smart Limit editor with Agent Min Value = 50 configured.
+  - Steps: 1. Enter a Smart Limit of 28 (below minimum). 2. Attempt to click Continue/proceed to the next accordion step without correcting the value.
+  - Expected: System blocks progression past the Plan step while the entered Smart Limit remains below the Agent Min Value; the rejection message persists until a compliant value is entered.
+- **TC-MNP-089** [Negative] Temporary MSISDN is not left active or reused after port completion (Priority: Medium)
+  - Covers: REQ-043
+  - Preconditions: An MNP port-in order has completed successfully and the customer's number has been ported.
+  - Steps: 1. Query the temporary MSISDN issued during order creation. 2. Attempt to reserve or assign that same temporary MSISDN to a new, unrelated order.
+  - Expected: The temporary MSISDN previously used is not still marked active/reserved against the completed order and is not silently reusable in a way that creates inventory conflicts — it must be shown as automatically released.
+- **TC-MNP-090** [Negative] MNP order without a defined handover marker is not silently lost between teams (Priority: Medium)
+  - Covers: REQ-045
+  - Preconditions: An MNP order has been raised but not yet explicitly handed to the document-collection team.
+  - Steps: 1. Order-raising team completes order-side data entry but does not perform an explicit handover action. 2. Document-collection team checks their queue.
+  - Expected: The system must surface the order in a queryable/visible state indicating it is pending handover rather than the order disappearing from both teams' visibility (addressing the 'no defined handover' gap).
+- **TC-MNP-091** [Negative] FNP target date calculation must not use a stale/manual holiday assumption (Priority: Medium)
+  - Covers: REQ-044
+  - Preconditions: An FNP ticket's target date spans a holiday period not yet reflected in a manually-maintained calendar (legacy behavior).
+  - Steps: 1. Raise an FNP ticket whose 5-working-day window includes an unrecognized holiday date. 2. Compare the system-calculated target date to a manually recalculated correct date.
+  - Expected: System-calculated target date must match the automated, calendar-driven calculation, not an outdated manual figure — a mismatch is a defect against this requirement.
+- **TC-MNP-092** [Negative] No reminder SMS is sent once customer consent has already been received (Priority: Low)
+  - Covers: REQ-040
+  - Preconditions: Customer has already sent the required consent SMS for an in-progress MNP order.
+  - Steps: 1. Confirm consent SMS received and logged against the order. 2. Wait past the point a reminder would normally trigger.
+  - Expected: No further reminder SMS is sent once consent is confirmed, avoiding redundant/incorrect customer messaging.
+- **TC-MNP-093** [Negative] FNP capability must not be reachable via a direct/alternate navigation path while hidden (Priority: Medium)
+  - Covers: REQ-087
+  - Preconditions: FNP capability is intended to be hidden per REQ-087.
+  - Steps: 1. Attempt to reach the FNP guided journey via a deep link, saved bookmark, or alternate menu path (e.g., search) rather than the primary navigation tile.
+  - Expected: FNP remains inaccessible through all discovered entry points, not just the primary tile, until the execution-date reliability fix is confirmed and the hide is lifted.
+- **TC-MNP-094** [Negative] Contact confirmation must not proceed when MOI Validation fails or returns no result (Priority: High)
+  - Covers: REQ-199 | Journey: UJ-071
+  - Preconditions: Agent enters an ID that returns no MOI match (e.g., unregistered or mistyped ID/Contact Id).
+  - Steps: 1. Enter a Contact/ID value known to have no match (as observed: a Contact Id search returning 'No results found'). 2. Click Go/Search.
+  - Expected: System displays a 'No results found' (or equivalent failure) state and does not present a false 'MOI Validation completed' confirmation banner; the agent cannot proceed to Address/SIM Serial steps with unconfirmed identity.
+- **TC-MNP-095** [Negative] Order cannot be cancelled after final submission via the pre-submission cancel controls (Priority: Medium)
+  - Covers: REQ-200 | Journey: UJ-069
+  - Preconditions: An MNP order has already been submitted and a Sales Order number generated.
+  - Steps: 1. Navigate to the completed Sales Order. 2. Attempt to use the Donor Attachment/CAF stage 'Abandon Order'/'Close and Retry' controls against the now-submitted order.
+  - Expected: Those pre-submission cancel controls are not available/applicable to an already-submitted order; cancellation of a submitted order (if supported) must go through a distinct post-submission process (e.g., Cancel Order action on the Sales Order screen), not the wizard-stage abandon controls.
+- **TC-MNP-096** [Negative] MNP Port-In order submission is blocked without a DNO Verification attachment (Priority: High)
+  - Covers: REQ-282 | Journey: UJ-071
+  - Preconditions: Agent has reached the final submission point of an MNP Port-In order but has not uploaded/generated a DNO Verification-typed attachment.
+  - Steps: 1. Attempt to submit the order with the Attachments tab empty or missing a DNO Verification-typed document. 2. Observe system response.
+  - Expected: Order submission is rejected or blocked with an indication that a DNO Verification attachment is required for MNP Port-In orders, consistent with the validation requirement.
+- **TC-MNP-097** [Negative] Switch-to-151 popup does not appear before signature is captured (Priority: Medium)
+  - Covers: REQ-176, REQ-196 | Journey: UJ-069
+  - Preconditions: Agent is on the MNP form or CAF prior to opening the signature pad.
+  - Steps: 1. Open the MNP form/CAF. 2. Before signing, check for the 'Advise customer to send switch to 151' popup.
+  - Expected: The popup must not display prior to signature capture — it is strictly a post-signature operational instruction; premature display is a defect.
+- **TC-MNP-098** [Negative] Port status visibility gap: order shows only generic status without granular port state (Priority: Medium)
+  - Covers: REQ-042
+  - Preconditions: Legacy/as-is behavior where Siebel exposes only in-progress/failed order status.
+  - Steps: 1. Open an in-flight MNP order as an agent. 2. Check whether any field distinguishes sub-states (e.g., awaiting consent SMS, awaiting donor acceptance, awaiting porting window) beyond generic in-progress/failed.
+  - Expected: If only generic in-progress/failed status is shown with no granular port-state breakdown, this is flagged as a regression/gap against REQ-042 and must fail acceptance for the modernized front end.
+- **TC-MNP-099** [Negative] Ticket cannot be manually approved on signature/form checks without the NPass documents being visible in Siebel (Priority: Medium)
+  - Covers: REQ-073 | Journey: UJ-018
+  - Preconditions: A Siebel MNP/FNP ticket exists but the NPass document attachment integration has not run/failed for this ticket.
+  - Steps: 1. Open the ticket and attempt the manual signature/form check step (date within 30 days, segment, product, name, ID, requested number). 2. Check whether the source documents are attached and viewable in Siebel.
+  - Expected: If the NPass documents are missing from the Siebel ticket attachment, the manual check cannot be validly completed from within Siebel alone — this is flagged as a defect/gap consistent with the integration requirement, rather than allowing sign-off without visible source documents.
+
+**Validation scenarios:**
+
+- **TC-MNP-100** [Validation] CAF dynamically binds Qatari ID field for a prepaid subscriber (Priority: High)
+  - Covers: REQ-201
+  - Preconditions: Agent has a prepaid MNP order at the CAF step with a customer record carrying a valid Qatari ID.
+  - Steps: 1. Note the Qatari ID captured during Contact (e.g., 28952431523). 2. Open the CAF form's Section 1 Applicant details / Prepaid ID field. 3. Compare field value to the captured ID.
+  - Expected: CAF's ID field value exactly matches the Qatari ID number entered/validated in the Contact step for this prepaid subscriber, confirming the field is bound (not statically defaulted or blank).
+
+**Workflow scenarios:**
+
+- **TC-MNP-101** [Workflow] End-to-end MNP Postpaid port-in from Ooredoo to Vodafone reaches a submitted Sales Order (Priority: High)
+  - Covers: REQ-041, REQ-176, REQ-196, REQ-201 | Journey: UJ-069
+  - Preconditions: Agent logged into Open UI Desktop; customer holds a valid Qatari ID not yet in Vodafone's system; donor operator is Ooredoo/Qtel.
+  - Steps: 1. Launch MNP guided process, choose 'Switch as Postpaid'. 2. Complete Contact (Qatari ID lookup, confirm details), Address, Billing, SIM Serial, and Plan (set Smart Limit at/above the Agent Min Value). 3. Complete Donor Details (Port-in Number, Donor ID, Donor ID Type, Donor Operator = Qtel, Subscription Type = Postpaid). 4. Complete Donor Attachment using MNP-Digital form; capture e-signature. 5. Confirm the post-signature popup instructing 'Advise customer to send switch to 151' is displayed and dismiss it. 6. Complete CAF using CAF-Digital, verifying the Qatari ID field on the CAF is bound to the same ID number entered in Contact. 7. Sign the CAF. 8. Submit/complete the order.
+  - Expected: A single, common guided journey (same wizard structure regardless of entry channel) carries the agent from Contact through CAF to a submitted Siebel Sales Order (Order Type Activation, Order Sub Type Port-In) with the switch-to-151 popup shown exactly once after signature, and the CAF's ID field correctly populated with the Qatari ID captured earlier — not blank or 'undefined'.
+- **TC-MNP-102** [Workflow] End-to-end MNP Prepaid port-in from Ooredoo to Vodafone completes successfully (Priority: High)
+  - Covers: REQ-041, REQ-176, REQ-196 | Journey: UJ-071
+  - Preconditions: Agent logged into Open UI Tablet; customer has valid Qatari ID/Passport.
+  - Steps: 1. Launch MNP Tablet guided process, choose 'Switch as Prepaid'. 2. Complete Contact (ID lookup and MOI Validation), SIM Serial, Plan selection. 3. Complete Donor Details (Port-in Number, Donor ID Type, Donor ID, Donor Operator = Qtel, Subscription Type = Prepaid). 4. Proceed to Donor Attachment; the MNP T&C form is auto-generated; capture e-signature. 5. Proceed to CAF (Prepaid Customer Application Form); capture e-signature; confirm 'Advise customer to send switch to 151' popup appears. 6. Enter an Activity comment and click 'Save and Finish'.
+  - Expected: Order completes with confirmation 'MNP completed successfully' and a generated Order Number; order appears in 'My Sales Orders' with Status Open and Guided Journey reflecting the Prepaid MNP path.
+- **TC-MNP-103** [Workflow] Bill Limit / Smart Limit cannot be set below the configured Agent Min Value during MNP Plan step (Priority: High)
+  - Covers: REQ-041 | Journey: UJ-069
+  - Preconditions: Agent reaches the '5. Plan' step of an MNP Postpaid journey and selects a promotion with a configured 'Agent Min Value' of 50 on its Bill Limit Mobile mapping.
+  - Steps: 1. Click 'Add' on the promotion card. 2. Click 'Edit Smart Limit'. 3. Enter a value below the Agent Min Value (e.g., 28) and click Go. 4. Observe validation. 5. Re-enter a value at or above the Agent Min Value (e.g., 67) and click Go.
+  - Expected: Step 3 triggers the red validation message 'Bill Limit can not be set lower than Agent Minimum 50' and the Smart Limit is not accepted; step 5 succeeds and the Plan modal shows the accepted Smart Limit value, allowing the journey to proceed.
+- **TC-MNP-104** [Workflow] Order-raising team hands over an MNP order to the document-collection team with a defined handover state (Priority: Medium)
+  - Covers: REQ-045
+  - Preconditions: An MNP order has been raised by the order-raising team and requires the outsourced document-collection team to gather remaining documents.
+  - Steps: 1. Order-raising team completes their portion of the MNP order in Siebel and marks it ready for handover. 2. Document-collection team accesses the same order via their queue/view. 3. Document-collection team completes document gathering and updates the order status.
+  - Expected: The order carries a defined, visible handover status/marker between the two teams so the document-collection team can identify which orders are ready for them, and the order-raising team can see when documents have been collected — closing the previously undefined handover gap.
+- **TC-MNP-105** [Workflow] Automated FNP preponement request updates the porting date without manual recalculation (Priority: Medium)
+  - Covers: REQ-046 | Journey: UJ-015
+  - Preconditions: An FNP order has an agreed porting date and the customer requests an earlier (preponed) date within policy.
+  - Steps: 1. Open the in-progress FNP order/ticket. 2. Submit a preponement request for an earlier porting date. 3. Confirm the system recalculates and updates the scheduled date and any dependent technician-visit scheduling.
+  - Expected: The porting date is automatically updated to the new preponed date and downstream scheduling (technician visits) reflects the change without manual date recalculation.
+- **TC-MNP-106** [Workflow] Automated FNP postponement request updates the porting date without manual recalculation (Priority: Medium)
+  - Covers: REQ-046 | Journey: UJ-015
+  - Preconditions: An FNP order has an agreed porting date and the customer requests a later (postponed) date within policy.
+  - Steps: 1. Open the in-progress FNP order/ticket. 2. Submit a postponement request for a later porting date. 3. Confirm the system recalculates and updates the scheduled date and any dependent technician-visit scheduling.
+  - Expected: The porting date is automatically updated to the new postponed date and downstream scheduling reflects the change without manual recalculation or a new ticket being required.
+- **TC-MNP-107** [Workflow] Agent can cancel an MNP order at the Donor Attachment stage before submission (Priority: High)
+  - Covers: REQ-200 | Journey: UJ-071
+  - Preconditions: Agent is at the '7. Donor Attachment' / MNP form stage of an in-progress MNP order, prior to CAF and final submission.
+  - Steps: 1. Reach the Donor Attachment step with the MNP form open (pre-signature or post-signature, pre-CAF). 2. Click 'Cancel Order' / 'Abandon Order'. 3. Confirm the cancellation.
+  - Expected: The order is cancelled/abandoned at this stage without being submitted as a Sales Order; no order confirmation number is generated, and the order does not appear in 'My Sales Orders' with an Open/submitted status.
+- **TC-MNP-108** [Workflow] Agent can cancel an MNP order at the CAF stage before final submission (Priority: High)
+  - Covers: REQ-200 | Journey: UJ-069
+  - Preconditions: Agent is at the '8. CAF' step of an in-progress MNP order, CAF form opened but not yet signed/submitted.
+  - Steps: 1. Open the CAF form via 'CAF' button. 2. Instead of signing, click 'Close and Retry' or an equivalent cancel action. 3. Confirm the order is not finalized.
+  - Expected: The order can be cancelled at the CAF stage prior to submission; no Sales Order is created, and prior step data (Contact, Donor Details, Donor Attachment) is not carried forward into a submitted order.
+- **TC-MNP-109** [Workflow] NPass MNP/FNP form documents are attached to the Siebel ticket for agent review (Priority: Medium)
+  - Covers: REQ-073 | Journey: UJ-018
+  - Preconditions: A customer has submitted an MNP/FNP consent SMS via NPass and a corresponding Siebel trouble ticket has been auto-created.
+  - Steps: 1. Open the auto-created Siebel MNP/FNP trouble ticket. 2. Check the ticket's attachment list for the NPass-sourced MNP/FNP form and ID documents. 3. Open one attached document to confirm it is viewable directly in Siebel.
+  - Expected: The MNP/FNP form and supporting ID documents originating in NPass are present as attachments on the Siebel ticket and are viewable without needing to access NPass separately, addressing the documented integration gap (subject to NPass API availability).
+- **TC-MNP-110** [Workflow] MNP Port Out ticket is auto-created in Siebel from an NPAS-originated customer request (Priority: High)
+  - Covers: REQ-041 | Journey: UJ-110
+  - Preconditions: Customer sends a port-out consent SMS which is received by NPAS.
+  - Steps: 1. NPAS notifies Siebel of the port-out request. 2. Confirm a trouble ticket is auto-created in Siebel with a two-hour action window. 3. Confirm the ticket auto-validates customer name, QID/ID type and number, service type, and consumer type. 4. If validation fails, confirm the ticket is auto-rejected.
+  - Expected: Ticket auto-creation and auto-validation occur without manual agent intervention; only tickets passing auto-validation reach fulfilment/agent queues, consistent with the single common journey requirement's automation intent across the port-out submitting flow.
+- **TC-MNP-111** [Workflow] MNP/FNP Port-Out ticket handling (Consumer/B2B2C) follows the NPass-driven auto-validation and rejection-code flow (Priority: Medium)
+  - Covers: REQ-041 | Journey: UJ-018
+  - Preconditions: A port-out ticket has been auto-created and auto-validated per REQ-041's common-journey automation.
+  - Steps: 1. Open a Consumer-segment port-out ticket and confirm it uses one of rejection reasons 1, 4, or 9 when rejected. 2. Open a B2B2C-segment ticket and confirm the same common ticket-handling journey structure is used (status model, rejection codes) rather than a divergent process.
+  - Expected: Both Consumer and B2B2C port-out tickets are processed through the same common ticket-handling journey/status model, confirming a single common journey is used across segments as required.
+
+**Persona scenarios:**
+
+- **TC-MNP-112** [Persona] MNP Digital channel form selectable for online/self-serve style capture (Priority: High)
+  - Covers: REQ-194
+  - Preconditions: Agent is at the '7. Donor Attachment' step of an MNP guided journey (Postpaid or Prepaid) with no attachments yet uploaded.
+  - Steps: 1. Click the 'MNP Form' button. 2. Observe the dropdown options presented. 3. Select 'MNP-Digital'.
+  - Expected: Dropdown presents exactly two channel-typed options, 'MNP-Digital' and 'MNP-Touch Screen'; selecting 'MNP-Digital' opens the bilingual Mobile Number Portability Application Form pre-filled with applicant/donor details for e-signature.
+
+### Fixed Line / Fibre (60 scenarios)
+
+**Positive scenarios:**
+
+- **TC-FIX-113** [Positive] Agent completes prepatched Combo Box Instant Activation without appointment (Priority: High)
+  - Covers: REQ-143, REQ-253, REQ-152 | Journey: UJ-053
+  - Preconditions: Tablet channel agent logged in; customer premises has a pre-patched Combo Box CPE/ONT already installed and mapped to a Kahramaa ID (KID).
+  - Steps: 1. Agent enters/looks up customer KID during address capture. 2. System detects pre-patched Combo Box CPE/ONT via KID lookup and skips the shared-infrastructure selection step. 3. System prompts agent to choose Instant Activation vs Normal Activation. 4. Agent selects Instant Activation. 5. Agent enters the CPE/ONT serial number for verification. 6. System verifies serial number matches inventory record. 7. Agent completes Contact/Address/Plan/Number/CAF steps and submits.
+  - Expected: Order proceeds without a shared-infrastructure selection step or WFM appointment booking; serial number is verified against inventory; order status moves from Open to Complete on the same visit.
+- **TC-FIX-114** [Positive] Digital self-service fiber activation journey completes end to end (Priority: High)
+  - Covers: REQ-130 | Journey: UJ-048
+  - Preconditions: Customer accesses the self-service digital channel (Phase 1 key flow), fiber coverage available at address.
+  - Steps: 1. Customer selects location and confirms fiber plan. 2. Customer completes device/eKYC step. 3. Customer books an installation appointment. 4. Customer submits the lead/order.
+  - Expected: Self-service journey completes the documented Phase 1 key flow (location/plan to device/eKYC to appointment to lead submission) without requiring an agent, and a lead/order is created.
+- **TC-FIX-115** [Positive] Self-serve Instant Activation succeeds for eligible customer (Priority: High)
+  - Covers: REQ-253 | Journey: UJ-035
+  - Preconditions: Customer uses self-service Instant Activation flow; premises has eligible pre-patched device.
+  - Steps: 1. System auto-detects Instant Activation eligibility from device/serial data. 2. Customer/agent enters device serial number for verification. 3. System confirms serial number match. 4. Customer completes remaining steps and confirms activation.
+  - Expected: System correctly detects eligibility and verifies the device serial before allowing Instant Activation to proceed; mismatched serial blocks Instant Activation (see negative case).
+- **TC-FIX-116** [Positive] Do Not Disturb flag set when customer refuses service (Priority: Medium)
+  - Covers: REQ-144 | Journey: UJ-031
+  - Preconditions: Agent is processing a fixed-line lead/order and the customer declines the service during contact.
+  - Steps: 1. Agent records customer's refusal of service on the contact/order. 2. Agent (or system) sets the Do Not Disturb flag on the customer record.
+  - Expected: Do Not Disturb flag is persisted on the customer/contact record so future outreach is suppressed.
+- **TC-FIX-117** [Positive] Address maintained with history consistent between CRM and self-service (Priority: Medium)
+  - Covers: REQ-098 | Journey: UJ-067
+  - Preconditions: Customer has an existing address on file in CRM.
+  - Steps: 1. Agent updates the customer's address in CRM (e.g., during Home Move) and saves. 2. Customer logs into the self-service channel and views their address. 3. Agent reviews address history on the account.
+  - Expected: Self-service displays the same updated address as CRM; the prior address remains visible in address history rather than being overwritten/lost.
+- **TC-FIX-118** [Positive] Club eligibility check performed once, early in the journey (Priority: Medium)
+  - Covers: REQ-083 | Journey: UJ-031
+  - Preconditions: Customer/QID and target installation location are known at the start of the journey.
+  - Steps: 1. Agent enters customer QID and location early in the order flow. 2. System performs the club eligibility check (customer/QID + location) at that point. 3. Agent continues through subsequent steps.
+  - Expected: Club eligibility is checked once, early in the flow, and its result is carried through rather than being re-checked or checked late in the process.
+- **TC-FIX-119** [Positive] RFS Portal ZSB page no longer lists all KIDs (Priority: Low)
+  - Covers: REQ-291 | Journey: UJ-102
+  - Preconditions: Agent opens the ZSB page in RFS Portal for a given zone/street/building.
+  - Steps: 1. Agent navigates to the ZSB page in RFS Portal. 2. Agent inspects the KID list displayed for the ZSB.
+  - Expected: Page no longer renders the full list of all KIDs for the ZSB (per the drop requirement); only the relevant/filtered KID(s) needed for the current transaction are shown.
+- **TC-FIX-120** [Positive] Fiber Activation through Retail Agent completes per BRSD FIB-ACT-RTL-001 (Priority: High)
+  - Covers: REQ-247 | Journey: UJ-096
+  - Preconditions: Retail agent has a walk-in customer requesting new fiber service at a serviceable address.
+  - Steps: 1. Agent captures customer and installation address. 2. System runs Installation Address and Service Feasibility check. 3. Feasibility confirms service is available. 4. Agent completes plan selection, CAF, and submits order.
+  - Expected: Feasibility check returns a positive result for a serviceable address and the order proceeds to submission and fulfilment.
+- **TC-FIX-121** [Positive] First-time mover receives free Home Move (Priority: Medium)
+  - Covers: REQ-188 | Journey: UJ-067
+  - Preconditions: Customer has no prior Home Move history on the account.
+  - Steps: 1. Agent initiates Home Move for the customer. 2. System checks Home Move history and finds none (first-time mover). 3. System applies Home Move at no charge.
+  - Expected: First-time mover is not charged for the Home Move; the fee waiver is applied automatically based on lack of prior Home Move history.
+- **TC-FIX-122** [Positive] Home Move Fixed-to-Fixed happy path completes end to end (Priority: Medium)
+  - Covers: REQ-094 | Journey: UJ-067
+  - Preconditions: Customer requests a Fixed-to-Fixed Home Move via the Open UI Desktop guided journey.
+  - Steps: 1. Agent captures the new destination address. 2. System validates KID/feasibility at the destination. 3. Agent completes the Home Move as the type of order the system treats it as (new order or modification order, per current resolution). 4. Order proceeds to WFM appointment and completion.
+  - Expected: Home Move completes end to end via the happy path, and QA confirms which order type (new vs. modification) the system actually creates, closing out the open resolution point in REQ-094.
+- **TC-FIX-123** [Positive] VFID/KID many-to-many mapping supports enterprise and retail scenarios (Priority: Medium)
+  - Covers: REQ-260 | Journey: UJ-039
+  - Preconditions: An enterprise customer has multiple KIDs mapped to a single VFID (or vice versa for a retail multi-unit scenario).
+  - Steps: 1. Agent looks up a VFID that maps to multiple KIDs. 2. Agent looks up a KID that maps to multiple VFIDs (enterprise multi-tenant case). 3. Agent attempts to create/modify a fixed line order using this mapping.
+  - Expected: System correctly resolves and displays the many-to-many VFID/KID mapping without error, supporting both enterprise and retail multi-mapping scenarios per the clarified rule.
+- **TC-FIX-124** [Positive] New Fixed Line / Business Broadband order completes for standard consumer/business case (Priority: Medium)
+  - Covers: REQ-247 | Journey: UJ-010
+  - Preconditions: Agent creates a New Fixed Line / Business Broadband order at a serviceable address.
+  - Steps: 1. Agent captures installation address. 2. System confirms service feasibility. 3. Agent completes plan, CAF, and submits.
+  - Expected: Order completes successfully given a positive feasibility result at the entered address.
+- **TC-FIX-125** [Positive] IPTV is bundled by default with the base plan and can be removed (Priority: Medium)
+  - Covers: REQ-252 | Journey: UJ-047
+  - Preconditions: Agent is configuring a base fixed-line plan for a new Triple Play order.
+  - Steps: 1. Agent selects the base plan. 2. System auto-includes IPTV as a bundled line item by default. 3. Agent explicitly removes the IPTV line item.
+  - Expected: IPTV appears bundled by default when the base plan is selected; agent is able to remove it, resulting in a Dual Play (non-IPTV) configuration.
+- **TC-FIX-126** [Positive] Triple Play order with IPTV Yes completes through WFM activation and serial check (Priority: Medium)
+  - Covers: REQ-134 | Journey: UJ-047
+  - Preconditions: Agent is placing a New Fixed Line Desktop Triple Play order (Project Lusail) with IPTV Yes, requiring CPE/ONT fulfilment.
+  - Steps: 1. Agent selects Triple Play with IPTV Yes. 2. System routes fulfilment to the CPE/ONT lead type (not 5G) per the routing rule. 3. Order proceeds through WFM appointment and technician activation with serial number check.
+  - Expected: Fulfilment is correctly routed to CPE/ONT lead type rather than 5G, WFM appointment is booked, and the technician's serial number check completes activation.
+- **TC-FIX-127** [Positive] Combo box/CPE password stored for field engineer access (Priority: Medium)
+  - Covers: REQ-095 | Journey: UJ-033
+  - Preconditions: Order includes a combo box/CPE requiring configuration by a field engineer.
+  - Steps: 1. System captures/stores the combo box/CPE password associated with the order/device record during setup. 2. Field engineer retrieves the stored password during installation.
+  - Expected: Password is stored securely on the order/device record and is retrievable by the field engineer at the point of installation.
+- **TC-FIX-128** [Positive] TR069/TORUS integration applies mesh configuration to CPE (Priority: Medium)
+  - Covers: REQ-096 | Journey: UJ-033
+  - Preconditions: Order includes a mesh-capable CPE requiring remote configuration.
+  - Steps: 1. Field engineer completes physical installation. 2. System triggers TR069/TORUS integration to push mesh configuration to the CPE. 3. Configuration confirmation is received.
+  - Expected: Mesh configuration is successfully applied to the CPE via the TR069/TORUS integration, confirmed by the system before order completion.
+- **TC-FIX-129** [Positive] Installation photo capture added to instant activation journey (Priority: Medium)
+  - Covers: REQ-089 | Journey: UJ-053
+  - Preconditions: Agent/technician is completing an Instant Activation order for a prepatched Combo Box.
+  - Steps: 1. Agent reaches the installation confirmation step of the Instant Activation journey. 2. System prompts for an installation photo capture. 3. Agent captures and uploads the installation photo.
+  - Expected: Installation photo is successfully captured and attached to the order as part of the Instant Activation journey before completion.
+- **TC-FIX-130** [Positive] Cluster naming displayed as F1-F4 rather than legacy 1-4 (Priority: Low)
+  - Covers: REQ-290 | Journey: UJ-031
+  - Preconditions: Agent views cluster selection/display for a Fixed Line address.
+  - Steps: 1. Agent opens the cluster field on the address/plan screen. 2. Agent inspects the list of cluster values shown.
+  - Expected: Cluster values are displayed using the new F1-F4 naming convention, not the legacy 1-4 numbering.
+
+**Negative scenarios:**
+
+- **TC-FIX-131** [Negative] Instant Activation blocked outside tablet channel (Priority: High)
+  - Covers: REQ-254 | Journey: UJ-034
+  - Preconditions: Agent is using the desktop (non-tablet) channel.
+  - Steps: 1. Agent opens a New Fixed Line order on desktop. 2. System detects pre-patched CPE/ONT eligible for Instant Activation. 3. Agent attempts to select the Instant Activation option.
+  - Expected: System does not offer/restricts the Instant Activation option on the desktop channel; only Normal Activation is available or the option is disabled with an explanatory message.
+- **TC-FIX-132** [Negative] Instant Activation rejected when device serial verification fails (Priority: High)
+  - Covers: REQ-253 | Journey: UJ-035
+  - Preconditions: Pre-patched device detected but the serial number entered does not match inventory records.
+  - Steps: 1. Agent/customer selects Instant Activation. 2. Agent enters a device serial number that does not match the system's recorded serial for that KID/premises.
+  - Expected: System rejects the serial mismatch, blocks Instant Activation completion, and requires re-entry or escalation to Normal Activation.
+- **TC-FIX-133** [Negative] GTM data-flow frequency open item flagged as unresolved dependency (Priority: Low)
+  - Covers: REQ-259 | Journey: UJ-105
+  - Preconditions: Actual production frequency of GTM extraction/load into UIM/RFS Portal is not yet confirmed.
+  - Steps: 1. QA queries the documented frequency for GTM data-flow into UIM/RFS Portal. 2. QA compares against actual observed refresh timestamps in RFS Portal/UIM.
+  - Expected: Discrepancy or unconfirmed frequency is flagged as an open item requiring business confirmation before the RFS data capability can be certified as fully specified.
+- **TC-FIX-134** [Negative] Siebel feed migration from full file to delta file does not lose records (Priority: Medium)
+  - Covers: REQ-289 | Journey: UJ-105
+  - Preconditions: Siebel feed currently sends full file; change under test switches it to delta file.
+  - Steps: 1. Baseline: capture full-file feed record count on day N. 2. Apply a single record change (e.g., KID update) on day N+1. 3. Trigger the delta file feed for day N+1.
+  - Expected: Delta file contains only the changed/new records (not the full dataset), and downstream systems end up in the same consistent state as they would under the full-file approach, with no record loss.
+- **TC-FIX-135** [Negative] Proof-of-address upload rejected when file exceeds size limit (Priority: Medium)
+  - Covers: REQ-250 | Journey: UJ-031
+  - Preconditions: Agent is uploading a proof-of-address document as part of a Fixed Line order.
+  - Steps: 1. Agent attempts to upload a proof-of-address file that exceeds the defined maximum size limit. 2. Agent then uploads a file within the size limit.
+  - Expected: Oversized file is rejected with a clear size-limit error; the compliant file is accepted and attached to the order.
+- **TC-FIX-136** [Negative] Vodafone Fibre Supplementary Form is mandatory for Home Fibre order and blocks submission if missing (Priority: High)
+  - Covers: REQ-115, REQ-305 | Journey: UJ-017
+  - Preconditions: Agent is processing a Home Fibre (or B2B2C FWA) order that is not the Skip Attachments variant.
+  - Steps: 1. Agent completes the order through to submission without attaching the Vodafone Fibre/Home Supplementary Form/T&Cs. 2. Agent attempts to submit the order.
+  - Expected: System blocks submission and requires the Supplementary Form/T&Cs attachment before the order can proceed, since the form remains non-digital/mandatory and is the one exception to otherwise digitalized consumer application forms.
+- **TC-FIX-137** [Negative] Fiber Instant Activation blocked when service feasibility check fails (Priority: High)
+  - Covers: REQ-247 | Journey: UJ-097
+  - Preconditions: Agent attempts Fiber Instant Activation (BRSD FIB-ACT-RTL-002) at an address with no confirmed feasibility.
+  - Steps: 1. Agent enters the installation address. 2. System runs the Installation Address and Service Feasibility check and returns a negative/not-feasible result.
+  - Expected: System blocks Instant Activation (and ideally standard activation) at that address until feasibility is confirmed, surfacing a clear not-feasible message.
+- **TC-FIX-138** [Negative] Customer declining mandatory Fibre migration results in disconnection (Priority: High)
+  - Covers: REQ-127, REQ-126 | Journey: UJ-098
+  - Preconditions: Customer has been notified of mandatory Fibre migration and the 4-week migration window per REQ-126.
+  - Steps: 1. Agent contacts customer within the 4-week migration availability window. 2. Customer explicitly declines the Fibre migration. 3. Agent records the declined migration in the system.
+  - Expected: System/process triggers disconnection of the existing service following the declined migration, consistent with the mandatory-migration business rule.
+- **TC-FIX-139** [Negative] Fibre migration not completed within 4-week mandatory window is flagged (Priority: Medium)
+  - Covers: REQ-126 | Journey: UJ-098
+  - Preconditions: Fibre availability notice has been sent to the customer.
+  - Steps: 1. Agent records the date of the Fibre availability notice. 2. Track elapsed time without a completed migration. 3. Elapsed time exceeds 4 weeks with no migration action taken.
+  - Expected: System flags the account as past the mandatory migration window, triggering the next step in process (e.g., escalation or disconnection per REQ-127) rather than remaining silently open indefinitely.
+- **TC-FIX-140** [Negative] System enforces Fibre precedence over competing FWA/other options where available (Priority: High)
+  - Covers: REQ-029 | Journey: UJ-039
+  - Preconditions: Customer's address has confirmed Fibre availability and would otherwise also qualify for an FWA offer.
+  - Steps: 1. Agent enters an address where Fibre is available. 2. Agent attempts to select an FWA plan for that address instead of Fibre.
+  - Expected: System enforces the Fibre-precedence rule, steering or restricting the order toward Fibre when Fibre is available at the address rather than allowing FWA to be selected instead.
+- **TC-FIX-141** [Negative] Duplicate fiber service at same location triggers home move lead instead of new order (Priority: High)
+  - Covers: REQ-131 | Journey: UJ-039
+  - Preconditions: Customer attempts to order new fiber service at a location that already has an active fiber service.
+  - Steps: 1. Agent enters the installation address for a New Fixed Line order. 2. System checks for an existing active fiber service at that same location. 3. System detects a duplicate.
+  - Expected: System blocks the new-order path and instead triggers a home move lead, preventing a duplicate fiber service from being provisioned at the same location.
+- **TC-FIX-142** [Negative] Enterprise/SMB fibre order handling within documented scope gap (Priority: Low)
+  - Covers: REQ-261 | Journey: UJ-010
+  - Preconditions: An Enterprise/SMB customer requests fibre service via the New Fixed Line / Business Broadband Order journey.
+  - Steps: 1. Agent attempts to process an Enterprise/SMB fibre order through the same journey used for consumer fibre. 2. Agent notes any features/capabilities not covered for Enterprise/SMB per the identified scope gap.
+  - Expected: Gaps in Enterprise/SMB fibre scope are identified and documented (e.g., missing capability, unsupported field) rather than silently mishandled, consistent with the flagged business gap.
+- **TC-FIX-143** [Negative] Outstanding dues above threshold require Collections confirmation before order proceeds (Priority: High)
+  - Covers: REQ-276, REQ-258 | Journey: UJ-031
+  - Preconditions: Customer has outstanding dues on their account approaching/exceeding the fibre outstanding-dues threshold.
+  - Steps: 1. Agent attempts to place a new fibre order for a customer with outstanding dues. 2. System checks the outstanding-dues amount against the applicable threshold. 3. Agent is prompted for Collections confirmation before the order can proceed.
+  - Expected: Order is held pending explicit Collections confirmation when outstanding dues meet/exceed the threshold; the known threshold contradiction (REQ-258) is flagged to QA/business for resolution rather than silently applying one of the conflicting values.
+- **TC-FIX-144** [Negative] ZSP email/address fields accept presence-only validation, exposing data-quality gap (Priority: Low)
+  - Covers: REQ-091 | Journey: UJ-031
+  - Preconditions: Agent is entering ZSP email and address fields on the order form.
+  - Steps: 1. Agent enters an obviously malformed email (e.g., missing '@' or domain) in the ZSP email field and saves. 2. Agent enters a malformed/incomplete address string in the ZSP address field and saves.
+  - Expected: System currently accepts both malformed entries because only presence (non-empty) is validated, not format — confirming and documenting the known data-quality gap for remediation.
+- **TC-FIX-145** [Negative] Fixed-Line installation exception: Splitter Full blocks installation (Priority: High)
+  - Covers: REQ-247 | Journey: UJ-033
+  - Preconditions: Technician attempts installation at a location where the splitter is at capacity.
+  - Steps: 1. Technician performs Assess Activity at the installation site. 2. System/technician determines the splitter is full. 3. Technician records the Splitter Full exception.
+  - Expected: Installation cannot proceed and is flagged as a Splitter Full exception, routing the order to exception handling rather than completing installation.
+- **TC-FIX-146** [Negative] Fixed-Line installation exception: BID Not Mapped blocks installation (Priority: High)
+  - Covers: REQ-247 | Journey: UJ-033
+  - Preconditions: Technician attempts installation where the Building ID (BID) is not mapped in the system.
+  - Steps: 1. Technician performs Assess Activity at the installation site. 2. System detects the BID is not mapped to any address/network record. 3. Technician records the BID Not Mapped exception.
+  - Expected: Installation cannot proceed and is flagged as a BID Not Mapped exception, routing to exception handling for resolution before installation can continue.
+- **TC-FIX-147** [Negative] KID already in use blocks new order until exception is resolved (Priority: High)
+  - Covers: REQ-084 | Journey: UJ-032
+  - Preconditions: Agent attempts to create a new Fixed Line order for a KID currently in use by another active account.
+  - Steps: 1. Agent enters the KID during address capture. 2. System detects the KID is already in use. 3. Agent attempts to proceed without providing proof of eligibility.
+  - Expected: System blocks order progression and requires KID-in-use proof documentation (per REQ-084, presented at journey start) before allowing the order to continue.
+- **TC-FIX-148** [Negative] STB replay/scan functionality is unavailable, confirming dropped scope (Priority: Low)
+  - Covers: REQ-090 | Journey: UJ-017
+  - Preconditions: Agent is configuring a GigaHome/OSNtv order that previously would have included STB replay/scan.
+  - Steps: 1. Agent looks for the STB replay/scan functionality within the order or lifecycle screens. 2. Agent confirms the feature is not present.
+  - Expected: STB replay/scan functionality is confirmed absent from the journey, consistent with it being dropped due to required OSM changes, and this gap is documented rather than assumed present.
+
+**Validation scenarios:**
+
+- **TC-FIX-149** [Validation] CNAP field enforces 25-character limit (Priority: Medium)
+  - Covers: REQ-019 | Journey: UJ-031
+  - Preconditions: Agent is on the Fixed Line order form's CNAP field.
+  - Steps: 1. Agent enters a CNAP (Calling Name Presentation) value of exactly 25 characters and saves. 2. Agent then attempts to enter a CNAP value of 26 characters and saves.
+  - Expected: 25-character value is accepted and saved; 26-character (or longer) value is rejected with a validation message citing the 25-character limit, or is truncated/blocked from submission.
+- **TC-FIX-150** [Validation] QID OCR misread does not defeat two-factor validation (Priority: High)
+  - Covers: REQ-109, REQ-238 | Journey: UJ-031
+  - Preconditions: Agent scans a QID card using the enhanced OCR capture-in-one-shot capability during eKYC/ID capture.
+  - Steps: 1. Agent scans a QID where a specific digit is visually ambiguous (prone to OCR misread, e.g., 0/O or 1/I confusion). 2. System captures QID number via OCR in one shot. 3. System cross-checks OCR-extracted QID number against the second authentication factor (e.g., selfie/liveness or manual confirmation).
+  - Expected: System does not accept the OCR-extracted QID as validated on OCR output alone; a second factor independently confirms/corrects the QID number before proceeding, preventing an OCR misread from silently passing two-factor validation.
+- **TC-FIX-151** [Validation] Address line 1 split into discrete searchable KID/ZSB fields without breaking existing search (Priority: Medium)
+  - Covers: REQ-097 | Journey: UJ-031
+  - Preconditions: Address capture form has been updated to split address line 1 into discrete fields.
+  - Steps: 1. Agent searches for an address using the discrete KID field only. 2. Agent searches for an address using the discrete ZSB field only. 3. Agent performs a legacy-style combined address-line search.
+  - Expected: Both discrete-field searches return correct matching addresses, and existing combined-search behavior continues to function without regression.
+- **TC-FIX-152** [Validation] Fixed Line address record must include a KID to be accepted (Priority: High)
+  - Covers: REQ-283 | Journey: UJ-031
+  - Preconditions: Agent is entering a Fixed Line installation address.
+  - Steps: 1. Agent enters address details but leaves the KID field blank. 2. Agent attempts to proceed/save the address. 3. Agent then re-enters the address including a valid KID and proceeds.
+  - Expected: Address without a KID is rejected/blocked from being saved as a valid Fixed Line address; address with a valid KID is accepted.
+- **TC-FIX-153** [Validation] Installation address selection cascades zone then street then building (Priority: Medium)
+  - Covers: REQ-249 | Journey: UJ-031
+  - Preconditions: Agent is on the installation address capture screen.
+  - Steps: 1. Agent selects a Zone from the zone dropdown. 2. Agent observes the Street list, which should be filtered to that zone. 3. Agent selects a Street. 4. Agent observes the Building list, filtered to that street. 5. Agent selects a Building.
+  - Expected: Each subsequent field (Street, Building) is populated/filtered based on the prior selection (cascading), and building selection completes the address selection.
+- **TC-FIX-154** [Validation] eSign is required to complete the digital fiber activation flow (Priority: High)
+  - Covers: REQ-133 | Journey: UJ-048
+  - Preconditions: Customer is in the self-service digital fiber activation flow at the agreement step.
+  - Steps: 1. Customer reaches the eSign step. 2. Customer attempts to proceed to lead submission without completing eSign. 3. Customer completes eSign and proceeds.
+  - Expected: System blocks progression past the agreement step until eSign is completed; completed eSign allows the flow to proceed to lead submission.
+- **TC-FIX-155** [Validation] eKYC (ID scan plus selfie scan) required before digital fiber activation proceeds (Priority: High)
+  - Covers: REQ-132 | Journey: UJ-048
+  - Preconditions: Customer is in the digital fiber activation flow at the device/eKYC step.
+  - Steps: 1. Customer is prompted to perform an ID scan. 2. Customer performs a selfie scan. 3. System cross-validates ID scan against selfie scan (liveness/match). 4. Customer attempts to skip the selfie scan.
+  - Expected: System requires both ID scan and selfie scan to pass eKYC validation; attempting to proceed without the selfie scan is blocked.
+- **TC-FIX-156** [Validation] Kahramaa duplicate-installation check during technician Assess Activity (Priority: High)
+  - Covers: REQ-186 | Journey: UJ-039
+  - Preconditions: Technician performs Assess Activity for a Home Move or FWA installation; customer's KID has an installation record within the last 30 days.
+  - Steps: 1. Technician opens Assess Activity for the order. 2. System checks the customer's KID against installation records from the last 30 days (FWA). 3. System also validates KID eligibility for Home Move.
+  - Expected: If a duplicate installation exists within 30 days, system flags it during Assess Activity and blocks/warns before proceeding; a KID that fails Home Move eligibility is also flagged.
+- **TC-FIX-157** [Validation] Fiber-readiness check for Home Move destination via KID lookup (Priority: High)
+  - Covers: REQ-187 | Journey: UJ-039
+  - Preconditions: Customer requests Home Move to a new destination address.
+  - Steps: 1. Agent enters the destination address KID. 2. System performs a fiber-readiness lookup for that KID. 3. System returns feasible or not-feasible result.
+  - Expected: Fiber-readiness result for the destination is returned based on the KID lookup and used to determine whether the Home Move can proceed with Fibre service at the new address.
+- **TC-FIX-158** [Validation] Fulfilment routing sends 5G-eligible orders to the 5G lead type, not CPE/ONT (Priority: Medium)
+  - Covers: REQ-134 | Journey: UJ-039
+  - Preconditions: An order is for a 5G/FWA-based service rather than fibre CPE/ONT.
+  - Steps: 1. Agent completes an FWA/5G order. 2. System evaluates the service type for fulfilment routing. 3. System routes the lead to the 5G lead type.
+  - Expected: 5G-based orders are routed to the 5G lead type and not misrouted to the CPE/ONT fulfilment path.
+
+**Workflow scenarios:**
+
+- **TC-FIX-159** [Workflow] Normal Activation order with manager approval, reject-for-correction, and resubmission (Priority: High)
+  - Covers: REQ-143, REQ-255 | Journey: UJ-049
+  - Preconditions: Tablet agent has a prepatched KID/Combo Box customer selecting Normal Activation; manager approver account exists.
+  - Steps: 1. Agent selects Normal Activation at the prompt after prepatched detection. 2. Agent completes order and submits for manager approval. 3. Manager opens Approval queue, reviews order, and selects Reject - Correction with a reason/comment. 4. System routes the order back to the agent with the correction flag and sends OSB SMS notification. 5. Agent corrects the flagged data and resubmits. 6. Manager approves the corrected order.
+  - Expected: Order transitions Open to Pending Approval to Rejected-Correction to Resubmitted to Approved to Complete, WFM appointment is booked/executed as part of Normal Activation, and the correction cycle is fully traceable.
+- **TC-FIX-160** [Workflow] Non-Combo-Box prepatched KID Normal Activation full lifecycle with correction cycle (Priority: Medium)
+  - Covers: REQ-152 | Journey: UJ-050
+  - Preconditions: Prepatched KID exists but premises has Non-Combo-Box CPE.
+  - Steps: 1. Agent looks up KID; system detects prepatched but Non-Combo-Box configuration. 2. System does NOT skip the shared-infrastructure selection step (since Combo Box was not detected). 3. Agent proceeds through address/plan/number/CAF, submits for approval. 4. Manager rejects for correction; agent corrects and resubmits. 5. Manager approves.
+  - Expected: Shared-infrastructure selection step is presented (not skipped) because Combo Box was not detected; order completes full lifecycle to Complete after correction and approval.
+- **TC-FIX-161** [Workflow] B2B2C prepatched Combo Box order with approval before Instant Activation (Priority: High)
+  - Covers: REQ-143, REQ-253 | Journey: UJ-054
+  - Preconditions: B2B2C customer, prepatched KID, Combo Box detected.
+  - Steps: 1. Agent selects Instant Activation at prompt after Combo Box detection. 2. Agent verifies CPE/ONT serial number. 3. Agent submits order which routes to manager Order Approval queue (B2B2C requires approval). 4. Manager approves the order.
+  - Expected: Order is held at Pending Approval despite being an Instant Activation candidate, and only provisions to Complete after manager approval is granted.
+- **TC-FIX-162** [Workflow] Fixed Line Two-Phase Order Completion progresses through both phases (Priority: High)
+  - Covers: REQ-011 | Journey: UJ-002
+  - Preconditions: Fixed-line order requires two-phase completion (e.g., sales order then fulfilment/activation phase).
+  - Steps: 1. Agent completes phase 1 (sales order creation) and submits. 2. System records the order but does not treat it as active until phase 2 (fulfilment/installation) completes. 3. Field engineer/back-office completes phase 2, triggering activation.
+  - Expected: Activation date recorded by the system corresponds to actual service-ready completion (phase 2), not the phase-1 order-creation date, satisfying the corrected Activation Date rule.
+- **TC-FIX-163** [Workflow] RFS Data Management supports IMS-to-downstream data flow to UIM/RFS Portal (Priority: Medium)
+  - Covers: REQ-248, REQ-287, REQ-288 | Journey: UJ-105
+  - Preconditions: IMS network inventory data exists and RPA-based extraction/load is configured.
+  - Steps: 1. IMS produces GTM data extract. 2. RPA process picks up IMS file and loads it into UIM/Siebel/RFS Portal per the documented file structure/sample. 3. QA verifies the operational refresh frequency matches what is documented for UIM/RFS Portal.
+  - Expected: Data flows from IMS through RPA into UIM/Siebel/RFS Portal per the provided file structure/sample and the confirmed refresh frequency, with the RFS data management capability able to serve fiber-readiness checks reliably.
+- **TC-FIX-164** [Workflow] Address lock is applied after RFS feasibility check completes (Priority: High)
+  - Covers: REQ-251, REQ-247 | Journey: UJ-102
+  - Preconditions: Agent has entered an installation address for a new Fixed Line order.
+  - Steps: 1. Agent submits the address for RFS (readiness for service) feasibility check. 2. System returns the RFS result (feasible/not feasible) and locks the address field from further edits. 3. Agent attempts to modify the locked address field.
+  - Expected: Address becomes read-only/locked immediately after the RFS check returns a result, preventing address tampering that would invalidate the feasibility result; edit attempt is blocked or requires an explicit unlock/re-check action.
+- **TC-FIX-165** [Workflow] Attachments step skipped for named back-office fulfilment variant (Priority: Medium)
+  - Covers: REQ-142 | Journey: UJ-046
+  - Preconditions: Back-office Fulfilment agent processing a New Fixed Line order using the Skip Attachments variant.
+  - Steps: 1. Agent completes KID/QID contact confirmation, address/service point, plan/add-on, and number reservation. 2. Agent reaches the appointment step. 3. Agent proceeds without being required to complete the Attachments step.
+  - Expected: Order proceeds to completion (13 line items, per the evidenced walkthrough) without the Attachments step blocking submission, confirming the Attachments step is optional only for this named variant.
+- **TC-FIX-166** [Workflow] GigaHome/OSNtv Subscription Acceptance customer sign-off precedes activation (Priority: Medium)
+  - Covers: REQ-088 | Journey: UJ-017
+  - Preconditions: Customer is completing a GigaHome/OSNtv order requiring subscription acceptance sign-off before activation (v3 form).
+  - Steps: 1. Agent presents the GigaHome/OSNtv Subscription Acceptance Form for review. 2. Customer reviews terms (lock-in, disconnection fees, Home Move, TON, free-months eligibility). 3. Customer signs off. 4. Agent proceeds to activation.
+  - Expected: Activation cannot proceed until the customer sign-off on the Subscription Acceptance Form is captured; the digitalized form is used instead of a paper supplementary form for this step.
+- **TC-FIX-167** [Workflow] KID-in-use proof requirement presented at the start of the journey (Priority: Medium)
+  - Covers: REQ-084 | Journey: UJ-032
+  - Preconditions: Agent begins a new Fixed Line order for a KID that is already in use by another account.
+  - Steps: 1. Agent enters the KID at the start of the journey. 2. System immediately flags the KID as in-use and requests proof-of-eligibility documentation at that point (not later in the flow). 3. Agent supplies the required proof.
+  - Expected: The KID-in-use proof requirement is triggered at the start of the journey rather than late, avoiding wasted data entry before the exception surfaces.
+- **TC-FIX-168** [Workflow] Retail journey renders as a single scrolling flow with a summary landing step (Priority: Medium)
+  - Covers: REQ-108 | Journey: UJ-096
+  - Preconditions: Agent starts a Fiber Activation through Retail Agent (BRSD FIB-ACT-RTL-001) order.
+  - Steps: 1. Agent proceeds through the guided journey steps. 2. Agent observes whether navigation is a single continuous scroll versus separate multi-page click-throughs. 3. Irrelevant steps for this scenario are defaulted/skipped automatically. 4. Agent reaches the end of the flow.
+  - Expected: Journey is presented as a single scrolling flow (not multi-page navigation), irrelevant steps are defaulted or skipped, and the agent lands on a summary screen rather than a final input page.
+- **TC-FIX-169** [Workflow] Fiber Termination journey completes per BRSD FIB-TER-RTL-007 (Priority: Medium)
+  - Covers: REQ-098 | Journey: UJ-101
+  - Preconditions: Customer requests termination of an active fiber service.
+  - Steps: 1. Agent opens the customer's active fiber account. 2. Agent initiates termination per FIB-TER-RTL-007. 3. Agent confirms address/account history is preserved after termination.
+  - Expected: Termination completes and the address/account history remains intact and consistent between CRM and self-service after the service is terminated.
+- **TC-FIX-170** [Workflow] Fixed Line Migration eligibility check, verification, and WFM appointment booking (Priority: High)
+  - Covers: REQ-255 | Journey: UJ-098
+  - Preconditions: Customer is eligible candidate for Fixed Line Migration (BRSD FIB-MIG-RTL-003).
+  - Steps: 1. Agent checks migration eligibility for the customer's current service. 2. System verifies eligibility criteria are met. 3. Agent books a WFM appointment for the migration. 4. Field engineer completes the migration at the scheduled appointment.
+  - Expected: Eligibility is verified before an appointment is offered; WFM appointment is successfully booked and migration completes at the scheduled slot.
+- **TC-FIX-171** [Workflow] FWA-to-Fiber migration processed via journey (manual, pending future automation) (Priority: Medium)
+  - Covers: REQ-093 | Journey: UJ-038
+  - Preconditions: Customer currently on FWA service is eligible/requesting migration to Fiber.
+  - Steps: 1. Agent manually initiates the FWA-to-Fiber migration order. 2. Agent completes required steps to switch the customer's service type. 3. Order completes and FWA service is replaced by Fiber.
+  - Expected: Migration completes successfully via the current (manual) process; the requirement notes this remains a target for future automation rather than being automated today.
+
+**Persona scenarios:**
+
+- **TC-FIX-172** [Persona] Digital signature pad used in retail store; tablet used for Direct Sales (Priority: Low)
+  - Covers: REQ-306 | Journey: UJ-031
+  - Preconditions: Two orders are being processed: one at a retail store, one via Direct Sales channel.
+  - Steps: 1. Agent at a retail store reaches the signature capture step and is presented with the digital signature pad interface. 2. Agent on a Direct Sales tablet reaches the signature capture step and is presented with the tablet's own signature capture interface.
+  - Expected: Retail store signature capture uses the digital signature pad method; Direct Sales signature capture uses the tablet method — each channel presents its designated capture mechanism, not the other's.
+
+### FWA / 5G Home (36 scenarios)
+
+**Positive scenarios:**
+
+- **TC-FWA-173** [Positive] Desktop Vanilla FWA Indoor: manual Contact-to-CPE-config activation completes (Priority: High)
+  - Covers: REQ-162 | Journey: UJ-056
+  - Preconditions: Agent logged into Open UI Desktop; customer has no existing account; FWA Indoor stock available in catalog.
+  - Steps: 1. From Open UI Desktop home, create a new Contact (Last/First Name, ID Type, ID Number, Nationality, Cellular Phone, Email). 2. Add a Primary address to the contact, auto-generating an Account 360 view. 3. Open Account > Orders tab; confirm an Activation Sales Order is auto-created (Status Pending). 4. In the Sales Order, open Catalog tab and select 'GigaHome 5G Classic New Indoor FWA Promotion'. 5. Confirm Line Items auto-expand into GigaHome plan, FMS CPE Bundle, and FMS Service Bundle (with SIM/VoIP/Bar sub-lines). 6. On Numbers tab, reserve a FREE-category number and confirm via the Number Selection dialog. 7. On the FMS CPE Bundle line, select equipment sub-type 'FMS CPE Indoor IDU' and enter the Indoor Unit Serial Number. 8. Submit the order.
+  - Expected: Order transitions Pending -> Open -> In Progress -> Complete, with per-line Status Context showing 'FULFILL BILLING COMPLETE: reached' and 'SMS NOTIFICATION START: reached', and final Fulfillment Status = Complete with 'All order lines are completed'.
+- **TC-FWA-174** [Positive] Desktop Vanilla FWA Outdoor Dual Play: full order-to-WFM-installation completion (Priority: High)
+  - Covers: REQ-163 | Journey: UJ-057
+  - Preconditions: Agent logged into Open UI Desktop; OFSC WFM integration reachable; outdoor CPE stock available.
+  - Steps: 1. Create contact and account, then create a Sales Order (Order Type Activation, Fulfillment Mode Deliver). 2. Add Line Items: 'GigaHome Classic OD 5G New FWA Promotion', 'FMS CPE Bundle', 'FMS Service Bundle'. 3. Reserve a FixedLine number via Numbers tab. 4. On the FMS CPE Bundle, choose equipment sub-type between FMS CPE Indoor IDU, FMS CPE ODU, and FMS CPE Outdoor IDU — select the Outdoor combination (ODU + Outdoor IDU) for this Dual Play order. 5. Enter Ship To Address for CPE shipment. 6. Book Appointment for the WFM installation. 7. Enter CPE serial numbers for 5G_OUTDOOR_CPE_SERIAL_NUMBER and 5G_INDOOR_CPE_SERIAL_NUMBER in the import grid. 8. Submit the order.
+  - Expected: Order status moves from Pending to Open with Order Sub Type 'Dual Play'; the FMS CPE Bundle line item correctly reflects the Outdoor IDU + ODU sub-type selection distinct from the Indoor IDU-only configuration used in indoor orders.
+- **TC-FWA-175** [Positive] Book Unscheduled Appointment displays irreversibility warning and proceeds on confirmation (Priority: Medium)
+  - Covers: REQ-185 | Journey: UJ-066
+  - Preconditions: Agent is on the Book Appointment step (Step 7) of the New FWA Tablet wizard for an Outdoor order.
+  - Steps: 1. On the Book Appointment step, click 'Book Unscheduled Appointment' instead of 'Book Appointment'. 2. Observe the confirm dialog. 3. Enter Booking Comments. 4. Click OK/Submit to confirm.
+  - Expected: A warning dialog is shown: 'WARNING: Once unscheduled appointment is booked, it cannot be cancelled within the journey. Click OK to continue.' Clicking OK proceeds with booking the unscheduled appointment; clicking Cancel returns the agent to the appointment options without booking.
+- **TC-FWA-176** [Positive] 5G Home plan data usage throttles to policy speed after Fair Usage Policy allowance is exhausted (Priority: Medium)
+  - Covers: REQ-124
+  - Preconditions: An active GigaHome/5G Home FWA line exists with an associated Throttling Bucket and Local Data bucket provisioned (as shown post-activation in Surepay Bucket Details).
+  - Steps: 1. Confirm the account's Surepay Bucket Details shows an active FUP-tiered plan bucket (e.g., 'GigaHome Classic 375 -5G' Local Data bucket) alongside a paired 'Throttling Bucket'. 2. Simulate/observe consumption of the full monthly Local Data allowance for the plan's tier (1TB/2TB/10TB as applicable). 3. Continue using data after the allowance is exhausted within the same billing cycle.
+  - Expected: Once the Local Data bucket is depleted, the Throttling Bucket status governs the connection and speed is capped (e.g., to up to 1 Mbps) until the next billing cycle reset, consistent with the plan's Fair Usage Policy tier; the bucket's Active status and expiry date remain visible on the billing profile throughout.
+- **TC-FWA-177** [Positive] Technician appointment reassigned via Move with resource-match warning shown for mismatched work zone (Priority: Medium)
+  - Covers: REQ-180 | Journey: UJ-066
+  - Preconditions: An installation activity is booked and assigned to a technician/resource pool (e.g., ABATS); a target technician exists with a different work zone.
+  - Steps: 1. From the Activity details overflow menu, select 'Move'. 2. In the Move dialog's Resources tab, search for a technician by name (e.g., 'Syed'). 3. Review the returned technician result and any resource-match indicator (e.g., 'Work zones mismatch' flagged in red) alongside the schedule timeline conflict block. 4. Click Move to confirm reassignment despite the mismatch indicator.
+  - Expected: The Move dialog surfaces a clear resource-match indicator (e.g., red 'Work zones mismatch' warning and a conflict block on the timeline) before the reassignment is confirmed; after confirming, the activity's assigned technician/resource updates to the newly selected technician.
+- **TC-FWA-178** [Positive] FMS CPE Bundle configuration offers Indoor IDU, ODU, and Outdoor IDU sub-types and persists selected serials (Priority: Medium)
+  - Covers: REQ-163 | Journey: UJ-056
+  - Preconditions: Order Line Items include an FMS CPE Bundle line awaiting configuration.
+  - Steps: 1. Open the FMS CPE Bundle configuration screen on the order line. 2. Confirm the three selectable equipment sub-types are presented: FMS CPE Indoor IDU, FMS CPE ODU, FMS CPE Outdoor IDU. 3. For an Indoor order, select FMS CPE Indoor IDU and enter Indoor Unit Serial Number. 4. For an Outdoor order (separate test run), select both FMS CPE ODU and FMS CPE Outdoor IDU and enter their respective serials.
+  - Expected: All three sub-types are available and independently selectable depending on order type (Indoor vs Outdoor); the selected sub-type's serial number(s) are captured and later appear against the correct line item on the completed order (e.g., 'Indoor Unit Serial Number' field on Line Item Attributes).
+- **TC-FWA-179** [Positive] System notifies customer that the signed CAF copy will be emailed (Priority: Low)
+  - Covers: REQ-175 | Journey: UJ-060
+  - Preconditions: Agent has completed CAF e-signature capture for a new FWA order.
+  - Steps: 1. Complete the CAF signature step ('Please Sign' modal, Done). 2. Observe any confirmation messaging shown to the agent/customer immediately after signing or at order submission regarding delivery of the signed CAF.
+  - Expected: The system communicates to the customer (via on-screen notice and/or the CAF's billing delivery mode, e.g., 'Bill delivery mode: Email') that a signed copy of the CAF will be emailed to them; the signed CAF PDF (e.g., 'Digital_New_FWA_<timestamp>_signed') is subsequently visible attached to the Account's Attachments tab, consistent with that notification.
+- **TC-FWA-180** [Positive] Digital CAF generation renders bilingual EN/AR content and captures e-signature (Priority: High)
+  - Covers: REQ-178 | Journey: UJ-060
+  - Preconditions: Agent has selected CAF-Digital at the CAF generation step for a New FWA order.
+  - Steps: 1. Generate the Digital CAF and confirm the preview shows both English and Arabic content across all sections (Applicant, Billing, Postpaid, Superfast Broadband & Home Phone). 2. Click Sign Contract / open the signature pad. 3. Draw a signature and click Done.
+  - Expected: The CAF preview renders bilingual EN/AR content correctly for all populated fields (name, ID, address, plan, appointment details), and the signature is captured and inserted into the Section 4 Signature field with a printed name/timestamp (e.g., 'HEMANTH 09/10/2025 11:58:52'), after which the CAF shows as green-checked/complete.
+- **TC-FWA-181** [Positive] ID-based installation contact capture correctly populates contact fields and flags temporary-number rule for non-resident ID types (Priority: Medium)
+  - Covers: REQ-027 | Journey: UJ-056
+  - Preconditions: New contact creation for an FWA order using a non-resident ID type (e.g., Passport).
+  - Steps: 1. Enter Last Name, First Name, ID Type 'Passport', ID Number, ID Expiration Date, Nationality, Cellular Phone #, Email on the Contact step. 2. Save/continue.
+  - Expected: A system warning dialog is shown: 'This number will only be active for 90 days. To make this number permanent, a valid resident's ID such as QID or Diplomatic ID must be provided.' — confirming ID-based contact capture correctly distinguishes resident (QID) vs non-resident (Passport) ID types and flags the temporary-number consequence for the latter.
+
+**Negative scenarios:**
+
+- **TC-FWA-182** [Negative] Appointment slot at full capacity is shown as Full and cannot be selected (Priority: High)
+  - Covers: REQ-161 | Journey: UJ-037
+  - Preconditions: At least one date/time slot in the Book Appointments calendar has reached its configured capacity limit (e.g., 15/15 booked).
+  - Steps: 1. Open the Book Appointments dialog for a new FWA installation. 2. Locate a date/time slot whose live capacity count has reached its limit (e.g., shown as 15/15 or similar). 3. Attempt to select that slot.
+  - Expected: The full slot is rendered in a distinct 'Full' state (e.g., red-highlighted) and is not selectable; the agent must choose a different slot with remaining capacity (e.g., one showing '13/15') to proceed with booking.
+- **TC-FWA-183** [Negative] Confirmed appointment booking cannot be cancelled once booked (Priority: High)
+  - Covers: REQ-138 | Journey: UJ-065
+  - Preconditions: An FWA Outdoor B2B2C order is at the Book Appointment step and a scheduled slot is being confirmed.
+  - Steps: 1. Select a date and time slot in the Book Appointment calendar (e.g., 8AM-11AM). 2. Click Submit. 3. Observe the native browser confirmation dialog: 'WARNING: Appointment once booked cannot be cancelled. Click Ok to continue or Cancel to select another appointment.' 4. Click OK to confirm the booking.
+  - Expected: The appointment is booked (success dialog with Appointment ID returned, e.g., 'Appointment ID is 120903') and no cancel/undo action for that specific appointment is available afterward in the journey; the only way to change it is via the separate technician-side 'Move' reassignment action, not a customer/agent cancellation.
+- **TC-FWA-184** [Negative] SIM Serial validation blocks progression on SIM Card not existing in UIM inventory (Priority: High)
+  - Covers: REQ-171 | Journey: UJ-059
+  - Preconditions: Agent is at the SIM Serial step of a New FWA order with a Number Selection already saved.
+  - Steps: 1. Enter a SIM Serial value that is correctly formatted (19 digits) but not present in Oracle UIM (e.g., '8842702800801190300'). 2. Enter a valid-format CPE Serial Number. 3. Click Continue.
+  - Expected: A native alert is returned: 'SIM Card does not exist in UIM(SBL-EXL-00151)', and the wizard does not advance past the SIM Serial step until a valid, existing SIM is entered.
+- **TC-FWA-185** [Negative] SIM Serial validation blocks progression when SIM already assigned in UIM (Priority: High)
+  - Covers: REQ-171 | Journey: UJ-059
+  - Preconditions: Agent is at the SIM Serial step; the SIM serial to be entered is already assigned to another account in UIM.
+  - Steps: 1. Enter SIM Serial '8942702800801190300' (already assigned per UIM) with a valid, format-checked CPE Serial Number. 2. Click Continue.
+  - Expected: A native alert is returned: 'SIM Card already assigned in UIM(SBL-EXL-00151)', and Continue does not advance the wizard.
+- **TC-FWA-186** [Negative] CPE serial validation surfaces backend exception when CPE is not free in UIM (Priority: High)
+  - Covers: REQ-171, REQ-172 | Journey: UJ-059
+  - Preconditions: Agent is at the SIM Serial step with number selection saved.
+  - Steps: 1. Enter a SIM Serial and a CPE Serial Number for a CPE that is not free/available in UIM (e.g., CPE 'S180P18055025'). 2. Click Continue and wait through the 'Validating Order, please wait...' state.
+  - Expected: A native alert exposes the backend exception chain: "Error invoking service 'VFQA Error Handling Service', method 'HandleException' at step 'Error Handling'.(SBL-BPR-00162) CPE Serial Number S180P18055025 is not free in UIM(SBL-EXL-00151) Please Contact the System Administrator with Reference # 1-DNODWJU.(SBL-EXL-00151)" — including two distinct service/error codes and a support reference number in the format '1-<alphanumeric>', which the user can quote to support.
+- **TC-FWA-187** [Negative] Backend exception during CPE validation surfaces error/service codes and a support reference number (Priority: Medium)
+  - Covers: REQ-172 | Journey: UJ-059
+  - Preconditions: A backend UIM validation failure condition is triggered (CPE not free in UIM) during SIM Serial step submission.
+  - Steps: 1. Trigger the 'CPE Serial Number ... is not free in UIM' backend condition as in the negative SIM/CPE scenario. 2. Read the returned error dialog in full.
+  - Expected: The error dialog displayed to the user includes: (a) the invoking service/method/step name, (b) a specific error/service code (e.g., SBL-BPR-00162 and SBL-EXL-00151), and (c) an instruction to contact the System Administrator with a support Reference # in a consistent format (e.g., '1-DNODWJU') — giving the user enough information to escalate the failure without needing developer access to logs.
+- **TC-FWA-188** [Negative] Address step in Business/Static Data FWA Postpaid journey offers a Skip Address escape hatch on blank fields (Priority: Medium)
+  - Covers: REQ-170 | Journey: UJ-036
+  - Preconditions: Agent is on the Address step of the 'New FWA'/'FWA Postpaid Business' (Static Data) journey variant, not the Tablet journey, with all address fields blank.
+  - Steps: 1. Leave Zone, Street No., Building No., Apt/Flat/Unit, and Area blank. 2. Click Save Address.
+  - Expected: The validation modal in this journey variant includes an explicit alternative: 'Please enter required fields Zone, Street No., Building No., Apt/Flat/Unit, Area or click Skip Address to proceed without Saving Address.' Confirms this Business/Static Data variant offers a Skip Address option not present in the New FWA Tablet journey's equivalent dialog.
+
+**Validation scenarios:**
+
+- **TC-FWA-189** [Validation] CAF generation offers Digital, Manual, and Touch Screen form type options consistently (Priority: Medium)
+  - Covers: REQ-174 | Journey: UJ-060
+  - Preconditions: Agent has reached the CAF generation step of a New FWA order.
+  - Steps: 1. At the CAF generation control, open the form-type dropdown/split-button. 2. Confirm the available options: CAF-Digital, CAF-Manual, CAF-Touch Screen. 3. Select CAF-Digital and confirm the bilingual EN/AR CAF preview renders with e-signature capture. 4. Repeat channel selection on a Postpaid and an MNP Postpaid order to confirm the same option set appears.
+  - Expected: All three form-type options (CAF-Digital, CAF-Manual, CAF-Touch Screen) are present and selectable on the FWA CAF generation control, and the same option set is available consistently across FWA, Postpaid, and MNP Postpaid journeys.
+- **TC-FWA-190** [Validation] B2B2C FWA order requires Proof of Employment, CAF, and Supplementary Form before Continue is enabled (Priority: High)
+  - Covers: REQ-182 | Journey: UJ-062
+  - Preconditions: Agent is on Step 8 (CAF & Additional Attachments) of a B2B2C FWA Indoor or Outdoor Tablet order, with a sponsoring Company Name already linked to the contact.
+  - Steps: 1. Reach Step 8 with none of the three required documents attached. 2. Click Continue and observe the error. 3. Attach only the Supplementary Form; click Continue and observe the next error. 4. Attach only Proof of Employment (leaving CAF unsigned); click Continue. 5. Sign and attach the CAF, then attach the remaining Proof of Employment and Supplementary Form; click Continue.
+  - Expected: Continue is blocked with a specific inline error naming each missing required document in turn (e.g., 'Error: Please select Supplementary Form before continuing.' then 'Error: Please select Proof of Employment before continuing.'), each validated individually; only once Proof of Employment, CAF, and Supplementary Form are all attached does Continue become enabled and the wizard advance to Step 9.
+- **TC-FWA-191** [Validation] Address step rejects Save when required fields are blank (Priority: High)
+  - Covers: REQ-170 | Journey: UJ-059
+  - Preconditions: Agent is on the Address step (Step 2) of a New FWA order with Zone, Street No., Building No., Apt/Flat/Unit, and Area all left blank.
+  - Steps: 1. Leave all Address fields blank. 2. Click Save Address.
+  - Expected: A modal dialog appears: 'Please enter required fields Zone, Street No., Building No., Apt/Flat/Unit.,Area' with an OK button; the Address step is not marked Saved and the wizard does not advance until all listed required fields are populated.
+- **TC-FWA-192** [Validation] Address step rejects non-numeric or over-length Building No. and Street No. (Priority: High)
+  - Covers: REQ-170 | Journey: UJ-059
+  - Preconditions: Agent is on the Address step with Zone and Area populated.
+  - Steps: 1. Enter Building No. as '67K' (contains a letter) with valid Zone/Street No./Apt/Area, and attempt to save. 2. Correct Building No. to a valid numeric value, then enter Street No. as '5666666' (7 numeric characters) and attempt to save.
+  - Expected: Step 1 triggers a native alert: 'Please enter an numeric Building No. of 5 characters or less.' Step 2 triggers a corresponding alert: 'Please enter an numeric Street No. of 5 characters or less.' In both cases the Address is not saved until the field passes the numeric/length rule.
+- **TC-FWA-193** [Validation] Technician inventory import from Excel populates Oracle Field Service resource inventory with success status (Priority: Medium)
+  - Covers: REQ-179 | Journey: UJ-066
+  - Preconditions: A prepared inventory workbook (e.g., 'VFQ Inventory Loading - Master...xlsx') exists with Inventory Type, Part Number, Serial No, Quantity columns for 5G Indoor/Outdoor CPE and SIM.
+  - Steps: 1. Open the Field Service Import 'Resource Inventory Import' panel and confirm Instance Name, User Name, and Resource Id (e.g., ABATS) are configured. 2. Click 'Get Quantity' to validate current inventory counts. 3. Click Import to load the Excel-sourced rows into Oracle Field Service.
+  - Expected: Import Status returns 'Success' for both Get Quantity and Import steps, with counts reflecting Created/Updated/Deleted/Item failed (e.g., Created: 3, Updated: 0, Deleted: 0, Item failed: 0), and the imported serials become available for the Non-Serialized Inventory Transfer step to the technician.
+
+**Workflow scenarios:**
+
+- **TC-FWA-194** [Workflow] FWA Outdoor WFM appointment booking dispatches technician via Oracle Field Service Cloud with Appointment ID (Priority: High)
+  - Covers: REQ-164 | Journey: UJ-037
+  - Preconditions: Sales order line item (FMS Service Bundle) exists and is unbooked; OFSC integration is up.
+  - Steps: 1. On the Sales Order Line Items tab, select the FMS Service Bundle line and click 'Book Appointment'. 2. In the Book Appointments dialog, choose an available date/time slot from the calendar grid. 3. Confirm the booking via Submit. 4. Observe the confirmation dialog and the resulting appointment record on the order line.
+  - Expected: System returns a success dialog of the form 'Appointment has been successfully booked. Appointment Id is <id>', and the order line's appointment detail table populates Appointment Number, Technician ID (resource), Status (pending), Appointment Date, Channel, and Appointment ID — confirming OFSC generated and tied an Appointment ID to a technician resource.
+- **TC-FWA-195** [Workflow] Technician completes Serial Number Check before Service Activation, then Install Inventory (SNC) unlocks only after Success (Priority: High)
+  - Covers: REQ-166 | Journey: UJ-066
+  - Preconditions: Technician has started the Installation activity in the Oracle Field Service app; CPE Indoor, CPE Outdoor, and SIM Card inventory has been transferred to the technician.
+  - Steps: 1. From the activity's overflow ('...') menu, select 'Serial Number Check - Dual Play'. 2. Scan/enter CPE Indoor serial, CPE Outdoor serial, and SIM Card serial; confirm each shows a green check. 3. Click Submit; observe 'Sending activation request.' status. 4. Wait for the 'Service activation request submitted successfully' confirmation. 5. Refresh/reopen the activity and check the Service Activation Status. 6. Attempt to access 'Install Inventory (SNC)' before Success is shown, then again after Success is shown.
+  - Expected: The activation request is submitted only after all three serials pass the Serial Number Check; 'Install Inventory (SNC)' is not actionable/visible as an enabled next step until Service Activation Status reads 'Success' (thumbs-up indicator), confirming SNC install sequencing depends on a prior Success status.
+- **TC-FWA-196** [Workflow] Field technician captures customer signature at Installation Checklist and again at End of Activity (Priority: High)
+  - Covers: REQ-167 | Journey: UJ-066
+  - Preconditions: Technician has completed Serial Number Check and received Service Activation Status Success.
+  - Steps: 1. Open Installation Checklist form and enter speed test results, Wi-Fi 2.5G/5G usernames, landline call timestamp, Optical Power Meter Reading, Splitter Free Port Details. 2. Check all customer-briefing confirmation checkboxes (package details, Wi-Fi frequency guidance, CPE/STB restart instructions, My Vodafone app download, mesh configuration). 3. Attach required screenshots/photos. 4. Capture a customer signature on the Installation Checklist signature pad and Submit. 5. Proceed to End Activity; select Customer Available status and capture the customer signature again. 6. Submit End Activity.
+  - Expected: Both signature captures succeed and are stored against the activity; the activity only becomes eligible to 'End' after the Installation Checklist (with its signature) is submitted along with Assess Activity and Device Activation; the End Activity form requires its own signature capture before the technician can close the visit.
+- **TC-FWA-197** [Workflow] Guided FWA Tablet wizard completes all steps from Contact through Activity to order submission (Priority: High)
+  - Covers: REQ-177 | Journey: UJ-062
+  - Preconditions: Agent logged into Open UI Tablet; customer has valid Qatari ID.
+  - Steps: 1. Step 1 Contact: scan/enter Qatari ID, confirm auto-populated details, upload ID Front/Back. 2. Step 2 Address: enter Zone, Street No., Building No., Apt/Flat/Unit, Area and Save Address. 3. Step 3 Plan: select a GigaHome FWA plan tile and confirm bundle components. 4. Step 4 Addon & Discount: review/select add-ons and discounts. 5. Step 5 Number Selection: reserve a number. 6. Step 6 SIM Serial: enter valid SIM and CPE serials. 7. Step 7 Book Appointment. 8. Step 8 CAF & Additional Attachments: generate, sign, and attach CAF and required documents. 9. Step 9 Activity: enter a comment and click Save And Finish.
+  - Expected: Each step shows a 'Saved!' state upon completion; on Step 9 submission, a confirmation is returned with a generated activation/order number, and the wizard reaches its terminal Finish Process screen — confirming the full multi-step guided journey from Contact through Activity completes successfully.
+- **TC-FWA-198** [Workflow] CPE attribute modification generates a Modification-type order with attribute-level audit trail (Priority: Medium)
+  - Covers: REQ-169 | Journey: UJ-058
+  - Preconditions: CSR has initiated a CPE serial modification via Account 360 Modify action on an installed FWA Indoor asset.
+  - Steps: 1. Submit the CPE serial modification (as in the Modify CPE journey) and note the generated order number. 2. Open the new order's Line Items > Attributes tab. 3. Inspect the Line Item Attributes grid for the affected line (e.g., FMS CPE Indoor IDU).
+  - Expected: The order is created with Order Type 'Modification' (not Activation); the Line Item Attributes grid lists each attribute (Name/Value/Action/Description/Data Type) for the changed line, providing an attribute-level audit of what was changed (e.g., Indoor Unit Serial Number old vs new value, CPE Model, MAC Address) rather than only an order-level change log.
+- **TC-FWA-199** [Workflow] CPE/SIM inventory transferred one item at a time from warehouse to technician via OFSC before installation (Priority: Medium)
+  - Covers: REQ-165 | Journey: UJ-066
+  - Preconditions: Warehouse/resource pool (e.g., ABATS) holds CPE Indoor, CPE Outdoor, and SIM inventory items for a booked appointment; a technician (e.g., Syed Irfan) has been assigned/moved to the activity.
+  - Steps: 1. Open Inventory Management > Non-Serialized Inventory Transfer, with 'Transferring From: ABATS'. 2. Search for the CPE Outdoor part and click 'Add To Transfer List'. 3. Repeat individually for the CPE Indoor part, then for the SIM/test item — adding each one at a time. 4. Open the Transfer List tab and confirm all items are listed with Current Owner ABATS and Transfer To the assigned technician. 5. Click Start Transfer.
+  - Expected: Each item is added to the transfer list individually (not as a bulk multi-select), the Transfer List accurately totals the item count, and upon Start Transfer a completion dialog confirms 'Inventory transfer has been completed' — after which the items are attributable to the technician for the Serial Number Check step.
+- **TC-FWA-200** [Workflow] Outdoor-to-indoor fallback applies an in-place update to the existing order instead of cancellation (Priority: Medium)
+  - Covers: REQ-092 | Journey: UJ-057
+  - Preconditions: An FWA order has been created with Outdoor CPE/plan selection but site conditions require conversion to an Indoor configuration.
+  - Steps: 1. With an active, non-completed Outdoor FWA sales order, identify the need to fall back to an Indoor configuration (e.g., outdoor install not feasible at the site). 2. Instead of cancelling the order, update the existing order's plan/CPE line items in place (change FMS CPE Bundle sub-type from ODU/Outdoor IDU to Indoor IDU, and swap the plan line to the Indoor FWA promotion). 3. Resubmit/validate the updated order.
+  - Expected: The same order record is retained and updated (order number and Contact/Account linkage unchanged) with the CPE/plan line items now reflecting the Indoor configuration, rather than the order being cancelled and a brand-new order created from scratch.
+- **TC-FWA-201** [Workflow] Pre-selected next available appointment slot is bounded by the order's SLA cluster (Priority: Medium)
+  - Covers: REQ-086 | Journey: UJ-066
+  - Preconditions: Agent reaches the Book Appointment step for a new FWA order tied to a specific SLA/service cluster.
+  - Steps: 1. Open the Book Appointment calendar for the order. 2. Observe which date/time slot is pre-highlighted/pre-selected by default when the calendar first loads. 3. Confirm the pre-selected date falls within the expected SLA window for the order's cluster (i.e., not an arbitrary far-future date, and not a date/slot already marked Full).
+  - Expected: The calendar defaults to (pre-selects/highlights) the next available date and slot that both has remaining capacity and falls within the SLA cluster's allowed booking window, rather than requiring the agent to manually hunt for a compliant slot.
+- **TC-FWA-202** [Workflow] Manager Approve action on an FWA order with 2+ postpaid connections advances the order to Complete (Priority: High)
+  - Covers: REQ-138 | Journey: UJ-063
+  - Preconditions: Agent has submitted a New FWA Tablet order for a customer flagged with 2+ existing postpaid connections; order status is 'Submitted for Approval' in the TM SR Queue.
+  - Steps: 1. Log in as Test Manager and open Order Approval > TM SR Queue View > Order Activities Queue. 2. Assign the pending FWA order activity to self. 3. Review the Attachments tab (Qatari ID Front/Back, CAF, Supplementary Form) and Order Details tab. 4. Click Approve, confirm the verification statement in the Approve Order dialog, enter a Comments value, and click Submit.
+  - Expected: The Activities History records Order Approval = 'Approved' and Status = 'Closed' for that activity; the underlying Sales Order subsequently reaches Status 'Complete' / Fulfillment Status 'Complete', and the FWA service line items appear as Active Installed Assets on the customer's account.
+- **TC-FWA-203** [Workflow] Manager Reject - Correction sends an approval-pending FWA order back to the agent (Priority: Medium)
+  - Covers: REQ-138 | Journey: UJ-063
+  - Preconditions: An FWA order is in 'Submitted for Approval' status in the manager's Order Activities Queue.
+  - Steps: 1. Log in as Test Manager, open the order's Order Details tab. 2. Click 'Reject - Correction' instead of Approve. 3. Enter a rejection reason/comment (e.g., 'ID image not clear'). 4. Submit the rejection.
+  - Expected: Activities History logs Order Approval = 'Rejected' with the entered comment; the order is returned toward the originating agent for correction rather than being dropped outright, distinguishing this path from 'Reject - Drop Order'.
+- **TC-FWA-204** [Workflow] Tablet FWA Indoor order without 2+ connection approval gate still completes with Approved unchecked (Priority: Medium)
+  - Covers: REQ-138 | Journey: UJ-064
+  - Preconditions: Customer has 2+ existing postpaid connections; agent proceeds via the 'Without Approval' FWA Indoor Tablet journey variant.
+  - Steps: 1. Complete Contact step; observe the Connection Details advisory ('Customer already has 2 or more Post-paid connections. Please check the credit policy or seek credit control approval before proceeding'). 2. Click Continue without triggering any approval submission. 3. Complete remaining wizard steps (Address, Plan, Addon, Number, SIM Serial, Book Appointment, CAF) and Save And Finish.
+  - Expected: No approval queue entry, approval request, or manager sign-off screen appears at any point; the resulting Sales Order reaches Status Complete / Fulfillment Status Complete with the order-level 'Approved' checkbox left unchecked and 'Approved By' blank — confirming the advisory is informational only in this journey variant.
+
+**Persona scenarios:**
+
+- **TC-FWA-205** [Persona] CSR modifies an installed CPE serial number via Account 360 Modify action (Priority: Medium)
+  - Covers: REQ-168 | Journey: UJ-058
+  - Preconditions: An FWA Indoor account has a completed order with an installed FMS CPE Indoor IDU asset; agent (CSR) is logged in with Account 360 access.
+  - Steps: 1. Open the customer's Account 360 view and navigate to Installed Assets. 2. Select the installed FMS CPE Bundle > FMS CPE Indoor IDU asset. 3. Click the Modify action. 4. Enter the new/replacement Indoor Unit Serial Number in the CPE attribute field. 5. Confirm/submit the modification.
+  - Expected: A new order of Type 'Modification' is generated against the account (Status Pending, tied to the same Billing Profile/MSISDN); on completion, the Line Item Attributes grid for the FMS CPE Indoor IDU line reflects the updated serial number, distinct from the original activation order.
+- **TC-FWA-206** [Persona] Existing mobile customer adds a new FWA line via Guided-Wizard Desktop journey (Priority: Medium)
+  - Covers: REQ-173 | Journey: UJ-060
+  - Preconditions: Customer already has an existing active mobile (Postpaid) account/contact in CRM.
+  - Steps: 1. Look up the existing mobile customer by ID/contact search on the Desktop Guided Wizard FWA journey. 2. Confirm the wizard recognizes the existing contact/account rather than requiring a new contact creation. 3. Proceed through Address, Plan (FWA Indoor), Number Selection, SIM Serial, Book Appointment, and CAF steps to add the new FWA line onto the existing customer's account. 4. Submit the order.
+  - Expected: The FWA line is added as a new service against the customer's existing account (visible as an additional Installed Asset/line alongside the pre-existing mobile plans), rather than creating a duplicate customer/account record; the Connection Details check reflects the customer's pre-existing Postpaid connection count.
+- **TC-FWA-207** [Persona] Vanilla desktop agent completes full FWA activation via manual Contact->Account->Sales Order->Catalog->Line Items->Numbers->CPE Config path (Priority: Medium)
+  - Covers: REQ-162 | Journey: UJ-056
+  - Preconditions: Agent has Open UI Desktop access with Sales Order and Catalog module permissions (non-wizard/Vanilla path).
+  - Steps: 1. As the agent, manually create the Contact, then the Account (no guided wizard). 2. Manually open Account > Orders and confirm/enter the Sales Order. 3. Manually browse Catalog to select the FWA promotion. 4. Manually review/expand Line Items. 5. Manually reserve a Number via the Numbers tab. 6. Manually configure the FMS CPE Bundle sub-type and enter serials. 7. Submit.
+  - Expected: The agent is able to complete the entire FWA activation using only manual, screen-by-screen navigation (no guided-journey wizard tiles), reaching order Status Complete — confirming the Vanilla path is a fully viable, independent alternative to the guided wizard for this persona.
+- **TC-FWA-208** [Persona] Manager role is restricted to Home and Order Approval tiles only (Priority: Low)
+  - Covers: REQ-138 | Journey: UJ-063
+  - Preconditions: A Test Manager account exists distinct from the sales-agent (e.g., Hemanth Kumar) account.
+  - Steps: 1. Log in as Test Manager. 2. Inspect the home screen's available app tiles/menu.
+  - Expected: The Test Manager's menu is restricted to Home and Order Approval only, in contrast to the full sales-agent tile grid (Contacts, Sales Order, New FWA Tablet, etc.) — confirming the approval persona is scoped to a narrower, role-specific UI rather than sharing the agent's full menu.
+
+### Enterprise / IoT / B2B (55 scenarios)
+
+**Positive scenarios:**
+
+- **TC-ENT-209** [Positive] Enterprise account manager submits bulk adjustment via DXP portal using fixed template (Priority: High)
+  - Covers: REQ-003
+  - Preconditions: Agent has role-based access to the DXP Bulk Adjustment Portal; a fixed adjustment template file is available; target billing profile exists in BRM.
+  - Steps: 1. Log into DXP as an authorised billing/finance role. 2. Open Bulk Adjustment Portal. 3. Filter by billing profile. 4. Download/select the fixed adjustment template and populate multi-bucket adjustment rows with unit of measurement and free-text comment per row. 5. Upload the completed template. 6. Submit for processing.
+  - Expected: Portal accepts the upload, shows a request status (e.g. Submitted/In Progress), processes rows against BRM, and on completion displays a per-row success/failure report with default sort/filter applied.
+- **TC-ENT-210** [Positive] Account-level product migrated to a generic service carries a Service ID (Priority: High)
+  - Covers: REQ-026
+  - Preconditions: An enterprise account currently has an account-level product (e.g. Microsoft licences, Starlink) without a Service ID, targeted for migration.
+  - Steps: 1. Identify the account-level product on the account. 2. Run/apply the migration to a generic service construct. 3. Verify the resulting service record.
+  - Expected: The product now sits under a generic service that carries a distinct Service ID, replacing the prior account-level-only representation, and the product remains billable/visible under that Service ID.
+- **TC-ENT-211** [Positive] Enterprise product ordered with a quarterly billing cycle bills correctly at the next quarter boundary (Priority: High)
+  - Covers: REQ-032
+  - Preconditions: An enterprise product/service supports selectable billing cycle frequency.
+  - Steps: 1. Create/configure an enterprise product on a billing profile. 2. Select Quarterly as the billing cycle. 3. Complete the order. 4. Verify the billing profile's cycle setting and the next scheduled bill date.
+  - Expected: The product is billed on a quarterly cycle (not the legacy monthly-only cycle), matching the selected frequency.
+- **TC-ENT-212** [Positive] Invoice PDF renders banner and table sections without overlap (Priority: Medium)
+  - Covers: REQ-035
+  - Preconditions: An enterprise invoice with multiple line items and page-level subtotals is generated as a PDF.
+  - Steps: 1. Generate an invoice PDF for an account with enough line items to span multiple pages. 2. Inspect the banner area and the line-item table on each page, especially page breaks.
+  - Expected: The banner does not overlap the table; each page shows correct page-level subtotals; layout remains legible across all pages.
+- **TC-ENT-213** [Positive] Large enterprise export above line-item threshold falls back to CSV/aggregated output (Priority: High)
+  - Covers: REQ-039
+  - Preconditions: An export data set for an enterprise account exceeds Excel's practical row limits (approaching the one-million line item ceiling) or the ~400k-line email-delivery threshold.
+  - Steps: 1. Trigger a large export (e.g. CDRs or invoice line items) for an account whose row count exceeds the defined threshold. 2. Observe output format and delivery method.
+  - Expected: System aggregates data or falls back to CSV instead of producing an Excel file that would exceed the one-million row limit, and respects the ~400k-line threshold for email delivery (e.g. via alternate delivery method) rather than failing silently.
+- **TC-ENT-214** [Positive] Large enterprise account page loads within acceptable time (Priority: High)
+  - Covers: REQ-034
+  - Preconditions: An enterprise account exists with a large number of connections/sub-accounts and billing history.
+  - Steps: 1. Open the Account 360 / billing profile page for a large enterprise account. 2. Open the CDR page for the same account. 3. Measure page load/response time.
+  - Expected: Pages load without hanging or timing out, reflecting the performance improvement requirement for large enterprise account, billing profile, and CDR pages (compared to the documented current-state hang/slowness).
+- **TC-ENT-215** [Positive] Contact creation captures separate personal and corporate email fields (Priority: Medium)
+  - Covers: REQ-016
+  - Preconditions: Contact creation/edit form is accessible.
+  - Steps: 1. Open the contact creation form. 2. Enter a value in the Personal Email field. 3. Enter a different value in the Corporate Email field. 4. Save the contact.
+  - Expected: Both email values are saved independently against their respective fields, with no conflict or overwrite between personal and corporate email.
+- **TC-ENT-216** [Positive] Adjustment reason remains retrievable after the BRM 6-month purge window (Priority: High)
+  - Covers: REQ-004
+  - Preconditions: An adjustment with a recorded reason was made more than 6 months ago (past BRM's '6 plus 1' purge policy).
+  - Steps: 1. Locate an adjustment older than 6 months on an account. 2. Attempt to view its adjustment reason.
+  - Expected: The adjustment reason remains available/retrievable (retained outside or independent of BRM's purge), rather than being lost as it currently is in the legacy behaviour.
+- **TC-ENT-217** [Positive] Connection count is visible on both the Siebel/CRM account view and the invoice (Priority: Medium)
+  - Covers: REQ-024
+  - Preconditions: An enterprise account has multiple active connections.
+  - Steps: 1. Open the account view in the CRM/Siebel screen and locate the connection count. 2. Generate the invoice for the same account and locate the connection count on it.
+  - Expected: The number of connections is visibly displayed both on the CRM account screen and on the generated invoice, addressing the previously missing visibility.
+- **TC-ENT-218** [Positive] Enterprise number reservation locks the number against concurrent selection (Priority: High)
+  - Covers: REQ-031
+  - Preconditions: A pool of available enterprise numbers exists.
+  - Steps: 1. Reserve a specific number for an enterprise order. 2. Attempt to reserve/select the same number for a second, different order.
+  - Expected: The first reservation locks the number; the second attempt is blocked or shown as unavailable while the lock is active.
+- **TC-ENT-219** [Positive] PDF and Excel invoice exports present line items in matching order (Priority: Medium)
+  - Covers: REQ-037
+  - Preconditions: An invoice with multiple line items is generated in both PDF and Excel formats.
+  - Steps: 1. Generate the invoice as PDF. 2. Generate the same invoice as Excel. 3. Compare line-item ordering between the two outputs.
+  - Expected: Line items appear in the same order in both PDF and Excel exports.
+- **TC-ENT-220** [Positive] Licence line-item quantity auto-explodes to billing without manual price adjustment (Priority: High)
+  - Covers: REQ-025
+  - Preconditions: An enterprise account has a licence product (e.g. Microsoft licences) ordered with a quantity greater than 1.
+  - Steps: 1. Place/modify an order for the licence product specifying quantity (e.g. 10 licences). 2. Allow the order to flow to billing.
+  - Expected: Billing reflects the full quantity (auto-exploded), producing correct billed amount for all units without requiring the agent to manually adjust price/line items for the quantity.
+- **TC-ENT-221** [Positive] Bulk number reservation template reserves multiple DAPN numbers in one submission (Priority: High)
+  - Covers: REQ-023
+  - Preconditions: A bulk number reservation template for DAPN is available, replacing the one-by-one manual reservation process.
+  - Steps: 1. Open the bulk number reservation template. 2. Populate multiple DAPN number requests in one file. 3. Submit the template.
+  - Expected: Multiple DAPN numbers are reserved in a single submission rather than requiring the numbers to be reserved one by one from the mobility-only category.
+- **TC-ENT-222** [Positive] Invoice line items are grouped by Service ID/Circuit ID with associated one-off charges (Priority: Medium)
+  - Covers: REQ-036
+  - Preconditions: An enterprise invoice contains recurring charges under multiple Service IDs/Circuit IDs plus one-off charges linked to a circuit.
+  - Steps: 1. Generate the invoice. 2. Inspect line-item grouping.
+  - Expected: Line items are grouped under their Service ID/Circuit ID, and one-off charges appear linked to the correct circuit rather than listed disconnected from their service grouping.
+- **TC-ENT-223** [Positive] Static IP pool search returns available IPs matching search criteria (Priority: High)
+  - Covers: REQ-022
+  - Preconditions: A static IP pool exists with a mix of allocated and available addresses.
+  - Steps: 1. Open the static IP pool search feature. 2. Enter search criteria (e.g. subnet/range or availability status). 3. Execute search.
+  - Expected: Search returns matching available static IPs from the pool rather than requiring manual lookup, resolving the documented 'search does not work' pain point.
+- **TC-ENT-224** [Positive] Discount line items display as prorated and month-in-advance components against their charge (Priority: Medium)
+  - Covers: REQ-038
+  - Preconditions: An invoice includes a discount applied to a recurring charge.
+  - Steps: 1. Generate an invoice for an account with an active discount. 2. Inspect the discount presentation on the invoice.
+  - Expected: The discount appears as two distinct line items (prorated portion and month-in-advance portion), each shown against the specific charge it applies to, rather than as a single ambiguous discount line.
+- **TC-ENT-225** [Positive] Enterprise Order Journey (Vanilla Direct) completes from CR number to a single-location order (Priority: High)
+  - Covers: REQ-014, REQ-028 | Journey: UJ-007
+  - Preconditions: CR number search has been completed and the enterprise order form template is available; care form/CIO copy/oversight copy and site survey are on hand.
+  - Steps: 1. Start the enterprise order journey from the CR number. 2. Provide required prerequisite documents (care form, CIO copy, oversight copy, site survey). 3. Build the order for a single location. 4. Submit the order using the standard order form template.
+  - Expected: The order is created against the single location tied to the CR number and moves forward for fulfilment handling, consistent with the vanilla direct enterprise order journey.
+- **TC-ENT-226** [Positive] Push to Talk provisioning completes from pricing approval through tenant/licence and back-end activation (Priority: Medium)
+  - Covers: REQ-026 | Journey: UJ-009
+  - Preconditions: PTT lead has passed lead-to-credit-control front end; device and SIM pricing approval, IT/security approvals are obtainable.
+  - Steps: 1. Complete pricing approval for device and SIM. 2. Obtain IT and security approvals. 3. Provision tenant account and licence. 4. Raise the service desk SR for back-end/network activation.
+  - Expected: PTT service is provisioned end to end (tenant, licence, back-end activation) and modelled as a service under mobility, consistent with the documented target of moving account-level products like PTT to generic services with Service IDs.
+- **TC-ENT-227** [Positive] Enterprise/IoT Order-to-Billing flow reaches billing after successful delivery and client acceptance (Priority: High)
+  - Covers: REQ-026 | Journey: UJ-006
+  - Preconditions: An enterprise/IoT order (e.g. Fleet Management, DAPN, Microsoft licences) has been raised and accepted by Fulfilment, ETS, EBU, and SBN.
+  - Steps: 1. Raise the order following account manager request and EBU PM review. 2. Confirm acceptance by Fulfilment, ETS, EBU, and SBN. 3. Complete physical delivery (by SBN) and provisioning. 4. Confirm client acceptance. 5. Trigger billing (service activation for charging).
+  - Expected: The order transitions through acceptance, delivery/provisioning, and client acceptance into billing activation, matching the documented end-to-end flow.
+
+**Negative scenarios:**
+
+- **TC-ENT-228** [Negative] Bulk adjustment upload with failed rows produces a re-upload-ready failure report (Priority: High)
+  - Covers: REQ-003
+  - Preconditions: A bulk adjustment template contains at least one row with an invalid billing profile or bucket reference.
+  - Steps: 1. Submit a bulk adjustment file containing one valid row and one row referencing a non-existent billing profile. 2. Observe processing result.
+  - Expected: The valid row is processed successfully; the invalid row is rejected and reported in a failure report that isolates only the failed row(s) for correction and re-upload, without blocking the successful rows.
+- **TC-ENT-229** [Negative] Structured privilege identifier field rejects a value not in the defined list (Priority: Medium)
+  - Covers: REQ-017
+  - Preconditions: Structured privilege identifier list is configured with a fixed set of values.
+  - Steps: 1. Open the privilege identifier field on the contact/authorised-person form. 2. Attempt to submit a value outside the defined list (e.g. via direct API payload or bypass of the picker).
+  - Expected: System rejects the out-of-list value with a validation error and does not save the record.
+- **TC-ENT-230** [Negative] Provisioning a migrated product without a Service ID is rejected (Priority: Medium)
+  - Covers: REQ-026
+  - Preconditions: Generic service model with Service IDs is enforced for the migrated product types (e.g. PTT, Microsoft licences).
+  - Steps: 1. Attempt to create/attach one of the target products directly at account level without assigning a Service ID.
+  - Expected: System blocks the action or requires a Service ID to be assigned before the product can be provisioned.
+- **TC-ENT-231** [Negative] Agent declines override prompt and non-B2B2C journey is halted on a Special Management account (Priority: Medium)
+  - Covers: REQ-224
+  - Preconditions: Same as above: Special Management-tagged account, non-B2B2C journey initiated.
+  - Steps: 1. Start a non-B2B2C order journey on a Special Management account. 2. When the override confirmation prompt appears, decline/cancel it.
+  - Expected: The non-B2B2C journey does not proceed; the agent is returned to the account/journey selection without the order being created.
+- **TC-ENT-232** [Negative] Request submitted by a chooser after off-boarding is rejected (Priority: Medium)
+  - Covers: REQ-018
+  - Preconditions: Chooser off-boarding has been completed for a given contact per the above workflow.
+  - Steps: 1. Using the off-boarded individual's registered email, attempt to submit a chooser-only request (e.g. an account change request).
+  - Expected: System rejects the request or does not treat it as an authorised chooser request, since the off-boarding process has revoked that status.
+- **TC-ENT-233** [Negative] CR-number search returns an existing match and prevents duplicate account creation (Priority: High)
+  - Covers: REQ-014
+  - Preconditions: A CR number already exists on an existing parent account.
+  - Steps: 1. Search for a CR number that already exists in the system during new account creation. 2. Observe system behaviour.
+  - Expected: System surfaces the existing account/CR match to the user rather than allowing a duplicate account to be silently created for the same CR number.
+- **TC-ENT-234** [Negative] Excel export request exceeding one-million line items is not delivered as raw uncapped Excel (Priority: Medium)
+  - Covers: REQ-039
+  - Preconditions: Requested export data set exceeds one million rows.
+  - Steps: 1. Request a full, unaggregated Excel export where the underlying data exceeds one million line items.
+  - Expected: System does not generate a single Excel file containing more rows than the supported limit; it aggregates, paginates, or offers CSV instead, and communicates the constraint to the user.
+- **TC-ENT-235** [Negative] Reserved and locked enterprise number cannot be double-booked (Priority: High)
+  - Covers: REQ-031
+  - Preconditions: A number has an active reservation lock from an in-progress order.
+  - Steps: 1. With the number still locked to Order A, attempt to complete Order B using the same number.
+  - Expected: Order B is rejected or forced to select a different number; the locked number is not released to another order without proper release/expiry of the original lock.
+- **TC-ENT-236** [Negative] Sub-account cannot be linked to more than one parent account (Priority: Medium)
+  - Covers: REQ-015
+  - Preconditions: A sub-account is already linked to Parent Account A.
+  - Steps: 1. Attempt to link the same sub-account to a different Parent Account B.
+  - Expected: System rejects the second linkage, preserving the one-parent-per-sub-account model.
+- **TC-ENT-237** [Negative] Licence quantity change without auto-explode does not silently under-bill (Priority: High)
+  - Covers: REQ-025
+  - Preconditions: An existing licence line item quantity is increased via a modification order.
+  - Steps: 1. Increase the licence quantity on an existing order (e.g. from 10 to 15). 2. Verify the resulting billing line item quantity/amount.
+  - Expected: Billing reflects the updated quantity (15) correctly; the system does not leave billing at the prior quantity or require a manual one-off price correction.
+- **TC-ENT-238** [Negative] Bulk DAPN number reservation template rejects duplicate/unavailable number entries (Priority: Medium)
+  - Covers: REQ-023
+  - Preconditions: Bulk DAPN template submitted contains a number already reserved/locked elsewhere.
+  - Steps: 1. Submit a bulk DAPN reservation template that includes a number currently locked to another order. 2. Observe result for that row.
+  - Expected: The conflicting row is rejected/flagged in the result report while other valid rows in the same batch succeed.
+- **TC-ENT-239** [Negative] Static IP pool search returns no results for fully allocated range without error (Priority: Low)
+  - Covers: REQ-022
+  - Preconditions: A subnet/range in the static IP pool is fully allocated.
+  - Steps: 1. Search the static IP pool for an available IP within a fully allocated range.
+  - Expected: Search completes and returns an empty/no-availability result rather than erroring or hanging.
+- **TC-ENT-240** [Negative] Bulk activation template row with invalid spend limit/price override is reported as failed without blocking the batch (Priority: Medium)
+  - Covers: REQ-020
+  - Preconditions: A bulk activation template submission includes one row with an out-of-policy price override.
+  - Steps: 1. Submit a bulk activation batch where one row has an invalid/out-of-policy price override. 2. Review the per-row result report.
+  - Expected: The invalid row is reported as failed with a reason; other valid rows in the same batch are processed and succeed.
+- **TC-ENT-241** [Negative] Enterprise Account Creation is blocked without business finance approval of credit limit (Priority: Medium)
+  - Covers: REQ-014 | Journey: UJ-004
+  - Preconditions: No default credit limit exists for enterprise accounts; business finance approval has not been obtained.
+  - Steps: 1. Attempt to complete enterprise account creation with a credit limit entered but without submitting/obtaining business finance approval.
+  - Expected: Account creation is blocked or left pending until business finance approval of the credit limit is granted.
+
+**Validation scenarios:**
+
+- **TC-ENT-242** [Validation] Job title field replaced by structured privilege identifier at contact/authorised-person creation (Priority: Medium)
+  - Covers: REQ-017
+  - Preconditions: An enterprise contact/authorised-person record is being created or edited.
+  - Steps: 1. Open the authorised person/contact form. 2. Locate the privilege field. 3. Attempt to enter unrestricted free text in the field. 4. Attempt to select from the structured privilege identifier list/values instead.
+  - Expected: Free-text entry is rejected or the field only accepts a value chosen from a defined structured list of privilege identifiers; the previous unrestricted free-text job title field is no longer available.
+- **TC-ENT-243** [Validation] Contact creation employer dropdown only accepts a configured B2B2C employer/company (Priority: Medium)
+  - Covers: REQ-154
+  - Preconditions: Employer/company list is populated with a known set of valid employer values.
+  - Steps: 1. Open contact creation form. 2. Open the employer/company dropdown. 3. Attempt to associate the contact without selecting an employer from the list (e.g. leave blank or attempt free text if the field allows it).
+  - Expected: Only values present in the configured dropdown list can be selected/associated; the association cannot be completed with an employer value outside the list.
+- **TC-ENT-244** [Validation] Billing cycle field accepts only Monthly, Quarterly, Half-Yearly, or Yearly for enterprise products (Priority: Medium)
+  - Covers: REQ-032
+  - Preconditions: Billing cycle selector is available on the enterprise product/billing profile setup.
+  - Steps: 1. Open the billing cycle selector for an enterprise product. 2. Enumerate available options.
+  - Expected: Only Monthly, Quarterly, Half-Yearly, and Yearly options are present/selectable; no other or invalid cycle value can be set.
+- **TC-ENT-245** [Validation] Account creation blocked until a mandatory CR-number search is performed (Priority: High)
+  - Covers: REQ-014
+  - Preconditions: User is starting a new enterprise account creation flow.
+  - Steps: 1. Attempt to proceed directly to account creation without first performing a CR-number search. 2. Perform the CR-number search as required. 3. Proceed to create the account.
+  - Expected: Account creation cannot proceed until the CR-number search step has been completed; once performed, account creation is unblocked and can continue.
+- **TC-ENT-246** [Validation] Corporate email field enforces a valid email format independent of personal email field (Priority: Medium)
+  - Covers: REQ-016
+  - Preconditions: Contact creation form with separate personal/corporate email fields is available.
+  - Steps: 1. Enter a syntactically invalid value (e.g. missing '@') into the Corporate Email field while leaving Personal Email valid. 2. Attempt to save.
+  - Expected: System flags the Corporate Email field specifically as invalid and blocks save until corrected, independent of the Personal Email field's validity.
+- **TC-ENT-247** [Validation] Sub-account linking to a parent account validates the relationship before saving (Priority: High)
+  - Covers: REQ-015
+  - Preconditions: A parent account exists; a candidate sub-account is being linked.
+  - Steps: 1. Attempt to link a sub-account to a parent account. 2. Attempt to link a sub-account that does not meet the linking rule (e.g. mismatched CR number/parent reference, or an account already linked elsewhere as applicable).
+  - Expected: A valid link is accepted and saved; an invalid link attempt is rejected with a validation message, rather than being silently accepted as in the current unvalidated state.
+- **TC-ENT-248** [Validation] CDR export is sorted by date/time and supports a number filter (Priority: Medium)
+  - Covers: REQ-037
+  - Preconditions: CDR data exists spanning multiple dates and multiple numbers on an account.
+  - Steps: 1. Open/export the CDR view. 2. Verify default sort order. 3. Apply a filter for a specific number.
+  - Expected: CDRs are sorted by date/time by default; applying the number filter restricts the CDR list/export to only that number's records.
+
+**Workflow scenarios:**
+
+- **TC-ENT-249** [Workflow] B2B2C tag applied at account creation persists to Account (Special Management) and linked Contact (Employer) (Priority: High)
+  - Covers: REQ-223, REQ-154
+  - Preconditions: Employer/company list is configured and selectable in the contact creation dropdown.
+  - Steps: 1. Create a new contact. 2. In the contact creation form, select a B2B2C employer/company from the dropdown list. 3. Save the contact and associate it with the resulting account. 4. Navigate to the Account record and check the Special Management field/flag. 5. Navigate to the Contact record and check the Employer field.
+  - Expected: The account is tagged as Special Management (B2B2C) and the contact's Employer field reflects the selected employer; both tags persist after save and on reopening the records.
+- **TC-ENT-250** [Workflow] Agent overrides Special Management account attempting a non-B2B2C journey via confirmation prompt (Priority: High)
+  - Covers: REQ-224
+  - Preconditions: An account is tagged Special Management (B2B2C) per REQ-223; agent starts a new order journey that is not the B2B2C journey on this account (e.g. a standard New Postpaid order).
+  - Steps: 1. Open the Special Management-tagged account. 2. Start a non-B2B2C order journey (e.g. New Postpaid) on that account. 3. Observe the system prompt. 4. Confirm the override in the prompt and continue.
+  - Expected: System displays an override confirmation prompt before allowing the non-B2B2C journey to proceed on a Special Management account; confirming allows the journey to continue (e.g. order proceeds, potentially routed for credit-control/approval as applicable).
+- **TC-ENT-251** [Workflow] Chooser off-boarding removes a departed employee's request privileges end to end (Priority: High)
+  - Covers: REQ-018
+  - Preconditions: An enterprise account has a registered chooser (authorised person) on file; the chooser has left the company.
+  - Steps: 1. Initiate the chooser off-boarding process for the departed individual on the account. 2. Complete the defined off-boarding steps (e.g. revoke authorised-person/chooser flag, remove Web Self-Care access). 3. Attempt to submit a new request using the off-boarded chooser's registered email.
+  - Expected: The off-boarding process completes and revokes the individual's chooser privileges; subsequent requests from the off-boarded chooser's email are no longer accepted as coming from an authorised chooser.
+- **TC-ENT-252** [Workflow] Order form template is created, standardised, and shared for enterprise order intake (Priority: Medium)
+  - Covers: REQ-028
+  - Preconditions: A standardised order form template has been defined for enterprise orders.
+  - Steps: 1. Access the standardised order form template. 2. Complete and submit it as part of the enterprise order intake (per the Enterprise Sales-to-Fulfilment Handover journey). 3. Share/forward the template to the next step (fulfilment) as documented in the handover process.
+  - Expected: The same standardised template structure is used and successfully carried through the handover from sales to fulfilment, replacing ad hoc/inconsistent order forms.
+- **TC-ENT-253** [Workflow] Standardised bulk activation template on DSP processes mixed plans/discounts via Oracle Bulk Utility API (Priority: High)
+  - Covers: REQ-020
+  - Preconditions: DSP front end is integrated with the new Oracle bulk utility API; a bulk activation template supports varying plans, spend limits, discounts, and price overrides across accounts/billing profiles within a service.
+  - Steps: 1. Open the standardised bulk activation template on DSP. 2. Populate rows with differing plans, spend limits, and price overrides across multiple accounts/billing profiles. 3. Submit for activation, modification, or deletion as applicable. 4. Review per-row result reporting.
+  - Expected: The batch processes successfully via the Oracle bulk utility API, supporting varied plan/price/discount combinations (unlike the legacy identical-plan-only Excel macro), and returns per-row success/failure status.
+- **TC-ENT-254** [Workflow] Enterprise Sales-to-Fulfilment Handover moves a closed deal from account manager to fulfilment acceptance (Priority: Medium)
+  - Covers: REQ-028 | Journey: UJ-003
+  - Preconditions: An account manager has closed a deal and gathered the order form and supporting documents.
+  - Steps: 1. Account manager forwards the closed deal (documents plus completed standardised order form) via email/portal. 2. Fulfilment, ETS, EBU, and SBN teams review and accept the order. 3. Track the handover to acceptance status.
+  - Expected: The order form and documents are successfully received and accepted by fulfilment/ETS/EBU/SBN, moving the request from sales closure into the fulfilment acceptance stage.
+- **TC-ENT-255** [Workflow] Bulk Activation (Current State) legacy Excel macro enforces identical plan/account/spend-limit/price across the batch (Priority: Medium)
+  - Covers: REQ-020 | Journey: UJ-005
+  - Preconditions: Legacy Excel macro-based bulk activation tool (current state) is in use, referencing a pre-created pending replica order.
+  - Steps: 1. Prepare a bulk activation batch using the legacy Excel macro. 2. Attempt to include rows with differing plans or prices within the same batch. 3. Submit the batch referencing the replica order.
+  - Expected: The current-state tool only accepts a batch where plan, account, spend limit, and price are identical across all rows; mixed-attribute rows are not supported, confirming the current-state limitation that the target Oracle-based template (REQ-020) is designed to remove.
+- **TC-ENT-256** [Workflow] Enterprise Mobility Lead-to-Order journey progresses from customer enquiry through fulfilment handover (Priority: High)
+  - Covers: REQ-028 | Journey: UJ-008
+  - Preconditions: A customer enquiry channel (website callback, chat, WhatsApp, business care, or business-in-retail) is available; EBU operations can qualify leads.
+  - Steps: 1. Capture a customer enquiry via one of the supported channels. 2. EBU operations qualifies the lead and assigns an account manager. 3. Collect CAF, MSA, and service-specific forms. 4. Route through credit control. 5. Obtain discount approval via the EBU hierarchy in MS Dynamics. 6. Hand over to fulfilment for account/parent account creation and number activation.
+  - Expected: The lead progresses through qualification, document collection, credit control, and discount approval, and is successfully handed to fulfilment, which creates the account/parent account and activates the number.
+- **TC-ENT-257** [Workflow] Bulk SMS Onboarding to Disconnection journey completes assisted onboarding, billing handoff, and disconnection with balance checks (Priority: Medium)
+  - Covers: REQ-039 | Journey: UJ-013
+  - Preconditions: Account manager initiates assisted Bulk SMS onboarding; short code and SMTP checks are available; OnMobile confirmation channel exists.
+  - Steps: 1. Complete assisted onboarding via account manager with short code and SMTP checks, including external international short code registration where applicable. 2. Complete fulfilment and control document approval. 3. Create account and order in Siebel. 4. Confirm integration through OSM to the Bulk SMS platform, with aggregated rated CDRs received on the first of the month. 5. Initiate disconnection, including outstanding-balance checks and OnMobile confirmation.
+  - Expected: The Bulk SMS service is onboarded, billed via aggregated CDRs from the Bulk SMS platform, and can be disconnected only after outstanding-balance checks and OnMobile confirmation succeed.
+- **TC-ENT-258** [Workflow] DAPN Activation journey progresses from lead qualification through back-end APN configuration (Priority: Medium)
+  - Covers: REQ-023 | Journey: UJ-012
+  - Preconditions: DAPN lead exists for an Enterprise Large segment customer; EBU PM and sales can collect contract documents.
+  - Steps: 1. Qualify the DAPN lead. 2. EBU PM and sales collect contract documents. 3. Order desk validates the request. 4. Back-end team configures the APN. 5. Raise the back-end SR for activation.
+  - Expected: The DAPN service reaches activation via back-end APN configuration and SR completion, following the documented lead-to-activation sequence.
+- **TC-ENT-259** [Workflow] Enterprise Account Creation captures CR number, business type (incl. B2B2C), and requires finance approval for credit limit (Priority: High)
+  - Covers: REQ-014, REQ-223 | Journey: UJ-004
+  - Preconditions: CR-number search has returned no existing match; business finance approval channel is available for credit limit assignment.
+  - Steps: 1. Perform the mandatory CR-number search. 2. Enter account name, CR type/ID type, CR number, agent ID, and business type (selecting B2B2C where applicable). 3. Submit the credit limit for business finance approval since enterprise has no default credit limit. 4. Complete account creation.
+  - Expected: The account is created only after the CR-number search and business finance approval steps are satisfied; if B2B2C business type is selected, the account carries the Special Management/B2B2C tagging per REQ-223.
+- **TC-ENT-260** [Workflow] Bulk Adjustment Submission (Target State) reaches BRM through the DXP portal with role-based, filtered submission (Priority: High)
+  - Covers: REQ-003, REQ-004 | Journey: UJ-001
+  - Preconditions: DXP Bulk Adjustment Portal is integrated with BRM; user holds the role-based access needed for adjustment submission.
+  - Steps: 1. Filter adjustments by billing profile in the DXP portal. 2. Submit a multi-bucket adjustment batch with free-text comments and unit of measurement per row. 3. Confirm the submission reaches BRM for processing. 4. At a later date, confirm the adjustment reason is still retrievable.
+  - Expected: The target-state bulk adjustment flow completes through DXP into BRM with role-based access enforced and default sort/filter applied to results; the adjustment reason remains retrievable beyond the point the legacy BRM purge would have removed it.
+
+**Persona scenarios:**
+
+- **TC-ENT-261** [Persona] Role without bulk adjustment privilege is blocked from the DXP Bulk Adjustment Portal (Priority: Medium)
+  - Covers: REQ-003
+  - Preconditions: A CRM user account exists without the role-based access entitlement for bulk adjustments.
+  - Steps: 1. Log in as a user lacking the bulk-adjustment role. 2. Attempt to navigate to the Bulk Adjustment Portal.
+  - Expected: Access is denied or the portal/menu entry is not shown, consistent with the role-based access control requirement.
+- **TC-ENT-262** [Persona] Role without governed Excel-export entitlement is blocked from exporting on any tab (Priority: High)
+  - Covers: REQ-033
+  - Preconditions: Governed Excel export feature is configured with role-based access; a user without export entitlement is logged in.
+  - Steps: 1. Log in as a user without Excel-export entitlement. 2. Navigate to a tab/screen that previously exposed uncontrolled Excel export. 3. Attempt to export.
+  - Expected: Export option is not available or the export attempt is blocked for the non-entitled user, in contrast to the prior uncontrolled/all-tabs export behaviour.
+- **TC-ENT-263** [Persona] Authorised role can perform governed Excel export successfully (Priority: Medium)
+  - Covers: REQ-033
+  - Preconditions: A user holds the role entitled to the governed Excel export feature.
+  - Steps: 1. Log in as the entitled role. 2. Navigate to an eligible screen. 3. Trigger Excel export.
+  - Expected: Export is generated and delivered to the entitled user, confirming the governed feature works for authorised roles.
+
+### Billing & Adjustments (33 scenarios)
+
+**Positive scenarios:**
+
+- **TC-BIL-264** [Positive] Billing profile retains stable BRM/CRM correlation ID after agent renames profile label (Priority: High)
+  - Covers: REQ-001
+  - Preconditions: A billing profile exists with its unchangeable identifier (BRM row ID + unique CRM identifier) already set; agent has permission to edit the billing profile display name.
+  - Steps: 1. Open an existing account's billing profile. 2. Note the unchangeable identifier value shown alongside the profile. 3. Edit the profile's display/name field to a new value and save. 4. Re-open the billing profile record.
+  - Expected: The display name updates to the new value, but the unchangeable identifier remains identical to its pre-edit value, preserving CRM-BRM correlation.
+- **TC-BIL-265** [Positive] Billing profile correctly displays configured billing-in-advance/arrears/hybrid flag (Priority: Medium)
+  - Covers: REQ-002
+  - Preconditions: Three billing profiles exist, flagged PIA (billing-in-advance), Arrears, and Hybrid respectively.
+  - Steps: 1. Open each of the three billing profiles in turn. 2. Locate the billing-timing flag field on each record.
+  - Expected: Each profile displays the flag value matching its configuration (PIA, Arrears, or Hybrid), correctly surfaced to billing/collections views.
+- **TC-BIL-266** [Positive] DXP consumption layer serves blended CRM-BRM billing content with no source-system tabs (Priority: Medium)
+  - Covers: REQ-005
+  - Preconditions: An account has both CRM-origin data (contact/profile) and BRM-origin data (bill/usage) associated with it; user is a non-IT-operations agent.
+  - Steps: 1. Log in as a standard billing/CRM agent (not IT operations). 2. Navigate to the account's billing view. 3. Inspect the presented content and any navigation tabs.
+  - Expected: CRM and BRM content is merged into a single DXP-served view with no separate source-system tabs; the agent cannot see or switch to a vanilla Siebel/BRM screen.
+- **TC-BIL-267** [Positive] Statement of Account shows full history from account inception (Priority: High)
+  - Covers: REQ-006
+  - Preconditions: An account has multiple bills, payments, adjustments, and allocations spanning several billing cycles since inception.
+  - Steps: 1. Generate/request the SOA for the account. 2. Review the line items listed.
+  - Expected: The SOA includes one line per bill plus all payments, adjustments and allocations from account inception to date, in a standard consumer/enterprise format, generated automatically rather than manually via SR.
+- **TC-BIL-268** [Positive] Bill landing view shows summarised MRC, VAS, and VAT figures (Priority: Medium)
+  - Covers: REQ-007
+  - Preconditions: Customer/account has a generated bill containing MRC, VAS, and VAT charges.
+  - Steps: 1. Open the bill landing view for the account. 2. Review the summary figures displayed.
+  - Expected: The landing view presents a summarised breakdown showing MRC, VAS, and VAT without requiring drill-down into full line-item detail.
+- **TC-BIL-269** [Positive] Agent triggers on-demand penalty/commitment calculation from a guided journey (Priority: High)
+  - Covers: REQ-008
+  - Preconditions: Customer has an active commitment/plan with an associated penalty; agent is in a disconnection, MNP port-out, plan upgrade/downgrade, or park-number guided journey.
+  - Steps: 1. Enter the disconnection (or port-out/upgrade-downgrade/park-number) guided journey for the customer. 2. Trigger the on-demand penalty/commitment calculation button/step.
+  - Expected: The system calculates and displays the current commitment/penalty value on demand, without requiring an order to be created first.
+- **TC-BIL-270** [Positive] Volumetric discount proration applied correctly on mid-cycle plan change (Priority: High)
+  - Covers: REQ-012
+  - Preconditions: Account has an active volumetric discount and a plan change is made mid-billing-cycle.
+  - Steps: 1. Identify an account with an active volumetric discount mid-cycle. 2. Execute a plan change for one of its services partway through the current billing cycle. 3. Review the resulting bill/discount calculation for that cycle.
+  - Expected: The volumetric discount is prorated for the mid-cycle change rather than applying a full-cycle discount cancellation, and behaviour is correctly differentiated for a plan-change scenario (as opposed to a cancellation scenario).
+- **TC-BIL-271** [Positive] Billing profile and recipient email changes are captured in an audit trail (Priority: High)
+  - Covers: REQ-013
+  - Preconditions: Agent has permission to change a billing profile name and a billing document recipient email.
+  - Steps: 1. Change the billing profile display name and save. 2. Change the billing document recipient email to a new address and save. 3. Revert the recipient email back to the original address and save. 4. Open the audit trail/history for the billing profile.
+  - Expected: The audit trail records who made each change (name change, email change, and the revert) with timestamps, closing the previously-flagged fraud gap where an email redirect-then-revert left no record.
+- **TC-BIL-272** [Positive] Volumetric discount is evaluated correctly for a qualifying enterprise account after connection drop and re-add (Priority: Medium)
+  - Covers: REQ-021
+  - Preconditions: Enterprise account previously downgraded due to a connection drop below threshold.
+  - Steps: 1. Add connections back to the account until it again meets/exceeds the qualifying threshold. 2. Review the account's discount tier.
+  - Expected: The discount is re-evaluated and restored to the tier matching the current (increased) connection count, confirming the discount recalculates dynamically rather than remaining locked at the downgraded level.
+- **TC-BIL-273** [Positive] Automated calculation of plan penalty, device dues, and locking charges together (Priority: High)
+  - Covers: REQ-072
+  - Preconditions: Customer has an active plan commitment, outstanding device installment dues, and a device/service locking charge applicable, and is going through a disconnection or port-out flow.
+  - Steps: 1. Initiate the disconnection/port-out flow for the customer. 2. Trigger the automated calculation covering plan penalty, device dues, and locking charges.
+  - Expected: All three components (plan penalty, device dues, locking charges) are calculated automatically by the system as a combined pro-rated figure, rather than requiring manual calculation and manual final-invoice issuance.
+- **TC-BIL-274** [Positive] Multiple bill email recipients (CC) and multiple email types per contact are supported (Priority: Medium)
+  - Covers: REQ-057
+  - Preconditions: A contact record exists with a work email and a personal email; billing profile is linked to the contact.
+  - Steps: 1. Add both the work and personal email types to the contact. 2. Add one or more additional recipients as CC on the billing profile's email distribution. 3. Trigger a bill send/notification.
+  - Expected: The system accepts multiple email types (work/personal) per contact and multiple CC recipients on the billing profile; the bill notification is sent to the primary recipient and all configured CC recipients.
+- **TC-BIL-275** [Positive] Order submits successfully when all line items share the order's billing profile (Priority: Medium)
+  - Covers: REQ-278
+  - Preconditions: An order is being created with multiple line items, all sharing the same billing profile as the order.
+  - Steps: 1. Set the order-level billing profile to Profile A. 2. Add multiple line items, all associated with billing profile A. 3. Submit the order.
+  - Expected: The order submits successfully with no billing-profile mismatch validation error.
+- **TC-BIL-276** [Positive] Bill calculator SMS is exposed as a standalone capability, not embedded in a full guided journey (Priority: Low)
+  - Covers: REQ-123
+  - Preconditions: Customer/agent has access to the bill calculator SMS capability.
+  - Steps: 1. Locate the bill calculator SMS function in the system/UI. 2. Invoke it directly (e.g., a single action/SMS trigger) without going through a multi-step guided journey wizard.
+  - Expected: The bill calculator SMS function operates as a standalone capability/action that can be invoked directly, consistent with it being classified as a capability rather than a full journey; it is not gated behind a multi-screen guided-journey flow.
+
+**Negative scenarios:**
+
+- **TC-BIL-277** [Negative] Unchangeable billing profile identifier cannot be edited via UI (Priority: High)
+  - Covers: REQ-001
+  - Preconditions: Agent is viewing a billing profile's detail/edit form.
+  - Steps: 1. Locate the unchangeable identifier field on the billing profile edit form. 2. Attempt to modify or clear its value and save.
+  - Expected: The identifier field is read-only/disabled, or if edit is attempted the system rejects the change and the stored identifier remains unchanged.
+- **TC-BIL-278** [Negative] SOA generation does not silently drop pre-purge-window history (Priority: High)
+  - Covers: REQ-006
+  - Preconditions: Account has billing history older than BRM's data retention/purge window.
+  - Steps: 1. Request the SOA for an account with history predating the BRM purge policy window. 2. Review the returned line items against the account's full known billing history.
+  - Expected: The SOA still reflects data from inception (per REQ-006); if historical data is unavailable due to purge, the system indicates a gap rather than presenting an incomplete SOA as complete.
+- **TC-BIL-279** [Negative] Penalty/commitment value is not calculated automatically on every account view (Priority: Medium)
+  - Covers: REQ-008
+  - Preconditions: Customer has an active commitment; agent is browsing general account/customer 360 screens, not a disconnection/port-out/upgrade-downgrade/park-number journey.
+  - Steps: 1. Open the customer's account/360 view outside of the guided journeys or on-demand button. 2. Observe whether a penalty/commitment figure is computed and shown.
+  - Expected: No automatic penalty/commitment calculation is triggered on general view load (avoiding the flagged performance impact); the value is only computed via the specific journeys or the on-demand button.
+- **TC-BIL-280** [Negative] Unbilled usage screen is suppressed for large enterprise accounts on the exception list (Priority: Medium)
+  - Covers: REQ-010
+  - Preconditions: An enterprise account is on the system's exception list for unbilled usage suppression (accounts too large to query without hanging the system).
+  - Steps: 1. Attempt to open/query the unbilled usage screen for the exception-listed enterprise account.
+  - Expected: The system suppresses the unbilled usage screen/query for this account rather than attempting to load it, consistent with the exception-list control.
+- **TC-BIL-281** [Negative] Volumetric discount proration differs correctly between plan change and cancellation, and between enterprise and consumer (Priority: Medium)
+  - Covers: REQ-012
+  - Preconditions: Two otherwise-identical mid-cycle scenarios exist: (a) consumer account plan change, (b) enterprise account service cancellation, both with active volumetric discounts.
+  - Steps: 1. Execute the mid-cycle plan change on the consumer account and capture the resulting discount proration. 2. Execute the mid-cycle cancellation on the enterprise account and capture its resulting discount proration. 3. Compare the two outcomes.
+  - Expected: The system does not apply a single uniform full-cycle-cancellation proration rule to both cases; plan-change and cancellation produce different discount treatment, and enterprise vs. consumer segments are handled distinctly per REQ-012.
+- **TC-BIL-282** [Negative] Recipient email redirect-and-revert cannot occur without an audit trail entry (Priority: High)
+  - Covers: REQ-013
+  - Preconditions: A billing document recipient email is set to address A.
+  - Steps: 1. Change the recipient email from A to attacker-controlled address B. 2. Immediately change it back from B to A. 3. Query the audit trail for this billing profile covering the time window of both changes.
+  - Expected: Both the change to B and the revert to A appear as distinct, attributable audit entries; no combination of actions leaves the email change history blank.
+- **TC-BIL-283** [Negative] Volumetric discount auto-downgrades when connection count drops below the qualifying threshold (Priority: High)
+  - Covers: REQ-021
+  - Preconditions: An enterprise account holds a volumetric discount qualified by a minimum connection/service count; one or more connections are subsequently disconnected, dropping the account below the qualifying level.
+  - Steps: 1. Note the account's current volumetric discount tier/level while above the qualifying threshold. 2. Disconnect connections until the account falls below the threshold that originally qualified the discount. 3. Review the account's discount tier after the drop.
+  - Expected: The discount is automatically downgraded (or removed) to reflect the reduced connection count, rather than continuing to apply the original discount level indefinitely — closing the flagged revenue-leakage gap.
+- **TC-BIL-284** [Negative] Disallowed bill cycle change still creates a ticket that is auto-resolved in real time (Priority: Medium)
+  - Covers: REQ-061
+  - Preconditions: Bill cycle change eligibility rule currently disallows the change for the target account.
+  - Steps: 1. Attempt to change the bill cycle on an account for which the eligibility rule disallows the change. 2. Observe the immediate system response. 3. Check the ticketing system for a related ticket shortly after.
+  - Expected: The change itself is rejected, but a ticket is always created for the attempt; the ticket is automatically resolved in real time rather than remaining open for manual handling.
+- **TC-BIL-285** [Negative] Automated penalty/dues/locking calculation does not omit any of the three required components (Priority: Medium)
+  - Covers: REQ-072
+  - Preconditions: Customer has all three chargeable conditions active: plan commitment penalty, device dues, and locking charge.
+  - Steps: 1. Trigger the automated calculation for the customer. 2. Inspect the itemized calculation output for each of the three components.
+  - Expected: The output includes non-zero, itemized figures for plan penalty, device dues, and locking charges when each is applicable; none of the three is silently skipped.
+- **TC-BIL-286** [Negative] Unverified billing email does not block save but is flagged before bill generation (Priority: Medium)
+  - Covers: REQ-058
+  - Preconditions: A billing email has been entered but the asynchronous verification has not yet returned a result.
+  - Steps: 1. Save a contact/billing profile with a newly entered, not-yet-verified email. 2. Attempt to proceed with the next scheduled bill generation cycle for that account while the email is still unverified.
+  - Expected: The save operation is not blocked by pending verification, but the system surfaces the unverified status and does not treat the address as confirmed for bill delivery until verification completes.
+- **TC-BIL-287** [Negative] Dismissing the billing-email opt-in confirmation modal does not activate the opt-in (Priority: Medium)
+  - Covers: REQ-141
+  - Preconditions: Confirmation modal for separate billing-email opt-in is displayed.
+  - Steps: 1. Trigger the separate billing-email opt-in confirmation modal. 2. Dismiss/cancel the modal instead of confirming. 3. Check the opt-in status on the billing profile.
+  - Expected: The opt-in remains inactive/unsaved after the modal is dismissed; the billing email reverts to (or remains at) its prior configuration.
+- **TC-BIL-288** [Negative] Bill calculator SMS capability is not listed/treated as a selectable guided journey (Priority: Low)
+  - Covers: REQ-123
+  - Preconditions: An inventory/menu of guided journeys is visible to the agent (e.g., a journeys launcher).
+  - Steps: 1. Open the guided journeys list/menu. 2. Search for 'Bill calculator SMS' as if it were a full journey entry.
+  - Expected: Bill calculator SMS does not appear as a top-level guided journey entry, consistent with its classification as a capability rather than a journey.
+
+**Validation scenarios:**
+
+- **TC-BIL-289** [Validation] Unbilled usage screen enforces mandatory MSISDN and in-cycle date range filters (Priority: High)
+  - Covers: REQ-010
+  - Preconditions: Agent has navigated to the unbilled usage screen for an account with an eligible (non-suppressed) MSISDN.
+  - Steps: 1. Open the unbilled usage screen. 2. Attempt to submit/search without entering an MSISDN. 3. Attempt to submit with an MSISDN but a date range outside the current billing cycle. 4. Submit with a valid MSISDN and a date range within the current cycle.
+  - Expected: Steps 2 and 3 are rejected with a validation message requiring MSISDN and an in-cycle date range; step 4 succeeds and returns unbilled usage results.
+- **TC-BIL-290** [Validation] Bill cycle change eligibility is driven by a configurable rule, not hard-coded logic (Priority: High)
+  - Covers: REQ-060
+  - Preconditions: System admin/config access to the bill cycle change eligibility rule; two accounts representing different eligibility configurations (eligible vs. ineligible per current config).
+  - Steps: 1. Update the configurable eligibility rule to mark a given account/segment as ineligible for bill cycle change. 2. Attempt a bill cycle change on that account. 3. Update the rule to mark the same account/segment as eligible. 4. Retry the bill cycle change.
+  - Expected: The system's accept/reject behaviour for the bill cycle change follows the current configuration value in both directions, demonstrating the rule is externally configurable rather than hard-coded.
+- **TC-BIL-291** [Validation] Billing document recipient email is captured as unverified and only verified asynchronously before next bill generation (Priority: High)
+  - Covers: REQ-058
+  - Preconditions: A new billing recipient email is being entered on a contact/billing profile.
+  - Steps: 1. Enter a new recipient email address and save. 2. Check the email's verification status immediately after saving. 3. Simulate the asynchronous verification callback completing. 4. Check the verification status again. 5. Attempt to trigger next bill generation before the callback completes, and again after it completes.
+  - Expected: The email is stored as 'unverified' immediately on entry; status updates to 'verified' only after the asynchronous callback completes; the system enforces (or at minimum reflects) that verification should complete before the next bill generation using that email.
+- **TC-BIL-292** [Validation] Separate billing-email opt-in requires an explicit confirmation modal before activation (Priority: Medium)
+  - Covers: REQ-141
+  - Preconditions: Customer/agent is setting up a billing email address that differs from the primary contact email (a separate billing-email opt-in).
+  - Steps: 1. Enter a billing email address different from the contact's primary email and select the separate-billing-email opt-in. 2. Attempt to save without interacting with any confirmation prompt. 3. Confirm via the modal and save again.
+  - Expected: Saving the separate billing-email opt-in triggers a confirmation modal that must be explicitly acknowledged; the opt-in is not activated/persisted until the modal is confirmed.
+- **TC-BIL-293** [Validation] Order billing profile must match the billing profile of all order line items before submission (Priority: High)
+  - Covers: REQ-278
+  - Preconditions: An order is being created with multiple line items, at least one of which is associated with a billing profile different from the order-level billing profile.
+  - Steps: 1. Set the order-level billing profile to Profile A. 2. Add a line item associated with billing profile B (different from A). 3. Attempt to submit/save the order.
+  - Expected: The system rejects submission with a validation error indicating the line item's billing profile must match the order's billing profile; the order is not saved until all line items align with the order billing profile.
+
+**Workflow scenarios:**
+
+- **TC-BIL-294** [Workflow] Bill simulation shows disconnection-implication charges without altering the upcoming bill or issuing a duplicate invoice (Priority: High)
+  - Covers: REQ-009
+  - Preconditions: Customer has unbilled usage and an active commitment eligible for disconnection-penalty projection.
+  - Steps: 1. Trigger the bill simulation feature (not hot bill) for the customer from the relevant guided journey. 2. Review the simulation output. 3. Separately trigger the hot bill view for the same customer. 4. Compare outputs and item statuses after both actions.
+  - Expected: Bill simulation displays projected disconnection implications/penalties and explicitly states it is not a tax invoice; the upcoming real bill and underlying item statuses are unchanged; hot bill (current unbilled + outstanding) remains a distinct, unaffected view; no duplicate invoice is generated for the same charges.
+
+**Persona scenarios:**
+
+- **TC-BIL-295** [Persona] IT operations role retains vanilla Siebel/BRM access while standard agents do not (Priority: Medium)
+  - Covers: REQ-005
+  - Preconditions: Two users exist: one assigned the IT operations role, one assigned a standard billing/CRM agent role.
+  - Steps: 1. Log in as the standard billing/CRM agent and attempt to reach a vanilla Siebel/BRM source-system screen. 2. Log out and log in as the IT operations user. 3. Attempt the same navigation.
+  - Expected: The standard agent is blocked from/has no route to vanilla Siebel/BRM access (sees only the merged DXP view); the IT operations user can reach the vanilla source-system access.
+- **TC-BIL-296** [Persona] Only billing-team role can change bill cycle; other roles are blocked (Priority: High)
+  - Covers: REQ-060, REQ-061
+  - Preconditions: Two users exist: one with the billing-team role authorized for bill cycle changes, one with a standard agent role without that authorization.
+  - Steps: 1. Log in as the standard agent and attempt to change the account's bill cycle. 2. Log in as the billing-team user and attempt the same bill cycle change on the same account.
+  - Expected: The standard agent's attempt is blocked/disallowed per the configurable eligibility rule; the billing-team user's change succeeds (subject to the configured eligibility rule allowing it).
+
+### Order Management (24 scenarios)
+
+**Positive scenarios:**
+
+- **TC-ORD-297** [Positive] B2B2C Fixed Line order routes to manager queue, is approved with verification acknowledgment, and progresses to Complete (Priority: High)
+  - Covers: REQ-155, REQ-151, REQ-156, REQ-158, REQ-225 | Journey: UJ-054
+  - Preconditions: Agent has built a New Fixed Line Tablet B2B2C order (pre-patched Combo Box, Instant Activation) through CAF signature and submitted it; order requires manager approval.
+  - Steps: 1. Submit the completed order as the tablet field agent. 2. As Manager/Approver, open the TM SR Queue 'Order Activities Queue' and locate the submitted order. 3. Click 'Assign To Me'. 4. Open the order detail and confirm all four tabs are present: Attachments, Order Details, Activities, Agents Details. 5. Confirm an Order Expiry timestamp is displayed on the approval screen. 6. Review Attachments tab (QID front/back, CAF). 7. Click Approve, check the verification acknowledgment statement, enter a Comments value, and submit.
+  - Expected: Order is assigned to the manager, the four required tabs and Order Expiry timestamp are visible, Approve cannot be submitted without the verification acknowledgment being checked, and after approval the order status progresses Pending -> Open -> In Progress -> Complete.
+- **TC-ORD-298** [Positive] Fixed Line and Postpaid order completion notifications display the generated order number (Priority: Medium)
+  - Covers: REQ-153, REQ-056 | Journey: UJ-053
+  - Preconditions: Agent has completed a Fixed Line Tablet order and separately a New Postpaid order through to submission.
+  - Steps: 1. Complete the Fixed Line order flow through Save and Finish. 2. Observe the completion confirmation message. 3. Repeat for a New Postpaid order through to submission and observe its confirmation message.
+  - Expected: Fixed Line confirmation reads 'Fixed Line completed successfully...Order Number:- <order-number>' and Postpaid confirmation reads 'Postpaid completed successfully. Order Number:- <order-number>' — both include the generated order number, neither says 'account activated'.
+- **TC-ORD-299** [Positive] Agent successfully raises a Future Dated Order (FDO) via Open UI within the 30-day lead-time window (Priority: High)
+  - Covers: REQ-232, REQ-233 | Journey: UJ-092
+  - Preconditions: Order type is FDO-supported (e.g. Plan Change) and the agent is using the Open UI channel (Phase 1).
+  - Steps: 1. Open the Open UI FDO request screen for a supported order type. 2. Select a future execution date exactly 30 days ahead and a time slot. 3. Submit the FDO request.
+  - Expected: The FDO request is accepted, created with status Initial, and the FDO request ID is cross-stamped with the order ID.
+- **TC-ORD-300** [Positive] Fibre order proceeds when SIM CARD line item has a valid Serial Number and all payments are authorized (Priority: Medium)
+  - Covers: REQ-280, REQ-281
+  - Preconditions: Order contains a SIM CARD product line item and one or more payment-bearing line items.
+  - Steps: 1. Add a SIM CARD product to the order. 2. Enter a valid Serial Number. 3. Complete payment collection so each is marked Authorized. 4. Submit the order.
+  - Expected: Order submission succeeds.
+
+**Negative scenarios:**
+
+- **TC-ORD-301** [Negative] Manager cannot submit Approve action without checking the verification acknowledgment (Priority: High)
+  - Covers: REQ-151 | Journey: UJ-054
+  - Preconditions: Manager has opened an order pending approval and clicked Approve.
+  - Steps: 1. Leave the verification acknowledgment statement unchecked. 2. Optionally enter Comments. 3. Attempt to click Submit.
+  - Expected: Submission is blocked; verification-acknowledgment must be checked before Approve can be submitted.
+- **TC-ORD-302** [Negative] Order rejection cannot be submitted without selecting a rejection reason (Priority: High)
+  - Covers: REQ-148, REQ-183 | Journey: UJ-055
+  - Preconditions: Manager has opened an order pending approval and selected Reject - Correction.
+  - Steps: 1. Open the Reject action dialog. 2. Leave the Reason dropdown unselected. 3. Attempt to submit the rejection.
+  - Expected: System blocks submission until a rejection reason is selected; reason later visible in Activities History's Order Approval column.
+- **TC-ORD-303** [Negative] System blocks dropping an order that has not gone through Order Approval (Priority: High)
+  - Covers: REQ-236
+  - Preconditions: An order exists that has not yet been routed through/completed Order Approval.
+  - Steps: 1. Locate the order that has not been through Order Approval. 2. Attempt to Drop the Order directly.
+  - Expected: System displays an error preventing the drop action; order is not dropped.
+- **TC-ORD-304** [Negative] Business account cannot submit a pending order while an open order already exists on the account (Priority: High)
+  - Covers: REQ-279
+  - Preconditions: A business account already has an order in Open status.
+  - Steps: 1. On the same business account, create a new order and progress it to Pending. 2. Attempt to submit while the existing order remains Open.
+  - Expected: Submission is rejected per ORD_VALD_RULE_005.
+- **TC-ORD-305** [Negative] Order submission blocked when SIM CARD line item is missing its Serial Number (Priority: High)
+  - Covers: REQ-280
+  - Preconditions: Order contains a SIM CARD product line item.
+  - Steps: 1. Add a SIM CARD product line item. 2. Leave Serial Number blank. 3. Attempt to submit/continue.
+  - Expected: System blocks progression per ORD_VALD_RULE_019 until Serial Number is entered.
+- **TC-ORD-306** [Negative] Order cannot proceed while a payment on the order is not Authorized (Priority: High)
+  - Covers: REQ-281
+  - Preconditions: Order has one or more payment-bearing line items.
+  - Steps: 1. Progress the order to the payment step. 2. Leave at least one payment non-Authorized. 3. Attempt to proceed/submit.
+  - Expected: System blocks order progression per ORD_VALD_RULE_030 until every payment is Authorized.
+- **TC-ORD-307** [Negative] FDO submission is rejected when requested execution date exceeds the 30-day lead-time cap (Priority: Medium)
+  - Covers: REQ-233 | Journey: UJ-092
+  - Preconditions: Agent is raising a new FDO request via Open UI.
+  - Steps: 1. Open the FDO request screen. 2. Select a future execution date more than 30 days ahead. 3. Attempt to submit.
+  - Expected: System rejects the request or blocks date selection beyond the 30-day maximum.
+- **TC-ORD-308** [Negative] Manager attempting a second correction round is not offered Reject - Correction (Priority: Medium)
+  - Covers: REQ-150 | Journey: UJ-051
+  - Preconditions: An order has already been through one Reject-Correction round and has been resubmitted for re-review.
+  - Steps: 1. Reopen the resubmitted order's approval detail screen. 2. Inspect the available action buttons.
+  - Expected: Only Approve and Reject - Drop Order are offered; Reject - Correction is no longer available.
+
+**Validation scenarios:**
+
+- **TC-ORD-309** [Validation] Approval action set is limited to exactly Approve, Reject - Correction, and Reject - Drop Order (first review) (Priority: Medium)
+  - Covers: REQ-157
+  - Preconditions: An order is pending approval and has not yet had a correction round applied.
+  - Steps: 1. Open the order approval detail screen for the first time. 2. Inspect the rendered action buttons.
+  - Expected: Exactly Approve, Reject - Correction, Reject - Drop Order, and Go Back are present.
+- **TC-ORD-310** [Validation] Manager Approval screen renders exactly the four required tabs in the documented set (Priority: Medium)
+  - Covers: REQ-156
+  - Preconditions: An order is pending manager approval, regardless of originating guided journey.
+  - Steps: 1. Open the manager approval detail screen. 2. Enumerate the tabs displayed.
+  - Expected: Tabs are exactly: Attachments, Order Details, Activities, Agents Details.
+- **TC-ORD-311** [Validation] Order Approval screen displays a populated Order Expiry timestamp (Priority: Low)
+  - Covers: REQ-158
+  - Preconditions: An order has been submitted for approval and is visible in the manager queue.
+  - Steps: 1. Open the order approval detail screen. 2. Inspect the Order Expiry field/value shown alongside the Order #.
+  - Expected: A populated Order Expiry timestamp is displayed, rendered distinctly to signal SLA urgency.
+- **TC-ORD-312** [Validation] Order status/fulfillment progression exposes per-line status context values (Priority: Low)
+  - Covers: REQ-225
+  - Preconditions: An order has completed fulfillment.
+  - Steps: 1. Open the completed order's status view. 2. Inspect Status/Fulfillment Status. 3. Inspect per-line Status Context values.
+  - Expected: Status and Fulfillment Status show Complete, with per-line Status Context values populated and an overall context of 'All order lines are completed'.
+- **TC-ORD-313** [Validation] FDO notifications are sent bilingually (English and Arabic) via both SMS and billing email for every lifecycle event (Priority: Medium)
+  - Covers: REQ-234 | Journey: UJ-092
+  - Preconditions: An FDO request exists and progresses through submission, reminder, and execution outcome.
+  - Steps: 1. Submit the FDO and capture the submission notification. 2. Advance to 3 days before execution and capture the reminder. 3. Let it execute and capture the outcome notification. 4. Modify a separate FDO and capture that notification. 5. Cancel another and capture that notification.
+  - Expected: Each lifecycle event sends SMS + billing email in both English and Arabic, logged as an agent-visible activity.
+
+**Workflow scenarios:**
+
+- **TC-ORD-314** [Workflow] End-to-end order rejection (Reject - Correction), agent correction via Order Correction tile, and resubmission for re-approval (Priority: High)
+  - Covers: REQ-148, REQ-149, REQ-159, REQ-160, REQ-183 | Journey: UJ-051
+  - Preconditions: A Fixed Line Normal Activation order has been submitted and is in the manager's Pending Approval queue.
+  - Steps: 1. Manager selects Reject - Correction with a reason and comment. 2. Agent receives correction SMS. 3. Agent navigates to the 'Order Correction' tile; Step 1 Contact reopens with locked fields and flagged ID images re-required. 4. Agent re-uploads images and re-attaches CAF/Supplementary Form. 5. Agent resubmits.
+  - Expected: SMS sent with order number and correction instructions; Order Correction tile provides re-entry; resubmission confirmation shown; order returns to Pending Approval queue; rejection reason/comment visible in Activities History.
+- **TC-ORD-315** [Workflow] Order approval with Reject - Drop Order permanently removes the order after a completed approval cycle (Priority: Medium)
+  - Covers: REQ-147, REQ-155, REQ-181 | Journey: UJ-051
+  - Preconditions: An order has already been through one Reject-Correction round and is back in the manager queue.
+  - Steps: 1. Manager uses 'Assign To Me' from the shared queue. 2. Verify attachment data. 3. Select Reject - Drop Order. 4. Confirm.
+  - Expected: Reject - Drop Order is available (since Reject-Correction is exhausted) and results in the order being dropped/closed.
+- **TC-ORD-316** [Workflow] Full FDO lifecycle: submission, editable/cancellable window, execution, and success notification (Priority: High)
+  - Covers: REQ-232, REQ-233, REQ-234 | Journey: UJ-092
+  - Preconditions: Order type is FDO-supported and raised via Open UI.
+  - Steps: 1. Raise FDO with future date within 30 days. 2. Verify submission notification. 3. While Initial, confirm editable/cancellable. 4. Verify 3-day reminder fires. 5. Allow scheduled execution.
+  - Expected: FDO executes at scheduled time, order fulfilled, Success notification sent and logged, final status Success.
+- **TC-ORD-317** [Workflow] FDO execution failure triggers automatic retry up to 3 times, then is consolidated into the daily operations report (Priority: Medium)
+  - Covers: REQ-235 | Journey: UJ-092
+  - Preconditions: An FDO is scheduled for execution against an account that has an open order at execution time.
+  - Steps: 1. Let FDO reach scheduled time with a blocking condition present. 2. Observe first attempt fail and automatic retry. 3. Repeat until 3 retries occur. 4. Check the daily operations report.
+  - Expected: System retries up to 3 times; failure after that is consolidated into the daily operations report, not silently dropped; final status Failed/Cancelled with notification sent.
+- **TC-ORD-318** [Workflow] Order Approval and Correction cycle shows correct status transitions from Pending through Open to Complete after approval (Priority: High)
+  - Covers: REQ-155, REQ-158, REQ-225, REQ-056 | Journey: UJ-054
+  - Preconditions: A B2B2C Fixed Line order has been submitted for approval.
+  - Steps: 1. Submit order; verify confirmation reflects submission not activation. 2. Verify Order Expiry timestamp while Pending. 3. Manager assigns and approves. 4. Track status transition.
+  - Expected: Status progresses Pending -> Open -> In Progress -> Complete, with correct submission-vs-activation wording throughout.
+
+**Persona scenarios:**
+
+- **TC-ORD-319** [Persona] Only Manager/Approver role can access the order approval actions (Approve / Reject-Correction / Reject-Drop Order) (Priority: High)
+  - Covers: REQ-155, REQ-181
+  - Preconditions: An order is pending in the shared manager Order Activities/TM SR Queue.
+  - Steps: 1. Log in as a Retail Sales Agent and attempt to open the order approval detail screen. 2. Log in as Manager/Approver and attempt the same.
+  - Expected: Retail Sales Agent cannot assign/approve/reject; Manager/Approver can perform all approval actions.
+- **TC-ORD-320** [Persona] Only the originating tablet field agent's session surfaces the Order Correction tile for a rejected order (Priority: Medium)
+  - Covers: REQ-159, REQ-160 | Journey: UJ-051
+  - Preconditions: A tablet field agent's order has been rejected (Reject - Correction) and an SMS sent to that agent.
+  - Steps: 1. As the originating agent, check for the 'Order Correction' tile. 2. As a different agent, check whether the same order is reachable the same way.
+  - Expected: Originating agent sees the Order Correction tile and can re-enter via 'My Rejected Orders'; behavior for other agents should not silently expose another agent's rejected order.
+
+### Identity & Customer Management (33 scenarios)
+
+**Positive scenarios:**
+
+- **TC-IDE-321** [Positive] Passport-to-QID journey completes with QID Front & Back images uploaded before Continue (Priority: High)
+  - Covers: REQ-210
+  - Preconditions: Agent has logged into the Tablet, selected Passport to QID journey, entered MSISDN & Passport Number, entered QID Number and clicked Update ID.
+  - Steps: 1. After customer details auto-populate via MOI Validation, scroll down to the QID image capture section. 2. Scan or upload the QID Front image. 3. Scan or upload the QID Back image. 4. Click Continue.
+  - Expected: Both QID Front and QID Back uploads show as captured (validated); Continue is enabled and the journey proceeds to the Identification number change form generation step.
+- **TC-IDE-322** [Positive] Assisted Care Agent aggregates customer data across all nine Customer 360 sources (Priority: High)
+  - Covers: REQ-293
+  - Preconditions: Agent is logged into DXP and has located a customer record via Customer 360 (J017).
+  - Steps: 1. Open the Customer 360 view for a located customer. 2. Navigate through the available data sections: CDR/Usage, Billing Profile Management, Bill Viewing & Download, Payment Processing & View, Real-Time Balance & Usage Fetch, Network Status Check, Unbilled & Billing Balance View, Ticket History, Order History. 3. Confirm each section renders data for the selected customer.
+  - Expected: All nine data sources are represented and return aggregated, customer-specific data within the single Customer 360 view; no source is missing or blank due to integration failure.
+- **TC-IDE-323** [Positive] Agent retrieves bill, CDR, network status, order, and payment details from Customer 360 and search criteria are captured (Priority: High)
+  - Covers: REQ-294
+  - Preconditions: Agent has an active Customer 360 session for a located customer.
+  - Steps: 1. From Customer 360, trigger retrieval of bill information. 2. Trigger retrieval of CDR information. 3. Trigger retrieval of network status. 4. Trigger retrieval of customer and order details. 5. Trigger retrieval of payment and billing details. 6. Review the record of search criteria used to locate the customer.
+  - Expected: Each retrieval action returns the correct corresponding data set for the customer; the system records/captures the search criteria (Customer No/Contact No/MSISDN) used for the session.
+- **TC-IDE-324** [Positive] Agent searches for a customer in Customer 360 using Customer Number (Priority: High)
+  - Covers: REQ-292
+  - Preconditions: Agent is logged into DXP with access to the Customer 360 (J017) capability.
+  - Steps: 1. Open Customer 360 search. 2. Enter a valid Customer Number. 3. Submit the search.
+  - Expected: The matching customer record is returned and Customer 360 loads for that customer.
+- **TC-IDE-325** [Positive] Agent searches for a customer in Customer 360 using Contact Number or MSISDN (Priority: High)
+  - Covers: REQ-292
+  - Preconditions: Agent is logged into DXP with access to the Customer 360 (J017) capability.
+  - Steps: 1. Open Customer 360 search. 2. Enter a valid Contact Number in one attempt, and a valid MSISDN in a second attempt (as alternate search paths). 3. Submit each search.
+  - Expected: Both the Contact Number search and the MSISDN search independently return the correct matching customer record and load Customer 360 for that customer.
+- **TC-IDE-326** [Positive] Agent usage/balance view surfaces an indicator of recent My Account app access (Priority: Low)
+  - Covers: REQ-082
+  - Preconditions: A customer has recently accessed the My Account self-service app; agent opens that customer's usage/balance view.
+  - Steps: 1. As agent, open the customer's usage/balance view. 2. Check for a recent-app-access indicator.
+  - Expected: The usage/balance view displays an indicator that the customer recently accessed the My Account app, giving the agent visibility of recent self-service activity.
+- **TC-IDE-327** [Positive] Customer opts in with direct-marketing consent recorded via USSD opt-out code path (Priority: Medium)
+  - Covers: REQ-116
+  - Preconditions: Customer record exists with a direct-marketing consent field/flag available to the agent.
+  - Steps: 1. Set the customer's direct-marketing consent to opted-in during account setup or update. 2. Confirm the associated USSD opt-out code mechanism is referenced/available for the customer to later opt out.
+  - Expected: Direct-marketing consent is recorded as opted-in and the USSD opt-out code capability is present/linked for the customer to revoke consent later.
+- **TC-IDE-328** [Positive] All MOI-returned name fields (up to 5-6) are stored and printed on the bill without truncation (Priority: Medium)
+  - Covers: REQ-105
+  - Preconditions: A customer's identity has been verified via MOI, returning a full multi-part name (up to 5-6 name fields).
+  - Steps: 1. Complete identity verification via MOI for a customer whose returned record includes the maximum 5-6 name fields. 2. Save the contact/account record. 3. Generate or view the customer's bill.
+  - Expected: All 5-6 MOI-returned name fields are stored on the contact record and the full name (all parts) is printed on the bill with no truncation or field being dropped.
+- **TC-IDE-329** [Positive] MOI API is used as the primary source for ID data during identity verification (Priority: High)
+  - Covers: REQ-106
+  - Preconditions: Agent initiates an identity-data lookup (e.g. during Passport-to-QID update or new activation) with the MOI API reachable.
+  - Steps: 1. Trigger the ID-data lookup step (e.g. entering QID Number and clicking Update ID / Go). 2. Observe which source populates the customer detail fields.
+  - Expected: Customer ID data is fetched and populated from the MOI API as the primary source; Tarasol/manual entry is not invoked while MOI succeeds.
+
+**Negative scenarios:**
+
+- **TC-IDE-330** [Negative] Alt. phone # rejected when entered as non-local or non-mobile number (Priority: High)
+  - Covers: REQ-140
+  - Preconditions: Agent is on a Contact step with the Alt. phone # field displayed.
+  - Steps: 1. Navigate to the Contact step. 2. Enter a non-local number (e.g. a foreign country-code number) or a landline number into the 'Alt. phone #' field. 3. Attempt to click Continue.
+  - Expected: System does not show a green checkmark for the field, blocks progression past the Contact step, and surfaces a validation prompt requiring a local mobile number for notifications.
+- **TC-IDE-331** [Negative] Passport-to-QID journey blocks Continue when QID Front or Back image is missing (Priority: High)
+  - Covers: REQ-210
+  - Preconditions: Agent has reached the QID image capture section of the Passport to QID Update journey after entering QID Number and MOI Validation fetch.
+  - Steps: 1. Upload only the QID Front image, leaving QID Back empty. 2. Attempt to click Continue.
+  - Expected: System blocks progression past the QID image capture step and does not generate the Identification number change form until both QID Front and Back images are supplied.
+- **TC-IDE-332** [Negative] Passport-to-QID journey does not proceed to form generation without MOI Validation fetch succeeding (Priority: Medium)
+  - Covers: REQ-209
+  - Preconditions: Agent has entered MSISDN, Passport Number, and QID Number and clicked Update ID, but the MOI Validation service does not return customer details (e.g. simulated failure/timeout).
+  - Steps: 1. Click Update ID after entering QID Number. 2. Observe the customer-details auto-fetch step.
+  - Expected: Customer detail fields remain unpopulated and the journey does not silently proceed to QID image capture with blank/incorrect customer data; the agent is not able to complete the update using unverified data.
+- **TC-IDE-333** [Negative] Customer 360 search returns no result for an unmatched Customer No/Contact No/MSISDN (Priority: Medium)
+  - Covers: REQ-292
+  - Preconditions: Agent is logged into DXP with access to Customer 360.
+  - Steps: 1. Open Customer 360 search. 2. Enter a Customer Number, Contact Number, or MSISDN that does not exist in the system. 3. Submit the search.
+  - Expected: System returns a no-match/not-found result and does not load a Customer 360 view with incorrect or blank customer data.
+- **TC-IDE-334** [Negative] Usage/balance view shows no recent-access indicator when customer has not used My Account app (Priority: Low)
+  - Covers: REQ-082
+  - Preconditions: A customer has no recent My Account app activity on record.
+  - Steps: 1. As agent, open that customer's usage/balance view. 2. Check the recent-app-access indicator area.
+  - Expected: No 'recent access' indicator is shown (or it is clearly shown as inactive/none), avoiding a false-positive signal to the agent.
+- **TC-IDE-335** [Negative] Bill print does not truncate a long multi-part MOI name (Priority: Medium)
+  - Covers: REQ-105
+  - Preconditions: Customer record holds the maximum number of MOI name fields, producing a long concatenated full name.
+  - Steps: 1. Generate the bill for a customer with a long, multi-part stored name. 2. Inspect the printed/generated bill's name field.
+  - Expected: The full name prints in its entirety; no character truncation, field cut-off, or partial-name display occurs.
+- **TC-IDE-336** [Negative] Transaction with account/service change is blocked from completion without QID scan-and-attach (Priority: High)
+  - Covers: REQ-081
+  - Preconditions: Agent is processing a transaction that includes an account/service change and has not yet scanned/attached the QID.
+  - Steps: 1. Complete all other steps of the account/service-change transaction. 2. Attempt to submit/complete without scanning and attaching the QID.
+  - Expected: System blocks completion/submission of the transaction until the QID scan-and-attach step is fulfilled.
+- **TC-IDE-337** [Negative] Contact save blocked when ID Expiration Date is not in the future or Date of Birth conflicts with embedded QID data (Priority: Medium)
+  - Covers: REQ-117
+  - Preconditions: Agent is editing a contact record with ID Expiration Date and Date of Birth fields alongside a Qatari ID number.
+  - Steps: 1. Enter an ID Expiration Date in the past and attempt to save. 2. Separately, enter a Date of Birth that does not match the DOB embedded in the Qatari ID number and attempt to save.
+  - Expected: Both saves are blocked: the expired ID Expiration Date is rejected with a validation prompt, and the DOB/QID mismatch is rejected with a 'do not match' validation message.
+- **TC-IDE-338** [Negative] System falls back to Tarasol or manual entry when MOI API is unavailable (Priority: High)
+  - Covers: REQ-106
+  - Preconditions: Agent initiates an identity-data lookup while the MOI API is unavailable/failing (simulated outage).
+  - Steps: 1. Trigger the ID-data lookup step with MOI API unreachable. 2. Observe the system's fallback behavior.
+  - Expected: System falls back to the Tarasol source, or allows manual entry, so the agent can still proceed with identity data capture despite the MOI outage.
+- **TC-IDE-339** [Negative] Prepaid journey Contact step rejects progression with zero ID photos uploaded (Priority: High)
+  - Covers: REQ-145
+  - Preconditions: Agent is on the Contact step of a Prepaid guided journey with no Qatari ID Front/Back photos yet uploaded.
+  - Steps: 1. Complete all other Contact step fields (Email, Language, Alt. phone #). 2. Attempt to click Continue with no QID Front or Back photo uploaded.
+  - Expected: System blocks progression past the Contact step; neither upload placeholder shows a green check, and Continue does not advance the journey.
+
+**Validation scenarios:**
+
+- **TC-IDE-340** [Validation] Alt. phone # accepted when entered as local mobile number format (Priority: High)
+  - Covers: REQ-140
+  - Preconditions: Agent is on a Contact step (e.g. Fixed Line, FWA, or Postpaid guided journey) where the Alt. phone # field is displayed as mandatory.
+  - Steps: 1. Navigate to the Contact step of a guided journey (e.g. Fixed Line Fulfilment or FWA Indoor). 2. Enter a local mobile number (e.g. 97412341234) in the 'Alt. phone #' field. 3. Move focus away from the field or click Continue.
+  - Expected: Field shows a green checkmark confirming the value is accepted, with the info note 'This is a notification contact. Please enter a local mobile number.' displayed; agent can proceed past the Contact step.
+- **TC-IDE-341** [Validation] Customer 360 view refreshes only the active tab's data without reloading the full page (Priority: Medium)
+  - Covers: REQ-050
+  - Preconditions: Agent has Customer 360 open with multiple tabs (e.g. Overview, Order, Trouble Tickets, Installed Assets, Billing Profile, Credit Risk) on a single page.
+  - Steps: 1. From the Customer 360 single-page view, switch from the Overview tab to the Billing Profile tab. 2. Trigger a refresh/reload action on the Billing Profile tab data.
+  - Expected: Only the Billing Profile tab's data is refreshed (partial refresh); other tab content and the overall page state are not reloaded, and the tab-based single-page structure is preserved.
+- **TC-IDE-342** [Validation] QID scan-and-attach is required only when the transaction includes an account/service change (Priority: Medium)
+  - Covers: REQ-081
+  - Preconditions: Two transactions are being processed: one that changes account/service details, one that does not (e.g. a pure inquiry).
+  - Steps: 1. Process a transaction that includes an account/service change and reach the ID-attachment step. 2. Separately, process a transaction with no account/service change and reach the equivalent step.
+  - Expected: For the account/service-change transaction, QID scan-and-attach is presented/enforced as required. For the transaction with no account/service change, QID scan-and-attach is not required to proceed.
+- **TC-IDE-343** [Validation] Mandatory-field validation catalog blocks save when a required contact field is missing (Priority: High)
+  - Covers: REQ-117
+  - Preconditions: Agent is creating/editing a contact record with fields including First Name, Last Name, Nationality, Email, ID Type, ID Number, ID Expiration Date, Preferred Language, Birth Date, Alternate/Cellular Phone #, and Gender.
+  - Steps: 1. Leave one mandatory field empty (e.g. Last Name). 2. Attempt to save the contact record.
+  - Expected: The save is blocked and a mandatory-field validation message is shown for the missing field, consistent with the mandatory-field validation catalog.
+- **TC-IDE-344** [Validation] Contact record format validations enforced for QID, Passport, GCC ID, Business ID, and email (Priority: High)
+  - Covers: REQ-117
+  - Preconditions: Agent is entering ID and email details on a contact record.
+  - Steps: 1. Enter a Qatari ID that is not exactly 11 numeric digits and attempt to save. 2. Enter a Passport number outside the 4-20 alphanumeric character rule (e.g. containing a special character) and attempt to save. 3. Enter a GCC ID outside 8-20 numeric characters and attempt to save. 4. Enter a Business ID with characters other than numeric and '/' and attempt to save. 5. Enter an email not matching a standard 'abc@xyz.com' format and attempt to save.
+  - Expected: Each out-of-format entry is rejected with its corresponding validation message (e.g. 'Please enter a valid 11-digit ID number', passport/GCC ID length rule messages, Business ID character rule message, email format message), and the record is not saved until corrected.
+- **TC-IDE-345** [Validation] Fixed Line and Prepaid journeys require both Qatari ID Front and Back photo uploads before the Contact step continues (Priority: High)
+  - Covers: REQ-145
+  - Preconditions: Agent is on the Contact step of a Fixed Line or Prepaid guided journey with the Qatari ID Front and Back upload fields present.
+  - Steps: 1. Upload only the Qatari ID-Front photo. 2. Attempt to click Continue without uploading the Qatari ID-Back photo. 3. Then upload the Qatari ID-Back photo and click Continue again.
+  - Expected: Step 2 is blocked: Continue is disabled/rejected and only the Front photo shows a green check, Back remains unchecked/required. Step 3 succeeds only once both Front and Back uploads show green-check validation, allowing progression past the Contact step.
+
+**Workflow scenarios:**
+
+- **TC-IDE-346** [Workflow] End-to-end Passport-to-QID update: MOI auto-fetch through signed form completion (Priority: High)
+  - Covers: REQ-209, REQ-210, REQ-211
+  - Preconditions: Agent is logged into the Tablet and has selected the Passport to QID journey (UJ-076).
+  - Steps: 1. Enter MSISDN & Passport Number, click Go. 2. Enter the QID Number, click Update ID. 3. Confirm customer details are auto-fetched and populated via MOI Validation (no manual entry). 4. Scroll down and scan/upload QID Front & Back images, click Continue. 5. Confirm the Identification number change form is generated. 6. Have the customer sign the contract and click Done. 7. Confirm the signature is captured in the generated form, click Done. 8. Click Finish to attach the form.
+  - Expected: Customer details are correctly auto-populated from MOI Validation without manual re-entry; the Identification number change form is generated only after both QID images are captured; the journey cannot reach Finish without a captured customer e-signature on the form; the ID is updated from Passport to QID on completion.
+- **TC-IDE-347** [Workflow] Customer opts out of direct marketing via USSD opt-out code and consent flag updates (Priority: Medium)
+  - Covers: REQ-116
+  - Preconditions: Customer currently has direct-marketing consent set to opted-in.
+  - Steps: 1. Customer dials/sends the USSD opt-out code. 2. System processes the opt-out request. 3. Agent reviews the customer's direct-marketing consent status.
+  - Expected: The customer's direct-marketing consent flag updates to opted-out following the USSD opt-out code submission, and this is reflected in the customer record visible to the agent.
+- **TC-IDE-348** [Workflow] Identification number change form is generated and journey cannot complete without customer e-signature (Priority: High)
+  - Covers: REQ-211
+  - Preconditions: Agent has completed QID Front & Back upload in the Passport to QID Update journey (UJ-076) and reached the form-generation step.
+  - Steps: 1. Confirm the Identification number change form is generated automatically after image upload/Continue. 2. Attempt to click Finish without capturing the customer's signature on the form. 3. Then have the customer sign the contract, click Done, confirm the signature is captured in the form, click Done, then click Finish.
+  - Expected: Step 2 is blocked/prevented - the journey cannot reach Finish without a captured e-signature. Step 3 succeeds only after the signature is captured in the generated form, after which the form is attached and the journey completes via Finish.
+
+**Persona scenarios:**
+
+- **TC-IDE-349** [Persona] Retail agent role is blocked from changing the account's primary contact (Priority: High)
+  - Covers: REQ-122
+  - Preconditions: Agent logged in under a Retail channel/role is viewing an existing customer account with an assigned primary contact.
+  - Steps: 1. Open the account's Contact/Account 360 view as a Retail agent. 2. Locate the Primary Contact field. 3. Attempt to edit or reassign the Primary Contact.
+  - Expected: The Primary Contact field is not editable (read-only or edit action disabled/rejected) for the Retail persona; no change to primary contact is saved.
+- **TC-IDE-350** [Persona] ECR Details field is restricted to Fulfilment team entry and non-Fulfilment agents cannot edit it (Priority: Medium)
+  - Covers: REQ-139
+  - Preconditions: A non-Fulfilment agent (e.g. Retail/Sales agent) is on a Contact step (Fixed Line/FWA journey) where 'Enter ECR Details' is displayed as 'No' with the tooltip 'To be filled by Fulfillment team only.'
+  - Steps: 1. As a non-Fulfilment agent, view the Contact step showing 'Enter ECR Details' = No. 2. Attempt to change the ECR Details field or enter ECR data.
+  - Expected: The ECR Details field remains restricted/read-only (green-check 'No') for the non-Fulfilment agent, and the tooltip 'To be filled by Fulfillment team only' is displayed; the field cannot be populated by this persona.
+- **TC-IDE-351** [Persona] Fulfilment team agent can enter ECR Details on the Contact step (Priority: Medium)
+  - Covers: REQ-139
+  - Preconditions: Agent logged in under the Fulfilment team role is on the Contact step of a Fixed Line journey.
+  - Steps: 1. As a Fulfilment agent, view the Contact step. 2. Set 'Enter ECR Details' to Yes. 3. Enter the ECR Details data.
+  - Expected: The Fulfilment persona is permitted to enter and save ECR Details, distinct from other roles who see it locked to 'No'.
+- **TC-IDE-352** [Persona] Standard agent cannot edit the QID number field; manager-level bypass is required (Priority: High)
+  - Covers: REQ-062
+  - Preconditions: A standard (non-manager) agent is on an ID/contact screen with a populated QID number field sourced from a scan/MOI lookup.
+  - Steps: 1. As a standard agent, attempt to directly edit the QID number field. 2. Observe whether the edit is permitted.
+  - Expected: The standard agent cannot edit the QID number field directly (it requires re-scanning rather than manual entry); the field remains locked to that persona.
+- **TC-IDE-353** [Persona] Manager-level bypass allows editing the QID number field only, with remaining fields still MOI-validated (Priority: High)
+  - Covers: REQ-062
+  - Preconditions: A manager-level user is on the ID/contact screen and invokes the bypass to edit the QID number field.
+  - Steps: 1. As a manager, invoke the manager-level bypass. 2. Edit the QID number field directly. 3. Attempt to edit a different ID-related field (e.g. Nationality or Birth Date) via the same bypass.
+  - Expected: The manager bypass permits direct editing of the QID number field only; other ID-derived fields remain governed by MOI validation and are not freely editable through this bypass.
+
+### SIM & Number Management (34 scenarios)
+
+**Positive scenarios:**
+
+- **TC-SIM-354** [Positive] TON automation engine auto-approves an in-scope case without human approver (Priority: High)
+  - Covers: REQ-099, REQ-063 | Journey: UJ-019
+  - Preconditions: TON business rule engine is configured and active; the submitted TON case matches the criteria the rule engine is designed to auto-approve (part of the targeted 70-80% automatable case set).
+  - Steps: 1. Agent submits a TON order for a case matching the configured auto-approval rule set (e.g., no collection hold, valid IDs, no star-number/high-value complication). 2. Order passes through the business rule engine instead of being queued to a human approver. 3. Observe order status transition.
+  - Expected: The order is approved automatically by the rule engine with no manual approver action recorded, and the order proceeds to the next TON step (e.g., SIM swap) without being placed in a manual approval queue.
+- **TC-SIM-355** [Positive] Number Selection step displays Star, Free, and Reserved number tabs for selection (Priority: Medium)
+  - Covers: REQ-222 | Journey: UJ-019
+  - Preconditions: Agent has reached the Number Selection step of a relevant order (e.g., TON, new activation) that offers number tab selection.
+  - Steps: 1. Navigate to the Number Selection step. 2. Observe the available tabs. 3. Click each of the Star Number, Free Number, and Reserved Number tabs in turn.
+  - Expected: All three tabs - Star, Free, and Reserved - are present and selectable at the Number Selection step; selecting each tab displays the corresponding number pool (e.g., free numbers at QR0.00, previously reserved numbers, star numbers) for the agent to choose from.
+- **TC-SIM-356** [Positive] Agent reserves a free number and receives a confirmable success token (Priority: High)
+  - Covers: REQ-214 | Journey: UJ-019
+  - Preconditions: Agent at the Number Selection step; at least one free number tile is available.
+  - Steps: 1. Select a free number tile from the Free Number tab. 2. Click Reserve. 3. Observe the system response returned for the reservation action.
+  - Expected: The reservation action returns a confirmable success response/token belonging to the SBL-EXL-00151 code family, confirming the number reservation succeeded before the agent continues to the next step.
+- **TC-SIM-357** [Positive] System auto-selects a number for a new fixed-line activation to reduce agent clicks (Priority: Medium)
+  - Covers: REQ-085
+  - Preconditions: Agent is building a new Fixed activation order for a customer at a service point with available numbers.
+  - Steps: 1. Reach the Number Selection step in a Fixed order. 2. Observe whether the system pre-selects/auto-selects a candidate number without requiring the agent to manually browse and pick one. 3. Confirm the auto-selected number via Continue/Reserve.
+  - Expected: For fixed and prepaid order types, the system auto-selects a candidate number (reducing the number of manual clicks the agent must perform), and the agent can confirm/accept it directly.
+- **TC-SIM-358** [Positive] Desktop provides dedicated navigation to view all SIM Swap orders (Priority: Medium)
+  - Covers: REQ-237 | Journey: UJ-091
+  - Preconditions: Agent logged into Open UI Desktop.
+  - Steps: 1. Log in to Open UI Desktop. 2. Navigate: Sales Order Icon -> All Sales Order. 3. Open the top-menu dropdown. 4. Select "All SIM Swap Orders".
+  - Expected: The dropdown option "All SIM Swap Orders" is present and, when selected, displays a list of all SIM Swap orders regardless of status.
+- **TC-SIM-359** [Positive] Desktop provides dedicated navigation to view all pending SIM Swap orders (Priority: Medium)
+  - Covers: REQ-237 | Journey: UJ-091
+  - Preconditions: Agent logged into Open UI Desktop; at least one SIM Swap order exists in a pending state.
+  - Steps: 1. Log in to Open UI Desktop. 2. Navigate: Sales Order Icon -> All Sales Order. 3. Open the top-menu dropdown. 4. Select "All Pending SIM Swap Orders".
+  - Expected: The dropdown option "All Pending SIM Swap Orders" is present and, when selected, displays only SIM Swap orders that are still pending (not completed/dropped).
+- **TC-SIM-360** [Positive] Number management portal search experience returns results for free and paid number categories (Priority: Medium)
+  - Covers: REQ-080
+  - Preconditions: Number management portal is accessible; numbers exist in both the free and paid categories.
+  - Steps: 1. Open the number management portal search. 2. Search for a number/number range in the free category. 3. Search for a number/number range in the paid category.
+  - Expected: The portal's search experience returns correct matching results for both defined number categories (free and paid), consistent with the two-category number model confirmed for the module.
+- **TC-SIM-361** [Positive] TON Claim of Ownership (COO) journey can be initiated where the number's user is present but registered to another party (Priority: Low)
+  - Covers: REQ-063 | Journey: UJ-040
+  - Preconditions: A number is registered to a different customer than its current user, matching the COO scenario definition; COO functionality has been reactivated from its on-hold state.
+  - Steps: 1. Identify a number whose current user is present but the registration does not match. 2. Initiate the Claim of Ownership TON variant. 3. Complete the required COO-specific validation/approval path.
+  - Expected: The COO TON variant can be initiated and processed through to an approval outcome (automated or manual per the resolved approval rules), consistent with the documented COO journey.
+- **TC-SIM-362** [Positive] SIM Swap initiated from Global Search completes end-to-end to Approval (Priority: High)
+  - Covers: REQ-063 | Journey: UJ-090
+  - Preconditions: Agent has access to Global Search; a valid MSISDN with an active service exists; customer QID and Bank document are available to upload.
+  - Steps: 1. Click Global Search icon. 2. Enter MSISDN and click Go. 3. Click SIM Swap option. 4. Verify contact details, upload QID front & Bank document, click Continue. 5. Enter SIM Serial Number, select SIM Swap Reason, click Submit. 6. Attach SIM Swap Form, click Continue. 7. Observe order routes to Approval. 8. Add comments, click Save and Finish.
+  - Expected: The SIM Swap order is created with the entered SIM serial number and reason, all required attachments (QID, Bank doc, SIM Swap Form) are attached, and the order correctly transitions to the Approval queue awaiting a decision.
+- **TC-SIM-363** [Positive] SIM Swap on Open UI Tablet completes contract signature and order submission for approval (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-090
+  - Preconditions: Agent logged into Open UI Tablet with a valid MSISDN, ID Type and ID Number for the customer requesting SIM Swap.
+  - Steps: 1. Go to SIM Swap Journey, enter MSISDN, ID Type & ID Number, click Go. 2. Verify contact details, add QID front & Bank, click Continue. 3. Enter SIM Serial Number, select Reason, click Submit. 4. Click Sign Contract. 5. Take customer signature, click Done tab, click Done. 6. SIM Swap Request Form attached, click Finish.
+  - Expected: The order is submitted for Approval only after the customer signature is captured and the SIM Swap Request Form is attached; the order cannot reach the Approval stage without both being completed.
+
+**Negative scenarios:**
+
+- **TC-SIM-364** [Negative] TON case outside automation rule scope is not auto-approved and falls back to manual queue (Priority: High)
+  - Covers: REQ-099 | Journey: UJ-019
+  - Preconditions: TON business rule engine active; the submitted case is a known exception type outside the ~70-80% auto-approvable scope (e.g., involves a collection hold or star number complication).
+  - Steps: 1. Agent submits a TON order with an attribute known to be an exception case for the rule engine. 2. Observe whether the system attempts auto-approval.
+  - Expected: The system does not auto-approve the case; the order is routed to a manual ticket/queue for human review rather than silently approved, since exception cases must fall back to manual handling.
+- **TC-SIM-365** [Negative] TON disconnection does not fire before WinCash payment where sequencing requires payment-first (Priority: High)
+  - Covers: REQ-103 | Journey: UJ-019
+  - Preconditions: TON order configured with payment-before-disconnection sequencing resolved as the correct order.
+  - Steps: 1. Begin the TON order and reach the payment step without completing the WinCash payment (leave it pending/incomplete). 2. Attempt to proceed the order to the disconnection step.
+  - Expected: The system blocks or does not trigger disconnection of Party A's number while the WinCash payment is still incomplete/pending, consistent with the resolved sequencing rule.
+- **TC-SIM-366** [Negative] Number reservation failure does not return a false success token (Priority: Medium)
+  - Covers: REQ-214 | Journey: UJ-019
+  - Preconditions: Agent at Number Selection step attempting to reserve a number that is no longer available (e.g., concurrently reserved by another agent/session).
+  - Steps: 1. Attempt to reserve a number that has just become unavailable (e.g., already reserved). 2. Observe the system response.
+  - Expected: The system does not return a success confirmation token for the failed reservation; the agent is shown an error/conflict rather than a false-positive success token, and no number is bound to the order.
+- **TC-SIM-367** [Negative] Auto-select for number does not apply to mobile postpaid orders (Priority: Medium)
+  - Covers: REQ-085
+  - Preconditions: Agent is building a new mobile postpaid activation order.
+  - Steps: 1. Reach the Number Selection step in a mobile postpaid order. 2. Observe whether the system auto-selects a number or requires manual agent selection.
+  - Expected: The system does not auto-select a number for mobile postpaid; the agent must manually browse and select from the available number tabs (mobile postpaid is explicitly excluded from the auto-select behavior).
+- **TC-SIM-368** [Negative] SIM Swap from Global Search cannot be submitted without required QID/Bank attachment (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-090
+  - Preconditions: Agent has initiated SIM Swap from Global Search and reached the contact verification step.
+  - Steps: 1. Click Global Search icon, enter MSISDN, click Go, click SIM Swap option. 2. Attempt to click Continue without uploading QID front and Bank attachment.
+  - Expected: The system blocks progression to the next step (Enter SIM Serial Number) until the required QID front and Bank attachments are uploaded.
+- **TC-SIM-369** [Negative] SIM Swap order cannot be dropped by any user without going through Order Approval (Priority: Medium)
+  - Covers: REQ-237 | Journey: UJ-091
+  - Preconditions: A SIM Swap order exists that has not yet been routed through/assigned in the Order Approval queue.
+  - Steps: 1. As a user without going through the SIM Swap Order Approval queue, attempt to directly Drop the Order.
+  - Expected: The system blocks the action and displays the documented error preventing a Drop Order action from being performed without going through Order Approval.
+
+**Validation scenarios:**
+
+- **TC-SIM-370** [Validation] Document and verify the exact per-scenario TON validation checks for a given case type (Priority: Medium)
+  - Covers: REQ-101 | Journey: UJ-019
+  - Preconditions: A defined TON scenario (e.g., BAU retail, COO, third-party on cancelled ID) with its documented validation checklist is available for automation review.
+  - Steps: 1. Select one documented TON scenario type. 2. For that scenario, execute the order through the system and record every validation check the system actually performs (ID checks, collection check, age/minor check, star number checks, DOI/lock-in clearance check). 3. Compare the executed checks against the documented exact per-scenario check list.
+  - Expected: The set of validation checks the system performs for the scenario matches exactly the documented per-scenario checklist submitted for automation review; any discrepancy is flagged as a gap between documentation and system behavior.
+- **TC-SIM-371** [Validation] Plan-price-to-Star-Number-price eligibility matrix governs which star numbers can be assigned (Priority: Medium)
+  - Covers: REQ-272 | Journey: UJ-019
+  - Preconditions: A defined plan-price-to-star-number-price eligibility matrix exists; agent is selecting a star number for a customer on a specific plan.
+  - Steps: 1. Select a customer plan of a given price tier. 2. Navigate to the Star Number tab in Number Selection. 3. Attempt to select a star number whose price tier is outside what the eligibility matrix permits for the chosen plan price.
+  - Expected: The system restricts star number selection to those permitted by the plan-price-to-star-number-price eligibility matrix for the selected plan; a star number outside the eligible price band for that plan cannot be assigned, or triggers the matrix's defined exception path (e.g., one-year postpaid commitment / value payment) consistent with the resolved matrix.
+- **TC-SIM-372** [Validation] Non-IoT MSISDN must be exactly 8 digits (Priority: High)
+  - Covers: REQ-285
+  - Preconditions: Agent is entering/selecting an MSISDN for a non-IoT service order.
+  - Steps: 1. Attempt to submit/select a non-IoT MSISDN with 8 digits. 2. Attempt to submit/select a non-IoT MSISDN with a different digit count (e.g., 7 or 9 digits, or a 10-digit value).
+  - Expected: The 8-digit non-IoT MSISDN is accepted; an MSISDN of any other length submitted for a non-IoT order is rejected by validation as not conforming to the non-IoT MSISDN length rule.
+- **TC-SIM-373** [Validation] IoT MSISDN must be exactly 10 digits (Priority: High)
+  - Covers: REQ-285
+  - Preconditions: Agent is entering/selecting an MSISDN for an IoT service order.
+  - Steps: 1. Attempt to submit/select an IoT MSISDN with 10 digits. 2. Attempt to submit/select an IoT MSISDN with a different digit count (e.g., 8 digits).
+  - Expected: The 10-digit IoT MSISDN is accepted; an 8-digit (or otherwise non-10-digit) MSISDN submitted for an IoT order is rejected by validation as not conforming to the IoT MSISDN length rule.
+- **TC-SIM-374** [Validation] SIM Swap charging rule differentiates eSIM-to-eSIM, eSIM-to-physical, lost SIM, and damaged SIM cases (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-020
+  - Preconditions: SIM Swap order can be raised for each of the four documented swap-type/reason combinations.
+  - Steps: 1. Process a SIM Swap where existing SIM is eSIM and new SIM is eSIM. 2. Process a SIM Swap where existing SIM is eSIM and new SIM is physical. 3. Process a SIM Swap flagged as reason 'Lost SIM'. 4. Process a SIM Swap flagged as reason 'Damaged SIM'.
+  - Expected: eSIM-to-eSIM swap is free of charge; eSIM-to-physical swap is charged; a swap for a lost SIM is charged; a swap for a damaged SIM is not charged - matching the documented charging rules for each case.
+
+**Workflow scenarios:**
+
+- **TC-SIM-375** [Workflow] TON BAU retail flow completes via four-queue routing when both parties are present (Priority: High)
+  - Covers: REQ-063 | Journey: UJ-019
+  - Preconditions: Agent logged into retail Open UI/Siebel; Party A (current owner) and Party B (new owner) both physically present in store with valid ID documents; neither party is in collection.
+  - Steps: 1. Agent initiates TON from Party A's account. 2. Agent captures Party A ID (passport/DCC/QID) and Party B ID (QID/diplomatic ID). 3. Agent submits required TON form and customer application form. 4. Order is evaluated for automated approval per configured business rules instead of routing to a human approver. 5. If the case falls outside auto-approval, order routes to one of the four queues (Managing queue, CDM, BOQ, QATQ) for manual approval.
+  - Expected: Cases meeting the configured automated approval rules are approved without manual queue routing; cases outside the rules are routed to the correct one of the four queues (Managing/CDM/BOQ/QATQ) for approval, and the TON order proceeds to completion once approved.
+- **TC-SIM-376** [Workflow] WinCash payment sequencing and disconnection trigger timing resolved for TON (Priority: High)
+  - Covers: REQ-103 | Journey: UJ-019
+  - Preconditions: TON order reaches the payment step for the star number penalty or TON fee via WinCash; both a party A and party B payment component exist.
+  - Steps: 1. Progress the TON order to the payment stage. 2. Trigger the WinCash payment for the TON/star-number fee at the defined point in the sequence (per resolved business rule). 3. Observe when the disconnection of Party A's number is triggered relative to WinCash payment completion.
+  - Expected: WinCash payment occurs at the resolved, defined point in the TON sequence, and the number disconnection trigger fires only at the resolved, defined timing relative to that payment (not before payment where that is against the resolved sequencing) - behavior is deterministic and consistent, not ambiguous or race-prone.
+- **TC-SIM-377** [Workflow] Remove prepaid-migration workaround once TON back-office approval automation is live (Priority: High)
+  - Covers: REQ-104 | Journey: UJ-019
+  - Preconditions: TON automated validation/approval capability is available (per REQ-099/REQ-063) such that back-office approval no longer requires the ~20-day manual delay.
+  - Steps: 1. Initiate a TON case that previously would have required migrating the line to prepaid first to work around back-office approval delay. 2. Attempt to proceed directly with TON without performing the prepaid-migration step first.
+  - Expected: The TON order can be completed without requiring the customer's line to first be migrated to prepaid as a workaround; the case is validated and approved (automatically or via the resolved manual path) without the workaround step being necessary.
+- **TC-SIM-378** [Workflow] Split payment steps for Party A and Party B during TON flow (Priority: High)
+  - Covers: REQ-100 | Journey: UJ-019
+  - Preconditions: TON order has separate payment obligations for Party A (e.g., outstanding DOI/lock-in penalty) and Party B (e.g., star number transfer payment).
+  - Steps: 1. Progress the TON order to the payment stage. 2. Complete Party A's payment step independently. 3. Complete Party B's payment step as a separate step (not forced into a single combined payment flow). 4. Confirm both payment steps are recorded against the correct party.
+  - Expected: The TON flow allows Party A and Party B payments to be captured as two distinct payment steps rather than requiring a single combined payment; each payment is correctly attributed to its party and the order proceeds only once both required payments are complete.
+- **TC-SIM-379** [Workflow] Resolve and enforce which party pays the 50 Riyal TON fee (Priority: High)
+  - Covers: REQ-102 | Journey: UJ-019
+  - Preconditions: TON order reaches the fee-collection step where a 50 Riyal TON fee applies.
+  - Steps: 1. Progress a TON order to the fee step. 2. Observe which party (Party A or Party B) the system attributes the 50 Riyal fee charge/receipt to. 3. Confirm the attribution is applied consistently rather than left to store/agent discretion.
+  - Expected: The system applies the 50 Riyal TON fee to the resolved, defined paying party automatically, rather than leaving the determination to ad hoc store/agent discretion, so the receipt/charge is generated without manual ambiguity blocking automation.
+- **TC-SIM-380** [Workflow] Third-party TON on cancelled ID processes via MOI hold-down/invalid-ID table and store SMS presentation (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-041
+  - Preconditions: MOI hold-down table and invalid-ID table have been built by BI and loaded into Siebel Open UI as bulk notes; an eligible user has received the SMS notification.
+  - Steps: 1. Customer receives SMS notifying them their number's original ID has been cancelled. 2. Customer presents the physical SIM (or eSIM screenshot) plus the SMS at a store. 3. Agent looks up the account and confirms the hold-down/invalid-ID table match. 4. Agent processes the third-party TON on the cancelled ID.
+  - Expected: The order can only proceed for accounts flagged in the hold-down/invalid-ID table, and processing requires the customer to present both the SIM/eSIM proof and the SMS as documented; the TON completes and updates ownership accordingly.
+- **TC-SIM-381** [Workflow] TON Trouble Ticket variant (prepaid-only) enforces fraud control routing (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-024
+  - Preconditions: A prepaid line is the subject of a Trouble Ticket-initiated TON variant with fraud control checks in scope.
+  - Steps: 1. Raise a Trouble Ticket-based TON request against a prepaid line. 2. Observe the fraud control checks the system applies before allowing ownership transfer. 3. Complete or reject the request based on fraud check outcome.
+  - Expected: The Trouble Ticket TON variant is only available for prepaid lines and applies its fraud control checks before allowing the transfer to proceed; a failed fraud check blocks the transfer.
+- **TC-SIM-382** [Workflow] SIM Swap Approval on Open UI Desktop: agent assigns, opens, and approves a queued order (Priority: High)
+  - Covers: REQ-237 | Journey: UJ-091
+  - Preconditions: A SIM Swap order exists in the SIM Swap Queue awaiting approval; approver agent is logged into Open UI Desktop.
+  - Steps: 1. Click Queue, select SIM Swap Queue, click Order tasks tab. 2. Sort by Created Date or search by Order Number to find the order. 3. Select the order, click Assign to Me. 4. Click the Order ID hyperlink. 5. Scroll down and click Approve. 6. In the pop-up, add comments and click Submit.
+  - Expected: On Submit, the approval task closes and the SIM Swap order status becomes Completed.
+- **TC-SIM-383** [Workflow] SIM Swap Approval on Open UI Desktop: rejecting a queued order drops it as cancelled (Priority: High)
+  - Covers: REQ-237 | Journey: UJ-091
+  - Preconditions: A SIM Swap order exists in the SIM Swap Queue awaiting approval; approver agent is logged into Open UI Desktop and has assigned the task to themselves.
+  - Steps: 1. Open the assigned SIM Swap order task. 2. Scroll down and click Reject. 3. In the Rejection Reason pop-up, add comments. 4. Click Drop Order.
+  - Expected: The order is dropped and its status becomes Cancelled; the task closes and is removed from the pending approval queue.
+- **TC-SIM-384** [Workflow] SIM Swap Approval on Open UI Tablet: full journey from queue assignment to attachment validation and approval (Priority: Medium)
+  - Covers: REQ-237 | Journey: UJ-091
+  - Preconditions: A SIM Swap order submitted via the Open UI Tablet journey is in the Order Approval Queue.
+  - Steps: 1. Go to Approval Journey, select Order Approval Queue, go to Order Activities Queue (sort/search). 2. Select the order, click Assign to Me. 3. Go to My Activities, click the Order ID hyperlink. 4. Validate Attachments. 5. Approve, or Reject/Drop Order.
+  - Expected: After validating attachments, the approver can Approve (completing the order) or Reject/Drop (cancelling it); either outcome returns the task to My Activities and updates the order status accordingly.
+- **TC-SIM-385** [Workflow] Voluntary/Manual Suspension ('Park My Number') applies as a plan change with credit limit set to zero (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-021
+  - Preconditions: Account is eligible for manual suspension; agent/back-office user has the restricted role required to process 'Park My Number'.
+  - Steps: 1. Initiate manual suspension ('Park My Number') as a plan change (not a standalone suspension action). 2. Confirm the 35 Rial, four-month upfront payment is applied. 3. Confirm the account's credit limit is set to zero as part of the plan change. 4. Confirm the request is processed as a back-office ticket rather than a retail self-service journey.
+  - Expected: The suspension is implemented strictly as a plan change to the 'park my number' plan, upfront payment is captured, credit limit is set to zero, and the process routes through the back-office ticket workflow rather than being available as a direct retail action.
+
+**Persona scenarios:**
+
+- **TC-SIM-386** [Persona] Only authorized back-office roles can process manual suspension ('Park My Number') (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-021
+  - Preconditions: Two user accounts exist: one with the role authorized to process manual suspension/back-office tickets, one retail agent role without that authorization.
+  - Steps: 1. Log in as the retail agent role without back-office suspension authorization and attempt to initiate 'Park My Number' as a direct retail action. 2. Log in as the authorized back-office role and attempt the same action via the ticket-driven process.
+  - Expected: The retail agent role without authorization cannot initiate manual suspension directly as a retail journey; the authorized back-office role can process it through the ticket-driven workflow.
+- **TC-SIM-387** [Persona] Only Manager-level role can bypass ID auto-population to manually edit QID during SIM Swap OCR/MOI validation (Priority: Medium)
+  - Covers: REQ-063 | Journey: UJ-020
+  - Preconditions: SIM Swap validation chain (OCR -> barcode match -> MOI API -> CBS match) is active; a manager-level user account and a standard agent account both exist.
+  - Steps: 1. As a standard agent, attempt to manually type/edit an ID field (other than re-scanning) during SIM Swap identity validation. 2. As a manager-level user, attempt to edit the QID number field specifically, with remaining fields still validated against MOI.
+  - Expected: The standard agent cannot manually enter ID details (only re-scan is permitted); the manager-level user can edit the QID number field only, while all other fields remain subject to MOI validation.
+
+### Trouble Ticketing & Complaints (26 scenarios)
+
+**Positive scenarios:**
+
+- **TC-TRO-388** [Positive] Complaints Management Process - agent successfully files a customer complaint ticket (Priority: High)
+  - Covers: REQ-304, REQ-066 | Journey: UJ-109
+  - Preconditions: Agent logged in; customer account located; ticket LOV includes a 'Complaint' category distinct from 'Request'.
+  - Steps: 1. Agent opens the Complaints Management ticket creation screen from the customer's account. 2. Agent selects ticket category = Complaint (as opposed to Request). 3. Agent fills the complaint-specific template fields (e.g. issue type) and submits. 4. Observe the SLA/handling assigned to the ticket.
+  - Expected: The ticket is created and tagged as a Complaint, distinct from a Request, and is subject to the Complaint-specific SLA rather than the Request SLA, confirming requests and complaints are segregated with different SLAs.
+- **TC-TRO-389** [Positive] Ticket list view segregates Requests, Complaints, Channel Complaints, and System-Generated Tickets (Priority: Medium)
+  - Covers: REQ-304 | Journey: UJ-109
+  - Preconditions: At least one ticket of each of the four categories exists (Request, Complaint, Channel Complaint, System-Generated).
+  - Steps: 1. Agent/Supervisor navigates to the ticket homepage/list view. 2. Filter or view by ticket category. 3. Inspect the view/handling presented for each of the four categories.
+  - Expected: Each of the four ticket categories (Requests, Complaints, Channel Complaints, System-Generated Tickets) is presented with its own distinct view/handling rather than a single undifferentiated list, per the proposed ticket segregation enhancement.
+- **TC-TRO-390** [Positive] Activity/wrap-up comment meeting minimum length allows successful Save and Finish (Priority: High)
+  - Covers: REQ-189 | Journey: UJ-022
+  - Preconditions: Agent has an open ticket/order requiring an Activity Portal wrap-up step.
+  - Steps: 1. Agent reaches the Activity/wrap-up step. 2. Agent enters a comment of more than 5 characters describing the action performed. 3. Agent clicks Save and Finish.
+  - Expected: The comment passes validation, the wrap-up step saves successfully, a success popup with an Order/Ticket ID is shown, and the action is documented for other advisors to see.
+- **TC-TRO-391** [Positive] New ticket LOB is added online and immediately usable without a release (Priority: High)
+  - Covers: REQ-068
+  - Preconditions: Admin/configuration user has access to the ticket LOV/LOB management screen; a new LOB value is required that does not currently exist.
+  - Steps: 1. Configuration user opens the ticket LOB/list-of-values management screen. 2. Adds a new LOB entry and configures its automatic field mapping. 3. Without deploying a release or taking the system offline, an agent attempts to create a ticket and selects the newly added LOB.
+  - Expected: The new LOB is available for selection immediately after being added online, with its fields automatically mapped, and no release/offline configuration cycle is required.
+- **TC-TRO-392** [Positive] System auto-assigns a new ticket directly to the correct queue without manual export/distribution (Priority: High)
+  - Covers: REQ-074 | Journey: UJ-022
+  - Preconditions: A ticket is created (agent-created or system-generated) with a ticket type mapped to a specific queue.
+  - Steps: 1. Create/submit a new ticket of a given LOB/type. 2. Observe the ticket's queue assignment immediately after submission.
+  - Expected: The ticket is directly assigned to the appropriate queue by the system at creation time, with no manual export to a spreadsheet or manual distribution step required by staff.
+- **TC-TRO-393** [Positive] Ticket is auto-assigned to an available agent based on real-time availability parameters (Priority: High)
+  - Covers: REQ-067
+  - Preconditions: Multiple agents are in a queue with differing availability status; auto-assignment rules and availability parameters are configured.
+  - Steps: 1. Set Agent A as available and Agent B as unavailable/at capacity in the queue. 2. Submit a new ticket routed to that queue. 3. Observe which agent the ticket is auto-assigned to. 4. Update an auto-assignment parameter (e.g. availability rule) in real time without a system change/deployment. 5. Submit another ticket and observe assignment behavior reflects the updated rule.
+  - Expected: The ticket is auto-assigned to the available Agent A (not the unavailable Agent B) at the agent level, and the updated assignment parameter takes effect for the next ticket without requiring a system change/release.
+- **TC-TRO-394** [Positive] Ticket receipt notification is sent to the group mailbox on ticket creation (Priority: High)
+  - Covers: REQ-075 | Journey: UJ-022
+  - Preconditions: Group mailbox email notification is configured/restored for a given ticket queue.
+  - Steps: 1. Create/submit a new ticket routed to a queue with group mailbox notification enabled. 2. Check the associated group mailbox inbox.
+  - Expected: An email notification confirming ticket receipt is delivered to the group mailbox, restoring the prior Siebel behavior.
+- **TC-TRO-395** [Positive] Notification/template inventory section documents when and what content a ticket notification sends (Priority: Low)
+  - Covers: REQ-241
+  - Preconditions: Roles/journeys Excel and SMS templates documentation exist and are being extended.
+  - Steps: 1. Open the roles/journeys Excel and SMS templates documentation. 2. Locate the notification/template inventory section. 3. Cross-check a sample ticket notification (e.g. New Ticket SMS) entry for trigger condition, static content, and dynamic content fields.
+  - Expected: The inventory section lists, for each notification/template, when it is sent (trigger condition/event) and what static and dynamic content it contains, providing traceable documentation for ticket-related notifications (e.g. New Ticket, Re-Opened Ticket).
+- **TC-TRO-396** [Positive] Public ticket note is displayed with equal visual prominence to the bell icon notification (Priority: Medium)
+  - Covers: REQ-071 | Journey: UJ-022
+  - Preconditions: A ticket has both a public note added and a bell-icon notification triggered.
+  - Steps: 1. Add a public note to an open ticket. 2. Trigger a bell-icon notification event on the same ticket (e.g. an update). 3. Compare the visual treatment (placement, styling, prominence) of the public note indicator versus the bell icon notification when the agent opens the ticket.
+  - Expected: The public note is displayed with prominence comparable to the bell icon notification (e.g. a clear visual indicator/banner), such that agents are not likely to miss it, addressing the current gap where agents miss public notes.
+- **TC-TRO-397** [Positive] End Data Session ticket is auto-created and auto-closed to refresh a long-running session (Priority: Medium)
+  - Covers: REQ-065 | Journey: UJ-023
+  - Preconditions: A customer has a long-running data (IN) session that requires refresh/CDR generation.
+  - Steps: 1. Trigger the End Data Session action for the affected MSISDN (e.g. agent shortcut Ctrl+S in the legacy tool, or equivalent DXP action). 2. Observe ticket creation and closure behavior. 3. Confirm the data session is refreshed and a CDR is generated.
+  - Expected: An End Data Session ticket is automatically created and automatically closed (routed to no team), and the long-running IN session is refreshed with CDR generation confirmed, with ticket fields auto-populated from the MSISDN context.
+
+**Negative scenarios:**
+
+- **TC-TRO-398** [Negative] MVA customer-initiated request is not auto-created as a ticket without team intervention (Priority: Medium)
+  - Covers: REQ-308
+  - Preconditions: Customer submits a request via the MVA (Vodafone App).
+  - Steps: 1. Customer raises a request in MVA. 2. Observe system behavior: is a ticket created directly in the ticketing system, or does the request first surface as a report to a team? 3. Confirm whether an agent must manually review the report and raise the ticket.
+  - Expected: Under the current (flagged) design, the MVA request is routed as a report to a team rather than being automatically converted into a ticket; the ticket only appears in the system after an agent manually raises it following team contact with the customer, confirming the non-automated intake gap this requirement flags for remediation.
+- **TC-TRO-399** [Negative] Adding a new ticket LOB does not require a release deployment (regression against dynamic LOB requirement) (Priority: Medium)
+  - Covers: REQ-068
+  - Preconditions: A new LOB must be introduced.
+  - Steps: 1. Attempt to add a new ticket LOB via the online configuration path only (no release/deployment triggered). 2. Confirm no release ticket, deployment window, or offline configuration step was invoked. 3. Verify the LOB is live and mapped.
+  - Expected: The requirement is violated if the new LOB only becomes available after a release/deployment; the expected (correct) behavior is that the LOB is live purely from the online configuration action, confirming no release dependency exists.
+- **TC-TRO-400** [Negative] Ticket within SLA does not trigger escalation (Priority: Medium)
+  - Covers: REQ-069
+  - Preconditions: A ticket exists and is still within its SLA/predefined delay threshold.
+  - Steps: 1. Create a ticket and leave it in progress within its SLA window. 2. Run/wait for the escalation evaluation cycle.
+  - Expected: No escalation email is generated for the ticket, since it has not met the predefined delay criteria, confirming escalation is rule-based and not triggered prematurely.
+- **TC-TRO-401** [Negative] Ticket is not auto-assigned to an agent who is unavailable (Priority: Medium)
+  - Covers: REQ-067
+  - Preconditions: An agent in the target queue is marked unavailable (e.g. offline/on break/at max capacity).
+  - Steps: 1. Mark the sole eligible agent in a queue as unavailable. 2. Submit a new ticket to that queue.
+  - Expected: The system does not assign the ticket to the unavailable agent; it either queues the ticket for the next available agent or holds it at queue level per the availability-based routing logic, rather than assigning it to someone unable to work it.
+- **TC-TRO-402** [Negative] Agent misses a public note that lacks prominent display (current-state gap regression check) (Priority: Medium)
+  - Covers: REQ-071 | Journey: UJ-022
+  - Preconditions: A ticket has a public note added but only the legacy low-prominence display is active.
+  - Steps: 1. Add a public note to a ticket. 2. Open the ticket as a different agent without deliberately checking the notes tab.
+  - Expected: If the note is not surfaced as prominently as the bell icon, the agent is likely to miss it; this scenario documents the defect being remediated. After the fix, the note must be surfaced with equal prominence (see corresponding Positive scenario).
+- **TC-TRO-403** [Negative] Qnomy unavailable triggers documented fallback handling instead of blocking ticket creation (Priority: High)
+  - Covers: REQ-265 | Journey: UJ-022
+  - Preconditions: Qnomy service is simulated as unavailable/unreachable.
+  - Steps: 1. Simulate Qnomy system outage or timeout. 2. Agent attempts to start a new journey/ticket creation that would normally consume a Qnomy Q Ticket.
+  - Expected: The system applies the defined fallback handling (rather than hard-failing the journey), allowing the agent to proceed with ticket/session creation despite Qnomy being unavailable.
+
+**Validation scenarios:**
+
+- **TC-TRO-404** [Validation] Activity/wrap-up comment under 5 characters is rejected on Save and Finish (Priority: High)
+  - Covers: REQ-189 | Journey: UJ-022
+  - Preconditions: Agent has an open ticket/order requiring an Activity Portal wrap-up step (e.g. Home Move activity).
+  - Steps: 1. Agent reaches the Activity/wrap-up step for the ticket. 2. Agent enters a comment of 4 characters or fewer (e.g. 'ok' or blank) in the Comments field. 3. Agent clicks Save and Finish.
+  - Expected: The system blocks Save and Finish and displays a validation message requiring the comment to meet the minimum length (more than 5 characters); the wrap-up step is not completed and no success popup/Order ID is generated.
+
+**Workflow scenarios:**
+
+- **TC-TRO-405** [Workflow] Agent creates a trouble ticket end-to-end via the standardized creation journey (Priority: High)
+  - Covers: REQ-303, REQ-065 | Journey: UJ-022
+  - Preconditions: Agent is logged into the DXP/Open UI front end with an active customer account/MSISDN context open; ticket LOV/templates are configured.
+  - Steps: 1. Agent opens the customer's account (via account or MSISDN search). 2. Agent selects 'Create Ticket'. 3. Verify account/MSISDN-linked fields (customer name, MSISDN, account number) are auto-populated on the ticket form. 4. Agent selects the ticket LOB/type and completes the remaining mandatory fields per the ticket template. 5. Agent submits the ticket.
+  - Expected: Ticket is created with auto-populated account/MSISDN context fields pre-filled (not requiring manual re-entry), is assigned an ID, and follows the same field sequence and outcome regardless of which channel/screen the agent started from, consistent with a standardized cross-channel creation journey.
+- **TC-TRO-406** [Workflow] Offshore (airport) prepaid activation processed by third-party partner reaches Accept outcome (Priority: Medium)
+  - Covers: REQ-307
+  - Preconditions: A prepaid activation request is submitted through the offshore/airport channel and routed to the manual third-party processing queue.
+  - Steps: 1. Customer/agent submits an offshore prepaid activation at the airport channel. 2. Request is routed to the third-party partner for manual processing. 3. Third-party partner reviews and processes the activation. 4. Third-party partner records the outcome as Accept.
+  - Expected: The activation request reaches a terminal 'Accept' outcome recorded against the offshore prepaid activation record, reflecting manual third-party processing rather than automated system activation.
+- **TC-TRO-407** [Workflow] Offshore prepaid activation reaches Reject outcome and does not activate the SIM (Priority: Medium)
+  - Covers: REQ-307
+  - Preconditions: A prepaid activation request is submitted through the offshore/airport channel and routed to the third-party partner.
+  - Steps: 1. Customer/agent submits an offshore prepaid activation at the airport channel. 2. Third-party partner manually reviews the request. 3. Third-party partner records the outcome as Reject.
+  - Expected: The activation request is marked Reject; the prepaid line is not activated, and the Reject outcome is visible/traceable against the offshore activation record.
+- **TC-TRO-408** [Workflow] Delayed ticket triggers automatic rule-based escalation email to Supervisor/Owner/Team (Priority: High)
+  - Covers: REQ-069
+  - Preconditions: A ticket exists and has exceeded the predefined delay criteria for escalation (e.g. SLA breach threshold) without resolution.
+  - Steps: 1. Allow a ticket to remain unresolved past the predefined escalation delay criteria. 2. Wait for/trigger the escalation rule engine to evaluate the ticket. 3. Check the mailbox of the Supervisor/Owner/Team associated with the ticket's queue.
+  - Expected: An automatic escalation email is sent to the relevant Supervisor, Owner, or Team based on the predefined criteria, without requiring manual intervention to identify or escalate the delayed ticket.
+- **TC-TRO-409** [Workflow] Ticket timer expiry sends notification email to the group mailbox (Priority: Medium)
+  - Covers: REQ-075 | Journey: UJ-022
+  - Preconditions: A ticket's SLA/response timer is running and configured to expire.
+  - Steps: 1. Allow a ticket's timer to reach expiry without resolution/action. 2. Check the group mailbox for a timer-expiry notification.
+  - Expected: An email notification is sent to the group mailbox when the ticket timer expires, matching the restored Siebel notification behavior.
+- **TC-TRO-410** [Workflow] Qnomy Q Ticket generation succeeds and is consumed at journey start (Priority: High)
+  - Covers: REQ-265, REQ-274 | Journey: UJ-022
+  - Preconditions: Qnomy queue/token system is online and reachable by the DXP/Agent Desktop.
+  - Steps: 1. Customer checks in and a Qnomy Q Ticket/token is generated. 2. Agent starts the journey in DXP and the system consumes/links the Q Ticket to the new session/ticket. 3. Verify the Qnomy MPI API call used to retrieve/consume the ticket completes successfully per its documented spec.
+  - Expected: The Q Ticket is successfully generated and consumed to initiate the agent's ticket/journey session, with the Qnomy MPI API interaction conforming to its required specification.
+- **TC-TRO-411** [Workflow] Disconnection ticket closed by Retention Team auto-creates a disconnection order (Priority: High)
+  - Covers: REQ-066 | Journey: UJ-111
+  - Preconditions: A disconnection trouble ticket is open and assigned to the Retention Team.
+  - Steps: 1. Retention Team agent works the disconnection ticket. 2. Retention Team agent closes the ticket with a resolution code. 3. Observe the Orders page/queue for the associated account.
+  - Expected: Once the ticket is closed by the Retention Team, the system automatically creates a disconnection order; the agent does not need to manually raise the order.
+- **TC-TRO-412** [Workflow] Disconnection ticket requires Retention Team closure before a disconnection order can be submitted (Priority: High)
+  - Covers: REQ-066 | Journey: UJ-025
+  - Preconditions: A disconnection request has been initiated and a trouble ticket routed to the Retention Team is still open.
+  - Steps: 1. Attempt to submit a disconnection order directly from the Orders page while the associated retention ticket is still open. 2. Observe system behavior. 3. Have the Retention Team close the ticket with a resolution code (e.g. 'retained' or 'not retained'). 4. Retry order submission.
+  - Expected: The disconnection order cannot be submitted while the retention ticket remains open (retention-first control); once the ticket is closed with a resolution code, the disconnection order becomes submittable on the Orders page.
+
+**Persona scenarios:**
+
+- **TC-TRO-413** [Persona] Supervisor can view tickets across all agents; individual Agent cannot (Priority: High)
+  - Covers: REQ-070
+  - Preconditions: Multiple agents each have tickets assigned/created under their own queues; a Supervisor role exists over those agents.
+  - Steps: 1. Log in as a regular Agent and navigate to the ticket list/dashboard. 2. Note which tickets are visible (expect: own/queue tickets only). 3. Log out; log in as the Supervisor for that team. 4. Navigate to the ticket list/dashboard.
+  - Expected: The Supervisor sees tickets across all of their agents, while the individual Agent's view remains limited to their own/queue-assigned tickets, confirming supervisor-level visibility is available where it currently does not exist for agents.
+
+### Access, Roles & Approval Governance (17 scenarios)
+
+**Positive scenarios:**
+
+- **TC-ACC-414** [Positive] Agent sees only role/team-scoped menu and data under new access model (Priority: High)
+  - Covers: REQ-054
+  - Preconditions: New role/team-based access model is live (replacing legacy Siebel profile-based access); a Retail Agent user is provisioned and assigned to a specific team.
+  - Steps: 1. Log in as a Retail Agent assigned to Team A. 2. Observe the app-menu tiles and account/lead/order data returned on Home. 3. Attempt to open a record belonging to Team B via direct navigation or search.
+  - Expected: Agent sees only the menu tiles and data scoped to their assigned role/team (e.g. Contacts, Mobile Postpaid, Sales Order, Queue as seen for Retail Agent role); records/tiles belonging to another team or a higher-privilege role (e.g. Order Approval, Manage Leads) are not visible, confirming access is driven by role/team assignment rather than a legacy Siebel profile mapping.
+- **TC-ACC-415** [Positive] Agent login page displays list of the agent's in-progress journeys (Priority: Medium)
+  - Covers: REQ-053
+  - Preconditions: An agent has one or more journeys (e.g. a New Postpaid or FWA activation) left incomplete in a prior session, held in the transient/pending state.
+  - Steps: 1. Log in as the same agent who left the journey incomplete. 2. Observe the login/Home landing page.
+  - Expected: An 'in-progress journeys' list is shown on the agent's login page, listing the incomplete journey(s) so the agent can identify and resume them, rather than the agent having to restart from scratch.
+- **TC-ACC-416** [Positive] WinCash receipt is issued for a zero-payment transaction (Priority: Medium)
+  - Covers: REQ-049
+  - Preconditions: An order/journey reaches the payment step with a total due of QR 0 (e.g. a plan with no upfront deposit/advance/premium number charge).
+  - Steps: 1. Complete a guided journey (e.g. New Postpaid) up to the payment/checkout step where the calculated amount due is zero. 2. Proceed through checkout. 3. Observe whether WinCash is invoked and a receipt is produced.
+  - Expected: WinCash integration is still invoked for the zero-amount transaction and a receipt is printed/generated, consistent with the requirement that WinCash must be integrated even for zero-payment transactions to print receipts — the flow does not skip WinCash simply because the amount is zero.
+- **TC-ACC-417** [Positive] Manager reviews and reassigns a lead via Manage Leads without seeing agent tiles (Priority: Medium)
+  - Covers: REQ-204
+  - Preconditions: A lead exists, created by a Retail Agent, and is visible under the manager's team.
+  - Steps: 1. Log in as a Manager. 2. Navigate to Manage Leads > My Team's Leads. 3. Open the lead record and reassign the Lead Owner to a different agent via the owner lookup picker. 4. Confirm the reassignment.
+  - Expected: Manager successfully views the team's leads and reassigns the Lead Owner field using only the four scoped menu areas; the reassignment updates the Lead Owner while preserving the original Created By audit value, and no agent-only journey tiles were needed or shown to complete the action.
+- **TC-ACC-418** [Positive] Authorised agent role successfully initiates a guided journey from Agent Desktop (Priority: High)
+  - Covers: REQ-264
+  - Preconditions: Agent is logged into Agent Desktop with a role that is authorised to initiate the target journey type (e.g. New Postpaid).
+  - Steps: 1. Log in as an authorised agent. 2. From the Agent Desktop Home/app-menu, select a journey tile the role is authorised for (e.g. Mobile Postpaid). 3. Confirm the guided journey wizard opens at Step 1.
+  - Expected: The journey initiates successfully from Agent Desktop, and the role-based authorisation check passes silently, allowing the agent to proceed into the wizard.
+- **TC-ACC-419** [Positive] Draft order can be resumed from its last saved milestone after interruption (Priority: High)
+  - Covers: REQ-266
+  - Preconditions: Agent begins a guided journey (e.g. New Postpaid) and completes several wizard steps (e.g. Contact, Address, Plan) saved as milestones, then the session is interrupted before final submission.
+  - Steps: 1. Start a New Postpaid journey and complete Contact, Address, and Plan steps (each shown as 'Saved!'). 2. Close the session/browser or let it time out before reaching CAF/Submit. 3. Log back in as the same agent and open the draft from the in-progress journeys list. 4. Continue from the next incomplete step.
+  - Expected: The journey resumes from the last saved milestone (e.g. Plan/Addon step) with previously entered Contact, Address, and Plan data intact, rather than requiring the agent to re-enter data from Step 1.
+
+**Negative scenarios:**
+
+- **TC-ACC-420** [Negative] Agent without an assigned role/team cannot access the application (Priority: High)
+  - Covers: REQ-054
+  - Preconditions: A user account exists in the identity/access system but has no role or team assignment configured under the new access model.
+  - Steps: 1. Attempt to log in with the unassigned user's credentials. 2. Observe system behavior on landing/home screen load.
+  - Expected: System denies access to role/team-scoped screens and tiles (or blocks login entirely) rather than defaulting to a legacy Siebel-profile-equivalent access level; the failure is explicit, not a silent fallback to broad access.
+- **TC-ACC-421** [Negative] Agent attempt to cancel or modify AutoPay enrolment is blocked (Priority: High)
+  - Covers: REQ-059
+  - Preconditions: Agent is viewing a customer's AutoPay-enrolled billing account.
+  - Steps: 1. As a Retail Agent, attempt to trigger an AutoPay cancellation or enrolment change via any exposed control, URL manipulation, or API call. 2. Observe system response.
+  - Expected: The action is rejected server-side (not merely hidden client-side) with an authorization error; AutoPay enrolment state and card details remain unchanged and are not returned to the agent's session.
+- **TC-ACC-422** [Negative] Agent with no incomplete journeys sees an empty in-progress list, not an error (Priority: Low)
+  - Covers: REQ-053
+  - Preconditions: Agent account has no incomplete/pending journeys.
+  - Steps: 1. Log in as an agent with a clean journey history. 2. Observe the login/Home landing page's in-progress journeys section.
+  - Expected: The in-progress journeys list renders empty (or is omitted) without throwing an error or blocking login.
+- **TC-ACC-423** [Negative] Zero-payment order cannot complete if WinCash receipt step fails or is skipped (Priority: Medium)
+  - Covers: REQ-049
+  - Preconditions: Order total is QR 0; WinCash service is unavailable or simulated to fail.
+  - Steps: 1. Reach the zero-payment checkout step of a guided journey. 2. Simulate a WinCash integration failure. 3. Attempt to submit/complete the order.
+  - Expected: The order does not silently bypass the WinCash step because the amount is zero; the system surfaces the WinCash failure to the agent rather than completing the order without a receipt.
+- **TC-ACC-424** [Negative] Manager-role user cannot access agent-only journey tiles by direct navigation (Priority: High)
+  - Covers: REQ-204
+  - Preconditions: User is logged in with the Manager role and the Manager menu is correctly scoped to the four allowed tiles.
+  - Steps: 1. As the Manager user, attempt to directly navigate (e.g. via URL/deep link) to an agent-only journey screen such as Sales Order or Mobile Postpaid, which is not exposed in the Manager's menu. 2. Observe system response.
+  - Expected: Access is denied or redirected away from the agent-only journey screen; the Manager role cannot reach functionality outside Home, Order Approval, Manage Leads, and Leads Queue even by bypassing the menu.
+- **TC-ACC-425** [Negative] Agent role without authorisation for a journey type is blocked from initiating it (Priority: High)
+  - Covers: REQ-264
+  - Preconditions: Agent role is not authorised for a specific journey type (e.g. an agent role scoped only to Postpaid attempting an Enterprise-only or Manager-only journey).
+  - Steps: 1. Log in as the unauthorised agent role. 2. Attempt to initiate the restricted journey from Agent Desktop, including by direct navigation if the tile is not shown. 3. Observe system response.
+  - Expected: Journey initiation is blocked with an authorisation error; the role-based check prevents the journey from starting rather than allowing entry and failing later in the wizard.
+- **TC-ACC-426** [Negative] Rendering on tablet does not bypass an approval gate that desktop enforces (Priority: High)
+  - Covers: REQ-055
+  - Preconditions: A journey configuration is known to require manager approval (e.g. B2B2C New Postpaid With Approval) when run on desktop.
+  - Steps: 1. Run the same journey configuration on the tablet-rendered version. 2. Submit the order and observe whether it routes to the Order Approval queue or completes directly.
+  - Expected: The tablet rendering still routes the order to the Order Approval queue exactly as the desktop rendering does; the tablet form factor does not silently skip the governance/approval step.
+- **TC-ACC-427** [Negative] Draft order past its hold/reservation expiry is not resumable as-is (Priority: Medium)
+  - Covers: REQ-266
+  - Preconditions: A draft order's associated number reservation/hold period has expired (transient state not yet promoted to a full order at the GSP layer).
+  - Steps: 1. Start a journey and reserve a number/resource, leaving the order incomplete. 2. Wait beyond the hold period tied to the channel's reservation expiry. 3. Attempt to resume the draft from the in-progress journeys list.
+  - Expected: System indicates the draft's held resources (e.g. reserved number) have expired and cannot simply resume as if nothing changed — the agent is prompted to re-reserve or restart the affected step rather than being allowed to submit against an expired reservation.
+
+**Validation scenarios:**
+
+- **TC-ACC-428** [Validation] Device/tablet layer renders journeys but does not alter journey governance/approval outcomes (Priority: Medium)
+  - Covers: REQ-055
+  - Preconditions: The same journey type (e.g. New Postpaid With Approval) is available on both tablet and desktop rendering.
+  - Steps: 1. Run the identical journey (same customer profile, same plan, same triggering conditions for approval) once on tablet and once on desktop. 2. Compare whether the approval/governance outcome (e.g. routed to manager Order Approval queue) differs between the two device renderings.
+  - Expected: The journey's governance outcome (e.g. requiring manager approval) is identical regardless of whether it was rendered on tablet or desktop — device/tablet is confirmed to control rendering/layout only, and does not itself determine or alter approval/governance logic.
+
+**Persona scenarios:**
+
+- **TC-ACC-429** [Persona] Agent view of AutoPay is restricted to status and failure reason only, no enrol/cancel/card actions (Priority: High)
+  - Covers: REQ-059
+  - Preconditions: A customer's billing account has AutoPay enrolled with a known status (e.g. Active) and a card on file.
+  - Steps: 1. Log in as a Retail Agent. 2. Navigate to the customer's billing/AutoPay view. 3. Inspect available fields and actions (status, failure reason, enrol, cancel, card details).
+  - Expected: Agent screen displays AutoPay status and failure reason as view-only fields; no enrol, cancel, or edit controls are present, and no card/payment instrument details are displayed or editable, per the regulatory restriction.
+- **TC-ACC-430** [Persona] Manager-role user sees only Home, Order Approval, Manage Leads, Leads Queue on login (Priority: High)
+  - Covers: REQ-204
+  - Preconditions: A user is provisioned with the Manager/Approver role (e.g. Retail Store Manager).
+  - Steps: 1. Log in as a user with the Manager role. 2. Observe the Home dashboard menu tiles presented.
+  - Expected: The menu is scoped strictly to Home, Order Approval, Manage Leads, and Leads Queue; agent-only tiles such as Sales Order, Mobile Postpaid, Contacts, New Lead Tablet, Queue, Passport to QID, MNP Tablet, New Fixed Line Tablet, New Prepaid Tablet, New IOT Tablet, SIM Swap are not present for this role.
+
+### CAF, Attachments & Forms (27 scenarios)
+
+**Positive scenarios:**
+
+- **TC-CAF-431** [Positive] Agent uploads a CAF attachment and later deletes an outdated one (Priority: High)
+  - Covers: REQ-215
+  - Preconditions: Agent is in an active guided journey (e.g. MNP Postpaid Donor Attachment or CAF step) with the Attachments panel visible and an Upload/New File action available.
+  - Steps: 1. Open the Attachments panel on the CAF/Contact step. 2. Click Upload/New File and select a valid file (e.g. Qatari ID scan, jpg). 3. Confirm the file appears in the attachments grid with a delete (trash) icon. 4. Select an existing attachment no longer needed and click its trash/delete icon. 5. Confirm the deletion.
+  - Expected: The newly uploaded file appears in the attachments grid immediately; the deleted file is removed from the grid and no longer listed, matching the add/delete file-management behavior observed in the Contact step Attachments panel (4 existing files each deletable via trash icon).
+- **TC-CAF-432** [Positive] Add-on/Discount step shows selectable options when applicable offers exist (Priority: Medium)
+  - Covers: REQ-221
+  - Preconditions: Order/journey has reached the Add-on/Discount step for a plan that has applicable extras (e.g. Postpaid U Start Promotion with an Extras list).
+  - Steps: 1. Progress the guided journey to the Add-on/Discount step. 2. Observe the step for a plan known to carry extras (e.g. Bill Manager, DOB Eligible, Carry_forward_charges).
+  - Expected: The step lists the applicable add-ons/discounts as selectable items, distinct from the empty-state presentation used when nothing is applicable.
+- **TC-CAF-433** [Positive] Add-on/Discount step clearly indicates empty state when no add-ons/discounts apply (Priority: Medium)
+  - Covers: REQ-221
+  - Preconditions: Order/journey has reached the Add-on/Discount step for a plan or customer context with no applicable add-ons or discounts.
+  - Steps: 1. Select a plan/customer combination for which no add-ons or discounts are configured. 2. Advance to the Add-on/Discount step.
+  - Expected: The UI clearly and explicitly indicates an empty state (e.g. a visible 'no add-ons/discounts applicable' message) rather than rendering a blank or ambiguous panel, so the agent is not left guessing whether the step failed to load.
+- **TC-CAF-434** [Positive] Key-terms summary (lock-ins, penalties, fencing) is presented before CAF signature (Priority: High)
+  - Covers: REQ-239
+  - Preconditions: Agent has completed the plan/billing steps and reached the point where the CAF is about to be opened for signature (e.g. postpaid or FWA journey, CAF-Digital option).
+  - Steps: 1. Progress the journey through Plan/Billing to the CAF step. 2. Trigger the CAF (e.g. click CAF then CAF-Digital) immediately prior to signature. 3. Review the screen content presented before the Sign Contract action.
+  - Expected: Before the CAF signature action, the customer is shown a summary of key terms - lock-in / minimum subscription period, penalties, and any fencing conditions (e.g. the 3-month minimum subscription period, Star Number lock-in, deposit rules referenced in the CAF General T&Cs) - distinct from and in addition to the full T&Cs text, so the customer sees the highlights before signing.
+- **TC-CAF-435** [Positive] CAF and QID attachments are categorized correctly and retained in online warm-archive storage (Priority: High)
+  - Covers: REQ-240
+  - Preconditions: A completed order has attachments uploaded during the journey (e.g. signed CAF file, Qatari ID scan/back image).
+  - Steps: 1. Upload a signed CAF document and a QID scan/back-image attachment during a guided journey (as seen with 'Qatari ID-Back' files in the Contact step Attachments panel). 2. Complete and submit the order. 3. Retrieve the order's attachments from storage/records at a later time.
+  - Expected: Each attachment is stored tagged under its correct category (CAF vs. QID), remains retrievable online (warm-archive, not offline/cold storage), and is present unaltered - no attachment in either category has been deleted or purged.
+- **TC-CAF-436** [Positive] Digital signature pad operates natively in the new DXP/Siebel front end without OpenUI dependency (Priority: High)
+  - Covers: REQ-047
+  - Preconditions: Agent has reached a CAF or MNP form step requiring e-signature within the reconstructed (non-OpenUI) front end.
+  - Steps: 1. Reach the signature step of a CAF or MNP form (e.g. Donor Attachment > MNP Form > MNP-Digital, or CAF > CAF-Digital). 2. Invoke the 'Please Sign' signature capture pad. 3. Draw a signature and click Done.
+  - Expected: The signature pad renders and functions correctly as part of the new custom Siebel/DXP frontend (not via an embedded OpenUI component/iframe), capturing the drawn signature and populating the form's signature field with the signer's name/timestamp (e.g. 'HEMANTH 2025-21-4 12:9:45').
+- **TC-CAF-437** [Positive] CAF is generated with a unique serial/ID following the defined naming convention (Priority: High)
+  - Covers: REQ-048
+  - Preconditions: A new CAF is being generated for a customer during any journey (Postpaid, Prepaid, MNP, FWA, Fixed Line).
+  - Steps: 1. Progress a guided journey to the CAF generation step. 2. Generate the CAF (e.g. CAF-Digital). 3. Inspect the generated CAF's identifier/serial.
+  - Expected: The generated CAF carries a unique serial/ID that follows the agreed naming convention, distinguishable from other CAFs generated for other orders/customers (no duplicate or reused ID across different CAFs).
+- **TC-CAF-438** [Positive] Customer's e-signature is captured and stored as part of CAF completion (Priority: High)
+  - Covers: REQ-227
+  - Preconditions: Agent has reached the CAF signature step with all required CAF fields (Applicant, Billing, Plan sections) populated.
+  - Steps: 1. Complete Sections 1-3 (Applicant details, Billing information, Postpaid/Plan) of the CAF. 2. Click Sign Contract. 3. Use the signature pad to capture the customer's signature and click Done.
+  - Expected: The customer's e-signature image is captured and embedded into the completed CAF record, and the CAF is marked complete/signed as part of order processing.
+- **TC-CAF-439** [Positive] CAF template selection follows the correct matrix entry for role, channel, and service type (Priority: Medium)
+  - Covers: REQ-273
+  - Preconditions: An agent with a defined role is operating in a specific channel (e.g. Retail desktop vs. B2B2C tablet) originating an order for a specific service type (Postpaid mobile, Fixed Line, FWA/5G Home, MNP).
+  - Steps: 1. As a Retail desktop agent, originate a Postpaid mobile order and reach the CAF step; note which CAF variant/template is offered (e.g. CAF-Digital/CAF-Manual/CAF-Touch Screen options, Consumer Postpaid CAF Section 3). 2. As a tablet-based B2B2C agent, originate an FWA/5G Home order and reach the CAF/Supplementary Form step; note the template offered (Consumer CAF plus GigaHome Subscription Acceptance Form).
+  - Expected: Each role/channel/service-type combination is offered the CAF template matrix-defined for that combination (e.g. mobile-only orders use CAF Section 3 only, Home Fibre/5G Home orders require the additional Vodafone Fibre Supplementary Form / GigaHome Subscription Acceptance Form) rather than a one-size-fits-all template.
+- **TC-CAF-440** [Positive] CAF/attachment upload succeeds for a file at or under the ~4MB size limit (Priority: Medium)
+  - Covers: REQ-242
+  - Preconditions: Agent is on an Attachments panel with an Upload/New File action available.
+  - Steps: 1. Click Upload/New File. 2. Select a valid file under approximately 4MB (e.g. a JPG scan such as those seen in the Contact step: Test.jpg, Vishakan_Photo_Blue.jpg). 3. Complete the upload.
+  - Expected: The file uploads successfully and appears in the attachments grid without a size-related error.
+- **TC-CAF-441** [Positive] Agent customizes and instantiates a complex bundled product (promotion) at runtime (Priority: High)
+  - Covers: REQ-217
+  - Preconditions: Agent has reached the Plan step of a guided journey with a bundled promotion available (e.g. Postpaid U Start Promotion, a 'Bundled Promotions' type product with multiple included features).
+  - Steps: 1. Search/select a bundled promotion (e.g. Postpaid U Start Promotion). 2. Open its detail/customization view showing the included-features list (U Start, Mobile Voicemail, SIM Card, Bill Manager, DOB Eligible, Carry_forward_charges, Bill Limit Mobile). 3. Click Customise and adjust a configurable attribute (e.g. Edit Smart Limit) at runtime. 4. Confirm the customized instance.
+  - Expected: The UI allows the agent to view the bundle's component features, customize configurable attributes at runtime (e.g. change Smart Limit value), and instantiate the resulting configured bundle onto the order's line items, matching the Plan step's Customise/Edit Smart Limit behavior observed in the MNP Postpaid journey.
+- **TC-CAF-442** [Positive] Business admin configures a highlighted T&Cs section that appears on the CAF for all agents (Priority: Medium)
+  - Covers: REQ-052
+  - Preconditions: A business-admin user has access to the CAF highlighted-T&Cs configuration control; an agent is running a customer-facing CAF flow.
+  - Steps: 1. As a business admin, configure/select which T&Cs clauses are marked as 'highlighted' for the CAF template. 2. Save the configuration. 3. As a sales agent, run a journey to the CAF step and view the T&Cs presentation.
+  - Expected: The CAF displays the T&Cs section highlighted exactly as configured by the business admin; the highlighted content is admin-controlled, not selectable/editable by the agent at run time (agent-side selection was explicitly rejected in favor of admin configuration).
+- **TC-CAF-443** [Positive] CAF and 5G Home acceptance form render bilingually in English and Arabic (Priority: Medium)
+  - Covers: REQ-129
+  - Preconditions: Agent has reached the CAF step (any journey) or the 5G Home/GigaHome Subscription Acceptance Form step.
+  - Steps: 1. Open the CAF ('Vodafone Customer Application Form' / Arabic equivalent). 2. Confirm both English and Arabic text render for section headers and field labels. 3. Open the GigaHome Subscription Acceptance Form for a 5G Home order and repeat the check.
+  - Expected: Both the CAF and the 5G Home acceptance form display all customer-facing labels, section titles, and terms in English and Arabic simultaneously (bilingual layout), matching the bilingual Vodafone-branded CAF and 18-clause GigaHome acceptance form observed in source documents.
+
+**Negative scenarios:**
+
+- **TC-CAF-444** [Negative] Attempting to advance the CAF step without reviewing the key-terms summary is blocked or the summary is forced to display (Priority: Medium)
+  - Covers: REQ-239
+  - Preconditions: Agent has reached the CAF step and the key-terms summary has not yet been shown/acknowledged.
+  - Steps: 1. Reach the CAF step. 2. Attempt to open Sign Contract / proceed directly to signature capture without the key-terms summary having been displayed.
+  - Expected: The system surfaces the key-terms summary (lock-ins, penalties, fencing) as part of the CAF flow before the signature pad becomes available, rather than allowing signature capture to bypass it.
+- **TC-CAF-445** [Negative] Order submission is blocked when call-disposition or wrap-up comment is missing (Priority: High)
+  - Covers: REQ-216
+  - Preconditions: Agent has reached the Activity/wrap-up step with all prior steps saved but has not yet entered disposition/comment.
+  - Steps: 1. Reach the Activity/wrap-up step with prior steps complete. 2. Leave the call-disposition field unselected and/or the comment field blank. 3. Attempt to submit/finalize the order.
+  - Expected: The system prevents order submission and flags the missing call-disposition metadata and/or comment as required, consistent with the Workflow requirement that this step requires both before wrap-up.
+- **TC-CAF-446** [Negative] Deletion of a categorized CAF or QID attachment after submission is not permitted (Priority: High)
+  - Covers: REQ-240
+  - Preconditions: An order has been submitted with a categorized CAF and/or QID attachment already stored.
+  - Steps: 1. Locate a submitted order's stored CAF or QID attachment. 2. Attempt to delete or purge the attachment via any available UI/back-office action.
+  - Expected: The system disallows deletion of CAF/QID attachments once categorized and retained - no delete action succeeds against these records, per the 'no deletion' retention rule.
+- **TC-CAF-447** [Negative] Two independently generated CAFs must not share the same serial/ID (Priority: High)
+  - Covers: REQ-048
+  - Preconditions: Two separate orders each requiring their own CAF are generated in the system (e.g. one Postpaid CAF, one Prepaid CAF).
+  - Steps: 1. Generate a CAF for Order A. 2. Generate a CAF for Order B (different customer/order). 3. Compare the two CAFs' serial/ID values.
+  - Expected: The two CAFs have distinct unique IDs; the system does not assign the same serial/Form ID to both (flagging the kind of defect seen in the source templates where Postpaid and Prepaid CAF templates were both stamped 'PCA001').
+- **TC-CAF-448** [Negative] CAF cannot be marked complete without a captured customer e-signature (Priority: High)
+  - Covers: REQ-227, REQ-146
+  - Preconditions: Agent has filled in all CAF data fields but has not yet invoked the signature pad.
+  - Steps: 1. Complete all CAF data entry sections. 2. Attempt to close/submit the CAF or proceed to order submission without opening the signature pad or without clicking Done after signing.
+  - Expected: The CAF is not accepted as complete and the order cannot be submitted; the system requires the e-signature capture step to be completed before the CAF (and thus the order) can move forward, per REQ-146's submission gate.
+- **TC-CAF-449** [Negative] CAF template matrix prevents an incompatible template from being applied to a service type (Priority: Medium)
+  - Covers: REQ-273
+  - Preconditions: Agent is originating a mobile-only Postpaid order (no Home Fibre/5G Home component).
+  - Steps: 1. Reach the CAF step for a mobile-only Postpaid order. 2. Attempt to select or force a Home Fibre/5G Home-specific CAF template/supplementary form not applicable to this service type.
+  - Expected: The system does not permit a template mismatched to the role/channel/service-type combination defined in the CAF template matrix; only the applicable template(s) for a mobile-only order are offered.
+- **TC-CAF-450** [Negative] Bundle runtime customization rejects a value outside the promotion's configured guardrail (Priority: High)
+  - Covers: REQ-217
+  - Preconditions: Agent is customizing a bundled promotion's Smart/Bill Limit attribute where an Agent Min Value guardrail is configured (e.g. Bill Limit Mobile promotion, Agent Min Value 50).
+  - Steps: 1. Open the bundle customization view for a promotion with a configured minimum guardrail. 2. Click Edit Smart Limit and enter a value below the configured Agent Min Value (e.g. enter 28 when the minimum is 50). 3. Click Go.
+  - Expected: The system rejects the value with a validation message (e.g. 'Bill Limit can not be set lower than Agent Minimum 50') and does not apply the out-of-range value to the bundle instance; a value at or above the minimum (e.g. 67) is accepted on retry.
+- **TC-CAF-451** [Negative] CAF cannot be signed/completed while required mandatory CAF fields are missing (Priority: High)
+  - Covers: REQ-146
+  - Preconditions: Agent has opened the CAF (e.g. CAF-Digital) and has left one or more mandatory fields blank (fields marked * in the Consumer Postpaid CAF, e.g. Name, Date of birth, Qatar ID number, Email, PO Box, Alternative contact number).
+  - Steps: 1. Open the CAF form. 2. Leave a mandatory field (e.g. Qatar ID number) blank. 3. Attempt to click Sign Contract / proceed to the signature pad.
+  - Expected: The system blocks progression to signature capture (or blocks order submission) until all mandatory CAF fields are populated, since e-signature is required to finalize the CAF before order submission and a CAF with missing mandatory data should not be signable/submittable.
+- **TC-CAF-452** [Negative] CAF is not presented in a single-language-only mode (Priority: Medium)
+  - Covers: REQ-129
+  - Preconditions: Agent has reached the CAF step for any journey type.
+  - Steps: 1. Open the CAF form. 2. Inspect the form output for language coverage across all sections including the General Terms and Conditions page.
+  - Expected: No section of the customer-facing CAF (including the General T&Cs page) is presented in English or Arabic only; both languages are present throughout, since the bilingual requirement applies to the full form, not just the fillable sections.
+
+**Validation scenarios:**
+
+- **TC-CAF-453** [Validation] Clear Signature button resets the signature pad before Done is pressed (Priority: Medium)
+  - Covers: REQ-047, REQ-146
+  - Preconditions: Signature capture pad ('Please Sign') is open with a signature already drawn.
+  - Steps: 1. Open the signature capture pad and draw a signature. 2. Click 'Clear Signature'. 3. Observe the pad state. 4. Attempt to click 'Done' without drawing a new signature.
+  - Expected: Clear Signature erases the drawn signature from the pad; clicking Done with no signature present does not populate the form's signature field / does not complete the CAF (signature is required to finalize per REQ-146).
+- **TC-CAF-454** [Validation] CAF/attachment upload rejects a file exceeding the ~4MB size limit (Priority: High)
+  - Covers: REQ-242
+  - Preconditions: Agent is on an Attachments panel (e.g. Contact step, Donor Attachment step, or CAF step) with an Upload/New File action available.
+  - Steps: 1. Click Upload/New File. 2. Select a file larger than approximately 4MB. 3. Attempt to complete the upload.
+  - Expected: The upload is rejected with an error indicating the file exceeds the maximum allowed size (~4MB); the file is not added to the attachments grid.
+
+**Workflow scenarios:**
+
+- **TC-CAF-455** [Workflow] Call-disposition metadata and comment are captured at the Activity/wrap-up step of a completed order (Priority: High)
+  - Covers: REQ-216
+  - Preconditions: Agent has completed all prior guided-journey steps (e.g. MNP Postpaid: Contact through CAF, all marked 'Saved!') and reached the final '9. Activity' / wrap-up accordion step before order submission.
+  - Steps: 1. Complete Contact, Address, Billing, SIM Serial, Plan, Donor Details, Donor Attachment, and CAF steps so each shows 'Saved!'. 2. Expand the Activity/wrap-up step. 3. Select a call-disposition value from the required metadata field. 4. Enter a free-text comment. 5. Proceed to submit the order.
+  - Expected: The Activity/wrap-up step requires both a call-disposition selection and a comment before the order can be submitted; once both are supplied, the agent can proceed to Submit and the Sales Order is created (e.g. Order Type Activation, Status Pending as seen in the MNP Postpaid journey).
+- **TC-CAF-456** [Workflow] Signed CAF gates final order submission across Fixed Line, MNP, Postpaid, and Pre-to-Post journeys (Priority: High)
+  - Covers: REQ-146
+  - Preconditions: Agent has completed all preceding steps of a given journey type (Fixed Line, MNP, Postpaid, or Pre-to-Post) up to the CAF step.
+  - Steps: 1. Complete all prior journey steps so each is marked 'Saved!'. 2. Reach the CAF step and open the digital signature pad ('Please Sign'). 3. Draw a signature and click Done. 4. Proceed to Submit the order.
+  - Expected: Order submission only becomes available/succeeds after the CAF has been signed via the digital signature pad; the resulting Sales Order is created (e.g. Order Type Activation, Status Pending, as seen in the MNP Postpaid and Pre-to-Post journeys) only once the signed CAF exists.
+
+**Persona scenarios:**
+
+- **TC-CAF-457** [Persona] Sales agent cannot alter which T&Cs clauses are highlighted on the CAF (Priority: Medium)
+  - Covers: REQ-052
+  - Preconditions: An agent (non-admin persona) is at the CAF step where the highlighted T&Cs section is displayed.
+  - Steps: 1. As a sales agent, reach the CAF T&Cs display. 2. Attempt to select, deselect, or otherwise change which clauses are shown as highlighted.
+  - Expected: The agent has no control to change the highlighted T&Cs selection; the highlighted set remains exactly what the business admin configured, confirming the control is admin-only and not exposed to the agent persona.
+
+### Platform Governance & Architecture (36 scenarios)
+
+**Positive scenarios:**
+
+- **TC-PLA-458** [Positive] 165-row CRM journey inventory classifies every row into one of 5 Type categories (Priority: High)
+  - Covers: REQ-120
+  - Preconditions: CRM_Journeys_Final_Updated_with_Type.xlsx inventory of 165 CRM journey/feature rows is loaded as the source-of-truth Type taxonomy reference (User Journey, Workflow/Task, View, Action, Access/Permission).
+  - Steps: 1. Open the Page Type / Type taxonomy sheet. 2. Count total rows. 3. Verify each row has exactly one non-blank Type value assigned from the 5 allowed categories.
+  - Expected: All 165 rows are present and each has exactly one Type value drawn from the set {User Journey, Workflow/Task, View, Action, Access/Permission}; no row is unclassified or assigned an out-of-set value.
+- **TC-PLA-459** [Positive] Traceability model resolves a User Journey row to its full Access/Permission hierarchy (Priority: High)
+  - Covers: REQ-121
+  - Preconditions: The generated traceability model (User Journey -> Workflow/Process -> Task -> View/Screen -> Action -> Access/Permission) exists over the 165 Page Type rows.
+  - Steps: 1. Select a row typed as 'User Journey' in the source inventory. 2. Traverse the traceability model from that User Journey node down through Workflow/Process, Task, View/Screen, and Action nodes. 3. Confirm the chain terminates at an Access/Permission node.
+  - Expected: Every User Journey row resolves to a complete, unbroken chain ending in an Access/Permission entry, with no missing intermediate hierarchy level.
+- **TC-PLA-460** [Positive] 165-row inventory correctly reports 17 Guided Journey, 115 Vanilla Action, 35 View Only rows (Priority: High)
+  - Covers: REQ-119
+  - Preconditions: CRM_Journeys_Final_Updated.xlsx Action Type column is populated for all 165 rows.
+  - Steps: 1. Filter the Action Type column for 'Guided Journey'. 2. Filter for 'Action through Vanilla'. 3. Filter for 'View Only'. 4. Count rows in each filter.
+  - Expected: Guided Journey = 17 rows (10.3%), Action through Vanilla = 115 rows (69.7%), View Only = 35 rows (21.2%), summing to 165 total rows with no unclassified rows.
+- **TC-PLA-461** [Positive] Screen-count estimation model totals 1,991 screens across Desktop and Tablet (Priority: High)
+  - Covers: REQ-118
+  - Preconditions: Screen-count estimation model has Expected Screens Desktop and Expected Screens Tablet figures populated per the CRM journey inventory.
+  - Steps: 1. Read Expected Screens Desktop value. 2. Read Expected Screens Tablet value. 3. Sum both values.
+  - Expected: Expected Screens Desktop = 1,815, Expected Screens Tablet = 176, and the computed Total Screens = 1,991, matching the documented estimation model output.
+- **TC-PLA-462** [Positive] Reusable capability building blocks are exposed uniformly through the DXP layer (Priority: High)
+  - Covers: REQ-110
+  - Preconditions: Monolithic legacy journeys have been decomposed into reusable capability building blocks exposed via a DXP (Digital Experience Platform) layer that hides workflow/data complexity from agents.
+  - Steps: 1. Identify a capability building block used by more than one journey (e.g. address validation or ID capture). 2. Invoke it from Journey A via the DXP layer. 3. Invoke the same capability from Journey B via the DXP layer.
+  - Expected: Both journeys consume the identical capability building block through the DXP layer with consistent behavior, and neither journey's agent-facing screen exposes underlying workflow/data complexity.
+- **TC-PLA-463** [Positive] New stack design decisions trace to a documented business driver, not a technology preference (Priority: Medium)
+  - Covers: REQ-244
+  - Preconditions: Design governance requires new-stack design decisions to be business-driven rather than technology-driven (in contrast to the prior technology-driven Open UI build).
+  - Steps: 1. Pick a design decision recorded for the new stack. 2. Check the decision record/rationale field. 3. Confirm the stated rationale references a business requirement or process need.
+  - Expected: The decision's documented rationale cites a business driver; it is not justified purely by technology choice or platform capability alone.
+- **TC-PLA-464** [Positive] MCCR capabilities are present in the new stack without a live ECR dependency (Priority: High)
+  - Covers: REQ-245
+  - Preconditions: MCCR capabilities have been absorbed into the new stack per governance decision; ECR is decommissioned.
+  - Steps: 1. Exercise a function previously served by MCCR (via ECR) in the new stack. 2. Confirm no runtime call is made to ECR. 3. Confirm the function completes using the new stack's absorbed capability.
+  - Expected: The MCCR-derived function operates correctly entirely within the new stack, with zero dependency on the decommissioned ECR system.
+- **TC-PLA-465** [Positive] Delivery sequencing completes Consumer segment scope before Enterprise segment work begins (Priority: Medium)
+  - Covers: REQ-246
+  - Preconditions: Delivery plan states Consumer segment is to be completed before Enterprise segment in sequencing.
+  - Steps: 1. Review the delivery plan/backlog ordering. 2. Identify the completion milestone for Consumer-segment scope. 3. Identify the start milestone for Enterprise-segment scope.
+  - Expected: The Enterprise-segment start milestone is scheduled at or after the Consumer-segment completion milestone, not overlapping ahead of it.
+- **TC-PLA-466** [Positive] Activation proceeds once mandatory ZSB details are captured (Priority: High)
+  - Covers: REQ-112
+  - Preconditions: Same activation flow segment governed by refs 2.1.15/3.1.12.
+  - Steps: 1. Begin the activation flow segment. 2. Enter valid ZSB detail values in all mandatory ZSB fields. 3. Submit the step.
+  - Expected: The step is accepted and the activation flow proceeds to the next step without a ZSB-related validation error.
+- **TC-PLA-467** [Positive] Siebel CRM is confirmed as system of record for a customer/order data query (Priority: High)
+  - Covers: REQ-269
+  - Preconditions: A-01 states Siebel CRM remains system of record.
+  - Steps: 1. Update a customer or order record through the new front-end stack. 2. Query the same record directly in Siebel CRM. 3. Compare values.
+  - Expected: The Siebel CRM record reflects the authoritative, up-to-date value, confirming Siebel remains the system of record that the new stack writes through to.
+- **TC-PLA-468** [Positive] Existing MOI/IDWise/Qnomy/WinCash/UIM/Medilia interfaces are reused without contract changes (Priority: High)
+  - Covers: REQ-270
+  - Preconditions: A-02 requires existing MOI, IDWise, Qnomy, WinCash, UIM, and Medilia interfaces to be reused without contract change unless explicitly stated otherwise.
+  - Steps: 1. Invoke each of the MOI, IDWise, Qnomy, WinCash, UIM, and Medilia interfaces from the new stack using their existing (unmodified) contract/schema. 2. Confirm each call succeeds and returns the expected response shape.
+  - Expected: All six interfaces respond successfully using their pre-existing contracts; no interface requires a contract/schema change to function with the new stack.
+- **TC-PLA-469** [Positive] HRN activation proceeds once matrix-required advance payment is met (Priority: Medium)
+  - Covers: REQ-277
+  - Preconditions: Same HRN advance payment matrix requirement.
+  - Steps: 1. Select the HRN customer category. 2. Enter an advance payment amount equal to or greater than the matrix-required value. 3. Submit the step.
+  - Expected: The advance payment check passes and the HRN activation proceeds to the next step.
+- **TC-PLA-470** [Positive] Notification and Feedback Capability delivers a templated notification via the Notification Platform (Priority: High)
+  - Covers: REQ-286, REQ-275
+  - Preconditions: CAP-13 Notification and Feedback capability is integrated with the Notification Platform and Medilia; a defined template/trigger/recipient set exists for a given event.
+  - Steps: 1. Trigger the defined event (e.g. order completion). 2. Confirm the Notification Platform sends the templated notification to the defined recipient. 3. Confirm any linked Medilia feedback request is issued per the capability definition.
+  - Expected: The recipient receives the correct notification using the defined template for that trigger, and the associated Medilia feedback capability fires as designed.
+- **TC-PLA-471** [Positive] Fibre BRSD cross-reference resolves correctly once Mobile Postpaid BRSD is baselined (Priority: Medium)
+  - Covers: REQ-262
+  - Preconditions: Mobile Postpaid Activation BRSD v2.0 has been baselined.
+  - Steps: 1. Identify a Fibre BRSD requirement referencing a baselined Mobile Postpaid BRSD capability. 2. Resolve the cross-reference against the v2.0 baseline. 3. Confirm the referenced capability definition matches.
+  - Expected: The Fibre BRSD requirement's cross-reference resolves consistently to the baselined Mobile Postpaid BRSD v2.0 content with no version mismatch.
+- **TC-PLA-472** [Positive] v2.0 BRSD requirement rows carry populated Status, Owner, and Traceability identifiers (Priority: High)
+  - Covers: REQ-257
+  - Preconditions: v2.0 BRSD is the baselined version where OI-01 is noted as resolved.
+  - Steps: 1. Open the v2.0 Mobile Postpaid Activation BRSD requirement sheets. 2. Sample multiple requirement rows across sheets. 3. Verify Status, Owner, and Traceability ID fields are populated for each sampled row.
+  - Expected: All sampled requirement rows in v2.0 have non-blank Status, Owner, and Traceability ID values, confirming the OI-01 gap is closed in this version.
+- **TC-PLA-473** [Positive] Field-level specification gap for an open item is supplied by VFQ and closes the item (Priority: Medium)
+  - Covers: REQ-271
+  - Preconditions: D-01 lists field-level spec gaps to be supplied by VFQ as an open item.
+  - Steps: 1. Identify an open item (D-01) requirement with a missing field-level spec. 2. Receive the field-level spec input from VFQ. 3. Update the requirement row with the supplied spec and mark the open item closed.
+  - Expected: The requirement row reflects the VFQ-supplied field-level spec and the D-01 open item status changes from open to closed/resolved.
+- **TC-PLA-474** [Positive] Screen built against a PIP pre-built API completes its function without a custom API (Priority: Medium)
+  - Covers: REQ-051
+  - Preconditions: Requirement states screens should align to PIP pre-built APIs rather than new custom APIs.
+  - Steps: 1. Identify a screen/function that has an available PIP pre-built API equivalent. 2. Implement/verify the screen calls the PIP pre-built API. 3. Exercise the screen's function end-to-end.
+  - Expected: The screen's function completes successfully using only the PIP pre-built API, with no new custom API introduced for that function.
+
+**Negative scenarios:**
+
+- **TC-PLA-475** [Negative] Traceability model flags a User Journey row with a broken hierarchy link (Priority: Medium)
+  - Covers: REQ-121
+  - Preconditions: Traceability model exists over the 165 Page Type rows; a test row is set up missing one intermediate link (e.g. Task -> View/Screen).
+  - Steps: 1. Select a User Journey row whose Task node has no linked View/Screen node. 2. Run the traceability traversal for that row. 3. Observe the model's handling of the gap.
+  - Expected: The traversal is reported as incomplete/broken at the missing level rather than silently resolving to a default or fabricated Access/Permission entry.
+- **TC-PLA-476** [Negative] Row with an Action Type outside the 3 defined classifications is rejected (Priority: Medium)
+  - Covers: REQ-119
+  - Preconditions: Action Type field accepts only 'Guided Journey', 'Action through Vanilla', or 'View Only'.
+  - Steps: 1. Attempt to save a CRM journey/feature row with Action Type set to an undefined value (e.g. 'Manual Only'). 2. Submit/save the inventory row.
+  - Expected: The row is rejected or flagged as invalid classification; it is not persisted as a 4th, unrecognized Action Type category.
+- **TC-PLA-477** [Negative] ECR is rejected as an integration target for the new stack (Priority: High)
+  - Covers: REQ-245
+  - Preconditions: Governance decision states ECR will be decommissioned and must not be integrated with the new stack; MCCR capabilities are absorbed into the new stack; VSA/BSA are explicitly out of scope.
+  - Steps: 1. Attempt to register or configure an integration point from the new stack to ECR. 2. Attempt to register an integration point to VSA or BSA. 3. Observe system/governance response.
+  - Expected: Both the ECR integration attempt and the VSA/BSA integration attempt are rejected or flagged out-of-scope; only MCCR capability absorption into the new stack is permitted.
+- **TC-PLA-478** [Negative] Enterprise-segment delivery item scheduled ahead of Consumer completion is flagged (Priority: Medium)
+  - Covers: REQ-246
+  - Preconditions: Delivery sequencing rule requires Consumer segment completion before Enterprise segment.
+  - Steps: 1. Insert/schedule an Enterprise-segment delivery item with a start date earlier than the planned Consumer-segment completion date. 2. Run the delivery plan/governance validation.
+  - Expected: The plan validation flags the sequencing violation rather than accepting the out-of-order schedule silently.
+- **TC-PLA-479** [Negative] Pricing/eligibility rule change requiring a code deployment is treated as a non-conformance (Priority: Medium)
+  - Covers: REQ-268
+  - Preconditions: A-03 configuration-driven rules requirement is in force.
+  - Steps: 1. Identify a catalogue/eligibility/discount/number-pricing rule implemented directly in application code. 2. Attempt to change its behavior via configuration only.
+  - Expected: The configuration-only change attempt fails to alter behavior, which is reported as a non-conformance against the A-03 configuration-not-hard-coded requirement.
+- **TC-PLA-480** [Negative] An undocumented contract change to a reused interface is rejected by governance (Priority: Medium)
+  - Covers: REQ-270
+  - Preconditions: A-02 reuse-without-contract-change requirement is in force for MOI/IDWise/Qnomy/WinCash/UIM/Medilia.
+  - Steps: 1. Propose a schema/contract change to one of the six reused interfaces (e.g. Qnomy) without an explicit documented exception. 2. Submit the change for architecture/governance review.
+  - Expected: The proposed contract change is rejected or requires an explicit documented exception before proceeding, per the reuse-without-contract-change requirement.
+- **TC-PLA-481** [Negative] Order cannot proceed past outstanding-dues check without Collections confirmation (Priority: Medium)
+  - Covers: REQ-276
+  - Preconditions: D-07 Collections confirmation requirement is in force; outstanding-dues threshold confirmation is unresolved (open item).
+  - Steps: 1. Reach the outstanding-dues check step for a customer with a balance at/above the threshold. 2. Attempt to proceed without a Collections confirmation on file.
+  - Expected: The system blocks progression past the outstanding-dues check until Collections confirmation is recorded.
+- **TC-PLA-482** [Negative] Notification is not sent when template/trigger/recipient definition is missing (Priority: Medium)
+  - Covers: REQ-275
+  - Preconditions: D-05 flags that notification templates, triggers, and recipients are required but were an open item (not yet fully defined) in the BRSD.
+  - Steps: 1. Reach a process step intended to fire a customer/agent notification. 2. Confirm no template/trigger/recipient definition exists for that step. 3. Attempt to trigger the notification.
+  - Expected: The system either fails safely (no notification sent, error logged) or the gap is surfaced to the user rather than sending a malformed/undefined notification.
+- **TC-PLA-483** [Negative] Fibre BRSD requirement referencing an un-baselined Mobile Postpaid BRSD cross-reference is flagged unstable (Priority: Medium)
+  - Covers: REQ-262
+  - Preconditions: OI-23 notes the Fibre BRSD has a dependency on the Mobile Postpaid Activation BRSD being baselined for stable cross-references.
+  - Steps: 1. Identify a Fibre BRSD requirement that cross-references a Mobile Postpaid BRSD capability. 2. Check whether the Mobile Postpaid BRSD is baselined (version-locked). 3. If not baselined, attempt to treat the cross-reference as stable.
+  - Expected: Until the Mobile Postpaid BRSD is confirmed baselined, the cross-referencing Fibre requirement is flagged as dependent/unstable rather than accepted as final.
+- **TC-PLA-484** [Negative] Requirement row without a status, owner, or traceability identifier is rejected by governance (Priority: High)
+  - Covers: REQ-257
+  - Preconditions: OI-01 governance gap: prior BRSD versions had no populated requirement status, owner, or traceability identifier; noted as resolved in v2.0.
+  - Steps: 1. Add a new requirement row to the BRSD without a Status, Owner, or Traceability ID value. 2. Attempt to save/baseline the sheet.
+  - Expected: The governance check rejects or flags the row as incomplete; a requirement row cannot be baselined without Status, Owner, and Traceability ID populated.
+- **TC-PLA-485** [Negative] Fibre BRSD requirement sheet has no non-functional requirements documented (OI-16 gap) (Priority: High)
+  - Covers: REQ-256
+  - Preconditions: OI-16 states no non-functional requirements are stated at all in the Fibre BRSD.
+  - Steps: 1. Open the Fibre BRSD (VFQ_Fibre_BRSD_v1.2.xlsx) requirement sheets. 2. Search all sheets for a Non-Functional Requirement category/section. 3. Confirm absence.
+  - Expected: No non-functional requirement entries exist in the Fibre BRSD; the gap is confirmed and should be tracked as an open item (OI-16) rather than silently assumed covered.
+- **TC-PLA-486** [Negative] Requirement dependent on an unresolved VFQ field-level spec gap cannot be baselined (Priority: Medium)
+  - Covers: REQ-271
+  - Preconditions: D-01 open item is unresolved (VFQ has not yet supplied the field-level spec).
+  - Steps: 1. Attempt to baseline/finalize a requirement row still awaiting the VFQ field-level spec input. 2. Check baseline validation.
+  - Expected: The requirement row is blocked from baselining, or is baselined with an explicit open-item flag, while the D-01 gap remains unresolved.
+- **TC-PLA-487** [Negative] Introducing a new custom API where a PIP pre-built API exists is flagged in design review (Priority: Medium)
+  - Covers: REQ-051
+  - Preconditions: Same PIP-alignment requirement is in force as an architecture governance rule.
+  - Steps: 1. Propose a new custom API for a screen function where a PIP pre-built API equivalent already exists. 2. Submit the design for architecture review.
+  - Expected: The review flags the proposal as non-conformant to the PIP-alignment requirement and requires justification or reversion to the pre-built API.
+
+**Validation scenarios:**
+
+- **TC-PLA-488** [Validation] Total Screens field must equal the sum of Desktop and Tablet screen counts (Priority: Medium)
+  - Covers: REQ-118
+  - Preconditions: Screen-count estimation model exposes editable/derived Desktop, Tablet, and Total Screens fields.
+  - Steps: 1. Change Expected Screens Desktop to a different value without updating Total Screens. 2. Recalculate or attempt to save the estimation model. 3. Compare displayed Total Screens against Desktop + Tablet.
+  - Expected: Total Screens is recalculated as Desktop + Tablet and does not allow a stale/mismatched total to be saved.
+- **TC-PLA-489** [Validation] ZSB detail capture fields are mandatory per refs 2.1.15 and 3.1.12 (Priority: High)
+  - Covers: REQ-112
+  - Preconditions: Consumer Activation Process/Procedure v8.0 mandates ZSB detail capture per sections 2.1.15 and 3.1.12.
+  - Steps: 1. Begin the activation flow segment governed by refs 2.1.15/3.1.12. 2. Leave the ZSB detail field(s) blank. 3. Attempt to proceed/submit.
+  - Expected: The system blocks progression and requires the ZSB detail field(s) to be completed before the step can be submitted.
+- **TC-PLA-490** [Validation] Catalogue/eligibility/discount/number-pricing rules are editable as configuration, not code (Priority: High)
+  - Covers: REQ-268
+  - Preconditions: A-03 requires catalogue, eligibility, discount, and number-pricing rules to be externalized as configuration rather than hard-coded.
+  - Steps: 1. Locate the configuration store/table holding a discount rule (e.g. a promotional discount percentage). 2. Change the rule value in configuration only, without a code deployment. 3. Re-run a pricing/eligibility check that depends on that rule.
+  - Expected: The updated discount/eligibility/number-pricing behavior takes effect immediately from the configuration change alone, confirming the rule is not hard-coded.
+- **TC-PLA-491** [Validation] HRN advance payment matrix determines required advance payment amount by HRN category (Priority: Medium)
+  - Covers: REQ-277
+  - Preconditions: D-08 requires an HRN advance payment matrix; an HRN (High Risk Nationality) customer activation is in progress.
+  - Steps: 1. Select an HRN customer category during activation. 2. Look up the required advance payment amount against the HRN advance payment matrix. 3. Enter a payment amount below the matrix-required value and attempt to submit.
+  - Expected: The system flags the entered advance payment as insufficient against the HRN advance payment matrix and blocks submission until the matrix-required amount is met.
+- **TC-PLA-492** [Validation] 18 named requirements carry v2.0 acceptance-criteria updates and no others are silently altered (Priority: Medium)
+  - Covers: REQ-267
+  - Preconditions: v2.0 (2026-08-10) updates acceptance criteria for the 18 named requirement IDs: MPAR_001_JSM_07, KYC_20, CAM_04, CAM_11, ECC_11, ECC_18, ECC_19, BAM_02, BAM_10, BAM_13, QPC_10, NUM_11, SIM_07, CVC_06, CAF_02, ORD_11, NOT_06, NOT_07.
+  - Steps: 1. Diff v1.x and v2.0 BRSD acceptance-criteria columns for each of the 18 named requirement IDs. 2. Diff acceptance-criteria columns for a sample of requirement IDs NOT in the 18-item list.
+  - Expected: Each of the 18 named requirement IDs shows a changed acceptance-criteria value between v1.x and v2.0; requirement IDs outside the named list show unchanged acceptance criteria.
+
+**Persona scenarios:**
+
+- **TC-PLA-493** [Persona] Collections role confirms outstanding-dues threshold before order proceeds (Priority: Medium)
+  - Covers: REQ-276
+  - Preconditions: D-07 requires Collections to confirm outstanding-dues thresholds; a customer/order scenario exists with an outstanding-dues check pending.
+  - Steps: 1. As an agent, reach the outstanding-dues check step for a customer with a balance near the threshold. 2. Route the threshold confirmation to the Collections role. 3. As the Collections persona, confirm the outstanding-dues threshold value.
+  - Expected: Only the Collections role can confirm the outstanding-dues threshold; once confirmed, the order/journey is permitted to proceed past the outstanding-dues check.
+
+---
+
+## 2. Navigation Tests (Explicit, deterministic — 213 scenarios, one per route)
+
+Representative sample (full list mirrors `config/routes.json`'s 213 entries 1:1):
+
+- **TC-NAV-001**: Route /enterprise-iot-b2b/bulk-adjustment-portal-dxp-target-state (Bulk Adjustment Portal (DXP, Target State)) renders for personas with an RBAC entry — Priority: High
+- **TC-NAV-002**: Route /enterprise-iot-b2b/powerapps-bulk-adjustment-portal-current-state (PowerApps Bulk Adjustment Portal (Current State)) renders for personas with an RBAC entry — Priority: High
+- **TC-NAV-003**: Route /billing-adjustments/statement-of-account-soa-view (Statement of Account (SOA) View) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-004**: Route /identity-customer-management/bill-landing-view (Bill Landing View) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-005**: Route /billing-adjustments/bill-simulation-screen (Bill Simulation Screen) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-006**: Route /fixed-line-fibre/unbilled-usage-screen (Unbilled Usage Screen) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-007**: Route /fixed-line-fibre/account-creation-screen (Account Creation Screen) renders for personas with an RBAC entry — Priority: High
+- **TC-NAV-008**: Route /fixed-line-fibre/ebu-number-portal (EBU Number Portal) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-009**: Route /fwa-5g-home/bulk-activation-control-sheet-excel-macro-current-state (Bulk Activation Control Sheet (Excel Macro, Current State)) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-010**: Route /enterprise-iot-b2b/dsp-bulk-activation-templates-target-state (DSP Bulk Activation Templates (Target State)) renders for personas with an RBAC entry — Priority: High
+- **TC-NAV-011**: Route /order-management/ms-dynamics-discount-approval-hierarchy-screen (MS Dynamics Discount Approval Hierarchy Screen) renders for personas with an RBAC entry — Priority: High
+- **TC-NAV-012**: Route /fixed-line-fibre/rfs-feasibility-portal-grafana (RFS/Feasibility Portal (Grafana)) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-013**: Route /fixed-line-fibre/enterprise-process-knowledge-base-dashboard (Enterprise Process Knowledge Base Dashboard) renders for personas with an RBAC entry — Priority: High
+- **TC-NAV-014**: Route /enterprise-iot-b2b/enterprise-invoice-pdf (Enterprise Invoice (PDF)) renders for personas with an RBAC entry — Priority: Low (gap)
+- **TC-NAV-015**: Route /fixed-line-fibre/enterprise-invoice-excel (Enterprise Invoice (Excel)) renders for personas with an RBAC entry — Priority: Low (gap)
+
+_198 more — one per remaining route in `config/routes.json`._
+
+---
+
+## 3. Security / Permission Tests (Explicit, deterministic — 40 scenarios, from `rbac-matrix.md`'s 40 restricted-action entries)
+
+- **TC-SEC-001**: Retail/Sales Agent (Frontline/Cross-Sell/Front-Office) cannot perform restricted action on Cross Sales — Contact/QID entry
+  - Steps: 1. Log in as Retail/Sales Agent (Frontline/Cross-Sell/Front-Office). 2. Navigate to Cross Sales — Contact/QID entry. 3. Attempt: Cannot re-enter/change QID once carried over from Cross Sales (read-only)
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot re-enter/change QID once carried over from Cross Sales (read-only)"
+- **TC-SEC-002**: Retail/Sales Agent (Frontline/Cross-Sell/Front-Office) cannot perform restricted action on QID Offers grid
+  - Steps: 1. Log in as Retail/Sales Agent (Frontline/Cross-Sell/Front-Office). 2. Navigate to QID Offers grid. 3. Attempt: Cannot select a plan on cross-sell order (auto-applied); no editable add-on/discount control on cross-sell order
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot select a plan on cross-sell order (auto-applied); no editable add-on/discount control on cross-sell order"
+- **TC-SEC-003**: Retail/Sales Agent (Frontline/Cross-Sell/Front-Office) cannot perform restricted action on MNP Postpaid Plan Step / Promotion Detail Modal
+  - Steps: 1. Log in as Retail/Sales Agent (Frontline/Cross-Sell/Front-Office). 2. Navigate to MNP Postpaid Plan Step / Promotion Detail Modal. 3. Attempt: Can edit Smart Limit/Bill Limit down to but not below Agent Minimum Value without System Administrator override
+  - Expected: Action is blocked/hidden per evidenced restriction: "Can edit Smart Limit/Bill Limit down to but not below Agent Minimum Value without System Administrator override"
+- **TC-SEC-004**: Retail/Sales Agent (Frontline/Cross-Sell/Front-Office) cannot perform restricted action on New Fixed Line wizard — Contact step
+  - Steps: 1. Log in as Retail/Sales Agent (Frontline/Cross-Sell/Front-Office). 2. Navigate to New Fixed Line wizard — Contact step. 3. Attempt: Cannot manually enter ID details (only re-scan); cannot manually enter KID, only search
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot manually enter ID details (only re-scan); cannot manually enter KID, only search"
+- **TC-SEC-005**: Retail/Sales Agent (Frontline/Cross-Sell/Front-Office) cannot perform restricted action on Account Summary
+  - Steps: 1. Log in as Retail/Sales Agent (Frontline/Cross-Sell/Front-Office). 2. Navigate to Account Summary. 3. Attempt: Retail cannot change primary contact; cannot enroll/cancel AutoPay or see card details
+  - Expected: Action is blocked/hidden per evidenced restriction: "Retail cannot change primary contact; cannot enroll/cancel AutoPay or see card details"
+- **TC-SEC-006**: Account Manager cannot perform restricted action on MS Dynamics Discount Approval Hierarchy Screen
+  - Steps: 1. Log in as Account Manager. 2. Navigate to MS Dynamics Discount Approval Hierarchy Screen. 3. Attempt: Does not have CRM access, served via 117 support channel instead
+  - Expected: Action is blocked/hidden per evidenced restriction: "Does not have CRM access, served via 117 support channel instead"
+- **TC-SEC-007**: Account Manager cannot perform restricted action on Account affiliation approval (no dedicated screen in catalogue)
+  - Steps: 1. Log in as Account Manager. 2. Navigate to Account affiliation approval (no dedicated screen in catalogue). 3. Attempt: Do not have CRM access, served via 117 support channel instead
+  - Expected: Action is blocked/hidden per evidenced restriction: "Do not have CRM access, served via 117 support channel instead"
+- **TC-SEC-008**: Account Manager / Channel Partner (External enterprise) cannot perform restricted action on CRM (no screen access)
+  - Steps: 1. Log in as Account Manager / Channel Partner (External enterprise). 2. Navigate to CRM (no screen access). 3. Attempt: Do not have CRM access, served via 117 support channel instead
+  - Expected: Action is blocked/hidden per evidenced restriction: "Do not have CRM access, served via 117 support channel instead"
+- **TC-SEC-009**: Chooser cannot perform restricted action on Enterprise request submission (no dedicated CRM screen)
+  - Steps: 1. Log in as Chooser. 2. Navigate to Enterprise request submission (no dedicated CRM screen). 3. Attempt: Requests only accepted from chooser's registered email; no off-boarding process exists when a chooser leaves the company
+  - Expected: Action is blocked/hidden per evidenced restriction: "Requests only accepted from chooser's registered email; no off-boarding process exists when a chooser leaves the company"
+- **TC-SEC-010**: Technical Contact cannot perform restricted action on Contact record (free-text only, no formal screen)
+  - Steps: 1. Log in as Technical Contact. 2. Navigate to Contact record (free-text only, no formal screen). 3. Attempt: Cannot be captured as a formal contact with ID today, only free text, causing appointment notifications to go to the wrong person
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot be captured as a formal contact with ID today, only free text, causing appointment notifications to go to the wrong person"
+- **TC-SEC-011**: Billing Team / Billing Role cannot perform restricted action on 
+  - Steps: 1. Log in as Billing Team / Billing Role. 2. Navigate to . 3. Attempt: Restricted permission to change bill cycle
+  - Expected: Action is blocked/hidden per evidenced restriction: "Restricted permission to change bill cycle"
+- **TC-SEC-012**: Collection/Credit Control Team (Manual Suspension via Taurus) cannot perform restricted action on 
+  - Steps: 1. Log in as Collection/Credit Control Team (Manual Suspension via Taurus). 2. Navigate to . 3. Attempt: Manual suspension restricted to specific roles, not exposed as retail journey
+  - Expected: Action is blocked/hidden per evidenced restriction: "Manual suspension restricted to specific roles, not exposed as retail journey"
+- **TC-SEC-013**: Customer (Consumer/Enterprise/B2B2C End User) cannot perform restricted action on Contact Portal
+  - Steps: 1. Log in as Customer (Consumer/Enterprise/B2B2C End User). 2. Navigate to Contact Portal. 3. Attempt: Subject to disconnection/dunning ladder if unpaid; risk of suspension/blacklisting for offer abuse
+  - Expected: Action is blocked/hidden per evidenced restriction: "Subject to disconnection/dunning ladder if unpaid; risk of suspension/blacklisting for offer abuse"
+- **TC-SEC-014**: Customer (Consumer/Enterprise/B2B2C End User) cannot perform restricted action on 
+  - Steps: 1. Log in as Customer (Consumer/Enterprise/B2B2C End User). 2. Navigate to . 3. Attempt: non-standard customers cannot use self-serve, get a Lead instead
+  - Expected: Action is blocked/hidden per evidenced restriction: "non-standard customers cannot use self-serve, get a Lead instead"
+- **TC-SEC-015**: CDM Team / Customer Data Management cannot perform restricted action on 
+  - Steps: 1. Log in as CDM Team / Customer Data Management. 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-016**: Supervisor cannot perform restricted action on Cross-agent ticket view (not implemented)
+  - Steps: 1. Log in as Supervisor. 2. Navigate to Cross-agent ticket view (not implemented). 3. Attempt: Currently no supervisor cross-agent ticket view exists
+  - Expected: Action is blocked/hidden per evidenced restriction: "Currently no supervisor cross-agent ticket view exists"
+- **TC-SEC-017**: Field Technician / Field Engineer (WFM/OFS/OFSC) cannot perform restricted action on Siebel (system access)
+  - Steps: 1. Log in as Field Technician / Field Engineer (WFM/OFS/OFSC). 2. Navigate to Siebel (system access). 3. Attempt: No Siebel access
+  - Expected: Action is blocked/hidden per evidenced restriction: "No Siebel access"
+- **TC-SEC-018**: Field Technician / Field Engineer (WFM/OFS/OFSC) cannot perform restricted action on Combo box password (system access)
+  - Steps: 1. Log in as Field Technician / Field Engineer (WFM/OFS/OFSC). 2. Navigate to Combo box password (system access). 3. Attempt: no access to combo box password today (decision made to change this)
+  - Expected: Action is blocked/hidden per evidenced restriction: "no access to combo box password today (decision made to change this)"
+- **TC-SEC-019**: Rollout Team cannot perform restricted action on 
+  - Steps: 1. Log in as Rollout Team. 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-020**: Sales Team (Win-back) cannot perform restricted action on 
+  - Steps: 1. Log in as Sales Team (Win-back). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-021**: Managing Queue / CDM / BOQ / QATQ (routing queues) cannot perform restricted action on 
+  - Steps: 1. Log in as Managing Queue / CDM / BOQ / QATQ (routing queues). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-022**: MOI (Ministry of Interior, external system/authority) cannot perform restricted action on 
+  - Steps: 1. Log in as MOI (Ministry of Interior, external system/authority). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-023**: Store Agent (TON) cannot perform restricted action on 
+  - Steps: 1. Log in as Store Agent (TON). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-024**: Business Analyst (Rana) cannot perform restricted action on 
+  - Steps: 1. Log in as Business Analyst (Rana). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-025**: Solution/Financial Architect (Marishi) cannot perform restricted action on 
+  - Steps: 1. Log in as Solution/Financial Architect (Marishi). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona in Stage A data"
+- **TC-SEC-026**: Retail Agent (Retail Operations Stakeholder - Giri) cannot perform restricted action on Primary contact change (action)
+  - Steps: 1. Log in as Retail Agent (Retail Operations Stakeholder - Giri). 2. Navigate to Primary contact change (action). 3. Attempt: Retail cannot change primary contact (per CRM Journeys workbook comment)
+  - Expected: Action is blocked/hidden per evidenced restriction: "Retail cannot change primary contact (per CRM Journeys workbook comment)"
+- **TC-SEC-027**: Team Manager / Approver / Manager (Order Approval, Test Manager) cannot perform restricted action on Reject Order modal
+  - Steps: 1. Log in as Team Manager / Approver / Manager (Order Approval, Test Manager). 2. Navigate to Reject Order modal. 3. Attempt: After one correction round, Reject - Correction option no longer offered on re-review
+  - Expected: Action is blocked/hidden per evidenced restriction: "After one correction round, Reject - Correction option no longer offered on re-review"
+- **TC-SEC-028**: Team Manager / Approver / Manager (Order Approval, Test Manager) cannot perform restricted action on 
+  - Steps: 1. Log in as Team Manager / Approver / Manager (Order Approval, Test Manager). 2. Navigate to . 3. Attempt: Cannot access full sales/order-creation modules available to front-line agents; menu limited to Home/Order Approval (+/- Manage Leads, Leads Queue), distinct from field-agent tablet menu
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot access full sales/order-creation modules available to front-line agents; menu limited to Home/Order Approval (+/- Manage Leads, Leads Queue), distinct from field-agent tablet menu"
+- **TC-SEC-029**: Retention Team (FDO Disconnection Cancellation) cannot perform restricted action on FDO requests tab (in account summary)
+  - Steps: 1. Log in as Retention Team (FDO Disconnection Cancellation). 2. Navigate to FDO requests tab (in account summary). 3. Attempt: Restricted to this team only (other roles cannot cancel disconnection FDOs)
+  - Expected: Action is blocked/hidden per evidenced restriction: "Restricted to this team only (other roles cannot cancel disconnection FDOs)"
+- **TC-SEC-030**: Fulfillment Team (ECR Details - inferred) cannot perform restricted action on CAF & Additional Attachments step (B2B2C)
+  - Steps: 1. Log in as Fulfillment Team (ECR Details - inferred). 2. Navigate to CAF & Additional Attachments step (B2B2C). 3. Attempt: ECR Details field is fulfillment-team-only; front-line agents should not fill it
+  - Expected: Action is blocked/hidden per evidenced restriction: "ECR Details field is fulfillment-team-only; front-line agents should not fill it"
+- **TC-SEC-031**: Offshore Retailer / Channel Partner (VSA/BSA) cannot perform restricted action on My Leads list
+  - Steps: 1. Log in as Offshore Retailer / Channel Partner (VSA/BSA). 2. Navigate to My Leads list. 3. Attempt: Visibility restricted to own orders/leads only
+  - Expected: Action is blocked/hidden per evidenced restriction: "Visibility restricted to own orders/leads only"
+- **TC-SEC-032**: Offshore Retailer / Channel Partner (VSA/BSA) cannot perform restricted action on My Sales Orders / My Pending Approval Orders queue
+  - Steps: 1. Log in as Offshore Retailer / Channel Partner (VSA/BSA). 2. Navigate to My Sales Orders / My Pending Approval Orders queue. 3. Attempt: Visibility restricted to own orders/leads only
+  - Expected: Action is blocked/hidden per evidenced restriction: "Visibility restricted to own orders/leads only"
+- **TC-SEC-033**: Offshore Retailer / Channel Partner (VSA/BSA) cannot perform restricted action on All Leads across Org
+  - Steps: 1. Log in as Offshore Retailer / Channel Partner (VSA/BSA). 2. Navigate to All Leads across Org. 3. Attempt: Visibility restricted to own orders/leads only (explicitly excluded from org-wide lead visibility)
+  - Expected: Action is blocked/hidden per evidenced restriction: "Visibility restricted to own orders/leads only (explicitly excluded from org-wide lead visibility)"
+- **TC-SEC-034**: Network Team cannot perform restricted action on 
+  - Steps: 1. Log in as Network Team. 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona"
+- **TC-SEC-035**: Business/Strategy Team cannot perform restricted action on 
+  - Steps: 1. Log in as Business/Strategy Team. 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona"
+- **TC-SEC-036**: Back Office (generic activity channel) cannot perform restricted action on 
+  - Steps: 1. Log in as Back Office (generic activity channel). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona"
+- **TC-SEC-037**: Product Team cannot perform restricted action on 
+  - Steps: 1. Log in as Product Team. 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona"
+- **TC-SEC-038**: Solution Architect / Business Owner / IT Owner / Track Lead / Test Manager / Delivery Manager (Governance) cannot perform restricted action on 
+  - Steps: 1. Log in as Solution Architect / Business Owner / IT Owner / Track Lead / Test Manager / Delivery Manager (Governance). 2. Navigate to . 3. Attempt: No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona
+  - Expected: Action is blocked/hidden per evidenced restriction: "No accessible_screens, accessible_actions, restricted_features, or permissions text captured for this persona"
+- **TC-SEC-039**: FL Agents (Front Line Agents) cannot perform restricted action on Ticket Homepage
+  - Steps: 1. Log in as FL Agents (Front Line Agents). 2. Navigate to Ticket Homepage. 3. Attempt: Cannot fill fields designated "Filled By Complaints Team"
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot fill fields designated "Filled By Complaints Team""
+- **TC-SEC-040**: FL Agents (Front Line Agents) cannot perform restricted action on Open UI Tickets Fields (per-issue-type template)
+  - Steps: 1. Log in as FL Agents (Front Line Agents). 2. Navigate to Open UI Tickets Fields (per-issue-type template). 3. Attempt: Cannot fill fields designated "Filled By Complaints Team"
+  - Expected: Action is blocked/hidden per evidenced restriction: "Cannot fill fields designated "Filled By Complaints Team""
+
+---
+
+## 4. Boundary Tests (Explicit, deterministic — 29 scenarios, from `business-rules.md` threshold-shaped rules)
+
+- **TC-BND-001**: Boundary check: Fibre 12-Month Lock-in Disconnection Fee (source: BR-001)
+  - Steps: Test at value below, at, and above the threshold described: "If the customer disconnects before completing the 12-month Fibre Lock-in, they must pay the remainder of the 3-month minimum service period plus a Fibre Lock-in charge of QR 80 x remaining months (of "
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-002**: Boundary check: OSNtv Termination Penalty Calculation (source: BR-002)
+  - Steps: Test at value below, at, and above the threshold described: "OSNtv termination penalty is calculated as the remainder of 12 months x QR 30 (OSN Lite) or QR 60 (OSN Premium). Both the Plan disconnection penalty and the OSNtv penalty apply together (are additive)"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-003**: Boundary check: Try & Buy 30-Day Waiver Condition (source: BR-003)
+  - Steps: Test at value below, at, and above the threshold described: "For Try & Buy subscriptions only, disconnecting within the first 30 days waives disconnection charges, but the OSN Box must be returned to a Vodafone store in good working condition. If the box is not"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-004**: Boundary check: Enterprise Credit Limit Approval Rule (source: BR-018)
+  - Steps: Test at value below, at, and above the threshold described: "Enterprise accounts have no default credit limit and require business finance approval to establish one."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-005**: Boundary check: Volumetric Discount Minimum Threshold Rule (source: BR-025)
+  - Steps: Test at value below, at, and above the threshold described: "The volumetric discount has a minimum threshold of 50 numbers, is slab-based, and comes in revenue and service-count variants; it is evaluated at runtime and has no automatic downgrade when connection"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-006**: Boundary check: Excel One-Million-Line-Item Limit / 400k Email Threshold (source: BR-032)
+  - Steps: Test at value below, at, and above the threshold described: "Excel has a one-million line item limit, requiring aggregation with a CSV fallback for larger datasets; separately, a 400k-line threshold is driven by email delivery size limits."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-007**: Boundary check: MNP Conditional Acceptance Billed-Due Threshold (100 QAR) (source: BR-047)
+  - Steps: Test at value below, at, and above the threshold described: "Conditional acceptance for consumer MNP requests is automated when the billed due amount exceeds 100 QAR; unbilled amounts do not trigger conditional acceptance in MNP."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-008**: Boundary check: Park My Number Plan Definition (35 Rial / 4 months / zero credit limit) (source: BR-059)
+  - Steps: Test at value below, at, and above the threshold described: "The 'park my number' service is delivered via a 35 Rial, four-month upfront-paid plan with the credit limit set to zero."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-009**: Boundary check: Prepaid-to-Postpaid Migration Eligibility (network age, recharge, CDR usage) (source: BR-069)
+  - Steps: Test at value below, at, and above the threshold described: "Eligibility checks for prepaid-to-postpaid migration (currently manual, to be automated): minimum one month age on network, minimum 50 Riyal recharge in the last month, and a CDR-based usage history c"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-010**: Boundary check: Credit Limit Default by Nationality (1000 expat / 50 HRN) (source: BR-076)
+  - Steps: Test at value below, at, and above the threshold described: "Default credit limit is 1,000 for an expat on a new account, dropped to 50 for HRN (high-risk nationality) customers, agent-selected or system-enforced depending on nationality configuration."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-011**: Boundary check: Expat passport holders limited to prepaid, max 5 numbers (source: BR-108)
+  - Steps: Test at value below, at, and above the threshold described: "Expatriates holding only a passport (no QID/GCC ID) are generally limited to prepaid service, with a maximum of 5 numbers."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-012**: Boundary check: Maximum mobility lines cap (nationals unlimited, non-nationals 5 per operator) (source: BR-110)
+  - Steps: Test at value below, at, and above the threshold described: "Maximum mobility lines (prepaid + postpaid combined) are unlimited for Qatari nationals but capped at 5 for non-nationals; the 5-line cap applies per operator, not cumulatively across operators."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-013**: Boundary check: Prepaid minimum registration age 18 (source: BR-130)
+  - Steps: Test at value below, at, and above the threshold described: "Prepaid registration requires a minimum age of 18 along with a valid QID, GCC ID, or Passport."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-014**: Boundary check: GigaHome lock-in and early-termination fee calculation (source: BR-146)
+  - Steps: Test at value below, at, and above the threshold described: "GigaHome 5G Home plan lock-in periods: 3 months for the Plan itself, 12 months for installation cost/devices. If the customer terminates before completing the 12-month device lock-in, a 500 QAR early "
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-015**: Boundary check: LAN cabling / Home Move fee calculation (source: BR-147)
+  - Steps: Test at value below, at, and above the threshold described: "LAN cabling charges: 10 QAR per meter for Mesh-to-Mesh cabling; 20 QAR per meter if installed with PVC trunking. Home Move Fee is free once per 12-month cycle, otherwise 200 QAR applies for additional"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-016**: Boundary check: HRN Customer Advance Payment Requirement (source: BR-187)
+  - Steps: Test at value below, at, and above the threshold described: "HRN (High Risk Number / High Risk Nationality) customers are required to pay an advance payment of QR 100."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-017**: Boundary check: FWA/GigaHome Plan Minimum Subscription Period of 3 Months (source: BR-188)
+  - Steps: Test at value below, at, and above the threshold described: "FWA and GigaHome fixed-line plans carry a minimum subscription period of 3 months — e.g. "GigaHome 5G Classic New Indoor - FWA" plan and "Gigahome 5Gbps" fixed-line plan both specify a minimum 3-month"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-018**: Boundary check: Bill Limit and Credit Limit Editable at Plan Selection (source: BR-224)
+  - Steps: Test at value below, at, and above the threshold described: "At plan selection, agents can edit the Bill Limit and Credit Limit values via dedicated 'Edit Bill Limit' and 'Edit Credit Limit' controls."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-019**: Boundary check: Bill Limit Mobile Promotion Agent Min Value Threshold = 50 (Postpaid U Start) (source: BR-226)
+  - Steps: Test at value below, at, and above the threshold described: "For the Bill Limit Mobile promotion (Postpaid U Start plan), pricing parameters are: SL List Price 3, Agent Min Value 50, SL Min Value 0.01, SL Default Value 20."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-020**: Boundary check: Bill Limit Mobile Plus Promotion Agent Min Value Threshold = 75 (source: BR-227)
+  - Steps: Test at value below, at, and above the threshold described: "For the Bill Limit Mobile Plus promotion, pricing parameters are: SL List Price 0, Agent Min Value 75, SL Min Value 0.01, SL Default Value 20, with the Default Flag checked."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-021**: Boundary check: Bill Limit cannot be set below Agent Minimum Value (source: BR-249)
+  - Steps: Test at value below, at, and above the threshold described: "The system enforces a hard floor on the Bill Limit (a form of Spend Limit) equal to the product's configured Agent Minimum Value; entering a value below that threshold blocks journey progression and s"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-022**: Boundary check: Agent Minimum Value is admin-configurable per Bill Limit/Spend Limit product (source: BR-251)
+  - Steps: Test at value below, at, and above the threshold described: "Each Bill Limit / Spend Limit product (e.g. 'Bill Limit Mobile' with Agent Min 50, 'Bill Limit Mobile Plus' with Agent Min 80 and Default Flag checked) has an Agent Minimum Value that is configured an"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-023**: Boundary check: HRN (High-Risk Nationality) advance payment requirement (source: BR-252)
+  - Steps: Test at value below, at, and above the threshold described: "Customers classified as High-Risk Nationality (HRN) are required to pay an advance payment of QR 100 as a condition of the sale/migration; this requirement blocks completion until satisfied."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-024**: Boundary check: Minimum Subscription Period of 3 months applies to certain postpaid plans (source: BR-269)
+  - Steps: Test at value below, at, and above the threshold described: "Certain postpaid plans (e.g. 'U Start', 'Red 350') carry a disclosed Minimum Subscription Period of 3 months, shown as a footnote on the CAF/plan selection screen."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-025**: Boundary check: Post-to-Pre Migration requires outstanding balance <=0 and 100 QR migration fee upfront (source: BR-281)
+  - Steps: Test at value below, at, and above the threshold described: "A Post-to-Pre migration requires the outstanding balance to be system-validated as cleared (≤0), the execution date is limited to the next bill cycle, and a 100 QR migration fee must be collected upfr"
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-026**: Boundary check: Max two postpaid mobiles per expat QID (business rule, though technically five allowed) (source: BR-288)
+  - Steps: Test at value below, at, and above the threshold described: "Business rule caps an expat QID holder at a maximum of two postpaid mobile lines, even though the underlying system technically permits up to five."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-027**: Boundary check: Star number carries 1-year plan commitment vs 3-month for free number; up to 2-year lock-in for 20,000 QAR star number on VIP plan (source: BR-289)
+  - Steps: Test at value below, at, and above the threshold described: "Selecting a star number carries a 1-year plan commitment, compared to a 3-month commitment for a free number; a premium 20,000 QAR star number on a VIP plan carries up to a 2-year lock-in."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-028**: Boundary check: Bill Limit Minimum threshold (Agent) / BL rule series 01-09 (source: BR-306)
+  - Steps: Test at value below, at, and above the threshold described: "Bill Limit (BL) rules 01 through 09 govern bill-limit modification for agents, including minimum/maximum threshold checks and conflicts with in-flight orders."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+- **TC-BND-029**: Boundary check: Bill Limit cannot exceed Credit Limit (source: BR-307)
+  - Steps: Test at value below, at, and above the threshold described: "The Bill Limit value set on an account cannot exceed the account's Credit Limit (BL Rule 07)."
+  - Expected: Below threshold: rejected/blocked per rule; at threshold: behavior per rule's stated boundary condition (confirm inclusive/exclusive with business owner); above threshold: allowed per rule.
+
+---
+
+## 5. Uncovered Requirements (0 of 308)
+
+None — full coverage achieved.

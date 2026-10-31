@@ -1,0 +1,38 @@
+[
+  {
+    "appointmentId": "APT-5501",
+    "appointmentNumber": "APT-NUM-991001",
+    "orderId": "ORD-90001",
+    "lineItemId": "LI-6002",
+    "technicianId": "TECH-2201",
+    "status": "pending",
+    "appointmentDate": "2026-08-25",
+    "channel": "Retail Store",
+    "timeSlot": "10:00-12:00",
+    "cluster": "West Bay Cluster"
+  },
+  {
+    "appointmentId": "APT-5502",
+    "appointmentNumber": "APT-NUM-991002",
+    "orderId": "ORD-90003",
+    "lineItemId": "LI-6003",
+    "technicianId": "TECH-2205",
+    "status": "assigned",
+    "appointmentDate": "2026-08-26",
+    "channel": "Call Center",
+    "timeSlot": "14:00-16:00",
+    "cluster": "Al Sadd Cluster"
+  },
+  {
+    "appointmentId": "APT-5503",
+    "appointmentNumber": "APT-NUM-991003",
+    "orderId": "ORD-90004",
+    "lineItemId": "LI-6004",
+    "technicianId": "TECH-2210",
+    "status": "completed",
+    "appointmentDate": "2026-08-20",
+    "channel": "Online Self-Care",
+    "timeSlot": "09:00-11:00",
+    "cluster": "Pearl Cluster"
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "leadId": "LEAD-20001",
+    "serviceNeeded": "Home",
+    "status": "New",
+    "ownerId": "AGENT-VINODHINIR",
+    "createdVia": "Tablet Lead Creation",
+    "fixedPreSalesRequested": true,
+    "callbackDate": "2025-09-20"
+  },
+  {
+    "leadId": "LEAD-20002",
+    "serviceNeeded": "MNP",
+    "status": "Callback Scheduled",
+    "ownerId": "AGENT-HEMANTHKUMAR",
+    "createdVia": "New Lead Mobile",
+    "mobileNumber": "+97455590001"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "homeMoveCaseId": "HMC-6001",
+    "customerId": "CUST-1001",
+    "accountId": "ACC-5001",
+    "serviceTypeCombination": "Fiber-Indoor",
+    "oldServiceType": "5G-Outdoor",
+    "wfmInstallRequired": true,
+    "dismantleRequired": true,
+    "oldServiceStatus": "Live",
+    "newLocationProvisioned": false,
+    "oldAddress": "Zone 55, Street 830, Building 12, Doha",
+    "newAddress": "Zone 25, Street 210, Building 4, Al Waab, Doha",
+    "requestDate": "2026-08-10"
+  },
+  {
+    "homeMoveCaseId": "HMC-6002",
+    "customerId": "CUST-1002",
+    "accountId": "ACC-5002",
+    "serviceTypeCombination": "5G-Indoor",
+    "oldServiceType": "5G-Indoor",
+    "wfmInstallRequired": false,
+    "dismantleRequired": false,
+    "oldServiceStatus": "Deactivated",
+    "newLocationProvisioned": true,
+    "oldAddress": "Zone 30, Street 850, Building 7, Al Sadd, Doha",
+    "newAddress": "Zone 32, Street 940, Building 2, Al Sadd, Doha",
+    "requestDate": "2026-08-05"
+  },
+  {
+    "homeMoveCaseId": "HMC-6003",
+    "customerId": "CUST-1003",
+    "accountId": "ACC-5003",
+    "serviceTypeCombination": "Fiber-Outdoor",
+    "oldServiceType": "Fiber-Indoor",
+    "wfmInstallRequired": true,
+    "dismantleRequired": false,
+    "oldServiceStatus": "Live",
+    "newLocationProvisioned": false,
+    "oldAddress": "Zone 66, Street 12, Building 9, The Pearl, Doha",
+    "newAddress": "Zone 68, Street 45, Villa 3, The Pearl, Doha",
+    "requestDate": "2026-08-15"
+  }
+]

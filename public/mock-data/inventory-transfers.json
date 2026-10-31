@@ -1,0 +1,32 @@
+[
+  {
+    "transferId": "INV-6601",
+    "appointmentId": "APT-5501",
+    "partNumber": "PN-ONT-8145V5",
+    "serialNo": "SN-HW884210",
+    "quantity": 1,
+    "currentOwner": "ABATS Warehouse - Doha",
+    "transferTo": "TECH-2201",
+    "totalItems": 3
+  },
+  {
+    "transferId": "INV-6602",
+    "appointmentId": "APT-5502",
+    "partNumber": "PN-SIM-NANO",
+    "serialNo": "8974412009900123456",
+    "quantity": 2,
+    "currentOwner": "ABATS Warehouse - Doha",
+    "transferTo": "TECH-2205",
+    "totalItems": 2
+  },
+  {
+    "transferId": "INV-6603",
+    "appointmentId": "APT-5503",
+    "partNumber": "PN-CPE-MESH",
+    "serialNo": "SN-CPE550231",
+    "quantity": 1,
+    "currentOwner": "ABATS Warehouse - Pearl",
+    "transferTo": "TECH-2210",
+    "totalItems": 1
+  }
+]

@@ -1,0 +1,387 @@
+[
+  {
+    "key": "workspace.dashboard",
+    "name": "Agent dashboard",
+    "area": "Dashboard",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.customer-search",
+    "name": "Customer search",
+    "area": "Customer Search",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.customer360-view",
+    "name": "Customer 360",
+    "area": "Customer 360",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.sales-launcher",
+    "name": "Sales workspace",
+    "area": "Sales",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.support-launcher",
+    "name": "Support workspace",
+    "area": "Support",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.orders-launcher",
+    "name": "Orders workspace",
+    "area": "Orders",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.task-list",
+    "name": "Task list",
+    "area": "Tasks",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.qnomy-ticket-history",
+    "name": "My Ticket History (Qnomy)",
+    "area": "Front Desk",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.task-detail",
+    "name": "Task detail",
+    "area": "Tasks",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.agent-profile",
+    "name": "Agent profile",
+    "area": "Agent Profile",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "workspace.admin-role-access-viewer",
+    "name": "Administration - roles & access viewer",
+    "area": "Administration",
+    "surface": "workspace",
+    "screenIds": []
+  },
+
+  {
+    "key": "fixedline.new-fixed-line-wizard",
+    "name": "New Fixed Line guided wizard",
+    "area": "Fixed Line / Fibre",
+    "surface": "module",
+    "screenIds": ["SCR-043", "SCR-045", "SCR-046", "SCR-048", "SCR-050", "SCR-058"]
+  },
+  {
+    "key": "fixedline.wfm-activity-details",
+    "name": "WFM Activity Details - Admin/Technician view",
+    "area": "Fixed Line / Fibre",
+    "surface": "module",
+    "screenIds": ["SCR-110"]
+  },
+  {
+    "key": "fwa.new-fwa-wizard",
+    "name": "New FWA / 5G Home guided wizard",
+    "area": "FWA / 5G Home",
+    "surface": "module",
+    "screenIds": ["SCR-077", "SCR-078", "SCR-079", "SCR-080", "SCR-082", "SCR-084", "SCR-085"]
+  },
+  {
+    "key": "fwa.serial-number-check",
+    "name": "Serial number check (Dual Play)",
+    "area": "FWA / 5G Home",
+    "surface": "module",
+    "screenIds": ["SCR-093"]
+  },
+  {
+    "key": "fwa.appointment-booking",
+    "name": "Appointment booking & calendar",
+    "area": "FWA / 5G Home",
+    "surface": "module",
+    "screenIds": ["SCR-028", "SCR-049", "SCR-083", "SCR-086", "SCR-109", "SCR-115"]
+  },
+  {
+    "key": "postpaid.new-postpaid-wizard",
+    "name": "New Postpaid Connection wizard",
+    "area": "Mobile Postpaid",
+    "surface": "module",
+    "screenIds": [
+      "SCR-037", "SCR-154", "SCR-155", "SCR-156", "SCR-157",
+      "SCR-158", "SCR-159", "SCR-160", "SCR-161", "SCR-162"
+    ]
+  },
+  {
+    "key": "prepaid.new-prepaid-wizard",
+    "name": "New Prepaid Activation wizard",
+    "area": "Mobile Prepaid",
+    "surface": "module",
+    "screenIds": ["SCR-190"]
+  },
+  {
+    "key": "mnp.process-choice",
+    "name": "MNP process choice gate",
+    "area": "MNP / FNP Porting",
+    "surface": "module",
+    "screenIds": ["SCR-120"]
+  },
+  {
+    "key": "mnp.port-in-wizard",
+    "name": "MNP Port-In guided wizard",
+    "area": "MNP / FNP Porting",
+    "surface": "module",
+    "screenIds": [
+      "SCR-121", "SCR-122", "SCR-123", "SCR-124", "SCR-125", "SCR-126",
+      "SCR-127", "SCR-129", "SCR-132", "SCR-133", "SCR-134"
+    ]
+  },
+  {
+    "key": "mnp.port-in-status",
+    "name": "MNP Port-In status tracking",
+    "area": "MNP / FNP Porting",
+    "surface": "module",
+    "screenIds": ["SCR-136"]
+  },
+  {
+    "key": "leads.list-views",
+    "name": "Lead list views (My / Created / Team / All / Contact)",
+    "area": "Lead Management",
+    "surface": "module",
+    "screenIds": ["SCR-142", "SCR-143", "SCR-144", "SCR-147", "SCR-150"]
+  },
+  {
+    "key": "leads.detail-actions",
+    "name": "Lead detail & lead actions",
+    "area": "Lead Management",
+    "surface": "module",
+    "screenIds": ["SCR-141", "SCR-145", "SCR-146", "SCR-148", "SCR-149"]
+  },
+  {
+    "key": "orders.my-sales-orders",
+    "name": "My Sales Orders queue",
+    "area": "Order Management",
+    "surface": "module",
+    "screenIds": ["SCR-059"]
+  },
+  {
+    "key": "orders.approval-queue",
+    "name": "Order Approval Queue",
+    "area": "Order Management",
+    "surface": "module",
+    "screenIds": ["SCR-060", "SCR-197"]
+  },
+  {
+    "key": "orders.approval-detail",
+    "name": "Order approval detail + approve/reject",
+    "area": "Order Management",
+    "surface": "module",
+    "screenIds": ["SCR-061", "SCR-062", "SCR-063"]
+  },
+  {
+    "key": "orders.all-sales-orders",
+    "name": "All Sales Orders / All SIM Swap Orders",
+    "area": "Order Management",
+    "surface": "module",
+    "screenIds": ["SCR-198"]
+  },
+  {
+    "key": "orders.discount-approval-hierarchy",
+    "name": "Discount approval hierarchy",
+    "area": "Order Management",
+    "surface": "module",
+    "screenIds": ["SCR-011"]
+  },
+  {
+    "key": "migration.pre-to-post-wizard",
+    "name": "Pre-to-Post migration wizard",
+    "area": "Pre-to-Post Migration",
+    "surface": "module",
+    "screenIds": ["SCR-177", "SCR-180"]
+  },
+  {
+    "key": "migration.offer-tab",
+    "name": "Migration offer tab",
+    "area": "Pre-to-Post Migration",
+    "surface": "module",
+    "screenIds": ["SCR-179"]
+  },
+  {
+    "key": "migration.bulk-jobs",
+    "name": "Bulk jobs / bulk processing dashboard",
+    "area": "Pre-to-Post Migration",
+    "surface": "module",
+    "screenIds": ["SCR-183"]
+  },
+  {
+    "key": "migration.connection-details",
+    "name": "Connection details popup",
+    "area": "Pre-to-Post Migration",
+    "surface": "module",
+    "screenIds": ["SCR-075"]
+  },
+  {
+    "key": "numbers.management-portal",
+    "name": "Number Management Portal",
+    "area": "SIM / Number Management",
+    "surface": "module",
+    "screenIds": ["SCR-024"]
+  },
+  {
+    "key": "numbers.ton-wizard",
+    "name": "TON (Transfer of Number) wizard",
+    "area": "SIM / Number Management",
+    "surface": "module",
+    "screenIds": ["SCR-035"]
+  },
+  {
+    "key": "numbers.sim-swap-queue",
+    "name": "SIM swap queue",
+    "area": "SIM / Number Management",
+    "surface": "module",
+    "screenIds": ["SCR-196"]
+  },
+  {
+    "key": "search.global-search-screen",
+    "name": "Global search screen",
+    "area": "SIM / Number Management",
+    "surface": "module",
+    "screenIds": ["SCR-195"]
+  },
+  {
+    "key": "tickets.dashboard",
+    "name": "Tickets dashboard",
+    "area": "Trouble Ticketing / Complaints",
+    "surface": "module",
+    "screenIds": ["SCR-211"]
+  },
+  {
+    "key": "tickets.detail-view",
+    "name": "Ticket detail & public notes",
+    "area": "Trouble Ticketing / Complaints",
+    "surface": "module",
+    "screenIds": ["SCR-029", "SCR-210"]
+  },
+  {
+    "key": "tickets.field-templates",
+    "name": "Ticket field templates (per issue type)",
+    "area": "Trouble Ticketing / Complaints",
+    "surface": "module",
+    "screenIds": ["SCR-213"]
+  },
+  {
+    "key": "tickets.approval-queue",
+    "name": "Ticket Approval Queue",
+    "area": "Trouble Ticketing / Complaints",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "tickets.approval-detail",
+    "name": "Ticket approval review + approve/reject/return",
+    "area": "Trouble Ticketing / Complaints",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "identity.passport-to-qid",
+    "name": "Passport-to-QID update wizard",
+    "area": "Identity / Customer Management",
+    "surface": "module",
+    "screenIds": ["SCR-151"]
+  },
+  {
+    "key": "identity.person-administration",
+    "name": "Person administration",
+    "area": "Identity / Customer Management",
+    "surface": "module",
+    "screenIds": ["SCR-054"]
+  },
+  {
+    "key": "identity.agent-360-asset-summary",
+    "name": "Agent 360 / asset summary",
+    "area": "Identity / Customer Management",
+    "surface": "module",
+    "screenIds": ["SCR-022"]
+  },
+  {
+    "key": "enterprise.account-creation",
+    "name": "Enterprise account creation",
+    "area": "Enterprise / IoT / B2B",
+    "surface": "module",
+    "screenIds": ["SCR-007"]
+  },
+  {
+    "key": "enterprise.bulk-adjustment-portal",
+    "name": "Bulk adjustment portal",
+    "area": "Enterprise / IoT / B2B",
+    "surface": "module",
+    "screenIds": ["SCR-001"]
+  },
+  {
+    "key": "enterprise.billing-profile-grid",
+    "name": "Billing profile grid (account level)",
+    "area": "Enterprise / IoT / B2B",
+    "surface": "module",
+    "screenIds": ["SCR-186"]
+  },
+  {
+    "key": "billing.statement-of-account",
+    "name": "Statement of Account view",
+    "area": "Billing & Adjustments",
+    "surface": "module",
+    "screenIds": ["SCR-003"]
+  },
+  {
+    "key": "billing.bill-simulation",
+    "name": "Bill simulation",
+    "area": "Billing & Adjustments",
+    "surface": "module",
+    "screenIds": ["SCR-005"]
+  },
+  {
+    "key": "admin.product-promotions",
+    "name": "Product promotions administration",
+    "area": "CAF, Attachments & Forms",
+    "surface": "module",
+    "screenIds": ["SCR-117", "SCR-118"]
+  },
+  {
+    "key": "platform.integration-monitor",
+    "name": "Integration / service bus monitor",
+    "area": "Platform Governance & Architecture",
+    "surface": "module",
+    "screenIds": ["SCR-016", "SCR-065"]
+  },
+  {
+    "key": "mobile.change-postpaid-plan",
+    "name": "Change Postpaid Plan journey",
+    "area": "Mobile Postpaid",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "mobile.change-prepaid-pack",
+    "name": "Change Prepaid Pack journey",
+    "area": "Mobile Prepaid",
+    "surface": "workspace",
+    "screenIds": []
+  },
+  {
+    "key": "mobile.add-addon",
+    "name": "Add Add-On journey",
+    "area": "Mobile Postpaid",
+    "surface": "workspace",
+    "screenIds": []
+  }
+]

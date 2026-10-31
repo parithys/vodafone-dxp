@@ -1,0 +1,36 @@
+[
+  {
+    "rejectReasonId": "RJR-8801",
+    "orderId": "ORD-90002",
+    "reasonCode": "ID_DOC_MISMATCH",
+    "reasonLabel": "ID Document details do not match customer profile",
+    "comments": "QID number entered does not match scanned copy, please re-upload",
+    "fieldsToRecollect": [
+      "QID Number",
+      "QID Scan Attachment"
+    ]
+  },
+  {
+    "rejectReasonId": "RJR-8802",
+    "orderId": "ORD-90005",
+    "reasonCode": "ADDRESS_INCOMPLETE",
+    "reasonLabel": "Installation address incomplete",
+    "comments": "Building/Zone number missing, appointment cannot be scheduled",
+    "fieldsToRecollect": [
+      "Address",
+      "Zone",
+      "Building Number"
+    ]
+  },
+  {
+    "rejectReasonId": "RJR-8803",
+    "orderId": "ORD-90002",
+    "reasonCode": "CREDIT_CHECK_FAILED",
+    "reasonLabel": "Credit check failed",
+    "comments": "Customer exceeds outstanding balance threshold on linked account",
+    "fieldsToRecollect": [
+      "Billing Profile",
+      "Deposit Amount"
+    ]
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "adjustmentId": "ADJ-8001",
+    "type": "individual",
+    "billingProfileId": "BILL-7001",
+    "customerId": "CUST-1001",
+    "accountId": "ACC-5001",
+    "reason": "Service outage compensation",
+    "reasonPurgeDate": "2027-02-22",
+    "unitOfMeasurement": "QAR",
+    "amount": 150,
+    "direction": "credit",
+    "multiBucketSubmission": false,
+    "buckets": [
+      "Rental"
+    ],
+    "freeTextComment": "Credit approved for 3-day network outage in West Bay area, per ticket TT-40001.",
+    "ticketId": "TT-40001",
+    "doaLevel": "Team Lead",
+    "status": "Approved",
+    "submittedBy": "agent.hassan@vodafone.qa"
+  },
+  {
+    "adjustmentId": "ADJ-8002",
+    "type": "individual",
+    "billingProfileId": "BILL-7002",
+    "customerId": "CUST-1002",
+    "accountId": "ACC-5002",
+    "reason": "Billing dispute - duplicate charge",
+    "reasonPurgeDate": "2027-01-15",
+    "unitOfMeasurement": "QAR",
+    "amount": 320.5,
+    "direction": "credit",
+    "multiBucketSubmission": true,
+    "buckets": [
+      "Rental",
+      "VAS",
+      "Roaming"
+    ],
+    "freeTextComment": "Customer charged twice for July VAS bundle, reversing duplicate line item.",
+    "ticketId": "TT-40002",
+    "doaLevel": "Manager",
+    "status": "Pending Approval",
+    "submittedBy": "agent.fatima@vodafone.qa"
+  },
+  {
+    "adjustmentId": "ADJ-8003",
+    "type": "bulk",
+    "billingProfileId": "BILL-7003",
+    "customerId": null,
+    "accountId": "ACC-5003",
+    "reason": "Enterprise volume rebate correction Q2",
+    "reasonPurgeDate": "2027-02-28",
+    "unitOfMeasurement": "QAR",
+    "amount": 12500,
+    "direction": "credit",
+    "multiBucketSubmission": true,
+    "buckets": [
+      "Rental",
+      "Usage"
+    ],
+    "freeTextComment": "Bulk rebate correction for Lulu Group sub-accounts, processed via PowerApps portal batch upload.",
+    "portalBatchId": "BATCH-PA-2201",
+    "requestStatus": "Uploaded",
+    "reUploadRequired": false,
+    "roleBasedAccess": "Finance Approver",
+    "billingProfileFilter": "Enterprise Large",
+    "status": "Processing"
+  },
+  {
+    "adjustmentId": "ADJ-8004",
+    "type": "bulk",
+    "billingProfileId": "BILL-7004",
+    "customerId": null,
+    "accountId": "ACC-5004",
+    "reason": "DXP portal migration test batch",
+    "reasonPurgeDate": "2027-03-10",
+    "unitOfMeasurement": "QAR",
+    "amount": 875.25,
+    "direction": "debit",
+    "multiBucketSubmission": false,
+    "buckets": [
+      "VAS"
+    ],
+    "freeTextComment": "Sample DXP-integrated BRM adjustment batch for UAT verification.",
+    "portalBatchId": "BATCH-DXP-0007",
+    "requestStatus": "Failed",
+    "reUploadRequired": true,
+    "roleBasedAccess": "Finance Approver",
+    "billingProfileFilter": "Enterprise Medium",
+    "status": "Failed"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "ticketId": "TT-40001",
+    "customerId": "CUST-1001",
+    "status": "Open",
+    "category": "Mobile Complaints",
+    "hashtags": [
+      "#SlowData",
+      "#Postpaid"
+    ],
+    "actualIssue": "Slow Data Performance",
+    "queue": "FL Agents",
+    "priority": "Medium"
+  },
+  {
+    "ticketId": "TT-40002",
+    "customerId": "CUST-1003",
+    "status": "Resolved",
+    "category": "Fixed/5G Complaints",
+    "hashtags": [
+      "#IPTV",
+      "#Fibre"
+    ],
+    "actualIssue": "IPTV Channel Issue",
+    "queue": "Complaints Team",
+    "priority": "Low"
+  }
+]

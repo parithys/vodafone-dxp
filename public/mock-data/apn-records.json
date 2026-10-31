@@ -1,0 +1,32 @@
+[
+  {
+    "apnId": "APN-4001",
+    "apnName": "vfqa.static.broadband",
+    "accountId": "ACC-5001",
+    "staticIpAssigned": true,
+    "staticIpAddress": "82.148.101.22",
+    "domainHostingEnabled": false,
+    "broadbandServiceLinkId": "PROD-200",
+    "accountLevelUniqueFlag": true
+  },
+  {
+    "apnId": "APN-4002",
+    "apnName": "vfqa.hosting.smb",
+    "accountId": "ACC-5003",
+    "staticIpAssigned": true,
+    "staticIpAddress": "82.148.104.87",
+    "domainHostingEnabled": true,
+    "broadbandServiceLinkId": "PROD-201",
+    "accountLevelUniqueFlag": true
+  },
+  {
+    "apnId": "APN-4003",
+    "apnName": "vfqa.default.mobile",
+    "accountId": "ACC-5002",
+    "staticIpAssigned": false,
+    "staticIpAddress": null,
+    "domainHostingEnabled": false,
+    "broadbandServiceLinkId": null,
+    "accountLevelUniqueFlag": true
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "messageId": "MSG-771001",
+    "orderId": "ORD-90002",
+    "dbTimestamp": "2026-08-19T09:14:22Z",
+    "server": "OSB-PRD-NODE1",
+    "state": "COMPLETED",
+    "node": "Node1",
+    "pipeline": "PS_VFQA_Communication_Pipeline",
+    "stage": "SendSMS",
+    "inboundService": "PS_VFQA_Communication",
+    "operation": "CreateCommunication",
+    "smsText": "Dear customer, your order ORD-90002 has been rejected. Reason: ID Document mismatch. Please visit your nearest store."
+  },
+  {
+    "messageId": "MSG-771002",
+    "orderId": "ORD-90001",
+    "dbTimestamp": "2026-08-18T13:02:47Z",
+    "server": "OSB-PRD-NODE2",
+    "state": "COMPLETED",
+    "node": "Node2",
+    "pipeline": "PS_VFQA_Communication_Pipeline",
+    "stage": "SendSMS",
+    "inboundService": "PS_VFQA_Communication",
+    "operation": "CreateCommunication",
+    "smsText": "Dear customer, your order ORD-90001 has been approved and is being processed."
+  },
+  {
+    "messageId": "MSG-771003",
+    "orderId": "ORD-90005",
+    "dbTimestamp": "2026-08-21T16:45:03Z",
+    "server": "OSB-PRD-NODE1",
+    "state": "FAILED",
+    "node": "Node1",
+    "pipeline": "PS_VFQA_Communication_Pipeline",
+    "stage": "SendSMS",
+    "inboundService": "PS_VFQA_Communication",
+    "operation": "CreateCommunication",
+    "smsText": "Dear customer, your order ORD-90005 has been rejected. Reason: Address incomplete."
+  }
+]

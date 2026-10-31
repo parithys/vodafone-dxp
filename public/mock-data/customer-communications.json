@@ -1,0 +1,32 @@
+[
+  {
+    "communicationId": "COM-6001",
+    "customerId": "CUST-1001",
+    "channel": "SMS",
+    "subject": null,
+    "messageText": "Your bill for Aug 2026 (215.25 QAR) is ready. Pay via My Vodafone app.",
+    "sentAt": "2026-08-06T09:00:00+03:00",
+    "deliveryState": "Delivered",
+    "_note": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  },
+  {
+    "communicationId": "COM-6002",
+    "customerId": "CUST-1001",
+    "channel": "Email",
+    "subject": "Your Vodafone Qatar e-invoice is ready",
+    "messageText": "Dear Ahmed, your July 2026 invoice is attached.",
+    "sentAt": "2026-08-06T09:01:00+03:00",
+    "deliveryState": "Delivered",
+    "_note": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  },
+  {
+    "communicationId": "COM-6003",
+    "customerId": "CUST-1002",
+    "channel": "SMS",
+    "subject": null,
+    "messageText": "Your Promise to Pay of 150.00 QAR is due by 2026-09-05.",
+    "sentAt": "2026-08-22T10:30:00+03:00",
+    "deliveryState": "Delivered",
+    "_note": "App-level placeholder - BRSD v3.1 Section 2.13 leaves this field's Data Ref (DR-01..07) undefined in Annex_01; shape/values assumed pending VFQ Business confirmation."
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "simSwapOrderId": "SSW-6601",
+    "msisdn": "+97433001001",
+    "installedAssetSim": "8974412009900123456",
+    "newSimSerialNumber": "8974412009900199001",
+    "simSwapReason": "Lost SIM",
+    "attachedSimSwapFormId": "CAF-90001-01",
+    "comments": "Customer reported SIM lost, verified via QID",
+    "status": "Approved/Completed",
+    "orderApprovalQueueRef": "OAQ-2201"
+  },
+  {
+    "simSwapOrderId": "SSW-6602",
+    "msisdn": "+97433001002",
+    "installedAssetSim": "8974412009900123999",
+    "newSimSerialNumber": "8974412009900199002",
+    "simSwapReason": "Damaged SIM",
+    "attachedSimSwapFormId": null,
+    "comments": "Awaiting supervisor approval",
+    "status": "Pending Approval",
+    "orderApprovalQueueRef": "OAQ-2202"
+  },
+  {
+    "simSwapOrderId": "SSW-6603",
+    "msisdn": "+97433001003",
+    "installedAssetSim": "8974412009900123456",
+    "newSimSerialNumber": "8974412009900199003",
+    "simSwapReason": "SIM Upgrade to eSIM",
+    "attachedSimSwapFormId": "CAF-90003-01",
+    "comments": "Rejected due to mismatched QID details",
+    "status": "Rejected/Dropped",
+    "orderApprovalQueueRef": "OAQ-2203"
+  }
+]

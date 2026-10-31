@@ -1,0 +1,142 @@
+[
+  {
+    "_note": "Demo seed (2026-10-01). NAS (national address/identity) records for people who are NOT yet Vodafone customers - no row in customers.json (Siebel). The email on file here is what a NEW customer's Contact step shows, masked. An ID that resolves to a customers.json record is an existing customer and takes its email from there (Siebel) instead. nationalAddress (2026-10-20, demo seed): the National Address the NAS holds for each person; it is stored with the order and never shown to the agent or used to fill the Address step.",
+    "nasRecordId": "NAS-7001",
+    "documentType": "QID",
+    "documentNumber": "29001234567",
+    "expiryDate": "2030-06-30",
+    "name": "Noora Abdulrahman Saeed Al-Mannai",
+    "firstName": "Noora",
+    "middleName": "Abdulrahman Saeed",
+    "lastName": "Al-Mannai",
+    "dob": "1990-04-18",
+    "nationality": "Qatari",
+    "gender": "Female",
+    "email": "noora.almannai@example.qa",
+    "nationalAddress": {
+      "zone": "69",
+      "streetNo": "310",
+      "buildingNo": "12",
+      "area": "Al Waab",
+      "city": "Doha"
+    },
+    "mobile": "+97455512345"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "nasRecordId": "NAS-7002",
+    "documentType": "QID",
+    "documentNumber": "29207063400101",
+    "expiryDate": "2030-07-31",
+    "name": "Yousef Khalifa Hamad Al-Khulaifi",
+    "firstName": "Yousef",
+    "middleName": "Khalifa Hamad",
+    "lastName": "Al-Khulaifi",
+    "dob": "1992-07-19",
+    "nationality": "Qatari",
+    "gender": "Male",
+    "email": "yousef.alkhulaifi@example.qa",
+    "nationalAddress": {
+      "zone": "55",
+      "streetNo": "820",
+      "buildingNo": "7",
+      "area": "Al Sadd",
+      "city": "Doha"
+    },
+    "mobile": "+97466234567"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "nasRecordId": "NAS-7003",
+    "documentType": "QID",
+    "documentNumber": "29108035600102",
+    "linkedPassportNumber": "S7712345",
+    "expiryDate": "2030-03-31",
+    "name": "Anil Ramesh Sharma",
+    "firstName": "Anil",
+    "middleName": "Ramesh",
+    "lastName": "Sharma",
+    "dob": "1991-08-08",
+    "nationality": "Indian",
+    "gender": "Male",
+    "email": "anil.sharma@example.qa",
+    "nationalAddress": {
+      "zone": "63",
+      "streetNo": "275",
+      "buildingNo": "31",
+      "area": "Al Mansoura",
+      "city": "Doha"
+    },
+    "mobile": "+97477345678"
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "nasRecordId": "NAS-7004",
+    "documentType": "QID",
+    "documentNumber": "28909063400103",
+    "expiryDate": "2030-09-30",
+    "name": "Mustafa Salem Ali Al-Baker",
+    "firstName": "Mustafa",
+    "middleName": "Salem Ali",
+    "lastName": "Al-Baker",
+    "dob": "1989-09-03",
+    "nationality": "Qatari",
+    "gender": "Male",
+    "email": "mustafa.albaker@example.qa",
+    "nationalAddress": {
+      "zone": "45",
+      "streetNo": "110",
+      "buildingNo": "22",
+      "area": "Al Rayyan",
+      "city": "Al Rayyan"
+    },
+    "mobile": "+97433456789"
+  },
+  {
+    "_note": "Demo seed (2026-10-22) - QID to Passport mapping: this QID is the SAME PERSON as CUST-1002 (Passport P0998812), who is already a customer. Customer Identification links to that customer and adds this QID to their record instead of creating a duplicate.",
+    "nasRecordId": "NAS-7005",
+    "documentType": "QID",
+    "documentNumber": "29007223400104",
+    "linkedPassportNumber": "P0998812",
+    "expiryDate": "2031-02-28",
+    "name": "Bimal Bahadur Thapa",
+    "firstName": "Bimal",
+    "middleName": "Bahadur",
+    "lastName": "Thapa",
+    "dob": "1990-07-22",
+    "nationality": "Nepalese",
+    "gender": "Male",
+    "email": "bimal.thapa@example.qa",
+    "nationalAddress": {
+      "zone": "56",
+      "streetNo": "215",
+      "buildingNo": "7",
+      "area": "Al Sadd",
+      "city": "Doha"
+    },
+    "mobile": "+97455567890"
+  },
+  {
+    "_note": "Demo seed (2026-10-25). An HRN-nationality (Pakistani) person who is NOT yet a Vodafone customer. The New Customer journey's demo scan resolves to the first HRN record here (see pickHrnDemoNas), so a demo New Customer is always HRN-category: HRN advance, default credit limit and fee rules apply.",
+    "nasRecordId": "NAS-7006",
+    "documentType": "QID",
+    "documentNumber": "29303051200106",
+    "expiryDate": "2030-10-31",
+    "name": "Farhan Aslam Javed Chaudhry",
+    "firstName": "Farhan",
+    "middleName": "Aslam Javed",
+    "lastName": "Chaudhry",
+    "dob": "1993-03-05",
+    "nationality": "Pakistani",
+    "gender": "Male",
+    "email": "farhan.chaudhry@example.qa",
+    "nationalAddress": {
+      "zone": "56",
+      "streetNo": "410",
+      "buildingNo": "18",
+      "area": "Al Sadd",
+      "city": "Doha"
+    },
+    "mobile": "+97455678901"
+  }
+]

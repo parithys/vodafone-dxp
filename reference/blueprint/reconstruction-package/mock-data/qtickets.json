@@ -1,0 +1,38 @@
+[
+  {
+    "qTicketId": "QTK-7001",
+    "customerId": "CUST-1001",
+    "orderId": "ORD-90001",
+    "journeyCode": "J011",
+    "generatedInSystem": "QNomy",
+    "generatedAt": "2026-08-10T09:15:00+03:00",
+    "branch": "Doha City Center",
+    "counterNumber": "C-04",
+    "status": "Fed to Agent-in-DXP",
+    "agentInDxpSessionId": "DXP-SESS-55021"
+  },
+  {
+    "qTicketId": "QTK-7002",
+    "customerId": "CUST-1004",
+    "orderId": "ORD-90004",
+    "journeyCode": "J011",
+    "generatedInSystem": "QNomy",
+    "generatedAt": "2026-08-18T11:40:00+03:00",
+    "branch": "Villaggio Mall",
+    "counterNumber": "C-11",
+    "status": "Waiting",
+    "agentInDxpSessionId": null
+  },
+  {
+    "qTicketId": "QTK-7003",
+    "customerId": "CUST-2001",
+    "orderId": "ORD-90005",
+    "journeyCode": "J011",
+    "generatedInSystem": "QNomy",
+    "generatedAt": "2026-08-20T14:05:00+03:00",
+    "branch": "The Pearl Branch",
+    "counterNumber": "C-02",
+    "status": "Fed to Agent-in-DXP",
+    "agentInDxpSessionId": "DXP-SESS-55098"
+  }
+]

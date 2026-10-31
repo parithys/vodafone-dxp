@@ -1,0 +1,97 @@
+[
+  {
+    "id": "TON-18001",
+    "type": "BAU TON",
+    "partyA": {
+      "customerId": "CUST-1001",
+      "role": "transferor"
+    },
+    "partyB": {
+      "customerId": "CUST-2001",
+      "role": "transferee"
+    },
+    "sourceAccountId": "ACC-5001",
+    "newAccountId": "ACC-5005",
+    "tonFeeQar": 50,
+    "prepaidMigrationFeeQar": 0,
+    "ocrBypassByRole": false,
+    "poaBasedException": false,
+    "associatedDocuments": [
+      "TON-Form-18001.pdf",
+      "QID-18001.pdf"
+    ],
+    "queueStatus": [
+      "Managing",
+      "CDM",
+      "BOQ",
+      "QATQ"
+    ],
+    "currentQueue": "BOQ",
+    "simSwapCompleted": false,
+    "status": "created"
+  },
+  {
+    "id": "TON-18002",
+    "type": "COO",
+    "partyA": {
+      "customerId": "CUST-1003",
+      "role": "transferor"
+    },
+    "partyB": {
+      "customerId": "CUST-1004",
+      "role": "transferee"
+    },
+    "sourceAccountId": "ACC-5003",
+    "newAccountId": "ACC-5004",
+    "tonFeeQar": 50,
+    "prepaidMigrationFeeQar": 25,
+    "ocrBypassByRole": true,
+    "poaBasedException": false,
+    "associatedDocuments": [
+      "TON-Form-18002.pdf",
+      "QID-18002.pdf",
+      "Restoration-Form-18002.pdf"
+    ],
+    "queueStatus": [
+      "Managing",
+      "CDM",
+      "BOQ",
+      "QATQ"
+    ],
+    "currentQueue": "CDM",
+    "simSwapCompleted": false,
+    "status": "migrated to prepaid"
+  },
+  {
+    "id": "TON-18003",
+    "type": "third-party TON on cancelled ID",
+    "partyA": {
+      "customerId": "CUST-1002",
+      "role": "transferor"
+    },
+    "partyB": {
+      "customerId": "CUST-1001",
+      "role": "transferee"
+    },
+    "sourceAccountId": "ACC-5002",
+    "newAccountId": "ACC-5001",
+    "tonFeeQar": 50,
+    "prepaidMigrationFeeQar": 0,
+    "ocrBypassByRole": false,
+    "poaBasedException": true,
+    "associatedDocuments": [
+      "TON-Form-18003.pdf",
+      "QID-18003.pdf",
+      "POA-18003.pdf"
+    ],
+    "queueStatus": [
+      "Managing",
+      "CDM",
+      "BOQ",
+      "QATQ"
+    ],
+    "currentQueue": "QATQ",
+    "simSwapCompleted": true,
+    "status": "completed"
+  }
+]

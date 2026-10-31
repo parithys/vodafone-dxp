@@ -1,0 +1,1533 @@
+[
+  {
+    "orderId": "ORD-90001",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-1001",
+    "accountId": "ACC-5001",
+    "billingProfileId": "BILL-7001",
+    "productIds": [
+      "PROD-100",
+      "PROD-101"
+    ],
+    "msisdn": "+97433001001",
+    "simSerial": "8974412009900123456",
+    "totalQAR": 300,
+    "mrcTotalQAR": 300,
+    "nrcTotalQAR": 0,
+    "approvalStatus": "Not Required",
+    "createdBy": "AGENT-KARTHIKK",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-09-01T10:00:00+03:00",
+    "customerName": "Ahmed Abdulla Hassan Al-Sulaiti",
+    "idNumber": "28456701234",
+    "demoTitle": "Standard customer",
+    "demoDetail": "Standard Qatari customer. The order can proceed with direct activation without approval."
+  },
+  {
+    "orderId": "ORD-90002",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "HRN Customer",
+    "status": "Pending",
+    "customerId": "CUST-1002",
+    "accountId": "ACC-5002",
+    "billingProfileId": "BILL-7002",
+    "productIds": [
+      "PROD-100"
+    ],
+    "totalQAR": 250,
+    "approvalStatus": "Pending Credit Control",
+    "createdBy": "AGENT-VINODHINIR",
+    "sourceChannel": "Retail Store (Tablet)",
+    "holdFlag": true,
+    "holdReason": "HRN advance payment outstanding",
+    "createdAt": "2026-09-04T10:07:00+03:00",
+    "customerName": "Bimal Bahadur Thapa",
+    "idNumber": "P0998812",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow | HRN customer - QAR 100 advance payment applies | B2B2C employee - Proof of Employment to be verified",
+    "customerType": "b2b2c",
+    "companyName": "Acme Trading Qatar W.L.L.",
+    "_note": "Scenario SC-52: Passport + B2B2C + HRN advance outstanding (order held).",
+    "demoTitle": "Passport + B2B2C + HRN",
+    "demoDetail": "Passport customer has a B2B2C employer and requires an HRN advance. The order requires Back Office Fulfilment approval."
+  },
+  {
+    "orderId": "ORD-90003",
+    "orderType": "New FWA 5G Outdoor Activation",
+    "orderSubType": "B2B2C",
+    "status": "Open",
+    "customerId": "CUST-2001",
+    "accountId": "ACC-5005",
+    "billingProfileId": "BILL-7004",
+    "productIds": [
+      "PROD-200"
+    ],
+    "totalQAR": 350,
+    "approvalStatus": "Approved",
+    "createdBy": "AGENT-VINODHINIR",
+    "sourceChannel": "Retail Store (Tablet)",
+    "fulfillmentStatus": "Awaiting WFM Appointment",
+    "createdAt": "2026-09-07T10:14:00+03:00",
+    "customerName": "Layla Hassan Ibrahim Al-Naimi",
+    "idNumber": "RES-7788221",
+    "demoTitle": "FWA order (other journey)",
+    "demoDetail": "FWA 5G Outdoor order was approved and is waiting for the WFM appointment."
+  },
+  {
+    "orderId": "ORD-90004",
+    "orderType": "New Fixed Line - Triple Play",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-1003",
+    "accountId": "ACC-5003",
+    "billingProfileId": "BILL-7003",
+    "productIds": [
+      "PROD-201"
+    ],
+    "totalQAR": 450,
+    "approvalStatus": "Not Required",
+    "createdBy": "AGENT-HALEEMI",
+    "sourceChannel": "Retail Store (Tablet)",
+    "kidUsed": "KID-334455",
+    "createdAt": "2026-09-10T10:21:00+03:00",
+    "customerName": "Fatima Saud Hamad Al-Kuwari",
+    "idNumber": "27798765432",
+    "demoTitle": "Fixed line order (other journey)",
+    "demoDetail": "Triple Play order was completed through the Fixed Line journey."
+  },
+  {
+    "orderId": "ORD-90005",
+    "orderType": "MNP Postpaid Port-In",
+    "orderSubType": "Consumer",
+    "status": "Pending",
+    "customerId": "CUST-1004",
+    "donorOperator": "Other Operator",
+    "productIds": [
+      "PROD-100"
+    ],
+    "approvalStatus": "Not Required",
+    "createdBy": "AGENT-HEMANTHKUMAR",
+    "portingWindowDays": 5,
+    "createdAt": "2026-09-13T10:28:00+03:00",
+    "customerName": "Mohammed Rashid Khalid Al-Emadi",
+    "idNumber": "29011122233",
+    "_note": "Scenario SC-74: MNP port-in (donor Other Operator, 5-day porting window).",
+    "demoTitle": "MNP port-in",
+    "demoDetail": "Customer is porting the mobile number from Other Operator with a 5-day porting window."
+  },
+  {
+    "orderId": "ORD-90020",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Draft",
+    "customerId": "CUST-1001",
+    "accountId": null,
+    "billingProfileId": null,
+    "productIds": [
+      "PROD-106"
+    ],
+    "msisdn": "+97433002011",
+    "simSerial": null,
+    "totalQAR": 0,
+    "mrcTotalQAR": 750,
+    "nrcTotalQAR": 0,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "draftWizardId": "new-connection",
+    "draftResumePath": "/mobile/start-connection",
+    "draftStepKey": "contact",
+    "draftValues": {
+      "contact": {
+        "idType": "QID",
+        "idNumber": "28456701234",
+        "moiResult": {
+          "name": "Ahmed Abdulla Hassan Al-Sulaiti",
+          "firstName": "Ahmed",
+          "middleName": "Abdulla Hassan",
+          "lastName": "Al-Sulaiti",
+          "dob": "1985-03-12",
+          "nationality": "Qatari",
+          "email": "ahmed.alsulaiti@example.qa",
+          "gender": "Male"
+        },
+        "qidScans": {
+          "frontScanned": true,
+          "backScanned": true
+        },
+        "firstName": "Ahmed",
+        "lastName": "Al-Sulaiti",
+        "dob": "12/03/1985",
+        "nationality": "Qatari",
+        "gender": "Male",
+        "email": "ahmed.alsulaiti@example.qa",
+        "altPhone": "+97455512345"
+      },
+      "productId": "PROD-106",
+      "discountId": "ADO-7108",
+      "addonIds": [
+        "PROD-200"
+      ],
+      "msisdn": "+97433002011",
+      "address": {
+        "zone": "55",
+        "streetNo": "12",
+        "buildingNo": "34",
+        "aptFlatUnit": "Flat 2",
+        "area": "Doha",
+        "kidLocationId": "KID-1101",
+        "fetchedFromMoi": true
+      },
+      "numberPriceQAR": 0,
+      "crossSales": {
+        "decision": "declined"
+      }
+    },
+    "_note": "App-level demo addition (2026-09-26) - Draft Orders had no order behind them. The three Draft Order tasks named a half-finished order in prose but carried no journey, no step and no captured values, so 'resume' had nothing to resume FROM. These records are that missing state: status 'Draft', plus draftWizardId / draftResumePath / draftStepKey / draftValues. The wizard hydrates its working copy from here and writes progress back on every step change, which is what lets several drafts coexist while the store still holds one working copy per journey. draftStepKey is a STEP KEY, not an index, because a wizard's active steps are filtered by each step's skip() - an index would resume at the wrong step for any customer whose journey skips one.",
+    "createdAt": "2026-09-16T10:35:00+03:00",
+    "customerName": "Ahmed Abdulla Hassan Al-Sulaiti",
+    "idNumber": "28456701234",
+    "demoTitle": "Saved draft",
+    "demoDetail": "Order was saved during Customer Verification. Eligibility checks will run again when the order is resumed."
+  },
+  {
+    "orderId": "ORD-90021",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Draft",
+    "customerId": "CUST-1003",
+    "accountId": null,
+    "billingProfileId": null,
+    "productIds": [
+      "PROD-104"
+    ],
+    "msisdn": null,
+    "simSerial": null,
+    "totalQAR": 0,
+    "mrcTotalQAR": 350,
+    "nrcTotalQAR": 0,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "draftWizardId": "new-connection",
+    "draftResumePath": "/mobile/start-connection",
+    "draftStepKey": "contact",
+    "draftValues": {
+      "contact": {
+        "idType": "QID",
+        "idNumber": "27798765432",
+        "moiResult": {
+          "name": "Fatima Saud Hamad Al-Kuwari",
+          "firstName": "Fatima",
+          "middleName": "Saud Hamad",
+          "lastName": "Al-Kuwari",
+          "dob": "1990-07-22",
+          "nationality": "Qatari",
+          "email": "fatima.alkuwari@example.qa",
+          "gender": "Female"
+        },
+        "qidScans": {
+          "frontScanned": true,
+          "backScanned": true
+        },
+        "firstName": "Fatima",
+        "lastName": "Al-Kuwari",
+        "dob": "22/07/1990",
+        "nationality": "Qatari",
+        "gender": "Female",
+        "email": "fatima.alkuwari@example.qa",
+        "altPhone": "+97455512345"
+      },
+      "productId": "PROD-104",
+      "address": {
+        "zone": "55",
+        "streetNo": "12",
+        "buildingNo": "34",
+        "aptFlatUnit": "Flat 2",
+        "area": "Doha",
+        "kidLocationId": "KID-1101",
+        "fetchedFromMoi": true
+      },
+      "crossSales": {
+        "decision": "declined"
+      }
+    },
+    "createdAt": "2026-09-19T10:42:00+03:00",
+    "customerName": "Fatima Saud Hamad Al-Kuwari",
+    "idNumber": "27798765432",
+    "demoTitle": "Saved draft",
+    "demoDetail": "Order was saved during Customer Verification. Eligibility checks will run again when the order is resumed."
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "orderId": "ORD-91001",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3004",
+    "accountId": "ACC-5603",
+    "billingProfileId": "BILL-7103",
+    "productIds": [
+      "PROD-100"
+    ],
+    "totalQAR": 250,
+    "mrcTotalQAR": 250,
+    "nrcTotalQAR": 0,
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-09-22T10:49:00+03:00",
+    "customerName": "Faisal Mansoor Khalid Abdullah Al-Marri",
+    "idNumber": "27705063400004",
+    "demoTitle": "Qatari at the line cap, approved",
+    "demoDetail": "The customer reached the Qatari postpaid line limit and the additional line was approved."
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "orderId": "ORD-91002",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3013",
+    "accountId": "ACC-5607",
+    "billingProfileId": "BILL-7107",
+    "productIds": [
+      "PROD-100"
+    ],
+    "totalQAR": 250,
+    "mrcTotalQAR": 250,
+    "nrcTotalQAR": 0,
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-09-25T10:56:00+03:00",
+    "customerName": "Ahmed Fathy Ibrahim El-Sayed",
+    "idNumber": "28409081800013",
+    "demoTitle": "Expat 3rd line, approved",
+    "demoDetail": "The customer’s additional postpaid line exceeded the Expat line limit and was approved."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-14. Passport customer: a Passport cannot be sold directly, so the order routes to Back Office Fulfilment approval.",
+    "orderId": "ORD-92001",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-26T11:00:00+03:00",
+    "customerEmail": "wei.ming.chen@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Wei Ming Chen",
+    "idNumber": "E58321097",
+    "customerId": "CUST-3016",
+    "productId": "PROD-108",
+    "productIds": [
+      "PROD-108"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455610021",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000001",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 152.25,
+    "totalQAR": 152.25,
+    "mrcTotalQAR": 152.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Passport - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Passport - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow",
+    "demoTitle": "Passport ID",
+    "demoDetail": "Passport orders cannot be activated directly. The order requires Back Office Fulfilment approval.",
+    "approverRole": "Back Office Fulfilment"
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-15. QID with no expiry date on file: validity cannot be confirmed, so the order routes for approval.",
+    "orderId": "ORD-92002",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-26T11:07:00+03:00",
+    "customerEmail": "nadia.hany.farouk.mansour@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Nadia Hany Farouk Mansour",
+    "idNumber": "29210081800042",
+    "customerId": "CUST-3042",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455610022",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000002",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID expiry date not on file - routed for approval",
+    "demoTitle": "ID expiry not on file",
+    "demoDetail": "QID expiry date is unavailable, so ID validity cannot be confirmed. The order requires approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-16. Qatari customer already at the 5-line cap: approval-routing to Credit Control.",
+    "orderId": "ORD-92003",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-27T11:14:00+03:00",
+    "customerEmail": "maryem.rashid.hamad.jassim.alkuwari@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Maryem Rashid Hamad Jassim Al-Kuwari",
+    "idNumber": "28203063400002",
+    "customerId": "CUST-3002",
+    "productId": "PROD-111",
+    "productIds": [
+      "PROD-111"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455610023",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000003",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 236.25,
+    "totalQAR": 236.25,
+    "mrcTotalQAR": 236.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Credit Control",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "Active postpaid line limit reached - 5/5 postpaid mobile lines used (Qatari cap).",
+    "approverRole": "Credit Control",
+    "demoTitle": "Qatari at the 5-line cap",
+    "demoDetail": "Qatari customer already has 5 active postpaid lines. The new line requires Credit Control approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-17. Expat requesting a further postpaid line at the 2-line cap, with an International 50 add-on.",
+    "orderId": "ORD-92004",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-27T11:21:00+03:00",
+    "customerEmail": "maria.cristina.santos.reyes@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Maria Cristina Santos Reyes",
+    "idNumber": "29112060800012",
+    "customerId": "CUST-3012",
+    "productId": "PROD-108",
+    "productIds": [
+      "PROD-108",
+      "PROD-101"
+    ],
+    "addonIds": [
+      "PROD-101"
+    ],
+    "msisdn": "+97455610024",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000004",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 204.75,
+    "totalQAR": 204.75,
+    "mrcTotalQAR": 204.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Credit Control",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "Active postpaid line limit reached - 2/2 postpaid mobile lines used (expat cap).",
+    "approverRole": "Credit Control",
+    "demoTitle": "Expat at the 2-line cap",
+    "demoDetail": "Expat customer has reached the 2-line postpaid limit. The new line requires Credit Control approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-18. New customer (NAS only) whose scan failed 4 times: identity typed in, so a Store Manager must approve.",
+    "orderId": "ORD-92005",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-28T11:28:00+03:00",
+    "customerEmail": "anil.sharma@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Anil Ramesh Sharma",
+    "idNumber": "29108035600102",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455610025",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000005",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Store Manager",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "Identity manually entered - Store Manager approval required",
+    "approverRole": "Sales Manager",
+    "manualIdEntry": true,
+    "demoTitle": "Manual ID entry",
+    "demoDetail": "ID scanning failed 4 times. ID details were entered manually and require Store Manager approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-19 / SC-40. HRN (Kenyan) customer: QAR 100 advance collected at payment; routes to approval.",
+    "orderId": "ORD-92006",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-28T11:35:00+03:00",
+    "customerEmail": "peter.kamau.mwangi@example.qa",
+    "orderSubType": "HRN",
+    "status": "Submitted for Approval",
+    "customerName": "Peter Kamau Mwangi",
+    "idNumber": "28904036400017",
+    "customerId": "CUST-3017",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455610026",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000006",
+    "dueTodayQAR": 100,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "HRN customer - QAR 100 advance payment applies",
+    "demoTitle": "HRN advance",
+    "demoDetail": "Customer requires a QAR 100 HRN advance payment. The order also requires approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-20 / SC-25. B2B2C employee (company in the registry) on a Red 350 plan with the B2B2C discount.",
+    "orderId": "ORD-92007",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-29T11:42:00+03:00",
+    "customerEmail": "priya.suresh.nair@example.qa",
+    "orderSubType": "B2B2C",
+    "status": "Submitted for Approval",
+    "customerName": "Priya Suresh Nair",
+    "idNumber": "29302035600025",
+    "customerId": "CUST-3025",
+    "productId": "PROD-112",
+    "productIds": [
+      "PROD-112"
+    ],
+    "discountId": "ADO-7124",
+    "addonIds": [],
+    "msisdn": "+97477320031",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000007",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 330.75,
+    "totalQAR": 330.75,
+    "mrcTotalQAR": 330.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Supporting document",
+        "detail": "Uploaded for B2B2C: proof-of-employment-priya-nair.pdf"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      },
+      {
+        "label": "B2B2C Discount supporting document",
+        "detail": "proof-of-employment-priya-nair.pdf"
+      }
+    ],
+    "customerType": "b2b2c",
+    "planSource": "Sales Offer",
+    "companyName": "Gulf Logistics W.L.L.",
+    "approvalReason": "B2B2C employee - Proof of Employment to be verified | B2B2C Discount - supporting document to be verified",
+    "demoTitle": "B2B2C employee",
+    "demoDetail": "Customer is a verified B2B2C employee and is eligible for the B2B2C discount on the Red 350 plan."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-21 / SC-34. MADA customer: supporting document accepted; the MADA discount routes the order to approval.",
+    "orderId": "ORD-92008",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-30T11:49:00+03:00",
+    "customerEmail": "salma.nasser.khalifa.alkuwari@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Salma Nasser Khalifa Al-Kuwari",
+    "idNumber": "27610063400021",
+    "customerId": "CUST-3021",
+    "productId": "PROD-104",
+    "productIds": [
+      "PROD-104"
+    ],
+    "discountId": "ADO-7112",
+    "addonIds": [],
+    "msisdn": "+97477320032",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000008",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 330.75,
+    "totalQAR": 330.75,
+    "mrcTotalQAR": 330.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Supporting document",
+        "detail": "Uploaded for MADA: mada-card-salma-al-kuwari.pdf"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      },
+      {
+        "label": "MADA Discount supporting document",
+        "detail": "mada-card-salma-al-kuwari.pdf"
+      }
+    ],
+    "customerType": "mada",
+    "planSource": "Sales Offer",
+    "approvalReason": "MADA Discount - supporting document to be verified",
+    "demoTitle": "MADA discount",
+    "demoDetail": "MADA document was verified and the discount applies. The order requires approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-31. Retired customer validated with the government registry; the Retired discount does not force approval.",
+    "orderId": "ORD-92009",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-09-30T11:06:00+03:00",
+    "customerEmail": "abdullah.khalid.mansoor.alkuwari@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerName": "Abdullah Khalid Mansoor Al-Kuwari",
+    "idNumber": "27409063400022",
+    "customerId": "CUST-3022",
+    "productId": "PROD-105",
+    "productIds": [
+      "PROD-105"
+    ],
+    "discountId": "ADO-7116",
+    "addonIds": [],
+    "msisdn": "+97477320033",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000009",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 472.5,
+    "totalQAR": 472.5,
+    "mrcTotalQAR": 472.5,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Supporting document",
+        "detail": "Uploaded for Retired: retiree-card-abdullah-al-kuwari.pdf"
+      },
+      {
+        "label": "Office ID card",
+        "detail": "Scanned for Retired"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      },
+      {
+        "label": "Retired Discount supporting document",
+        "detail": "retiree-card-abdullah-al-kuwari.pdf"
+      }
+    ],
+    "customerType": "retired",
+    "planSource": "Sales Offer",
+    "demoTitle": "Retired customer, validated",
+    "demoDetail": "Retired status was successfully verified. The Retired discount applies without additional approval."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-32 / SC-35. Retired claim not found in the government registry: the agent continued as a Standard customer.",
+    "orderId": "ORD-92010",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-01T11:13:00+03:00",
+    "customerEmail": "hussain.ali.mubarak.aldosari@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerName": "Hussain Ali Mubarak Al-Dosari",
+    "idNumber": "27307063400023",
+    "customerId": "CUST-3023",
+    "productId": "PROD-111",
+    "productIds": [
+      "PROD-111"
+    ],
+    "addonIds": [],
+    "msisdn": "+97477320034",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000010",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 236.25,
+    "totalQAR": 236.25,
+    "mrcTotalQAR": 236.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "demoTitle": "Retired claim not validated",
+    "demoDetail": "Retired status could not be verified in the government registry. Continue the order as a Standard customer."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-01 (boundary) / SC-24. Customer exactly 18 (born 2008-06-01): passes the age check; standard customer, no stops.",
+    "orderId": "ORD-92011",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-01T11:20:00+03:00",
+    "customerEmail": "saeed.abdullah.nasser.almohannadi@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerName": "Saeed Abdullah Nasser Al-Mohannadi",
+    "idNumber": "30806063400044",
+    "customerId": "CUST-3044",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97477320035",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000011",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "demoTitle": "Age 18 (boundary)",
+    "demoDetail": "Customer aged 18 can proceed. Customers under 18 cannot continue with the order."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-49. HRN customer on a Passport: ID-type routing and HRN advance on one order.",
+    "orderId": "ORD-92012",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-02T11:27:00+03:00",
+    "customerEmail": "mizanur.abdul.karim.rahman@example.qa",
+    "orderSubType": "HRN",
+    "status": "Submitted for Approval",
+    "customerName": "Mizanur Abdul Karim Rahman",
+    "idNumber": "BN7721045",
+    "customerId": "CUST-3061",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97477320036",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000012",
+    "dueTodayQAR": 100,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Passport - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Passport - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow | HRN customer - QAR 100 advance payment applies",
+    "demoTitle": "HRN + Passport",
+    "demoDetail": "Passport customer also requires an HRN advance payment. The order follows both applicable approval rules.",
+    "approverRole": "Back Office Fulfilment"
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-50. HRN customer already at the expat 2-line cap: line-cap approval plus the HRN advance.",
+    "orderId": "ORD-92013",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-03T11:34:00+03:00",
+    "customerEmail": "kyaw.zin.htet@example.qa",
+    "orderSubType": "HRN",
+    "status": "Submitted for Approval",
+    "customerName": "Kyaw Zin Htet",
+    "idNumber": "28809072900064",
+    "customerId": "CUST-3064",
+    "productId": "PROD-108",
+    "productIds": [
+      "PROD-108"
+    ],
+    "addonIds": [],
+    "msisdn": "+97433002012",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000013",
+    "dueTodayQAR": 100,
+    "monthlyRecurringQAR": 152.25,
+    "totalQAR": 152.25,
+    "mrcTotalQAR": 152.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Credit Control",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "Active postpaid line limit reached - 2/2 postpaid mobile lines used (expat cap). | HRN customer - QAR 100 advance payment applies",
+    "approverRole": "Credit Control",
+    "demoTitle": "HRN + line cap",
+    "demoDetail": "Expat customer has reached the 2-line limit and also requires an HRN advance payment."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-51. GCC ID customer at 2 of 2 lines: ID-type routing plus line-cap approval.",
+    "orderId": "ORD-92014",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-03T11:41:00+03:00",
+    "customerEmail": "khalid.almazrouei@example.ae",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Khalid Saeed Rashid Al-Mazrouei",
+    "idNumber": "784202312345678",
+    "customerId": "CUST-1005",
+    "productId": "PROD-111",
+    "productIds": [
+      "PROD-111"
+    ],
+    "addonIds": [],
+    "msisdn": "+97433002013",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000014",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 236.25,
+    "totalQAR": 236.25,
+    "mrcTotalQAR": 236.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Credit Control",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "GCC ID - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "GCC ID - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "Active postpaid line limit reached - 2/2 postpaid mobile lines used (expat cap). | ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow",
+    "approverRole": "Credit Control",
+    "demoTitle": "GCC ID + line cap",
+    "demoDetail": "GCC ID customer has reached the 2-line limit. The order requires approval based on ID type and line limit."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-55. HRN employee of a registry company: B2B2C discount, HRN advance and employer review on one order.",
+    "orderId": "ORD-92015",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-04T11:48:00+03:00",
+    "customerEmail": "imran.ahmed.khan.qureshi@example.qa",
+    "orderSubType": "B2B2C",
+    "status": "Submitted for Approval",
+    "customerName": "Imran Ahmed Khan Qureshi",
+    "idNumber": "28707058600026",
+    "customerId": "CUST-3026",
+    "productId": "PROD-105",
+    "productIds": [
+      "PROD-105"
+    ],
+    "discountId": "ADO-7113",
+    "addonIds": [],
+    "msisdn": "+97433002014",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000015",
+    "dueTodayQAR": 100,
+    "monthlyRecurringQAR": 472.5,
+    "totalQAR": 472.5,
+    "mrcTotalQAR": 472.5,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Supporting document",
+        "detail": "Uploaded for B2B2C: proof-of-employment-imran-qureshi.pdf"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      },
+      {
+        "label": "B2B2C Discount supporting document",
+        "detail": "proof-of-employment-imran-qureshi.pdf"
+      }
+    ],
+    "customerType": "b2b2c",
+    "planSource": "Sales Offer",
+    "companyName": "Doha Contracting Co.",
+    "approvalReason": "HRN customer - QAR 100 advance payment applies | B2B2C employee - Proof of Employment to be verified | B2B2C Discount - supporting document to be verified",
+    "demoTitle": "HRN + B2B2C",
+    "demoDetail": "Customer requires an HRN advance payment and B2B2C employer verification. The B2B2C discount also applies."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-53. Holds MADA and has an employer on record: chose MADA, so the order is B2B2C-flagged with a MADA discount.",
+    "orderId": "ORD-92016",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-04T11:05:00+03:00",
+    "customerEmail": "nasser.mohammed.saad.alhajri@example.qa",
+    "orderSubType": "B2B2C",
+    "status": "Submitted for Approval",
+    "customerName": "Nasser Mohammed Saad Al-Hajri",
+    "idNumber": "28105063400024",
+    "customerId": "CUST-3024",
+    "productId": "PROD-104",
+    "productIds": [
+      "PROD-104"
+    ],
+    "discountId": "ADO-7112",
+    "addonIds": [],
+    "msisdn": "+97433002015",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000016",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 330.75,
+    "totalQAR": 330.75,
+    "mrcTotalQAR": 330.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Supporting document",
+        "detail": "Uploaded for MADA: mada-card-nasser-al-hajri.pdf"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      },
+      {
+        "label": "MADA Discount supporting document",
+        "detail": "mada-card-nasser-al-hajri.pdf"
+      }
+    ],
+    "customerType": "mada",
+    "planSource": "Sales Offer",
+    "companyName": "Gulf Logistics W.L.L.",
+    "approvalReason": "B2B2C employee - Proof of Employment to be verified | MADA Discount - supporting document to be verified",
+    "demoTitle": "MADA + B2B2C employer",
+    "demoDetail": "Customer is eligible for MADA and has a B2B2C employer. MADA was selected and the order is also flagged as B2B2C."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-54. Holds Retired and MADA: one customer type per order, so MADA was chosen (Retired benefit not applied).",
+    "orderId": "ORD-92017",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-05T11:12:00+03:00",
+    "customerEmail": "fahad.saeed.ali.alansari@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Fahad Saeed Ali Al-Ansari",
+    "idNumber": "26904063400027",
+    "customerId": "CUST-3027",
+    "productId": "PROD-111",
+    "productIds": [
+      "PROD-111"
+    ],
+    "discountId": "ADO-7122",
+    "addonIds": [],
+    "msisdn": "+97433002016",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000017",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 212.62,
+    "totalQAR": 212.62,
+    "mrcTotalQAR": 212.62,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Supporting document",
+        "detail": "Uploaded for MADA: mada-card-fahad-al-ansari.pdf"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      },
+      {
+        "label": "MADA Discount supporting document",
+        "detail": "mada-card-fahad-al-ansari.pdf"
+      }
+    ],
+    "customerType": "mada",
+    "planSource": "Sales Offer",
+    "approvalReason": "MADA Discount - supporting document to be verified",
+    "demoTitle": "MADA (also Retired)",
+    "demoDetail": "Customer is eligible for both MADA and Retired benefits. MADA was selected for this order."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-22. Line-cap order approved by Credit Control and completed.",
+    "orderId": "ORD-92018",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-06T11:19:00+03:00",
+    "customerEmail": "sunil.chandana.kumara.perera@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerName": "Sunil Chandana Kumara Perera",
+    "idNumber": "28710014400014",
+    "customerId": "CUST-3014",
+    "productId": "PROD-108",
+    "productIds": [
+      "PROD-108"
+    ],
+    "addonIds": [],
+    "msisdn": "+97466666666",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000018",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 152.25,
+    "totalQAR": 152.25,
+    "mrcTotalQAR": 152.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "Active postpaid line limit reached - 2/2 postpaid mobile lines used (expat cap).",
+    "approverRole": "Credit Control",
+    "demoTitle": "Approved after review",
+    "demoDetail": "The line-limit request was approved by Credit Control and the order was completed."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-23 (Reject - Correction). HRN customer on an Other ID rejected for correction: the ID details did not match the scan.",
+    "orderId": "ORD-92019",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-06T11:26:00+03:00",
+    "customerEmail": "zahid.mehmood.butt@example.qa",
+    "orderSubType": "HRN",
+    "status": "Rejected - Correction",
+    "customerName": "Zahid Mehmood Butt",
+    "idNumber": "RES-9930471",
+    "customerId": "CUST-3063",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97477778888",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000019",
+    "dueTodayQAR": 100,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Rejected",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Other ID - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Other ID - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow | HRN customer - QAR 100 advance payment applies",
+    "rejectReasonCode": "ID_DOC_MISMATCH",
+    "rejectComment": "ID number entered does not match the scanned copy, please re-capture.",
+    "demoTitle": "Rejected - Correction",
+    "demoDetail": "Order was returned for correction because the ID details did not match the scanned document.",
+    "approverRole": "Back Office Fulfilment"
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-23 (Reject - Drop Order). Other-ID order dropped by the approver after a failed credit check.",
+    "orderId": "ORD-92020",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-07T11:33:00+03:00",
+    "customerEmail": "mohamed.nabil.ibrahim.soliman@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Cancelled",
+    "customerName": "Mohamed Nabil Ibrahim Soliman",
+    "idNumber": "RES-8812045",
+    "customerId": "CUST-3067",
+    "productId": "PROD-107",
+    "productIds": [
+      "PROD-107"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455555000",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000020",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 120.75,
+    "totalQAR": 120.75,
+    "mrcTotalQAR": 120.75,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Rejected",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Other ID - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Other ID - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow",
+    "rejectReasonCode": "CREDIT_CHECK_FAILED",
+    "rejectComment": "Customer exceeds the outstanding balance threshold on a linked account.",
+    "demoTitle": "Dropped by approver",
+    "demoDetail": "Order was cancelled after the credit check failed.",
+    "approverRole": "Back Office Fulfilment"
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-23 (Return). Passport order returned to the queue for the agent to correct the supporting details.",
+    "orderId": "ORD-92021",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-07T11:40:00+03:00",
+    "customerEmail": "lakshmi.venkat.iyer@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Lakshmi Venkat Iyer",
+    "idNumber": "Z4455671",
+    "customerId": "CUST-3032",
+    "productId": "PROD-109",
+    "productIds": [
+      "PROD-109"
+    ],
+    "addonIds": [],
+    "msisdn": "+97433334444",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000021",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 189.0,
+    "totalQAR": 189.0,
+    "mrcTotalQAR": 189.0,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Returned",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Passport - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Passport - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow",
+    "returnReasonCode": "ADDRESS_INCOMPLETE",
+    "returnComment": "Address details missing; agent to complete and resubmit.",
+    "demoTitle": "Returned to the queue",
+    "demoDetail": "Passport order was returned to the Sales Agent to complete the missing information.",
+    "approverRole": "Back Office Fulfilment"
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-73. Standard customer who accepted a Cross-Sales Red 500 offer; plan fixed by the offer.",
+    "orderId": "ORD-92022",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-08T11:47:00+03:00",
+    "customerEmail": "rajesh.kumar.pillai@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerName": "Rajesh Kumar Pillai",
+    "idNumber": "28508035600011",
+    "customerId": "CUST-3011",
+    "productId": "PROD-105",
+    "productIds": [
+      "PROD-105"
+    ],
+    "addonIds": [],
+    "msisdn": "+97477712345",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000022",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 525.0,
+    "totalQAR": 525.0,
+    "mrcTotalQAR": 525.0,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "Sales Offer",
+    "crossSalesOfferId": "OFR-4005",
+    "demoTitle": "Cross-sales offer",
+    "demoDetail": "Customer accepted the Red 500 offer. The plan is automatically selected based on the offer."
+  },
+  {
+    "_note": "Scenario seed (2026-10-10) - SC-36. Customer holding the Loyalty benefit: Loyalty discount applied on a Red Unlimited plan.",
+    "orderId": "ORD-92023",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-09T11:04:00+03:00",
+    "customerEmail": "karim.elias.youssef.haddad@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerName": "Karim Elias Youssef Haddad",
+    "idNumber": "28404042200028",
+    "customerId": "CUST-3028",
+    "productId": "PROD-106",
+    "productIds": [
+      "PROD-106"
+    ],
+    "discountId": "ADO-7108",
+    "addonIds": [],
+    "msisdn": "+97433001002",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000023",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 669.38,
+    "totalQAR": 669.38,
+    "mrcTotalQAR": 669.38,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Not Required",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Qatar ID (QID) - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Qatar ID (QID) - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "demoTitle": "Loyalty discount",
+    "demoDetail": "Customer is eligible for a Loyalty discount on the Red Unlimited plan."
+  },
+  {
+    "orderId": "ORD-93101",
+    "orderType": "New Postpaid Activation",
+    "createdAt": "2026-10-20T10:00:00+03:00",
+    "customerEmail": "hessa.althani@example.qa",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerName": "Hessa Jassim Al-Thani",
+    "idNumber": "27801013400101",
+    "customerId": "CUST-3101",
+    "productId": "PROD-108",
+    "productIds": [
+      "PROD-108"
+    ],
+    "addonIds": [],
+    "msisdn": "+97455613056",
+    "numberPriceQAR": 0,
+    "simType": "Physical",
+    "simSerial": "8974270100000000001",
+    "dueTodayQAR": 0,
+    "monthlyRecurringQAR": 152.25,
+    "totalQAR": 152.25,
+    "mrcTotalQAR": 152.25,
+    "nrcTotalQAR": 25,
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "attachments": [
+      {
+        "label": "Passport - Front",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Passport - Back",
+        "detail": "Scanned during Contact"
+      },
+      {
+        "label": "Signed CAF",
+        "detail": "Digital signature"
+      }
+    ],
+    "customerType": "none",
+    "planSource": "General Plan",
+    "approvalReason": "ID type cannot be sold directly - routed to Back Office Fulfilment approval workflow",
+    "demoTitle": "Passport ID",
+    "demoDetail": "Passport orders cannot be activated directly. The order requires Back Office Fulfilment approval.",
+    "_note": "Demo seed (2026-10-22) - belongs to a protected-segment customer (Safwa / Safwa+ / Royal): shown only to a role holding that segment's grant; every other role sees these lists without it.",
+    "assignedApproverId": null
+  }
+]

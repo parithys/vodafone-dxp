@@ -1,0 +1,26 @@
+[
+  {
+    "id": "PMN-2001",
+    "accountId": "ACC-5002",
+    "msisdn": "+97433001002",
+    "planName": "Park My Number",
+    "upfrontFeeQar": 35,
+    "durationMonths": 4,
+    "creditLimitQar": 0,
+    "activationDate": "2026-07-01",
+    "expiryDate": "2026-11-01",
+    "status": "Active"
+  },
+  {
+    "id": "PMN-2002",
+    "accountId": "ACC-5005",
+    "msisdn": "+97433021005",
+    "planName": "Park My Number",
+    "upfrontFeeQar": 35,
+    "durationMonths": 4,
+    "creditLimitQar": 0,
+    "activationDate": "2026-03-10",
+    "expiryDate": "2026-07-10",
+    "status": "Expired"
+  }
+]

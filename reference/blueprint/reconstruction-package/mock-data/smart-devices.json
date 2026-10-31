@@ -1,0 +1,22 @@
+[
+  {
+    "id": "SVP-16001",
+    "deviceId": "SVIPER-QA-000451",
+    "customerId": "CUST-1002",
+    "accountId": "ACC-5002",
+    "numberRange": "non-mobile",
+    "assignedNumber": "70045112",
+    "deviceCategory": "indoor tracker",
+    "wfmRequired": false
+  },
+  {
+    "id": "SVP-16002",
+    "deviceId": "SVIPER-QA-000452",
+    "customerId": "CUST-1004",
+    "accountId": "ACC-5004",
+    "numberRange": "non-mobile",
+    "assignedNumber": "70045113",
+    "deviceCategory": "smart plug",
+    "wfmRequired": false
+  }
+]

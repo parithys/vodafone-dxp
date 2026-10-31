@@ -1,0 +1,17 @@
+[
+  {
+    "tierId": "STAR-TIER-01",
+    "valueRangeMin": 1000,
+    "valueRangeMax": 19999,
+    "valueRangeCurrency": "QAR",
+    "lockInDurationMonths": 12,
+    "_note": "Corrected 2026-09-28: replaces an invented 3-tier 12/24/36-month structure with no basis in any evidenced business rule. BR-125 ('Star Number lock-in tiers by value') states exactly two tiers - 1 year for QR1,500-19,999, 2 years for QR20,000+. The floor here is 1,000, not BR-125's own 1,500: this app's own Free/Star boundary (FREE_NUMBER_PRICE_CEILING_QAR, postpaidPricing.ts) already treats any number QR1,000+ as Star, so a number priced QR1,000-1,499 needs a tier too - the nearest evidenced rate (12 months) is used for that gap rather than leaving it unbanded."
+  },
+  {
+    "tierId": "STAR-TIER-02",
+    "valueRangeMin": 20000,
+    "valueRangeMax": 50000,
+    "valueRangeCurrency": "QAR",
+    "lockInDurationMonths": 24
+  }
+]
