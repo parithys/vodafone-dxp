@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { NumberSelection } from '../../../capabilities';
-import { PageHeader } from '../../../components/patterns/PageHeader';
+import { NumberSelection, RefreshNumbersButton } from '../../../capabilities';
+import { StandaloneStepPage } from '../../../components/patterns/wizard/StandaloneStepPage';
+import { WizardTitleBand } from '../../../components/patterns/wizard/WizardTitleBand';
+import type { WizardStep } from '../../../components/patterns/wizard/guidedWizardTypes';
+import { NUMBER_SELECTION_LABEL } from '../../../data/stepLabels';
 import { Button } from '../../../components/primitives/Button';
 import { toLocalMsisdn } from '../../../components/domain/msisdnPickerModel';
 import { Modal } from '../../../components/primitives/Modal';
@@ -49,15 +52,12 @@ export function NumberManagementPortal() {
 
   if (stage === 'identify' && selected) {
     return (
-      <div className="p-8 w-full">
-        <PageHeader
-          title={<>Reserve Number</>}
-          description={<>Identify the customer the number is reserved for.</>}
-          actions={
-            <Button variant="secondary" compact onClick={() => setAbandoning(true)}>
-              Abandon Order
-            </Button>
-          }
+      <div className="flex-1 min-h-full flex flex-col">
+        <WizardTitleBand
+          title="Reserve Number"
+          titleAside={<span className="text-on-dark-2 text-[length:var(--fs-body)]">Identify the customer the number is reserved for.</span>}
+          onAbandon={() => setAbandoning(true)}
+          onRequestAbandon={() => setAbandoning(true)}
         />
         <ReserveNumberWizard
           msisdn={selected}
@@ -99,24 +99,41 @@ export function NumberManagementPortal() {
 
   if (stage === 'done' && last) {
     return (
-      <div className="p-8 w-full">
-        <PageHeader title={<>Number Management Portal</>} description={<>Search and reserve fixed/mobile numbers.</>} />
-        <section className="card p-6 space-y-3 max-w-xl" role="status" aria-label="Number reserved">
-          <h2 className="font-bold text-fg text-[length:var(--fs-body-lg)]">{toLocalMsisdn(last.msisdn)} is reserved</h2>
+      <StandaloneStepPage
+        title="Number Management Portal"
+        description="Search and reserve fixed/mobile numbers."
+        step={{ key: 'reserved', label: 'Number Reserved', heading: `${toLocalMsisdn(last.msisdn)} is reserved`, render: () => null }}
+      >
+        <div className="space-y-4" role="status" aria-label="Number reserved">
           <p className="text-fg-2 text-[length:var(--fs-body)]">
             Held for <span className="text-fg font-medium">{last.customerName}</span> (ID {last.idNumber}). It appears under Reserved Numbers.
           </p>
           <Button variant="primary" onClick={() => setStage('select')}>
             Reserve another number
           </Button>
-        </section>
-      </div>
+        </div>
+      </StandaloneStepPage>
     );
   }
 
+  const numberStep: WizardStep = {
+    key: 'number',
+    label: NUMBER_SELECTION_LABEL,
+    headerAction: () => <RefreshNumbersButton onClick={() => setRefreshKey((k) => k + 1)} />,
+    render: () => null,
+  };
+
   return (
-    <div className="p-8 pb-28 w-full">
-      <PageHeader title={<>Number Management Portal</>} description={<>Search and reserve fixed/mobile numbers.</>} />
+    <StandaloneStepPage
+      title="Number Management Portal"
+      description="Search and reserve fixed/mobile numbers."
+      step={numberStep}
+      canProceed={Boolean(selected)}
+      onNext={() => {
+        useWorkflowStore.getState().clearDraft('reserve-number');
+        setStage('identify');
+      }}
+    >
       <NumberSelection
         variant="portal"
         value={selected}
@@ -128,6 +145,9 @@ export function NumberManagementPortal() {
         onUnreserve={setReleasing}
         refreshKey={refreshKey}
       />
+      <span className="sr-only" aria-live="polite">
+        {selected ? `Selected: ${toLocalMsisdn(selected)}` : ''}
+      </span>
       <Modal
         open={Boolean(releasing)}
         onClose={() => setReleasing(undefined)}
@@ -147,22 +167,6 @@ export function NumberManagementPortal() {
           {releasing ? toLocalMsisdn(releasing) : ''} goes back to the available numbers and is no longer held for the customer.
         </p>
       </Modal>
-      {/* Floating at the bottom of the screen, so it stays in reach however far down the list the agent has scrolled. */}
-      <div className="fixed bottom-6 right-8 z-[var(--z-raised)] flex flex-wrap items-center justify-end gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg px-4 py-3 shadow-[var(--shadow-dash-card)]">
-        <span className="text-muted text-[length:var(--fs-caption)]" aria-live="polite">
-          {selected ? `Selected: ${toLocalMsisdn(selected)}` : 'Choose a number to reserve it for a customer.'}
-        </span>
-        <Button
-          variant="primary"
-          disabled={!selected}
-          onClick={() => {
-            useWorkflowStore.getState().clearDraft('reserve-number');
-            setStage('identify');
-          }}
-        >
-          Reserve Number
-        </Button>
-      </div>
-    </div>
+    </StandaloneStepPage>
   );
 }

@@ -26,8 +26,8 @@ test('the card disables the limit for a protected segment; account creation igno
   const card = fs.readFileSync('src/components/patterns/CreditLimitCard.tsx', 'utf8');
   assert.match(card, /creditLimitPolicy\(\{ segment: customerSegment, nationality \}\)/);
   assert.match(card, /policy\.editable \?/);
-  assert.match(fs.readFileSync('src/capabilities/BillingAccount/step.tsx', 'utf8'), /customerSegment=\{eligibility\?\.segment\}/);
-  const persist = fs.readFileSync('src/capabilities/BillingAccount/persistBillingAccount.ts', 'utf8');
+  assert.match(fs.readFileSync('src/capabilities/Billing/step.tsx', 'utf8'), /customerSegment=\{eligibility\?\.segment\}/);
+  const persist = fs.readFileSync('src/capabilities/Billing/persistBillingAccount.ts', 'utf8');
   assert.match(persist, /const chosen = policy\.editable && /);
   assert.match(persist, /restrictionApplied: Boolean\(policy\.lock\)/);
   for (const f of ['src/modules/new-connection/submitNewConnectionOrder.ts', 'src/modules/mnp-fnp-porting/screens/submitMnpOrder.ts', 'src/modules/pre-to-post-migration/screens/submitPreToPostOrder.ts', 'src/modules/fixed-line-fibre/fixedActivation/submitFixedActivationOrder.ts']) {

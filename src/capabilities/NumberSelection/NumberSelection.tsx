@@ -9,8 +9,8 @@ import { Checkbox } from '../../components/primitives/Checkbox';
  * Journeys mount THIS component (usually through numberSelectionStep in wizard/wizardSteps) and state what their
  * context needs; none of them wires MsisdnPicker itself.
  *
- *   variant   'journey' (default): inside a guided journey - search and sort on one row.
- *             'portal': the standalone Number Management Portal.
+ *   variant   'journey' (default): inside a guided journey.
+ *             'portal': the standalone Number Management Portal (its own tab order and Reserved tab). Same look either way.
  *   prePaired the journey offers a Pre-Paired SIM (Mobile Prepaid BRSD MPRA_001_NUM_02): choosing it bypasses number
  *             selection, because the number is already on the SIM scanned at the SIM step.
  *   plan      the selected plan's MRC / Star entitlement, when the journey has chosen one, for the
@@ -47,7 +47,6 @@ export function NumberSelection({ value, onChange, variant = 'journey', plan, re
       refreshKey={refreshKey}
       planMrcQar={plan?.mrcQar}
       starEntitlementQar={plan?.starEntitlementQar}
-      inlineToolbar={inJourney}
       hideReservedBadge={inJourney}
       // The portal alone has its own tab order (Star, Free, Reserved) and shows no number that was already held.
       portalMode={!inJourney}

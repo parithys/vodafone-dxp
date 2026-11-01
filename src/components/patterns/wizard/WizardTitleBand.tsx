@@ -6,26 +6,29 @@ export function WizardTitleBand({
   title,
   titleAside,
   titleAction,
-  popupBlocked,
+  popupBlocked = false,
   onSaveExit,
   saveHidden = false,
   onAbandon,
-  abandonHidden,
-  onRequestSaveExit,
-  onRequestAbandon,
+  abandonHidden = false,
+  onRequestSaveExit = () => {},
+  onRequestAbandon = () => {},
 }: {
   title: string;
   titleAside?: ReactNode;
   /** Optional page-specific control shown before the shared draft and abandon actions. */
   titleAction?: ReactNode;
-  popupBlocked: boolean;
-  onSaveExit: (() => void) | undefined;
+  /** The wizard's customer-view pop-up was blocked (guided journeys only). */
+  popupBlocked?: boolean;
+  /** With `onRequestSaveExit`: shows Save as Draft. A page with no draft (the Number Management Portal) leaves both out. */
+  onSaveExit?: (() => void) | undefined;
   /** The current step does not offer Save as Draft (see WizardStep.canSaveDraft). */
   saveHidden?: boolean;
-  onAbandon: (() => void) | undefined;
-  abandonHidden: boolean;
-  onRequestSaveExit: () => void;
-  onRequestAbandon: () => void;
+  /** With `onRequestAbandon`: shows Abandon Order. */
+  onAbandon?: (() => void) | undefined;
+  abandonHidden?: boolean;
+  onRequestSaveExit?: () => void;
+  onRequestAbandon?: () => void;
 }) {
   // Save as Draft and Abandon Order sit in the page's title row, at the right.
   const exitLinks = (

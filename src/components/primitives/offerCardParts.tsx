@@ -75,11 +75,11 @@ export function planFeatureRows(plan: OfferProduct | undefined): { icon: string;
 
 /**
  * The selected mark: a red circle with a tick on the card's top-right corner. Put it inside a `relative` card, only while it is selected.
- * The one selected mark for every selectable card in the app (with CARD_SELECTED's red border and warm fill); the whole card is the control, so no card has its own Select button.
+ * Styled by `.card-tick` (src/index.css). The one selected mark for every selectable card in the app (with CARD_SELECTED's red border and warm fill); the whole card is the control, so no card has its own Select button.
  */
 export function SelectedTick() {
   return (
-    <span aria-hidden className="absolute -right-2.5 -top-2.5 z-[var(--z-raised)] flex h-7 w-7 items-center justify-center rounded-[var(--radius-circle)] bg-accent text-accent-on shadow-[var(--shadow-selected-ring)]">
+    <span aria-hidden className="card-tick">
       <Icon path={CHECK} className="w-4 h-4" strokeWidth={3} />
     </span>
   );

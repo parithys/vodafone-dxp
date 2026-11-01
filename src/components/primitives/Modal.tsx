@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import type { ReactNode } from 'react';
 import { CloseButton } from './CloseButton';
+import { OverlayPortal } from './OverlayPortal';
 import { useDialogBehaviour } from './useDialogBehaviour';
 
 interface ModalProps {
@@ -30,10 +31,9 @@ export function Modal({ open, onClose, title, children, footer, widthClassName =
   useDialogBehaviour(open, onClose, dialogRef);
 
   if (!open) return null;
+  // cursor-default (not pointer): clicking the backdrop dismisses the modal, but a full-screen dismiss surface should not read as "clickable".
   return (
-    // cursor-default (not pointer): clicking the backdrop dismisses the
-    // modal, but per UI cursor remediation guidance a full-screen dismiss
-    // surface should not read as "clickable" the way a button does.
+    <OverlayPortal>
     <div className="fixed inset-0 z-[var(--z-overlay)] flex items-center justify-center bg-[var(--black-80)] cursor-default" onClick={onClose}>
       <div
         ref={dialogRef}
@@ -51,5 +51,6 @@ export function Modal({ open, onClose, title, children, footer, widthClassName =
         {footer && <div className="flex justify-end gap-2 mt-6">{footer}</div>}
       </div>
     </div>
+    </OverlayPortal>
   );
 }

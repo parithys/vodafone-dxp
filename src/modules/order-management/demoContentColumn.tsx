@@ -26,6 +26,7 @@ export interface DemoContentFields {
 const REASON_SCENARIOS: [RegExp, string, string][] = [
   [/line limit/i, 'Line-limit approval', 'Customer has reached the allowed postpaid line limit.'],
   [/manually entered/i, 'Manual ID entry', 'ID scanning failed, so the ID details were entered manually.'],
+  [/Passport requires .+ approval/i, 'Passport routed to the submitter\'s manager', 'A Passport order is approved by the submitting agent\'s manager.'],
   [/ID type requires Credit Control approval/i, 'ID type routed to Credit Control', 'This ID type requires Credit Control approval.'],
   [/cannot be sold directly|C[BD]M approval|Back Office Fulfilment approval/i, 'ID type routed to Back Office Fulfilment Agent', 'This ID type cannot be activated directly.'],
   [/expiry date not on file/i, 'ID expiry not on file', 'ID expiry date is unavailable, so ID validity cannot be confirmed.'],

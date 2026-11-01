@@ -13,12 +13,14 @@ import { CARD_IDLE, CARD_SELECTED, SelectedTick, SelectedCardTexture } from '../
 import { Select } from '../primitives/Select';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { usePersonaStore } from '../../stores/personaStore';
+import { getPersona } from '../../engines/configEngine';
 import { Checkbox } from '../primitives/Checkbox';
 import { SearchField } from '../primitives/SearchField';
 import { FREE_NUMBER_PRICE_CEILING_QAR, STAR_NUMBER_ENTITLEMENT_MULTIPLIER, roundedEntitlementQar, starNumberOverageQar } from '../../engines/postpaidPricing';
 import { TAB_LABELS, TAB_ORDER, PORTAL_TAB_ORDER, RETAIL_SALES_PERSONA_ID, toLocalMsisdn, MAX_RESERVATIONS_PER_AGENT, PAGE_SIZE, FREE_PAGE_SIZE, FREE_SORT_OPTIONS, SEARCH_MODE_OPTIONS, DEFAULT_SEARCH_MODE, matchesNumberSearch, matchesPriceRange, priceBound, hasRepeatingPairPattern, searchError, SORTERS, STAT_ICONS } from './msisdnPickerModel';
 import type { MsisdnRecord, NumberTab, SearchMode, SortKey } from './msisdnPickerModel';
 import { StarStat } from './StarStat';
+import { BlockedNumberLookup } from './BlockedNumberLookup';
 import { CLEAR_ICON, SORT_PRICE_DESC, SORT_PRICE_ASC } from '../../assets/icons';
 
 
@@ -45,8 +47,6 @@ interface MsisdnPickerProps {
    * When omitted it is derived from planMrcQar, as before.
    */
   starEntitlementQar?: number;
-  /** Search box and Sort control share one row (search grows, sort sits at the right). */
-  inlineToolbar?: boolean;
   /**
    * The Number Management Portal (New Number Selection). Tabs read Star, Free, Reserved, and the Reserved tab lists only the numbers
    * reserved in this session: no number the agent already held is displayed, and none is chosen for the agent on open. Journeys leave
@@ -79,7 +79,7 @@ const SEARCH_DEBOUNCE_MS = 300;
 // Anything below the Star band (QAR 0 - 1,499) is free of charge whatever its catalogue price; QAR 1,500 and above is a Star Number.
 const chargeFor = (priceQar: number) => (priceQar >= FREE_NUMBER_PRICE_CEILING_QAR ? priceQar : 0);
 
-export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, planMrcQar, starEntitlementQar: starEntitlementProp, inlineToolbar = false, portalMode = false, reservedHere = [], onUnreserve, customerIdNumber }: MsisdnPickerProps) {
+export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, planMrcQar, starEntitlementQar: starEntitlementProp, portalMode = false, reservedHere = [], onUnreserve, customerIdNumber }: MsisdnPickerProps) {
   const entitlementQar = starEntitlementProp ?? (planMrcQar !== undefined ? roundedEntitlementQar(planMrcQar * STAR_NUMBER_ENTITLEMENT_MULTIPLIER) : undefined);
   // Star tab filter: only numbers priced within the customer's entitlement (no extra charge).
   const [withinEntitlementOnly, setWithinEntitlementOnly] = useState(false);
@@ -99,7 +99,10 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
 
   // Choosing a number only selects it; in the portal it is reserved once a customer has been identified (see NumberManagementPortal).
   const choose = onSelect;
-  const isRetailSales = usePersonaStore((s) => s.activePersonaId) === RETAIL_SALES_PERSONA_ID;
+  const activePersonaId = usePersonaStore((s) => s.activePersonaId);
+  const isRetailSales = activePersonaId === RETAIL_SALES_PERSONA_ID;
+  // The group the signed-in agent belongs to: the Blocked Numbers tab answers only for numbers this group blocked.
+  const viewerGroup = getPersona(activePersonaId)?.name;
   const [starTiers, setStarTiers] = useState<{ valueRangeMin: number; valueRangeMax: number; lockInDurationMonths: number }[]>([]);
   // Open search (letters and numbers, 2-8 characters): `searchInput` is what is typed; `search` is the trimmed text the
   // list is actually filtered by, applied ~300 ms after typing stops and only once it has at least 2 characters.
@@ -197,8 +200,11 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   // unusable and nothing on screen said why.
   // The portal's Reserved tab lists what was reserved in this session, not the holds the agent already had.
   const myReserved = portalMode ? numbers.filter((n) => reservedHere.includes(n.msisdn)) : heldForCustomer;
+  // Blocked lists nothing: the tab is a lookup of one complete number (BlockedNumberLookup).
   const inTab =
-    tab === 'Reserved'
+    tab === 'Blocked'
+      ? []
+      : tab === 'Reserved'
       ? myReserved
       : numbers.filter(
           (n) =>
@@ -365,12 +371,10 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
     )}
     </div>
   );
-  // inlineToolbar: the dropdown reads "Sort by" until the agent picks an order (the
-  // default order still applies meanwhile), and the separate SORT caption goes.
-  const sortPlaceholder = inlineToolbar && !sortChosen[tab === 'Star' ? 'Star' : 'Free'];
+  // The dropdown reads "Sort by" until the agent picks an order (the default order still applies meanwhile).
+  const sortPlaceholder = !sortChosen[tab === 'Star' ? 'Star' : 'Free'];
   const sortNode = (
-        <div className={`flex items-center gap-2 ${tab !== 'Star' && inlineToolbar ? 'w-full [&>div]:w-full' : 'justify-end'}`}>
-          {!inlineToolbar && <span className="text-muted text-[length:var(--fs-caption)] uppercase tracking-wide">Sort</span>}
+        <div className={`flex items-center gap-2 ${tab !== 'Star' ? 'w-full [&>div]:w-full' : 'justify-end'}`}>
           {tab === 'Star' ? (
             // Price sort as ONE toggle: it shows the order the list is in (High to Low until the agent changes it) and a click flips to the other. The tooltip is the header's (Tooltip, bottom).
             (() => {
@@ -426,36 +430,19 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
           setPage(0);
         }}
       />
-      {/* Hidden on Reserved (2026-09-28): a customer can hold at most
-          MAX_RESERVATIONS_PER_AGENT numbers, so there is nothing to search -
-          shown on both Free and Star still, since search narrows by number
-          regardless of whether that tab also offers a price sort. */}
-      {inlineToolbar ? (
-        // One row: the "search by" dropdown, the search box and the sort.
-        tab !== 'Reserved' && (
-          <div className="flex items-start gap-3">
-            <div className="min-w-0 flex-1">{searchNode}</div>
-            {showSort && <div className="shrink-0">{sortNode}</div>}
-          </div>
-        )
+      {tab === 'Blocked' ? (
+        <BlockedNumberLookup numbers={numbers} loaded={numbersLoaded} starTiers={starTiers} viewerGroup={viewerGroup} />
       ) : (
         <>
-          {tab !== 'Reserved' && searchNode}
-
-      {/* Sort, right-aligned on its own row - per the 2026-09-26 asset. Narrows
-          the same list the search box above it does, so it sits with it
-          rather than over the results.
-
-          Star and Free both show this now (2026-09-30) - see showSort's own
-          note. Free's own menu is number-only (FREE_SORT_OPTIONS): a price
-          sort would rank Free rows by a figure the customer never pays.
-          Reserved still has none: no price ranking worth showing a control
-          for, and an empty control row would leave a gap the agent reads as
-          something having failed to load. */}
-      {/* Tier chips (Platinum / Gold / Silver) and the TIER filter were removed
-          on 2026-09-27 per the annotated walkthrough. */}
-          {showSort && sortNode}
-        </>
+      {/* One row: the "search by" dropdown, the search box and the sort. Hidden on Reserved (2026-09-28): a customer can hold at most
+          MAX_RESERVATIONS_PER_AGENT numbers, so there is nothing to search. Star and Free both sort (Free's menu is number-only,
+          FREE_SORT_OPTIONS: a price sort would rank Free rows by a figure the customer never pays); Reserved has none. Tier chips and
+          the TIER filter were removed on 2026-09-27 per the annotated walkthrough. */}
+      {tab !== 'Reserved' && (
+        <div className="flex items-start gap-3">
+          <div className="min-w-0 flex-1">{searchNode}</div>
+          {showSort && <div className="shrink-0">{sortNode}</div>}
+        </div>
       )}
       {/* Star tab: "Show within my entitlement" filter, with the other Star-tab filters. */}
       {tab === 'Star' && entitlementQar !== undefined && (
@@ -681,6 +668,8 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       {/* Paged by the Pagination capability (previous, numbered pages, next, under a "Showing a-b of N" count): every journey, the portal and the
           Capability Library page the numbers the same way. Hidden entirely on a single page so a one-page list carries no dead controls. */}
       <Pagination page={safePage + 1} total={filtered.length} pageSize={pageSize} onPage={(p) => setPage(p - 1)} />
+        </>
+      )}
     </div>
   );
 }

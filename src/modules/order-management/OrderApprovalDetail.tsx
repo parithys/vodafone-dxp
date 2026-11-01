@@ -220,6 +220,10 @@ function approvalReasonItems(reason: string | undefined): { title: string; detai
   if (!reason) return [];
   const describe = (r: string): { title: string; detail: string } => {
     if (r.startsWith('Active postpaid line limit reached')) return { title: 'Active Line Limit Reached', detail: r };
+    const passportManager = r.match(/^Passport requires (.+) approval - routed to /);
+    if (passportManager) {
+      return { title: `Passport Requires ${passportManager[1]} Approval`, detail: `A Passport order is approved by the submitting agent's manager. The order was routed to ${passportManager[1]} on submission.` };
+    }
     if (r.startsWith('ID type requires Credit Control approval')) {
       return { title: 'ID Type Requires Credit Control Approval', detail: 'The selected ID type requires Credit Control approval. The order was routed to Credit Control on submission.' };
     }

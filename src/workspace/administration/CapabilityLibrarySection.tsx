@@ -5,6 +5,7 @@ import { Button } from '../../components/primitives/Button';
 import { Input } from '../../components/primitives/Input';
 import { APP_ROOT, CAPABILITY_CONSUMERS, CAPABILITY_REGISTRY } from '../../capabilities/registry';
 import type { CapabilityDef } from '../../capabilities/registry';
+import { PageLevelTabs } from '../../components/primitives/TabLevel';
 import { CAPABILITY_PREVIEWS } from '../../capabilities/previews';
 
 // The Capability Library: every reusable capability in one place - what it is, where its single implementation
@@ -47,7 +48,10 @@ function Detail({ cap }: { cap: CapabilityDef }) {
       <section aria-label="Live preview" className="rounded-[var(--radius-card)] border border-border-soft bg-bg p-5 space-y-3">
         <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Live Preview</h3>
         {preview ? (
-          <div className="rounded-[var(--radius-card)] bg-[var(--surface)] p-4">{preview()}</div>
+          <div className="rounded-[var(--radius-card)] bg-[var(--surface)] p-4">
+            {/* A journey draws its tabs as the underline strip; the library sits in a tab panel, so the preview resets the level to show them the same. */}
+            <PageLevelTabs>{preview()}</PageLevelTabs>
+          </div>
         ) : (
           <p className="text-muted text-[length:var(--fs-body)]">
             This capability needs a live order or a surrounding journey to render, so it has no standalone preview. Open a journey that uses it.

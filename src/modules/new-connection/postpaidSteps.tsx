@@ -2,7 +2,7 @@ import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTy
 import type { CrossSalesValue } from '../../capabilities';
 import type { CustomerBenefit } from '../../engines/customerBenefitEngine';
 import {
-  billingAccountStep,
+  billingStep,
   cafSignatureStep,
   checkoutSummaryStep,
   numberSelectionStep,
@@ -53,7 +53,7 @@ export function postpaidSteps({ products, customerBenefits, device }: PostpaidSt
   const planContext = { products, customerBenefits, skipWhen: offerAccepted, announceHrn: true };
   return [
     serviceAddressStep({ mode: 'structured', autoPass: true, serviceIds: false }),
-    billingAccountStep(),
+    billingStep(),
     postpaidPlanStep(planContext),
     postpaidExtrasStep({ ...planContext, skipWhen: extrasSkip(products) }),
     numberSelectionStep({

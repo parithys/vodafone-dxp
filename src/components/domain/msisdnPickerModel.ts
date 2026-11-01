@@ -13,6 +13,10 @@ export interface MsisdnRecord {
   reservedForQid?: string;
   /** When the reservation was made (ISO), on a Reserved record. */
   reservedAt?: string;
+  /** The user group / team that blocked the number, on a BLOCKED record. Absent when the record does not say. */
+  blockedByTeam?: string;
+  /** Why the number was blocked, on a BLOCKED record. Absent when the record does not say. */
+  blockedReason?: string;
 }
 
 /**
@@ -34,12 +38,13 @@ export interface MsisdnRecord {
  * rather than falling out of the UI entirely - which is what happened when
  * Reserved numbers were simply hidden.
  */
-export type NumberTab = 'Free' | 'Star' | 'Reserved';
+export type NumberTab = 'Free' | 'Star' | 'Reserved' | 'Blocked';
 
 export const TAB_LABELS: Record<NumberTab, string> = {
   Free: 'Free Numbers',
   Star: 'Star Numbers',
   Reserved: 'Reserved Numbers',
+  Blocked: 'Blocked Numbers',
 };
 
 /**
@@ -53,12 +58,12 @@ export const TAB_LABELS: Record<NumberTab, string> = {
  * themselves stay in one predictable order for everyone.
  */
 // Reserved, Star, Free (VFQ business, 2026-10-02) - reversing the 2026-09-28 Free, Star, Reserved order.
-export const TAB_ORDER: NumberTab[] = ['Reserved', 'Star', 'Free'];
+export const TAB_ORDER: NumberTab[] = ['Reserved', 'Star', 'Free', 'Blocked'];
 
 /**
  * The Number Management Portal's own tab order: Star, Free, Reserved. Only the portal uses it; every journey keeps TAB_ORDER above.
  */
-export const PORTAL_TAB_ORDER: NumberTab[] = ['Star', 'Free', 'Reserved'];
+export const PORTAL_TAB_ORDER: NumberTab[] = ['Star', 'Free', 'Reserved', 'Blocked'];
 
 /** The Retail Sales persona (personas.json ROLE-01): Reserved opens first when numbers are held, and is hidden - Star opens instead - when none are. */
 export const RETAIL_SALES_PERSONA_ID = 'ROLE-01';
@@ -254,3 +259,34 @@ export const PRICE_RANGES: PriceRange[] = [
   { key: 'above-50000', label: 'Above QAR 50K', min: 50001, max: Infinity },
 ];
 export const inPriceRange = (priceQar: number, r: PriceRange) => priceQar >= r.min && priceQar <= r.max;
+
+/**
+ * The Blocked Numbers tab never lists the blocked inventory: an agent finds one by typing the COMPLETE number, and only an exact match is
+ * answered. This is the 8 digits the tab expects, from what was typed (spaces, dashes and a +974 / 974 prefix are allowed and ignored),
+ * or undefined while the text is not yet a complete number - so 5555 or 555512 never matches anything.
+ */
+export function completeBlockedLookup(typed: string): string | undefined {
+  const local = typed.replace(/[\s-]/g, '').replace(/^\+?974(?=\d{8}$)/, '');
+  return /^\d{8}$/.test(local) ? local : undefined;
+}
+
+const sameGroup = (a: string | undefined, b: string | undefined) => Boolean(a?.trim()) && a!.trim().toLowerCase() === b?.trim().toLowerCase();
+
+/**
+ * The BLOCKED record whose number is exactly the complete number typed AND that the viewer's own group blocked, or undefined. A number blocked by
+ * another group - or one whose record names no blocking group - is not found, so the lookup never reveals that it exists or anything about it:
+ * the agent gets the same answer as for a number that is not blocked. `viewerGroup` is the signed-in agent's persona (group) name.
+ */
+export function findBlockedNumber(numbers: MsisdnRecord[], typed: string, viewerGroup: string | undefined): MsisdnRecord | undefined {
+  const wanted = completeBlockedLookup(typed);
+  return wanted ? numbers.find((n) => n.status === 'BLOCKED' && toLocalMsisdn(n.msisdn) === wanted && sameGroup(n.blockedByTeam, viewerGroup)) : undefined;
+}
+
+/**
+ * What the Blocked Numbers field keeps of what was typed or pasted: digits only, at most 8. A pasted number with its country code
+ * (+974 5555 1234) is reduced to the 8 local digits first, so pasting a full number still lands on the number rather than its first 8 digits.
+ */
+export function blockedNumberInput(raw: string): string {
+  const digits = raw.replace(/\D/g, '');
+  return (digits.length > 8 && digits.startsWith('974') ? digits.slice(3) : digits).slice(0, 8);
+}

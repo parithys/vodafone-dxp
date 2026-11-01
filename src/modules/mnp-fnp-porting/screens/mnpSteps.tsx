@@ -1,7 +1,7 @@
 import type { WizardStep } from '../../../components/patterns/wizard/guidedWizardTypes';
 import * as sums from '../../../components/patterns/wizard/commonSummaries';
 import { attachSummaries } from '../../../components/patterns/wizard/stepSummary';
-import { billingAccountStep, cafSignatureStep, checkoutSummaryStep, paymentStep, prepaidCheckoutStep, planSelectionStep, postpaidExtrasStep, postpaidPlanStep, prepaidExtrasStep, serviceAddressStep, simSerialStep } from '../../../capabilities';
+import { billingStep, cafSignatureStep, checkoutSummaryStep, paymentStep, prepaidCheckoutStep, planSelectionStep, postpaidExtrasStep, postpaidPlanStep, prepaidExtrasStep, serviceAddressStep, simSerialStep } from '../../../capabilities';
 import type { PostpaidStepContext } from '../../new-connection/postpaidSteps';
 import { mnpPlanTypeStep } from '../../new-connection/steps/MnpPlanTypeStep';
 import type { ProductStepContext } from '../../new-connection/steps/ProductSelection';
@@ -65,7 +65,7 @@ export function mnpSteps(ctx: ProductStepContext & Partial<Pick<PostpaidStepCont
       billing: (values) => !isPrepaidMnp(values),
       identity: (values) => ({ idNumber: contactOf(values)?.idNumber, nationality: contactOf(values)?.moiResult?.nationality }),
     }),
-    postpaidOnly(billingAccountStep()),
+    postpaidOnly(billingStep()),
     simSerialStep(),
     // The same Plan and Add-ons steps as New Mobile Postpaid: plan cards, add-ons, eligible discounts, bill limit.
     postpaidOnly(postpaidPlanStep(planContext)),

@@ -11,6 +11,16 @@ import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';
 import { REFRESH_ALT } from '../../assets/icons';
 
+/** The Refresh action in the step's title row: reads the number inventory again. The portal's step card carries the same one. */
+export function RefreshNumbersButton({ onClick }: { onClick: () => void }) {
+  return (
+    <Button variant="secondary" compact onClick={onClick}>
+      <Icon path={REFRESH_ALT} className="w-4 h-4" />
+      Refresh
+    </Button>
+  );
+}
+
 /**
  * Number selection: the chosen number is stored under `msisdn` (and its price under `priceField`, when given).
  * `plan` reads the journey's selected plan from the values, for the Star entitlement note. `refresh` adds the
@@ -36,14 +46,7 @@ export function numberSelectionStep(
     ...(opts.refresh
       ? {
           headerAction: ({ values, setValue }) => (
-            <Button
-              variant="secondary"
-              compact
-              onClick={() => setValue('numberRefresh', ((values.numberRefresh as number | undefined) ?? 0) + 1)}
-            >
-              <Icon path={REFRESH_ALT} className="w-4 h-4" />
-              Refresh
-            </Button>
+            <RefreshNumbersButton onClick={() => setValue('numberRefresh', ((values.numberRefresh as number | undefined) ?? 0) + 1)} />
           ),
  }
       : {}),

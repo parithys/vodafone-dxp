@@ -95,6 +95,11 @@ export interface EligibilityContext {
    */
   under18Exception?: 'available' | 'chosen';
   /**
+   * The role a Passport order is routed to for approval - the submitting agent's manager (data/approvalRouting.ts) - when the journey routes it
+   * there. Absent, a Passport keeps the ID-type routing to Credit Control. Only a postpaid Passport is affected.
+   */
+  passportApprover?: string;
+  /**
    * 'common' returns only the checks that read the same for every product - ID validity, age, security and unclassified
    * blacklist, deals - so Customer Verification, which happens before the agent has chosen a product, can report them.
    * 'product' (default) is the full set, judged for `journeyType`: the ID-type routing, collections block and line cap
@@ -229,15 +234,19 @@ export function evaluateEligibilityChecks(ctx: EligibilityContext, asOf: Date): 
   const presentedIdType = doc?.documentType ?? customer.idType ?? '';
   // Prepaid permits QID, Diplomatic ID, GCC ID and Passport (KYC_01), so only an ID outside that set diverts.
   const routed = prepaid ? presentedIdType === 'Other ID' : EXCEPTION_ROUTED_ID_TYPES.has(presentedIdType);
+  // A postpaid Passport goes to the submitter's manager rather than Credit Control, when the journey names that manager.
+  const passportToManager = routed && !prepaid && presentedIdType === 'Passport' && Boolean(ctx.passportApprover);
   checks.push({
     id: 'id-type-routing',
     // One result for the ID type's approval (2026-10-22): Credit Control. The passport BAU approval the line rules also derive is the same
     // requirement, so the Active Lines check below does not repeat it.
-    label: routed ? 'Credit Control Approval Required' : 'ID Type',
+    label: routed ? (passportToManager ? `${ctx.passportApprover} Approval Required` : 'Credit Control Approval Required') : 'ID Type',
     passed: !routed,
     outcome: routed ? 'approval-routing' : 'pass',
     message: routed
-      ? 'The selected ID type requires Credit Control approval. You may continue with the journey; the order will be automatically routed to Credit Control for approval upon submission.'
+      ? passportToManager
+        ? `A Passport requires ${ctx.passportApprover} approval. You may continue with the journey; the order will be automatically routed to the ${ctx.passportApprover} queue for approval upon submission.`
+        : 'The selected ID type requires Credit Control approval. You may continue with the journey; the order will be automatically routed to Credit Control for approval upon submission.'
       : 'Accepted ID type - eligible to proceed',
   });
 

@@ -95,7 +95,7 @@ export function ProductSelection({
 
   return (
     <div className="space-y-8">
-      {/* The billing account the product needs is selected or created by its Billing Profile step (billingAccountStep.headless). */}
+      {/* The billing account the product needs is selected or created by its Billing Profile step (billingStep.headless). */}
 
       {/* Recommended offers belong to New Connection; New Home Connection goes straight to the home products. */}
       {launch && <StartCards values={values} setValue={setValue} goNext={goNext} ctx={ctx} choose={chooseProduct} />}

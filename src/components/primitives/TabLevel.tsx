@@ -16,3 +16,8 @@ export function NestedTabs({ children }: { children: ReactNode }) {
   const depth = useTabDepth();
   return <TabDepth.Provider value={depth + 1}>{children}</TabDepth.Provider>;
 }
+
+/** Marks its children as page-level: a tab strip inside draws as the underline strip even when the surrounding page is itself a tab panel (a live preview of a journey's screen). */
+export function PageLevelTabs({ children }: { children: ReactNode }) {
+  return <TabDepth.Provider value={0}>{children}</TabDepth.Provider>;
+}

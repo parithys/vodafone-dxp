@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { CloseButton } from './CloseButton';
+import { OverlayPortal } from './OverlayPortal';
 import { useDialogBehaviour } from './useDialogBehaviour';
 
 interface DrawerProps {
@@ -51,11 +52,10 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
   useDialogBehaviour(open && mounted, onClose, panelRef);
 
   if (!mounted) return null;
+  // Backdrop no longer dismisses the drawer on click - only the explicit close button or Escape do (see the keydown handler above).
+  // Prevents losing in-progress form input from an accidental click outside the panel.
   return (
-    // Backdrop no longer dismisses the drawer on click - only the explicit
-    // close button or Escape do (see the keydown handler above). Prevents
-    // losing in-progress form input from an accidental click outside the
-    // panel.
+    <OverlayPortal>
     <div className="fixed inset-0 z-[var(--z-overlay)] bg-[var(--black-80)]">
       <div
         ref={panelRef}
@@ -77,5 +77,6 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
         {footer && <div className="grid grid-flow-col auto-cols-fr gap-4 px-6 py-4 border-t border-border-soft shrink-0">{footer}</div>}
       </div>
     </div>
+    </OverlayPortal>
   );
 }

@@ -7,6 +7,7 @@ import { WizardTitleBand } from '../../components/patterns/wizard/WizardTitleBan
 import { SelectedAddonsHeader } from '../../components/patterns/wizard/SelectedAddonsHeader';
 import { WizardStepHeader } from '../../components/patterns/wizard/WizardStepHeader';
 import { WizardFooter } from '../../components/patterns/wizard/WizardFooter';
+import { WizardStepPanel } from '../../components/patterns/wizard/WizardStepPanel';
 import { StepSummaryPanel } from '../../components/patterns/wizard/StepSummaryPanel';
 import { useEnterToSubmit } from '../../hooks/useEnterToSubmit';
 import { useMinWidth } from '../../hooks/useMinWidth';
@@ -283,13 +284,24 @@ export function GuidedActivationWizard({
         {currentStep && `Step ${currentIndex + 1} of ${activeSteps.length}: ${currentStep.label}`}
       </span>
 
-      <div className={`flex-1 flex items-stretch ${fixedFooter ? (showSelectedAddonsTray && currentStep?.key === 'planExtras' ? 'pb-44 lg:pb-24' : 'pb-24') : ''}`}>
-        <div className="flex-1 min-w-0">
-        <div
-          ref={stepPanelRef}
-          className={`m-8 card p-6 ${viewOpen ? 'outline outline-2 outline-accent' : ''}`}
-          onKeyDown={handleStepKeyDown}
-        >
+      <WizardStepPanel
+        panelRef={stepPanelRef}
+        onKeyDown={handleStepKeyDown}
+        cardClassName={viewOpen ? 'outline outline-2 outline-accent' : ''}
+        bottomClass={fixedFooter ? (showSelectedAddonsTray && currentStep?.key === 'planExtras' ? 'pb-44 lg:pb-24' : 'pb-24') : ''}
+        below={
+          <>
+            {belowPanel && <div className="px-8 pb-8">{belowPanel}</div>}
+            {/* Below lg the side panel is hidden; the same summary (with its Edit actions) is offered as an accordion. */}
+            {hasSummary && (
+              <div className="mx-8 mb-8 lg:hidden">
+                <StepSummaryPanel {...summaryProps} variant="accordion" />
+              </div>
+            )}
+          </>
+        }
+        aside={hasSummary ? <StepSummaryPanel {...summaryProps} /> : undefined}
+      >
           <WizardStepHeader
             currentStep={currentStep}
             allowCustomerView={allowCustomerView}
@@ -319,18 +331,7 @@ export function GuidedActivationWizard({
               setAbandonOpen(true);
             }}
           />
-        </div>
-        {belowPanel && <div className="px-8 pb-8">{belowPanel}</div>}
-        {/* Below lg the side panel is hidden; the same summary (with its Edit actions) is offered as an accordion. */}
-        {hasSummary && (
-          <div className="mx-8 mb-8 lg:hidden">
-            <StepSummaryPanel {...summaryProps} variant="accordion" />
-          </div>
-        )}
-        </div>
-
-        {hasSummary && <StepSummaryPanel {...summaryProps} />}
-      </div>
+      </WizardStepPanel>
 
       {/* Each step's invisible work, whether or not the step is on screen (see WizardStep.headless). */}
       {activeSteps.map((s) => (s.headless ? <Fragment key={s.key}>{s.headless({ values: draft.values, setValue })}</Fragment> : null))}

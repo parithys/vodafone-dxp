@@ -119,7 +119,7 @@ export function ReserveNumberWizard({
       wizardId={WIZARD_ID}
       title="Reserve Number"
       steps={steps}
-      // The portal's page header carries the title and Abandon Order, so the wizard leaves its own band out.
+      // The portal draws the title band (same band, with its own Abandon Order that confirms as a reservation, not an order), so the wizard leaves its own out.
       hideTitleBand
       onSubmit={async (values) => {
         const identity = values.identity as IdLookupValue;

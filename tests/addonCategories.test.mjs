@@ -311,7 +311,9 @@ test('postpaid New Connection reviews add-on cadence, recurring charges and bill
 test('selected add-on card ticks render above the card and are not clipped at the corner', () => {
   const picker = fs.readFileSync('src/capabilities/AddonsSelection/AddonsPicker.tsx', 'utf8');
   const cardParts = fs.readFileSync('src/components/primitives/offerCardParts.tsx', 'utf8');
-  assert.match(cardParts, /SelectedTick[\s\S]*z-\[var\(--z-raised\)\]/);
+  const css = fs.readFileSync('src/index.css', 'utf8');
+  assert.match(cardParts, /SelectedTick[\s\S]*card-tick/);
+  assert.match(css, /\.card-tick \{[^}]*z-index: var\(--z-raised\)/);
   assert.doesNotMatch(picker, /relative overflow-hidden rounded-\[var\(--radius-card\)\] border/);
 });
 

@@ -15,7 +15,7 @@ before(async () => {
   cl = await load('/src/engines/creditLimit.ts');
   hrn = await load('/src/engines/hrnConfiguration.ts');
   change = await load('/src/workspace/customer360/creditLimitChange.ts');
-  persist = await load('/src/capabilities/BillingAccount/persistBillingAccount.ts');
+  persist = await load('/src/capabilities/Billing/persistBillingAccount.ts');
 });
 after(close);
 
@@ -78,7 +78,7 @@ test('5. only the limits that apply to the segment are offered; the agent choose
   for (const v of cl.CREDIT_LIMIT_PRESETS_QAR) assert.equal(Number.isInteger(v), true);
   const card = read('src/components/patterns/CreditLimitCard.tsx');
   assert.match(card, /policy\.editable \?/, 'HRN and protected segments: no selector, the limit is shown as text');
-  assert.match(read('src/capabilities/BillingAccount/step.tsx'), /<CreditLimitCard/);
+  assert.match(read('src/capabilities/Billing/step.tsx'), /<CreditLimitCard/);
 });
 
 test('a new account takes the agent\'s choice only when it is one of the options (HRN: never); the default otherwise', async () => {
@@ -221,6 +221,6 @@ test('12. every credit-limit change is audited: new account, agent change, Credi
   assert.equal(cl.creditLimitAuditRecord({ recordId: 'A', toQar: 50, by: 'x', how: 'Default on a new account' }).oldValue, undefined);
   // The audit rows are shown by Customer 360's Audit Trail, which joins on the account id.
   assert.match(read('src/engines/customer360Engine.ts'), /auditTrail\.filter\(\(r\) => recordIds\.has/);
-  assert.match(read('src/capabilities/BillingAccount/persistBillingAccount.ts'), /'audit-trail'/);
+  assert.match(read('src/capabilities/Billing/persistBillingAccount.ts'), /'audit-trail'/);
   assert.match(read('src/workspace/customer360/creditLimitChange.ts'), /how: 'Set by Credit Control'/);
 });

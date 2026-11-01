@@ -9,6 +9,7 @@ import { actualUserOrderFields, saveActualUserContact } from '../../capabilities
 import type { ActualUserValue } from '../../capabilities/ActualUser';
 import { hrnAdvanceQar } from '../../engines/hrnConfiguration';
 import { usePersonaStore } from '../../stores/personaStore';
+import { managerRoleOfSubmitter } from '../../data/approvalRouting';
 import { defaultBillLimitQar, formatQar, monthlyCharges } from '../../engines/postpaidPricing';
 import { effectiveCreditLimitQar, emailVerification, maskEmail, persistBillingAccount } from '../../capabilities';
 import { orderTerms, primaryContactMobile } from '../../capabilities';
@@ -103,6 +104,8 @@ export async function submitNewConnectionOrder(
       const lineDecision = eligibility?.connectionDecision;
       const creditControl = lineDecision ? needsCreditControl(lineDecision) : lineLimitApproval;
       const idTypeRouting = eligibility?.checks.some((c) => c.id === 'id-type-routing' && c.outcome === 'approval-routing') ?? false;
+      // A postpaid Passport is approved by the submitting agent's manager (data/approvalRouting.ts); a persona with no manager route keeps Credit Control.
+      const passportManagerRole = idTypeRouting && contact.idType === 'Passport' ? managerRoleOfSubmitter(usePersonaStore.getState().activePersonaId) : undefined;
       const waiver = isNumberWaiver(values.numberWaiver) ? values.numberWaiver : undefined;
       const waivedAmountQar = checkoutTotals?.numberWaivedQar ?? 0;
       const waived = Boolean(waiver) && waivedAmountQar > 0;
@@ -178,7 +181,7 @@ export async function submitNewConnectionOrder(
       const approvalReason = pendingApproval ? [
                 lineLimitApproval ? (lineDecision ? `Line approval required - ${approvalMessages(lineDecision)}` : `Active postpaid line limit reached - ${activeLinesCheck?.message?.split('\nApproval Routing')[0]}`) : '',
                 manualIdEntry ? 'Identity manually entered - Store Manager approval required' : '',
-                idTypeRouting ? 'ID type requires Credit Control approval - routed to Credit Control' : '',
+                idTypeRouting ? (passportManagerRole ? `Passport requires ${passportManagerRole} approval - routed to ${passportManagerRole}` : 'ID type requires Credit Control approval - routed to Credit Control') : '',
                 eligibility?.checks.some((c) => c.id === 'id-validity' && c.outcome === 'approval-routing') ? 'ID expiry date not on file - routed for approval' : '',
                 eligibility?.requiresHrnAdvance ? `HRN customer - ${formatQar(hrnAdvanceQar({ nationality: eligibility?.nationality, personaId: usePersonaStore.getState().activePersonaId }))} advance payment applies` : '',
                 isB2B2COrder(contact, customerType) ? 'B2B2C employee - Proof of Employment to be verified' : '',
@@ -216,7 +219,7 @@ export async function submitNewConnectionOrder(
               approvalReason,
               // Line-limit cases go to the Collection Team (Credit Control), a manual-entry order to the Store Manager, and an order
               // routed for its ID type to Credit Control as well.
-              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : idTypeRouting ? COLLECTION_TEAM_ROLE : undefined,
+              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined,
             }
           : {}),
         customerName: contact.moiResult?.name,

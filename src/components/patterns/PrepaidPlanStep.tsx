@@ -59,6 +59,8 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
         all
           .filter((p) => p.type === 'Prepaid Plan' && p.productId !== hiddenProductId && (!packsOnly || (p.dataAllowanceGB != null || p.packValidityDays != null)) && (!p.eligibleSegments || p.eligibleSegments.includes(customerSegment)))
           .sort((a, b) => a.starterPackChargeQAR - b.starterPackChargeQAR)
+          // The Popular pack is listed first, as on every postpaid tab; the rest stay in starter-pack-charge order.
+          .sort((a, b) => Number(Boolean(b.popular)) - Number(Boolean(a.popular)))
       );
     });
   }, [customerSegment, hiddenProductId, packsOnly]);

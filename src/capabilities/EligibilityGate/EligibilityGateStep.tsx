@@ -82,6 +82,8 @@ interface EligibilityGateStepProps {
    * started as New Prepaid says 'prepaid' here, so the Prepaid-only under-18 exception is offered at Customer Verification. Defaults to `journeyType`.
    */
   exceptionJourney?: string;
+  /** The role a postpaid Passport order is routed to (the submitter's manager), when the journey routes it there; see EligibilityContext.passportApprover. */
+  passportApprover?: string;
   /**
    * 'common' (Customer Verification, before a product is chosen): only the checks that are the same for every product.
    * 'product' (default): the full set for `journeyType`, once the agent has chosen the product.
@@ -127,6 +129,7 @@ export function EligibilityGateStep({
   result,
   journeyType = 'postpaid',
   exceptionJourney,
+  passportApprover,
   scope = 'product',
   portIn = false,
   showRow,
@@ -345,6 +348,7 @@ export function EligibilityGateStep({
           journeyType,
           scope,
           portIn,
+          passportApprover,
           under18Exception: under18ExceptionOffered({ journey: exceptionJourney ?? journeyType, personaId, idType: doc.documentType ?? match.idType }) ? (exceptionChosen ? 'chosen' : 'available') : undefined,
         },
         new Date()
@@ -426,7 +430,7 @@ export function EligibilityGateStep({
     // this effect every time onResult fires - an infinite update loop caught
     // live via the ErrorBoundary ("Maximum update depth exceeded").
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idNumber, journeyType, scope, portIn, cached, retryNonce, newIdentity?.nationality, newIdentity?.dob, newIdentity?.expiryDate, linkedIdDocument?.customerId, exceptionChosen, personaId, exceptionJourney]);
+  }, [idNumber, journeyType, scope, portIn, cached, retryNonce, newIdentity?.nationality, newIdentity?.dob, newIdentity?.expiryDate, linkedIdDocument?.customerId, exceptionChosen, personaId, exceptionJourney, passportApprover]);
 
   // Nothing to show before an identity is resolved - this panel lives
   // permanently inside the Contact step now (2026-09-28, no more separate

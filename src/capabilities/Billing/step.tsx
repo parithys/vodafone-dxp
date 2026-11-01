@@ -1,11 +1,11 @@
 import type { GuidedContactValue } from '../../components/patterns/guidedContactModel';
 import { accountTypeForJourney } from '../../engines/creditLimit';
 import { CreditLimitCard } from '../../components/patterns/CreditLimitCard';
-import { billingAccountSummary } from './summary';
+import { billingSummary } from './summary';
 import { displayedEmail, displayedMobile, primaryContactMobile } from '../../components/patterns/guidedContactModel';
 import type { EligibilityResult } from '../../components/domain/eligibilityTypes';
 import type { ZsbAddressValue } from '../../components/patterns/ZsbAddressStep';
-import { BillingAccount } from './BillingAccount';
+import { Billing } from './Billing';
 import { toLocalMsisdn } from '../../components/domain/msisdnPickerModel';
 import { BillingAccountAutoResolver } from '../../components/patterns/BillingAccountAutoResolver';
 import { BILLING_PROFILE_LABEL } from '../../data/stepLabels';
@@ -28,7 +28,7 @@ import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTy
 // "VIP" segment/7th-of-month default have no evidence anywhere in
 // this corpus).
 type BillingJourney = 'postpaid' | 'fixed-line';
-export function billingAccountStep(
+export function billingStep(
   opts: {
     /** What the new profile is for, in its name ("... - Postpaid"). */
     profileSuffix?: string;
@@ -38,7 +38,7 @@ export function billingAccountStep(
 ): WizardStep {
   return {
     key: 'billingAccount',
-    summary: billingAccountSummary,
+    summary: billingSummary,
     // Passed over on the way forward, always: an existing billing account is selected automatically, or one is created when there is none (never
     // reported as a problem): BillingAccountAutoResolver, mounted by the wizard for this step wherever the journey enters it (a journey that skips
     // Product Selection included). A new account takes the default credit limit for the segment (the agent's choice, if any, still wins). The step
@@ -79,7 +79,7 @@ export function billingAccountStep(
       const nationality = eligibility?.nationality ?? (values.contact as GuidedContactValue | undefined)?.moiResult?.nationality;
       return (
         <>
-        <BillingAccount
+        <Billing
           customerId={eligibility?.customerId}
           defaultAddressLine={defaultAddressLine}
           value={(values.billingAccount as BillingAccountValue) ?? {}}

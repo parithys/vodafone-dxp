@@ -5,8 +5,8 @@ import fs from 'node:fs';
 import { load, close } from './harness.mjs';
 
 test('the Billing Profile step resolves itself (headless) once the customer is identified, and not before', async () => {
-  const { billingAccountStep } = await load('/src/capabilities/BillingAccount/step.tsx');
-  const step = billingAccountStep({ profileSuffix: 'Fixed Line' });
+  const { billingStep } = await load('/src/capabilities/Billing/step.tsx');
+  const step = billingStep({ profileSuffix: 'Fixed Line' });
   assert.equal(step.autoPass({}), true);
   assert.equal(step.headless({ values: {}, setValue() {} }), null);
   const el = step.headless({ values: { contact: { moiResult: { name: 'Aisha' } }, eligibility: { customerId: 'CUST-3084' } }, setValue() {} });
@@ -28,7 +28,7 @@ test('an existing profile is selected, otherwise a default one is created', asyn
 test.after(close);
 
 test('editing an existing billing account saves what the agent changed onto that account\'s profile; an unedited one writes nothing', async () => {
-  const { persistBillingAccount } = await load('/src/capabilities/BillingAccount/persistBillingAccount.ts');
+  const { persistBillingAccount } = await load('/src/capabilities/Billing/persistBillingAccount.ts');
   const updates = [];
   const ctx = { createRecord: async () => {}, updateRecord: async (...a) => void updates.push(a), kind: 'Consumer Mobile Postpaid' };
   const edit = { selectedProfileId: 'BILL-1', editingProfileId: 'BILL-1', newAccount: { editAddressLine: ' Zone 55, Street 12, Doha ', primaryContactName: 'Fatima Al-Marri', billCycleDay: 7, billingMode: 'Arrears', profileName: 'Fatima - Billing', billMedia: 'Email' } };
@@ -146,8 +146,8 @@ test('a salutation the agent enters is saved to the customer profile; none enter
 });
 
 test('Continue passes over the Billing Profile for every customer, including a new account being created; it stays reachable from the rail', async () => {
-  const { billingAccountStep } = await load('/src/capabilities/BillingAccount/step.tsx');
-  const step = billingAccountStep();
+  const { billingStep } = await load('/src/capabilities/Billing/step.tsx');
+  const step = billingStep();
   assert.equal(step.autoPass({}), true);
   assert.equal(step.autoPass({ billingAccount: { creatingNew: true } }), true, 'a new account no longer stops the journey');
   assert.equal(step.autoPass({ billingAccount: { selectedProfileId: 'BILL-7001' } }), true);
@@ -155,7 +155,7 @@ test('Continue passes over the Billing Profile for every customer, including a n
 
 test('a new account records the bill type and language (Detailed / English unless changed) and the optional VAT details; the VAT expiry must be a real DD/MM/YYYY date', async () => {
   const model = await load('/src/components/patterns/billingAccountModel.ts');
-  const { persistBillingAccount } = await load('/src/capabilities/BillingAccount/persistBillingAccount.ts');
+  const { persistBillingAccount } = await load('/src/capabilities/Billing/persistBillingAccount.ts');
   assert.deepEqual(model.BILL_TYPES.map((o) => o.value), ['Detailed', 'Summary']);
   assert.deepEqual(model.BILL_LANGUAGES.map((o) => o.value), ['English', 'Arabic']);
   assert.equal(model.DEFAULT_BILL_TYPE, 'Detailed');
@@ -179,7 +179,7 @@ test('a new account records the bill type and language (Detailed / English unles
 });
 
 test('the billing contacts come from the account: the chosen primary contact\'s own record supplies their details, an optional secondary contact is saved by name with theirs, and the customer\'s own details are kept when they are the primary', async () => {
-  const { persistBillingAccount } = await load('/src/capabilities/BillingAccount/persistBillingAccount.ts');
+  const { persistBillingAccount } = await load('/src/capabilities/Billing/persistBillingAccount.ts');
   const run = async (newAccount) => {
     const created = [];
     await persistBillingAccount({ creatingNew: true, newAccount }, { createRecord: async (kind, rec) => void created.push({ kind, rec }), kind: 'Consumer Mobile Postpaid', customerId: 'CUST-1', contactName: 'Ahmed Customer', contactEmail: 'ahmed@example.qa', contactPhone: '+97455512001', creditLimitQar: 1000, nationality: 'Egyptian', agentId: 'USR-1' });

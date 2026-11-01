@@ -77,16 +77,16 @@
     ]
   },
   {
-    "id": "billing-account",
-    "name": "Billing Account",
+    "id": "billing",
+    "name": "Billing",
     "status": "consolidated",
-    "home": "capabilities/BillingAccount",
-    "entry": "BillingAccount",
+    "home": "capabilities/Billing",
+    "entry": "Billing",
     "stepBuilders": [
-      "billingAccountStep"
+      "billingStep"
     ],
     "stepLabel": "BILLING_PROFILE_LABEL",
-    "summary": "Set up what an order bills to: one layout everywhere - the customer's existing billing accounts, or Create New Billing Account (contact, billing address, payment, card on file, primary payment profile, billing profile setup).",
+    "summary": "Set up what an order bills to, as the New Postpaid journey does: the customer's existing billing accounts, or Create New Billing Account (contact, billing address, payment, card on file, primary payment profile, billing profile setup, credit limit); an existing account is selected, or a new one created, automatically.",
     "parts": [
       "components/patterns/BillingAccountStep.tsx",
       "components/patterns/BillingAccountAutoResolver.tsx",

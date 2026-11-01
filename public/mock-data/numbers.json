@@ -1212,5 +1212,24 @@
     "category": "Free",
     "status": "AVAILABLE",
     "priceQAR": 0
+  },
+  {
+    "msisdn": "+97455551234",
+    "category": "Star",
+    "status": "BLOCKED",
+    "priceQAR": 18000,
+    "valueTier": "Gold",
+    "blockedByTeam": "Retail Sales",
+    "blockedReason": "Reserved for Villaggio Mall Branch",
+    "_note": "App-level demo addition (2026-11-01) - a blocked Star number for the Blocked Numbers tab, which finds a blocked number only by its full 8 digits and shows who blocked it and why. The blocking team and reason are demo values: no source names them."
+  },
+  {
+    "msisdn": "+97433009998",
+    "category": "Free",
+    "status": "BLOCKED",
+    "priceQAR": 0,
+    "blockedByTeam": "Premium",
+    "blockedReason": "Held while a customer dispute is open",
+    "_note": "App-level demo addition (2026-11-01) - a blocked Free number for the Blocked Numbers tab (blocking team and reason are demo values)."
   }
 ]

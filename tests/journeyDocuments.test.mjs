@@ -133,7 +133,7 @@ test('a VAT registration number on a new billing account needs its document befo
   const needed = (vat) => jd.requiredDocumentsFor({ values: { billingAccount: { creatingNew: true, newAccount: { vatRegistrationNumber: vat } } }, journey: 'new-connection', personaId: 'ROLE-01' }).map((r) => r.id);
   assert.ok(needed('300123456700003').includes(req.id));
   assert.ok(!needed('   ').includes(req.id), 'a blank number asks for nothing');
-  const step = read('src/capabilities/BillingAccount/step.tsx');
+  const step = read('src/capabilities/Billing/step.tsx');
   assert.match(step, /vatRegistrationNumber\?\.trim\(\)\) \{\s*const req = requirementForCondition\('vat-registration'\)/, 'Continue is gated on the document');
   assert.match(step, /requirementId === vatRequirement\.id/);
   assert.match(read('src/components/patterns/BillingAccountStep.tsx'), /newAccount\.vatRegistrationNumber\?\.trim\(\) &&[\s\S]*SupportingDocumentField/, 'the upload shows once a number is entered');

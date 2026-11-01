@@ -22,7 +22,7 @@ before(async () => {
   engine = await load('/src/engines/customer360Engine.ts');
   card = await load('/src/components/patterns/CreditLimitCard.tsx');
   model = await load('/src/components/patterns/billingAccountModel.ts');
-  persist = await load('/src/capabilities/BillingAccount/persistBillingAccount.ts');
+  persist = await load('/src/capabilities/Billing/persistBillingAccount.ts');
   change = await load('/src/workspace/customer360/creditLimitChange.ts');
 });
 after(close);
@@ -40,7 +40,7 @@ test('1. one source for the account type: every submit reads it from the journey
     assert.ok(!/'Consumer (Mobile|Fixed)[^']*'/.test(src.replace(/\/\/.*$/gm, '')), `${f} still hard-codes an account type`);
   }
   assert.equal(cl.accountTypeForJourney('fixed-line'), 'Consumer Fixed Line (GigaHome)');
-  const step = read('src/capabilities/BillingAccount/step.tsx');
+  const step = read('src/capabilities/Billing/step.tsx');
   assert.match(step, /accountType=\{accountTypeForJourney\(/);
   assert.match(read('src/modules/fixed-line-fibre/fixedActivation/fixedSteps.tsx'), /journey: 'fixed-line'/);
   assert.match(read('src/modules/new-connection/connectionSteps.tsx'), /values\.product === 'fixed-line' \? 'fixed-line' : 'postpaid'/);

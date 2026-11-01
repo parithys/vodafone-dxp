@@ -1,7 +1,7 @@
 import type { SummaryField } from '../../components/patterns/wizard/stepSummary';
 import { at } from '../summaryKit';
 
-export const billingAccountSummary: SummaryField[] = [
+export const billingSummary: SummaryField[] = [
   {
     key: 'account',
     label: 'Billing Account',

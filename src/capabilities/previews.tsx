@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ActivityComments } from './ActivityComments';
 import { ActivationComplete } from './ActivationComplete';
@@ -11,6 +11,8 @@ import { Drawer } from './SideDrawer';
 import { AdditionalDocumentsUpload } from './DocumentUpload';
 import { EmptyState } from './EmptyState';
 import type { AdditionalDocument } from './DocumentUpload';
+import * as mockDataEngine from '../engines/mockDataEngine';
+import { starEntitlementQar } from '../engines/postpaidPricing';
 import { useNotificationStore } from '../stores/notificationStore';
 import { useWorkflowStore } from '../stores/workflowStore';
 import { GuidedActivationWizard } from './GuidedActivationWizard';
@@ -20,7 +22,7 @@ import type { WizardStep } from '../components/patterns/wizard/guidedWizardTypes
 import { Button } from '../components/primitives/Button';
 import { SegmentedTabs } from '../components/primitives/SegmentedTabs';
 import { AppointmentBooking } from './AppointmentBooking';
-import { BillingAccount } from './BillingAccount';
+import { billingStep } from './Billing';
 import { CafSignature } from './CafSignature';
 import { LineSelection } from './LineSelection';
 import { RechargeSelection } from './RechargeSelection';
@@ -29,7 +31,7 @@ import { CheckoutSummary, PrepaidCheckout } from './CheckoutSummary';
 import { CustomerIdentification } from './CustomerIdentification';
 import { SpecialDiscountsIdentification } from './SpecialDiscountsIdentification';
 import { ActualUser } from './ActualUser';
-import { NumberSelection } from './NumberSelection';
+import { numberSelectionStep } from './NumberSelection';
 import { Payment } from './Payment';
 import { PlanSelection } from './PlanSelection';
 import { ServiceAddress } from './ServiceAddress';
@@ -52,13 +54,61 @@ function ActualUserPreview() {
   const [v, setV] = useState({});
   return <ActualUser value={v} onChange={setV} primaryIdNumber="28456701234" primaryCustomerId="CUST-1001" />;
 }
+// The Number Selection step exactly as the New Postpaid journey renders it (numberSelectionStep with the same options): the title-row Refresh,
+// the plan's Star entitlement note and "Show within my entitlement", the Upfront Charge on each Star card, and Waive Off beside Continue. The
+// plan is PROD-107, as in the plan previews, so the entitlement is the one a journey on that plan shows.
 function Number() {
-  const [n, setN] = useState<string | undefined>();
-  return <NumberSelection value={n} onChange={(m) => setN(m)} />;
+  const [values, setValues] = useState<Record<string, unknown>>({ productId: 'PROD-107' });
+  const [plan, setPlan] = useState<{ mrcQAR: number; starNumberEntitlementQar?: number } | undefined>();
+  useEffect(() => {
+    void mockDataEngine.list<{ productId: string; mrcQAR: number; starNumberEntitlementQar?: number }>('products').then((all) => setPlan(all.find((p) => p.productId === 'PROD-107')));
+  }, []);
+  const setValue = (field: string, value: unknown) => setValues((v) => ({ ...v, [field]: value }));
+  const step = useMemo(
+    () =>
+      numberSelectionStep({
+        priceField: 'numberPriceQAR',
+        refresh: true,
+        waiveOff: true,
+        plan: () => (plan ? { mrcQar: plan.mrcQAR, starEntitlementQar: starEntitlementQar(plan) } : undefined),
+      }),
+    [plan]
+  );
+  const none = () => {};
+  const ctx = { values, setValue, goNext: none, goToStepKey: none, saveDraft: async () => {}, saveAndExit: async () => {}, requestAbandon: none };
+  const defaultButton = (
+    <Button variant="primary" disabled={!step.isValid?.(values)}>
+      Continue
+    </Button>
+  );
+  return (
+    <div className="space-y-3">
+      <div className="flex justify-end">{step.headerAction?.({ values, setValue })}</div>
+      {step.render(ctx as Parameters<typeof step.render>[0])}
+      <div className="flex justify-end">{step.primaryAction?.({ values, setValue, goNext: none, abandon: none, defaultButton })}</div>
+    </div>
+  );
 }
+// The Billing step exactly as the New Postpaid journey renders it - the step's own render and headless resolver, with the values the journey
+// would hold by then (an identified customer who already has a billing account, and the address from the Address step) - so the library
+// shows the journey's layout, credit limit, VAT document and auto-selection, never a second hand-assembled copy.
+const BILLING_SAMPLE: Record<string, unknown> = {
+  contact: { idNumber: '28512345678', moiResult: { name: 'Ahmed Abdulla Hassan Al-Sulaiti', nationality: 'Qatari', phone: '55123456', isNewCustomer: false } },
+  eligibility: { customerId: 'CUST-1001', nationality: 'Qatari', segment: 'Consumer' },
+  address: { streetNo: '12', zone: '45', area: 'Doha', addressLine: '' },
+};
 function Billing() {
-  const [v, setV] = useState({});
-  return <BillingAccount customerId={undefined} defaultAddressLine={undefined} value={v} onChange={setV} customerName="Sample Customer" />;
+  const [values, setValues] = useState<Record<string, unknown>>(BILLING_SAMPLE);
+  const setValue = (field: string, value: unknown) => setValues((v) => ({ ...v, [field]: value }));
+  const step = useMemo(() => billingStep(), []);
+  const none = () => {};
+  const ctx = { values, setValue, goNext: none, goToStepKey: none, saveDraft: async () => {}, saveAndExit: async () => {}, requestAbandon: none };
+  return (
+    <>
+      {step.headless?.({ values, setValue })}
+      {step.render(ctx as Parameters<typeof step.render>[0])}
+    </>
+  );
 }
 function Address() {
   const [v, setV] = useState({});
@@ -460,7 +510,7 @@ export const CAPABILITY_PREVIEWS: Record<string, () => ReactNode> = {
   'special-discounts-identification': () => <SpecialDiscountsId />,
   'actual-user': () => <ActualUserPreview />,
   'number-selection': () => <Number />,
-  'billing-account': () => <Billing />,
+  billing: () => <Billing />,
   'service-address': () => <Address />,
   'plan-selection': () => <Plan />,
   'caf-signature': () => <Caf />,

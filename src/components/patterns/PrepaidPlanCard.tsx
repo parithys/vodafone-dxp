@@ -1,7 +1,6 @@
 import { Icon } from '../primitives/Icon';
-import { Button } from '../primitives/Button';
 import { ConnectionTypeTag } from '../primitives/ConnectionTypeTag';
-import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick } from '../primitives/offerCardParts';
+import { CARD_IDLE, CARD_SELECTED, SelectedTick } from '../primitives/offerCardParts';
 import { CHEVRON_RIGHT, ICON_CALL, ICON_CARD, ICON_DATA, STAR } from '../../assets/icons';
 import type { PrepaidPlan } from './prepaidPlanModel';
 import { formatQar, formatAmount } from '../../lib/format';
@@ -18,7 +17,8 @@ interface PrepaidPlanCardProps {
 
 /**
  * A prepaid pack card: the same card as a postpaid plan (PostpaidPlanCard) - Popular flag and service tag on top, name,
- * price, the allowances as icon rows, View details and Select. The whole card selects; clicking it again unselects.
+ * price, the allowances as icon rows and View details. No button: the whole card selects, clicking it again unselects, and Popular is only the
+ * flag (the card keeps the default, hover and selected looks of every plan card).
  */
 export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDeselectProduct, setDetailPack }: PrepaidPlanCardProps) {
   const selected = selectedProductId === p.productId;
@@ -42,7 +42,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
         }
       }}
       className={`relative flex flex-col gap-3 rounded-[var(--radius-card)] border p-5 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
-        selected ? CARD_SELECTED : p.popular ? CARD_HIGHLIGHT : CARD_IDLE
+        selected ? CARD_SELECTED : CARD_IDLE
       }`}
     >
       {selected && <SelectedTick />}
@@ -72,7 +72,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
           ))}
         </ul>
       </div>
-      <div className="flex items-center justify-between gap-3 pt-1">
+      <div className="flex items-center pt-1">
         <button
           type="button"
           onClick={(e) => {
@@ -80,15 +80,11 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
             setDetailPack(p);
           }}
           aria-label={`View details for ${p.name}`}
-          className="inline-flex items-center gap-1 whitespace-nowrap rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)]"
+          className="inline-flex min-h-6 items-center gap-1 rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)] font-medium"
         >
           View details
           <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
         </button>
-        {/* Presentational: the card is the control, so this must not take focus or fire a second toggle. */}
-        <Button variant={selected ? 'primary' : 'secondary'} tabIndex={-1} aria-hidden className="pointer-events-none whitespace-nowrap">
-          {selected ? 'Selected' : 'Select pack'}
-        </Button>
       </div>
     </div>
   );

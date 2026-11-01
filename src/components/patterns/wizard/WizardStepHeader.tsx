@@ -42,7 +42,8 @@ export function WizardStepHeader({
             </div>
         </div>
       )}
-        <div className={`flex min-h-[39px] flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4 ${trayAside ? 'lg:pr-[22rem]' : showCustomerView && action ? 'sm:pr-[26rem]' : showCustomerView || action ? 'sm:pr-48' : ''}`}>
+        {/* Below sm the floating actions have no room beside the title, so they take their own row above it (max-sm:pt-12). */}
+        <div className={`flex min-h-[39px] flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4 ${trayAside ? 'lg:pr-[22rem]' : showCustomerView && action ? 'sm:pr-[26rem]' : showCustomerView || action ? 'sm:pr-48' : ''} ${showCustomerView || action ? 'max-sm:pt-12' : ''}`}>
           <div>
             {currentStep?.eyebrow && (
               <p className="text-[var(--tint-teal-fg)] text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide mb-1">{currentStep.eyebrow}</p>

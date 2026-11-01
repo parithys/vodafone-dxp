@@ -51,7 +51,7 @@
       ],
       "bypass": []
     },
-    "billing-account": {
+    "billing": {
       "areas": [
         "modules/fixed-line-fibre",
         "modules/fwa-5g-home",

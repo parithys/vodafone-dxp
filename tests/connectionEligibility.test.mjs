@@ -160,11 +160,11 @@ test('a QID is unaffected: no ID type result and no extra approval', async () =>
   assert.ok(!checks.some((c) => c.outcome === 'approval-routing'));
 });
 
-test('an order routed for its ID type goes to Credit Control, in New Connection and Prepaid', () => {
+test('an order routed for its ID type goes to Credit Control, in New Connection and Prepaid (a New Postpaid Passport from a persona with a manager goes to that manager instead - passportApproval.test.mjs)', () => {
   for (const f of ['src/modules/new-connection/submitNewConnectionOrder.ts', 'src/modules/mobile-prepaid/screens/submitPrepaidOrder.ts']) {
     const src = fs.readFileSync(f, 'utf8');
     assert.match(src, /ID type requires Credit Control approval - routed to Credit Control/, f);
     assert.ok(!/ID type cannot be sold directly/.test(src), `${f} no longer words it as Back Office Fulfilment`);
   }
-  assert.match(fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8'), /idTypeRouting \? COLLECTION_TEAM_ROLE/);
+  assert.match(fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8'), /idTypeRouting \? passportManagerRole \?\? COLLECTION_TEAM_ROLE/);
 });

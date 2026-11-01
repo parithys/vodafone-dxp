@@ -3,6 +3,8 @@ import type { GuidedContactValue } from '../../../capabilities';
 import type { EligibilityResult } from '../../../components/domain/eligibilityTypes';
 import { LAUNCH_CUSTOMER_KEY } from '../../../components/patterns/wizard/useJourneyStartResume';
 import { connectionOf, eligibilityJourney } from '../products';
+import { managerRoleOfSubmitter } from '../../../data/approvalRouting';
+import { usePersonaStore } from '../../../stores/personaStore';
 
 /** Passport BAU/Credit Control approvals (PB-*) come from the ID type, so they are announced at Customer Verification, not repeated here. */
 const isPassportOnly = (ruleIds: string[] | undefined) => !!ruleIds?.length && ruleIds.every((id) => id.startsWith('PB-'));
@@ -29,6 +31,7 @@ export function ProductEligibility({
   deferredApprovals?: boolean;
 }) {
   const product = values.product as string | undefined;
+  const personaId = usePersonaStore((s) => s.activePersonaId);
   const contact = values.contact as GuidedContactValue | undefined;
   const eligibility = values.eligibility as EligibilityResult | undefined;
   if (!product || !contact?.moiResult) return null;
@@ -45,6 +48,8 @@ export function ProductEligibility({
       journeyType={eligibilityJourney(values)}
       connectionType={connectionOf(values)}
       scope="product"
+      // A Passport on New Postpaid is approved by the submitting agent's manager (submitNewConnectionOrder routes it the same way).
+      passportApprover={product === 'postpaid' ? managerRoleOfSubmitter(personaId) : undefined}
       portIn={product === 'mnp'}
       // The customer's checks were shown at Customer Verification. Here only what this product changes: everything for Prepaid (it judges
       // ID type and line limit by its own rules), otherwise just what blocks the product, the port-in dues and the approval the line count asks for.

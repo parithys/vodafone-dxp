@@ -20,6 +20,7 @@ import { submitFixedActivationOrder } from '../fixed-line-fibre/fixedActivation/
 import { submitMnpOrder } from '../mnp-fnp-porting/screens/submitMnpOrder';
 import { detectDeviceType } from '../../lib/deviceType';
 import { homeProductLabel, productLabel } from './products';
+import { productStepIndex } from './steps/productChoice';
 import type { ConnectionProduct, HomeProduct } from './products';
 import {
   ActivationComplete,
@@ -78,6 +79,8 @@ export function NewConnectionWizard({
   const [device] = useState(detectDeviceType);
   const product = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values?.product) as ConnectionProduct | undefined;
   const homeProduct = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values?.homeProduct) as HomeProduct | undefined;
+  const productPreselected = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values?.productPreselected) as boolean | undefined;
+  const draftValues = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values);
 
   // Existing Customer: the route names the customer, so their name sits under the title from the start.
   const [routeCustomerName, setRouteCustomerName] = useState<string | undefined>();
@@ -106,6 +109,14 @@ export function NewConnectionWizard({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialProduct, isMirrorWindow, WIZARD_ID]);
+
+  // The page title names the journey the agent chose (New Postpaid, New Fixed Line, New MNP, New Prepaid) from the screen after the choice
+  // onward, and stays for the rest of the journey. On the Product Selection page itself, where the choice is still being made, it stays
+  // the generic New Connection - unless an entry point already chose the product.
+  const onProductStep = journey !== 'home' && (draftStep ?? 0) === productStepIndex(journey, draftValues ?? {});
+  const chosenLabel = productLabel(product);
+  const journeyTitle =
+    journey === 'home' ? 'New Home Connection' : chosenLabel && (!onProductStep || productPreselected) ? chosenLabel : 'New Connection';
 
   if (heldByAnotherJourney && !isMirrorWindow) return null; // redirecting to the journey that holds the customer
 
@@ -145,7 +156,7 @@ export function NewConnectionWizard({
         fixedFooter={fixedFooter}
         showSelectedAddonsTray={product === 'postpaid'}
         allowCustomerView={device === 'web'} // a second customer-facing window has no use on a tablet or phone
-        title={title ?? (journey === 'home' ? 'New Home Connection' : 'New Connection')}
+        title={title ?? journeyTitle}
         draftActionLabel={
           product === 'fixed-line' && homeProduct
             ? `${homeProductLabel(homeProduct)} Activation`.replace('New ', '')

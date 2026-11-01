@@ -1,5 +1,5 @@
 import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTypes';
-import { billingAccountStep, customerQualificationStep, serviceAddressStep } from '../../capabilities';
+import { billingStep, customerQualificationStep, serviceAddressStep } from '../../capabilities';
 import type { GuidedContactValue } from '../../components/patterns/guidedContactModel';
 import type { QualificationContext } from '../../capabilities';
 import type { DeviceType } from '../../lib/deviceType';
@@ -33,15 +33,15 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
     return [customerQualificationStep({ ...ctx, productAgnostic: true }), productStep(ctx), ...forProduct('fixed-line', fixedLineSteps())];
   }
   // The Address and the Billing Profile are collected once, after Customer Verification and BEFORE Recommended Offers, for every product:
-  // each product's own list drops its copy (a product that has no billing profile skips the shared one, see billingStep below).
+  // each product's own list drops its copy (a product that has no billing profile skips the shared one, see otherBilling below).
   const shared = (steps: WizardStep[]) => steps.filter((s) => !SHARED_KEYS.includes(s.key));
   // Fixed Line keeps its Installation Address: it needs the connection type chosen after this point, and has its own mandatory fields.
   const installation = fixedLineSteps().filter((s) => s.key !== 'billingAccount').map((s) => (s.key === 'address' ? { ...s, key: 'installation' } : s));
   const billingJourney = (values: Record<string, unknown>): 'fixed-line' | 'postpaid' => (values.product === 'fixed-line' ? 'fixed-line' : 'postpaid');
   // New Postpaid takes its Billing right after SIM Selection (before the Order Summary), so the early copy is out of the way while the product is
   // undecided or Postpaid; every other product keeps Billing where it was, after Address.
-  const billingStep: WizardStep = { ...billingAccountStep({ journey: billingJourney }), skip: (values) => !billingStepActive(values) || values.product === undefined || values.product === 'postpaid' };
-  const postpaidBilling: WizardStep = { ...billingAccountStep({ journey: () => 'postpaid' }), skip: (values) => values.product !== 'postpaid' };
+  const otherBilling: WizardStep = { ...billingStep({ journey: billingJourney }), skip: (values) => !billingStepActive(values) || values.product === undefined || values.product === 'postpaid' };
+  const postpaidBilling: WizardStep = { ...billingStep({ journey: () => 'postpaid' }), skip: (values) => values.product !== 'postpaid' };
   const postpaid = shared(postpaidSteps(ctx));
   const atReview = postpaid.findIndex((s) => s.key === 'addonReview');
   const atCheckout = postpaid.findIndex((s) => s.key === 'checkout');
@@ -63,7 +63,7 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
         return contact?.moiResult?.isNewCustomer ? undefined : { idNumber: contact?.idNumber, nationality: contact?.moiResult?.nationality };
       },
     }),
-    billingStep,
+    otherBilling,
     productStep(ctx),
     productCardsStep(ctx),
     ...forProduct('postpaid', postpaidInOrder),

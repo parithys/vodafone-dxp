@@ -296,6 +296,23 @@ select:not([multiple]):not([size]):not(.appearance-none) {
   .card-surface {
     background-color: var(--surface);
   }
+  /* The selected mark on a selectable card (SelectedTick): a red circle with a tick on the card's top-right corner. The card must be
+     `relative`; the tick is only rendered while the card is selected. */
+  .card-tick {
+    position: absolute;
+    top: -0.625rem;
+    right: -0.625rem;
+    z-index: var(--z-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: var(--radius-circle);
+    background-color: var(--accent);
+    color: var(--accent-on);
+    box-shadow: var(--shadow-selected-ring);
+  }
   /* The fill follows what the button sits on: the page tint on a white surface (card, dialog, header band), white on the
      grey page itself - a page-tint button there would disappear into the background. The surface sets the pair below. */
   #main-content {

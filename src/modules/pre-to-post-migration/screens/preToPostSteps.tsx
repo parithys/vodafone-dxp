@@ -1,6 +1,6 @@
 import type { WizardStep } from '../../../components/patterns/wizard/guidedWizardTypes';
 import {
-  billingAccountStep,
+  billingStep,
   cafSignatureStep,
   checkoutSummaryStep,
   customerQualificationStep,
@@ -33,7 +33,7 @@ export function preToPostSteps(
         setValue('msisdn', line?.identifier);
       },
     }),
-    billingAccountStep(),
+    billingStep(),
     postpaidPlanStep(planContext),
     postpaidExtrasStep(planContext),
     checkoutSummaryStep(),

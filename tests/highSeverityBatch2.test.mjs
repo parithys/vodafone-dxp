@@ -54,7 +54,7 @@ test('A bound journey refuses a registry-only ID that no customer holds, instead
 test('Billing auto-resolver selects only an account of the journey\'s type', () => {
   const r = read('src/components/patterns/BillingAccountAutoResolver.tsx');
   assert.match(r, /a\.accountType === accountType \|\| a\.accountType\.startsWith/);
-  assert.match(read('src/capabilities/BillingAccount/step.tsx'), /accountType=\{accountTypeForJourney\(/);
+  assert.match(read('src/capabilities/Billing/step.tsx'), /accountType=\{accountTypeForJourney\(/);
   assert.match(read('src/capabilities/CustomerQualification/step.tsx'), /accountType=\{accountTypeForJourney\('postpaid'\)\}/);
 });
 

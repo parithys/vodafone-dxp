@@ -1,5 +1,5 @@
 import { SERVICE_ADDRESS_LABEL } from '../../../data/stepLabels';
-import { addressSummary, billingAccountStep, cafSignatureStep, checkoutSummaryStep, fixedPlanSelectionStep, paymentStep } from '../../../capabilities';
+import { addressSummary, billingStep, cafSignatureStep, checkoutSummaryStep, fixedPlanSelectionStep, paymentStep } from '../../../capabilities';
 import { InstallationAddressStep, NumberDevicesStep } from './FixedStepViews';
 import type { ZsbAddressValue } from '../../../components/patterns/ZsbAddressStep';
 import { appointmentBookingStep } from '../../../capabilities';
@@ -79,5 +79,5 @@ export function fixedCafStep(): WizardStep {
  * both 5G Home (FWA) service types.
  */
 export function fixedLineSteps(): WizardStep[] {
-  return [fixedAddressStep(), billingAccountStep({ profileSuffix: 'Fixed Line', journey: 'fixed-line' }), fixedPlanStep(), fixedNumberStep(), checkoutSummaryStep(), fixedCafStep(), paymentStep({ submitOnPaid: true }), fixedAppointmentStep()];
+  return [fixedAddressStep(), billingStep({ profileSuffix: 'Fixed Line', journey: 'fixed-line' }), fixedPlanStep(), fixedNumberStep(), checkoutSummaryStep(), fixedCafStep(), paymentStep({ submitOnPaid: true }), fixedAppointmentStep()];
 }

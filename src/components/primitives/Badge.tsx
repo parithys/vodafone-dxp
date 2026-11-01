@@ -8,6 +8,7 @@ export type BadgeVariant =
   | 'success-solid'
   | 'warning'
   | 'danger'
+  | 'danger-solid'
   | 'info'
   | 'accent'
   | 'tag-blue'
@@ -60,6 +61,8 @@ const variantClasses: Record<BadgeVariant, string> = {
   'success-solid': 'bg-[var(--badge-success-solid)] text-on-dark border border-transparent',
   warning: 'bg-bg border border-[var(--warn-border)] text-[var(--warn-text)]',
   danger: 'bg-bg border border-[var(--danger-border)] text-danger',
+  // Solid red, white label: a single state that must not be missed (a blocked number), as success-solid is for a confirmation.
+  'danger-solid': 'bg-[var(--danger-solid)] text-on-dark border border-transparent',
   info: 'bg-bg border border-[var(--info-border)] text-[var(--info)]',
   accent: 'bg-accent text-accent-on',
   // Soft-filled category tags (2026-10-01, number cards): RESERVED / STAR / FREE.
