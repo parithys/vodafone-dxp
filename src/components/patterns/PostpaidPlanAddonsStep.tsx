@@ -186,7 +186,7 @@ export function PostpaidPlanAddonsStep({
               <div className="w-56 shrink-0">
                 <Select
                   aria-label="Plan Type"
-                  options={PLAN_TYPE_FILTERS.filter((f) => f.key !== 'Postpaid Family Plans').map((f) => ({ value: f.key, label: f.label }))}
+                  options={PLAN_TYPE_FILTERS.map((f) => ({ value: f.key, label: f.label }))}
                   value={planTypeFilter}
                   onChange={(e) => setPlanTypeFilter(e.target.value as PlanTypeFilter)}
                 />

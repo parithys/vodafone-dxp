@@ -292,8 +292,9 @@ select:not([multiple]):not([size]):not(.appearance-none) {
 
 /* Focused text fields everywhere: the focus border and the focus fill (--field-focus-bg), including plain inputs, selects
    and textareas that are not built on the Input / Select primitives. Unlayered so it wins over a field's own bg utility;
-   fields that sit on a dark surface or are deliberately see-through (bg-transparent, bg-white/..) are left alone. */
-input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not(.bg-transparent):not([class*='bg-on-dark']):focus-visible,
+   fields that sit on a dark surface or are deliberately see-through (bg-transparent, .input-bare - the bare input inside a
+   field wrapper, whose wrapper carries the focus look - bg-white/..) are left alone. */
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='range']):not(.bg-transparent):not(.input-bare):not([class*='bg-on-dark']):focus-visible,
 textarea:not(.bg-transparent):not([class*='bg-on-dark']):focus-visible,
 select:not(.bg-transparent):not([class*='bg-on-dark']):focus-visible {
   background-color: var(--field-focus-bg);
