@@ -53,23 +53,23 @@ export function Tabs({
 
   if (orientation === 'vertical' && rail) {
     return (
-      <div className="flex flex-col lg:flex-row items-stretch">
+      <div className="tabs-layout">
         <IconRail items={items} active={active} onSelect={setActive} />
-        <div className="@container flex-1 min-w-0 w-full p-8"><NestedTabs>{activeItem?.content}</NestedTabs></div>
+        <div className="tabs-panel"><NestedTabs>{activeItem?.content}</NestedTabs></div>
       </div>
     );
   }
 
   if (orientation === 'vertical') {
     return (
-      <div className="flex flex-col md:flex-row gap-6 items-start">
-        <div className="w-full md:w-56 shrink-0 card overflow-hidden">
+      <div className="split-pane md:flex-row">
+        <div className="tabs-nav-card card">
           {items.map((item) => (
             <button type="button"
               key={item.key}
               onClick={() => setActive(item.key)}
               className={`tab-vertical-item
-                ${active === item.key ? 'border-accent text-[var(--accent-text)] font-medium bg-surface' : 'border-transparent text-fg-2 hover:text-fg hover:bg-surface'}`}
+ ${active === item.key ? 'tab-vertical-active' : 'tab-vertical-idle'}`}
             >
               {item.label}
             </button>
@@ -85,7 +85,7 @@ export function Tabs({
       {toolbar ? (
         <div className="cluster">
           <TabStrip items={items} active={active} onChange={setActive} label={label} className="flex-1 min-w-0" />
-          <div className="row min-w-0 flex-1 basis-[30%] justify-end">{toolbar}</div>
+          <div className="row tabs-aside">{toolbar}</div>
         </div>
       ) : (
         <TabStrip items={items} active={active} onChange={setActive} label={label} />
@@ -121,7 +121,7 @@ function IconRail({ items, active, onSelect }: { items: TabItem[]; active: strin
       /* the preference just is not remembered */
     }
   };
-  const row = 'h-12 flex items-center';
+  const row = 'rail-row';
   const listId = useId();
   const toggleLabel = expanded ? 'Collapse sections' : 'Expand sections';
   return (
@@ -136,12 +136,12 @@ function IconRail({ items, active, onSelect }: { items: TabItem[]; active: strin
           aria-label={toggleLabel}
           aria-expanded={expanded}
           aria-controls={listId}
-          className={`${row} hidden lg:flex w-full shrink-0 divider-bottom nav-ghost focus-ring ${expanded ? 'justify-end px-5' : 'justify-center'}`}
+          className={`${row} rail-toggle ${expanded ? 'rail-toggle-wide' : 'justify-center'}`}
         >
-          <PanelIcon expanded={expanded} className="w-6 h-6" />
+          <PanelIcon expanded={expanded} className="size-6 " />
         </button>
       </Tooltip>
-      <ol id={listId} className="flex lg:block min-h-0 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto">
+      <ol id={listId} className="tabs-scroll">
         {items.map((item) => {
           const isActive = active === item.key;
           const button = (
@@ -149,13 +149,11 @@ function IconRail({ items, active, onSelect }: { items: TabItem[]; active: strin
               type="button"
               onClick={() => onSelect(item.key)}
               aria-label={item.label}
-              className={`${row} ${isActive && !expanded ? 'max-lg:w-auto max-lg:gap-2 max-lg:px-3' : 'w-12'} lg:w-full transition-colors duration-[var(--motion-base)] focus-ring ${
-                isActive ? 'bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)]' : 'text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)]'
-              } ${expanded ? 'lg:px-5 lg:gap-3' : 'justify-center'}`}
+              className={`${row} rail-item ${isActive && !expanded ? 'rail-item-compact' : 'rail-item-narrow'} ${isActive ? 'nav-active' : 'nav-ghost'} ${expanded ? 'rail-item-wide' : 'justify-center'}`}
             >
-              <Icon path={item.icon ?? FALLBACK_ICON} className="w-6 h-6 shrink-0" />
-              {isActive && !expanded && <span className="lg:hidden whitespace-nowrap text-[length:var(--fs-body)] font-semibold">{item.label}</span>}
-              {expanded && <span className={`hidden lg:inline min-w-0 truncate text-[length:var(--fs-body)] ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>}
+              <Icon path={item.icon ?? FALLBACK_ICON} className="size-6 shrink-0" />
+              {isActive && !expanded && <span className="tab-label-compact">{item.label}</span>}
+              {expanded && <span className={`tab-label-wide ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>}
             </button>
           );
           return (

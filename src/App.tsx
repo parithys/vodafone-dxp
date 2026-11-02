@@ -111,7 +111,7 @@ export function Shell({ children }: { children: ReactNode }) {
           {/* relative: <main> is the scroll container, so it must anchor absolutely positioned descendants (e.g. the visually
               hidden file inputs). Otherwise they resolve against the viewport and land a full scroll-offset below their
               card, inflating the scrollable height. */}
-          <main id={MAIN_ID} tabIndex={-1} className="relative flex-1 overflow-y-auto bg-[var(--page-bg)] focus:outline-none">
+          <main id={MAIN_ID} tabIndex={-1} className="app-main">
             <ErrorBoundary resetKey={pathname}>
               {children}
             </ErrorBoundary>

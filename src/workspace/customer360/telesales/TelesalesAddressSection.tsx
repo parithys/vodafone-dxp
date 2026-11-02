@@ -29,7 +29,7 @@ export function AddressSection({ ctx }: { ctx: Ctx }) {
       />
       <div className="contents">
         <Card title="National Address (NAS)" icon={ICON.globe}>
-          <div className="row px-5 py-3 border-b border-[var(--field-card-border)]">
+          <div className="panel-rule-row">
             <Pill tone="green">Verified</Pill>
             <Button variant="tertiary" type="button">View in Map →</Button>
           </div>
@@ -52,9 +52,9 @@ export function AddressSection({ ctx }: { ctx: Ctx }) {
         </Card>
         <Card title="Location Map" icon={ICON.globe}>
           <div className="p-5">
-            <div className="relative h-44 rounded-[var(--radius-card)] bg-gradient-to-br from-[var(--telesales-map-from)] to-[var(--telesales-map-to)] overflow-hidden">
+            <div className="map-canvas">
               <span className="center-absolute pin-marker">
-                <Icon path={ICON.globe} className="w-5 h-5" />
+                <Icon path={ICON.globe} className="size-5 " />
               </span>
               <div className="absolute right-3 bottom-3 floating-label">
                 <div className="font-bold text-fg">{zone}</div>
@@ -75,7 +75,7 @@ export function AddressSection({ ctx }: { ctx: Ctx }) {
           ))}
           <div className="panel-header">
             <span className="text-fg-2">Remarks</span>
-            <span className="title-md">{str(serv.Remarks)}</span>
+            <span className="title title-md">{str(serv.Remarks)}</span>
           </div>
         </Card>
         <Card title="Address Type & Usage" icon={ICON.globe} link="Edit">

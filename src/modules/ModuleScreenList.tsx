@@ -109,7 +109,7 @@ export function ModuleScreenList() {
       >
         <div className="split-top gap-2 mb-2">
           <div className="font-medium text-fg text-[length:var(--fs-body-lg)]">{screenDisplayName(route.screenName)}</div>
-          <Icon path={ICONS.openArrow} className="icon-sm text-muted mt-1 group-hover:text-accent transition-colors" />
+          <Icon path={ICONS.openArrow} className="icon-sm icon-hover-accent mt-1" />
         </div>
         <div className="text-accent text-[length:var(--fs-micro)] caps-strong mb-3">
           <span className="hidden">{route.screenId} · {route.screenType}</span>
@@ -120,7 +120,7 @@ export function ModuleScreenList() {
             </span>
           ))}
         </div>
-        <div className="cluster-sm">
+        <div className="cluster gap-2">
           <Badge variant={e.built ? 'success' : 'filled-neutral'}>{e.built ? 'Built' : 'Not built'}</Badge>
           <Badge variant={e.permissionLevel ? 'outlined-red' : 'filled-neutral'}>{e.permissionLevel ?? 'No access'}</Badge>
         </div>
@@ -135,9 +135,9 @@ export function ModuleScreenList() {
         actions={
           <Link
             to="/"
-            className="shrink-0 row-snug on-dark-chip-btn"
+            className="shrink-0 row gap-1 on-dark-chip-btn"
           >
-            <Icon path={ICONS.chevronLeft} className="w-3.5 h-3.5" />
+            <Icon path={ICONS.chevronLeft} className="size-3.5 " />
             All modules
           </Link>
         }
@@ -172,7 +172,7 @@ export function ModuleScreenList() {
           placeholder="Search screen ID or name…"
           wrapperClassName="flex-1 max-w-sm"
         />
-        <div className="wrap-row">
+        <div className="wrap-loose gap-2">
           {FILTERS.map((f) => (
             <Button
               key={f.key}
@@ -193,7 +193,7 @@ export function ModuleScreenList() {
         if (cards.length === 0) return null;
         return (
           <div key={`${subModule}::${feature}`} className="mb-6">
-            <h2 className="text-[length:var(--fs-h5)] font-bold text-fg-2 mb-1">{subModule}</h2>
+            <h2 className="title title-lg text-fg-2 mb-1">{subModule}</h2>
             <p className="mb-3 caption-muted">{feature}</p>
             <div className="fields-2 lg:grid-cols-3">{cards}</div>
           </div>
@@ -205,7 +205,7 @@ export function ModuleScreenList() {
         if (cards.length === 0) return null;
         return (
           <div className="mb-6">
-            <h2 className="text-[length:var(--fs-h5)] font-bold text-fg-2 mb-1">Other Screens</h2>
+            <h2 className="title title-lg text-fg-2 mb-1">Other Screens</h2>
             <p className="mb-3 caption-muted">
               Not evidenced or heuristically matched to a sub-module/feature above.
             </p>

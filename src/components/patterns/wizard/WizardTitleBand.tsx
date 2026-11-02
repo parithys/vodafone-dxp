@@ -69,8 +69,8 @@ export function WizardTitleBand({
   // The secondary buttons here take the light page-tint fill (white on hover), like the buttons inside a card or header.
   // Title area: carries the page's own padding and a bottom border, so the step rail below it can sit flush against the left edge.
   return (
-      <div className="px-4 sm:px-8 pt-6 sm:pt-8 pb-6 title-band btn-on-title-band">
-        <div className="split-top-wrap gap-x-4 gap-y-3">
+      <div className="title-band-pad title-band btn-on-title-band">
+        <div className="split-top flex-wrap gap-x-4 gap-y-3">
           <h1 className="text-[length:var(--fs-h4)] font-bold text-on-dark">{title}</h1>
           <div className="cluster">
             {titleAction}

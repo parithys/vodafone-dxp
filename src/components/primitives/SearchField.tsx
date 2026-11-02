@@ -29,8 +29,8 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
   return (
     <div ref={wrapperRef} className={`relative ${wrapperClassName}`}>
       {!hideIcon && (
-        <span className={`absolute left-3 center-y pointer-events-none ${rest.disabled ? 'text-[var(--field-label-disabled)]' : 'text-muted'}`}>
-          <Icon path={SEARCH_ICON} className="w-4.5 h-4.5" />
+        <span className={`field-icon-lead ${rest.disabled ? 'text-[var(--field-label-disabled)]' : 'text-muted'}`}>
+          <Icon path={SEARCH_ICON} className="size-4.5 " />
         </span>
       )}
       <input
@@ -44,7 +44,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
       />
       {onClear && filled && !rest.disabled && (
         <button type="button" onClick={onClear} aria-label="Clear search" className="field-clear-btn">
-          <Icon path={CLEAR_ICON} className="w-4 h-4" />
+          <Icon path={CLEAR_ICON} className="size-4 " />
         </button>
       )}
       {children}

@@ -13,7 +13,7 @@ import { Button } from '../../components/primitives/Button';
 import { Badge } from '../../components/primitives/Badge';
 import { Icon } from '../../components/primitives/Icon';
 import { Drawer } from '../../capabilities';
-import { Select } from '../../components/primitives/Select';
+import { MissingInformationPanel, type MissingInformationSubmit } from './MissingInformationPanel';
 import { Textarea } from '../../components/primitives/Textarea';
 import { useEntityStore } from '../../stores/entityStore';
 import { useAuthStore } from '../../stores/authStore';
@@ -26,7 +26,7 @@ import { formatQar } from '../../engines/postpaidPricing';
 import { applyCreditLimitChange, creditLimitChangeOf } from '../../workspace/customer360/creditLimitChange';
 import { applyLineChange, lineChangeOf } from '../mobile-service-changes/applyServiceChange';
 import { usePersonaStore } from '../../stores/personaStore';
-import { mayResubmitOrder, ORDER_AWAITING_DECISION, orderApprovalAuthority } from '../../engines/approvalAuthority';
+import { applyMissingInformation, emptyMissingInformationRequest, isMissingInformationRequestMade, mayResubmitOrder, ORDER_AWAITING_DECISION, ORDER_MISSING_INFORMATION, orderApprovalAuthority, type MissingInformationRequest } from '../../engines/approvalAuthority';
 import { evaluateRule } from '../../engines/ruleEngine';
 import { Link } from 'react-router-dom';
 import { AttachmentPreview, type OrderAttachment } from './AttachmentPreview';
@@ -70,6 +70,10 @@ interface Order {
   rejectComment?: string;
   returnReasonCode?: string;
   returnComment?: string;
+  /** What the approver asked for when they marked the order Missing Information. */
+  missingInfoComment?: string;
+  /** What the approver asked for (see engines/approvalAuthority.MissingInformationRequest). */
+  missingInfoRequest?: MissingInformationRequest | null;
   status: string;
   customerName?: string;
   msisdn?: string;
@@ -152,7 +156,7 @@ interface ApprovalHistoryEntry {
 /** A rejection reads as danger and a return as a warning, so the decisions that need action stand out in the history. */
 function decisionTone(action: string | undefined): { row: string; title: string } {
   if (/^Rejected/i.test(action ?? '')) return { row: 'bg-tone-danger-soft border-l-4 border-l-[var(--danger-border)]', title: 'text-danger font-semibold' };
-  if (/^Returned/i.test(action ?? '')) return { row: 'bg-tone-warn-soft border-l-4 border-l-[var(--warn)]', title: 'text-[var(--warn-text)] font-semibold' };
+  if (/^(Returned|Missing Information)/i.test(action ?? '')) return { row: 'bg-tone-warn-soft border-l-4 border-l-[var(--warn)]', title: 'text-[var(--warn-text)] font-semibold' };
   return { row: '', title: 'text-fg font-medium' };
 }
 
@@ -167,7 +171,7 @@ function HistoryPreview({ history }: { history: ApprovalHistoryEntry[] }) {
         <div key={entry.activityNumber} className={`px-3 py-2 ${tone.row}`}>
           <div className="split-nowrap">
             <span className={`${tone.title} text-[length:var(--fs-caption)]`}>{entry.actionTaken}</span>
-            <span className="text-muted text-[length:var(--fs-micro)]">{formatDateTime(entry.transactionDate)}</span>
+            <span className="micro-muted">{formatDateTime(entry.transactionDate)}</span>
           </div>
           {entry.notes && <div className="text-fg-2 text-[length:var(--fs-micro)] mt-0.5">{entry.notes}</div>}
         </div>
@@ -187,7 +191,7 @@ const CUSTOMER_TYPE_LABEL: Record<string, string> = {
 const hasValue = (v: unknown) => !(v === undefined || v === null || v === '' || v === false);
 
 const DETAIL_CARD = 'card p-5';
-const DETAIL_CARD_TITLE = 'mb-4 border-b border-border-soft pb-3 text-fg font-semibold text-[length:var(--fs-body-lg)]';
+const DETAIL_CARD_TITLE = 'title title-md font-semibold mb-4 divider-bottom pb-3';
 
 /** A titled card of DetailRows. Renders nothing when none of its rows has a value, so no heading stands over an empty card. */
 function DetailSection({ title, children }: { title: string; children: React.ReactElement<{ value?: unknown }>[] }) {
@@ -245,10 +249,20 @@ function approvalReasonItems(reason: string | undefined): { title: string; detai
   return reason.split(' | ').map(describe);
 }
 
+/** The request in words, for the activity history: "Recapture: Signed CAF; new CAF signature; supporting documents". */
+function requestSummary(r: MissingInformationRequest, attachments: OrderAttachment[]): string {
+  return [
+    ...r.attachmentIndexes.map((i) => `Recapture: ${attachments[i]?.label ?? `Document ${i + 1}`}`),
+    ...(r.resignCaf ? ['new CAF signature'] : []),
+    ...(r.supportingDocuments ? ['supporting documents'] : []),
+  ].join('; ');
+}
+
 const APPROVAL_STATE: Record<string, { variant: 'warning' | 'success' | 'danger' | 'filled-neutral'; headline: string }> = {
   Approved: { variant: 'success', headline: 'Approved' },
   Rejected: { variant: 'danger', headline: 'Rejected' },
   Returned: { variant: 'warning', headline: 'Returned for correction' },
+  'Missing Information': { variant: 'warning', headline: 'Missing Information' },
 };
 
 // Approval summary (2026-10-10): where the order stands, who decides, what happens on approval and WHY it needs approval,
@@ -265,18 +279,18 @@ function ApprovalSummary({
 }) {
   const items = approvalReasonItems(order.approvalReason);
   const status = order.approvalStatus;
-  const outcomeShown = Boolean(order.rejectReasonCode || order.returnReasonCode || order.rejectComment || order.returnComment);
+  const outcomeShown = Boolean(order.rejectReasonCode || order.returnReasonCode || order.rejectComment || order.returnComment || order.missingInfoComment);
   // Status and order status are in the page header now; the card is only for what the header can't say - why the order needs
   // approval, or the decision that was taken. With neither, there is nothing to put in it.
   if (items.length === 0 && !outcomeShown) return null;
   const decided = status === 'Approved' || status === 'Rejected' || status === 'Cancelled';
   const state = APPROVAL_STATE[status ?? ''] ?? { variant: 'warning' as const, headline: status ?? 'Awaiting approval' };
   const outcomeReason = order.rejectReasonCode ? reasonLabel(order.rejectReasonCode) : order.returnReasonCode ? reasonLabel(order.returnReasonCode) : undefined;
-  const outcomeComment = order.rejectComment ?? order.returnComment;
+  const outcomeComment = order.missingInfoComment ?? order.rejectComment ?? order.returnComment;
   return (
     <section className={`${DETAIL_CARD} mt-4`} aria-label="Approval summary">
       <div className="mb-4 split divider-bottom pb-3">
-        <h3 className="subtitle">Approval</h3>
+        <h3 className="title title-md font-semibold">Approval</h3>
         <Badge variant={state.variant}>{state.headline}</Badge>
       </div>
 
@@ -301,8 +315,8 @@ function ApprovalSummary({
               <li key={`${r.title}-${i}`} className="row-start notice-warning pad-row">
                 <Icon path={ALERT_ICON_ALT} className="mt-0.5 icon-md text-[var(--warn-text)]" />
                 <span className="min-w-0">
-                  <span className="block text-[var(--warn-text)] font-semibold text-[length:var(--fs-body)]">{r.title}</span>
-                  <span className="block text-fg text-[length:var(--fs-caption)]">{r.detail}</span>
+                  <span className="warn-title">{r.title}</span>
+                  <span className="label-caption">{r.detail}</span>
                 </span>
               </li>
             ))}
@@ -313,7 +327,7 @@ function ApprovalSummary({
       {(outcomeReason || outcomeComment) && (
         <div className="mt-5 rounded-[var(--radius-card)] bg-surface pad-row">
           <p className="mb-1 text-fg-2 label-caps">
-            {status === 'Returned' ? 'Returned because' : 'Decision'}
+            {status === 'Missing Information' ? 'Information Requested' : status === 'Returned' ? 'Returned because' : 'Decision'}
           </p>
           {outcomeReason && <p className="value-text">{outcomeReason}</p>}
           {outcomeComment && <p className="text-secondary">{outcomeComment}</p>}
@@ -330,19 +344,19 @@ function ApprovalSummary({
 function ActivitiesPanel({ history }: { history: ApprovalHistoryEntry[] }) {
   return (
     <section className={DETAIL_CARD}>
-      <div className="flex items-baseline gap-3">
-        <h3 className="subtitle">Activities</h3>
+      <div className="row-baseline">
+        <h3 className="title title-md font-semibold">Activities</h3>
         <span className="caption-muted">
           {history.length} {history.length === 1 ? 'activity' : 'activities'}
         </span>
       </div>
       <p className="mt-1 pb-4 mb-4 divider-bottom text-secondary">Approval history for this order.</p>
       {history.length === 0 ? (
-        <div className="stack-center gap-2 py-12 text-center">
+        <div className="centered-stack gap-2 py-12">
           <span className="disc-lg bg-surface text-muted">
-            <Icon path={HISTORY_ICON} className="w-8 h-8" strokeWidth={1.5} />
+            <Icon path={HISTORY_ICON} className="size-8 " strokeWidth={1.5} />
           </span>
-          <p className="mt-2 subtitle">No Approval Activity Yet</p>
+          <p className="mt-2 title title-md font-semibold">No Approval Activity Yet</p>
           <p className="max-w-md text-secondary">
             Approval actions will appear here once they are recorded. Review this history before confirming a decision.
           </p>
@@ -386,8 +400,8 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
   const doc = selected !== null ? attachments[Number(selected)] : undefined;
   return (
     <section className={DETAIL_CARD}>
-      <div className="mb-4 flex items-baseline gap-3">
-        <h3 className="subtitle">Attachments</h3>
+      <div className="mb-4 row-baseline">
+        <h3 className="title title-md font-semibold">Attachments</h3>
         <span className="caption-muted">
           {attachments.length} document{attachments.length === 1 ? '' : 's'}
         </span>
@@ -406,7 +420,7 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
                     header: 'Document',
                     render: (a) => (
                       <span className="row">
-                        <FileIcon doc={a} className="w-6 h-6" />
+                        <FileIcon doc={a} className="size-6 " />
                         <span className="min-w-0">
                           <span className="block text-fg">{a.label}</span>
                           {(a.fileName ?? a.detail) && <span className="block caption-muted break-all">{a.fileName ?? a.detail}</span>}
@@ -428,7 +442,7 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
                 <AttachmentPreview doc={doc} order={order} />
               ) : (
                 <>
-                  <Icon path={DOC} className="w-14 h-14 text-muted" strokeWidth={1.5} />
+                  <Icon path={DOC} className="size-14 text-muted" strokeWidth={1.5} />
                   <p className="text-secondary">Select a document to preview it here.</p>
                 </>
               )}
@@ -478,7 +492,7 @@ function OrderDetailsPanel({ order, lastUpdatedMs }: { order: Order; lastUpdated
   const qar = (v: number | undefined) => (v !== undefined ? formatQar(v) : undefined);
 
   return (
-    <div className="grid gap-4 lg:grid-cols-2 items-start">
+    <div className="two-col-top">
       <div className="space-y-4 min-w-0">
         <DetailSection title="Order Information">
           <DetailRow label="Order Type" value={order.orderType} />
@@ -504,7 +518,7 @@ function OrderDetailsPanel({ order, lastUpdatedMs }: { order: Order; lastUpdated
           <DetailRow label="Segment" value={customer?.segment} />
           <DetailRow
             label="Customer 360"
-            value={order.customerId ? <Link to={`/customer/${order.customerId}`} className="text-link font-medium hover:underline">Open {order.customerId}</Link> : undefined}
+            value={order.customerId ? <Link to={`/customer/${order.customerId}`} className="link font-medium">Open {order.customerId}</Link> : undefined}
           />
         </DetailSection>
 
@@ -533,18 +547,18 @@ function OrderDetailsPanel({ order, lastUpdatedMs }: { order: Order; lastUpdated
           <section className={DETAIL_CARD}>
             <h3 className={DETAIL_CARD_TITLE}>Charges</h3>
             {hasCharges && (
-              <div className="grid grid-cols-2 divide-x divide-border-soft divider-bottom pb-4 mb-4">
+              <div className="divided-pair mb-4">
                 <div className="pr-4">
                   <p className="caption-muted">Monthly Recurring</p>
-                  <p className="title-lg">{qar(monthly) ?? '-'}</p>
+                  <p className="title title-lg">{qar(monthly) ?? '-'}</p>
                 </div>
                 <div className="pl-4">
                   <p className="caption-muted">Due Today</p>
-                  <p className="title-lg">{qar(order.dueTodayQAR) ?? '-'}</p>
+                  <p className="title title-lg">{qar(order.dueTodayQAR) ?? '-'}</p>
                 </div>
               </div>
             )}
-            <dl className="grid grid-cols-1 gap-y-3 text-[length:var(--fs-body)]">
+            <dl className="fields-rows">
               <DetailRow label="Number Price" value={qar(order.numberPriceQAR)} />
               {order.numberWaiver && <DetailRow label="Additional Discount" value={`${qar(order.numberWaivedQAR) ?? '-'} waived of ${qar(order.numberUpfrontChargeQAR) ?? '-'}`} />}
               <DetailRow label="One-Time Charges" value={qar(order.nrcTotalQAR)} />
@@ -593,14 +607,13 @@ export function OrderApprovalDetail() {
 
   const [tab, setTab] = useState('order-details');
   const [reasons, setReasons] = useState<RejectReason[]>([]);
-  const [modal, setModal] = useState<'approve' | 'reject-correction' | 'reject-drop' | 'return' | 'resubmit' | null>(null);
+  const [modal, setModal] = useState<'approve' | 'reject' | 'missing-information' | 'resubmit' | null>(null);
   const [resubmitComment, setResubmitComment] = useState('');
   const [ackApprove, setAckApprove] = useState(false);
   const [approveComment, setApproveComment] = useState('');
-  const [rejectReason, setRejectReason] = useState('');
   const [rejectComment, setRejectComment] = useState('');
-  const [returnReason, setReturnReason] = useState('');
-  const [returnComment, setReturnComment] = useState('');
+  const [missingComment, setMissingComment] = useState('');
+  const [missingRequest, setMissingRequest] = useState<MissingInformationRequest>(emptyMissingInformationRequest());
   // Guards against duplicate submission. Uses a ref, not just `submitting`
   // state: two click dispatches landing in the same synchronous tick both
   // read `submitting` as stale `false` (a state update isn't visible until
@@ -670,19 +683,19 @@ export function OrderApprovalDetail() {
 
   const approve = async () => {
     // The buttons are only offered to an eligible approver; the handler checks the same authority so it cannot be reached another way.
-    if (!authority.mayDecide || submittingRef.current) return;
+    if (!authority.mayDecide || submittingRef.current || !approveComment.trim()) return;
     submittingRef.current = true;
     setSubmitting(true);
     try {
       const nextStatus = order.nextStatusOnApproval ?? 'Complete';
-      await updateRecord('orders', 'orderId', order.orderId, { status: nextStatus, approvalStatus: 'Approved' });
+      await updateRecord('orders', 'orderId', order.orderId, { status: nextStatus, approvalStatus: 'Approved', approvalComment: approveComment.trim() });
       // A held plan or pack change takes effect on approval: the line moves to the plan the order records (the same step that runs at submit when nothing is held).
       const lineChange = nextStatus === 'Complete' ? lineChangeOf(order as unknown as Record<string, unknown>) : undefined;
       if (lineChange) await applyLineChange(lineChange, updateRecord);
       // An approved credit limit change takes effect: the customer's limit becomes the one requested.
       const limitChange = nextStatus === 'Complete' ? creditLimitChangeOf(order as unknown as Record<string, unknown>) : undefined;
       if (limitChange) await applyCreditLimitChange({ ...limitChange, by: currentAgentId }, { list: (k) => mockDataEngine.list(k) as never, updateRecord: updateRecord as never, createRecord: createRecord as never });
-      await logActivity('Approved', approveComment);
+      await logActivity('Approved', approveComment.trim());
       pushToast(
         'success',
         nextStatus === 'Complete'
@@ -700,20 +713,20 @@ export function OrderApprovalDetail() {
     }
   };
 
-  const reject = async (drop: boolean) => {
-    if (!authority.mayDecide || submittingRef.current) return;
+  // Reject ends the order: the creator is told (activity + bell) with the approver's reason. The reason is mandatory.
+  const reject = async () => {
+    if (!authority.mayDecide || submittingRef.current || !rejectComment.trim()) return;
     submittingRef.current = true;
     setSubmitting(true);
     try {
-      const reasonLabel = reasons.find((r) => r.reasonCode === rejectReason)?.reasonLabel ?? rejectReason;
       await updateRecord('orders', 'orderId', order.orderId, {
-        status: drop ? 'Cancelled' : 'Rejected - Correction',
+        status: 'Rejected',
         approvalStatus: 'Rejected',
-        rejectReasonCode: rejectReason,
-        rejectComment,
+        rejectComment: rejectComment.trim(),
       });
-      await logActivity(`Rejected - ${drop ? 'Drop Order' : 'Correction'}`, `${reasonLabel}: ${rejectComment}`);
-      pushToast('warning', `Order ${order.orderId}: ${drop ? 'dropped as cancelled' : 'rejected - SMS sent to agent for correction'}.`);
+      await logActivity('Rejected', rejectComment.trim());
+      pushToast('warning', `Order ${order.orderId} rejected.`, { detail: 'The agent who submitted it is notified with your reason.' });
+      setModal(null);
       navigate('/order-management');
     } finally {
       submittingRef.current = false;
@@ -721,24 +734,24 @@ export function OrderApprovalDetail() {
     }
   };
 
-  // AAV-03/Annex_02: Return is distinct from Reject - it loops the order back
-  // to "Submitted for Approval" (permitted next status per the BRSD's own
-  // status model) rather than terminating it, and per BR-06 requires a
-  // reason + notes exactly like Reject does.
-  const returnOrder = async () => {
-    if (!authority.mayDecide || submittingRef.current) return;
+  // Missing Information sends the order back to its creator, who reopens it, adds what was asked for and resubmits. The comment says what is missing and is mandatory.
+  const requestMissingInformation = async () => {
+    if (!authority.mayDecide || submittingRef.current || !missingComment.trim() || !isMissingInformationRequestMade(missingRequest)) return;
     submittingRef.current = true;
     setSubmitting(true);
     try {
-      const reasonLabel = reasons.find((r) => r.reasonCode === returnReason)?.reasonLabel ?? returnReason;
       await updateRecord('orders', 'orderId', order.orderId, {
-        status: 'Submitted for Approval',
-        approvalStatus: 'Returned',
-        returnReasonCode: returnReason,
-        returnComment,
+        status: ORDER_MISSING_INFORMATION,
+        approvalStatus: 'Missing Information',
+        missingInfoComment: missingComment.trim(),
+        missingInfoRequest: missingRequest,
+        // Back to the agent who submitted it: they contact the customer and provide what was asked for.
+        assignedApproverId: order.createdBy ?? null,
       });
-      await logActivity('Returned', `${reasonLabel}: ${returnComment}`);
-      pushToast('warning', `Order ${order.orderId} returned for correction - back in the approval queue.`);
+      await logActivity('Missing Information', `${missingComment.trim()} (Requested: ${requestSummary(missingRequest, order.attachments ?? [])})`);
+      pushToast('warning', `Order ${order.orderId} marked Missing Information.`, { detail: 'The agent who submitted it is notified and can add the documents and resubmit.' });
+      setModal(null);
+      setMissingRequest(emptyMissingInformationRequest());
       navigate('/order-management');
     } finally {
       submittingRef.current = false;
@@ -746,7 +759,7 @@ export function OrderApprovalDetail() {
     }
   };
 
-  // The creator's next step on an order that was rejected for correction: send it back for another decision. The order
+  // The creator's next step on an order marked Missing Information (or, in older records, rejected for correction): reopen it, add what was asked for, and send it back for another decision. The order
   // goes back to the queue of the role it was routed to (unassigned, so any eligible approver can pick it up), and the
   // resubmission is logged like every other decision so the approver sees what was corrected.
   const mayResubmit = mayResubmitOrder(order, currentAgentId);
@@ -765,6 +778,28 @@ export function OrderApprovalDetail() {
       pushToast('success', `Order ${order.orderId} resubmitted - back in the approval queue.`);
       setModal(null);
       setResubmitComment('');
+    } finally {
+      submittingRef.current = false;
+      setSubmitting(false);
+    }
+  };
+
+  // Missing Information answered: only the requested documents, signature and supporting documents change; the order goes back to the Approval Queue.
+  const resubmitMissingInformation = async ({ answer, comment }: MissingInformationSubmit) => {
+    if (submittingRef.current || !order.missingInfoRequest || !mayResubmit) return;
+    submittingRef.current = true;
+    setSubmitting(true);
+    try {
+      await updateRecord('orders', 'orderId', order.orderId, {
+        status: ORDER_AWAITING_DECISION,
+        approvalStatus: 'Resubmitted',
+        assignedApproverId: null,
+        resubmitComment: comment,
+        attachments: applyMissingInformation(order.attachments ?? [], order.missingInfoRequest, answer),
+        missingInfoRequest: null,
+      });
+      await logActivity('Resubmitted', `${comment} (Provided: ${requestSummary(order.missingInfoRequest, order.attachments ?? [])})`);
+      pushToast('success', `Order ${order.orderId} resubmitted - back in the approval queue.`);
     } finally {
       submittingRef.current = false;
       setSubmitting(false);
@@ -803,7 +838,7 @@ export function OrderApprovalDetail() {
         // only when it says something the order status does not: a decision that sent the order back to the agent.
         // Every other approval state is implied by the order status or spelled out in the Approval card.
         actions={
-          <div className="cluster-sm justify-end">
+          <div className="cluster justify-end gap-2">
             {order.status === ORDER_AWAITING_DECISION && (order.approvalStatus === 'Returned' || order.approvalStatus === 'Resubmitted') && (
               <Badge variant={badgeVariantFor(order.approvalStatus)} aria-label={`Approval status: ${order.approvalStatus}`}>
                 {order.approvalStatus}
@@ -825,39 +860,34 @@ export function OrderApprovalDetail() {
         <NestedTabs>{activeTab.content}</NestedTabs>
       </div>
 
-      {mayResubmit && (
+      {mayResubmit && order.status === ORDER_MISSING_INFORMATION && isMissingInformationRequestMade(order.missingInfoRequest) && (
+        <MissingInformationPanel request={order.missingInfoRequest} attachments={order.attachments ?? []} approverComment={order.missingInfoComment} busy={submitting} onResubmit={resubmitMissingInformation} />
+      )}
+      {mayResubmit && !(order.status === ORDER_MISSING_INFORMATION && isMissingInformationRequestMade(order.missingInfoRequest)) && (
         <div className="mt-4 card card-inherit-fill pad-row cluster">
           <div className="min-w-0 flex-1">
-            <p className="value-text">This order was rejected for correction</p>
+            <p className="value-text">{order.status === ORDER_MISSING_INFORMATION ? 'The approver needs more information' : 'This order was rejected for correction'}</p>
             <p className="caption-secondary">
-              {order.rejectComment ? `${order.rejectComment} ` : ''}Correct what was asked for, then send it back for another decision.
+              {order.missingInfoComment ?? order.rejectComment ? `${order.missingInfoComment ?? order.rejectComment} ` : ''}Add what was asked for, then send it back for another decision.
             </p>
           </div>
           <Button variant="primary" onClick={() => setModal('resubmit')}>
-            Resubmit for approval
+            Reopen and resubmit
           </Button>
         </div>
       )}
 
-      {/* Decision buttons are for approvers only; everyone else sees none. */}
+      {/* Decision buttons are for approvers only; everyone else sees none. Three actions, each needing a reason. */}
       {isEligibleApprover && (
-      <div className="wrap-row mt-6">
+      <div className="wrap-loose gap-2 mt-6">
         <Button variant="primary" onClick={() => setModal('approve')}>
           Approve
         </Button>
-        <Button variant="secondary" onClick={() => setModal('reject-correction')}>
-          Reject - Correction
+        <Button variant="secondary" onClick={() => setModal('reject')}>
+          Reject
         </Button>
-        <Button
-          variant="secondary"
-          className="!text-danger !border-danger"
-          onClick={() => setModal('reject-drop')}
-         
-        >
-          Reject - Drop Order
-        </Button>
-        <Button variant="secondary" onClick={() => setModal('return')}>
-          Return
+        <Button variant="secondary" onClick={() => setModal('missing-information')}>
+          Missing Information
         </Button>
       </div>
       )}
@@ -865,8 +895,14 @@ export function OrderApprovalDetail() {
       <Drawer open={modal === 'resubmit'} onClose={() => setModal(null)} title="Resubmit Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <p className="text-secondary">Tell the approver what you corrected. The order returns to the approval queue it was routed to.</p>
-          <Textarea label="What Was Corrected (Required)" value={resubmitComment} onChange={(e) => setResubmitComment(e.target.value)} />
+          {order.missingInfoComment && (
+            <div className="notice-warning pad-row">
+              <p className="warn-title">Information Requested</p>
+              <p className="label-caption">{order.missingInfoComment}</p>
+            </div>
+          )}
+          <p className="text-secondary">Add what the approver asked for and tell them what you provided. The order returns to the approval queue it was routed to.</p>
+          <Textarea label="What Was Provided (Required)" value={resubmitComment} onChange={(e) => setResubmitComment(e.target.value)} />
         </div>
         <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
@@ -877,61 +913,64 @@ export function OrderApprovalDetail() {
       <Drawer open={modal === 'approve'} onClose={() => setModal(null)} title="Approve Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <label className="flex items-start gap-2 body-text">
+          <label className="row-start gap-2 body-text">
             <Checkbox className="mt-1" checked={ackApprove} onChange={(e) => setAckApprove(e.target.checked)} />
             By clicking submit, I agree that I have verified all the documents and details to proceed with submission.
           </label>
-          <Textarea label="Comments" value={approveComment} onChange={(e) => setApproveComment(e.target.value)} />
+          <Textarea label="Reason / Comments (Required)" required value={approveComment} onChange={(e) => setApproveComment(e.target.value)} />
         </div>
         <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
-          <Button variant="primary" onClick={approve} disabled={!ackApprove || submitting}>Submit Approval</Button>
+          <Button variant="primary" onClick={approve} disabled={!ackApprove || !approveComment.trim() || submitting}>Submit Approval</Button>
         </div>
       </Drawer>
 
-      <Drawer open={modal === 'reject-correction' || modal === 'reject-drop'} onClose={() => setModal(null)} title="Reject Order">
+      <Drawer open={modal === 'reject'} onClose={() => setModal(null)} title="Reject Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <Select
-            label="Reject Reason"
-            value={rejectReason}
-            onChange={(e) => setRejectReason(e.target.value)}
-            placeholder="Select a reason"
-            options={reasons.map((r) => ({ value: r.reasonCode, label: r.reasonLabel }))}
-          />
-          <Textarea label="Comments (Required)" value={rejectComment} onChange={(e) => setRejectComment(e.target.value)} />
+          <p className="text-secondary">Rejecting ends this order. The agent who submitted it is notified with your reason.</p>
+          <Textarea label="Reason / Comments (Required)" required value={rejectComment} onChange={(e) => setRejectComment(e.target.value)} />
         </div>
         <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
-          <Button
-            variant="destructive"
-            onClick={() => reject(modal === 'reject-drop')}
-            disabled={!rejectReason || !rejectComment.trim() || submitting}
-          >
+          <Button variant="destructive" onClick={reject} disabled={!rejectComment.trim() || submitting}>
             Reject Order
           </Button>
         </div>
       </Drawer>
 
-      <Drawer open={modal === 'return'} onClose={() => setModal(null)} title="Return Order">
+      <Drawer open={modal === 'missing-information'} onClose={() => setModal(null)} title="Missing Information">
         <div className="space-y-3">
           <HistoryPreview history={history} />
           <p className="text-secondary">
-            Returning sends this order back to the approval queue for correction, rather than rejecting it outright.
+            The order goes back to the agent who submitted it, who can reopen it, add the documents you ask for and resubmit it for approval.
           </p>
-          <Select
-            label="Return Reason"
-            value={returnReason}
-            onChange={(e) => setReturnReason(e.target.value)}
-            placeholder="Select a reason"
-            options={reasons.map((r) => ({ value: r.reasonCode, label: r.reasonLabel }))}
-          />
-          <Textarea label="Notes" value={returnComment} onChange={(e) => setReturnComment(e.target.value)} />
+          <fieldset className="space-y-2">
+            <legend className="title title-sm font-semibold">What Is Needed From The Agent (Select At Least One)</legend>
+            {(order.attachments ?? []).map((a, i) => (
+              <label key={`${a.label}-${i}`} className="row-start gap-2 body-text">
+                <Checkbox
+                  checked={missingRequest.attachmentIndexes.includes(i)}
+                  onChange={(e) => setMissingRequest((r) => ({ ...r, attachmentIndexes: e.target.checked ? [...r.attachmentIndexes, i].sort((x, y) => x - y) : r.attachmentIndexes.filter((x) => x !== i) }))}
+                />
+                Recapture or re-upload: {a.label}
+              </label>
+            ))}
+            <label className="row-start gap-2 body-text">
+              <Checkbox checked={missingRequest.resignCaf} onChange={(e) => setMissingRequest((r) => ({ ...r, resignCaf: e.target.checked }))} />
+              A new customer signature on the CAF
+            </label>
+            <label className="row-start gap-2 body-text">
+              <Checkbox checked={missingRequest.supportingDocuments} onChange={(e) => setMissingRequest((r) => ({ ...r, supportingDocuments: e.target.checked }))} />
+              Additional supporting documents, with their document type
+            </label>
+          </fieldset>
+          <Textarea label="Reason / Comments (Required)" required helperText="Say which documents or details are missing." value={missingComment} onChange={(e) => setMissingComment(e.target.value)} />
         </div>
         <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
-          <Button variant="primary" onClick={returnOrder} disabled={!returnReason || !returnComment || submitting}>
-            Return Order
+          <Button variant="primary" onClick={requestMissingInformation} disabled={!missingComment.trim() || !isMissingInformationRequestMade(missingRequest) || submitting}>
+            Request Missing Information
           </Button>
         </div>
       </Drawer>

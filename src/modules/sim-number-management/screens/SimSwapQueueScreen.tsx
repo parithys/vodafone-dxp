@@ -156,7 +156,7 @@ export function SimSwapQueueScreen() {
       )}
       {/* Decision buttons only while the swap is awaiting a decision and only for the roles that work this queue. */}
       {authority.mayDecide && (
-        <div className="wrap-row">
+        <div className="wrap-loose gap-2">
           <Button variant="primary" onClick={() => setModal('approve')}>
             Approve
           </Button>

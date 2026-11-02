@@ -21,7 +21,7 @@ function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="card p-4">
       <p className="caption-secondary">{label}</p>
-      <p className="title-2xl">{value}</p>
+      <p className="title title-2xl">{value}</p>
     </div>
   );
 }
@@ -100,7 +100,7 @@ export function Business360Page() {
       <PageHeader
         title={
           <span className="inline-flex items-center gap-3">
-            <Icon path={BUILDING} className="w-6 h-6 text-accent" />
+            <Icon path={BUILDING} className="size-6 text-accent" />
             {account.name}
           </span>
         }
@@ -126,7 +126,7 @@ export function Business360Page() {
       </div>
 
       <section className="card p-6">
-        <h2 className="subtitle-lg mb-1">Linked Users</h2>
+        <h2 className="title title-lg font-semibold mb-1">Linked Users</h2>
         {all.length === 0 ? (
           <div className="notice-neutral p-6 text-center">
             <p className="text-fg font-medium mb-1">No Linked Users Yet</p>

@@ -189,7 +189,7 @@ export function AgentProfileWorkspace() {
       {canEditProfile ? (
         <>
           <div className="card p-5">
-            <h2 className="title-md mb-1">Change Password</h2>
+            <h2 className="title title-md mb-1">Change Password</h2>
             <p className="caption-secondary mb-4">
               Requires your current password and a verification code. (Demo code: {DEMO_VERIFICATION_CODE} - pending VFQ Security's
               real Authcode/OTP method.)
@@ -215,7 +215,7 @@ export function AgentProfileWorkspace() {
 
           <div className="card p-5 mt-6">
             <div className="row-between mb-1">
-              <h2 className="title-md">Multi-Factor Authentication</h2>
+              <h2 className="title title-md">Multi-Factor Authentication</h2>
               <Badge variant={profile?.mfaEnabled ? 'success' : 'filled-neutral'}>{profile?.mfaEnabled ? 'Enabled' : 'Disabled'}</Badge>
             </div>
             {profile?.mfaEnabled && (
@@ -253,7 +253,7 @@ export function AgentProfileWorkspace() {
         </>
       ) : (
         <div className="card p-5">
-          <h2 className="title-md mb-1">Change Password &amp; MFA</h2>
+          <h2 className="title title-md mb-1">Change Password &amp; MFA</h2>
           <p className="caption-secondary">
             Profile editing (password, MFA) is available to internal Vodafone agent roles. This persona is an external or
             system-type contact (Agent 360 APM-01/05/08) and does not have edit access here.
@@ -262,12 +262,12 @@ export function AgentProfileWorkspace() {
       )}
 
       <div className="card p-5 mt-6">
-        <h2 className="title-md mb-1">Export Your Data</h2>
+        <h2 className="title title-md mb-1">Export Your Data</h2>
         <p className="caption-secondary mb-4">
           Download a CSV of every visible record for an entity type. Which of these you can export depends on your role's access rights.
         </p>
         {eligibleEntities.length === 0 ? (
-          <p className="text-muted text-[length:var(--fs-body)]">No exportable entities are available for your current role.</p>
+          <p className="muted-body">No exportable entities are available for your current role.</p>
         ) : (
           <div className="flex items-end gap-3">
             <div className="flex-1">

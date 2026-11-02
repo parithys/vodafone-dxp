@@ -82,7 +82,7 @@ export function FixedPlanStep({ values, setValue }: { values: Values; setValue: 
                 <ConnectionTypeTag category="GigaHome Fibre" />
               </div>
               <div className="flex-1 space-y-2">
-                <p className="title-lg leading-snug">{p.name}</p>
+                <p className="title title-lg leading-snug">{p.name}</p>
                 <p className="text-accent pt-1">
                   <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
                   <span className="text-[length:var(--fs-h3)] font-bold">{formatAmount(p.mrcQAR)}</span>
@@ -90,7 +90,7 @@ export function FixedPlanStep({ values, setValue }: { values: Values; setValue: 
                 </p>
                 <ul className="space-y-1.5">
                   {rows.map((f) => (
-                    <li key={f.text} className="row-tight caption-secondary">
+                    <li key={f.text} className="row gap-2 caption-secondary">
                       <Icon path={f.icon} className="icon-sm text-accent" />
                       {f.text}
                     </li>

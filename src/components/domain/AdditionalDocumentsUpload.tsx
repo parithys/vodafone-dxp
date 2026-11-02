@@ -211,7 +211,7 @@ export function AdditionalDocumentsUpload({
   return (
     <div className={`card ${whiteBackground ? '' : 'bg-surface'} p-4 space-y-4`}>
       <div>
-        <h4 className="title-sm">Additional Documents</h4>
+        <h4 className="title title-sm">Additional Documents</h4>
       </div>
 
       {missing.length > 0 && (
@@ -224,7 +224,7 @@ export function AdditionalDocumentsUpload({
             <div key={r.id} className="card row px-3 py-3">
               <Icon path={DOC} className="icon-sm text-muted" />
               <span className="min-w-0 flex-1">
-                <span className="block heading-strong">{r.label}</span>
+                <span className="block title title-sm font-semibold">{r.label}</span>
                 <span className="block caption-muted">{r.reason}</span>
               </span>
               <Button
@@ -305,7 +305,7 @@ export function AdditionalDocumentsUpload({
               {progress !== undefined && (
                 <div className="space-y-1">
                   <div role="progressbar" aria-label="Upload progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} className="meter-track-lg w-full">
-                    <div className="h-full rounded-[var(--radius-pill)] bg-accent transition-[width] duration-[var(--motion-base)] ease-out" style={{ width: `${progress}%` }} />
+                    <div className="meter-fill" style={{ width: `${progress}%` }} />
                   </div>
                   <p className="caption-muted">Uploading {staged?.name} - {progress}%</p>
                 </div>
@@ -322,14 +322,14 @@ export function AdditionalDocumentsUpload({
           <section aria-label="Journey documents" className="space-y-2">
             {documents.length > 0 && (
               <div className="space-y-1.5" aria-label="Uploaded documents" role="group">
-                <p className="heading-strong">Uploaded Documents</p>
+                <p className="title title-sm font-semibold">Uploaded Documents</p>
                 <ul className="space-y-1.5">
                   {documents.map((d) => {
                     const dataUrl = documentFileOf(d.id)?.dataUrl;
                     return (
                       <li key={d.id} className="text-[length:var(--fs-body)]">
                         {dataUrl ? (
-                          <button type="button" className="link-underline text-left" onClick={() => setViewing({ title: `${d.label} - ${d.fileName}`, dataUrl })}>
+                          <button type="button" className="link underline text-left" onClick={() => setViewing({ title: `${d.label} - ${d.fileName}`, dataUrl })}>
                             {d.label}
                           </button>
                         ) : (
@@ -351,10 +351,10 @@ export function AdditionalDocumentsUpload({
               aria-expanded={journeyOpen}
               aria-controls="journey-documents-list"
               onClick={() => setJourneyOpen((o) => !o)}
-              className="inline-flex items-center gap-1 link font-medium text-[length:var(--fs-body)] rounded-[var(--radius-sm)]"
+              className="link-inline text-[length:var(--fs-body)] rounded-[var(--radius-sm)]"
             >
-              View All Journey Documents <span className="caption-muted font-normal">({rows.filter((r) => !r.removable).length})</span>
-              <Icon path={journeyOpen ? SORT_ASC_ICON : CHEVRON_DOWN} className="w-4 h-4" />
+              View All Journey Documents <span className="caption-muted font-normal">({rows.length})</span>
+              <Icon path={journeyOpen ? SORT_ASC_ICON : CHEVRON_DOWN} className="size-4 " />
             </button>
             <ul id="journey-documents-list" hidden={!journeyOpen} className="space-y-1.5">
               {sections.flatMap((g) =>
@@ -372,7 +372,7 @@ export function AdditionalDocumentsUpload({
                     // A plain text link that opens the document; a document no copy is held of is just its name.
                     <li key={d.id} className="text-[length:var(--fs-body)]">
                       {viewable ? (
-                        <button type="button" className="link-underline text-left" onClick={() => setViewing({ title, dataUrl, scan: dataUrl ? undefined : d.scan })}>
+                        <button type="button" className="link underline text-left" onClick={() => setViewing({ title, dataUrl, scan: dataUrl ? undefined : d.scan })}>
                           {title}
                         </button>
                       ) : (
@@ -382,6 +382,22 @@ export function AdditionalDocumentsUpload({
                   );
                 })
               )}
+              {/* Whatever was uploaded here (the Under-18 Exception's Court Order included) belongs to the task and is opened from here too. */}
+              {documents.map((d) => {
+                const dataUrl = documentFileOf(d.id)?.dataUrl;
+                const title = `Additional Documents: ${d.label}`;
+                return (
+                  <li key={`all-${d.id}`} className="text-[length:var(--fs-body)]">
+                    {dataUrl ? (
+                      <button type="button" className="link underline text-left" onClick={() => setViewing({ title: `${d.label} - ${d.fileName}`, dataUrl })}>
+                        {title}
+                      </button>
+                    ) : (
+                      <span className="text-fg-2">{title}</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </section>
         )}

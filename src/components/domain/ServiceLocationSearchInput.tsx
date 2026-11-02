@@ -70,7 +70,7 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
   const activeRow = 'bg-[var(--field-focus-bg)]';
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="stack gap-1">
       <label htmlFor={id} className="text-[length:var(--fs-label)] text-fg">
         {label}
       </label>
@@ -101,7 +101,7 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
           onClick={() => setOpen((o) => !o)}
           className="field-clear-btn"
         >
-          <Icon path={CHEVRON_DOWN} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+          <Icon path={CHEVRON_DOWN} className={`size-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
           <ul
@@ -119,10 +119,10 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
                 className={`row-start pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? activeRow : ''}`}
               >
                 <span className="mt-0.5 text-[var(--field-icon)] shrink-0">
-                  <Icon path={PIN_ICON} className="w-5 h-5" />
+                  <Icon path={PIN_ICON} className="size-5 " />
                 </span>
                 <span className="min-w-0">
-                  <span className="block heading-strong truncate">{o.value}</span>
+                  <span className="block title title-sm font-semibold truncate">{o.value}</span>
                   {o.detail && <span className="line-caption">{o.detail}</span>}
                 </span>
               </li>

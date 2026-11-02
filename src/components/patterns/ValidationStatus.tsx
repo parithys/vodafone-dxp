@@ -80,7 +80,7 @@ export function ValidationStatus({
         {busy ? (
           <Spinner size={20} label={title} />
         ) : (
-          <Icon path={variant === 'success' ? CHECK_ICON : variant === 'business-failure' ? CROSS : WARNING} className="w-5 h-5" />
+          <Icon path={variant === 'success' ? CHECK_ICON : variant === 'business-failure' ? CROSS : WARNING} className="size-5 " />
         )}
       </span>
       <div className="min-w-0 space-y-1">
@@ -88,7 +88,7 @@ export function ValidationStatus({
         <p className="value-text">{title}</p>
         {children && <div className="text-secondary">{children}</div>}
         {reference && <p className="caption-muted">Reference: {reference}</p>}
-        {actions && <div className="cluster-sm pt-2">{actions}</div>}
+        {actions && <div className="cluster gap-2 pt-2">{actions}</div>}
       </div>
     </div>
   );

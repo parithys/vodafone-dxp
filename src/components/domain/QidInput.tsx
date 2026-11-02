@@ -164,19 +164,19 @@ export function QidTypeSelector({
               aria-disabled={isUnavailable || undefined}
               aria-pressed={selected}
               onClick={() => !isUnavailable && onIdTypeChange(t.type)}
-              className={`relative row flex-row justify-start card-frame p-4 ${
+              className={`choice-row ${
                 isUnavailable
-                  ? 'border-border-soft bg-bg text-muted opacity-60'
+                  ? 'option-disabled'
                   : selected
                     ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
-                    : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
+                    : 'card-idle text-fg'
               }`}
             >
               {selected && <SelectedTick />}
               {/* White tile behind the icon when selected. Padding is always
                   present so the card does not change size between states. */}
-              <span className={`inline-flex p-2 rounded-[var(--radius-card)] ${selected && !isUnavailable ? 'bg-[var(--field-card-selected)] text-on-dark' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'}`}>
-                <Icon path={t.icon} className="w-6 h-6" />
+              <span className={`option-glyph ${selected && !isUnavailable ? 'glyph-chosen' : 'icon-tint'}`}>
+                <Icon path={t.icon} className="size-6 " />
               </span>
               <span className="text-[length:var(--fs-caption)] font-bold whitespace-nowrap">{t.label}</span>
             </button>
@@ -252,7 +252,7 @@ export function QidNumberField({
             lands in the field it's wired to. Only wrapped (not a plain
             input) when the icon can actually render, so the readOnly/scanned
             state keeps its original markup untouched. */}
-        <div className={inlineField ? 'flex-1 min-w-0 flex flex-col gap-1' : 'contents'}>
+        <div className={inlineField ? 'stack gap-1 flex-1 min-w-0' : 'contents'}>
           {inlineField && (
             <label htmlFor="qid-number-input" className="block text-[length:var(--fs-label)] text-fg">
               {current.numberLabel}
@@ -269,9 +269,8 @@ export function QidNumberField({
             readOnly
             tabIndex={-1}
             onMouseDown={(e) => e.preventDefault()}
-            className={`flex-1 min-w-0 rounded-[var(--field-radius)] border px-3 py-2 body-text bg-surface cursor-default select-none
-              ${error ? 'border-[var(--field-border-error)]' : 'border-[var(--field-border)]'}
-              focus:outline-none`}
+            className={`field-box field-readonly-text
+ ${error ? 'border-[var(--field-border-error)]' : 'border-[var(--field-border)]'}`}
           />
         ) : (
           <div className="relative flex-1 min-w-0">
@@ -283,9 +282,8 @@ export function QidNumberField({
               placeholder={current.placeholder}
               // A touch device opens the numeric keypad for a digits-only number (QID, GCC ID, Diplomatic ID), the full keyboard for a passport.
               inputMode={current.numericNumber ? 'numeric' : 'text'}
-              className={`w-full rounded-[var(--field-radius)] border py-2 pl-3 pr-9 text-[length:var(--fs-body)] text-[var(--color-field-text-filled)] bg-bg
-                ${error ? 'border-[var(--field-border-error)]' : value ? 'border-[var(--field-border-filled)]' : 'border-[var(--field-border)]'}
-                focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)]`}
+              className={`field-box field-text field-focus field-pad-icon w-full bg-bg
+ ${error ? 'border-[var(--field-border-error)]' : value ? 'border-[var(--field-border-filled)]' : 'border-[var(--field-border)]'}`}
             />
             {/* DEMO ONLY - see BARCODE_DEMO_NUMBERS. Real hardware would push
                 a read into this same field; this simulates that push with a
@@ -297,7 +295,7 @@ export function QidNumberField({
               title="Scan barcode"
               className="absolute right-1.5 center-y icon-button-inline"
             >
-              <Icon path={BARCODE_ICON} className="w-4 h-4" />
+              <Icon path={BARCODE_ICON} className="size-4 " />
             </button>
           </div>
         )}
@@ -312,7 +310,7 @@ export function QidNumberField({
             first, so a greyed-out button would never light up in place. */}
         {(!readOnly || showFetch) && (
           <Button variant="primary" onClick={onFetch} disabled={!value || fetching || fetchDisabled}>
-            <Icon path={SEARCH_ICON} className="w-4 h-4" />
+            <Icon path={SEARCH_ICON} className="size-4 " />
             {fetching ? 'Fetching…' : 'Fetch'}
           </Button>
         )}

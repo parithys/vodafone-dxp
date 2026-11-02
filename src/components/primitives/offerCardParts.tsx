@@ -28,8 +28,8 @@ export function SelectedPlanFigure({ label, children }: { label: string; childre
 /** The faint concentric circles at the bottom-right of a selected card, behind its content (the card needs `isolate`). Clipped to the card's own rounded corners. */
 export function SelectedCardTexture() {
   return (
-    <span aria-hidden="true" className="pointer-events-none absolute inset-0 z-[var(--z-below)] overflow-hidden rounded-[inherit]">
-      <svg viewBox="0 0 120 120" className="absolute -bottom-10 -right-6 h-40 w-40">
+    <span aria-hidden="true" className="card-art-layer">
+      <svg viewBox="0 0 120 120" className="card-art-mark">
         <circle cx="70" cy="70" r="50" fill="var(--accent)" fillOpacity="0.06" />
         <circle cx="90" cy="90" r="34" fill="var(--accent)" fillOpacity="0.06" />
       </svg>
@@ -79,7 +79,7 @@ export function planFeatureRows(plan: OfferProduct | undefined): { icon: string;
 export function SelectedTick() {
   return (
     <span aria-hidden className="card-tick">
-      <Icon path={CHECK} className="w-4 h-4" strokeWidth={3} />
+      <Icon path={CHECK} className="size-4 " strokeWidth={3} />
     </span>
   );
 }

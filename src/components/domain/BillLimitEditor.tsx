@@ -58,11 +58,11 @@ export function BillLimitEditor({ product, value, onChange, layout = 'default', 
       <div className="split-nowrap">
         {row && !editing ? (
           <div>
-            <h4 className="subtitle">Bill Limit</h4>
+            <h4 className="title title-md font-semibold">Bill Limit</h4>
             {value !== undefined && <p className="caption-secondary">Current limit · {formatQarAny(value)}</p>}
           </div>
         ) : (
-          <h4 className="subtitle">Bill Limit</h4>
+          <h4 className="title title-md font-semibold">Bill Limit</h4>
         )}
         {!editing && (
           <Button variant="secondary" compact onClick={() => setEditing(true)}>
@@ -71,7 +71,7 @@ export function BillLimitEditor({ product, value, onChange, layout = 'default', 
         )}
       </div>
       {editing ? (
-        <div className="flex items-end gap-2 mt-2">
+        <div className="row-bottom mt-2">
           <Input label={maxLimit !== undefined ? `QAR (Agent Min ${agentMinimum}, Max ${maxLimit})` : `QAR (Agent Min ${agentMinimum})`} type="number" className="no-spinner" value={draft} onChange={(e) => setDraft(e.target.value)} />
           <Button variant="primary" className="h-[var(--size-btn-compact-h)]" onClick={apply}>
             Apply

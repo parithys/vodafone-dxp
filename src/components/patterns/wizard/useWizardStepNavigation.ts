@@ -110,7 +110,10 @@ export function useWizardStepNavigation({
     pendingSaveRef.current = pendingSaveRef.current
       .then(() => savePage?.())
       .catch((e) => console.error('Page save failed', e));
-    setStep(wizardId, nextStepIndex(activeSteps, currentIndex, values));
+    // A resumed draft: the first Continue (after ID verification has passed) restores the journey to the step it was saved on.
+    const resumeKey = useWorkflowStore.getState().consumeResumeTarget(wizardId);
+    const resumeIndex = resumeKey ? activeSteps.findIndex((s) => s.key === resumeKey) : -1;
+    setStep(wizardId, resumeIndex > currentIndex ? resumeIndex : nextStepIndex(activeSteps, currentIndex, values));
   };
 
   // Back skips the pages Continue passes over (Address and Billing Profile in New Connection), so the way back mirrors the way forward; they stay in the rail to edit.

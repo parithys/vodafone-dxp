@@ -82,7 +82,7 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
     </div>
   );
 
-  if (!loaded) return <p className="text-muted text-[length:var(--fs-body)]">Preparing the payment summary…</p>;
+  if (!loaded) return <p className="muted-body">Preparing the payment summary…</p>;
   if (lines.length === 0) return <p className="text-danger text-[length:var(--fs-body)]">There is no subscription on this order yet. Go back and complete the pack, number and SIM.</p>;
 
   return (
@@ -105,7 +105,7 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
         return (
           <section key={`${line.msisdn}-${i}`} aria-label={`Subscription ${i + 1}`} className="card card-surface p-4 space-y-2">
             <div className="split-nowrap">
-              <h3 className="subtitle">{fees || existingLine ? 'Order' : `Subscription ${i + 1}`}</h3>
+              <h3 className="title title-md font-semibold">{fees || existingLine ? 'Order' : `Subscription ${i + 1}`}</h3>
               {line.prePaired && <Badge variant="accent">Pre-Paired SIM</Badge>}
             </div>
             <dl>

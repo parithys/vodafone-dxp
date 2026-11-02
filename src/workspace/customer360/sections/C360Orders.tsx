@@ -168,7 +168,7 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
               ]}
             />
           </div>
-          <div className="cards-wrap px-4 py-4">
+          <div className="wrap-loose items-stretch px-4 py-4">
             <SearchBox
               value={query}
               onChange={(v) => {
@@ -218,11 +218,11 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
           {selected ? (
             <div className="space-y-3">
               <div className="row min-w-0">
-                <span className="w-12 h-12 rounded-[var(--radius-button)] icon-tile bg-tone-accent text-accent">
-                  <Icon path={IC.file} className="w-6 h-6" />
+                <span className="icon-box-accent">
+                  <Icon path={IC.file} className="size-6 " />
                 </span>
                 <div className="min-w-0">
-                  <div className="title-md break-words">{selected.id}</div>
+                  <div className="title title-md break-words">{selected.id}</div>
                   <div className="caption-secondary break-words">{[selected.type, fmtDate(selected.createdAt), selected.channel].filter(Boolean).join(' | ')}</div>
                 </div>
               </div>

@@ -9,7 +9,7 @@ const read = (p) => fs.readFileSync(p, 'utf8');
 test('Continue starts the page save and moves on at once; saves run one after another; a failed save never blocks the journey', () => {
   const nav = read('src/components/patterns/wizard/useWizardStepNavigation.ts');
   const iSave = nav.indexOf('savePage?.()');
-  const iStep = nav.indexOf('setStep(wizardId, nextStepIndex(');
+  const iStep = nav.indexOf('setStep(wizardId, resumeIndex > currentIndex');
   assert.ok(iSave > 0 && iStep > iSave, 'the save is started before the step changes');
   assert.doesNotMatch(nav, /await savePage/, 'Continue does not wait for the write (it took seconds)');
   assert.match(nav, /pendingSaveRef\.current\s*=\s*pendingSaveRef\.current\s*\.then/, 'saves are chained, never concurrent');

@@ -33,8 +33,8 @@ export function TicketActionsCard({
 }: Props) {
   return (
     <div className="card p-5">
-      <h2 className="title-md mb-3">Actions</h2>
-      <div className="stack-sm">
+      <h2 className="title title-md mb-3">Actions</h2>
+      <div className="stack gap-2">
         {pendingApproval && (
           <div className="card card-surface p-3 text-secondary">
             Pending approval decision - see the Approval Queue.
@@ -49,7 +49,7 @@ export function TicketActionsCard({
           <Button variant="secondary" className="w-full justify-center" onClick={assignToMe}>Assign to Me</Button>
         )}
         {canReassignQueue && !terminal && !pendingApproval && (
-          <div className="stack-sm">
+          <div className="stack gap-2">
             <Select aria-label="Reassign queue" value={reassignQueue} onChange={(e) => setReassignQueue(e.target.value)} placeholder="Reassign queue…" options={['FL Agents', 'Complaints Team'].map((q) => ({ value: q, label: q }))} />
             <Button variant="secondary" className="w-full justify-center" onClick={reassignQueueSubmit} disabled={!reassignQueue}>Reassign</Button>
           </div>
@@ -81,7 +81,7 @@ export function TicketActionsCard({
           <button
             type="button"
             onClick={sendToApproval}
-            className={`text-[length:var(--fs-caption)] text-link hover:underline self-center mt-1 ${SYNTHETIC_CLASS}`}
+            className={`text-[length:var(--fs-caption)] link self-center mt-1 ${SYNTHETIC_CLASS}`}
           >
             Simulate → Send to Approval (Demo)
           </button>

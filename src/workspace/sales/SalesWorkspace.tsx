@@ -49,9 +49,9 @@ export function SalesWorkspace() {
   return (
     <div>
       <div className="px-8 pt-8">
-        <h2 className="title-lg mb-1">Start a New Customer Acquisition</h2>
+        <h2 className="title title-lg mb-1">Start a New Customer Acquisition</h2>
         <p className="text-secondary mb-4">Select an acquisition type to begin a new journey.</p>
-        <div className="wrap-row mb-2">
+        <div className="wrap-loose gap-2 mb-2">
           {ACQUISITION_ACTIONS.map((action, index) => (
             <Button
               key={action.label}
@@ -60,7 +60,7 @@ export function SalesWorkspace() {
               className={index === 0 ? '' : '!bg-bg'}
               onClick={() => startAcquisition(action.screenId)}
             >
-              <Icon path={action.icon} className={`w-4 h-4 ${index === 0 ? '' : 'text-muted'}`} />
+              <Icon path={action.icon} className={`size-4 ${index === 0 ? '' : 'text-muted'}`} />
               {action.label}
             </Button>
           ))}

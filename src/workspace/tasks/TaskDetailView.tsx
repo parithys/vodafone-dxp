@@ -166,7 +166,7 @@ export function TaskDetailView() {
       </div>
 
       {task.taskStatus !== 'Closed' && (
-        <div className="wrap-row mb-6">
+        <div className="wrap-loose gap-2 mb-6">
           {task.taskStatus !== 'In Progress' && (
             <Button variant="secondary" onClick={moveToInProgress}>
               Move to In Progress
@@ -180,7 +180,7 @@ export function TaskDetailView() {
 
       {isSupervisor && task.taskStatus !== 'Closed' && (
         <div className="card p-5">
-          <h2 className="title-md mb-1">Assign to a Team Member</h2>
+          <h2 className="title title-md mb-1">Assign to a Team Member</h2>
           <p className="caption-secondary mb-3">Supervisor-only action.</p>
           <div className="flex gap-2">
             <div className="flex-1">

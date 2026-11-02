@@ -69,7 +69,7 @@ export function PassportScanSections({ value, onChange, onScan, onRetakeDone, er
   const section = (side: 'front' | 'back') => {
     const done = Boolean(side === 'front' ? value.frontScanned : value.backScanned);
     const n = retakes[side];
-    const zone = 'rounded-[var(--radius-card)] border border-dashed border-border bg-[var(--surface-subtle)] px-4 py-6 flex flex-col items-center justify-center gap-4 text-center min-h-[var(--size-dropzone-min-h)]';
+    const zone = 'dropzone dropzone-fill';
     return (
       <div key={side} className={zone}>
         {scanning === side ? (
@@ -120,15 +120,15 @@ export function PassportScanSections({ value, onChange, onScan, onRetakeDone, er
               <span aria-hidden="true" className="scan-corner scan-corner-tr" />
               <span aria-hidden="true" className="scan-corner scan-corner-bl" />
               <span aria-hidden="true" className="scan-corner scan-corner-br" />
-              <Icon path={SCAN_CORNERS} className="w-10 h-10 text-border" />
+              <Icon path={SCAN_CORNERS} className="size-10 text-border" />
             </div>
             <div className="space-y-1">
-              {!canScan && <h4 className="title-sm">Card Could Not Be Read</h4>}
+              {!canScan && <h4 className="title title-sm">Card Could Not Be Read</h4>}
               {canScan && <p className="caption-secondary">Scan the {side} side of the passport for verification.</p>}
             </div>
             {capture.scan && (
               <Button variant="primary" onClick={() => scanSide(side)}>
-                <Icon path={SCAN_CORNERS} className="w-4 h-4" />
+                <Icon path={SCAN_CORNERS} className="size-4 " />
                 Scan {side} side
               </Button>
             )}
@@ -154,12 +154,12 @@ export function PassportScanSections({ value, onChange, onScan, onRetakeDone, er
   const showError = !anyScanned && error;
 
   return (
-    <div className="card p-4 stack-lg">
+    <div className="card p-4 stack gap-4">
       {/* Scanner header: what this is. Whether the reader is available is not shown: the agent only learns of a failure after the permitted attempts. */}
-      <div className="split-top-wrap gap-x-4 gap-y-2">
+      <div className="split-top flex-wrap gap-x-4 gap-y-2">
         <div className="row min-w-0">
-          <Icon path={SCAN_CORNERS} className="w-6 h-6 text-accent shrink-0" />
-          <span className="title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
+          <Icon path={SCAN_CORNERS} className="size-6 text-accent shrink-0" />
+          <span className="title title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
         </div>
         {/* The whole document in one go: two files, or one (both sides in a single image or PDF, or one side). */}
         {/* Upload in place of the reader. Scanning is done by each side's own Scan / Retake button below, so the header carries no scan button of its own. */}

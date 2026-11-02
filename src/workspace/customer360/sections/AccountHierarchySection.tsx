@@ -19,7 +19,7 @@ function Row({ as, className, onClick, children }: { as: 'div' | 'button'; class
 
 function LevelBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[length:var(--fs-micro)] caps-strong text-muted shrink-0">
+    <span className="micro-muted caps-strong shrink-0">
       {children}
     </span>
   );
@@ -48,7 +48,7 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
       </h3>
 
       {/* Level 1 - Customer Account */}
-      <div className="card-frame border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] p-4">
+      <div className="card-frame-selected p-4">
         <div className="row">
           <LevelBadge>Customer Account</LevelBadge>
           <span className="font-medium text-fg">{data.customer.name}</span>
@@ -57,9 +57,9 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
       </div>
 
       {/* Level 2 - Billing Account(s) */}
-      <div className="pl-6 space-y-2 border-l-2 border-border-soft ml-4">
+      <div className="tree-children">
         {billingProfileIds.length === 0 && (
-          <p className="text-muted text-[length:var(--fs-body)] py-2">No billing accounts on file.</p>
+          <p className="muted-body py-2">No billing accounts on file.</p>
         )}
         {billingProfileIds.map((billingProfileId) => {
           const profile = data.billingProfiles.find((bp) => bp.billingProfileId === billingProfileId);
@@ -85,7 +85,7 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
                     // Search halfway through a queue-driven interaction.
                     state={location.state}
                     onClick={(e) => e.stopPropagation()}
-                    className="link-caption"
+                    className="link font-medium text-[length:var(--fs-caption)]"
                   >
                     View Billing Account →
                   </Link>
@@ -93,9 +93,9 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
               </Row>
 
               {isOpen && (
-                <div className="px-4 pb-4 pl-10 space-y-2 divider-top pt-3">
+                <div className="tree-detail">
                   {serviceAccounts.length === 0 && (
-                    <p className="text-muted text-[length:var(--fs-body)]">No service accounts under this billing account.</p>
+                    <p className="muted-body">No service accounts under this billing account.</p>
                   )}
                   {serviceAccounts.map((account) => {
                     const svcOpen = expandAll || expandedServiceId === account.accountId;
@@ -104,7 +104,7 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
                       <div key={account.accountId} className="card card-surface">
                         <Row
                           as={expandAll ? 'div' : 'button'}
-                          className={`w-full row px-3 py-2.5 text-left ${expandAll ? '' : 'hover:bg-surface-warm'}`}
+                          className={`tree-row ${expandAll ? '' : 'hover:bg-surface-warm'}`}
                           onClick={expandAll ? undefined : () => setExpandedServiceId(svcOpen ? null : account.accountId)}
                         >
                           {!expandAll && <Icon path={svcOpen ? CHEVRON_UP : CHEVRON_DOWN} className="icon-xs text-muted" />}
@@ -116,7 +116,7 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
                           )}
                         </Row>
                         {svcOpen && (
-                          <div className="px-3 pb-3 pl-8 pair-grid-sm text-[length:var(--fs-body)]">
+                          <div className="tree-detail-sm">
                             <div>
                               <div className="caption-muted">Account ID</div>
                               <div className="text-fg">{account.accountId}</div>

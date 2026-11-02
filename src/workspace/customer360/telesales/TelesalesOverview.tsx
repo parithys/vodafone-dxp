@@ -69,7 +69,7 @@ export function MasonryGrid({ children }: { children: ReactNode }) {
     };
   }, []);
   return (
-    <div ref={ref} className="grid gap-x-4 gap-y-0 [grid-auto-flow:row_dense] [grid-auto-rows:4px] [grid-template-columns:repeat(auto-fill,minmax(max(20rem,calc((100%_-_2rem)/3)),1fr))]">
+    <div ref={ref} className="overview-masonry">
       {children}
     </div>
   );
@@ -96,10 +96,10 @@ export function Pill({ tone, children }: { tone: keyof typeof PILL; children: Re
 
 export function Card({ title, icon, link, onLink, children, className = '' }: { title: string; icon: string; link?: string; onLink?: () => void; children: ReactNode; className?: string }) {
   return (
-    <section data-mcard className={`card overflow-hidden self-start w-full min-w-0 ${className}`}>
+    <section data-mcard className={`card panel-fill ${className}`}>
       <div className="split-nowrap pad-panel border-b border-[var(--field-card-border)]">
-        <h3 className="inline-flex items-center gap-2.5 subtitle">
-          <Icon path={icon} className="w-5 h-5" />
+        <h3 className="inline-title-row title title-md">
+          <Icon path={icon} className="size-5 " />
           {title}
         </h3>
         {link && onLink && (
@@ -121,7 +121,7 @@ export const Value = ({ children, big }: { children: ReactNode; big?: boolean })
 /** Label on the left, value on the right - the Contact / Address / Lead / Usage row. */
 export function KV({ label, children, striped }: { label: string; children: ReactNode; striped?: boolean }) {
   return (
-    <div className={`spread items-center px-5 py-3.5 row-rule-card ${striped ? 'bg-surface-half' : ''}`}>
+    <div className={`spread items-center pad-panel py-3.5 row-rule-card ${striped ? 'bg-surface-half' : ''}`}>
       <span className="text-secondary">{label}</span>
       <span className="value-end text-[length:var(--fs-body)]">{children}</span>
     </div>
@@ -209,10 +209,10 @@ export function AdditionalInformation({ ctx }: { ctx: Ctx }) {
     // data-mcard: MasonryGrid sizes only marked cards. Without it this card got a single 4px grid row and its
     // links were clipped away (overflow-hidden), leaving an empty strip above the next card. It spans every
     // column and sits last on the Overview (see telesalesTabs).
-    <section data-mcard className="card overflow-hidden self-start w-full min-w-0 [grid-column:1/-1]">
+    <section data-mcard className="card panel-fill [grid-column:1/-1]">
       <div className="pad-panel border-b border-[var(--field-card-border)]">
-        <h3 className="inline-flex items-center gap-2.5 subtitle">
-          <Icon path={I.grid} className="w-5 h-5" />
+        <h3 className="inline-title-row title title-md">
+          <Icon path={I.grid} className="size-5 " />
           Additional Information
         </h3>
       </div>

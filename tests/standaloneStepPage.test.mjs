@@ -29,7 +29,7 @@ test('StandaloneStepPage: the title band, step card, heading and fixed Continue 
       h('p', null, 'content')
     )
   );
-  assert.match(out, /px-4 sm:px-8 pt-6 sm:pt-8 pb-6 title-band/, 'the wizard title band');
+  assert.match(out, /title-band-pad title-band/, 'the wizard title band');
   assert.match(out, /<h1[^>]*>Number Management Portal<\/h1>/);
   assert.match(out, /Search and reserve numbers\./);
   assert.match(out, /Abandon Order/);
@@ -37,7 +37,7 @@ test('StandaloneStepPage: the title band, step card, heading and fixed Continue 
   assert.match(out, /m-8 card p-6/, 'the step card, 32px from the page edges');
   assert.match(out, /<h2[^>]*>Number Selection<\/h2>/);
   assert.match(out, /Refresh/);
-  assert.match(out, /fixed inset-x-0 bottom-0 [^"]*border-t border-border-soft bg-bg shadow-raised/, 'the full-width fixed action bar');
+  assert.match(out, /action-bar[^"]*bottom-0/, 'the full-width fixed action bar');
   const primary = out.match(/<button[^>]*>Continue/)?.[0] ?? '';
   assert.match(primary, /disabled=""/, 'Continue is off until a number is chosen');
   assert.doesNotMatch(out, /Save &amp; Finish/, 'the first of several pages reads Continue');

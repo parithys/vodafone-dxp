@@ -15,7 +15,7 @@ import { Icon } from '../components/primitives/Icon';
 import { Select } from '../components/primitives/Select';
 import { Modal } from '../components/primitives/Modal';
 import { Button } from '../components/primitives/Button';
-import { draftHasProgress, useWorkflowStore } from '../stores/workflowStore';
+import { draftNeedsSaving, useWorkflowStore } from '../stores/workflowStore';
 import { Tooltip } from '../components/primitives/Tooltip';
 import { TooltipGroup } from '../components/primitives/TooltipContext';
 import { useSidebarStore } from '../stores/sidebarStore';
@@ -72,7 +72,7 @@ export function PersonaSwitcher() {
   const personas = getAllPersonas();
   // A journey with progress in it is lost on sign-out (the page reloads)
   // (and the new role may not be able to continue it) so both ask first; closing or reloading the tab warns too.
-  const hasUnsavedJourney = useWorkflowStore((s) => Object.values(s.drafts).some(draftHasProgress));
+  const hasUnsavedJourney = useWorkflowStore((s) => Object.values(s.drafts).some(draftNeedsSaving));
   const [pendingLeave, setPendingLeave] = useState<null | { kind: 'signOut' } | { kind: 'role'; personaId: string }>(null);
   useEffect(() => {
     if (!hasUnsavedJourney) return;
@@ -162,13 +162,13 @@ export function PersonaSwitcher() {
       <button type="button"
         onClick={toggleMobileOpen}
         aria-label="Open navigation"
-        className="header-icon-btn md:hidden col-start-1 w-9 h-9 -ml-1 shrink-0"
+        className="header-icon-btn header-menu-btn"
       >
-        <Icon path={ICONS.menu} className="w-5 h-5" />
+        <Icon path={ICONS.menu} className="size-5 " />
       </button>
       {/* Desktop: the side navigation is hidden until pinned. Hovering this previews it over the page; clicking pins it open. */}
       {!sidebarPinned && (
-        <div className="hidden md:flex col-start-1 -ml-1 shrink-0">
+        <div className="header-brand-slot">
           {/* Collapsed: the brand logo, which becomes the expand icon on hover (see NavLogoToggle). Only a click expands the navigation. */}
           <NavLogoToggle expanded={false} onToggle={toggleSidebarPinned} />
         </div>
@@ -178,13 +178,13 @@ export function PersonaSwitcher() {
       </div>
       {/* One flex strip so the session reference numbers and the
           approach-driven context chips sit side by side rather than stacking. */}
-      <div className="hidden md:flex col-start-3 justify-self-center items-center gap-3">
+      <div className="header-center-slot">
         {showQueue && <SessionReferenceNumbers />}
         <HeaderContextChips />
       </div>
 
       <TooltipGroup>
-      <div ref={containerRef} className="col-start-3 md:col-start-4 justify-self-end ml-auto row-tight">
+      <div ref={containerRef} className="header-end-slot row gap-2">
         {/* Customers served this session. The COUNT alone is on screen and
             "Customers Served" is the tooltip, per direction - the topbar is
             already dense, and a bare figure beside the icon row reads as a
@@ -235,9 +235,9 @@ export function PersonaSwitcher() {
           <button type="button"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="header-icon-btn header-icon-btn-outlined w-10 h-10"
+            className="header-icon-btn header-icon-btn-outlined size-10 "
           >
-            <Icon path={theme === 'dark' ? ICONS.sun : ICONS.moon} className="w-4.5 h-4.5" />
+            <Icon path={theme === 'dark' ? ICONS.sun : ICONS.moon} className="size-4.5 " />
           </button>
         </Tooltip>
 
@@ -248,9 +248,9 @@ export function PersonaSwitcher() {
               aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
               aria-haspopup="true"
               aria-expanded={open === 'notifications'}
-              className="header-icon-btn header-icon-btn-outlined relative w-10 h-10"
+              className="header-icon-btn header-icon-btn-outlined relative size-10 "
             >
-              <Icon path={ICONS.bell} className="w-4.5 h-4.5" />
+              <Icon path={ICONS.bell} className="size-4.5 " />
               {unreadCount > 0 && <span aria-hidden="true" className="header-unread-dot" />}
             </button>
           </Tooltip>
@@ -318,7 +318,7 @@ export function PersonaSwitcher() {
               <span className="profile-name">{profile?.name ?? staffId}</span>
               <span className="profile-role">{profile?.team ?? '-'}</span>
             </span>
-            <Icon path={ICONS.chevronDown} className="w-3.5 h-3.5 text-muted" />
+            <Icon path={ICONS.chevronDown} className="size-3.5 text-muted" />
           </button>
           {open === 'profile' && (
             <div className="card menu-popover w-72">
@@ -336,8 +336,8 @@ export function PersonaSwitcher() {
                 Edit profile
               </Link>
               <div className="pad-row divider-top">
-                <p className="row-tight text-secondary">
-                  <Icon path={ICONS.help} className="w-4 h-4" />
+                <p className="row gap-2 text-secondary">
+                  <Icon path={ICONS.help} className="size-4 " />
                   Help &amp; Support
                 </p>
                 <p className="caption-muted mt-1">
@@ -345,7 +345,7 @@ export function PersonaSwitcher() {
                 </p>
               </div>
               <div className="pad-row divider-top">
-                <label className="text-[length:var(--fs-caption)] text-fg mb-1 block">Switch Role</label>
+                <label className="label-caption mb-1">Switch Role</label>
                 <Select
                   aria-label="Switch role"
                   value={activePersonaId}
@@ -357,7 +357,7 @@ export function PersonaSwitcher() {
                 onClick={requestSignOut}
                 className="menu-action-danger"
               >
-                <Icon path={ICONS.signOut} className="w-4 h-4" />
+                <Icon path={ICONS.signOut} className="size-4 " />
                 Sign out
               </button>
             </div>

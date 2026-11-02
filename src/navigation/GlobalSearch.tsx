@@ -243,7 +243,7 @@ export function GlobalSearch() {
       }}
     >
       {open && q && (
-        <div className="popover left-0 right-0 mt-1 max-h-96 card">
+        <div className="dropdown-card card">
           {!hasResults && <p className="px-4 empty-line text-[length:var(--fs-body)]">No matches for &ldquo;{query}&rdquo;.</p>}
 
           {moduleMatches.length > 0 && (
@@ -254,7 +254,7 @@ export function GlobalSearch() {
                   key={m.moduleId}
                   id={`global-search-opt-${i}`}
                   onClick={() => go(`/${m.moduleSlug}`)}
-                  className={`list-row justify-between gap-2 px-4 py-2 ${active === i ? 'bg-surface' : ''}`}
+                  className={`list-row-spread gap-2 py-2 ${active === i ? 'bg-surface' : ''}`}
                 >
                   <span className="text-fg truncate">{m.module}</span>
                   <span className="caption-muted shrink-0">{m.screenCount} screens</span>
@@ -271,7 +271,7 @@ export function GlobalSearch() {
                   key={r.routeId}
                   id={`global-search-opt-${screenBase + i}`}
                   onClick={() => go(r.path)}
-                  className={`list-row justify-between gap-2 px-4 py-2 ${active === screenBase + i ? 'bg-surface' : ''}`}
+                  className={`list-row-spread gap-2 py-2 ${active === screenBase + i ? 'bg-surface' : ''}`}
                 >
                   <span className="text-fg truncate">{screenDisplayName(r.screenName)}</span>
                   <span className="caption-muted shrink-0">{r.module}</span>
@@ -288,7 +288,7 @@ export function GlobalSearch() {
                   key={r.key}
                   id={`global-search-opt-${recordBase + i}`}
                   onClick={() => go(r.path)}
-                  className={`list-row justify-between gap-2 px-4 py-2 ${active === recordBase + i ? 'bg-surface' : ''}`}
+                  className={`list-row-spread gap-2 py-2 ${active === recordBase + i ? 'bg-surface' : ''}`}
                 >
                   <span className="text-fg truncate">
                     {r.label} <span className="caption-muted">· {r.kind}</span>

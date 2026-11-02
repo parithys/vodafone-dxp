@@ -87,13 +87,13 @@ export function IdFileUpload({
   };
 
   return (
-    <div className={`flex flex-col gap-1.5 ${align === 'end' ? 'items-end text-right shrink-0' : 'items-center'}`}>
+    <div className={`stack gap-1.5 ${align === 'end' ? 'stack-end' : 'items-center'}`}>
       <input ref={input} type="file" accept={ID_UPLOAD_ACCEPT} multiple={!side} className="sr-only" tabIndex={-1} aria-hidden onChange={(e) => void take(e.target.files)} />
       <div className="row-start flex-nowrap">
         {scan && leading}
         {upload && (
           <Button variant="secondary" compact className="shrink-0" disabled={disabled || busy} onClick={() => input.current?.click()}>
-            <Icon path={UPLOAD_ICON} className="w-4 h-4" />
+            <Icon path={UPLOAD_ICON} className="size-4 " />
             {busy ? 'Reading…' : label}
           </Button>
         )}

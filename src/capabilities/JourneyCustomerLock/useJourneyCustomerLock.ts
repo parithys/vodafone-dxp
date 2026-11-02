@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { useCustomerContext } from '../../stores/customerContextStore';
 import { useNotificationStore } from '../../stores/notificationStore';
+import { useWorkflowStore } from '../../stores/workflowStore';
 import type { GuidedContactValue } from '../../components/patterns/guidedContactModel';
 import type { JourneyFlow } from './journeyModel';
 
@@ -57,7 +58,10 @@ export function useJourneyCustomerLock({
       // A different customer's journey is in progress: this entry point cannot take over.
       useNotificationStore.getState().pushToast('warning', `A journey for ${active?.customerName} is in progress`, {
         key: 'customer-context-locked',
-        detail: `${active?.taskId ? `Task ID: ${active.taskId}. ` : ''}Close Activity, Save as Draft or Abandon Order to start another customer.`,
+        // The Task ID leads back to that journey, at the step it was left on, where it can be continued, saved as a draft or abandoned.
+        ...(active?.taskId
+          ? { detailLink: { prefix: 'Task ID: ', label: active.taskId, to: active.path, suffix: '. Close Activity, Save as Draft or Abandon Order to start another customer.' } }
+          : { detail: 'Close Activity, Save as Draft or Abandon Order to start another customer.' }),
       });
       navigate(launchedFromCustomer360 ? `/customer/${existingCustomerId}` : active!.path, { replace: true });
       return;
@@ -72,7 +76,7 @@ export function useJourneyCustomerLock({
         idType: draftContact.idType,
         customerId: draftCustomerId,
         startedAt: new Date().toISOString(),
-        taskId: newTaskId(),
+        taskId: useWorkflowStore.getState().drafts[WIZARD_ID]?.resumeTaskId ?? newTaskId(),
       });
       if (draftCustomerId) store.patchJourney(WIZARD_ID, { customerId: draftCustomerId });
     } else if (store.journey?.wizardId === WIZARD_ID && !store.journey.finalOrder) {

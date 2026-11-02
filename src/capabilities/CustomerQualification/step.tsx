@@ -177,6 +177,8 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
                 onChange={(v) => setValue('billingAccount', v)}
               />
             )}
+            {/* Special Discounts do not apply to the Under-18 Exception flow. */}
+            {!under18RequestHolds(values) && (
             <SpecialDiscountsIdentification
               value={(values.customerType as SpecialDiscountsValue) ?? {}}
               onChange={(v) => {
@@ -192,6 +194,7 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
                   : undefined
               }
             />
+            )}
           </div>
         )}
         </div>
@@ -228,7 +231,7 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
       // An approval-routing outcome no longer blocks Continue: the journey
       // goes on and the order is held for approval when it is SUBMITTED
       // (see pendingApproval at submit).
-      return prepaid || isSpecialDiscountsValid(values.customerType as SpecialDiscountsValue | undefined);
+      return prepaid || under18RequestHolds(values) || isSpecialDiscountsValid(values.customerType as SpecialDiscountsValue | undefined);
     },
     // "Add a text link on the left side. On click, open a popup
     // showing all eligibility checks performed and their results"
@@ -241,14 +244,12 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
     // Continue Prepaid; approval routing -> Request Approval (the same
     // forward path Continue would take, unguarded by isValid, with the
     // order held for approval on submit); advisory / clean -> Continue.
-    primaryAction: ({ values, setValue, abandon, defaultButton }) => (
+    primaryAction: ({ values, setValue, defaultButton }) => (
       <OutcomeActions
         // With the product not chosen yet, a collections soft stop is not an end of the road (prepaid is still offered): Continue goes on to
         // Product Selection rather than offering the Postpaid-only "Proceed to Payment".
         eligibility={productAgnostic && (values.eligibility as EligibilityResult | undefined)?.softStop ? { ...(values.eligibility as EligibilityResult), softStop: false } : (values.eligibility as EligibilityResult | undefined)}
         defaultButton={defaultButton}
-        // Hard stop: nothing to go back to, so the confirmation has no "Keep working".
-        onAbandon={() => abandon({ hideKeepWorking: true })}
         // An applicant under 18 may Apply for Exception: the Court Type Order is attached (under the document the journey's rules name, so the
         // CAF's Additional Documents shows it as already attached) and the request recorded. The journey then continues and the order is held for
         // the agent's manager (see submit). The age check itself is not lifted.
@@ -259,6 +260,9 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
             const caf = (values.caf as { additionalDocuments?: AdditionalDocument[] } | undefined) ?? {};
             const kept = (caf.additionalDocuments ?? []).filter((d) => d.requirementId !== document.requirementId);
             setValue('caf', { ...caf, additionalDocuments: [...kept, document] });
+            // Special Discounts do not apply to this flow: nothing chosen earlier carries into the order.
+            setValue('customerType', { type: 'none' }); // Standard: Continue is not held for a discount that is not offered
+            setValue('discountId', undefined);
             setValue('under18Request', { submittedAt: new Date().toISOString(), documentId: document.id, idNumber: (values.contact as GuidedContactValue | undefined)?.idNumber });
             useNotificationStore.getState().pushToast('success', 'Exception request submitted for approval.', { detail: `The order will be held for ${under18ApproverRole(usePersonaStore.getState().activePersonaId)} approval.` });
           },

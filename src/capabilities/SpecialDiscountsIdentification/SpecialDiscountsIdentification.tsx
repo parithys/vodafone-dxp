@@ -20,7 +20,7 @@ export interface SpecialDiscountsIdentificationProps {
 export function SpecialDiscountsIdentification({ value, onChange, derivedCompany }: SpecialDiscountsIdentificationProps) {
   return (
     <div className="space-y-4">
-      <h3 className="subtitle-lg">Special Discounts</h3>
+      <h3 className="title title-lg font-semibold">Special Discounts</h3>
       <SpecialDiscountsStep value={value} onChange={onChange} derivedCompany={derivedCompany} />
     </div>
   );

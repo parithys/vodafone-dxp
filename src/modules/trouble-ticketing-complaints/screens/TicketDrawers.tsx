@@ -46,9 +46,9 @@ export function TicketDrawers({ s, escalate, resolve, cancel, reopen, closeTicke
         <Select label="Resolution Code (Mandatory, RES-01/02)" value={resolutionCode} onChange={(e) => setResolutionCode(e.target.value)} placeholder="Select one code" options={RESOLUTION_CODES.map((r) => ({ value: r, label: r }))} />
         <div>
           <div className="caption-muted mb-1">Hashtags (mandatory, at least one - RES-03)</div>
-          <div className="wrap-row">
+          <div className="wrap-loose gap-2">
             {availableHashtags.map((h) => (
-              <label key={h} className="row-snug text-[length:var(--fs-caption)]">
+              <label key={h} className="row gap-1 text-[length:var(--fs-caption)]">
                 <Checkbox
                   checked={resolutionHashtags.includes(h)}
                   onChange={(e) => setResolutionHashtags(e.target.checked ? [...resolutionHashtags, h] : resolutionHashtags.filter((x) => x !== h))}

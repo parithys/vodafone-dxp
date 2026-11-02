@@ -61,9 +61,9 @@ export function BlockedNumberLookup({
         <EmptyState compact message="No blocked number matches found." />
       )}
       {found && (
-        <section aria-label="Blocked number" className="card px-6 py-5 space-y-4">
+        <section aria-label="Blocked number" className="card pad-card-lg space-y-4">
           <div className="wrap-center justify-between gap-x-3 gap-y-1">
-            <p className="title-xl leading-tight">{toLocalMsisdn(found.msisdn)}</p>
+            <p className="title title-xl leading-tight">{toLocalMsisdn(found.msisdn)}</p>
             <Badge variant="danger-solid">Blocked</Badge>
           </div>
           {/* What the number is. */}

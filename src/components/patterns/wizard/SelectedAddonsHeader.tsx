@@ -84,7 +84,7 @@ export function SelectedAddonsHeader({
   return (
     <div
       ref={containerRef}
-      className={variant === 'header' ? 'relative w-80' : 'fixed inset-x-4 bottom-0 z-[var(--z-popover)]'}
+      className={variant === 'header' ? 'relative w-80' : 'tray-fixed'}
     >
       <Button
         variant="secondary"
@@ -93,7 +93,7 @@ export function SelectedAddonsHeader({
         aria-expanded={open}
         aria-controls={open ? panelId : undefined}
         onClick={() => setOpen((current) => !current)}
-        className="group w-full justify-between text-left shadow-raised"
+        className="group tray-toggle"
       >
         <span className="row min-w-0">
           <span className="icon-tile count-badge">
@@ -111,7 +111,7 @@ export function SelectedAddonsHeader({
           id={panelId}
           role="dialog"
           aria-label="Selected Add-Ons"
-          className={`absolute inset-x-0 ${variant === 'header' ? 'top-full mt-3 max-h-[calc(100dvh-var(--spacing)*56)]' : 'bottom-full mb-3 max-h-[calc(100dvh-var(--spacing)*24)]'} tray-panel`}
+          className={`tray-anchor ${variant === 'header' ? 'tray-below' : 'tray-above'} tray-panel`}
         >
           <div className="shrink-0 pad-panel">
             <h2 className="text-[length:var(--fs-h5)] font-bold">Selected Add-Ons</h2>
@@ -121,12 +121,12 @@ export function SelectedAddonsHeader({
           </div>
 
           {selected.length > 0 ? (
-            <ul className="min-h-0 overflow-y-auto divide-y divide-border-soft border-y border-border-soft">
+            <ul className="scroll-list-ruled">
               {selected.map((addon) => (
                 <li key={addon.productId} className="row-start pad-row sm:px-5">
-                  <div className="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
-                    <p className="break-words text-[length:var(--fs-body)] font-semibold leading-snug">{addon.name}</p>
-                    <p className="shrink-0 whitespace-nowrap text-right text-[length:var(--fs-caption)]">
+                  <div className="addon-line-grid">
+                    <p className="addon-name">{addon.name}</p>
+                    <p className="addon-price">
                       <span className="block font-semibold text-fg">{priceOf(addon, selectedBilling[addon.productId])}</span>
                       <span className="mt-0.5 block text-muted">{cadenceOf(addon, selectedBilling[addon.productId])}</span>
                     </p>
@@ -142,7 +142,7 @@ export function SelectedAddonsHeader({
               ))}
             </ul>
           ) : (
-            <p className="border-y border-border-soft px-5 py-5 text-[length:var(--fs-body)] text-muted">
+            <p className="tray-empty">
               No add-ons selected.
             </p>
           )}

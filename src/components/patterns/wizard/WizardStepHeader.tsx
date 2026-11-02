@@ -43,7 +43,7 @@ export function WizardStepHeader({
         </div>
       )}
         {/* Below sm the floating actions have no room beside the title, so they take their own row above it (max-sm:pt-12). */}
-        <div className={`split-wide min-h-[39px] mb-4 ${trayAside ? 'lg:pr-[22rem]' : showCustomerView && action ? 'sm:pr-[26rem]' : showCustomerView || action ? 'sm:pr-48' : ''} ${showCustomerView || action ? 'max-sm:pt-12' : ''}`}>
+        <div className={`split-wide step-header ${trayAside ? 'lg:pr-[22rem]' : showCustomerView && action ? 'sm:pr-[26rem]' : showCustomerView || action ? 'sm:pr-48' : ''} ${showCustomerView || action ? 'max-sm:pt-12' : ''}`}>
           <div>
             {currentStep?.eyebrow && (
               <p className="text-[var(--tint-teal-fg)] text-[length:var(--fs-tag)] caps-strong mb-1">{currentStep.eyebrow}</p>
@@ -51,7 +51,7 @@ export function WizardStepHeader({
             <h2
               ref={stepHeadingRef}
               tabIndex={-1}
-              className="title-xl focus-ring"
+              className="title title-xl focus-ring"
             >
               {currentStep?.heading ?? currentStep?.label}
             </h2>

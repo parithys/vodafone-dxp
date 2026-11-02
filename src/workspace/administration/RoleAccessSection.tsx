@@ -39,7 +39,7 @@ export function RoleAccessSection() {
 
   return (
     <div>
-      <div className="flex gap-6 items-start">
+      <div className="row-start gap-6">
         <div className="w-80 shrink-0">
           <SearchField
             aria-label="Search roles, groups, Staff IDs"
@@ -49,12 +49,12 @@ export function RoleAccessSection() {
             placeholder="Search roles, groups, Staff IDs…"
             wrapperClassName="mb-3"
           />
-          <div className="card max-h-[60vh] overflow-y-auto divide-y divide-border-soft">
+          <div className="card max-h-[60vh] scroll-list">
             {filtered.map((persona) => (
               <button type="button"
                 key={persona.id}
                 onClick={() => setSelectedId(persona.id)}
-                className={`w-full text-left pad-row hover:bg-surface ${selectedId === persona.id ? 'bg-[var(--highlight-bg)]' : ''}`}
+                className={`block-row pad-row ${selectedId === persona.id ? 'bg-[var(--highlight-bg)]' : ''}`}
               >
                 <div className="value-text truncate">{persona.name}</div>
                 <div className="caption-secondary truncate">
@@ -71,14 +71,14 @@ export function RoleAccessSection() {
             <>
               <div className="card p-5 mb-4">
                 <div className="split-top gap-4 mb-1">
-                  <h2 className="title-lg">{selected.name}</h2>
+                  <h2 className="title title-lg">{selected.name}</h2>
                   <Badge variant={APPROACH_VARIANT[selected.approach] ?? 'filled-neutral'}>{selected.approach}</Badge>
                 </div>
                 <p className="caption-secondary mb-3">
                   {selected.group} · {selected.businessUnitLabel} · Staff ID {selected.staffId}
                 </p>
                 <p className="text-secondary mb-2">{selected.description}</p>
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-1 text-[length:var(--fs-caption)]">
+                <dl className="pair-grid gap-x-6 gap-y-1 text-[length:var(--fs-caption)]">
                   <div>
                     <dt className="inline font-medium text-fg">Channel: </dt>
                     <dd className="inline text-fg-2">{selected.channel}</dd>
@@ -89,7 +89,7 @@ export function RoleAccessSection() {
                   </div>
                 </dl>
                 {selected.capabilities.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
+                  <div className="mt-3 wrap-loose gap-1.5">
                     {selected.capabilities.map((c) => (
                       <Badge key={c} variant="filled-neutral">{c}</Badge>
                     ))}
@@ -97,7 +97,7 @@ export function RoleAccessSection() {
                 )}
               </div>
 
-              <h3 className="title-md mb-2">Granted features ({grants.length})</h3>
+              <h3 className="title title-md mb-2">Granted features ({grants.length})</h3>
               <div className="card divide-y divide-border-soft">
                 {grants.length === 0 && (
                   <p className="px-4 empty-line">No features granted to this role.</p>
@@ -121,7 +121,7 @@ export function RoleAccessSection() {
                           <div className="caption-secondary mt-1 italic">{grant.restrictions}</div>
                         )}
                       </div>
-                      <div className="row-tight shrink-0">
+                      <div className="row gap-2 shrink-0">
                         {!built && <Badge variant="filled-neutral">Planned</Badge>}
                         <Badge variant={PERMISSION_VARIANT[grant.level] ?? 'filled-neutral'}>{grant.level}</Badge>
                       </div>

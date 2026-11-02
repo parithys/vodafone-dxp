@@ -219,7 +219,7 @@ export function ZsbAddressStep({ value, onChange, idNumber, nationality, showSer
   return (
     <div className="space-y-6">
       {showServiceIds && serviceInformation}
-      {fetching && <p className="text-muted text-[length:var(--fs-body)]">Checking for an address on file…</p>}
+      {fetching && <p className="muted-body">Checking for an address on file…</p>}
       {/* The provenance line ("Retrieved from the customer's Qatar ID. Edit any
           field if the customer confirms a change.") was removed on 2026-09-27
           per the annotated walkthrough. The fields remain prefilled from MOI
@@ -233,7 +233,7 @@ export function ZsbAddressStep({ value, onChange, idNumber, nationality, showSer
       <section className={CARD}>
         {/* One grid, in the order the agent fills it: Zone, Street, Building, Unit / Apartment / Flat, Floor, PO Number, City, Country, then the Address Description below.
             items-end keeps the inputs level when a long label (Unit Number / Apartment Number / Flat Number *) wraps. */}
-        <div className="grid grid-cols-3 items-end gap-4">
+        <div className="grid-3-end">
           <Input
             label="Zone Number"
             required

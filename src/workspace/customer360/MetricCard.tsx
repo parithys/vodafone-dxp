@@ -5,7 +5,7 @@ export function MetricCard({ label, value, subtext }: { label: string; value: st
   return (
     <div className="card p-4">
       <div className="eyebrow">{label}</div>
-      <div className="text-fg font-medium text-[length:var(--fs-h5)] mt-1">{value}</div>
+      <div className="metric-value mt-1">{value}</div>
       <div className="caption-secondary mt-1">{subtext}</div>
     </div>
   );

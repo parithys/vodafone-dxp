@@ -57,10 +57,10 @@ export function OrderConfirmationScreen({
     // receipt on the left and - when there is something to hand over (the eSIM QR) - that handover on the right, then
     // every action in one row, with the print actions in a second row. Under lg the two columns stack, receipt first, so the page still prints on one A4 sheet.
     <div className="max-w-6xl mx-auto py-8">
-      <div className="stack-center text-center">
-        <h1 className="title-2xl mb-6">{heading}</h1>
+      <div className="centered-stack">
+        <h1 className="title title-2xl mb-6">{heading}</h1>
         <div className="disc-lg bg-success-solid text-on-dark mb-6">
-          <Icon path={CHECK} className="w-8 h-8" />
+          <Icon path={CHECK} className="size-8 " />
         </div>
         <p className="text-fg-2 mb-2">
           Order: <span className="font-medium text-fg">{orderId}</span>
@@ -76,7 +76,7 @@ export function OrderConfirmationScreen({
 
       {/* Two columns only when there is a handover panel to put in the second one: with none (a physical SIM has no QR)
           the receipt stands alone, centred, at a readable width rather than beside an empty column. */}
-      <div className={`grid grid-cols-1 gap-8 mt-8 ${handoverPanel ? 'lg:grid-cols-2' : 'max-w-xl mx-auto items-start'}`}>
+      <div className={`fields gap-8 mt-8 ${handoverPanel ? 'lg:grid-cols-2' : 'reading-column items-start'}`}>
         <dl className="card p-5">
           {summaryLines.map((line) => (
             <div key={line.label} className="spread py-2 row-rule">
@@ -90,7 +90,7 @@ export function OrderConfirmationScreen({
       </div>
 
       {/* Actions act on the order as a whole, so they span both columns, in one row (wrapping on a narrow screen). */}
-      <div className="no-print print:hidden cluster-center mt-8">
+      <div className="no-print print:hidden cluster justify-center mt-8">
         {actions.map((action) => (
           <Button key={action.label} variant={action.variant ?? 'secondary'} onClick={action.onClick}>
             {action.label}
@@ -98,7 +98,7 @@ export function OrderConfirmationScreen({
         ))}
       </div>
       {printActions && printActions.length > 0 && (
-        <div className="no-print print:hidden cluster-center mt-3">
+        <div className="no-print print:hidden cluster justify-center mt-3">
           {printActions.map((action) => (
             <Button key={action.label} variant={action.variant ?? 'secondary'} onClick={action.onClick}>
               {action.label}

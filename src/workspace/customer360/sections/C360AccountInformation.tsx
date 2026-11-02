@@ -28,7 +28,7 @@ function Field({ label, requirement, value, strong = true }: { label: string; /*
   return (
     <div className="data-row">
       <dt className="text-fg shrink-0" data-req={requirement}>{label}</dt>
-      <dd className={`text-fg min-w-0 break-words text-right ${strong ? 'font-medium' : ''}`}>{empty ? '-' : mode === 'drill-down' ? <RevealValue>{value}</RevealValue> : value}</dd>
+      <dd className={`value-right ${strong ? 'font-medium' : ''}`}>{empty ? '-' : mode === 'drill-down' ? <RevealValue>{value}</RevealValue> : value}</dd>
     </div>
   );
 }
@@ -167,7 +167,7 @@ export function C360AccountInformation({
         ]
   ) as { label: string; value: string | undefined; red?: boolean }[];
 
-  const empty = (text: string) => <p className="text-muted text-[length:var(--fs-body)] py-3">{text}</p>;
+  const empty = (text: string) => <p className="muted-body py-3">{text}</p>;
 
   return (
     <TabPage
@@ -197,7 +197,7 @@ export function C360AccountInformation({
           value={qar(creditLimit) ?? '-'}
           caption={
             utilisation !== undefined && (
-              <span className="row-tight">
+              <span className="row gap-2">
                 <span className="shrink-0">Utilisation: {utilisation}%</span>
                 <span className="flex-1 min-w-12">
                   <Progress pct={utilisation} tone="blue" />
@@ -212,7 +212,7 @@ export function C360AccountInformation({
           tone="red"
           label="Dunning Stage"
           value={
-            <span className="cluster-sm justify-between">
+            <span className="split gap-2">
               <span>{stage ?? '-'}</span>
               {standing && <Pill tone={toneForStage(standing)}>{standing}</Pill>}
             </span>
@@ -243,7 +243,7 @@ export function C360AccountInformation({
                     <span className="inline-flex items-center gap-2">
                       {account.accountId}
                       <button type="button" aria-label="Copy account number" onClick={() => void navigator.clipboard?.writeText(account.accountId)} className="text-fg-2 hover:text-fg">
-                        <Icon path={IC.copy} className="w-3.5 h-3.5" />
+                        <Icon path={IC.copy} className="size-3.5 " />
                       </button>
                     </span>
                   )
@@ -296,11 +296,11 @@ export function C360AccountInformation({
               <ul>
                 {counts.map((r) => (
                   <li key={r.label} className="row py-1.5 row-rule">
-                    <span className={`row flex-1 min-w-0 rounded-[var(--radius-button)] px-2 py-1.5 bg-surface-half`}>
+                    <span className={`chip-row-soft`}>
                       <IconTile icon={r.icon} tone={r.tone} size="sm" />
                       <span className="body-text flex-1 min-w-0 truncate">{r.label}</span>
                     </span>
-                    <span className="heading-strong w-8 text-right">{r.n}</span>
+                    <span className="title title-sm font-semibold w-8 text-right">{r.n}</span>
                   </li>
                 ))}
               </ul>
@@ -311,17 +311,17 @@ export function C360AccountInformation({
             <div className="row">
               <IconTile icon={IC.user} tone="blue" size="sm" />
               <div className="min-w-0 flex-1">
-                <div className="cluster-sm">
-                  <span className="heading-strong break-words">{data.customer.name}</span>
+                <div className="cluster gap-2">
+                  <span className="title title-sm font-semibold break-words">{data.customer.name}</span>
                   {account && !account.parentAccountId && <Pill tone="blue">Primary</Pill>}
                 </div>
                 <div className="caption-secondary break-words">Account No: {account?.accountId ?? data.customer.customerId}</div>
               </div>
             </div>
             {tree.length === 0 ? (
-              <p className="text-muted text-[length:var(--fs-body)] pt-3 pl-12">No billing accounts on file.</p>
+              <p className="muted-indented">No billing accounts on file.</p>
             ) : (
-              <ul className="ml-4 mt-1 border-l border-[var(--border)] pl-6 space-y-2 pt-2">
+              <ul className="tree-children-thin">
                 {tree.map((n, i) => (
                   <li key={n.id} className="row">
                     <IconTile icon={i % 2 === 0 ? IC.home : IC.building} tone={i % 2 === 0 ? 'amber' : 'purple'} size="sm" />
@@ -340,7 +340,7 @@ export function C360AccountInformation({
             <ul>
               {pendingRows.map((r) => (
                 <li key={r.label}>
-                  <button type="button" disabled={!goToTab} onClick={go(r.tab)} className="w-full split-nowrap py-1.5 divider-bottom text-[length:var(--fs-body)] enabled:hover:bg-surface">
+                  <button type="button" disabled={!goToTab} onClick={go(r.tab)} className="enabled-row">
                     <span className="text-fg-2 text-left">{r.label}</span>
                     <span className="text-fg font-medium">{r.value}</span>
                   </button>
@@ -382,7 +382,7 @@ export function C360AccountInformation({
                   <li key={c.key} className="row py-2 row-rule">
                     <IconTile icon={IC.user} tone={i === 0 ? 'blue' : i === 1 ? 'red' : 'purple'} size="sm" />
                     <div className="min-w-0 flex-1">
-                      <div className="heading-strong break-words">{c.name}</div>
+                      <div className="title title-sm font-semibold break-words">{c.name}</div>
                       <div className="caption-secondary break-words">{c.sub}</div>
                     </div>
                     {c.badge && <Pill tone="blue">{c.badge}</Pill>}

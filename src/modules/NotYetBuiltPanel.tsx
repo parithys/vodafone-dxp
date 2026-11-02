@@ -25,7 +25,7 @@ export function NotYetBuiltPanel({
   return (
     <div className="p-8 w-full">
       <Badge variant="filled-neutral">{badge}</Badge>
-      <h1 className="title-xl mt-3 mb-2">{title}</h1>
+      <h1 className="title title-xl mt-3 mb-2">{title}</h1>
       <p className="text-fg-2 mb-4">{body}</p>
       {details && details.length > 0 && (
         <dl className="text-secondary space-y-1">

@@ -17,7 +17,7 @@ const dash = (v: ReactNode | undefined | null): ReactNode => (v === undefined ||
 /** Card title: tinted icon + title, with an optional count and a trailing badge. */
 function CardTitle({ icon, children }: { icon: string; children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2.5 min-w-0">
+    <span className="inline-row-snug">
       <Icon path={icon} className="icon-md text-[var(--signal-blue)]" />
       <span className="min-w-0 break-words">{children}</span>
     </span>
@@ -117,7 +117,7 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
       }
     >
       {/* Masonry: panels flow down three columns by height instead of sharing rows. */}
-      <div className="columns-1 @4xl:columns-3 gap-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
+      <div className="masonry-3">
         <Panel id="c360-identity-information" icon={undefined} title={<CardTitle icon={IC.card}>Identity Information</CardTitle>} action={idStatus ? <Pill tone={flagTone(idStatus)}>{idStatus}</Pill> : undefined}>
           <DetailRows
             rows={[
@@ -187,9 +187,9 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
             ]}
           />
           {showAuthorised && authorised.length > 0 && (
-            <ul className="mt-2 rounded-[var(--radius-button)] bg-surface divide-y divide-border-soft">
+            <ul className="nested-list">
               {authorised.map((a) => (
-                <li key={String(a.authorisedPersonId)} className="px-3 py-2 text-[length:var(--fs-body)] min-w-0">
+                <li key={String(a.authorisedPersonId)} className="cell-md">
                   <div className="text-fg font-medium break-words">{str(a.name) ?? '-'}</div>
                   <div className="caption-secondary break-words">
                     {[str(a.jobTitle), Array.isArray(a.roles) ? (a.roles as string[]).join(', ') : undefined, str(a.mobile), str(a.email)].filter(Boolean).join(' | ') || '-'}
@@ -206,21 +206,21 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
           action={hierarchy.length > 3 ? <LinkAction onClick={() => setAllContacts((s) => !s)}>{allContacts ? 'Show less' : 'View All'}</LinkAction> : undefined}
         >
           {visibleContacts.length === 0 ? (
-            <p className="text-muted text-[length:var(--fs-body)] py-2">No contacts on file.</p>
+            <p className="muted-body py-2">No contacts on file.</p>
           ) : (
             <ul>
               {visibleContacts.map((c) => (
                 <li key={c.key} className="row py-2.5 row-rule min-w-0">
                   <span
-                    className={`w-11 h-11 rounded-[var(--radius-pill)] icon-tile font-semibold text-[length:var(--fs-body)] ${
+                    className={`contact-avatar ${
                       c.primary ? 'bg-accent text-accent-on' : 'bg-tone-accent text-accent'
                     }`}
                   >
                     {initials(c.name)}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <div className="cluster-sm">
-                      <span className="heading-strong break-words">{c.name}</span>
+                    <div className="cluster gap-2">
+                      <span className="title title-sm font-semibold break-words">{c.name}</span>
                       {c.primary && <PrimaryTag />}
                     </div>
                     <div className="caption-secondary break-words">{c.role}</div>
@@ -237,7 +237,7 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
 
         <Panel id="c360-addresses" title={<CardTitle icon={IC.pin}>{`Addresses (${addresses.length})`}</CardTitle>} action={<LinkAction onClick={goToTab ? () => goToTab('address-service') : undefined}>View All</LinkAction>}>
           {addresses.length === 0 ? (
-            <p className="text-muted text-[length:var(--fs-body)] py-2">No addresses on file.</p>
+            <p className="muted-body py-2">No addresses on file.</p>
           ) : (
             <ul className="space-y-3">
               {addresses.slice(0, 2).map((a, i) => {
@@ -246,7 +246,7 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
                 const line = [str(a.addressLine1), str(a.addressLine2)].filter(Boolean);
                 const place = [str(a.city), str(a.country)].filter(Boolean).join(', ');
                 return (
-                  <li key={str(a.id) ?? i} className="rounded-[var(--radius-button)] border border-[var(--field-card-border)] p-3 row min-w-0">
+                  <li key={str(a.id) ?? i} className="contact-card">
                     <IconTile icon={primary ? IC.home : IC.building} tone="grey" size="lg" />
                     <div className="min-w-0 flex-1">
                       <div>

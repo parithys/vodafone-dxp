@@ -305,8 +305,8 @@ export function ActivationCompleteScreen({
       {/* Only when there is an offer: the fibre offer for a location that is ready for service. Nothing is shown while the location is being
           read, or when there is none (no location on file, or not ready for fibre). */}
       {fibre === 'rfs' && (
-        <section aria-label="Eligible offers" className="narrow-center mt-6 card p-5 text-center no-print print:hidden">
-          <h2 className="subtitle mb-3">This customer location is Ready for Service.</h2>
+        <section aria-label="Eligible offers" className="narrow-panel mt-6 card no-print print:hidden">
+          <h2 className="title title-md font-semibold mb-3">This customer location is Ready for Service.</h2>
           <ul className="divide-y divide-border-soft">
             <li className="split-nowrap py-2">
               <span className="body-text">Fibre at the customer's location</span>

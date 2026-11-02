@@ -264,16 +264,18 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   const stepHeader = read('src/components/patterns/wizard/WizardStepHeader.tsx');
   const connection = read('src/modules/new-connection/NewConnectionWizard.tsx');
 
-  assert.match(tray, /fixed inset-x-4 bottom-0/);
+  assert.match(tray, /tray-fixed/);
+  assert.match(read('src/ui-components.css'), /\.tray-fixed \{[^}]*fixed inset-x-4 bottom-0/);
   assert.match(footer, /bottom-20 lg:bottom-0/);
-  assert.match(footer, /fixed inset-x-0 \$\{fixedPosition\}/);
+  assert.match(footer, /action-bar \$\{fixedPosition\}/);
   // Continue is at the right end of the bar on every step: nothing on desktop sits beside it, so it reserves no gap for the summary.
   assert.doesNotMatch(footer, /lg:pr-\[calc/);
   assert.match(wizard, /avoidBottomTray=\{showSelectedAddonsTray && currentStep\?\.key === 'planExtras'\}/);
   assert.match(wizard, /'pb-44 lg:pb-24' : 'pb-24'/);
   // Desktop: the tray is the step header's top-right action, the Journey Summary's width, its panel dropping down.
   assert.match(tray, /'relative w-80'/);
-  assert.match(tray, /top-full mt-3/);
+  assert.match(tray, /tray-below/);
+  assert.match(read('src/ui-components.css'), /\.tray-below \{[^}]*top-full mt-3/);
   assert.match(wizard, /trayAside=\{selectedAddonsTray && isDesktop \? selectedAddonsTray\('header'\)/);
   assert.match(wizard, /selectedAddonsTray && !isDesktop && selectedAddonsTray\('floating'\)/);
   assert.match(stepHeader, /trayAside/);
@@ -281,12 +283,16 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   assert.match(wizard, /hasSummary && <StepSummaryPanel/);
   assert.match(read('src/components/patterns/wizard/StepSummaryPanel.tsx'), /rail-end card[\s\S]*w-80/);
   assert.match(tray, /\{count\} add-ons · \{formatQar\(monthlyQar\)\}\/month/);
-  assert.match(tray, /absolute inset-x-0 \$\{variant === 'header'/);
-  assert.match(tray, /bottom-full mb-3/);
-  assert.match(tray, /max-h-\[calc\(100dvh-var\(--spacing\)\*24\)\]/);
-  assert.match(tray, /min-h-0 overflow-y-auto/);
-  assert.match(tray, /grid-cols-\[minmax\(0,1fr\)_auto\]/);
-  assert.match(tray, /break-words/);
+  assert.match(tray, /tray-anchor \$\{variant === 'header'/);
+  assert.match(tray, /tray-above/);
+  assert.match(read('src/ui-components.css'), /\.tray-above \{[^}]*bottom-full mb-3/);
+  assert.match(read('src/ui-components.css'), /\.tray-above \{[^}]*max-h-\[calc\(100dvh-var\(--spacing\)\*24\)\]/);
+  assert.match(tray, /scroll-list-ruled/);
+  assert.match(read('src/ui-components.css'), /\.scroll-list-ruled \{[^}]*min-h-0/);
+  assert.match(tray, /addon-line-grid/);
+  assert.match(read('src/ui-components.css'), /\.addon-line-grid \{[^}]*grid-cols-\[minmax\(0,1fr\)_auto\]/);
+  assert.match(tray, /addon-name/);
+  assert.match(read('src/ui-components.css'), /\.addon-name \{[^}]*break-words/);
   assert.doesNotMatch(tray, /<p className="truncate/);
   assert.doesNotMatch(wizard, /titleAction=\{/);
   assert.match(wizard, /showSelectedAddonsTray && currentStep\?\.key === 'planExtras'/);
@@ -314,7 +320,7 @@ test('selected add-on card ticks render above the card and are not clipped at th
 
 test('row-card icon tiles align to the top when add-on copy wraps', () => {
   const picker = fs.readFileSync('src/capabilities/AddonsSelection/AddonsPicker.tsx', 'utf8');
-  assert.match(picker, /icon-tile h-14 w-14 self-start card/);
+  assert.match(picker, /icon-tile-raised size-14 self-start card/);
 });
 
 test('the order summary labels each add-on with its effective cadence, not always "/mo"', async () => {

@@ -9,7 +9,7 @@ import type { PillTone } from './heroFigures';
 import { ALERT_ICON, CHECK_CIRCLE, FIBRE_HOME, FORM, ICONS_HEADSET, ICONS_MOBILE, ICONS_TAG, ICONS_USERS, ICON_DATA, OPEN_ARROW, REFRESH_ICON_PATH, SIM_CARD, TICKET, TREND_UP, USER_SMALL } from '../../assets/icons';
 
 const PILL_TONES: Record<PillTone, string> = {
-  neutral: 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]',
+  neutral: 'icon-tint',
   amber: 'bg-[var(--tint-amber-bg)] text-[var(--tint-amber-fg)]',
   pink: 'bg-[var(--tint-pink-bg)] text-[var(--tint-pink-fg)]',
   green: 'bg-[var(--tint-green-bg)] text-[var(--tint-green-fg)]',
@@ -122,8 +122,8 @@ export function DashboardZone({
   if (size === 'collapsed') {
     return (
       <section className="card card-lg card-inherit-fill pad-panel">
-        <div className="flex items-center gap-2.5 text-fg-2">
-          <Icon path={spec.headingIcon} className="w-4.5 h-4.5 text-accent shrink-0" />
+        <div className="row gap-2.5 text-fg-2">
+          <Icon path={spec.headingIcon} className="size-4.5 text-accent shrink-0" />
           <span className="font-medium text-[length:var(--fs-body)]">{spec.heading}</span>
           <span className="caption-muted ml-auto">
             {spec.tiles.length + spec.cards.length} metrics hidden by Focus
@@ -160,7 +160,7 @@ export function DashboardZone({
     <section className="min-w-0">
       <div className="split-top gap-4 mb-4">
         <div className="min-w-0">
-          <h2 className="title-md tracking-tight">{spec.heading}</h2>
+          <h2 className="title title-md tracking-tight">{spec.heading}</h2>
           {spec.subheading && <p className="caption-secondary mt-0.5">{spec.subheading}</p>}
         </div>
       </div>
@@ -168,7 +168,7 @@ export function DashboardZone({
       {/* The zone's tiles and figure cards share ONE grid, so they sit side by side in a single row on a wide screen (up to five
           across) and every card is as wide as its content needs, instead of two rows of very wide, mostly empty cards. */}
       {spec.tiles.length + spec.cards.length > 0 && (
-        <div className={`grid gap-4 mb-6 ${gridCols(size, `grid-cols-2 sm:grid-cols-6 ${spec.tiles.length + spec.cards.length <= 6 ? XL_COLS[spec.tiles.length + spec.cards.length] : ''}`, 'grid-cols-1 sm:grid-cols-6')}`}>
+        <div className={`tile-grid ${gridCols(size, `grid-cols-2 sm:grid-cols-6 ${spec.tiles.length + spec.cards.length <= 6 ? XL_COLS[spec.tiles.length + spec.cards.length] : ''}`, 'grid-cols-1 sm:grid-cols-6')}`}>
           {spec.tiles.map((tile, ti) => {
             const body = (
               <>
@@ -179,7 +179,7 @@ export function DashboardZone({
                 ) : (
                   <span className="block h-6" aria-hidden="true" />
                 )}
-                <div className="text-[length:var(--fs-stat)] leading-none font-extrabold text-fg mt-5">
+                <div className="stat-figure mt-5">
                   {value(tile.count, tile.loadingKind)}
                 </div>
                 <div className="caption-secondary mt-2">{tile.label}</div>
@@ -202,14 +202,14 @@ export function DashboardZone({
             <div key={card.label} className={`card card-lg card-inherit-fill p-5 flex flex-col ${itemSpan(spec.tiles.length + ci, spec.tiles.length + spec.cards.length, size)}`}>
               <div className="split-top gap-3 mb-4">
                 <div className="min-w-0">
-                  <div className="font-bold text-fg text-[length:var(--fs-caption)] line-clamp-2">{card.label}</div>
+                  <div className="title title-xs line-clamp-2">{card.label}</div>
                   <div className="text-muted text-[length:var(--fs-xs)] line-clamp-2">{card.sub}</div>
                 </div>
-                <span className={`w-10 h-10 rounded-[var(--radius-card)] ${spec.cardTone === 'pink' ? 'bg-surface-warm text-accent' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'} icon-tile`}>
-                  <Icon path={card.icon} className="w-4.5 h-4.5" />
+                <span className={`icon-tile-card size-10 ${spec.cardTone === 'pink' ? 'bg-surface-warm text-accent' : 'icon-tint'}`}>
+                  <Icon path={card.icon} className="size-4.5 " />
                 </span>
               </div>
-              <div className="mt-auto text-[length:var(--fs-stat)] leading-none font-extrabold text-fg">
+              <div className="mt-auto stat-figure">
                 {value(card.value, card.loadingKind)}
               </div>
             </div>
@@ -252,9 +252,9 @@ export function DashboardZone({
 
       {spec.listTitle && (
         <>
-          <h3 className="title-md mb-3">{spec.listTitle}</h3>
+          <h3 className="title title-md mb-3">{spec.listTitle}</h3>
           {(spec.listItems ?? []).length === 0 && (
-            <p className="text-muted text-[length:var(--fs-body)]">{spec.listEmpty}</p>
+            <p className="muted-body">{spec.listEmpty}</p>
           )}
           <div className="space-y-2">
             {(spec.listItems ?? []).map((item) => {
@@ -272,7 +272,7 @@ export function DashboardZone({
                 </>
               );
               const shell =
-                'flex items-center justify-between gap-3 card card-lg card-inherit-fill px-4 py-3';
+                'split-nowrap card card-lg card-inherit-fill pad-row';
               if (readOnly || !item.to) return <div key={item.id} className={shell}>{body}</div>;
               return (
                 <Link

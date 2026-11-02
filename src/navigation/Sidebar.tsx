@@ -13,7 +13,7 @@ import { NAV_MANIFEST, resolveActiveNavPath } from './navManifest';
 import { CHEVRON_DOWN, PANEL_TOGGLE_ICON, SEARCH_ICON } from '../assets/icons';
 
 // The row the keyboard has reached while searching the menu.
-const KBD_ACTIVE = 'data-[kbd-active=true]:bg-[var(--nav-hover-bg)] data-[kbd-active=true]:text-[var(--nav-fg)] data-[kbd-active=true]:ring-2 data-[kbd-active=true]:ring-inset data-[kbd-active=true]:ring-[var(--nav-fg-muted)]';
+const KBD_ACTIVE = 'nav-kbd-active';
 const DESKTOP_QUERY = '(min-width: 768px)';
 const subscribeDesktop = (cb: () => void) => {
   const mq = window.matchMedia(DESKTOP_QUERY);
@@ -190,7 +190,7 @@ export function Sidebar() {
           and is only present in the DOM/visible when the drawer is open. */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-[var(--z-scrim)] bg-scrim md:hidden"
+          className="nav-scrim"
           onClick={closeMobile}
           aria-hidden="true"
         />
@@ -198,20 +198,20 @@ export function Sidebar() {
       <nav
         inert={offScreen}
         aria-label="Main navigation"
-        className={`${docked ? 'md:static md:shrink-0' : ''} nav-drawer ${
-          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`${docked ? 'nav-drawer-docked' : ''} nav-drawer ${
+          mobileOpen ? 'nav-drawer-open' : 'nav-drawer-closed'
         } ${
           // Desktop: pinned or previewing it slides in. Docked (web, pinned) it is a flex sibling of the page and takes its own width;
           // otherwise it is an overlay.
-          shownDesktop ? 'md:translate-x-0 md:opacity-100' : 'md:-translate-x-full md:opacity-0'
+          shownDesktop ? 'nav-drawer-shown' : 'nav-drawer-hidden'
         } ${shownDesktop && !docked ? 'md:shadow-xl' : ''}`}
         onMouseEnter={!pinned ? openPeek : undefined}
         onMouseLeave={!pinned ? closePeekSoon : undefined}
       >
       {/* Mobile drawer header: the drawer ignores the desktop collapse preference. */}
       <div className="nav-header md:hidden">
-        <NavLink to="/" className="row-tight min-w-0">
-          <VodafoneMark className="w-7 h-7 shrink-0" />
+        <NavLink to="/" className="row gap-2 min-w-0">
+          <VodafoneMark className="size-7 shrink-0" />
           <VodafoneWordmark className="h-[18px] w-auto" />
         </NavLink>
         <button type="button"
@@ -219,12 +219,12 @@ export function Sidebar() {
           aria-label="Close navigation"
           className="nav-icon-btn shrink-0"
         >
-          <Icon path={PANEL_TOGGLE_ICON} className="w-4.5 h-4.5" />
+          <Icon path={PANEL_TOGGLE_ICON} className="size-4.5 " />
         </button>
       </div>
       <div className="nav-header hidden md:flex">
-        <NavLink to="/" className="row-tight min-w-0" aria-label="Vodafone - home">
-          <VodafoneMark className="w-7 h-7 shrink-0" />
+        <NavLink to="/" className="row gap-2 min-w-0" aria-label="Vodafone - home">
+          <VodafoneMark className="size-7 shrink-0" />
           <VodafoneWordmark className="h-[18px] w-auto" />
         </NavLink>
         {/* Expanded: the collapse icon sits on the right. (Collapsed, the logo in the top bar expands it.) */}
@@ -279,15 +279,15 @@ export function Sidebar() {
             // reads as "you are in here" without competing with the child's
             // own accent marker.
             const inGroupClass = 'nav-in-group';
-            const idleClass = 'nav-row-idle';
+            const idleClass = 'nav-idle';
             const body = (
               <>
-                <Icon path={item.icon} className="w-4.5 h-4.5 shrink-0" />
+                <Icon path={item.icon} className="size-4.5 shrink-0" />
                 <span className="truncate">{item.label}</span>
                 {hasChildren && (
                   <Icon
                     path={CHEVRON_DOWN}
-                    className={`icon-xs ml-auto opacity-70 transition-transform ${expanded ? 'rotate-180' : ''}`}
+                    className={`icon-xs chevron-end ${expanded ? 'rotate-180' : ''}`}
                   />
                 )}
               </>
@@ -341,7 +341,7 @@ export function Sidebar() {
                     there. Either way the left border is what keeps the
                     hierarchy legible, so the mechanism is unchanged. */}
                 {hasChildren && expanded && (
-                  <ul className="mt-0.5 ml-[26px] border-l border-[var(--nav-border)]">
+                  <ul className="nav-subtree">
                     {item.children!.map((child) => {
                       const hasJourneys = Boolean(child.journeys?.length);
                       const childOpen = Boolean(q) || expandedNavKeys.includes(child.key);
@@ -361,7 +361,7 @@ export function Sidebar() {
                             className={() =>
                               `${KBD_ACTIVE} nav-child ${
                                 child.to === activeNavPath
-                                  ? 'nav-child-active'
+                                  ? 'nav-active font-medium border-accent'
                                   : 'nav-child-idle'
                               }`
                             }
@@ -377,7 +377,7 @@ export function Sidebar() {
                               aria-label={`${childOpen ? 'Collapse' : 'Expand'} ${child.label}`}
                               className="nav-icon-btn icon-tile h-9 w-8 mr-4"
                             >
-                              <Icon path={CHEVRON_DOWN} className={`w-3.5 h-3.5 transition-transform ${childOpen ? 'rotate-180' : ''}`} />
+                              <Icon path={CHEVRON_DOWN} className={`size-3.5 transition-transform ${childOpen ? 'rotate-180' : ''}`} />
                             </button>
                           )}
                         </div>
@@ -405,8 +405,8 @@ export function Sidebar() {
                                       className={`${KBD_ACTIVE} nav-leaf ${
                                         // A planned journey has no page of its own (it links to its category), so it is never the active row.
                                         active
-                                          ? 'nav-leaf-active'
-                                          : 'nav-leaf-idle'
+                                          ? 'nav-active font-medium'
+                                          : 'nav-idle'
                                       }`}
                                     >
                                       <span className="truncate">{j.label}</span>

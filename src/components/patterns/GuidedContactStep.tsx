@@ -186,7 +186,7 @@ export function GuidedContactStep({ value, onChange, showIptvToggle = true, allo
           />
 
           <div>
-            <h3 className="subtitle mb-3">Contact &amp; Notification</h3>
+            <h3 className="title title-md font-semibold mb-3">Contact &amp; Notification</h3>
             {/* The two fields the agent can actually change (Email, Alt
                 phone) share a row with the one preference field evidenced
                 alongside them - see isValidEmail's header note: "Email/Alt

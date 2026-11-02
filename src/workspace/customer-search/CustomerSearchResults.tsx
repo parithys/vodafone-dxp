@@ -37,7 +37,7 @@ function Highlight({ text, query, words }: { text: string | undefined; query: st
     <>
       {value.split(pattern).map((part, i) =>
         i % 2 === 1 ? (
-          <mark key={i} className="rounded-[var(--radius-sm)] bg-[var(--highlight-bg)] text-inherit px-0.5 -mx-0.5">
+          <mark key={i} className="highlight-mark px-0.5 -mx-0.5">
             {part}
           </mark>
         ) : (
@@ -121,15 +121,15 @@ export function CustomerSearchResults({
 
   return (
       <div className="space-y-2">
-        {searching && <p className="text-muted text-[length:var(--fs-body)]">Searching…</p>}
+        {searching && <p className="muted-body">Searching…</p>}
         {!searching && results.length === 0 && businesses.length === 0 && (
-          <div role="status" className="stack-center gap-3 dropzone px-6 py-10 text-center">
-            <span className="flex h-14 w-14 items-center justify-center icon-tile-soft">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7" aria-hidden="true">
+          <div role="status" className="centered-stack gap-3 dropzone px-6 py-10">
+            <span className="icon-tile-soft size-14">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className=" size-7" aria-hidden="true">
                 <path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3 M8.5 8.5l5 5 M13.5 8.5l-5 5" />
               </svg>
             </span>
-            <p className="title-md">Customer Data Not Found</p>
+            <p className="title title-md">Customer Data Not Found</p>
             <p className="max-w-md text-secondary">
               No customer record matches <span className="font-bold text-fg">“{submitted}”</span>. Check the ID/number, or try searching by name or email instead.
             </p>
@@ -143,7 +143,7 @@ export function CustomerSearchResults({
               className="card-row-button card split-nowrap"
             >
               <div className="min-w-0">
-                <div className="row-tight mb-1">
+                <div className="row gap-2 mb-1">
                   <span className="line-title">
                     <Highlight text={account.name} query={submitted} words />
                   </span>
@@ -168,7 +168,7 @@ export function CustomerSearchResults({
               className="card-row-button card transition-all spread items-center"
             >
               <div className="min-w-0">
-                <div className="row-tight mb-1">
+                <div className="row gap-2 mb-1">
                   <span className="line-title"><Highlight text={customer.name} query={submitted} words />
                   </span>
                   {customer.blacklisted && <Badge variant="danger">Blacklisted</Badge>}

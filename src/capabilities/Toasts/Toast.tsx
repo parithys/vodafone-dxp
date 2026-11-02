@@ -72,7 +72,7 @@ function ToastBrandMark({ brand }: { brand: ToastBrand }) {
   // A competitor's customer shows no mark at all.
   if (brand.operator !== 'vodafone') return null;
   return (
-    <span className="row-tight">
+    <span className="row gap-2">
       <VodafoneMark className="icon-sm" />
       {brand.segment && (
         <span className="toast-time">
@@ -196,7 +196,7 @@ export function ToastContainer() {
             key={t.id}
             role={t.kind === 'error' ? 'alert' : 'status'}
             aria-live={t.kind === 'error' ? 'assertive' : 'polite'}
-            className={`pointer-events-auto w-full overflow-hidden rounded-[var(--radius-card)] shadow-raised ${
+            className={`toast-card ${
               !structured ? kindSurface[t.kind] : 'bg-[var(--charcoal-panel)]'
             } ${structured ? 'max-w-[60rem]' : 'max-w-[34rem]'}`}
           >
@@ -222,14 +222,14 @@ export function ToastContainer() {
                       so the mark lands inside the header row rather than
                       becoming a third justify-between column floating in the
                       middle of it. */}
-                  <span className="row-loose shrink-0">
+                  <span className="row gap-4 shrink-0">
                     {t.brand && <ToastBrandMark brand={t.brand} />}
                     <button type="button"
                       onClick={() => dismissToast(t.id)}
                       aria-label="Dismiss notification"
                       className="text-on-dark-2 hover:text-on-dark"
                     >
-                      <Icon path={CLEAR_ICON} className="w-5 h-5" />
+                      <Icon path={CLEAR_ICON} className="size-5 " />
                     </button>
                   </span>
                 </div>
@@ -254,12 +254,12 @@ export function ToastContainer() {
                       not removable by touching padding, because there is
                       none - the dt has padding 0. Auto rows size to their own
                       content. */}
-                  <dl className="grid grid-rows-[auto_auto] grid-flow-col auto-cols-fr gap-x-6 gap-y-1.5">
+                  <dl className="toast-detail-grid">
                     {t.rows!.map((row) => (
                       <Fragment key={row.label}>
                         <dt className="text-on-dark-2 text-[length:var(--fs-caption)] leading-snug">{row.label}</dt>
                         <dd
-                          className={`text-[length:var(--fs-body)] font-semibold leading-snug ${rowToneClass[row.tone ?? 'default']}`}
+                          className={`toast-row-title ${rowToneClass[row.tone ?? 'default']}`}
                         >
                           {/* An actionable value launches on click - the
                               purpose of visit starting its journey. Underlined
@@ -288,7 +288,7 @@ export function ToastContainer() {
                               stack - so this is the only thing that closes
                               it. */}
                           {row.links && row.links.length > 0 && (
-                            <span className="mt-1.5 flex flex-col gap-1 font-normal">
+                            <span className="mt-1.5 stack gap-1 font-normal">
                               {row.links.map((link) => (
                                 <Link
                                   key={link.label}
@@ -318,12 +318,20 @@ export function ToastContainer() {
             ) : (
               <div className="toast-row">
                 <span className="shrink-0" style={{ color: kindDot[t.kind] }} aria-hidden="true">
-                  <Icon path={KIND_ICON[t.kind]} className="w-5 h-5" />
+                  <Icon path={KIND_ICON[t.kind]} className="size-5 " />
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="toast-subject">{t.message}</p>
-                  {t.detail && (
-                    <p className="caption-secondary leading-snug mt-0.5">{t.detail}</p>
+                  {t.detailLink ? (
+                    <p className="caption-secondary leading-snug mt-0.5">
+                      {t.detailLink.prefix}
+                      <Link to={t.detailLink.to} onClick={() => dismissToast(t.id)} className="link underline font-medium">
+                        {t.detailLink.label}
+                      </Link>
+                      {t.detailLink.suffix}
+                    </p>
+                  ) : (
+                    t.detail && <p className="caption-secondary leading-snug mt-0.5">{t.detail}</p>
                   )}
                 </div>
                 <button type="button"
@@ -331,7 +339,7 @@ export function ToastContainer() {
                   aria-label="Dismiss notification"
                   className="icon-button-bare"
                 >
-                  <Icon path={CLEAR_ICON} className="w-4 h-4" />
+                  <Icon path={CLEAR_ICON} className="size-4 " />
                 </button>
               </div>
             )}

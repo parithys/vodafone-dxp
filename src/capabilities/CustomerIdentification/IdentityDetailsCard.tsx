@@ -27,20 +27,20 @@ export interface Fact {
 function Tile({ icon, className = 'w-9 h-9' }: { icon: keyof typeof IC; className?: string }) {
   return (
     <span className={`${className} rounded-[var(--radius-button)] bg-surface text-fg-2 icon-tile`}>
-      <Icon path={IC[icon]} className="w-[18px] h-[18px]" />
+      <Icon path={IC[icon]} className="size-[18px] " />
     </span>
   );
 }
 
 function FactRow({ facts, extra }: { facts: Fact[]; extra?: ReactNode }) {
   const list = (
-    <dl className={`grid grid-cols-1 divide-y @lg:divide-y-0 @lg:divide-x divide-border-soft ${extra ? '@lg:col-span-2 @lg:grid-cols-2' : '@lg:grid-cols-3'}`}>
+    <dl className={`identity-grid ${extra ? '@lg:col-span-2 @lg:grid-cols-2' : '@lg:grid-cols-3'}`}>
       {facts.map((f, i) => (
-        <div key={f.label} className={`row min-w-0 py-2 @lg:py-0 ${i === 0 && !extra ? '@lg:pr-4' : '@lg:px-4'}`}>
+        <div key={f.label} className={`row identity-cell ${i === 0 && !extra ? '@lg:pr-4' : '@lg:px-4'}`}>
           <Tile icon={f.icon} />
           <div className="min-w-0">
             <dt className="text-fg text-[length:var(--fs-caption)] leading-tight">{f.label}</dt>
-            <dd className="heading-strong leading-snug break-words">{f.value || '-'}</dd>
+            <dd className="title title-sm font-semibold leading-snug break-words">{f.value || '-'}</dd>
           </div>
         </div>
       ))}
@@ -49,7 +49,7 @@ function FactRow({ facts, extra }: { facts: Fact[]; extra?: ReactNode }) {
   if (!extra) return list;
   // The editable control sits in the first column, ahead of the read-only facts.
   return (
-    <div className="grid grid-cols-1 @lg:grid-cols-3 gap-y-3 items-center">
+    <div className="identity-fields">
       <div className="min-w-0 @lg:pr-4">{extra}</div>
       {list}
     </div>
@@ -74,27 +74,23 @@ export function IdentityDetailsCard({ facts, status, lastRowExtra }: { facts: Fa
     <section aria-label="Identity Details" className="@container">
       {/* Same heading as "Contact & Notification" (plain, flush left, no icon). */}
       <div className={`spread items-center ${status ? 'mb-0' : 'mb-3'}`}>
-        <h3 className="subtitle">Identity Details</h3>
+        <h3 className="title title-md font-semibold">Identity Details</h3>
       </div>
       {status && (
-        <p className="-mt-1 mb-3 text-success font-medium text-[length:var(--fs-caption)]">{status}</p>
+        <p className="-mt-1 mb-3 success-note">{status}</p>
       )}
       {/* Validated with MOI: a light success wash and border (the same tint recipe the success toast uses) so the
           card reads as registry-confirmed; the icon tiles go white to stay legible on it. */}
       <div
-        className={`card-frame p-5 space-y-4 ${
-          status
-            ? 'border-tone-success-border bg-tone-success [&_dl_span]:bg-bg'
-            : 'border-border-soft bg-bg'
-        }`}
+        className={`panel-soft p-5 space-y-4 ${status ? 'tone-success-panel' : ''}`}
       >
         {rows.map((r, i) => (
-          <div key={i} className={i > 0 ? 'pt-4 border-t border-border-soft' : ''}>
+          <div key={i} className={i > 0 ? 'pt-4 divider-top' : ''}>
             <FactRow facts={r} extra={i === rows.length - 1 && extraInLastRow ? lastRowExtra : undefined} />
           </div>
         ))}
         {lastRowExtra && !extraInLastRow && (
-          <div className={`@lg:max-w-[calc(100%/3)] ${rows.length > 0 ? 'pt-4 border-t border-border-soft' : ''}`}>{lastRowExtra}</div>
+          <div className={`@lg:max-w-[calc(100%/3)] ${rows.length > 0 ? 'pt-4 divider-top' : ''}`}>{lastRowExtra}</div>
         )}
       </div>
     </section>

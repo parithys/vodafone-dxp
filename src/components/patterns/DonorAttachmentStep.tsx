@@ -124,7 +124,7 @@ export function DonorAttachmentStep({ value, onChange, form }: DonorAttachmentSt
   return (
     <div className="space-y-4">
       <div className="card p-4 card-surface space-y-4">
-        <div className="wrap-row items-start justify-between">
+        <div className="wrap-loose gap-2 items-start justify-between">
           <div>
             <p className="value-text">Mobile Number Portability Application Form</p>
             <p className="caption-secondary mt-0.5">Review the details with the customer before they sign.</p>
@@ -134,7 +134,7 @@ export function DonorAttachmentStep({ value, onChange, form }: DonorAttachmentSt
             <div className="value-text" data-testid="mnp-form-number">{current ? value.formNumber : 'Generating...'}</div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-3 pt-3 divider-top">
+        <div className="pair-grid gap-x-6 gap-y-3 pt-3 divider-top">
           <Row label="Customer">{form.customerName}</Row>
           <Row label={form.idType ?? 'ID Number'}>{form.idNumber}</Row>
           <Row label="Port-In Number">{normalizePortInNumber(d.portInNumber ?? '')}</Row>

@@ -180,14 +180,14 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
                 {dash(account?.accountId)}
                 {account?.accountId && (
                   <button type="button" onClick={copyAccount} aria-label="Copy account number" title={copied ? 'Copied' : 'Copy'} className="text-fg-2 hover:text-fg">
-                    <Icon path={copied ? IC.check : IC.copy} className="w-4 h-4" />
+                    <Icon path={copied ? IC.check : IC.copy} className="size-4 " />
                   </button>
                 )}
               </span>
             </Row>
             <Row label="Account Name">
               {goToTab ? (
-                <button type="button" onClick={() => goToTab('account-info')} className="inline-flex items-center gap-1 text-right text-link hover:underline">
+                <button type="button" onClick={() => goToTab('account-info')} className="link-end">
                   {dash(data.customer.name)}
                   <Icon path={IC.chevRight} className="icon-xs" />
                 </button>
@@ -227,13 +227,13 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
                     <button type="button" onClick={go('products-services')} disabled={!goToTab} className="row py-2.5 row-action">
                       <IconTile icon={TYPE_ICON[category]} tone={tag.tone} />
                       <span className="min-w-0 flex-1">
-                        <span className="block heading-strong break-words">{tag.label}</span>
+                        <span className="block title title-sm font-semibold break-words">{tag.label}</span>
                         <span className="block caption-secondary">
                           {count} {count === 1 ? 'service' : 'services'}
                           {suspended > 0 ? ` · ${suspended} suspended` : ''}
                         </span>
                       </span>
-                      <span className="title-md">{count}</span>
+                      <span className="title title-md">{count}</span>
                       <Chevron />
                     </button>
                   </li>
@@ -317,7 +317,7 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
                     </span>
                     <IconTile icon={e.icon} tone="grey" size="sm" />
                     <span className="min-w-0 flex-1">
-                      <span className="block heading-strong break-words">{e.title}</span>
+                      <span className="block title title-sm font-semibold break-words">{e.title}</span>
                       {e.sub && <span className="block caption-secondary break-words">{e.sub}</span>}
                     </span>
                   </li>

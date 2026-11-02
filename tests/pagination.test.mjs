@@ -140,11 +140,11 @@ test('the current page uses the Primary button style (accent gradient, on-accent
   const html = renderToStaticMarkup(React.createElement(Pager, { page: 3, pages: 5, onPage() {} }));
   const buttons = html.match(/<button[^>]*>[^<]*(?:<svg.*?<\/svg>[^<]*)?<\/button>/g);
   const cur = html.match(/<button[^>]*aria-current="page"[^>]*>/)[0];
-  assert.match(cur, /bg-\[image:var\(--accent-gradient\)\]/);
-  assert.match(cur, /text-accent-on/);
-  assert.match(cur, /font-bold/);
+  assert.match(cur, /pager-current/);
+  const css = fs.readFileSync('src/ui-components.css', 'utf8');
+  assert.match(css, /\.pager-current \{[^}]*bg-\[image:var\(--accent-gradient\)\] text-accent-on font-bold/);
   assert.doesNotMatch(cur, /text-fg/);
   const other = html.match(/<button[^>]*aria-label="Page 2"[^>]*>/)[0];
-  assert.doesNotMatch(other, /accent-gradient/);
+  assert.doesNotMatch(other, /pager-current/);
   assert.ok(buttons.length >= 5);
 });

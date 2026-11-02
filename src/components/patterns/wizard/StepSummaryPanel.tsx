@@ -111,7 +111,7 @@ export function StepSummaryPanel({
   ) : null;
   const body =
     entries.length === 0 ? (
-      <p className="px-4 py-6 text-muted text-[length:var(--fs-body)]">Your details will appear here as you complete each step.</p>
+      <p className="px-4 py-6 muted-body">Your details will appear here as you complete each step.</p>
     ) : (
       entries.map(({ index, step, isCurrent }) => {
         const rows = isCurrent ? [] : fieldRows(step, false);
@@ -147,7 +147,7 @@ export function StepSummaryPanel({
           aria-expanded={accordionOpen}
           className="split-nowrap w-full pad-row text-left rounded-[var(--radius-card)] focus-ring"
         >
-          <span className="heading-strong">{accordionOpen ? 'Hide summary' : 'View summary'}</span>
+          <span className="title title-sm font-semibold">{accordionOpen ? 'Hide summary' : 'View summary'}</span>
           <span className="caption-secondary">{count}</span>
         </button>
         {live}
@@ -157,9 +157,9 @@ export function StepSummaryPanel({
   }
 
   const toggleLabel = collapsed ? 'Expand journey summary' : 'Collapse journey summary';
-  const tileClass = 'flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-card)] bg-bg text-[var(--brand-plum)] shadow-[var(--shadow-icon-tile)]';
+  const tileClass = 'feature-tile size-12 text-[var(--brand-plum)]';
   const tileIcon = (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-5 ">
       <path d="M9 4h6v3H9z M7 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1 M9 12h6 M9 16h4" />
     </svg>
   );
@@ -182,13 +182,13 @@ export function StepSummaryPanel({
               className="relative nav-icon-tile-lg nav-ghost focus-ring"
             >
               {/* The navigation's panel icon, mirrored: this panel is on the right, so the chevron points back towards the content to open it. */}
-              <PanelIcon expanded={false} className="w-6 h-6 -scale-x-100" />
+              <PanelIcon expanded={false} className="size-6 -scale-x-100" />
             </button>
           </Tooltip>
         </header>
       ) : (
         /* The header stays put; only the sections below it scroll. Its content keeps a fixed width so the title does not reflow while the card narrows. */
-        <header className="shrink-0 border-b border-on-dark-line-2 bg-[var(--title-band-bg)] px-4 py-4">
+        <header className="summary-head">
           <div className="row w-72">
             <span className={tileClass} aria-hidden="true">
               {tileIcon}
@@ -206,7 +206,7 @@ export function StepSummaryPanel({
                 className="relative nav-icon-tile on-dark-ghost focus-ring"
               >
                 {/* The navigation's panel icon, mirrored: this panel is on the right, so the chevron points away from the content to fold it. */}
-                <PanelIcon expanded className="w-6 h-6 -scale-x-100" />
+                <PanelIcon expanded className="size-6 -scale-x-100" />
               </button>
             </Tooltip>
           </div>
@@ -217,11 +217,11 @@ export function StepSummaryPanel({
         <nav id={bodyId} aria-label="Journey steps" className="scroll-area pb-2">
           <ul>
             {entries.map(({ step, isCurrent }) => {
-              const rowClass = `flex h-12 w-full items-center justify-center transition-colors duration-[var(--motion-base)] focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
-                isCurrent ? 'bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)]' : 'text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)]'
+              const rowClass = `rail-step-button ${
+                isCurrent ? 'nav-active' : 'nav-hover-fill'
               }`;
               // The step's own icon: white on the red band for the page the agent is on, muted for a completed step, orange when it reached a milestone.
-              const glyph = <Icon path={stepIcon(step.key)} className={`w-6 h-6 ${!isCurrent && milestoneSteps?.has(step.key) ? 'text-[var(--summary-milestone)]' : ''}`} />;
+              const glyph = <Icon path={stepIcon(step.key)} className={`size-6 ${!isCurrent && milestoneSteps?.has(step.key) ? 'text-[var(--summary-milestone)]' : ''}`} />;
               // Every row just opens the panel: the detail and the Edit actions live there.
               return (
                 <li key={step.key}>
@@ -244,8 +244,8 @@ export function StepSummaryPanel({
             {returnEntry && (
               <li>
                 <Tooltip content={returnEntry.label} placement="left">
-                  <button type="button" onClick={toggleCollapsed} aria-label={`${returnEntry.label}, not completed. Expand journey summary`} aria-expanded={false} aria-controls={bodyId} className="row-button h-12 justify-center text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)]">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5">
+                  <button type="button" onClick={toggleCollapsed} aria-label={`${returnEntry.label}, not completed. Expand journey summary`} aria-expanded={false} aria-controls={bodyId} className="row-button h-12 justify-center nav-hover-fill">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5 ">
                       <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
                     </svg>
                   </button>

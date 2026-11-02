@@ -34,9 +34,9 @@ export function BulkNotesSection({ accountIds }: { accountIds: string[] }) {
     <div>
       <h3 className="caption-heading mb-2">Bulk Notes</h3>
       <ErrorBanner message={loadError} />
-      {loading && <p className="text-muted text-[length:var(--fs-body)]">Loading…</p>}
+      {loading && <p className="muted-body">Loading…</p>}
       {!loading && applicable.length === 0 && (
-        <p className="text-muted text-[length:var(--fs-body)]">No bulk notes apply to this customer's accounts.</p>
+        <p className="muted-body">No bulk notes apply to this customer's accounts.</p>
       )}
       {!loading && applicable.length > 0 && (
         <div className="space-y-2">

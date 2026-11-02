@@ -25,13 +25,13 @@ export function EntityMissing({
     return (
       <div className="p-8 space-y-3" role="alert">
         <p className="text-fg">We could not load this {what} just now.</p>
-        <div className="row-loose">
+        <div className="row gap-4">
           {onRetry && (
-            <button type="button" onClick={onRetry} className="text-link font-medium hover:underline">
+            <button type="button" onClick={onRetry} className="link font-medium">
               Try Again
             </button>
           )}
-          <Link to={backTo} className="text-link font-medium hover:underline">
+          <Link to={backTo} className="link font-medium">
             {backLabel}
           </Link>
         </div>
@@ -48,7 +48,7 @@ export function EntityMissing({
   return (
     <div className="p-8 space-y-3">
       <p className="text-fg">We could not find this {what}. It may have been removed, or the link is out of date.</p>
-      <Link to={backTo} className="text-link font-medium hover:underline">
+      <Link to={backTo} className="link font-medium">
         {backLabel}
       </Link>
     </div>

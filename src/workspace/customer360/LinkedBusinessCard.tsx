@@ -29,17 +29,17 @@ export function LinkedBusinessLine({ customerId }: { customerId: string }) {
   const { business } = linked;
   return (
     // A full-width rule (out to the header's edges), then the line. Left edge = the customer name's: the header padding (1.25rem) + the avatar (4rem) + the gap after it (1rem).
-    <div className="mt-4 -mx-5 pr-5 pl-[calc(1.25rem+4rem+1rem)] pt-3 divider-top">
+    <div className="mt-4 linked-footer">
       <div aria-label="Linked business" className="wrap-center gap-x-10 gap-y-1 text-[length:var(--fs-body)]">
         <p>
           <span className="text-fg-2">Company Name: </span>
-          <Link to={`/customer/${business.enterpriseAccountId}`} className="link-underline font-semibold">
+          <Link to={`/customer/${business.enterpriseAccountId}`} className="link underline font-semibold">
             {business.name}
           </Link>
         </p>
         <p>
           <span className="text-fg-2">Company Code: </span>
-          <Link to={`/customer/${business.enterpriseAccountId}`} className="link-underline font-semibold">
+          <Link to={`/customer/${business.enterpriseAccountId}`} className="link underline font-semibold">
             {business.enterpriseAccountId}
           </Link>
         </p>

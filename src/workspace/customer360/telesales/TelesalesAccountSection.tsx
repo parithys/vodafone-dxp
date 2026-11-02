@@ -77,15 +77,15 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
               ['TV', ICON.grid, ['TV / Entertainment']],
               ['GigaHome', ICON.globe, ['GigaHome Fibre', 'GigaHome 5G']],
             ].map(([label, icon, cats]) => (
-              <div key={label as string} className="rounded-[var(--radius-card)] bg-surface px-2 py-3 text-center">
-                <Icon path={icon as string} className="w-5 h-5 mx-auto text-fg" />
-                <div className="title-xl">{count(cats as string[])}</div>
+              <div key={label as string} className="stat-tile">
+                <Icon path={icon as string} className="icon-center" />
+                <div className="title title-xl">{count(cats as string[])}</div>
                 <div className="caption-muted">{label as string}</div>
               </div>
             ))}
           </div>
           <div className="px-5 pb-5">
-            <div className="text-secondary font-semibold border-b border-[var(--field-card-border)] pb-2 mb-2">Billing Email ID(s)</div>
+            <div className="subsection-head">Billing Email ID(s)</div>
             <ul className="body-text space-y-1">
               {(allEmails ? emails : emails.slice(0, 2)).map((e) => (
                 <li key={e}>• {e}</li>
@@ -103,22 +103,22 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
             three roles for every customer, so it is shown only for the Enterprise (EBU) segment. */}
         {isBusinessSeg && (
           <Card title="Key Contacts" icon={ICON.user} link="View All" onLink={() => ctx.goToTab('ts-contact')}>
-            {keyContacts.length === 0 && <p className="pad-panel text-muted text-[length:var(--fs-body)]">No key contacts on file.</p>}
+            {keyContacts.length === 0 && <p className="pad-panel muted-body">No key contacts on file.</p>}
             {keyContacts.map((k) => (
               <div key={k.role} className="flex gap-4 pad-panel row-rule-card">
                 <Avatar name={k.name ?? 'Manager'} />
                 <div className="min-w-0">
                   <div className="eyebrow">{k.role}</div>
-                  {k.name && <div className="subtitle">{k.name}</div>}
+                  {k.name && <div className="title title-md font-semibold">{k.name}</div>}
                   {k.mobile && (
                     <div className="text-secondary inline-flex items-center gap-2">
-                      <Icon path={ICON.phone} className="w-3.5 h-3.5" />
+                      <Icon path={ICON.phone} className="size-3.5 " />
                       {k.mobile}
                     </div>
                   )}
                   {k.email && (
-                    <div className="text-secondary row-tight">
-                      <Icon path={ICON.globe} className="w-3.5 h-3.5" />
+                    <div className="text-secondary row gap-2">
+                      <Icon path={ICON.globe} className="size-3.5 " />
                       {k.email}
                     </div>
                   )}
@@ -144,7 +144,7 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
       <div className="contents">
         <Card title="Recent Milestones / Interactions" icon={ICON.refresh} link="View All" onLink={() => ctx.goToTab('ts-history')}>
           <div className="px-5 py-3">
-            {entries.length === 0 && <p className="text-muted text-[length:var(--fs-body)] py-2">Nothing on file.</p>}
+            {entries.length === 0 && <p className="muted-body py-2">Nothing on file.</p>}
             {entries.map((e, i) => {
               const t = dateTime(e.at);
               return (
@@ -153,11 +153,11 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
                     <div>{t.d}</div>
                     <div>{t.t}</div>
                   </div>
-                  <span className={`w-8 h-8 rounded-[var(--radius-pill)] ${toneColor[e.tone]} icon-tile text-on-dark`}>
-                    <Icon path={ICON.refresh} className="w-3.5 h-3.5" />
+                  <span className={`size-8 rounded-[var(--radius-pill)] ${toneColor[e.tone]} icon-tile text-on-dark`}>
+                    <Icon path={ICON.refresh} className="size-3.5 " />
                   </span>
                   <div className="min-w-0">
-                    <div className="subtitle">{e.type}</div>
+                    <div className="title title-md font-semibold">{e.type}</div>
                     <div className="text-secondary">{e.detail}</div>
                   </div>
                 </div>

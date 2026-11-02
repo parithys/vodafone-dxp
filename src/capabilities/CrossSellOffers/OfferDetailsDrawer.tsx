@@ -52,7 +52,7 @@ const ICONS = {
   external: EXTERNAL,
 };
 
-const PANEL = 'rounded-[var(--radius-card)] border border-border-soft bg-bg';
+const PANEL = 'panel-soft';
 
 /** A titled, collapsible block. The chevron points the way the block will move: up while open. */
 function Section({ title, defaultOpen = true, chevronWhenOpen = 'up', children }: { title: string; defaultOpen?: boolean; chevronWhenOpen?: 'up' | 'down'; children: ReactNode }) {
@@ -67,8 +67,8 @@ function Section({ title, defaultOpen = true, chevronWhenOpen = 'up', children }
         onClick={() => setOpen((o) => !o)}
         className="row-button justify-between rounded-[var(--radius-button)] text-left"
       >
-        <h3 className="title-lg">{title}</h3>
-        <Icon path={open ? openIcon : closedIcon} className="w-5 h-5 text-fg" />
+        <h3 className="title title-lg">{title}</h3>
+        <Icon path={open ? openIcon : closedIcon} className="size-5 text-fg" />
       </button>
       {open && children}
     </section>
@@ -77,8 +77,8 @@ function Section({ title, defaultOpen = true, chevronWhenOpen = 'up', children }
 
 function IconDisc({ path, className = '' }: { path: string; className?: string }) {
   return (
-    <span className={`inline-flex shrink-0 items-center justify-center rounded-[var(--radius-pill)] ${className}`}>
-      <Icon path={path} className="w-5 h-5" />
+    <span className={`badge-round ${className}`}>
+      <Icon path={path} className="size-5 " />
     </span>
   );
 }
@@ -154,7 +154,7 @@ export function OfferDetailsDrawer({
         }}
       >
         {selected ? 'Selected' : 'Select this offer'}
-        {!selected && <Icon path={ICONS.right} className="w-4 h-4" />}
+        {!selected && <Icon path={ICONS.right} className="size-4 " />}
       </Button>
     </>
   );
@@ -170,14 +170,14 @@ export function OfferDetailsDrawer({
       {o && (
         <div className="space-y-6">
           {/* Offer summary */}
-          <div className="flex items-start gap-4">
-            <span className="icon-tile h-24 w-24 rounded-[var(--radius-card)] bg-surface-warm">
-              <IconDisc path={fixedService ? ICONS.house : ICONS.phone} className="h-16 w-16 bg-bg text-accent" />
+          <div className="row-start gap-4">
+            <span className="icon-tile size-24 rounded-[var(--radius-card)] bg-surface-warm">
+              <IconDisc path={fixedService ? ICONS.house : ICONS.phone} className=" size-16 bg-bg text-accent" />
             </span>
             <div className="min-w-0 space-y-2">
-              <h2 className="title-lg leading-tight">{o.offerName}</h2>
+              <h2 className="title title-lg leading-tight">{o.offerName}</h2>
               <p className="text-secondary">{o.offerDescription}</p>
-              {!hideStatusTags && <div className="wrap-row">
+              {!hideStatusTags && <div className="wrap-loose gap-2">
                 <span className="pill bg-surface-warm text-accent font-medium">{o.status}</span>
                 {o.offerType && <span className="pill bg-surface text-fg-2 font-medium">{o.offerType}</span>}
               </div>}
@@ -186,13 +186,13 @@ export function OfferDetailsDrawer({
 
           {/* What the plan includes */}
           {highlight && (
-            <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-surface-warm pad-panel row-loose">
-              <Icon path={ICONS.gift} className="w-9 h-9 shrink-0 text-accent" />
+            <div className="panel-warm pad-panel row gap-4">
+              <Icon path={ICONS.gift} className="size-9 shrink-0 text-accent" />
               <div className="min-w-0 pr-16">
-                <p className="title-sm">{highlight.title}</p>
+                <p className="title title-sm">{highlight.title}</p>
                 <p className="caption-secondary">{highlight.subtitle}</p>
               </div>
-              <svg viewBox="0 0 120 80" className="absolute right-0 top-0 h-full w-28" aria-hidden="true" preserveAspectRatio="xMaxYMid slice">
+              <svg viewBox="0 0 120 80" className="decor-right" aria-hidden="true" preserveAspectRatio="xMaxYMid slice">
                 <circle cx="95" cy="40" r="46" fill="var(--accent)" fillOpacity="0.12" />
                 <circle cx="120" cy="40" r="32" fill="var(--accent)" fillOpacity="0.45" />
               </svg>
@@ -223,11 +223,11 @@ export function OfferDetailsDrawer({
                 {o.policy.tables.map((t, i) => (
                   <div key={i} className="space-y-2">
                     {t.title && <p className="body-text">{t.title}</p>}
-                    <table className="w-full border-collapse text-left text-[length:var(--fs-body)]">
+                    <table className="data-grid">
                       <thead>
                         <tr>
                           {t.head.map((h) => (
-                            <th key={h} className="border border-border-soft bg-accent px-3 py-2 font-bold text-accent-on">
+                            <th key={h} className="grid-cell-head bg-accent text-accent-on">
                               {h}
                             </th>
                           ))}
@@ -236,10 +236,10 @@ export function OfferDetailsDrawer({
                       <tbody>
                         {t.rows.map(([k, v]) => (
                           <tr key={k}>
-                            <th scope="row" className="grid-cell-head">
+                            <th scope="row" className="grid-cell-head text-fg">
                               {k}
                             </th>
-                            <td className="grid-cell-head">{v}</td>
+                            <td className="grid-cell-head text-fg">{v}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -254,7 +254,7 @@ export function OfferDetailsDrawer({
                         <button
                           type="button"
                           onClick={() => pushToast('info', 'This page is not available yet.', { key: 'policy-link' })}
-                          className="mt-1 block text-left link rounded-[var(--radius-sm)]"
+                          className="mt-1 link-block"
                         >
                           {l.label}
                         </button>
@@ -269,9 +269,9 @@ export function OfferDetailsDrawer({
           <Section title="Offer Information">
             <dl className={`${PANEL} px-4`}>
               {rows.map((r, i) => (
-                <div key={r.label} className="row-loose">
-                  <IconDisc path={r.icon} className="h-10 w-10 bg-surface text-fg-2" />
-                  <div className={`spread flex-1 items-center py-4 ${i > 0 ? 'border-t border-border-soft' : ''}`}>
+                <div key={r.label} className="row gap-4">
+                  <IconDisc path={r.icon} className=" size-10 bg-surface text-fg-2" />
+                  <div className={`spread flex-1 items-center py-4 ${i > 0 ? 'divider-top' : ''}`}>
                     <dt className="body-text">{r.label}</dt>
                     <dd className="text-right">
                       {r.pill ? (
@@ -288,8 +288,8 @@ export function OfferDetailsDrawer({
 
           {includedNames.length > 0 && (
             <Section title="Included Plans and Add-Ons">
-              <div className={`${PANEL} p-4 flex items-start gap-4`}>
-                <IconDisc path={ICONS.cube} className="h-14 w-14 bg-surface-warm text-accent" />
+              <div className={`${PANEL} p-4 row-start gap-4`}>
+                <IconDisc path={ICONS.cube} className=" size-14 bg-surface-warm text-accent" />
                 <div className="space-y-2 pt-1">
                   <p className="text-secondary">
                     {includedNames.length} item{includedNames.length === 1 ? '' : 's'} included
@@ -312,8 +312,8 @@ export function OfferDetailsDrawer({
 
           {!o.policy && showRelatedDocuments && (
           <Section title="Need more information?" chevronWhenOpen="down">
-            <div className={`${PANEL} p-4 row-loose`}>
-              <IconDisc path={ICONS.doc} className="h-14 w-14 bg-surface text-fg-2" />
+            <div className={`${PANEL} p-4 row gap-4`}>
+              <IconDisc path={ICONS.doc} className=" size-14 bg-surface text-fg-2" />
               <div className="flex-1">
                 <p className="value-text">Related Documents</p>
                 <p className="caption-secondary">Terms, conditions and more</p>
@@ -321,7 +321,7 @@ export function OfferDetailsDrawer({
               {/* No offer documents exist in the app yet, so this says so instead of going nowhere. */}
               <Button variant="tertiary" compact onClick={() => pushToast('info', 'No documents are attached to this offer yet', { key: 'offer-documents' }) }>
                 View documents
-                <Icon path={ICONS.external} className="w-4 h-4" />
+                <Icon path={ICONS.external} className="size-4 " />
               </Button>
             </div>
           </Section>

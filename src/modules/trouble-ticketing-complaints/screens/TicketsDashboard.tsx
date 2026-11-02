@@ -241,7 +241,7 @@ export function TicketsDashboard({ padded = true }: TicketsDashboardProps) {
         className="mb-4"
       />
       <div className="wrap-loose items-end mb-4">
-        <div className="ml-auto wrap-row items-end">
+        <div className="ml-auto wrap-loose gap-2 items-end">
           <SearchField
             aria-label="Search ticket #, customer, category, issue"
             placeholder="Search ticket #, customer, category, issue…"

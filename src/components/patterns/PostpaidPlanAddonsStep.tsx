@@ -242,7 +242,7 @@ export function PostpaidPlanAddonsStep({
               </section>
             )}
             {mode === 'extras' && !selectedPlan && (
-              <p className="text-muted text-[length:var(--fs-body)]">Select a plan first - its add-ons, bill limit and discounts appear here.</p>
+              <p className="muted-body">Select a plan first - its add-ons, bill limit and discounts appear here.</p>
             )}
             {mode === 'extras' && selectionSource === 'OFFER' && (
               <p className="notice-neutral pad-row text-secondary">

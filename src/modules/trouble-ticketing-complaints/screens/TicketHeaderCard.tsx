@@ -16,10 +16,10 @@ export function TicketHeaderCard({ ticket, ragVariant, ragLabel, notesCount, sla
   return (
     <div className="card p-5">
       <div className="row mb-1">
-        <h1 className="title-xl">Ticket {ticket.ticketId}</h1>
+        <h1 className="title title-xl">Ticket {ticket.ticketId}</h1>
         <Badge variant={badgeVariantFor(ticket.status)}>{ticket.status}</Badge>
         <Badge variant={ragVariant}>SLA: {ragLabel}</Badge>
-        <span className="ml-auto row-snug text-fg-2" title="Notifications">
+        <span className="ml-auto row gap-1 text-fg-2" title="Notifications">
           🔔 <span className="text-[length:var(--fs-caption)]">{notesCount}</span>
         </span>
       </div>

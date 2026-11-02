@@ -115,6 +115,8 @@ export interface ToastOptions {
   autoDismissMs?: number;
   /** Quieter second line under the headline. Ignored when `rows` is set. */
   detail?: string;
+  /** Plain toasts only: the second line carries a link - `prefix` text, then `label` as a link to `to`, then `suffix` (the toast closes when it is followed). */
+  detailLink?: { prefix?: string; label: string; to: string; suffix?: string };
   /**
    * Turns the toast into a structured card: the message becomes an uppercase
    * header and these render as label/value rows beneath a divider. For
@@ -152,6 +154,7 @@ export interface Toast {
    * Optional so the ~55 existing two-argument call sites are unaffected.
    */
   detail?: string;
+  detailLink?: { prefix?: string; label: string; to: string; suffix?: string };
   rows?: ToastRow[];
   brand?: ToastBrand;
   reference?: string;
@@ -207,6 +210,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         kind,
         message,
         detail: options?.detail,
+        detailLink: options?.detailLink,
         rows: options?.rows,
         brand: options?.brand,
         reference: options?.reference,

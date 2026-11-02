@@ -94,7 +94,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
           }
         />
         {value.prePaired && value.simValid && (
-          <dl className="notice-success p-3 space-y-1 text-[length:var(--fs-caption)]">
+          <dl className="notice-success notice-body-sm">
             <div className="flex justify-between gap-3">
               <dt className="text-fg">SIM Type</dt>
               <dd className="text-fg font-medium">Pre-Paired SIM</dd>
@@ -174,7 +174,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
                 customer before payment. Calling it "issued" four steps early
                 described a handover that has not happened. */}
             <Badge variant="success">eSIM selected</Badge>
-            <dl className="notice-success p-3 space-y-1 text-[length:var(--fs-caption)]">
+            <dl className="notice-success notice-body-sm">
               <div className="flex justify-between gap-3">
                 <dt className="text-fg">SIM Type</dt>
                 <dd className="text-fg font-medium">eSIM</dd>

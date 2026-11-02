@@ -308,7 +308,7 @@ export function SessionReferenceNumbers() {
   if (!showQnomy && !(showCti && ctiTicket)) return null;
 
   return (
-    <div className="row-tight shrink-0">
+    <div className="row gap-2 shrink-0">
       {showQnomy && activeQTicket && (
         <>
           {/* Before the ticket text, so it reads as "info about this ticket"
@@ -320,7 +320,7 @@ export function SessionReferenceNumbers() {
               aria-label={`Show details for ticket ${activeQTicket.qTicketId}`}
               className="icon-button-bare transition-colors"
             >
-              <Icon path={INFO_ICON_PATH} className="w-4.5 h-4.5" />
+              <Icon path={INFO_ICON_PATH} className="size-4.5 " />
             </button>
           </Tooltip>
           <Tooltip
@@ -344,7 +344,7 @@ export function SessionReferenceNumbers() {
                   place, and it matters most for a walk-in with no record on
                   file. The tooltip still names that case. */}
               <span className="caption-muted uppercase tracking-wide">Qnomy #</span>
-              <span className="heading-strong">{activeQTicket.qTicketId}</span>
+              <span className="title title-sm font-semibold">{activeQTicket.qTicketId}</span>
             </div>
           </Tooltip>
           <Button variant="primary" compact disabled={finishing || abandoning} onClick={handleFinish}>
@@ -370,7 +370,7 @@ export function SessionReferenceNumbers() {
           <Tooltip content={`Waiting in your queue: ${queueLabelsForRole(activePersonaId)}`} placement="bottom">
             <div className="flex flex-col leading-tight">
               <span className="caption-muted uppercase tracking-wide">Queue</span>
-              <span className="heading-strong">
+              <span className="title title-sm font-semibold">
                 {waitingCount === null ? '-' : `${waitingCount} waiting`}
               </span>
             </div>
@@ -381,7 +381,7 @@ export function SessionReferenceNumbers() {
             disabled={callingNext || waitingCount === 0}
             onClick={handleNextCustomer}
           >
-            <Icon path={REFRESH_ICON_PATH} className="w-4 h-4" />
+            <Icon path={REFRESH_ICON_PATH} className="size-4 " />
             {callingNext ? 'Calling…' : 'Next Customer'}
           </Button>
         </>
@@ -414,7 +414,7 @@ export function SessionReferenceNumbers() {
                 being no control here and by the tooltip saying so. */}
             <div className="flex flex-col leading-tight">
               <span
-                className={`text-[length:var(--fs-caption)] uppercase tracking-wide ${
+                className={`caps-caption ${
                   releasedAs === 'abandoned' ? 'text-[var(--warn-text)]' : 'text-success'
                 }`}
               >
@@ -430,7 +430,7 @@ export function SessionReferenceNumbers() {
             </div>
           </Tooltip>
           <Button variant="secondary" compact disabled={callingNext} onClick={handleNextCustomer}>
-            <Icon path={REFRESH_ICON_PATH} className="w-4 h-4" />
+            <Icon path={REFRESH_ICON_PATH} className="size-4 " />
             {callingNext ? 'Calling…' : 'Next Customer'}
           </Button>
         </>

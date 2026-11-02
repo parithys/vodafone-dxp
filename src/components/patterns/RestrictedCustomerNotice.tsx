@@ -13,10 +13,10 @@ export function RestrictedCustomerNotice({ compact = false, backTo, backLabel }:
     <div role="alert" className={`row-start notice-danger-edge ${compact ? 'p-3' : 'p-5'}`}>
       <Icon path={LOCK} className="icon-md mt-0.5 text-danger" />
       <div className="min-w-0 space-y-1">
-        <p className="heading-strong">{RESTRICTED_CUSTOMER_TITLE}</p>
+        <p className="title title-sm font-semibold">{RESTRICTED_CUSTOMER_TITLE}</p>
         <p className="caption-secondary">{RESTRICTED_CUSTOMER_MESSAGE}</p>
         {backTo && (
-          <Link to={backTo} className="inline-block pt-1 text-[length:var(--fs-caption)] font-semibold text-link hover:underline">
+          <Link to={backTo} className="link-note">
             {backLabel ?? 'Back'}
           </Link>
         )}

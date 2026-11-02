@@ -216,9 +216,9 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
             disabled={scanning || checking}
             aria-label="Scan SIM barcode"
             title={scanning ? 'Scanning…' : 'Scan SIM barcode'}
-            className={`${touch ? 'p-3 -mr-3' : 'p-1.5 -mr-1.5'} rounded-[var(--radius-button)] text-muted hover:text-accent disabled:opacity-50 disabled:hover:text-muted focus-ring`}
+            className={`icon-button-inline icon-button-quiet ${touch ? 'p-3 -mr-3' : '-mr-1.5'}`}
           >
-            <Icon path={BARCODE_ICON} className="w-4 h-4" />
+            <Icon path={BARCODE_ICON} className="size-4 " />
           </button>
         }
       />
@@ -245,7 +245,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
         {checking && !scanning && <span className="caption-muted">Checking stock…</span>}
       </div>
       {!suppressValidation && shown && shown.serial === value && !error && (
-        <dl className="mt-2 notice-success p-3 space-y-1 text-[length:var(--fs-caption)]">
+        <dl className="mt-2 notice-success notice-body-sm">
           <div className="flex justify-between gap-3">
             <dt className="text-fg">SIM Type</dt>
             <dd className="text-fg font-medium">{shown.details.simKind ?? 'Physical'}</dd>

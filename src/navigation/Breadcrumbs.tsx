@@ -66,7 +66,7 @@ export function Breadcrumbs() {
         aria-label="Go back"
         className="breadcrumb-back"
       >
-        <Icon path={CHEVRON_LEFT} className="w-3.5 h-3.5" />
+        <Icon path={CHEVRON_LEFT} className="size-3.5 " />
         Back
       </button>
       <Link to="/" className="ml-1 link-quiet">

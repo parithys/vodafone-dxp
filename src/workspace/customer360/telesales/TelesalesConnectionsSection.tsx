@@ -48,7 +48,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
       <span className="flex-1 meter-track-lg">
         <span className="block h-full bg-accent" style={{ width: `${total ? Math.min(100, (left / total) * 100) : 0}%` }} />
       </span>
-      <span className="text-fg font-semibold text-[length:var(--fs-caption)] whitespace-nowrap">
+      <span className="caption-strong whitespace-nowrap">
         {left} of {total} {unit}
       </span>
     </div>
@@ -88,11 +88,11 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
           {shown.map((s) => {
             const rr = buildAssetsFieldResolver(s, data);
             return (
-              <button key={s.ref} type="button" onClick={() => setPicked(s.ref)} className={`w-full text-left pad-panel row-rule-card hover:bg-surface ${cur?.ref === s.ref ? 'bg-surface' : ''}`}>
+              <button key={s.ref} type="button" onClick={() => setPicked(s.ref)} className={`block-row pad-panel row-rule-card ${cur?.ref === s.ref ? 'bg-surface' : ''}`}>
                 <div className="split-nowrap">
-                  <span className="row-tight min-w-0">
+                  <span className="row gap-2 min-w-0">
                     <Icon path={ICON.phone} className="icon-sm" />
-                    <span className="title-md truncate">{s.identifier}</span>
+                    <span className="title title-md truncate">{s.identifier}</span>
                     <Pill tone={pillFor(s.status ?? 'Active') === 'red' ? 'red' : 'green'}>{s.status ?? 'Active'}</Pill>
                     <ConnectionTypeTag category={s.category} />
                   </span>
@@ -101,7 +101,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                 <div className="caption-secondary mt-1">
                   {group(s.category)} | {s.category} | {s.label}
                 </div>
-                <div className="grid grid-cols-5 gap-2 mt-2 text-[length:var(--fs-caption)]">
+                <div className="segment-grid mt-2">
                   {[
                     ['Plan Name', str(rr('Plan Name')) || s.label],
                     ['Bill Limit', str(rr('Bill Limit')) || '-'],
@@ -110,7 +110,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                     ['Usage Behaviour', usageBehaviour[0] ?? '-'],
                   ].map(([k, v]) => (
                     <div key={k}>
-                      <div className="text-muted uppercase text-[length:var(--fs-micro)]">{k}</div>
+                      <div className="micro-muted uppercase">{k}</div>
                       <div className="text-fg font-semibold">{v}</div>
                     </div>
                   ))}
@@ -118,7 +118,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
               </button>
             );
           })}
-          {shown.length === 0 && <p className="pad-panel text-muted text-[length:var(--fs-body)]">No connections match.</p>}
+          {shown.length === 0 && <p className="pad-panel muted-body">No connections match.</p>}
         </Card>
 
         <Card title="" icon={ICON.bars}>
@@ -126,7 +126,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
             <>
               <div className="pad-panel split-top">
                 <div>
-                  <div className="title-xl">{cur.identifier}</div>
+                  <div className="title title-xl">{cur.identifier}</div>
                   <div className="text-secondary">
                     {group(cur.category)} | {cur.category} | {cur.label}
                   </div>
@@ -152,7 +152,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
               </div>
               {tab === 'overview' && (
                 <>
-                  <div className="grid grid-cols-2 border-t border-[var(--field-card-border)]">
+                  <div className="split-rule-grid">
                     <div className="border-r border-[var(--field-card-border)]">
                       <div className="panel-header">
                         <span className="text-fg font-semibold">Service Details</span>
@@ -188,7 +188,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                       <KV label="Primary Balance">{bal ? `${formatQarAny(str(bal.mainBalanceQAR ?? 0))}` : '-'}</KV>
                     </div>
                   </div>
-                  <div className="pad-panel space-y-3 border-t border-[var(--field-card-border)] text-[length:var(--fs-body)]">
+                  <div className="panel-body-ruled">
                     <div>
                       <span className="text-fg font-semibold">✓ Active Add-ons ({addons.length})</span> <span className="text-accent font-semibold">View All</span>
                       <div className="wrap-loose mt-1 text-fg-2">
@@ -212,7 +212,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                     </div>
                     <div>
                       <span className="text-fg font-semibold">Usage Behaviour</span> <span className="text-accent font-semibold">View Details</span>
-                      <div className="wrap-row mt-1">
+                      <div className="wrap-loose gap-2 mt-1">
                         {usageBehaviour.map((u) => (
                           <Pill key={u} tone="amber">
                             {u}

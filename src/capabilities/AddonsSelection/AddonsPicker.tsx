@@ -193,27 +193,27 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                 }`}
               >
                 {selected && <SelectedTick />}
-                <div className="row min-h-28 p-4 sm:gap-5 sm:p-5">
-                <span className="icon-tile h-14 w-14 self-start card text-fg shadow-[var(--shadow-icon-tile)]">
-                  <Icon path={DATA_ICON} className="w-5 h-5" />
+                <div className="row option-row">
+                <span className="icon-tile-raised size-14 self-start card text-fg">
+                  <Icon path={DATA_ICON} className="size-5 " />
                 </span>
                 <div className="min-w-0 flex-1">
                   {/* The Add-ons page names an add-on by what it gives ("2.5 GB full-speed data"); elsewhere the name leads and the description follows. */}
-                  <p className="subtitle leading-snug">{useTabs ? a.description ?? a.name : a.name}</p>
+                  <p className="title title-md font-semibold leading-snug">{useTabs ? a.description ?? a.name : a.name}</p>
                   {!useTabs && a.description && <p className="caption-secondary">{a.description}</p>}
                   {addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing) && <p className="mt-1 caption-muted">{addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing)}</p>}
                 </div>
-                <div className="min-w-0 max-w-[50%] shrink-0 text-right">
+                <div className="aside-value">
                   {addonPriceDisplay(a, billing) ? (
                     <>
-                      <p className="title-xl leading-none whitespace-nowrap">{addonPriceDisplay(a, billing)!.primary}</p>
-                      {addonPriceDisplay(a, billing)!.secondary && <p className="mt-2 caption-secondary max-w-48 ml-auto leading-snug">{addonPriceDisplay(a, billing)!.secondary}</p>}
+                      <p className="title title-xl leading-none whitespace-nowrap">{addonPriceDisplay(a, billing)!.primary}</p>
+                      {addonPriceDisplay(a, billing)!.secondary && <p className="mt-2 caption-note">{addonPriceDisplay(a, billing)!.secondary}</p>}
                     </>
                   ) : a.pricing === 'free' || (!a.pricing && a.mrcQAR === 0) ? (
-                    <p className="title-xl">Free</p>
+                    <p className="title title-xl">Free</p>
                   ) : a.priceLabel && /QR\s*\d/.test(a.priceLabel) ? (
                     // Only wording that states a QAR amount ("QR 50 per additional SIM") is shown; open prices (TBC, Plan-based, Plan-dependent) are not displayed.
-                    <p className="title-sm max-w-48">{a.priceLabel}</p>
+                    <p className="title title-sm max-w-48">{a.priceLabel}</p>
                   ) : a.priceLabel ? null : (
                     <p className="text-fg">
                       <span className="text-[length:var(--fs-caption)]">QAR </span>
@@ -255,10 +255,10 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
-          className="row-tight w-full text-left"
+          className="row gap-2 w-full text-left"
         >
-          <Icon path={CHEVRON_RIGHT} className={`w-4 h-4 text-muted transition-transform ${open ? 'rotate-90' : ''}`} />
-          <h3 className="subtitle">
+          <Icon path={CHEVRON_RIGHT} className={`size-4 chevron-turn ${open ? 'rotate-90' : ''}`} />
+          <h3 className="title title-md font-semibold">
             Add-ons{selectedIds.length > 0 ? ` (${selectedIds.length} selected)` : ' (optional)'}
           </h3>
         </button>
@@ -303,22 +303,22 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
             className="min-h-80 border-y border-border-soft"
           />
         ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="fields gap-6 md:grid-cols-2">
           {([['PAID ADD-ONS', paid, 'paid'], ['COMPLIMENTARY', free, 'free']] as const).map(([title, list, kind]) => (
             <section key={kind} aria-label={title} className="space-y-4 min-w-0">
-              <div className={`row-tight label-caps font-semibold ${kind === 'free' ? 'text-[var(--success)]' : 'text-fg-2'}`}>
+              <div className={`row gap-2 label-caps font-semibold ${kind === 'free' ? 'text-[var(--success)]' : 'text-fg-2'}`}>
                 <h4>{title}</h4>
                 <span className={`count-pill ${kind === 'free' ? 'bg-tone-success text-[var(--success)]' : 'bg-surface text-fg-2'}`}>
                   {list.length}
                 </span>
               </div>
-              {list.length === 0 ? <EmptyState compact message={q ? `No ${kind} add-ons in ${category} match that search.` : `No ${kind} add-ons in ${category}.`} /> : <div className="stack-lg">{list.map((a) => rowCard(a))}</div>}
+              {list.length === 0 ? <EmptyState compact message={q ? `No ${kind} add-ons in ${category} match that search.` : `No ${kind} add-ons in ${category}.`} /> : <div className="stack gap-4">{list.map((a) => rowCard(a))}</div>}
             </section>
           ))}
         </div>
         )
       ) : (
-      <div className={layout === 'rows' ? `grid grid-cols-1 gap-3 md:grid-cols-2 ${open || hideHeader ? '' : 'hidden'}` : `grid grid-cols-[repeat(auto-fill,minmax(max(15rem,calc((100%-2rem)/3)),1fr))] gap-4 ${open || hideHeader ? '' : 'hidden'}`}>
+      <div className={layout === 'rows' ? `fields-sm md:grid-cols-2 ${open || hideHeader ? '' : 'hidden'}` : `grid grid-cols-[repeat(auto-fill,minmax(max(15rem,calc((100%-2rem)/3)),1fr))] gap-4 ${open || hideHeader ? '' : 'hidden'}`}>
         {shown.map((a) => {
           const selected = selectedIds.includes(a.productId);
           if (layout === 'rows') return rowCard(a);
@@ -341,7 +341,7 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
             >
               {selected && <SelectedCardTexture />}
               {selected && <SelectedTick />}
-              <p className="title-lg leading-snug">{a.name}</p>
+              <p className="title title-lg leading-snug">{a.name}</p>
               {a.description && <p className="caption-secondary">{a.description}</p>}
               <p className="text-accent mt-auto">
                 <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>

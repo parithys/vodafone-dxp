@@ -29,7 +29,7 @@ export function PlanGroupPanel({
   return (
     <div className="space-y-3">
       {groupPlans(activeTab as PlanGroupKey).length === 0 ? (
-        <p className="text-muted text-[length:var(--fs-body)]">No plans match that search or filter.</p>
+        <p className="muted-body">No plans match that search or filter.</p>
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(max(15rem,calc((100%-2rem)/3)),1fr))] gap-4">
         {groupPlans(activeTab as PlanGroupKey).map((p) => (

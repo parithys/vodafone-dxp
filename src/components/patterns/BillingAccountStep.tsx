@@ -188,7 +188,7 @@ export function BillingAccountStep({
   // No customer yet (a new customer, or a journey that has not resolved one): there are no accounts to load, so the step
   // opens on its create form instead of waiting forever.
   if (customerId && !loaded) {
-    return <p className="text-muted text-[length:var(--fs-body)]">Loading billing accounts…</p>;
+    return <p className="muted-body">Loading billing accounts…</p>;
   }
 
   return (
@@ -196,7 +196,7 @@ export function BillingAccountStep({
       {/* Nothing to choose from when the customer has no account: the new-account form below is all there is. */}
       {profiles.length > 0 && (
       <div>
-        {profiles.length > 0 && <h3 className="subtitle mb-1">Existing Billing Accounts</h3>}
+        {profiles.length > 0 && <h3 className="title title-md font-semibold mb-1">Existing Billing Accounts</h3>}
         {/* The customer's accounts and "Create New Billing Account" sit in one row; the new-account form opens below it. */}
         <div className="fields-sm sm:grid-cols-2">
           {profiles.map((p, i) => {
@@ -210,7 +210,7 @@ export function BillingAccountStep({
                   onClick={() => onChange({ selectedProfileId: p.billingProfileId, creatingNew: false })}
                   className="block w-full text-left"
                 >
-                  <div className="row-tight mb-1">
+                  <div className="row gap-2 mb-1">
                     <span className="text-fg font-medium">Account ending …{p.billingProfileId.slice(-4)}</span>
                     {i === 0 && <Badge variant="filled-neutral">Default</Badge>}
                   </div>
@@ -262,7 +262,7 @@ export function BillingAccountStep({
             >
               <Icon path={value.creatingNew ? CHEVRON_UP : CHEVRON_DOWN} className="icon-md text-muted" />
               <span className="flex-1">
-                <span className="block subtitle-lg">Create New Billing Account</span>
+                <span className="block title title-lg font-semibold">Create New Billing Account</span>
                 <span className="block text-secondary">
                   Provide the following details to set up your billing account.
                 </span>
@@ -281,7 +281,7 @@ export function BillingAccountStep({
       {((value.creatingNew && !atConsumerCap) || editing) && (
         <div>
           <div className="pb-6">
-              {editing && <p className="pt-6 subtitle">Edit billing account ending …{editedProfile?.billingProfileId.slice(-4)}</p>}
+              {editing && <p className="pt-6 title title-md font-semibold">Edit billing account ending …{editedProfile?.billingProfileId.slice(-4)}</p>}
               {/* Contact */}
               {/* The Primary Contact is not asked for here: the account takes the customer's own contact (the default, see needsDefaultPrimary); it is
                   changed from Customer 360 afterwards. */}
@@ -430,8 +430,8 @@ function ContactCard({ name, checked, onChoose }: { name: string; checked: boole
       className={`relative row card-option p-4 text-left ${checked ? CARD_SELECTED : CARD_IDLE}`}
     >
       {checked && <SelectedTick />}
-      <span className={`option-icon ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
-        <Icon path={PERSON} className="w-5 h-5" />
+      <span className={`icon-box ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
+        <Icon path={PERSON} className="size-5 " />
       </span>
       <span className="min-w-0 flex-1 value-text">{name}</span>
     </button>

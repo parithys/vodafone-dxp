@@ -120,7 +120,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
     : undefined;
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="stack gap-1">
       {label && (
         <label htmlFor={inputId} className="text-[length:var(--fs-label)] text-fg">
           {label}
@@ -160,7 +160,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
           onClick={() => setOpen((o) => !o)}
           className="field-clear-btn"
         >
-          <Icon path={CHEVRON_DOWN} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+          <Icon path={CHEVRON_DOWN} className={`size-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
         {open && (
           <ul
@@ -178,10 +178,10 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
                 className={`row-start pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? activeRow : ''}`}
               >
                 <span className="mt-0.5 text-[var(--field-icon)] shrink-0">
-                  <Icon path={BUILDING_ICON} className="w-5 h-5" />
+                  <Icon path={BUILDING_ICON} className="size-5 " />
                 </span>
                 <span className="min-w-0">
-                  <span className="block heading-strong truncate">{a.name}</span>
+                  <span className="block title title-sm font-semibold truncate">{a.name}</span>
                   <span className="line-caption">
                     {[a.crNumber, a.businessType, a.level === 'parent' ? 'Parent account' : 'Sub-account'].filter(Boolean).join(' · ')}
                   </span>
@@ -213,7 +213,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
                 className={`row-start pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === results.length ? activeRow : ''}`}
               >
                 <span className="mt-0.5 text-accent shrink-0">
-                  <Icon path={PLUS_ICON} className="w-5 h-5" />
+                  <Icon path={PLUS_ICON} className="size-5 " />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[length:var(--fs-body)] font-semibold text-accent">Add New Company</span>

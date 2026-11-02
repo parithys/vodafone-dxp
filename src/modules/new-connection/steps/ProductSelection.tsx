@@ -140,7 +140,7 @@ export function ProductSelection({
       <section aria-labelledby="product-choice" className="space-y-3">
         {!buttons && (
           <>
-          <h3 id="product-choice" className="title-lg">
+          <h3 id="product-choice" className="title title-lg">
             {homeJourney ? 'Which connection does the customer want?' : 'What does the customer want?'}
           </h3>
           {homeJourney ? (
@@ -155,15 +155,15 @@ export function ProductSelection({
                     aria-checked={selected}
                     title={p.description}
                     onClick={() => chooseProduct('fixed-line', undefined, p.key)}
-                    className={`relative stack-center gap-2 card-frame p-4 ${
+                    className={`choice-tile ${
                       selected
                         ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
-                        : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
+                        : 'card-idle text-fg'
                     }`}
                   >
                     {selected && <SelectedTick />}
-                    <span className={`inline-flex p-2 rounded-[var(--radius-card)] ${selected ? 'bg-[var(--field-card-selected)] text-on-dark' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'}`}>
-                      <Icon path={HOME_PRODUCT_ICON[p.key]} className="w-6 h-6" strokeWidth={p.key === 'fibre' ? 1.4 : undefined} />
+                    <span className={`option-glyph ${selected ? 'glyph-chosen' : 'icon-tint'}`}>
+                      <Icon path={HOME_PRODUCT_ICON[p.key]} className="size-6 " strokeWidth={p.key === 'fibre' ? 1.4 : undefined} />
                     </span>
                     <span className="text-[length:var(--fs-caption)] font-medium text-center">{p.label}</span>
                   </button>

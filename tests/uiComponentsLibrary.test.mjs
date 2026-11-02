@@ -33,7 +33,7 @@ test('every component group is present, and each component name appears once', (
 
 test('the specimens are the real components: their own markup and states', () => {
   assert.match(out, /btn-secondary/);
-  assert.match(out, /accent-gradient/);
+  assert.match(out, /btn-primary/);
   assert.match(out, /role="tablist"/);
   assert.match(out, /role="radiogroup"/);
   assert.match(out, /card-tick/, 'the shared selected tick');

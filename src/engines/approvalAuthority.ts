@@ -13,6 +13,8 @@ import { getRequiredApproverRole, isApprovalMatrixAvailable } from './configEngi
 
 /** An order sits in this status from submission until an approver decides it. */
 export const ORDER_AWAITING_DECISION = 'Submitted for Approval';
+/** The approver asked for more supporting documents: the creator reopens the order, adds them and resubmits it. */
+export const ORDER_MISSING_INFORMATION = 'Missing Information';
 /**
  * A SIM swap request waiting for a decision: what the wizard writes (ORDER_AWAITING_DECISION) and what the seeded records call it
  * ('Pending Approval'). The queue, the dashboard counter and Customer 360 all use this, not a string of their own.
@@ -109,7 +111,7 @@ export interface DecisionRecord {
 /** A decision taken on an order, as the order's creator reads it. */
 export interface OrderDecision {
   orderId: string;
-  outcome: 'Approved' | 'Rejected' | 'Dropped' | 'Returned';
+  outcome: 'Approved' | 'Rejected' | 'Dropped' | 'Returned' | 'Missing Information';
   status: string;
   at: number;
   note?: string;
@@ -119,6 +121,8 @@ const OUTCOME_BY_STATUS: Record<string, OrderDecision['outcome']> = {
   Complete: 'Approved',
   Approved: 'Approved',
   'Rejected - Correction': 'Rejected',
+  Rejected: 'Rejected',
+  [ORDER_MISSING_INFORMATION]: 'Missing Information',
   Cancelled: 'Dropped',
 };
 
@@ -131,7 +135,7 @@ export function decisionsOnMyOrders(orders: OrderLike[], activities: DecisionRec
     const outcome = OUTCOME_BY_STATUS[o.status];
     if (!outcome) continue;
     const last = activities
-      .filter((a) => a.orderId === o.orderId && a.actionTaken && /^(Approved|Rejected|Returned)/.test(a.actionTaken))
+      .filter((a) => a.orderId === o.orderId && a.actionTaken && /^(Approved|Rejected|Returned|Missing Information)/.test(a.actionTaken))
       .sort((a, b) => String(b.transactionDate ?? '').localeCompare(String(a.transactionDate ?? '')))[0];
     // A seeded order with no recorded decision (e.g. activated directly) is not a decision anyone needs to be told about.
     if (!last) continue;
@@ -140,6 +144,66 @@ export function decisionsOnMyOrders(orders: OrderLike[], activities: DecisionRec
   return out.sort((a, b) => b.at - a.at);
 }
 
-/** Whether the creator may send a rejected order back for another decision. */
+/** Whether the creator may reopen an order and send it back for another decision: one the approver marked Missing Information (or, in older records, rejected for correction). A plain Reject ends it. */
 export const mayResubmitOrder = (o: Pick<OrderLike, 'status' | 'createdBy'>, userId: string | undefined): boolean =>
-  o.status === 'Rejected - Correction' && Boolean(userId) && o.createdBy === userId;
+  (o.status === ORDER_MISSING_INFORMATION || o.status === 'Rejected - Correction') && Boolean(userId) && o.createdBy === userId;
+
+// ---- Missing Information: what the approver asked for, and the only things the agent may change in answer -------------------------
+// The approver names the requested activities; the order is reassigned to the agent who submitted it, who may do exactly those -
+// re-capture or re-upload a requested document, sign the CAF again, add supporting documents with their type - and nothing else:
+// no line item or other order detail is editable while the request is open.
+
+export interface MissingInformationRequest {
+  /** Positions in the order's attachments the approver wants captured or uploaded again. */
+  attachmentIndexes: number[];
+  /** A new customer signature on the CAF. */
+  resignCaf: boolean;
+  /** Further documents, each with its document type. */
+  supportingDocuments: boolean;
+}
+
+export interface MissingInformationAnswer {
+  /** Attachment position -> the file that replaces it. */
+  reuploaded: Record<number, { fileName: string; previewUrl?: string }>;
+  signatureDataUrl?: string;
+  supporting: { label: string; fileName: string }[];
+}
+
+export const emptyMissingInformationRequest = (): MissingInformationRequest => ({ attachmentIndexes: [], resignCaf: false, supportingDocuments: false });
+export const isMissingInformationRequestMade = (r: MissingInformationRequest | undefined | null): r is MissingInformationRequest =>
+  Boolean(r && (r.attachmentIndexes.length > 0 || r.resignCaf || r.supportingDocuments));
+
+/** Every requested activity is done: the task can go back to the approval queue. Nothing that was not requested is needed. */
+export function isMissingInformationComplete(request: MissingInformationRequest, answer: MissingInformationAnswer): boolean {
+  if (!request.attachmentIndexes.every((i) => answer.reuploaded[i])) return false;
+  if (request.resignCaf && !answer.signatureDataUrl) return false;
+  if (request.supportingDocuments && !answer.supporting.some((d) => d.label.trim() && d.fileName)) return false;
+  return true;
+}
+
+export interface AttachmentRecord {
+  label: string;
+  detail?: string;
+  fileName?: string;
+  previewUrl?: string;
+}
+
+/**
+ * The order's attachments after the agent's answer. A requested document is replaced in place; a new signature replaces the Signed CAF (or is
+ * added when the order holds none); supporting documents are appended under their type. Anything not requested is returned untouched, and a
+ * reupload for a position that was not requested is ignored - the request, not the agent, decides what may change.
+ */
+export function applyMissingInformation(attachments: AttachmentRecord[], request: MissingInformationRequest, answer: MissingInformationAnswer): AttachmentRecord[] {
+  const out = attachments.map((a, i) => {
+    const r = request.attachmentIndexes.includes(i) ? answer.reuploaded[i] : undefined;
+    return r ? { ...a, detail: `Re-uploaded: ${r.fileName}`, fileName: r.fileName, previewUrl: r.previewUrl } : a;
+  });
+  if (request.resignCaf && answer.signatureDataUrl) {
+    const at = out.findIndex((a) => a.label === 'Signed CAF');
+    const signed = { label: 'Signed CAF', detail: 'New signature captured on request', previewUrl: answer.signatureDataUrl };
+    if (at >= 0) out[at] = signed;
+    else out.push(signed);
+  }
+  if (request.supportingDocuments) for (const d of answer.supporting) out.push({ label: d.label, detail: d.fileName });
+  return out;
+}

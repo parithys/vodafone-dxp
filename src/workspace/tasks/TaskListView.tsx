@@ -26,6 +26,8 @@ interface AgentTask {
   updatedAt?: string;
   /** Set on a Draft Order task whose order is stored - see orders.json. */
   relatedOrderId?: string;
+  /** The comment the agent entered when saving the order as a draft. */
+  draftComment?: string;
   customerId?: string;
 }
 
@@ -84,17 +86,16 @@ export function TaskListView() {
 
   // The customer a task is about comes from its related order; tasks without one show a dash.
   const customers = (useEntityStore((s) => s.records.customers) ?? []) as unknown as { customerId: string; name: string }[];
-  // The assignee column shows the agent's department (their team), not their name.
-  const agentDirectory = (useEntityStore((s) => s.records['users-agents']) ?? []) as unknown as { userId: string; team?: string }[];
-  const departmentOf = (t: AgentTask) => (t.assignedAgentId ? agentDirectory.find((a) => a.userId === t.assignedAgentId)?.team : undefined);
+  // A task list only ever holds the signed-in agent's own tasks, so there is no assignee column: a saved draft shows the comment its agent left.
   const customerNameOf = (t: AgentTask) => {
     const id = t.relatedOrderId ? orders.find((o) => o.orderId === t.relatedOrderId)?.customerId : undefined;
     return customers.find((c) => c.customerId === id)?.name;
   };
 
   useEffect(() => {
-    loadKind('tasks');
-    loadKind('orders');
+    // Read fresh: a draft saved a moment ago (its comment, its time) is already in the engine.
+    loadKind('tasks', true);
+    loadKind('orders', true);
     loadKind('customers');
     loadKind('users-agents');
   }, [loadKind]);
@@ -138,15 +139,15 @@ export function TaskListView() {
                 {/* The priority star hangs in the cell's left padding, so every Task ID - flagged or not - starts at the
                     same x as the column header. */}
                 {t.priorityFlag && (
-                  <span title="Priority" aria-label="Priority" className="absolute -left-6 center-y inline-flex text-[var(--priority)]">
-                    <Icon path={STAR} className="w-3.5 h-3.5 fill-current" />
+                  <span title="Priority" aria-label="Priority" className="priority-marker">
+                    <Icon path={STAR} className="size-3.5 fill-current" />
                   </span>
                 )}
                 <Link
                   to={destinationOf(t).to}
                   state={destinationOf(t).state}
                   onClick={(e) => e.stopPropagation()}
-                  className="text-link font-medium hover:underline"
+                  className="link font-medium"
                 >
                   {t.taskId}
                 </Link>
@@ -171,7 +172,7 @@ export function TaskListView() {
             header: 'Status',
             render: (t) => <Badge variant={badgeVariantFor(t.taskStatus)}>{t.taskStatus}</Badge>,
           },
-          { key: 'department', header: 'Department', render: (t) => <span>{departmentOf(t) ?? '-'}</span>, sortValue: (t) => departmentOf(t) ?? '' },
+          { key: 'comments', header: 'Comments', render: (t) => <span>{t.draftComment?.trim() || '-'}</span>, sortValue: (t) => t.draftComment ?? '' },
         ]}
         rows={filtered}
         rowKey={(t) => t.taskId}

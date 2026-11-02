@@ -134,10 +134,10 @@ export function DataTable<T>({
   }
 
   return (
-    <div className={plain ? '' : 'rounded-[var(--radius-card)] border border-[var(--table-border)] bg-bg overflow-hidden'}>
+    <div className={plain ? '' : 'table-frame'}>
       <div className={plain ? 'overflow-auto max-h-[70vh]' : 'overflow-x-auto'}>
-        <table className={`w-full text-left text-[length:var(--fs-body)] ${fixedLayout ? 'table-fixed' : ''}`}>
-          <thead className={`${plain ? 'sticky top-0 z-[var(--z-sticky)] ' : ''}bg-[var(--table-header-bg)] text-fg-2`}>
+        <table className={`data-table ${fixedLayout ? 'table-fixed' : ''}`}>
+          <thead className={`${plain ? 'sticky-head ' : ''}table-head-row`}>
             <tr>
               {columns.map((col) => {
                 const sortable = isSortable(col);
@@ -146,13 +146,13 @@ export function DataTable<T>({
                   <th
                     key={col.key}
                     aria-sort={active ? (sort.direction === 'asc' ? 'ascending' : 'descending') : sortable ? 'none' : undefined}
-                    className={`pad-row font-semibold text-[length:var(--fs-caption-upper)] ${plain ? 'whitespace-nowrap border-b border-[var(--border)]' : ''} ${col.numeric ? 'text-right' : ''} ${col.cellClassName ?? ''}`}
+                    className={`table-th ${plain ? 'table-th-plain' : ''} ${col.numeric ? 'text-right' : ''} ${col.cellClassName ?? ''}`}
                   >
                     {sortable ? (
                       <button
                         type="button"
                         onClick={() => toggleSort(col)}
-                        className={`inline-flex min-h-6 items-center gap-1.5 hover:text-fg ${col.numeric ? 'flex-row-reverse' : ''}`}
+                        className={`sort-button ${col.numeric ? 'flex-row-reverse' : ''}`}
                       >
                         {col.header}
                         <Icon
@@ -196,7 +196,7 @@ export function DataTable<T>({
                   tabIndex={onRowClick ? 0 : undefined}
                   aria-current={selected ? 'true' : undefined}
                   onKeyDown={onRowClick ? (event) => handleRowKeyDown(event, row) : undefined}
-                  className={`${plain ? 'border-b border-border-soft last:border-0' : 'border-t border-[var(--table-border)]'} transition-colors ${onRowClick ? 'cursor-pointer hover:bg-surface' : ''} ${selected ? 'bg-tone-accent-soft [&>td:first-child]:shadow-[inset_var(--selected-row-bar)_0_0_var(--accent)]' : ''}`}
+                  className={`${plain ? 'row-rule' : 'table-rule-top'} transition-colors ${onRowClick ? 'row-clickable' : ''} ${selected ? 'table-row-selected' : ''}`}
                 >
                   {columns.map((col, colIndex) => {
                     const value = (row as Record<string, unknown>)[col.key] ?? '-';
@@ -210,7 +210,7 @@ export function DataTable<T>({
                     return (
                       <td
                         key={col.key}
-                        className={`px-4 ${dense ? 'py-2' : 'py-3.5'} text-fg ${plain ? 'align-middle' : ''} ${col.numeric ? 'text-right whitespace-nowrap tabular-nums' : ''} ${col.strong ? 'font-semibold' : ''} ${col.cellClassName ?? ''}`}
+                        className={`table-td ${dense ? 'py-2' : 'py-3.5'} ${plain ? 'align-middle' : ''} ${col.numeric ? 'cell-numeric' : ''} ${col.strong ? 'font-semibold' : ''} ${col.cellClassName ?? ''}`}
                       >
                         {col.render ? (
                           col.render(row, rowIndex)
@@ -220,14 +220,14 @@ export function DataTable<T>({
                           <Link
                             to={linkHref}
                             onClick={(event) => event.stopPropagation()}
-                            className="block max-w-xs truncate text-link font-medium hover:underline"
+                            className="link-truncate"
                             title={String(value)}
                           >
                             {String(value)}
                           </Link>
                         ) : (
                           <span
-                            className={`block max-w-xs truncate ${isLinkCol ? 'text-link font-medium hover:underline' : ''}`}
+                            className={`cell-clip ${isLinkCol ? 'link font-medium' : ''}`}
                             title={String(value)}
                           >
                             {String(value)}
@@ -243,7 +243,7 @@ export function DataTable<T>({
         </table>
       </div>
       {!loading && showPager && (
-        <div className="split-nowrap border-t border-[var(--table-border)] px-4 py-2">
+        <div className="table-footer">
           <Pagination className="flex-1" page={currentPage + 1} total={sortedRows.length} pageSize={pageSize} onPage={(p) => setPage(p - 1)} />
         </div>
       )}

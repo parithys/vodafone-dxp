@@ -18,11 +18,11 @@ function PathRow({ path }: { path: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <li className="row py-1.5">
-      <code className="text-[length:var(--fs-caption)] text-fg flex-1 break-all">src/{path}</code>
+      <code className="path-text">src/{path}</code>
       <Button variant="tertiary" compact onClick={() => { void navigator.clipboard?.writeText(`src/${path}`); setCopied(true); setTimeout(() => setCopied(false), 1200); }}>
         {copied ? 'Copied' : 'Copy path'}
       </Button>
-      <a className="link-caption" href={editorLink(path)}>
+      <a className="link font-medium text-[length:var(--fs-caption)]" href={editorLink(path)}>
         Open in Editor
       </a>
     </li>
@@ -37,7 +37,7 @@ function Detail({ cap }: { cap: CapabilityDef }) {
     <div className="space-y-6">
       <div className="space-y-2">
         <div className="cluster">
-          <h2 className="title-xl">{cap.name}</h2>
+          <h2 className="title title-xl">{cap.name}</h2>
           <Badge variant={cap.status === 'consolidated' ? 'success' : 'warning'}>
             {cap.status === 'consolidated' ? 'In the library' : 'Registered in place'}
           </Badge>
@@ -46,22 +46,22 @@ function Detail({ cap }: { cap: CapabilityDef }) {
       </div>
 
       <section aria-label="Live preview" className="panel-soft p-5 space-y-3">
-        <h3 className="subtitle">Live Preview</h3>
+        <h3 className="title title-md font-semibold">Live Preview</h3>
         {preview ? (
           <div className="rounded-[var(--radius-card)] bg-[var(--surface)] p-4">
             {/* A journey draws its tabs as the underline strip; the library sits in a tab panel, so the preview resets the level to show them the same. */}
             <PageLevelTabs>{preview()}</PageLevelTabs>
           </div>
         ) : (
-          <p className="text-muted text-[length:var(--fs-body)]">
+          <p className="muted-body">
             This capability needs a live order or a surrounding journey to render, so it has no standalone preview. Open a journey that uses it.
           </p>
         )}
       </section>
 
       <section aria-label="Where it lives" className="panel-soft p-5 space-y-3">
-        <h3 className="subtitle">Where It Lives</h3>
-        <dl className="grid grid-cols-[10rem_1fr] gap-y-2 text-[length:var(--fs-body)]">
+        <h3 className="title title-md font-semibold">Where It Lives</h3>
+        <dl className="definition-grid">
           <dt className="text-fg">Entry Point</dt>
           <dd className="text-fg font-medium">{cap.entry}</dd>
           <dt className="text-fg">Home</dt>
@@ -86,7 +86,7 @@ function Detail({ cap }: { cap: CapabilityDef }) {
       </section>
 
       <section aria-label="Implementation files" className="panel-soft p-5">
-        <h3 className="subtitle mb-2">Implementation Files</h3>
+        <h3 className="title title-md font-semibold mb-2">Implementation Files</h3>
         <ul className="divide-y divide-border-soft">
           <PathRow path={cap.home} />
           {[...cap.parts, ...cap.publicApi].map((p) => <PathRow key={p} path={p} />)}
@@ -94,14 +94,14 @@ function Detail({ cap }: { cap: CapabilityDef }) {
       </section>
 
       <section aria-label="Used by" className="panel-soft p-5 space-y-3">
-        <h3 className="subtitle">Used by {journeys.length} journeys and areas</h3>
-        <div className="wrap-row">
+        <h3 className="title title-md font-semibold">Used by {journeys.length} journeys and areas</h3>
+        <div className="wrap-loose gap-2">
           {journeys.map((j) => (
             <span key={j} className="pill bg-surface text-fg-2 font-medium">{j}</span>
           ))}
         </div>
         {consumers && consumers.bypass.length > 0 && (
-          <div className="card-frame border-warn bg-tone-warn p-3 text-[length:var(--fs-caption)] text-fg">
+          <div className="notice-warn-solid p-3 text-[length:var(--fs-caption)] text-fg">
             <div className="font-semibold mb-1">Bypassing the capability ({consumers.bypass.length})</div>
             <ul className="space-y-0.5">{consumers.bypass.map((b) => <li key={b}><code>{b}</code></li>)}</ul>
           </div>
@@ -123,7 +123,7 @@ export function CapabilityLibrarySection() {
   }, [query]);
   const selected = CAPABILITY_REGISTRY.find((c) => c.id === selectedId) ?? shown[0];
   return (
-    <div className="grid grid-cols-[18rem_1fr] gap-6 items-start">
+    <div className="sidebar-grid">
       <aside aria-label="Capabilities" className="space-y-3">
         <Input label="Search Capabilities" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g. address, payment" />
         <p className="caption-muted">

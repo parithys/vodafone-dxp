@@ -70,8 +70,8 @@ export function ActualUser({
             >
               {checked && <SelectedTick />}
               <div className="row">
-                <span className={`option-icon ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
-                  <Icon path={o.icon} className="w-5 h-5" />
+                <span className={`icon-box ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
+                  <Icon path={o.icon} className="size-5 " />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block value-text">{o.label}</span>

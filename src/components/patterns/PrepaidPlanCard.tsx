@@ -51,13 +51,13 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
           className={`tag-accent px-2.5 ${p.popular ? '' : 'invisible'}`}
           aria-hidden={!p.popular}
         >
-          <Icon path={STAR} className="w-3 h-3" />
+          <Icon path={STAR} className="size-3 " />
           Popular
         </span>
         <ConnectionTypeTag category="Prepaid" />
       </div>
       <div className="fill-column gap-2">
-        <p className="title-lg leading-snug">{p.name}</p>
+        <p className="title title-lg leading-snug">{p.name}</p>
         <p className="text-accent pt-1">
           <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
           <span className="text-[length:var(--fs-h3)] font-bold">{formatAmount(p.starterPackChargeQAR)}</span>
@@ -65,7 +65,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
         </p>
         <ul className="space-y-1.5">
           {[...rows, { icon: ICON_CARD, text: `Starter pack charge: ${formatQar(p.starterPackChargeQAR)}` }].map((f) => (
-            <li key={f.text} className="row-tight caption-secondary">
+            <li key={f.text} className="row gap-2 caption-secondary">
               <Icon path={f.icon} className="icon-sm text-accent" />
               {f.text}
             </li>
@@ -83,7 +83,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
           className="link-inline min-h-6"
         >
           View details
-          <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
+          <Icon path={CHEVRON_RIGHT} className="size-4 " />
         </button>
       </div>
     </div>

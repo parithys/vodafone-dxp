@@ -321,7 +321,8 @@ test('every journey floats its Back and Continue footer: it is the wizard defaul
   assert.doesNotMatch(connectionWizard, /fixedFooter = (true|false)/, 'the wizard default is the only default');
   assert.match(guidedWizard, /fixedToViewport=\{fixedFooter\}/);
   assert.doesNotMatch(guidedWizard, /hasSummaryAside/);
-  assert.match(footer, /fixed inset-x-0 \$\{fixedPosition\} z-\[var\(--z-sticky-raised\)\] border-t/);
+  assert.match(footer, /action-bar \$\{fixedPosition\}/);
+  assert.match(fs.readFileSync('src/ui-components.css', 'utf8'), /\.action-bar \{[^}]*fixed inset-x-0 z-\[var\(--z-sticky-raised\)\] border-t/);
   assert.match(footer, /row-between w-full/);
   assert.match(guidedWizard, /fixedFooter \?[\s\S]*'pb-24'/);
   // The capability library's framed previews stay inline: a viewport-fixed bar would escape the frame.

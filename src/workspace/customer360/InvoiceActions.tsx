@@ -40,7 +40,7 @@ export function InvoiceActions({ bill, customerName }: { bill: Record<string, un
   const print = () => pushToast('success', `Invoice ${bill.billId} sent to print.`);
 
   return (
-    <div className="row-snug" onClick={(e) => e.stopPropagation()}>
+    <div className="row gap-1" onClick={(e) => e.stopPropagation()}>
       <Tooltip content="Download invoice" placement="top">
         <IconButton onClick={download} label="Download Invoice" icon={DOWNLOAD_ICON} />
       </Tooltip>

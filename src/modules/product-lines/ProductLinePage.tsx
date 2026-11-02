@@ -4,7 +4,7 @@ import { canUseFeature } from '../../engines/personaEngine';
 import { getAllRoutes, getPersona } from '../../engines/configEngine';
 import { resolveJourneyTarget } from '../../navigation/journeyTarget';
 import { Icon } from '../../components/primitives/Icon';
-import { SECONDARY_BUTTON_SURFACE, PRIMARY_SURFACE } from '../../components/primitives/Button';
+import { SECONDARY_BUTTON_SURFACE } from '../../components/primitives/Button';
 import { NotYetBuiltPanel } from '../NotYetBuiltPanel';
 import { JourneyCard } from './JourneyCard';
 import { launchJourney, readLaunch, type LaunchContext } from '../../navigation/customerLaunch';
@@ -40,10 +40,10 @@ function CategorySection({ category, personaId, launch }: { category: JourneyCat
     <section className="card-outline overflow-hidden mb-6">
       <header className="row-start pad-panel bg-bg divider-bottom rounded-t-[var(--radius-card)]">
         <span className="nav-icon-tile bg-tone-accent">
-          <Icon path={category.icon} className="w-4.5 h-4.5 text-accent" />
+          <Icon path={category.icon} className="size-4.5 text-accent" />
         </span>
         <div className="min-w-0">
-          <h2 className="title-md">{category.heading}</h2>
+          <h2 className="title title-md">{category.heading}</h2>
           <p className="text-secondary">{category.description}</p>
         </div>
       </header>
@@ -103,7 +103,7 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
       </>} />
 
       {launch && (
-        <p className="mb-6 cluster-tight card card-surface pad-row text-secondary">
+        <p className="mb-6 cluster gap-x-2 gap-y-1 card card-surface pad-row text-secondary">
           <span>
             Acting for <span className="text-fg font-medium">{launch.customerName ?? launch.customerId}</span>
             {launch.serviceLabel && (
@@ -114,7 +114,7 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
             )}
             .
           </span>
-          <Link to={`/customer/${launch.customerId}`} className="text-link font-medium hover:underline">
+          <Link to={`/customer/${launch.customerId}`} className="link font-medium">
             Back to Customer 360
           </Link>
         </p>
@@ -147,12 +147,12 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
           The chip label follows the secondary button surface (SECONDARY_BUTTON_SURFACE), which keeps it above 4.5:1
           on the hover fill at --fs-caption. */}
       {line.categories.length > 1 && (
-      <div className="cluster-sm mb-6">
+      <div className="cluster gap-2 mb-6">
         <Link
           to={line.to}
           state={launch ? { launch } : undefined}
-          className={`rounded-[var(--radius-button)] border px-3 py-1.5 text-[length:var(--fs-caption)] ${
-            active ? SECONDARY_BUTTON_SURFACE : `${PRIMARY_SURFACE} hover:bg-[image:var(--accent-gradient-hover)]`
+          className={`pill-link ${
+            active ? SECONDARY_BUTTON_SURFACE : 'primary-link'
           }`}
         >
           All
@@ -162,9 +162,9 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
             key={c.key}
             to={`${line.to}/${c.key}`}
             state={launch ? { launch } : undefined}
-            className={`rounded-[var(--radius-button)] border px-3 py-1.5 text-[length:var(--fs-caption)] ${
+            className={`pill-link ${
               active?.key === c.key
-                ? `${PRIMARY_SURFACE} hover:bg-[image:var(--accent-gradient-hover)]`
+                ? 'primary-link'
                 : SECONDARY_BUTTON_SURFACE
             }`}
           >

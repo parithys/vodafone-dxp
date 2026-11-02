@@ -43,33 +43,31 @@ export function JourneyCard({ journey, index, to, state }: { journey: Journey; i
     <>
       <div className="split-top gap-2 mb-3">
         <Badge variant={s.variant}>{s.label}</Badge>
-        <span className="row-tight caption-muted shrink-0">
+        <span className="row gap-2 caption-muted shrink-0">
           {journey.product && <span>{journey.product}</span>}
           <span className="tabular-nums">{String(index + 1).padStart(2, '0')}</span>
         </span>
       </div>
       <div
-        className={`font-medium text-[length:var(--fs-body-lg)] mb-1 ${
-          journey.status === 'planned' ? 'text-muted' : 'text-fg'
-        }`}
+        className={`value-text-lg mb-1 ${journey.status === 'planned' ? 'text-muted' : ''}`}
       >
         {journey.title}
       </div>
       <p className={`text-[length:var(--fs-body)] ${journey.status === 'planned' ? 'text-muted' : 'text-fg-2 mb-3'}`}>{journey.description}</p>
       {interactive ? (
         <span
-          className={`inline-flex items-center gap-1.5 font-medium text-[length:var(--fs-body)] ${
+          className={`inline-action ${
             journey.status === 'available' ? 'text-link' : 'text-[var(--warn-text)]'
           }`}
         >
           {s.cta}
-          {journey.status === 'available' && <Icon path={ARROW_RIGHT} className="w-4 h-4" />}
+          {journey.status === 'available' && <Icon path={ARROW_RIGHT} className="size-4 " />}
         </span>
       ) : null}
     </>
   );
 
-  const shell = `rounded-[var(--radius-card)] border p-5 transition-all ${journey.status === 'planned' ? 'bg-light-neutral' : 'bg-bg'} ${s.border}`;
+  const shell = `card-frame p-5 transition-all ${journey.status === 'planned' ? 'bg-light-neutral' : 'bg-bg'} ${s.border}`;
 
   if (!interactive) return <div className={shell}>{body}</div>;
   return (

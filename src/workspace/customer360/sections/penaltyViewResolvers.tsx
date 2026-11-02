@@ -21,7 +21,7 @@ function RuleRow({ id, children }: { id: string; children: React.ReactNode }) {
 
 function GapNote({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-muted italic text-[length:var(--fs-body)] border-l-2 border-border-soft pl-3">{children}</p>
+    <p className="quote-note">{children}</p>
   );
 }
 

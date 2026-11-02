@@ -70,7 +70,7 @@ export function SignaturePad({ onDone, doneLabel = 'Done', onCancel, disabled = 
         onPointerUp={end}
         onPointerLeave={end}
         aria-disabled={disabled || undefined}
-        className={`card-frame border-[var(--grey-form)] bg-[var(--paper)] touch-none w-full max-w-[480px] ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-crosshair'}`}
+        className={`signature-canvas ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-crosshair'}`}
       />
       <div className="flex gap-2 mt-2">
         <Button variant="secondary" onClick={clear} disabled={disabled || !hasDrawn}>

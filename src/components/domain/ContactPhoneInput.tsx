@@ -112,7 +112,7 @@ export function ContactPhoneInput({
       : 'border-[var(--field-border)] hover:border-[var(--field-hover-border)]';
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="stack gap-1">
       {label && (
         <label htmlFor={inputId} className={`text-[length:var(--fs-label)] ${disabled ? 'text-[var(--field-label-disabled)]' : 'text-fg'}`}>
           {label}
@@ -123,12 +123,12 @@ export function ContactPhoneInput({
           // bg set via this JS ternary, not Tailwind's disabled: pseudo-class:
           // `disabled` sits on the <input> below, not on this wrapper div.
           className={`input-shell
-            ${disabled ? 'bg-[var(--field-bg-disabled)] border-[var(--field-border-disabled)]' : 'bg-bg ' + borderClass}
-            ${className}`}
+ ${disabled ? 'bg-[var(--field-bg-disabled)] border-[var(--field-border-disabled)]' : 'bg-bg ' + borderClass}
+ ${className}`}
         >
           <span aria-hidden="true" className="text-base leading-none">🇶🇦</span>
           <span className="text-secondary shrink-0">+974</span>
-          <span className="w-px h-5 bg-[var(--field-border-disabled)] shrink-0" />
+          <span className="vrule h-5 bg-[var(--field-border-disabled)]" />
           <input
             ref={inputRef}
             id={inputId}
@@ -157,7 +157,7 @@ export function ContactPhoneInput({
               onClick={() => setOpen((v) => !v)}
               className={`shrink-0 p-1 ${disabled ? 'text-muted' : isFilled ? 'text-[var(--field-icon-active)]' : 'text-[var(--field-icon)]'}`}
             >
-              <Icon path={open ? CHEVRON_UP : CHEVRON_DOWN} className="w-4 h-4" />
+              <Icon path={open ? CHEVRON_UP : CHEVRON_DOWN} className="size-4 " />
             </button>
           )}
         </div>
@@ -178,7 +178,7 @@ export function ContactPhoneInput({
                 onClick={() => pick(c)}
                 className={`row pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? 'bg-[var(--field-focus-bg)]' : ''}`}
               >
-                <span className="avatar w-8 h-8 shrink-0">
+                <span className="avatar size-8 shrink-0">
                   {initials(c.firstName, c.lastName)}
                 </span>
                 <span className="min-w-0">

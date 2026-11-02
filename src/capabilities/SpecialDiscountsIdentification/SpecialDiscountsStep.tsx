@@ -39,7 +39,7 @@ export function SpecialDiscountsStep({
 
       {type === 'b2b2c' && (
         <div className={`${CARD} space-y-3`}>
-          <div className="grid gap-4 sm:grid-cols-[7fr_3fr] items-start">
+          <div className="split-7-3">
             <CompanySearchInput
               label="Company Name"
               required
@@ -70,7 +70,7 @@ export function SpecialDiscountsStep({
       {type && type !== 'none' && (type !== 'b2b2c' || isCompanySupported(value.company)) && (
         <div className="space-y-5">
           {/* One card for the office ID: scanned, or uploaded from the same card's own "Upload document". */}
-          <div className="stack-sm min-w-0">
+          <div className="stack gap-2 min-w-0">
           <div className={EQUAL_CARD}>
           <QidImageUpload
             documentType="Office ID"
@@ -128,9 +128,9 @@ function OPTION_CARDS(value: SpecialDiscountsValue, onChange: (v: SpecialDiscoun
         <div className="row">
           {/* Icon tile: tinted at rest, solid accent when selected. */}
           <span
-            className={`option-icon ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}
+            className={`icon-box ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}
           >
-            <Icon path={TYPE_ICONS[o.key] ?? CHECK_ICON} className="w-5 h-5" />
+            <Icon path={TYPE_ICONS[o.key] ?? CHECK_ICON} className="size-5 " />
           </span>
           <span className="min-w-0 flex-1 value-text">{o.label}</span>
         </div>

@@ -57,7 +57,7 @@ export function NavCollapseButton({ onToggle }: { onToggle: () => void }) {
         aria-expanded={true}
         className="relative nav-icon-tile nav-ghost focus-visible:bg-[var(--nav-hover-bg)] focus-ring"
       >
-        <PanelIcon expanded={true} className="w-6 h-6" />
+        <PanelIcon expanded={true} className="size-6 " />
       </button>
     </Tooltip>
   );

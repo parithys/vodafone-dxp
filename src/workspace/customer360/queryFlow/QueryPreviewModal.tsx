@@ -23,7 +23,7 @@ function SectionCard({ icon, title, open = true, onToggle, children }: { icon: s
   const head = (
     <>
       <Icon path={icon} className="icon-md text-fg" />
-      <h3 className="flex-1 min-w-0 subtitle text-left">{title}</h3>
+      <h3 className="fill-start title title-md font-semibold">{title}</h3>
       {onToggle && <Icon path={IC.chevDown} className={`icon-sm text-fg-2 transition-transform ${open ? 'rotate-180' : ''}`} />}
     </>
   );
@@ -34,7 +34,7 @@ function SectionCard({ icon, title, open = true, onToggle, children }: { icon: s
           {head}
         </button>
       ) : (
-        <div className="flex items-center gap-2.5 pad-row">{head}</div>
+        <div className="row gap-2.5 pad-row">{head}</div>
       )}
       {open && <div className="px-4 pb-4">{children}</div>}
     </section>
@@ -46,7 +46,7 @@ function FieldRow({ label, value, strong = false, muted = false }: { label: stri
   return (
     <div className="split-top gap-4 py-2 row-rule text-[length:var(--fs-body)]">
       <dt className="text-fg">{label}</dt>
-      <dd className={`min-w-0 break-words text-right ${muted ? 'text-muted' : strong ? 'text-fg font-semibold' : 'text-fg'}`}>{value}</dd>
+      <dd className={`value-right ${muted ? 'text-muted' : strong ? 'font-semibold' : ''}`}>{value}</dd>
     </div>
   );
 }
@@ -170,8 +170,8 @@ export function QueryPreviewModal({
         <div className="row-start px-6 py-4 divider-bottom shrink-0">
           <IconTile icon={IC.phone} tone="red" />
           <div className="min-w-0 flex-1 space-y-2">
-            <h2 className="subtitle-lg break-words">{issue.name}</h2>
-            <div className="wrap-row">
+            <h2 className="title title-lg font-semibold break-words">{issue.name}</h2>
+            <div className="wrap-loose gap-2">
               <Pill tone="blue">{serviceTypeLabel(serviceType)}</Pill>
               {issue.category && <Pill tone={/network/i.test(issue.category) ? 'red' : 'purple'}>{issue.category}</Pill>}
             </div>
@@ -211,7 +211,7 @@ export function QueryPreviewModal({
 
         <SectionCard icon={IC.headset} title={`Recent Tickets (${openTickets.length})`}>
           {recentTickets.length === 0 ? (
-            <p className="text-muted text-[length:var(--fs-body)] py-2">No Recent Tickets</p>
+            <p className="muted-body py-2">No Recent Tickets</p>
           ) : (
             <ul>
               {recentTickets.map((t) => (
@@ -220,10 +220,10 @@ export function QueryPreviewModal({
                     type="button"
                     onClick={onOpenTickets}
                     aria-label={`Open ${String(t.ticketId)} in Tickets & Support`}
-                    className="w-full row py-2.5 text-left text-[length:var(--fs-body)] rounded-[var(--radius-sm)] focus-ring"
+                    className="list-button"
                   >
                     <span className="text-fg font-semibold shrink-0">{String(t.ticketId)}</span>
-                    <span className="flex-1 min-w-0 truncate text-fg-2">{text(t.actualIssue) ?? text(t.category)}</span>
+                    <span className="truncate-secondary">{text(t.actualIssue) ?? text(t.category)}</span>
                     <StatusPill status={String(t.status)} />
                     <Icon path={IC.chevRight} className="icon-sm text-fg" />
                   </button>
@@ -237,7 +237,7 @@ export function QueryPreviewModal({
           <div className="space-y-4">
             {grouped.map((g) => (
               <div key={g.title}>
-                <h4 className="text-fg font-semibold text-[length:var(--fs-caption)] mb-1">{g.title}</h4>
+                <h4 className="caption-strong mb-1">{g.title}</h4>
                 <dl>
                   {g.rows.map((r) => (
                     <FieldRow key={r.label} label={r.label} value={r.value ?? NOT_ON_FILE} muted={r.value === undefined} />

@@ -55,7 +55,7 @@ function ReserveSummary({ msisdn, priceQAR, values, setValue }: { msisdn: string
       <div className="card p-4 card-surface space-y-2">
         <div className="spread">
           <span className="text-secondary">Number</span>
-          <span className="title-sm">{toLocalMsisdn(msisdn)}</span>
+          <span className="title title-sm">{toLocalMsisdn(msisdn)}</span>
         </div>
         <div className="spread">
           <span className="text-secondary">{star ? 'Star Number price' : 'Category'}</span>

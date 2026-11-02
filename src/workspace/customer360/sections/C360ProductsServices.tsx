@@ -223,11 +223,11 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
     >
       {/* One card; its cells are divided by thin lines (same construction as KpiGrid). */}
       <div className="card overflow-hidden">
-      <div className="grid grid-cols-1 @lg:grid-cols-2 @4xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,3.2fr)] -mr-px -mb-px">
+      <div className="collapsed-grid @4xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,3.2fr)]">
         <KpiTile icon={IC.box} tone="blue" label="Total Connections" value={services.length} />
         <KpiTile icon={IC.shieldCheck} tone="green" label="Active Services" value={active} />
-        <section className="@lg:col-span-2 @4xl:col-span-1 p-4 min-w-0 border-r divider-bottom">
-          <h3 className="heading-strong mb-2">Service Types</h3>
+        <section className="cell-ruled @lg:col-span-2 @4xl:col-span-1">
+          <h3 className="title title-sm font-semibold mb-2">Service Types</h3>
           <ul className="pair-grid-sm @lg:grid-cols-5">
             {TYPE_TILES.map((t) => {
               const count = services.filter((s) => typeLabel(s) === t.label).length;
@@ -240,14 +240,14 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
                     disabled={count === 0}
                     onClick={() => setTypeFilter(on ? null : t.label)}
                     title={on ? `Showing ${t.label} only - click to show all` : `Show ${t.label} services only`}
-                    className={`row-tight w-full min-w-0 button-bleed ${
-                      on ? 'bg-[var(--field-card-selected-bg)] ring-1 ring-inset ring-[var(--field-card-selected)]' : count > 0 ? 'hover:bg-surface' : ''
+                    className={`row gap-2 button-bleed ${
+                      on ? 'bleed-selected' : count > 0 ? 'hover:bg-surface' : ''
                     }`}
                   >
                     <IconTile icon={t.icon} tone={t.tone} size="sm" />
                     <div className="min-w-0">
                       <div className="caption-secondary truncate">{t.label}</div>
-                      <div className="title-md leading-tight">{count}</div>
+                      <div className="title title-md leading-tight">{count}</div>
                     </div>
                   </button>
                 </li>
@@ -264,7 +264,7 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
             icon={IC.bars}
             title={`All Services (${services.length})`}
             action={
-              <div className="cluster-sm justify-end min-w-0">
+              <div className="cluster justify-end gap-2 min-w-0">
                 <div className="w-56 max-w-full flex">
                   <SearchBox value={query} onChange={setQuery} placeholder="Search by MSISDN, plan or service" />
                 </div>
@@ -297,22 +297,22 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
         </div>
 
         {panelOpen && (
-        <aside className="@container card p-4 space-y-4 min-w-0">
+        <aside className="container-card card">
             {!selected || !sel ? (
               <p className="empty-line text-[length:var(--fs-body)]">{services.length === 0 ? 'No services to show.' : 'Select a service to see its details.'}</p>
             ) : (
               <>
                 <div className="row">
                   <IconTile icon={mobileSel ? IC.mobile : selected.tab === 'fibre' ? IC.wifi : IC.cpu} tone="red" />
-                  <span className="title-lg break-words min-w-0">{selected.identifier}</span>
+                  <span className="title title-lg break-words min-w-0">{selected.identifier}</span>
                   {sel.status && <StatusPill status={sel.status} />}
                   {sel.primary && (
                     <span className="chip-boxed text-fg-2">
-                      <Icon path={IC.star} className="w-3.5 h-3.5" />
+                      <Icon path={IC.star} className="size-3.5 " />
                       Primary MSISDN
                     </span>
                   )}
-                  <span className="ml-auto inline-flex items-center gap-3">
+                  <span className="inline-end">
                     <ServiceActionsMenu
                       customerId={data.customer.customerId}
                       customerName={data.customer.name}
@@ -327,7 +327,7 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
                       }}
                     />
                     <button type="button" aria-label="Close details" onClick={() => setPanelOpen(false)} className="text-fg-2 hover:text-fg">
-                      <Icon path={IC.x} className="w-5 h-5" />
+                      <Icon path={IC.x} className="size-5 " />
                     </button>
                   </span>
                 </div>
@@ -367,11 +367,11 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
                       title={`Add-ons (${sel.addons.length})`}
                     >
                       {sel.addons.length === 0 ? (
-                        <p className="text-muted text-[length:var(--fs-body)]">No add-ons on file.</p>
+                        <p className="muted-body">No add-ons on file.</p>
                       ) : (
                         <ul>
                           {sel.addons.map((a) => (
-                            <li key={String(a.addonDiscountId)} className="split-tight py-1.5 text-[length:var(--fs-body)]">
+                            <li key={String(a.addonDiscountId)} className="split-nowrap gap-2 py-1.5 text-[length:var(--fs-body)]">
                               <span className="min-w-0">
                                 <span className="block text-fg break-words">{String(a.name)}</span>
                                 {str(a.description) && <span className="block caption-secondary break-words">{String(a.description)}</span>}

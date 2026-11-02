@@ -46,7 +46,7 @@ export function RechargeSelectionStep({
   // The tab shown follows the chosen product when there is one, otherwise the first category.
   const shown = groups.find((g) => g.category === (category ?? selected?.category)) ?? groups[0];
 
-  if (!loaded) return <p className="text-muted text-[length:var(--fs-body)]">Loading the recharge options…</p>;
+  if (!loaded) return <p className="muted-body">Loading the recharge options…</p>;
   if (groups.length === 0) return <EmptyState compact message="No recharge options are available." />;
 
   const note = selected ? simCardCharge(idType, selected.amountQar) : undefined;
@@ -85,9 +85,9 @@ export function RechargeSelectionStep({
               className={`relative cursor-pointer card-option p-4 ${chosen ? CARD_SELECTED : CARD_IDLE}`}
             >
               {chosen && <SelectedTick />}
-              <p className="subtitle">{r.name}</p>
+              <p className="title title-md font-semibold">{r.name}</p>
               {r.description && <p className="mt-1 caption-muted">{r.description}</p>}
-              <p className="mt-3 title-xl leading-none">{formatQar(r.amountQar)}</p>
+              <p className="mt-3 title title-xl leading-none">{formatQar(r.amountQar)}</p>
             </div>
           );
         })}

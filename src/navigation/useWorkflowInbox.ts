@@ -80,7 +80,7 @@ export function useWorkflowInbox() {
       out.push({
         id: `decision-${d.orderId}-${d.at}`,
         kind: 'decision',
-        title: `Order ${d.orderId} ${d.outcome === 'Approved' ? 'approved' : d.outcome === 'Rejected' ? 'rejected for correction' : d.outcome === 'Dropped' ? 'dropped' : 'returned'}`,
+        title: `Order ${d.orderId} ${d.outcome === 'Approved' ? 'approved' : d.outcome === 'Rejected' ? 'rejected' : d.outcome === 'Missing Information' ? 'needs more information' : d.outcome === 'Dropped' ? 'dropped' : 'returned'}`,
         detail: d.note ?? d.status,
         to: `${ORDER_DETAIL}?id=${d.orderId}`,
         at: d.at,

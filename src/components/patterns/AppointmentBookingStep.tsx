@@ -87,15 +87,15 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
     <div className="space-y-6">
       <div>
         <div className="text-[length:var(--fs-label)] text-fg-2 mb-1">SLA Cluster</div>
-        <div className="wrap-row">
+        <div className="wrap-loose gap-2">
           {CLUSTERS.map((c) => (
             <button
               key={c}
               type="button"
               aria-pressed={cluster === c}
               onClick={() => choose({ cluster: c })}
-              className={`px-3 py-1.5 rounded-[var(--radius-pill)] border text-[length:var(--fs-body)] ${
-                cluster === c ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] text-[var(--field-card-selected)]' : 'border-border-soft bg-bg text-fg'
+              className={`pill-option ${
+                cluster === c ? 'option-chosen text-[var(--field-card-selected)]' : 'border-border-soft bg-bg text-fg'
               }`}
             >
               {c}
@@ -105,14 +105,14 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
       </div>
 
       <section aria-label="Appointment date" className="space-y-3">
-        <div className="cluster-sm justify-between">
-          <h3 className="title-lg">Select appointment date - {monthYear(date ?? earliest)}</h3>
+        <div className="split gap-2">
+          <h3 className="title title-lg">Select appointment date - {monthYear(date ?? earliest)}</h3>
           <span className="chip-soft">
-            <Icon path={CLOCK} className="w-4 h-4" />
+            <Icon path={CLOCK} className="size-4 " />
             Earliest: {dateShort(earliest)} (lead time {LEAD_TIME_DAYS} days)
           </span>
         </div>
-        <div className="grid grid-cols-4 sm:grid-cols-7 gap-3">
+        <div className="calendar-grid">
           {strip.map((d) => {
             const selected = date === d;
             return (
@@ -121,11 +121,11 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
                 type="button"
                 aria-pressed={selected}
                 onClick={() => choose({ date: d })}
-                className={`relative card-frame px-2 py-3 text-center ${selected ? CARD_SELECTED : CARD_IDLE}`}
+                className={`option-cell ${selected ? CARD_SELECTED : CARD_IDLE}`}
               >
                 {selected && <SelectedTick />}
                 <span className="block text-secondary">{weekdayShort(d)}</span>
-                <span className="block title-xl">{dayOfMonth(d)}</span>
+                <span className="block title title-xl">{dayOfMonth(d)}</span>
                 {cluster && <span className="block caption-muted">{bookableSlots(existing, cluster, d)} slots</span>}
               </button>
             );
@@ -134,8 +134,8 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
       </section>
 
       <section aria-label="Available slots" className="space-y-3">
-        <div className="cluster-sm justify-between">
-          <h3 className="title-lg">Available slots - {dateLong(date ?? earliest)}</h3>
+        <div className="split gap-2">
+          <h3 className="title title-lg">Available slots - {dateLong(date ?? earliest)}</h3>
           {technicians !== undefined && (
             <Badge variant="success">
               {technicians} technician{technicians === 1 ? '' : 's'} available
@@ -154,19 +154,19 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
                   aria-pressed={selected}
                   disabled={full}
                   onClick={() => choose({ timeSlot: slot })}
-                  className={`relative card-frame px-2 py-3 text-center disabled:cursor-not-allowed ${
-                    full ? 'border-border-soft bg-surface text-muted' : selected ? CARD_SELECTED : CARD_IDLE
+                  className={`option-cell disabled:cursor-not-allowed ${
+                    full ? 'option-unavailable' : selected ? CARD_SELECTED : CARD_IDLE
                   }`}
                 >
                   {selected && !full && <SelectedTick />}
-                  <span className={`block font-bold text-[length:var(--fs-body-lg)] ${full ? 'text-muted' : 'text-fg'}`}>{slotLabel(slot)}</span>
+                  <span className={`title title-md block ${full ? 'text-muted' : ''}`}>{slotLabel(slot)}</span>
                   <span className={`block text-[length:var(--fs-body)] ${full ? 'text-muted' : 'text-fg-2'}`}>{full ? 'Full' : selected ? 'Selected' : 'Available'}</span>
                 </button>
               );
             })}
           </div>
         ) : (
-          <p className="text-muted text-[length:var(--fs-body)]">Choose an SLA cluster to see its slots.</p>
+          <p className="muted-body">Choose an SLA cluster to see its slots.</p>
         )}
       </section>
 
@@ -218,8 +218,8 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
       />
 
       <section aria-label="Documents the technician collects" className="space-y-2">
-        <div className="wrap-row items-baseline justify-between">
-          <h3 className="title-lg">Documents the Technician Collects</h3>
+        <div className="wrap-loose gap-2 items-baseline justify-between">
+          <h3 className="title title-lg">Documents the Technician Collects</h3>
           <span className="caption-muted">Defaulted from Persona</span>
         </div>
         <ul className="card card-inherit-fill divide-y divide-border-soft">

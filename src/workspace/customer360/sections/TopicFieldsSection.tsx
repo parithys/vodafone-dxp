@@ -85,7 +85,7 @@ export function TopicFieldsSection({
     return true;
   });
   if (visible.length === 0) {
-    return <p className="text-muted text-[length:var(--fs-body)]">Nothing visible here for your role.</p>;
+    return <p className="muted-body">Nothing visible here for your role.</p>;
   }
 
   // A detail node is attached to the FIRST field carrying that name only: a few
@@ -175,7 +175,7 @@ function GroupBlock({
         ))}
 
       {empty.length > 0 && (
-        <p className={`caption-muted ${plain ? 'px-4 py-3 border-t border-[var(--field-card-border)]' : 'mt-2'}`}>
+        <p className={`caption-muted ${plain ? 'pad-row border-t border-[var(--field-card-border)]' : 'mt-2'}`}>
           No data on file: {empty.map((m) => fieldLabel(m.field.details)).join(' · ')}
         </p>
       )}
@@ -209,16 +209,16 @@ function Tile({ item, expanded, onToggle }: { item: Item; expanded: boolean; onT
         <div className="eyebrow">{fieldLabel(item.field.details)}</div>
         {item.rich !== undefined && onToggle && <Chevron expanded={expanded} />}
       </div>
-      <div className="text-fg font-medium text-[length:var(--fs-body-lg)] mt-1 break-words">{summaryOf(item)}</div>
+      <div className="value-lg mt-1">{summaryOf(item)}</div>
     </>
   );
-  const shell = 'card p-4 text-left w-full';
+  const shell = 'card card-block';
   if (item.rich === undefined) return <div className={shell}>{body}</div>;
   if (!onToggle) {
     return (
       <>
-        <div className={`${shell} sm:col-span-2 lg:col-span-3`}>{body}</div>
-        <div className="sm:col-span-2 lg:col-span-3 card p-4">{item.rich}</div>
+        <div className={`${shell} span-all-cols`}>{body}</div>
+        <div className="span-all-cols card p-4">{item.rich}</div>
       </>
     );
   }
@@ -228,11 +228,11 @@ function Tile({ item, expanded, onToggle }: { item: Item; expanded: boolean; onT
         type="button"
         aria-expanded={expanded}
         onClick={onToggle}
-        className={`${shell} card-interactive transition-colors ${expanded ? 'sm:col-span-2 lg:col-span-3' : ''}`}
+        className={`${shell} card-interactive transition-colors ${expanded ? 'span-all-cols' : ''}`}
       >
         {body}
       </button>
-      {expanded && <div className="sm:col-span-2 lg:col-span-3 card p-4">{item.rich}</div>}
+      {expanded && <div className="span-all-cols card p-4">{item.rich}</div>}
     </>
   );
 }
@@ -280,7 +280,7 @@ function DrillRow({ item, expanded, onToggle }: { item: Item; expanded: boolean;
   }
   return (
     <div>
-      <button type="button" aria-expanded={expanded} onClick={onToggle} className="list-row justify-between gap-4 px-4 py-2.5">
+      <button type="button" aria-expanded={expanded} onClick={onToggle} className="list-row-spread">
         <span className="body-text">{fieldLabel(item.field.details)}</span>
         <Chevron expanded={expanded} />
       </button>

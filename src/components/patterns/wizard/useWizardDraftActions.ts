@@ -132,7 +132,8 @@ export function useWizardDraftActions({
   // order row falls out of data this component already has, rather than
   // requiring every wizard to hand it a bespoke record shape.
   // Writes the draft order (creating it on first save) and returns its id.
-  const persistDraft = async (): Promise<string | undefined> => {
+  // `comments` (a Save as Draft comment) is written on the Draft Order task in the same call; `out.taskId` reports that task.
+  const persistDraft = async (comments?: string, out?: { taskId?: string }): Promise<string | undefined> => {
     const activeKey = activeSteps[currentIndex]?.key;
     if (!activeKey) return undefined;
     // The order this journey already has, read fresh: a page save still running in the background may have created it since this render.
@@ -144,7 +145,10 @@ export function useWizardDraftActions({
       });
       // The Draft Orders list shows when the draft last changed.
       const task = (await mockDataEngine.list<{ taskId: string; relatedOrderId?: string }>('tasks')).find((t) => t.relatedOrderId === savedId);
-      if (task) await entity().updateRecord('tasks', 'taskId', task.taskId, { updatedAt: new Date().toISOString() });
+      if (task) {
+        await entity().updateRecord('tasks', 'taskId', task.taskId, { updatedAt: new Date().toISOString(), ...(comments !== undefined ? { draftComment: comments.trim() } : {}) });
+        if (out) out.taskId = task.taskId;
+      }
     } else {
       const newOrderId = `ORD-${Date.now().toString().slice(-6)}`;
       await entity().createRecord('orders', {
@@ -159,9 +163,11 @@ export function useWizardDraftActions({
       // A saved draft shows up in the agent's Draft Orders list (a task of type
       // 'Draft Order' linked to the order - the list is built from tasks, and
       // its row click resumes the journey via the order's draftResumePath).
+      const newTaskIdValue = (useCustomerContext.getState().journey?.wizardId === wizardId && useCustomerContext.getState().journey?.taskId) || newTaskId();
+      if (out) out.taskId = newTaskIdValue;
       await entity().createRecord('tasks', {
         // The journey's own reference, so the Task ID the agent was shown while working is the one on the saved draft.
-        taskId: (useCustomerContext.getState().journey?.wizardId === wizardId && useCustomerContext.getState().journey?.taskId) || newTaskId(),
+        taskId: newTaskIdValue,
         taskName: `${useCustomerContext.getState().journey?.customerName ?? draftCustomerName(values)} – ${draftActionLabel ?? title}`,
         taskDescription: 'Draft order saved but not submitted.',
         taskType: 'Draft Order',
@@ -170,16 +176,35 @@ export function useWizardDraftActions({
         assignedAgentId: useAuthStore.getState().profile?.userId ?? null,
         relatedOrderId: newOrderId,
         createdAt: new Date().toISOString(),
+        ...(comments !== undefined ? { draftComment: comments.trim() } : {}),
       });
       return newOrderId;
     }
     return savedId;
   };
 
+  // Save as Draft from the dialog: the order is saved and the agent stays exactly where they are, journey still open. Later saves update
+  // this same draft. The comment goes onto the Draft Order task with the save (the Draft Orders list shows it), and the toast confirms the
+  // Task ID as soon as the draft is saved - the activity log is written after, so it does not hold the toast back.
+  const saveDraftHere = once(async (comments?: string) => {
+    const saved: { taskId?: string } = {};
+    const id = await persistDraft(comments ?? '', saved);
+    if (!id) return;
+    if (!useWorkflowStore.getState().getDraft(wizardId).draftOrderId) useWorkflowStore.getState().setDraftOrderId(wizardId, id);
+    // Everything entered is now saved: leaving the journey, signing out or closing the tab no longer warns until something changes.
+    useWorkflowStore.getState().markDraftSaved(wizardId);
+    useNotificationStore.getState().pushToast('success', 'Draft saved successfully', {
+      key: `draft-saved-${wizardId}`,
+      // The Task ID opens the Drafts list (the same list as the dashboard's Drafts tile).
+      ...(saved.taskId ? { detailLink: { prefix: 'Task ID: ', label: saved.taskId, to: '/tasks?filter=draft-orders' } } : { detail: 'This order can be resumed from Draft Orders.' }),
+    });
+    await recordActivity('saved-exit', id, comments);
+  });
+
   // `stay` saves without sending the agent anywhere: the caller is already on its way somewhere else (the leave-journey
   // prompt lets the blocked navigation go ahead afterwards).
   const saveAndExit = once(async (comments?: string, { stay = false }: { stay?: boolean } = {}) => {
-    const id = await persistDraft();
+    const id = await persistDraft(comments ?? '');
     if (!id) return;
     await recordActivity('saved-exit', id, comments);
     useCustomerContext.getState().endJourney(wizardId);
@@ -240,6 +265,7 @@ export function useWizardDraftActions({
     setAbandonNoKeep,
     abandonOrder,
     saveAndExit,
+    saveDraftHere,
     saveDraft,
     requestAbandon,
     abandonOnLeave,

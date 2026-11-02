@@ -6,7 +6,7 @@ import { LOCK } from '../../assets/icons';
 export function RestrictedRowsNotice({ count }: { count: number }) {
   if (count <= 0) return null;
   return (
-    <p role="status" className="mb-3 row-tight caption-secondary">
+    <p role="status" className="mb-3 row gap-2 caption-secondary">
       <Icon path={LOCK} className="icon-sm" />
       {count} {count === 1 ? 'entry is' : 'entries are'} hidden: access restricted for your role.
     </p>

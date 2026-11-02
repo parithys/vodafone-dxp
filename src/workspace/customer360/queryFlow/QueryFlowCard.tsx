@@ -27,7 +27,7 @@ function Highlighted({ text, keywords }: { text: string; keywords: string[] }) {
   ranges.forEach(([a, b], i) => {
     if (a > pos) parts.push(text.slice(pos, a));
     parts.push(
-      <mark key={i} className="rounded-[var(--radius-sm)] bg-[var(--highlight-bg)] text-inherit font-semibold">
+      <mark key={i} className="highlight-mark font-semibold">
         {text.slice(a, b)}
       </mark>
     );
@@ -152,7 +152,7 @@ export function QueryFlowCard({
           <div className="cluster">
             <SearchBox value={query} onChange={(v) => { setQuery(v); setNote(undefined); }} placeholder="Search for customer issues, queries or requests" />
           </div>
-          <div className="cluster-sm text-[length:var(--fs-caption)]">
+          <div className="cluster gap-2 text-[length:var(--fs-caption)]">
             <span className="text-on-dark-2">Examples:</span>
             {catalogue.examples.map((e) => (
               <button
@@ -172,15 +172,15 @@ export function QueryFlowCard({
           {query.trim() && (
             <div aria-live="polite" className="fields @2xl:grid-cols-2 items-start">
               <div>
-              <p className="title-lg mb-3 row-tight">Query Issues<span className="rounded-[var(--radius-pill)] bg-surface caption-secondary px-2.5 py-0.5 font-medium">{results.length}</span></p>
+              <p className="title title-lg row gap-2 mb-3">Query Issues<span className="chip-plain caption-secondary font-medium">{results.length}</span></p>
               {results.length === 0 ? (
-                <p className="text-muted text-[length:var(--fs-body)]">No Query Issues match "{query.trim()}". Try fewer or different keywords.</p>
+                <p className="muted-body">No Query Issues match "{query.trim()}". Try fewer or different keywords.</p>
               ) : (
                 <div className="list-frame">
                   {resultGroups.map((g) => (
                     <div key={g.key}>
                       {/* One header per Service Type > Category, then its issues. */}
-                      <div className="cluster-sm px-4 py-2 bg-surface">
+                      <div className="cluster gap-2 bar-soft">
                         {g.serviceType && (
                           <>
                             <Pill tone="blue">{g.serviceType}</Pill>
@@ -216,9 +216,9 @@ export function QueryFlowCard({
               </div>
               {goToTab && (
                 <div>
-                  <p className="title-lg mb-3 row-tight">Sections<span className="rounded-[var(--radius-pill)] bg-surface caption-secondary px-2.5 py-0.5 font-medium">{sectionHits.length}</span></p>
+                  <p className="title title-lg row gap-2 mb-3">Sections<span className="chip-plain caption-secondary font-medium">{sectionHits.length}</span></p>
                   {sectionHits.length === 0 ? (
-                    <p className="text-muted text-[length:var(--fs-body)]">No sections match "{query.trim()}". Search by section title, e.g., Account Details.</p>
+                    <p className="muted-body">No sections match "{query.trim()}". Search by section title, e.g., Account Details.</p>
                   ) : (
                     <ul className="list-frame">
                       {sectionHits.map((h) => (
@@ -229,7 +229,7 @@ export function QueryFlowCard({
                               goToTab(h.tab);
                               revealContainer(h.id);
                             }}
-                            className="list-row flex-wrap gap-3 px-4 py-2.5 focus-ring"
+                            className="list-row-wrap"
                           >
                             <span className="flex-1 min-w-48 body-text"><Highlighted text={h.title} keywords={keywords} /></span>
                             <span className="caption-muted">{TAB_LABELS[h.tab]}</span>
@@ -249,18 +249,18 @@ export function QueryFlowCard({
       ) : (
         <div className="p-5 space-y-4">
           <Button variant="tertiary" compact onClick={() => reset()}>
-            <Icon path={BACK_ICON} className="w-4 h-4" />
+            <Icon path={BACK_ICON} className="size-4 " />
             Back to Search
           </Button>
 
           <div className="fields @4xl:grid-cols-2 items-stretch">
           <div className="card-outline bg-[var(--icon-tile-bg)] p-4 space-y-3">
-            <h3 className="subtitle">Selected Query Issue</h3>
+            <h3 className="title title-md font-semibold">Selected Query Issue</h3>
             <div className="row">
               <IconTile icon={IC.phone} tone="red" />
-              <span className="title-lg">{issue.name}</span>
+              <span className="title title-lg">{issue.name}</span>
             </div>
-            <dl className="grid grid-cols-1 sm:grid-cols-[12rem_1fr] gap-x-4 gap-y-2 items-center text-[length:var(--fs-body)]">
+            <dl className="labelled-grid">
               <dt className="text-fg">Query Category</dt>
               <dd><Pill tone={categoryTone(issue.category)}>{issue.category ?? PENDING}</Pill></dd>
               <dt className="text-fg">Query Issue</dt>
@@ -272,7 +272,7 @@ export function QueryFlowCard({
           </div>
 
           <div className="card-outline bg-[var(--icon-tile-bg)] p-4 space-y-3">
-            <h3 className="subtitle">Service Line</h3>
+            <h3 className="title title-md font-semibold">Service Line</h3>
             <Select
               label="Selected MSISDN"
               value={msisdnRef}

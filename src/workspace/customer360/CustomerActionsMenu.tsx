@@ -162,10 +162,10 @@ function MenuPanel({
       aria-label={label}
       onKeyDown={onKeyDown}
       style={{ top: pos?.top ?? 0, left: pos?.left ?? 0, visibility: pos ? 'visible' : 'hidden' }}
-      className={`fixed z-[var(--z-popover)] w-72 card shadow-raised py-1 text-left ${className}`}
+      className={`actions-popover card ${className}`}
     >
       {groups.map(({ key, label: groupLabel, children }, i) => (
-        <div key={key} className={i > 0 ? 'border-t border-border-soft mt-1 pt-1' : ''}>
+        <div key={key} className={i > 0 ? 'divider-top mt-1 pt-1' : ''}>
           <p className="px-4 pt-2 pb-1 eyebrow">{groupLabel}</p>
           {children.map((child) => (
             <button
@@ -233,7 +233,7 @@ export function CustomerActionsMenu({
     <div ref={ref} className="relative">
       <Button variant="primary" compact onClick={() => setOpen((v) => !v)} aria-haspopup="menu" aria-expanded={open} aria-controls={open ? menuId : undefined}>
         Actions
-        <Icon path={CHEVRON_DOWN} className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <Icon path={CHEVRON_DOWN} className={`size-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
       </Button>
       {open && (
         <MenuPanel
@@ -301,7 +301,7 @@ export function ServiceActionsMenu({
         }}
       >
         Actions
-        <Icon path={CHEVRON_DOWN} className="w-3.5 h-3.5 -rotate-90" />
+        <Icon path={CHEVRON_DOWN} className="size-3.5 -rotate-90" />
       </Button>
       <Drawer open={open} onClose={() => setOpen(false)} title={`Actions for ${service.identifier}`} bodyClassName="px-6 py-5">
         <p className="text-secondary mb-5">
@@ -346,7 +346,7 @@ export function ServiceActionsMenu({
                           <IconTile icon={journeyIcon(journey.id, category.icon)} />
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className={`block font-medium text-[length:var(--fs-body)] ${reachable ? 'text-fg' : 'text-fg-2'}`}>{journey.title}</span>
+                          <span className={`value-text block ${reachable ? '' : 'text-fg-2'}`}>{journey.title}</span>
                           <span className="block caption-secondary">{journey.description}</span>
                         </span>
                         {!reachable && <span className="shrink-0 caption-muted">Not Yet Open</span>}

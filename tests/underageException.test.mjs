@@ -35,7 +35,7 @@ test('age is calculated from the date of birth for every ID type: 18 and over pa
     assert.equal(minor.outcome, 'hard-stop', `${type} 17 years 364 days`);
     assert.equal(minor.label, 'Underage Customer');
     assert.equal(minor.exceptionOffer, 'under-18');
-    assert.match(minor.message, /under 18.*Abandon the order, or apply for an exception/);
+    assert.match(minor.message, /under 18 years old\. Abandon the order or Apply for an Exception using a Court Order/);
   }
   assert.equal(ageCheck('QID', '1990-01-01').label, 'Age Check');
 });
@@ -53,15 +53,24 @@ test('an exception request routes the age check for approval and never lifts any
 const stopResult = { hardStop: true, checks: [{ id: 'age', outcome: 'hard-stop', exceptionOffer: 'under-18' }] };
 const actions = (props) => html(h(outcomes.OutcomeActions, { eligibility: stopResult, defaultButton: h('button', null, 'Continue'), onAbandon() {}, ...props }));
 
-test('the footer offers exactly Abandon Order and Apply for Exception for an underage customer; any other hard stop keeps Abandon Order alone', () => {
+test('the footer offers only Apply for Exception for an underage customer (Abandon Order lives in the page header); any other hard stop has no footer action', () => {
   const exception = { requirement: { id: 'court-type-order', label: 'Court Type Order' }, approverRole: 'Sales Manager', onSubmit() {} };
   const out = actions({ exception });
   const labels = [...out.matchAll(/<button[^>]*>([^<]*)</g)].map((m) => m[1]);
-  assert.deepEqual(labels, ['Abandon Order', 'Apply for Exception']);
+  assert.deepEqual(labels, ['Apply for Exception']);
   assert.doesNotMatch(out, /Continue/);
   const plain = html(h(outcomes.OutcomeActions, { eligibility: { hardStop: true, checks: [{ id: 'visa-validity', outcome: 'hard-stop' }] }, defaultButton: h('button', null, 'Continue'), onAbandon() {}, exception }));
-  assert.deepEqual([...plain.matchAll(/<button[^>]*>([^<]*)</g)].map((m) => m[1]), ['Abandon Order']);
-  assert.deepEqual([...actions({}).matchAll(/<button[^>]*>([^<]*)</g)].map((m) => m[1]), ['Abandon Order'], 'no exception wiring, no exception action');
+  assert.deepEqual([...plain.matchAll(/<button[^>]*>([^<]*)</g)].map((m) => m[1]), [], 'any other hard stop: no footer action (Abandon Order is in the header)');
+  assert.deepEqual([...actions({}).matchAll(/<button[^>]*>([^<]*)</g)].map((m) => m[1]), [], 'no exception wiring, no exception action');
+});
+
+test('the Under-18 Exception hides Special Discounts and its document is listed and viewable under View All Journey Documents', () => {
+  const step = read('src/capabilities/CustomerQualification/step.tsx');
+  assert.match(step, /!under18RequestHolds\(values\) && \(\s*<SpecialDiscountsIdentification/);
+  assert.match(step, /setValue\('customerType', \{ type: 'none' \}\)/);
+  assert.match(step, /return prepaid \|\| under18RequestHolds\(values\) \|\|/, 'Continue is not held for a discount that is not offered');
+  const up = read('src/components/domain/AdditionalDocumentsUpload.tsx');
+  assert.match(up, /documents\.map\(\(d\) => \{\s*const dataUrl = documentFileOf\(d\.id\)\?\.dataUrl;\s*const title = `Additional Documents: /);
 });
 
 test('the Exception Request needs the Court Type Order: Submit for Approval is off until it is uploaded', () => {
@@ -96,4 +105,36 @@ test('the Exception Request stands only for the customer it was made for, and on
   assert.equal(under18RequestHolds({ contact: base.contact, caf: base.caf }), false, 'no request made');
   assert.equal(under18RequestHolds({ ...base, under18Request: { idNumber: '28456701234' } }), false, 'a request with no document is no request');
   assert.match(fs.readFileSync('src/capabilities/EligibilityGate/EligibilityGateStep.tsx', 'utf8'), /else if \(wasRequested\.current\) setExceptionChosen\(false\)/);
+});
+
+test('after the Exception Request, Continue is not held for a Special Discount, and without a request it still is', async () => {
+  const { customerQualificationStep } = await load('/src/capabilities/CustomerQualification/step.tsx');
+  const step = customerQualificationStep({ flow: 'new', guardedContactChange() {} });
+  const contact = { idType: 'Qatar ID', idNumber: '31403153400090', moiResult: { name: 'Minor Test' }, email: 'a@b.qa', mobile: '55000000' };
+  const ok = { checks: [], hardStop: false, softStop: false };
+  const request = { under18Request: { documentId: 'd1', idNumber: contact.idNumber }, caf: { additionalDocuments: [{ id: 'd1', label: 'Court Type Order', fileName: 'o.pdf', sizeBytes: 1 }] } };
+  const without = step.isValid({ contact, eligibility: ok });
+  const withReq = step.isValid({ contact, eligibility: ok, ...request });
+  // Whatever else the identity needs, the request lifts exactly the discount requirement and never adds one.
+  assert.ok(!without || withReq);
+  assert.equal(step.isValid({ contact, eligibility: ok, ...request, customerType: { type: 'none' } }), withReq, 'a Standard type changes nothing');
+});
+
+test('View All Journey Documents lists an uploaded document under Additional Documents, counted and openable', async () => {
+  const { AdditionalDocumentsUpload } = await load('/src/components/domain/AdditionalDocumentsUpload.tsx');
+  const { rememberDocumentFile } = await load('/src/lib/documentFileStore.ts');
+  rememberDocumentFile('d1', { dataUrl: 'data:application/pdf;base64,AA==', fileName: 'order.pdf' });
+  const docs = [{ id: 'd1', label: 'Court Type Order', fileName: 'order.pdf', sizeBytes: 10, requirementId: 'court-type-order' }];
+  const out = html(h(AdditionalDocumentsUpload, { documents: docs, onChange() {}, journeyDocuments: [{ id: 'id-front', label: 'QID Document (Front)', source: 'Customer Verification · Scanned', fileName: 'f.png' }] }));
+  assert.match(out, /View All Journey Documents <span[^>]*>\(2\)/, 'journey document + uploaded one');
+  assert.match(out, /<button[^>]*>Additional Documents: Court Type Order<\/button>/, 'openable, not just a name');
+});
+
+test('the Supplementary Terms checkbox shows only with a verified secondary contact', async () => {
+  const { CafSignatureCapture } = await load('/src/components/patterns/CafSignatureCapture.tsx');
+  const base = { value: { cafType: 'Digital' }, autoDetectDeviceType: true, onChange() {}, customerName: 'Primary', fullTerms: false, journey: 'postpaid' };
+  const none = html(h(CafSignatureCapture, base));
+  assert.doesNotMatch(none, /agree to the[\s\S]{0,200}Supplementary Form/, 'no secondary contact: no checkbox');
+  const verified = html(h(CafSignatureCapture, { ...base, supplementaryForm: { rows: [{ label: 'Name', value: 'Second' }], actualUserName: 'Second' } }));
+  assert.match(verified, /I have read and agree to the[\s\S]{0,200}Supplementary Form/, 'verified secondary contact: checkbox');
 });

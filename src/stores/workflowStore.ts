@@ -8,6 +8,12 @@ interface WizardDraft {
    * even after jumping to an earlier step to edit it. */
   maxStepReached: number;
   values: Record<string, unknown>;
+  /** A resumed draft: the step it was saved on. The journey opens on ID verification and, once that passes, Continue goes here. */
+  resumeToStepKey?: string;
+  /** A resumed draft: the Task ID the draft already has, which the journey keeps. */
+  resumeTaskId?: string;
+  /** The step and values as they were when the agent last used Save as Draft; unchanged since means nothing is unsaved. */
+  savedSnapshot?: string;
   /**
    * The Draft Order this session is working on, when it was opened from one.
    *
@@ -34,6 +40,12 @@ export function draftHasProgress(d: WizardDraft | undefined): boolean {
   return Object.values(d.values).some(meaningful);
 }
 
+/** Progress that is not yet saved: there is progress, and it differs from what the last Save as Draft kept. */
+export function draftNeedsSaving(d: WizardDraft | undefined): boolean {
+  return draftHasProgress(d) && snapshotOf(d!) !== d!.savedSnapshot;
+}
+const snapshotOf = (d: WizardDraft) => JSON.stringify([d.currentStep, d.values]);
+
 interface WorkflowState {
   drafts: Record<string, WizardDraft>;
   getDraft: (wizardId: string) => WizardDraft;
@@ -59,6 +71,10 @@ interface WorkflowState {
   hydrateDraft: (wizardId: string, draft: WizardDraft) => void;
   /** Links the working copy to the Draft Order saved for it (page-level saving writes there on every Continue). */
   setDraftOrderId: (wizardId: string, draftOrderId: string) => void;
+  /** Records that everything entered so far is saved (Save as Draft): leaving the journey no longer warns until something changes. */
+  markDraftSaved: (wizardId: string) => void;
+  /** Takes (and clears) the step a resumed draft goes to after ID verification. */
+  consumeResumeTarget: (wizardId: string) => string | undefined;
 }
 
 const emptyDraft: WizardDraft = { currentStep: 0, maxStepReached: 0, values: {} };
@@ -90,6 +106,16 @@ export const useWorkflowStore = create<WorkflowState>()(
         set((state) => {
           const draft = state.drafts[wizardId] ?? emptyDraft;
           return { drafts: { ...state.drafts, [wizardId]: { ...draft, draftOrderId } } };
+        }),
+      consumeResumeTarget: (wizardId) => {
+        const key = get().drafts[wizardId]?.resumeToStepKey;
+        if (key) set((state) => ({ drafts: { ...state.drafts, [wizardId]: { ...state.drafts[wizardId]!, resumeToStepKey: undefined } } }));
+        return key;
+      },
+      markDraftSaved: (wizardId) =>
+        set((state) => {
+          const draft = state.drafts[wizardId];
+          return draft ? { drafts: { ...state.drafts, [wizardId]: { ...draft, savedSnapshot: snapshotOf(draft) } } } : state;
         }),
       patchDraft: (wizardId, { set: toSet = {}, unset = [], progressTo }) =>
         set((state) => {

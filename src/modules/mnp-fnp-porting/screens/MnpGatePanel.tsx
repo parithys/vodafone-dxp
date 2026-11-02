@@ -10,7 +10,7 @@ export function MnpValidationGate({ gate, onFix }: { gate: GateCheck[]; onFix: (
   return (
     <section className="card p-4 card-surface" aria-label="Validation gate">
       <div className="row-between mb-2">
-        <h3 className="title-sm">Validations</h3>
+        <h3 className="title title-sm">Validations</h3>
         <Badge variant="danger">{failed.length} to fix</Badge>
       </div>
       <ul className="divide-y divide-border-soft">

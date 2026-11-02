@@ -29,7 +29,7 @@ const ICONS = {
 // The Vodafone logo: the supplied artwork (public/brand/vodafone-logo-big.svg) - the red speech-mark with the wordmark.
 // It scales with its container, so it keeps its proportions at every width.
 function VodafoneLogo() {
-  return <img src={appPath('/brand/vodafone-logo-big.svg')} alt="Vodafone" className="block w-[28%] min-w-32 max-w-48 h-auto" />;
+  return <img src={appPath('/brand/vodafone-logo-big.svg')} alt="Vodafone" className="login-logo" />;
 }
 
 // New auth gate - not evidenced in the source corpus (no SCR- id); implements
@@ -141,17 +141,17 @@ export function LoginPage() {
   // white panel on the right. Only the presentation differs from before - the handlers, validation, error display and
   // field ids are the same ones as above.
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-charcoal-panel">
+    <div className="login-shell">
       {/* Sign-in panel - ordered after the brand panel on md:+ (DOM order, and so tab order, is unchanged); takes the full width when the brand panel is not shown (phone, tablet). */}
-      <div role="main" className={`w-full shrink-0 md:order-2 login-brand-panel px-[8%] py-8 ${showBrandPanel ? 'md:w-[42%] lg:w-[38%]' : ''}`}>
+      <div role="main" className={`login-brand-panel ${showBrandPanel ? 'md:w-[42%] lg:w-[38%]' : ''}`}>
         <div className="my-auto py-10 space-y-8">
           <div>
             <div className="row mb-6">
-              <VodafoneMark className="w-10 h-10 shrink-0" />
+              <VodafoneMark className="size-10 shrink-0" />
               <VodafoneWordmark className="h-6 w-auto [&_path]:fill-[var(--on-dark)]" />
             </div>
             <p className="text-on-dark-2 font-semibold label-caps mb-3">Staff Portal</p>
-            <h1 className="text-[length:var(--fs-h3)] font-bold leading-tight text-on-dark mb-3">Welcome Back</h1>
+            <h1 className="login-title mb-3">Welcome Back</h1>
             <p className="text-on-dark-2 text-[length:var(--fs-body-lg)]">Sign in to your Vodafone workspace.</p>
           </div>
 
@@ -161,7 +161,7 @@ export function LoginPage() {
                 {loginError}
               </div>
             )}
-            <div className="stack-sm">
+            <div className="stack gap-2">
               <label htmlFor="staff-id" className="text-[length:var(--fs-body)] font-medium text-on-dark">Staff ID</label>
               <input
                 id="staff-id"
@@ -172,7 +172,7 @@ export function LoginPage() {
               />
             </div>
 
-            <div className="stack-sm">
+            <div className="stack gap-2">
               <label htmlFor="login-password" className="text-[length:var(--fs-body)] font-medium text-on-dark">Password</label>
               <div className="relative">
                 <input
@@ -190,7 +190,7 @@ export function LoginPage() {
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                     className="absolute right-3 center-y icon-button-on-dark"
                   >
-                    <Icon path={showPassword ? ICONS.eyeOff : ICONS.eye} className="w-5 h-5" />
+                    <Icon path={showPassword ? ICONS.eyeOff : ICONS.eye} className="size-5 " />
                   </button>
                 </Tooltip>
               </div>
@@ -205,7 +205,7 @@ export function LoginPage() {
 
             <Button variant="primary" onClick={handleSignIn} disabled={signingIn} className="w-full !py-4 text-[length:var(--fs-body-lg)]">
               {signingIn ? 'Signing in…' : 'Sign in'}
-              {!signingIn && <Icon path={ICONS.arrowRight} className="w-5 h-5" />}
+              {!signingIn && <Icon path={ICONS.arrowRight} className="size-5 " />}
             </Button>
 
             <div className="row-start text-on-dark-2 text-[length:var(--fs-body)]">
@@ -229,7 +229,7 @@ export function LoginPage() {
               Contact IT support
             </button>
             {helpOpen && (
-              <div className="absolute bottom-full left-0 mb-2 w-64 on-dark-popover p-4">
+              <div className="on-dark-popover">
                 <p className="text-on-dark font-medium mb-1">Help &amp; support</p>
                 <p className="text-on-dark-2 text-[length:var(--fs-body)]">
                   Contact the IT Service Desk at <span className="text-link">servicedesk@vodafone.qa</span> or extension 4100 for platform issues.
@@ -244,8 +244,8 @@ export function LoginPage() {
       {/* Brand panel - the Doha skyline photo (public/brand/login-bg.jpg, Hongbin on Unsplash, Unsplash License) under a
           navy scrim that is darkest where the headline and the update cards sit. Not rendered on a phone or tablet. */}
       {showBrandPanel && (
-        <div className="relative flex-1 px-[6%] py-8 login-stage md:order-1">
-          <img src={appPath('/brand/login-bg.jpg')} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="login-stage">
+          <img src={appPath('/brand/login-bg.jpg')} alt="" aria-hidden="true" className="cover-fill" />
           <div className="absolute inset-0 bg-[image:var(--login-scrim)]" />
           <header className="relative split-top gap-6">
             <VodafoneLogo />
@@ -260,7 +260,7 @@ export function LoginPage() {
             <LoginAnnouncements />
           </div>
 
-          <p className="relative pt-8 text-on-dark-2 text-[length:var(--fs-caption)]">Vodafone Qatar W.L.L.</p>
+          <p className="login-footnote">Vodafone Qatar W.L.L.</p>
         </div>
       )}
 

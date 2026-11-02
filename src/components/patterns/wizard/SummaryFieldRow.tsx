@@ -6,9 +6,9 @@ import type { FormattedSummaryValue } from './stepSummary';
 export function SummaryFieldRow({ label, value }: { label: string; value: FormattedSummaryValue }) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="flex flex-col gap-0.5 py-2 row-rule">
+    <div className="stack gap-0.5 py-2 row-rule">
       <dt className="text-fg text-[length:var(--fs-caption)]">{label}</dt>
-      <dd className={`min-w-0 break-words text-[length:var(--fs-body)] ${value.empty ? 'text-muted' : 'text-fg font-medium'}`}>
+      <dd className={`summary-value ${value.empty ? 'muted-body' : 'value-text'}`}>
         {value.fullList ? (
           <>
             {expanded ? value.fullList.join(', ') : value.text}{' '}

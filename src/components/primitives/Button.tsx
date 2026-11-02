@@ -85,7 +85,7 @@ export const SECONDARY_BUTTON_SURFACE = 'btn-secondary';
 // No glow or shadow on any button, at rest or on hover (2026-10-08).
 // It lives here so every primary - Button, chips, the login button - glows identically.
 export const PRIMARY_SURFACE =
-  'border-transparent bg-[image:var(--accent-gradient)] text-accent-on !font-bold';
+  'primary-surface';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;

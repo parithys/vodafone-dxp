@@ -238,7 +238,7 @@ export function CheckoutDefaultLayout({
             marking where that content will go, not a stand-in figure: no
             itemisation is invented here the way the rows above never invent
             one either. */}
-        <div className="rounded-[var(--radius-sm)] border border-dashed border-border-soft p-3 mt-1">
+        <div className="note-dashed mt-1">
           <p className="caption-secondary font-medium">Full Second-Bill Breakdown</p>
           <p className="caption-muted">Reserved - detailed content not yet designed.</p>
         </div>

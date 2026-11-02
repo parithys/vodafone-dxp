@@ -22,8 +22,8 @@ export function DiscountCard({ title, description, value, selected, onToggle }: 
       {selected && <SelectedTick />}
       {/* Name on the left, the discount on the right, on one row. */}
       <div className="split-top gap-3">
-        <p className="title-lg leading-snug">{title}</p>
-        <p className={`shrink-0 font-bold text-[length:var(--fs-h5)] ${value === '-' ? 'text-muted' : 'text-success'}`}>{value}</p>
+        <p className="title title-lg leading-snug">{title}</p>
+        <p className={`shrink-0 title title-lg ${value === '-' ? 'text-muted' : 'text-success'}`}>{value}</p>
       </div>
       {description && <p className="caption-secondary">{description}</p>}
     </div>

@@ -152,7 +152,7 @@ export function ProductActionGroups({
                   if (!available) {
                     return (
                       <Tooltip key={action.label} content="Not yet built for this action" placement="top">
-                        <div className="stack-sm card-unavailable p-4">
+                        <div className="stack gap-2 card-unavailable p-4">
                           <div className="split-top gap-2">
                             <span className="caps-compact">{action.label}</span>
                             <Icon path={CLOCK_ICON} className="icon-xs" />
@@ -174,7 +174,7 @@ export function ProductActionGroups({
                     <button type="button"
                       key={action.label}
                       onClick={() => launch(action)}
-                      className={`stack-sm card card-button text-fg`}
+                      className={`stack gap-2 card card-button text-fg`}
                     >
                       <span className="caps-compact">{action.label}</span>
                       <p className="caption-secondary leading-snug">{action.description}</p>

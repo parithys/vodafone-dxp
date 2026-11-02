@@ -167,7 +167,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
         const balance = data.inPlatformBalances.find((b) => b.accountId === svc.accountId);
         const cdrs = data.callDetailRecords.filter((c) => c.accountId === svc.accountId);
         return (
-          <div key={svc.accountId} className="space-y-4 card-frame border-dashed border-border p-4">
+          <div key={svc.accountId} className="space-y-4 card-frame-dashed p-4">
             <p className="eyebrow font-semibold">
               {svc.accountType} · {svc.accountId}
             </p>

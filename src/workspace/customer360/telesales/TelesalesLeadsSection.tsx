@@ -87,7 +87,7 @@ export function LeadsSection({ ctx }: { ctx: Ctx }) {
               </>
             ) : (
               <div className="py-10 text-center text-muted">
-                <Icon path={ICON.search} className="w-8 h-8 mx-auto mb-2" />
+                <Icon path={ICON.search} className="icon-lg-center mb-2" />
                 <div className="text-[length:var(--fs-body-lg)]">Select a lead from the list</div>
                 <div className="text-[length:var(--fs-caption)]">to view full details, update information and add notes.</div>
               </div>

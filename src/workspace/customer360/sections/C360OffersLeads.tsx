@@ -155,7 +155,7 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
           tone="amber"
           label="Next Best Offer"
           value={
-            <span className="split-tight">
+            <span className="split-nowrap gap-2">
               {nbo ? 1 : 0}
               {nbo && <Pill solid>Recommended</Pill>}
             </span>
@@ -177,11 +177,11 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
             {nbo ? (
               <div className="space-y-4">
                 <div className="flex gap-4 min-w-0">
-                  <span className="w-24 h-24 rounded-[var(--radius-card)] bg-surface icon-tile text-accent">
-                    <Icon path={IC.gift} className="w-10 h-10" />
+                  <span className="hero-icon">
+                    <Icon path={IC.gift} className="size-10 " />
                   </span>
                   <div className="min-w-0">
-                    <div className="title-lg break-words">{nbo.name}</div>
+                    <div className="title title-lg break-words">{nbo.name}</div>
                     <div className="text-secondary break-words">{nbo.tagline ?? DASH}</div>
                     {nbo.status && (
                       <div className="mt-2">
@@ -194,16 +194,16 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
                   {nbo.benefits.length > 0 ? (
                     <ul className="space-y-1.5 min-w-0">
                       {nbo.benefits.map((b) => (
-                        <li key={b} className="row-tight body-text">
+                        <li key={b} className="row gap-2 body-text">
                           <span className="text-success shrink-0">
-                            <Icon path={IC.checkCircle} className="w-4 h-4" />
+                            <Icon path={IC.checkCircle} className="size-4 " />
                           </span>
                           {b}
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-muted text-[length:var(--fs-body)]">Benefits: <Dv k="offerBenefits" row={{ name: nbo.name }} /></p>
+                    <p className="muted-body">Benefits: <Dv k="offerBenefits" row={{ name: nbo.name }} /></p>
                   )}
                   <div className="text-right shrink-0 text-secondary">
                     <span className="text-fg font-bold">{qar(nbo.price) ?? DASH}</span>
@@ -235,7 +235,7 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
           >
             <GridTable cols={offerCols} rows={shownOffers} rowKey={(r) => r.key} selectedKey={openOffer} empty="No offers on file." />
             {selectedOffer && (
-              <div className="m-4 rounded-[var(--radius-button)] bg-surface p-3 text-[length:var(--fs-body)] break-words">
+              <div className="note-box">
                 <div className="text-fg font-medium">{selectedOffer.name}</div>
                 <div className="text-fg-2">{selectedOffer.detail ?? 'No further detail on file.'}</div>
               </div>

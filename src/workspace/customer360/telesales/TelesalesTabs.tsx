@@ -96,7 +96,7 @@ function DeepDiveRow({ title, children }: { title: string; children: ReactNode }
         className="list-row justify-between pad-row body-text"
       >
         {title}
-        <Icon path={open ? CHEVRON_UP : CHEVRON_DOWN} className="w-4 h-4 text-muted" />
+        <Icon path={open ? CHEVRON_UP : CHEVRON_DOWN} className="size-4 text-muted" />
       </button>
       {open && <div className="px-4 pb-4">{children}</div>}
     </div>

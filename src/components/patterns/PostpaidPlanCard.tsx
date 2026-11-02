@@ -64,20 +64,20 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
             className={`tag-accent px-2.5 ${p.popular ? '' : 'invisible'}`}
             aria-hidden={!p.popular}
           >
-            <Icon path={STAR} className="w-3 h-3" />
+            <Icon path={STAR} className="size-3 " />
             Popular
           </span>
           {isPlanClass(p.planClass) ? <ServiceTypeTag type={PLAN_CLASS_TAG[p.planClass]} /> : <ConnectionTypeTag category="Postpaid" />}
         </div>
       )}
       <div className="fill-column gap-2">
-        <p className="title-lg leading-snug">{displayName ?? p.name}</p>
+        <p className="title title-lg leading-snug">{displayName ?? p.name}</p>
         {/* Same price block on every tab: the struck-through price on its own small line, then "QAR n /month for N months" on one line. */}
-        <div className={`flex flex-col gap-0.5 ${compact ? '' : 'order-1'}`}>
+        <div className={`stack gap-0.5 ${compact ? '' : 'order-1'}`}>
           {struckPrice !== undefined && (
             <p className="caption-secondary line-through">{formatQar(struckPrice)}</p>
           )}
-          <p className="text-accent flex flex-wrap items-baseline gap-x-1.5">
+          <p className="price-row">
             <span>
               <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
               <span className="text-[length:var(--fs-h3)] font-bold">{formatAmount(discounted ?? p.mrcQAR)}</span>
@@ -88,12 +88,12 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
         </div>
         {compact ? (
           /* One headline line, from the plan's own first feature (its data, or its speed) - the rest is in View details. */
-          headline && <p className="heading-strong leading-snug">{headline}</p>
+          headline && <p className="title title-sm font-semibold leading-snug">{headline}</p>
         ) : (
           <>
             <ul className="space-y-1.5 order-3">
               {[...(p.features?.length ? p.features.map((f, i) => ({ icon: i === 0 ? ICON_DATA : /minute|call/i.test(f) ? ICON_CALL : ICON_CARD, text: f })) : planFeatureRows(p)), { icon: ICON_CARD, text: `Bill limit: ${formatQar(shownLimit)}` }].map((f) => (
-                <li key={f.text} className="row-tight caption-secondary">
+                <li key={f.text} className="row gap-2 caption-secondary">
                   <Icon path={f.icon} className="icon-sm text-accent" />
                   {f.text}
                 </li>
@@ -101,11 +101,11 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
             </ul>
             {/* What the plan includes free: one prominent block, so the agent can confirm it with the customer. */}
             {p.features?.length && p.benefits?.length ? (
-              <div className="border-t border-[var(--field-card-border)] pt-4 mt-auto space-y-1.5 order-4">
-                <p className="text-fg font-bold text-[length:var(--fs-caption)] uppercase tracking-wide">Included in This Offer</p>
+              <div className="card-features">
+                <p className="text-fg caps-label">Included in This Offer</p>
                 <ul className="space-y-1">
                   {p.benefits.map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-fg font-medium text-[length:var(--fs-caption)]">
+                    <li key={b} className="row-start gap-2 feature-line">
                       <Icon path={ICON_GIFT} className="icon-sm text-accent mt-0.5" />
                       {b}
                     </li>
@@ -136,7 +136,7 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
           className="link-inline min-h-6"
         >
           View details
-          <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
+          <Icon path={CHEVRON_RIGHT} className="size-4 " />
         </button>
       </div>
     </div>

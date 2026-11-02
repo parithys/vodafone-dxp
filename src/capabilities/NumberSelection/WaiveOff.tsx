@@ -177,7 +177,7 @@ export function WaiveOff({
               )}
             </div>
           )}
-          <dl className="grid w-full grid-cols-2 text-[length:var(--fs-caption)] [&>*]:border-t [&>*]:border-border-soft [&>*]:py-1">
+          <dl className="ruled-grid-2">
             <dt className="text-fg-2">Upfront Charge</dt>
             <dd className="text-right font-semibold text-fg">{formatQar(chargeQar)}</dd>
             <dt className="text-fg-2">Additional Discount</dt>

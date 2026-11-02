@@ -19,10 +19,10 @@ export function CustomerMirrorPanel({
 }) {
   return (
     <div
-      className={`w-full card p-6 ${interactive ? '' : '[&_button]:pointer-events-none [&_input]:pointer-events-none [&_select]:pointer-events-none [&_textarea]:pointer-events-none [&_a]:pointer-events-none select-none'}`}
+      className={`w-full card p-6 ${interactive ? '' : 'inert-region'}`}
     >
       <div className="mb-4">
-        <h2 className="title-xl">{step?.heading ?? step?.label}</h2>
+        <h2 className="title title-xl">{step?.heading ?? step?.label}</h2>
         {step?.subheading && <p className="text-secondary mt-1">{step.subheading}</p>}
       </div>
       {step?.render({

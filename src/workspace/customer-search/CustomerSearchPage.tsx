@@ -47,13 +47,13 @@ export function CustomerSearchPage() {
       <form
         role="search"
         aria-label="Customer search"
-        className="cards-row mb-2"
+        className="row items-stretch mb-2"
         onSubmit={(e) => {
           e.preventDefault();
           runSearch();
         }}
       >
-        <div className="relative flex-1 min-w-0 rounded-[var(--radius-card-lg)] bg-bg p-2 shadow-[var(--shadow-dash-card-hover)]">
+        <div className="relative flex-1 min-w-0 search-shell">
         <SearchField
           aria-label="Customer search query"
           value={query}
@@ -69,14 +69,14 @@ export function CustomerSearchPage() {
             setQuery('');
             setSubmitted('');
           }}
-          className="!border-transparent !bg-transparent !py-4 !text-[length:var(--fs-body-lg)] focus-visible:!border-[var(--field-focus-border)] focus-visible:!bg-[var(--field-focus-bg)]"
+          className="search-input-bare"
         />
         </div>
-        <Button type="submit" variant="primary" disabled={!canSearch || searching} aria-busy={searching} aria-label={searching ? 'Searching' : 'Search'} className="shrink-0 self-stretch !px-6 !rounded-[var(--radius-card-lg)]">
+        <Button type="submit" variant="primary" disabled={!canSearch || searching} aria-busy={searching} aria-label={searching ? 'Searching' : 'Search'} className="search-submit">
           {searching ? (
-            <span aria-hidden="true" className="h-4 w-4 motion-safe:animate-spin rounded-[var(--radius-pill)] border-2 border-current border-t-transparent" />
+            <span aria-hidden="true" className=" spinner-ring" />
           ) : (
-            <Icon path={SEARCH_LARGE} className="w-7 h-7" />
+            <Icon path={SEARCH_LARGE} className="size-7 " />
           )}
         </Button>
       </form>

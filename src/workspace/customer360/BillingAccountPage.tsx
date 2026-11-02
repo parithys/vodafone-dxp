@@ -177,7 +177,7 @@ export function BillingAccountPage() {
         badges={<Badge variant="filled-neutral">{profile.billingProfileId}</Badge>}
         description={<>
           {customerName} · {customerId} ·{' '}
-          <Link to={`/customer/${customerId}`} className="text-link hover:underline">
+          <Link to={`/customer/${customerId}`} className="link">
             View Customer 360
           </Link>
         </>}
@@ -185,13 +185,13 @@ export function BillingAccountPage() {
 
       <button type="button"
         onClick={() => navigate(customerId ? `/customer/${customerId}` : -1 as unknown as string)}
-        className="flex items-center gap-1.5 caption-secondary hover:text-fg mb-4"
+        className="back-link-quiet mb-4"
       >
-        <Icon path={CHEVRON_LEFT} className="w-3.5 h-3.5" />
+        <Icon path={CHEVRON_LEFT} className="size-3.5 " />
         Back to Customer 360
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="two-up">
         <section className="card p-5">
           <div className="row-between mb-3">
             <h3 className="caption-heading">

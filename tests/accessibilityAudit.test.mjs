@@ -40,7 +40,8 @@ test('the remaining audit findings stay fixed: tab text uses the accent-text col
   assert.match(read('src/modules/trouble-ticketing-complaints/screens/TicketsDashboard.tsx'), /level=\{padded \? 1 : 2\}/);
   assert.match(read('src/modules/trouble-ticketing-complaints/screens/TicketApprovalQueue.tsx'), /level=\{padded \? 1 : 2\}/);
   assert.match(read('src/components/patterns/PlanSearchBox.tsx'), /aria-controls=\{searchOpen && planSearch\.trim\(\) \? 'plan-search-listbox' : undefined\}/);
-  assert.match(read('src/components/primitives/DataTable.tsx'), /min-h-6/);
+  assert.match(read('src/components/primitives/DataTable.tsx'), /sort-button/);
+  assert.match(read('src/ui-components.css'), /\.sort-button \{[^}]*min-h-6/);
   assert.match(read('src/navigation/Breadcrumbs.tsx'), /link-quiet/);
   assert.match(read('src/ui-components.css'), /\.link-quiet \{[^}]*min-h-6/);
   for (const f of ['src/capabilities/Toasts/Toast.tsx', 'src/navigation/SessionReferenceNumbers.tsx']) assert.match(read(f), /icon-button-bare/, f);
@@ -51,7 +52,7 @@ test('the page title band (PageHeader, wizard title, Customer 360 header) reads 
   const css = read('src/tokens.css');
   assert.match(css, /--title-band-bg: var\(--charcoal-panel\);/);
   assert.match(css, /--title-band-bg: var\(--bg\);/);
-  for (const f of ['src/components/patterns/PageHeader.tsx', 'src/components/patterns/wizard/WizardTitleBand.tsx', 'src/workspace/customer360/CustomerProfileHeader.tsx', 'src/components/patterns/wizard/StepSummaryPanel.tsx']) assert.match(read(f), /bg-\[var\(--title-band-bg\)\]|title-band/, f);
+  for (const f of ['src/components/patterns/PageHeader.tsx', 'src/components/patterns/wizard/WizardTitleBand.tsx', 'src/workspace/customer360/CustomerProfileHeader.tsx', 'src/components/patterns/wizard/StepSummaryPanel.tsx']) assert.match(read(f), /bg-\[var\(--title-band-bg\)\]|title-band|summary-head|profile-band-flush/, f);
   assert.match(read('src/navigation/PersonaSwitcher.tsx'), /menu-item/, 'the workflow notifications are menu items');
   assert.match(read('src/ui-components.css'), /\.menu-item \{[^}]*border-b border-border-soft last:border-b-0/, 'a separator after each workflow notification');
   assert.match(read('src/lib/serviceTypeTag.ts'), /label: 'Voice Plan'/);
@@ -60,7 +61,28 @@ test('the page title band (PageHeader, wizard title, Customer 360 header) reads 
 
 test('Administration headings do not skip a level: the capability name is an h2 and its sections h3', () => {
   const s = read('src/workspace/administration/CapabilityLibrarySection.tsx');
-  assert.ok(s.includes('<h2 className="title-xl'));
+  assert.ok(s.includes('<h2 className="title title-xl'));
   assert.ok(!/<h4\b/.test(s), 'no h4 directly under the h2');
   assert.equal((s.match(/<h3\b/g) ?? []).length, (s.match(/<\/h3>/g) ?? []).length);
+});
+
+// Round 2 of the accessibility audit (WCAG 2.2 AA): colour contrast of the text and field-edge tokens, and 24px targets.
+test('the link, muted navigation text and field edges meet their contrast ratios on the surfaces they sit on', () => {
+  const css = read('src/tokens.css');
+  const light = css.slice(0, css.indexOf(':root.dark'));
+  const t = (n) => token(light, n);
+  for (const surface of ['--bg', '--surface', '--page-bg', '--surface-warm'].filter((s) => t(s))) {
+    assert.ok(contrast(t('--link'), t(surface)) >= 4.5, `link on ${surface}`);
+    assert.ok(contrast(t('--nav-fg-muted'), t(surface)) >= 4.5, `muted nav text on ${surface}`);
+  }
+  for (const surface of ['--bg', '--surface', '--page-bg'].filter((s) => t(s))) assert.ok(contrast(t('--field-border'), t(surface)) >= 3, `field edge on ${surface} (WCAG 1.4.11)`);
+});
+
+test('no text token is under 12px and the small interactive parts are 24px targets', () => {
+  const css = read('src/tokens.css');
+  for (const m of css.matchAll(/--fs-[\w-]+:\s*(\d+)px/g)) assert.ok(Number(m[1]) >= 12, `${m[0]} is under 12px`);
+  const ui = read('src/ui-components.css');
+  assert.match(ui, /\.dot-button \{[^}]*size-6/);
+  assert.match(ui, /\.select-chevron-btn \{[^}]*size-6/);
+  assert.match(read('src/auth/LoginAnnouncements.tsx'), /dot-button/);
 });

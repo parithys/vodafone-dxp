@@ -43,6 +43,8 @@ const PLAIN_STATUS: Record<string, [string, string]> = {
   Open: ['Open order', 'Order was submitted and is waiting on a follow-up step.'],
   Cancelled: ['Dropped by approver', 'Order was cancelled by the approver or the agent.'],
   'Rejected - Correction': ['Rejected - Correction', 'Order was returned for correction.'],
+  Rejected: ['Rejected', 'Order was rejected by the approver.'],
+  'Missing Information': ['Missing Information', 'The approver asked for more supporting documents; the agent adds them and resubmits.'],
 };
 
 /** "Credit Control" -> "Credit Control": the team named in the sentence, not the job title. */

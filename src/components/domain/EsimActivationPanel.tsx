@@ -14,7 +14,7 @@ export function EsimActivationPanel({ activationCode }: EsimActivationPanelProps
     <div className="stack-start flex-1 card card-surface p-4">
       {/* bg-paper, not --bg: a QR has to stay dark-on-light to scan, so this
           one surface does not follow the theme. */}
-      <div className="rounded-[var(--radius-card)] bg-paper p-2 shrink-0">
+      <div className="qr-frame">
         <QRCodeSVG value={activationCode} size={160} />
       </div>
       <div className="space-y-1.5 min-w-0 w-full">

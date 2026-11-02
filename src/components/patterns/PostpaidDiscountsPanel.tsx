@@ -45,7 +45,7 @@ export function PostpaidDiscountsPanel({
         // choose on this panel. Either way this explains why, rather
         // than showing a "No discount" picker with nothing behind it.
         <div className="notice-warning pad-row">
-          <p className="heading-strong">Discounts Unavailable for This Plan</p>
+          <p className="title title-sm font-semibold">Discounts Unavailable for This Plan</p>
           <p className="text-[var(--warn-text)] text-[length:var(--fs-caption)] mt-1">
             The selected plan is pre-bundled and already includes its offer, so it does not accept extra
             discounts. Choose another plan to apply a discount.

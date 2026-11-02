@@ -16,7 +16,7 @@ export function Textarea({ label, error, helperText, className = '', id, 'aria-d
   const describedBy = [ariaDescribedby, error ? errorId : helperText ? helperId : undefined].filter(Boolean).join(' ') || undefined;
   const isFilled = rest.value !== undefined && rest.value !== null && rest.value !== '';
   return (
-    <div className="flex flex-col gap-1">
+    <div className="stack gap-1">
       {label && (
         <label htmlFor={textareaId} className={`text-[length:var(--fs-label)] ${rest.disabled ? 'text-[var(--field-label-disabled)]' : 'text-fg'}`}>
           {label}

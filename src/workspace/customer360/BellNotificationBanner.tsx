@@ -74,7 +74,7 @@ export function BellNotificationBanner({ customerId }: { customerId: string }) {
           key={n.notificationId}
           className="row-start notice-warning-edge pad-row"
         >
-          <Icon path={BELL_ICON} className="w-4.5 h-4.5 text-[var(--warn-text)] shrink-0 mt-0.5" />
+          <Icon path={BELL_ICON} className="notice-icon-warn" />
           <div>
             <p className="text-[var(--warn-text)] font-medium text-[length:var(--fs-body)]">
               {TEMPLATE_TITLE[n.templateId ?? ''] ?? 'Notice'}

@@ -85,9 +85,9 @@ export function PlanSearchBox({
               role="option"
               aria-selected={selectedProductId === p.productId}
               onClick={() => pick(p)}
-              className={`split-nowrap px-4 py-2.5 cursor-pointer hover:bg-surface ${nav.active === i ? 'bg-surface ring-2 ring-inset ring-[var(--field-focus-border)]' : ''}`}
+              className={`split-nowrap pick-row ${nav.active === i ? 'pick-row-active' : ''}`}
             >
-              <span className="row-tight min-w-0">
+              <span className="row gap-2 min-w-0">
                 <span className="body-text truncate">{p.name}</span>
               </span>
               <span className="caption-muted shrink-0">{formatQarAny(p.mrcQAR)}/mo</span>

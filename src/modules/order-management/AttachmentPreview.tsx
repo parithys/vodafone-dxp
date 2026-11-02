@@ -79,10 +79,10 @@ function useOrderIdentity(order: AttachmentOrder): SpecimenIdentity | undefined 
 /** A sheet of paper standing in for a document the journey recorded but did not keep the file of. */
 function Sheet({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="w-full max-w-md dialog-card p-5 text-left">
-      <div className="mb-3 row-tight divider-bottom pb-3">
-        <Icon path={DOC} className="h-5 w-5 text-muted" strokeWidth={1.5} />
-        <p className="subtitle">{title}</p>
+    <div className="sheet-box panel-soft shadow-raised">
+      <div className="mb-3 row gap-2 divider-bottom pb-3">
+        <Icon path={DOC} className=" size-5 text-muted" strokeWidth={1.5} />
+        <p className="title title-md font-semibold">{title}</p>
       </div>
       {children}
     </div>
@@ -94,7 +94,7 @@ function Row({ label, value }: { label: string; value?: React.ReactNode }) {
   return (
     <div className="spread py-1 text-[length:var(--fs-body)]">
       <span className="text-muted">{label}</span>
-      <span className="text-fg text-right break-words min-w-0">{value}</span>
+      <span className="value-right">{value}</span>
     </div>
   );
 }
@@ -133,7 +133,7 @@ export function AttachmentPreview({ doc, order }: { doc: OrderAttachment; order:
         <Row label="Order" value={order.orderId} />
         <Row label="Signed" value={created} />
         <p className="mt-3 caption-muted">Customer Signature</p>
-        <div className="mt-1 flex h-24 items-center justify-center placeholder-tile">
+        <div className="mt-1 placeholder-center placeholder-tile">
           {doc.previewUrl ? (
             <img src={doc.previewUrl} alt={`Signature of ${order.customerName ?? 'the customer'}`} className="max-h-full max-w-full object-contain" />
           ) : (

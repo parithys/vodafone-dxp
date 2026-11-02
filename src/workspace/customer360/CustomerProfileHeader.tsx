@@ -72,7 +72,7 @@ function Fact({ icon, value, caption }: { icon: string; value: string; caption: 
     <div className="row min-w-0 meta-cell">
       <Icon path={icon} className="icon-md text-on-dark-2" />
       <div className="min-w-0">
-        <div className="text-on-dark font-medium text-[length:var(--fs-body)] break-words">{mode === 'drill-down' ? <RevealValue>{value}</RevealValue> : value}</div>
+        <div className="on-dark-value">{mode === 'drill-down' ? <RevealValue>{value}</RevealValue> : value}</div>
         <div className="text-on-dark-2 text-[length:var(--fs-caption)]">{caption}</div>
       </div>
     </div>
@@ -83,7 +83,7 @@ function Stat({ label, value }: { label: string; value: ReactNode }) {
   const mode = useFieldAccess()(label);
   if (mode === 'hidden') return null;
   return (
-    <div className="py-2.5 first:pt-0 last:pb-0 border-b border-on-dark-line-2 last:border-0">
+    <div className="on-dark-rule-row">
       <div className="text-[length:var(--fs-micro)] caps-strong text-on-dark-2 whitespace-nowrap">{label}</div>
       <div className="text-on-dark font-semibold text-[length:var(--fs-body-lg)]">{mode === 'drill-down' ? <RevealValue>{value}</RevealValue> : value}</div>
     </div>
@@ -114,14 +114,14 @@ export function CustomerProfileHeader(p: CustomerProfileHeaderProps) {
   }, [p.pinIdentity]);
   const revealButton = p.maskId && (
     <Button variant="tertiary" compact className="!text-on-dark" onClick={() => (revealed ? setRevealed(false) : p.onRequestReveal ? p.onRequestReveal(() => setRevealed(true)) : setRevealed(true))} aria-label={revealed ? `Hide ${idLabel} number` : `Show ${idLabel} number`} aria-pressed={revealed}>
-      <Icon path={revealed ? EYE_OFF_ICON : EYE_ICON} className="w-4 h-4" />
+      <Icon path={revealed ? EYE_OFF_ICON : EYE_ICON} className="size-4 " />
       {revealed ? 'Hide' : 'Show'}
     </Button>
   );
   return (
     <>
     {p.pinIdentity && (
-      <div className="sticky top-0 z-[var(--z-sticky-raised)] h-0" aria-hidden={!offscreen}>
+      <div className="sticky-anchor" aria-hidden={!offscreen}>
         {offscreen && (
           <div className="profile-subbar">
             <span className="font-bold text-fg">{p.name}</span>
@@ -140,15 +140,15 @@ export function CustomerProfileHeader(p: CustomerProfileHeaderProps) {
     )}
     <section
       ref={sectionRef}
-      className={p.flush ? 'border-b bg-[var(--title-band-bg)] text-on-dark p-5' : 'card border-[var(--field-card-border)] bg-charcoal-panel text-on-dark p-5 mb-4'}
+      className={p.flush ? 'profile-band-flush' : 'card profile-panel mb-4'}
     >
-      <div className="flex flex-wrap lg:flex-nowrap items-stretch gap-6">
-        <div className="flex items-start gap-4 min-w-0 flex-1">
+      <div className="profile-layout">
+        <div className="profile-main">
           <div className="profile-avatar" aria-hidden>
             {initials(p.name)}
           </div>
           <div className="min-w-0 flex-1 space-y-1.5">
-            <div className="cluster-sm">
+            <div className="cluster gap-2">
               <h1 className="title-on-dark">{p.name}</h1>
               {p.tags?.map((t) => (
                 <Badge key={t.label} variant={t.variant}>
@@ -156,9 +156,9 @@ export function CustomerProfileHeader(p: CustomerProfileHeaderProps) {
                 </Badge>
               ))}
               {p.nameBadge}
-              {p.actions && <div className="ml-auto row-tight">{p.actions}</div>}
+              {p.actions && <div className="ml-auto row gap-2">{p.actions}</div>}
             </div>
-            <div className="cluster-sm text-on-dark text-[length:var(--fs-body)]">
+            <div className="cluster gap-2 text-on-dark text-[length:var(--fs-body)]">
               <span>
                 {idLabel}: <span className="font-medium">{idShown}</span>
               </span>
@@ -182,11 +182,11 @@ export function CustomerProfileHeader(p: CustomerProfileHeaderProps) {
 
         <aside
           aria-label="Alerts and attention"
-          className="rounded-[var(--radius-card)] on-dark-danger p-4 w-full lg:w-56 shrink-0 self-start"
+          className="profile-alert"
         >
           <div className="row-between mb-3">
-            <span className="inline-flex items-center gap-2 font-semibold text-on-dark text-[length:var(--fs-body)]">
-              <Icon path={CIRCLE_ICON} className="w-4 h-4 text-danger" />
+            <span className="on-dark-heading-row">
+              <Icon path={CIRCLE_ICON} className="size-4 text-danger" />
               Alerts &amp; Attention
             </span>
             {p.alerts.length > 0 && (
@@ -200,7 +200,7 @@ export function CustomerProfileHeader(p: CustomerProfileHeaderProps) {
           ) : (
             <ul className="space-y-2">
               {p.alerts.map((a) => (
-                <li key={a.label} className="row-tight text-on-dark text-[length:var(--fs-body)]">
+                <li key={a.label} className="row gap-2 text-on-dark text-[length:var(--fs-body)]">
                   <span className={`dot shrink-0 ${a.tone === 'danger' ? 'bg-danger' : 'bg-[var(--warn)]'}`} />
                   {a.label}
                 </li>

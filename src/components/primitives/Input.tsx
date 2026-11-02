@@ -96,7 +96,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   // The field's one border state, a semantic class (src/ui-components.css): error, readonly, filled or default.
   const controlState = error ? 'form-control-error' : isReadOnly ? 'form-control-readonly' : isFilled ? 'form-control-filled' : 'form-control-default';
   return (
-    <div className="flex flex-col gap-1">
+    <div className="stack gap-1">
       {label && (
         <label htmlFor={inputId} className={`text-[length:var(--fs-label)] ${rest.disabled ? 'text-[var(--field-label-disabled)]' : 'text-fg'}`}>
           {label}
@@ -121,12 +121,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           // bg set here, not via Tailwind's disabled: pseudo-class - that only
           // matches the element it is written on, and `disabled` sits on the
           // <input> inside this wrapper, not on this div.
-          className={`relative flex items-center min-h-[var(--control-h-md)] rounded-[var(--field-radius)] border
-            ${rest.disabled ? 'bg-[var(--field-bg-disabled)]' : isReadOnly ? 'bg-surface cursor-default' : 'bg-bg'}
+          className={`field-wrap
+            ${rest.disabled ? 'field-fill-disabled' : isReadOnly ? 'field-readonly-fill' : 'field-fill'}
             ${/* `enabled:` matches form controls only, so on this wrapper <div> the
                  hover border never fired - use plain hover (and none when disabled). */ ''}
             ${rest.disabled ? borderClass.replace(' enabled:hover:border-[var(--field-hover-border)]', '') : borderClass.replace('enabled:hover:', 'hover:')}
-            ${isReadOnly ? '' : 'focus-within:border-[var(--field-focus-border)]! focus-within:bg-[var(--field-focus-bg)] focus-within:shadow-[var(--field-focus-ring)]'}
+            ${isReadOnly ? '' : 'field-focus-within'}
             ${rest.disabled ? 'border-[var(--field-border-disabled)]' : ''}`}
         >
           {leadingAddon && (
@@ -134,7 +134,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
               <span className="input-addon">
                 {leadingAddon}
               </span>
-              <span className="self-stretch my-2 w-px bg-[var(--field-border)] shrink-0" aria-hidden="true" />
+              <span className="self-stretch my-2 vrule bg-[var(--field-border)]" aria-hidden="true" />
             </>
           )}
           <input
@@ -144,15 +144,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             aria-invalid={error ? true : undefined}
             aria-describedby={describedBy}
             className={`input-bare px-3 py-2
-              ${isReadOnly ? 'select-none' : ''}
-              ${className}`}
+ ${isReadOnly ? 'select-none' : ''}
+ ${className}`}
             tabIndex={isReadOnly ? -1 : undefined}
             onMouseDown={blockReadOnlyFocus}
             {...rest}
             inputMode={keypad}
           />
           {trailingAddon && (
-            <span className="row-tight pr-3 pl-2 shrink-0 select-none">{trailingAddon}</span>
+            <span className="input-suffix">{trailingAddon}</span>
           )}
         </div>
       ) : (

@@ -56,7 +56,7 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
   // Prevents losing in-progress form input from an accidental click outside the panel.
   return (
     <OverlayPortal>
-    <div className="drawer-backdrop">
+    <div className="scrim">
       <div
         ref={panelRef}
         className={`drawer-panel ${
@@ -67,7 +67,7 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
         aria-label={title}
       >
         {header ?? (
-          <div className="row-between px-6 pt-5 pb-3 shrink-0">
+          <div className="drawer-header">
             <h2 className="caption-muted uppercase tracking-wide">{title}</h2>
             <CloseButton onClick={onClose} />
           </div>

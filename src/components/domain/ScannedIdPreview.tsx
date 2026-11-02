@@ -173,7 +173,7 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
     return (
       // The whole page, with no scrollbar: the frame has the page's own proportions (a full page when `fullPage`, else a card's) and the viewer is
       // told to fit the page to it.
-      <span className={`block id-image-frame overflow-hidden bg-paper ${fullPage ? 'aspect-[1/1.414]' : 'aspect-[1.585]'}`}>
+      <span className={`id-preview ${fullPage ? 'aspect-[1/1.414]' : ''}`}>
         <object data={`${src}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`} type="application/pdf" aria-label={`Uploaded ${documentType} document (PDF)`} className="block w-full h-full">
           <span className="block p-4 caption-secondary">This browser cannot show the PDF here. The file is uploaded all the same.</span>
         </object>
@@ -200,7 +200,7 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
           // lands while a first-pass-blur consumer is still asking for one -
           // the simulation should not depend on which source produced the
           // image.
-          className={`w-full h-full object-contain ${clear ? '' : 'blur-[2px] saturate-50'}`}
+          className={`fit-contain ${clear ? '' : 'blur-[2px] saturate-50'}`}
         />
       </span>
     );

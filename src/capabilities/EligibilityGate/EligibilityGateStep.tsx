@@ -465,7 +465,7 @@ export function EligibilityGateStep({
     );
   }
   if (resolved === undefined) {
-    return <p className="text-muted text-[length:var(--fs-body)]">Checking eligibility…</p>;
+    return <p className="muted-body">Checking eligibility…</p>;
   }
   if (resolved === null) {
     return <p className="text-danger text-[length:var(--fs-body)]">No customer record found for this identity - cannot evaluate eligibility.</p>;

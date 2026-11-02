@@ -125,15 +125,15 @@ export function Dashboard() {
           (removed 2026-09-27) - see dashboardLayout.ts's header note - so
           this is just the heading now, not a row splitting space with a
           control that no longer exists. */}
-      <header className="-mx-8 -mt-8 px-8 pt-8 pb-24 dash-hero">
-        <p className="row-tight text-on-dark font-semibold text-[length:var(--fs-caption)]">
-          <span className="w-3 h-3 rounded-[var(--radius-pill)] bg-success" aria-hidden="true" />
+      <header className="dash-hero">
+        <p className="row gap-2 on-dark-label">
+          <span className="size-3 rounded-[var(--radius-pill)] bg-success" aria-hidden="true" />
           {regional ? regionLabel : 'Doha Retail'} · Live operations
         </p>
-        <div className="mt-6 wrap-between items-end gap-x-8 gap-y-6">
+        <div className="mt-6 hero-footer">
           <div className="min-w-0 max-w-3xl">
             <p className="text-on-dark text-[length:var(--fs-caption)]">{today}</p>
-            <h1 className="mt-1 text-[length:clamp(1.75rem,4vw,2.25rem)] leading-tight font-extrabold tracking-tight break-words">{layout.heading}</h1>
+            <h1 className="mt-1 hero-title">{layout.heading}</h1>
           </div>
           <dl className="wrap-loose">
             {[
@@ -153,8 +153,8 @@ export function Dashboard() {
       {/* Customer search is the entry point for customer-centric work, so it
           only leads for roles that hold it. */}
       {canUseFeature(activePersonaId, 'workspace.customer-search') && (
-        <div className="relative z-[var(--z-raised)] -mt-8 mb-10 mx-auto w-[94%]">
-          <div className="relative rounded-[var(--radius-card-lg)] bg-bg p-2 shadow-[var(--shadow-dash-card-hover)]">
+        <div className="hero-overlap">
+          <div className="relative search-shell">
             <SearchField
               ref={searchRef}
               aria-label="Search a customer"
@@ -173,16 +173,16 @@ export function Dashboard() {
                 setCustomerQuery('');
               }}
               placeholder="Search a customer by mobile, QID, account number…"
-              className="!border-transparent !bg-transparent !py-4 !text-[length:var(--fs-body-lg)] focus-visible:!border-[var(--field-focus-border)] focus-visible:!bg-[var(--field-focus-bg)]"
+              className="search-input-bare"
             />
             {customerQuery === '' && (
-              <kbd className="pointer-events-none absolute right-5 hidden sm:block center-y hint-pill">Press /</kbd>
+              <kbd className="hint-pill">Press /</kbd>
             )}
           </div>
         </div>
       )}
 
-      <div className={`${canUseFeature(activePersonaId, 'workspace.customer-search') ? '' : 'mt-8 '}${twoUp ? 'grid grid-cols-1 xl:grid-cols-2 gap-8' : 'space-y-8'}`}>
+      <div className={`${canUseFeature(activePersonaId, 'workspace.customer-search') ? '' : 'mt-8 '}${twoUp ? 'fields gap-8 xl:grid-cols-2' : 'space-y-8'}`}>
         {layout.zones.map((zone, zi) => (
           <DashboardZone
             key={zone.id}

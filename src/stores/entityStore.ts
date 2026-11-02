@@ -8,7 +8,8 @@ interface EntityState {
   records: Partial<Record<EntityKind, Record<string, unknown>[]>>;
   loading: Partial<Record<EntityKind, boolean>>;
   errors: Partial<Record<EntityKind, string>>;
-  loadKind: (kind: EntityKind) => Promise<void>;
+  /** Loads a list once; `force` reads it again from the engine (a screen that must show what other screens just wrote). */
+  loadKind: (kind: EntityKind, force?: boolean) => Promise<void>;
   createRecord: (kind: EntityKind, record: Record<string, unknown>) => Promise<void>;
   /** A write to a customer's information (customer, contact, address, ID document) is also written to the audit trail: what changed, old and new value, by whom and `how`. */
   updateRecord: (kind: EntityKind, idField: string, id: string, patch: Record<string, unknown>, audit?: { how?: string; by?: string }) => Promise<void>;
@@ -27,9 +28,10 @@ export const useEntityStore = create<EntityState>((set, get) => ({
   loading: {},
   errors: {},
 
-  loadKind: async (kind) => {
-    if (get().records[kind]) return;
-    set((state) => ({ loading: { ...state.loading, [kind]: true } }));
+  loadKind: async (kind, force = false) => {
+    if (get().records[kind] && !force) return;
+    // A forced reload of a list already on screen keeps showing it meanwhile.
+    if (!get().records[kind]) set((state) => ({ loading: { ...state.loading, [kind]: true } }));
     try {
       const data = await mockDataEngine.list(kind);
       set((state) => ({

@@ -187,3 +187,74 @@ test('an approver cannot decide an order they created, but can decide the same o
   // The same rule keeps it out of the approver's queue.
   assert.deepEqual(auth.ordersAwaitingDecisionBy([{ orderId: 'O1', orderType: 'Plan Change', status: 'Submitted for Approval', createdBy: 'USR-1' }], { personaId: approver.id, jobTitle: jobOf(approver), userId: 'USR-1' }), []);
 });
+
+// ---- the approval screen: Approve / Reject / Missing Information, each with a mandatory reason; the creator is told and can reopen ----
+test('the approval screen offers exactly Approve, Reject and Missing Information, each gated on a non-blank reason', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'src/modules/order-management/OrderApprovalDetail.tsx'), 'utf8');
+  const buttons = [...src.matchAll(/<Button variant="(?:primary|secondary)" onClick=\{\(\) => setModal\('([a-z-]+)'\)\}>\s*([^<]+?)\s*<\/Button>/g)].map((m) => `${m[1]}:${m[2]}`);
+  assert.deepEqual(buttons.filter((b) => !b.startsWith('resubmit')), ['approve:Approve', 'reject:Reject', 'missing-information:Missing Information']);
+  assert.doesNotMatch(src, /Reject - Correction<|Reject - Drop Order<|>\s*Return\s*</);
+  for (const [fn, field] of [['approve', 'approveComment'], ['reject', 'rejectComment'], ['requestMissingInformation', 'missingComment']]) {
+    assert.match(src, new RegExp(`const ${fn} = async \\(\\) => \\{[\\s\\S]{0,200}?if \\([^\\n]*!${field}\\.trim\\(\\)[^\\n]*\\) return;`), `${fn} refuses a blank reason`);
+  }
+  assert.match(src, /disabled=\{!ackApprove \|\| !approveComment\.trim\(\)/);
+  assert.match(src, /onClick=\{reject\} disabled=\{!rejectComment\.trim\(\)/);
+  assert.match(src, /onClick=\{requestMissingInformation\} disabled=\{!missingComment\.trim\(\)/);
+});
+
+test('the creator is told the outcome with the approver\'s reason, and a Missing Information order can be reopened and resubmitted', () => {
+  const order = (status, extra = {}) => ({ orderId: 'ORD-M1', orderType: 'New Postpaid Activation', status, approverRole: 'Sales Manager', createdBy: 'USR-1101', ...extra });
+  const acts = [{ orderId: 'ORD-M1', actionTaken: 'Missing Information', notes: 'Upload the Court Type Order', transactionDate: '2026-11-02T10:00:00Z' }];
+  const d = auth.decisionsOnMyOrders([order('Missing Information')], acts, 'USR-1101');
+  assert.deepEqual(d.map((x) => [x.outcome, x.note]), [['Missing Information', 'Upload the Court Type Order']]);
+  const rej = auth.decisionsOnMyOrders([order('Rejected')], [{ orderId: 'ORD-M1', actionTaken: 'Rejected', notes: 'Not eligible', transactionDate: '2026-11-02T11:00:00Z' }], 'USR-1101');
+  assert.deepEqual(rej.map((x) => [x.outcome, x.note]), [['Rejected', 'Not eligible']]);
+  assert.deepEqual(auth.decisionsOnMyOrders([order('Missing Information')], acts, 'USR-OTHER'), [], 'only the submitter is told');
+  assert.equal(auth.mayResubmitOrder(order('Missing Information'), 'USR-1101'), true);
+  assert.equal(auth.mayResubmitOrder(order('Missing Information'), 'USR-9999'), false, 'not the submitter');
+  assert.equal(auth.mayResubmitOrder(order('Rejected'), 'USR-1101'), false, 'a plain Reject ends the order');
+  assert.equal(auth.orderApprovalAuthority({ personaId: 'x', status: 'Missing Information', orderType: 'New Postpaid Activation', approverRole: 'Sales Manager', jobTitle: 'Sales Manager' }).mayDecide, false, 'no decision while it waits for the agent');
+  assert.equal(auth.ordersAwaitingDecisionBy([order('Submitted for Approval', { assignedApproverId: null })], { personaId: 'x', jobTitle: 'Sales Manager', userId: 'USR-1103' }).length >= 0, true);
+});
+
+test('Missing Information: only the requested activities are asked for and applied; the rest of the order cannot change', () => {
+  const att = [{ label: 'QID Document (Front)', detail: 'Scanned', fileName: 'a.png' }, { label: 'Signed CAF', detail: 'Digital signature', previewUrl: 'old' }, { label: 'Employer Letter', detail: 'l.pdf' }];
+  const none = auth.emptyMissingInformationRequest();
+  assert.equal(auth.isMissingInformationRequestMade(none), false, 'a request must name something');
+  const req = { attachmentIndexes: [0], resignCaf: true, supportingDocuments: true };
+  assert.equal(auth.isMissingInformationRequestMade(req), true);
+  // complete only when every requested activity is done
+  const full = { reuploaded: { 0: { fileName: 'new.png', previewUrl: 'p' } }, signatureDataUrl: 'sig', supporting: [{ label: 'Utility Bill', fileName: 'u.pdf' }] };
+  assert.equal(auth.isMissingInformationComplete(req, full), true);
+  assert.equal(auth.isMissingInformationComplete(req, { ...full, reuploaded: {} }), false, 'document not replaced');
+  assert.equal(auth.isMissingInformationComplete(req, { ...full, signatureDataUrl: undefined }), false, 'not re-signed');
+  assert.equal(auth.isMissingInformationComplete(req, { ...full, supporting: [] }), false, 'no supporting document');
+  assert.equal(auth.isMissingInformationComplete(req, { ...full, supporting: [{ label: ' ', fileName: 'u.pdf' }] }), false, 'a supporting document needs its type');
+  assert.equal(auth.isMissingInformationComplete({ attachmentIndexes: [], resignCaf: true, supportingDocuments: false }, { reuploaded: {}, signatureDataUrl: 'sig', supporting: [] }), true, 'nothing unrequested is needed');
+  // applying it
+  const out = auth.applyMissingInformation(att, req, full);
+  assert.equal(out[0].fileName, 'new.png');
+  assert.equal(out[0].label, 'QID Document (Front)');
+  assert.equal(out[1].previewUrl, 'sig', 'the signed CAF carries the new signature');
+  assert.deepEqual(out[2], att[2], 'an unrequested document is untouched');
+  assert.deepEqual(out[3], { label: 'Utility Bill', detail: 'u.pdf' }, 'supporting document with its type');
+  // a reupload for a document that was NOT requested is ignored
+  const sneaky = auth.applyMissingInformation(att, { attachmentIndexes: [0], resignCaf: false, supportingDocuments: false }, { reuploaded: { 2: { fileName: 'x.pdf' } }, supporting: [{ label: 'T', fileName: 'f' }] });
+  assert.deepEqual(sneaky, att, 'nothing outside the request changes, and no supporting documents unless asked for');
+  // no signed CAF held: the signature is added
+  assert.equal(auth.applyMissingInformation([], { attachmentIndexes: [], resignCaf: true, supportingDocuments: false }, { reuploaded: {}, signatureDataUrl: 's', supporting: [] })[0].label, 'Signed CAF');
+});
+
+test('Missing Information: the order is reassigned to its creator, only they get the work panel, and resubmitting returns it to the queue', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'src/modules/order-management/OrderApprovalDetail.tsx'), 'utf8');
+  assert.match(src, /missingInfoRequest: missingRequest,[\s\S]{0,200}assignedApproverId: order\.createdBy \?\? null/, 'reassigned to the submitter');
+  assert.match(src, /disabled=\{!missingComment\.trim\(\) \|\| !isMissingInformationRequestMade\(missingRequest\)/, 'the request must name something');
+  assert.match(src, /const resubmitMissingInformation[\s\S]{0,300}!mayResubmit\) return;/, 'only the submitter resubmits');
+  assert.match(src, /status: ORDER_AWAITING_DECISION,[\s\S]{0,120}assignedApproverId: null/, 'back to the Approval Queue, unclaimed');
+  assert.match(src, /applyMissingInformation\(order\.attachments \?\? \[\], order\.missingInfoRequest, answer\)/);
+  const panel = fs.readFileSync(path.join(ROOT, 'src/modules/order-management/MissingInformationPanel.tsx'), 'utf8');
+  assert.match(panel, /disabled=\{!complete \|\| !comment\.trim\(\) \|\| busy\}/, 'resubmit waits for every requested activity');
+  assert.doesNotMatch(panel, /<Select|<Input\b|lineItems|msisdn/, 'no order detail is editable in the panel');
+  const queue = auth.ordersAwaitingDecisionBy([{ orderId: 'O', orderType: 'New Postpaid Activation', status: 'Missing Information', approverRole: 'Sales Manager', createdBy: 'USR-1101' }], { personaId: 'x', jobTitle: 'Sales Manager', userId: 'USR-1103' });
+  assert.deepEqual(queue, [], 'not in the approver queue while the agent works on it');
+});

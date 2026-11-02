@@ -279,7 +279,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   // One row: the "search by" dropdown, the search box, and (XXYY only) the all-patterns checkbox; it wraps below the box on a narrow toolbar.
   const searchNode = (
     <div className="wrap-top gap-x-4 gap-y-2">
-    <div className="flex min-w-0 flex-1 basis-80 items-start gap-2">
+    <div className="row-start gap-2 pick-group">
       <div className="shrink-0 w-36">
         <Select
           aria-label="Search by"
@@ -298,7 +298,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       {searchMode === 'price' ? (
         // Price: two compact boxes instead of the search box - Min Price, a dash, Max Price.
         <div className="space-y-1">
-          <div className="row-tight">
+          <div className="row gap-2">
             {([['Min Price', priceMin, setPriceMin], ['Max Price', priceMax, setPriceMax]] as const).map(([label, val, set], i) => (
               <Fragment key={label}>
                 {i === 1 && <span aria-hidden="true" className="text-fg-2">-</span>}
@@ -313,7 +313,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                     set(e.target.value.replace(/[^0-9,]/g, ''));
                     setPage(0);
                   }}
-                  className="w-32 h-[var(--field-height)] rounded-[var(--field-radius)] border border-[var(--field-border)] bg-bg px-3 text-center text-[length:var(--fs-body)] text-[var(--color-field-text-filled)] placeholder:text-muted enabled:hover:border-[var(--field-hover-border)] focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)]"
+                  className="field-box field-text field-focus field-hover field-narrow-center border-[var(--field-border)] bg-bg"
                 />
               </Fragment>
             ))}
@@ -358,7 +358,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       )}
     </div>
     {searchMode === 'xxyy' && (
-      <label className="flex h-[var(--field-height)] shrink-0 choice-label whitespace-nowrap">
+      <label className="field-choice-label">
         <Checkbox
           checked={allPatterns}
           onChange={(e) => {
@@ -374,7 +374,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   // The dropdown reads "Sort by" until the agent picks an order (the default order still applies meanwhile).
   const sortPlaceholder = !sortChosen[tab === 'Star' ? 'Star' : 'Free'];
   const sortNode = (
-        <div className={`row-tight ${tab !== 'Star' ? 'w-full [&>div]:w-full' : 'justify-end'}`}>
+        <div className={`row gap-2 ${tab !== 'Star' ? 'w-full [&>div]:w-full' : 'justify-end'}`}>
           {tab === 'Star' ? (
             // Price sort as ONE toggle: it shows the order the list is in (High to Low until the agent changes it) and a click flips to the other. The tooltip is the header's (Tooltip, bottom).
             (() => {
@@ -389,7 +389,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                       setSortChosen((c) => ({ ...c, Star: true }));
                       setSort(next.key);
                     }}
-                    className="!h-[var(--field-height)] !w-[var(--field-height)] border border-[var(--field-border)] bg-bg"
+                    className="field-square border border-[var(--field-border)] bg-bg"
                   />
                 </Tooltip>
               );
@@ -459,7 +459,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       )}
       {/* Active filters (an entitlement limit, a typed search, the all-patterns list), each removable, with one Clear filters. */}
       {tab === 'Star' && (withinEntitlementOnly || search || showingAllPatterns) && (
-        <div className="cluster-sm">
+        <div className="cluster gap-2">
           <span className="caption-secondary">Active Filters</span>
           {showingAllPatterns && (
             <span className="chip text-fg">
@@ -470,7 +470,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                 onClick={() => { setAllPatterns(false); setPage(0); }}
                 className="text-fg-2 hover:text-fg focus-ring rounded-[var(--radius-pill)]"
               >
-                <Icon path={CLEAR_ICON} className="w-3.5 h-3.5" />
+                <Icon path={CLEAR_ICON} className="size-3.5 " />
               </button>
             </span>
           )}
@@ -579,16 +579,16 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                     toggle();
                   }
                 }}
-                className={`option-card isolate gap-3 px-6 py-5 ${
+                className={`option-card isolate gap-3 pad-card-lg ${
                   isSelected ? CARD_SELECTED : CARD_IDLE
                 }`}
               >
                 {isSelected && <SelectedCardTexture />}
                 {/* The state mark: the shared corner tick when selected (also exposed as aria-pressed). */}
                 {isSelected && <SelectedTick />}
-                <p className="title-xl leading-tight pr-10">{toLocalMsisdn(n.msisdn)}</p>
+                <p className="title title-xl leading-tight pr-10">{toLocalMsisdn(n.msisdn)}</p>
                 {/* The facts sit side by side while the card has room for two and stack when it does not (a narrow panel, a phone), never overflow. */}
-                <div className="relative grid grid-cols-[repeat(auto-fit,minmax(7.5rem,1fr))] gap-x-6 gap-y-4">
+                <div className="attribute-grid">
                   {facts.map((f) => (
                     <StarStat key={f.label} label={f.label} value={f.value} alert={f.alert} plainValue={f.label === 'Lock-in period'} />
                   ))}
@@ -622,8 +622,8 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                   aria-pressed on the card. */}
               {isSelected && <SelectedTick />}
               {/* On the selected surface the green FREE pill text is darkened (#1f6b2c, about 6:1) to keep 4.5:1. */}
-              <div className={`relative wrap-center justify-between gap-x-3 gap-y-1 ${isSelected ? '[&_.text-success]:text-[var(--tint-green-fg)]' : ''}`}>
-                <p className="font-bold text-[length:var(--fs-h5,20px)] text-fg whitespace-nowrap">{toLocalMsisdn(n.msisdn)}</p>
+              <div className={`relative split gap-y-1 ${isSelected ? '[&_.text-success]:text-[var(--tint-green-fg)]' : ''}`}>
+                <p className="price-figure">{toLocalMsisdn(n.msisdn)}</p>
                 {tag}
               </div>
               {tab === 'Reserved' && n.reservedAt && (

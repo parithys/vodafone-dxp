@@ -33,11 +33,11 @@ export function CreditCheckPanel({ collectionStatus, acknowledged, onAcknowledge
 
   return (
     <div className="notice-warning p-3 space-y-2">
-      <div className="row-tight">
+      <div className="row gap-2">
         <Badge variant="warning">Unresolved Policy Conflict</Badge>
       </div>
       <p className="text-[length:var(--fs-caption)] text-fg">{result.message}</p>
-      <label className="row-tight text-[length:var(--fs-caption)] text-fg">
+      <label className="row gap-2 text-[length:var(--fs-caption)] text-fg">
         <Checkbox checked={acknowledged} onChange={(e) => onAcknowledge(e.target.checked)} />
         I acknowledge this policy is unresolved (see conflict-report.md Conflict 1) and am proceeding without a
         definitive credit-check gate.

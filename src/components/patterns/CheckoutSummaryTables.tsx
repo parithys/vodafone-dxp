@@ -9,15 +9,15 @@ export interface SummaryTable {
 
 /** The bordered two-column tables shared by Checkout and the CAF read-back. */
 export function SummaryTables({ tables }: { tables: SummaryTable[] }) {
-  const cell = 'border border-border-soft px-3 py-2 align-top';
+  const cell = 'table-cell';
   return (
     // Two columns on wide screens, stacked on narrow ones. With three or more tables the first sits
     // in the left column and the rest stack in the right one (Due today, then the bill explainer).
-    <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(max(18rem,calc((100%-1.5rem)/2)),1fr))] items-start">
+    <div className="auto-fit-grid">
       {tables.map((t, ti) => (
         <table
           key={ti}
-          className={`w-full border-collapse body-text ${tables.length > 2 ? (ti === 0 ? 'lg:col-start-1 lg:row-span-2' : 'lg:col-start-2') : ''}`}
+          className={`table-plain body-text ${tables.length > 2 ? (ti === 0 ? 'lg:col-start-1 lg:row-span-2' : 'lg:col-start-2') : ''}`}
         >
           {t.title && (
             <thead>
@@ -31,7 +31,7 @@ export function SummaryTables({ tables }: { tables: SummaryTable[] }) {
           <tbody>
             {t.rows.map((row, i) => (
               <tr key={i} className={row.agentOnly ? 'agent-only' : undefined}>
-                <th scope="row" className={`${cell} bg-surface w-2/5 text-left ${row.boldLabel ?? t.boldLabels ? 'font-semibold' : 'font-normal'}`}>
+                <th scope="row" className={`${cell} table-label-cell ${row.boldLabel ?? t.boldLabels ? 'font-semibold' : 'font-normal'}`}>
                   {row.label ?? ''}
                 </th>
                 <td className={`${cell} ${row.boldValue ? 'font-semibold' : ''}`}>

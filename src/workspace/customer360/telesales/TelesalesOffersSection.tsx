@@ -29,10 +29,10 @@ export function OffersSection({ ctx }: { ctx: Ctx }) {
   const row = (name: string, sub: string, icon: string, pill?: ReactNodeLike) => (
     <div key={name} className="row pad-panel row-rule-card">
       <span className="text-accent shrink-0">
-        <Icon path={icon} className="w-5 h-5" />
+        <Icon path={icon} className="size-5 " />
       </span>
       <div className="min-w-0 flex-1">
-        <div className="subtitle">{name}</div>
+        <div className="title title-md font-semibold">{name}</div>
         <div className="caption-secondary">{sub}</div>
       </div>
       {pill}
@@ -70,7 +70,7 @@ export function OffersSection({ ctx }: { ctx: Ctx }) {
             {cards.map((o, i) => (
               <div key={o.name} className={`card-frame p-4 ${i === 0 ? 'border-accent border-2' : 'border-[var(--field-card-border)]'}`}>
                 <span className={`badge-square font-bold text-on-dark ${i === 0 ? 'bg-accent' : 'bg-[var(--telesales-blue)]'}`}>{o.badge}</span>
-                <div className="title-xl mt-8">{o.name}</div>
+                <div className="title title-xl mt-8">{o.name}</div>
                 <div className="text-secondary mb-2">{o.tagline}</div>
                 <ul className="text-secondary space-y-1 mb-3">
                   {o.benefits.map((b) => (

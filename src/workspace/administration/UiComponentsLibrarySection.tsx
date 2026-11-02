@@ -39,10 +39,10 @@ import { BOOK_ICON, CARD_ICON, DOWNLOAD, GLOBE_ICON_ALT, SHIELD_ICON, TRASH } fr
 /** One rendered example with its name beneath it. */
 function Specimen({ name, note, children, wide = false }: { name: string; note?: string; children: ReactNode; wide?: boolean }) {
   return (
-    <figure className={`stack-sm ${wide ? 'sm:col-span-2 xl:col-span-3' : ''}`}>
-      <div className="cluster min-h-[3.5rem] rounded-[var(--radius-card)] bg-[var(--surface)] p-4">{children}</div>
+    <figure className={`stack gap-2 ${wide ? 'sm:col-span-2 xl:col-span-3' : ''}`}>
+      <div className="cluster specimen-row p-4">{children}</div>
       <figcaption className="px-1">
-        <span className="text-fg font-semibold text-[length:var(--fs-caption)]">{name}</span>
+        <span className="caption-strong">{name}</span>
         {note && <span className="caption-muted"> - {note}</span>}
       </figcaption>
     </figure>
@@ -54,7 +54,7 @@ function Group({ id, title, description, children }: { id: string; title: string
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="panel-soft p-5 space-y-4">
       <div>
-        <h3 id={`${id}-title`} className="title-lg">
+        <h3 id={`${id}-title`} className="title title-lg">
           {title}
         </h3>
         <p className="caption-muted">{description}</p>
@@ -111,11 +111,11 @@ export function UiComponentsLibrarySection() {
   return (
     <div className="space-y-6 pt-4">
       <div>
-        <h2 className="title-xl">UI Components Library</h2>
+        <h2 className="title title-xl">UI Components Library</h2>
         <p className="text-secondary">
           Every distinct UI component in use across the application, rendered live from the real component and shown once with its applicable variants and states.
         </p>
-        <nav aria-label="Component groups" className="mt-3 wrap-row">
+        <nav aria-label="Component groups" className="mt-3 wrap-loose gap-2">
           {[
             ['buttons', 'Buttons'],
             ['forms', 'Form Controls'],
@@ -171,7 +171,7 @@ export function UiComponentsLibrarySection() {
         </Specimen>
         <Specimen name="Button - With icon">
           <Button variant="secondary">
-            <Icon path={DOWNLOAD} className="w-4 h-4" />
+            <Icon path={DOWNLOAD} className="size-4 " />
             Download
           </Button>
         </Specimen>
@@ -226,24 +226,24 @@ export function UiComponentsLibrarySection() {
           </div>
         </Specimen>
         <Specimen name="Checkbox" note="unchecked, checked, disabled">
-          <label className="row-tight body-text">
+          <label className="row gap-2 body-text">
             <Checkbox readOnly /> Unchecked
           </label>
-          <label className="row-tight body-text">
+          <label className="row gap-2 body-text">
             <Checkbox defaultChecked /> Checked
           </label>
-          <label className="row-tight body-text">
+          <label className="row gap-2 body-text">
             <Checkbox disabled /> Disabled
           </label>
         </Specimen>
         <Specimen name="Radio" note="unselected, selected, disabled">
-          <label className="row-tight body-text">
+          <label className="row gap-2 body-text">
             <Radio name="lib-radio" readOnly /> Unselected
           </label>
-          <label className="row-tight body-text">
+          <label className="row gap-2 body-text">
             <Radio name="lib-radio" defaultChecked /> Selected
           </label>
-          <label className="row-tight body-text">
+          <label className="row gap-2 body-text">
             <Radio name="lib-radio-d" disabled /> Disabled
           </label>
         </Specimen>
@@ -266,14 +266,14 @@ export function UiComponentsLibrarySection() {
             type="button"
             aria-pressed={card === 'selected'}
             onClick={() => setCard((c) => (c === 'selected' ? 'idle' : 'selected'))}
-            className={`relative min-w-[12rem] card-frame p-4 text-left transition-colors ${card === 'selected' ? CARD_SELECTED : CARD_IDLE}`}
+            className={`specimen-card p-4 ${card === 'selected' ? CARD_SELECTED : CARD_IDLE}`}
           >
             {card === 'selected' && <SelectedTick />}
-            <span className="block title-sm">{card === 'selected' ? 'Selected' : 'Default'}</span>
+            <span className="block title title-sm">{card === 'selected' ? 'Selected' : 'Default'}</span>
             <span className="block caption-secondary">Hover changes the fill only</span>
           </button>
           <div className={`min-w-[12rem] card-frame p-4 ${CARD_HIGHLIGHT}`}>
-            <span className="block title-sm">Highlighted</span>
+            <span className="block title title-sm">Highlighted</span>
             <span className="block caption-secondary">A card the app singles out</span>
           </div>
         </Specimen>
@@ -486,8 +486,8 @@ export function UiComponentsLibrarySection() {
           <CountryMarker iso="IN" />
         </Specimen>
         <Specimen name="Icon" note="the shared SVG icon (24px grid)">
-          <Icon path={DOWNLOAD} className="w-6 h-6 text-fg" />
-          <Icon path={SHIELD_ICON} className="w-6 h-6 text-accent" />
+          <Icon path={DOWNLOAD} className="size-6 text-fg" />
+          <Icon path={SHIELD_ICON} className="size-6 text-accent" />
         </Specimen>
       </Group>
     </div>

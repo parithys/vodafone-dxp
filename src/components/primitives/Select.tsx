@@ -173,24 +173,23 @@ export function Select({
   };
 
   const triggerClasses = dark
-    ? 'border-on-dark-line-2 bg-on-dark-fill-1 text-on-dark focus-visible:border-accent'
+    ? 'select-dark-trigger'
     : `${
         error
           ? 'border-[var(--field-border-error)]'
           : selected
-            ? 'border-[var(--field-border-filled)] enabled:hover:border-[var(--field-hover-border)]'
-            : 'border-[var(--field-border)] enabled:hover:border-[var(--field-hover-border)]'
-      } bg-bg text-[var(--color-field-text-filled)] focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)]
-      disabled:border-[var(--field-border-disabled)] disabled:bg-[var(--field-bg-disabled)]`;
+             ? 'border-[var(--field-border-filled)] field-hover'
+            : 'border-[var(--field-border)] field-hover'
+      } select-light-trigger`;
   const panelClasses = dark
-    ? 'border-on-dark-line-2 bg-[var(--charcoal-panel)] divide-y divide-on-dark-line-1'
+    ? 'select-panel-dark'
     : tintedPanel
-      ? 'border-[var(--field-card-border)] bg-surface divide-y divide-[var(--field-divider)]'
-      : 'border-border-soft bg-bg divide-y divide-[var(--field-divider)]';
+      ? 'select-panel-tinted'
+      : 'select-panel-light';
   const optionClasses = dark ? 'text-on-dark' : 'text-fg-2';
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="stack gap-1">
       {label && (
         <label id={labelId} htmlFor={selectId} className={`text-[length:var(--fs-label)] ${dark ? 'text-on-dark-2' : disabled ? 'text-[var(--field-label-disabled)]' : 'text-fg'}`}>
           {label}
@@ -235,12 +234,10 @@ export function Select({
             setOpen(true);
           }}
           onKeyDown={onFieldKeyDown}
-          className={`w-full truncate rounded-[var(--field-radius)] ${openUp ? 'focus-visible:rounded-t-none' : 'focus-visible:rounded-b-none'} ${open ? (openUp ? 'rounded-t-none' : 'rounded-b-none') : ''} border pl-3 pr-9 py-2 text-[length:var(--fs-body)] text-left
-            ${dark ? 'placeholder:text-on-dark-4' : 'placeholder:text-muted'}
-            disabled:cursor-not-allowed disabled:placeholder:text-[var(--field-label-disabled)] disabled:text-[var(--field-label-disabled)]
-            focus:outline-none
-            ${triggerClasses}
-            ${className}`}
+          className={`select-field ${openUp ? 'focus-visible:rounded-t-none' : 'focus-visible:rounded-b-none'} ${open ? (openUp ? 'rounded-t-none' : 'rounded-b-none') : ''}
+ ${dark ? 'placeholder:text-on-dark-4' : 'placeholder:text-muted'}
+ ${triggerClasses}
+ ${className}`}
         />
         <button
           type="button"
@@ -252,7 +249,7 @@ export function Select({
             openList();
             triggerRef.current?.focus();
           }}
-          className="absolute right-3 center-y disabled:cursor-not-allowed"
+          className="select-chevron-btn"
         >
           <Icon
             path={CHEVRON_DOWN}
@@ -264,7 +261,7 @@ export function Select({
 
         {/* Square on the edge that meets the field, rounded on the far edge, so the panel reads as attached to it (the open or focused field squares off its matching edge, and the shared border is drawn once). */}
         {open && (
-          <div className={`absolute z-[var(--z-popover)] ${openUp ? 'bottom-full rounded-t-[var(--field-radius)] rounded-b-none border-b-0' : 'top-full rounded-b-[var(--field-radius)] rounded-t-none border-t-0'} left-0 right-0 border shadow-raised overflow-hidden ${panelClasses}`} onMouseDown={(e) => e.preventDefault()}>
+          <div className={`select-panel ${openUp ? 'select-panel-up' : 'select-panel-down'} ${panelClasses}`} onMouseDown={(e) => e.preventDefault()}>
           <ul
             id={listboxId}
             role="listbox"

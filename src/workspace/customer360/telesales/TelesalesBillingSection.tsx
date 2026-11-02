@@ -38,8 +38,8 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
   const smsLeft = bal?.smsBalanceCount != null ? Number(bal.smsBalanceCount) : Number(ex?.smsRemaining ?? 0);
   const tile = (label: string, value: string, red?: boolean) => (
     <div key={label} className="rounded-[var(--radius-card)] bg-surface p-3">
-      <div className="heading-strong leading-tight">{label}</div>
-      <div className={`font-bold text-[length:var(--fs-h4)] mt-1 ${red ? 'text-accent' : 'text-fg'}`}>{value}</div>
+      <div className="title title-sm font-semibold leading-tight">{label}</div>
+      <div className={`title title-xl mt-1 ${red ? 'text-accent' : ''}`}>{value}</div>
     </div>
   );
   return (
@@ -83,7 +83,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
             <HeaderButton primary>Make a Payment</HeaderButton>
             <div>
               <Button variant="tertiary" type="button" className="inline-flex items-center gap-2">
-                <Icon path={ICON.download} className="w-4 h-4" />
+                <Icon path={ICON.download} className="size-4 " />
                 Download PDF
               </Button>
             </div>
@@ -136,8 +136,8 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
             empty="No payments on file."
           />
           <div className="panel-header border-t border-[var(--field-card-border)]">
-            <span className="inline-flex items-center gap-2 text-fg font-semibold">
-              <Icon path={ICON.bars} className="w-4 h-4" />
+            <span className="inline-strong">
+              <Icon path={ICON.bars} className="size-4 " />
               Unbilled Usage
             </span>
             <button type="button" onClick={() => ctx.goToTab('ts-products')} className="text-link font-semibold text-[length:var(--fs-body)]">
@@ -155,7 +155,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
 
       <div className="contents">
         <Card title="Dunning & Credit Information" icon={ICON.shield}>
-          <div className="p-5 grid grid-cols-3 gap-4">
+          <div className="summary-grid-3">
             <div>
               <Label>Current Dunning Stage</Label>
               <Pill tone={/^(none|no dunning|current)$/i.test(dunning) ? 'green' : 'amber'}>{dunning}</Pill>

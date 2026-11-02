@@ -94,15 +94,15 @@ export function CrossSalesStep({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offers]);
 
-  if (!offers) return <p className="text-muted text-[length:var(--fs-body)]">Checking for cross-sales offers…</p>;
+  if (!offers) return <p className="muted-body">Checking for cross-sales offers…</p>;
   if (offers.length === 0 && !showAllOfferTypes) {
     return (
-      <div className="flex items-center gap-5 promo-banner p-5">
-        <span className="icon-tile h-16 w-16 rounded-[var(--radius-card)] bg-bg text-[var(--tint-teal-fg)] shadow-[var(--shadow-icon-tile)]">
-          <Icon path={TREND_UP} className="w-6 h-6" />
+      <div className="row gap-5 promo-banner p-5">
+        <span className="feature-tile size-16 text-[var(--tint-teal-fg)]">
+          <Icon path={TREND_UP} className="size-6 " />
         </span>
         <div className="min-w-0">
-          <p className="heading-strong">No Cross-Sales Offer Available</p>
+          <p className="title title-sm font-semibold">No Cross-Sales Offer Available</p>
           <p className="caption-secondary">Continue to choose a service from the standard catalogue.</p>
         </div>
       </div>
@@ -126,7 +126,7 @@ export function CrossSalesStep({
       <div className="space-y-8" role="radiogroup" aria-label="Offers">
         {sections.map(({ type, items }) => (
           <section key={type.key} aria-labelledby={`offer-type-${type.key}`} className="space-y-3">
-            <h3 id={`offer-type-${type.key}`} className="title-lg">
+            <h3 id={`offer-type-${type.key}`} className="title title-lg">
               {type.label}
             </h3>
             {items.length > 0 && (
@@ -165,10 +165,10 @@ export function CrossSalesStep({
             >
               {selected && <SelectedTick />}
               {/* Top row: the Recommended flag on the left, the journey tag pinned right. */}
-              <div className="flex min-h-[25px] items-center gap-1.5">
+              <div className="row gap-1.5 min-h-[25px]">
                 {recommended && (
                   <span className="tag-accent shrink-0 whitespace-nowrap px-2">
-                    <Icon path={STAR} className="w-3 h-3" />
+                    <Icon path={STAR} className="size-3 " />
                     Recommended
                   </span>
                 )}
@@ -176,7 +176,7 @@ export function CrossSalesStep({
                 {o.sample && <span className="shrink-0 tag-outline px-2">Sample</span>}
               </div>
               <div className="flex-1 space-y-2">
-                <p className="title-lg leading-snug">{o.offerName}</p>
+                <p className="title title-lg leading-snug">{o.offerName}</p>
                 <p className="caption-secondary">{o.offerDescription}</p>
                 <p className="text-accent">
                   <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
@@ -184,7 +184,7 @@ export function CrossSalesStep({
                   {perMonth && <span className="caption-secondary"> /month</span>}
                 </p>
               </div>
-              <div className="wrap-center justify-between gap-x-3 gap-y-2 pt-1">
+              <div className="split gap-y-2 pt-1">
                 {/* Opens the full offer details in the side drawer; it stops
                     propagation so looking never selects the offer. */}
                 <button
@@ -198,10 +198,10 @@ export function CrossSalesStep({
                   className="link-inline"
                 >
                   View details
-                  <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
+                  <Icon path={CHEVRON_RIGHT} className="size-4 " />
                 </button>
                 {onInterestedOffer ? (
-                  <div className="cluster-sm ml-auto">
+                  <div className="cluster gap-2 ml-auto">
                     <Button
                       variant="secondary"
                       compact

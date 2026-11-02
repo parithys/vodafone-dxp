@@ -259,7 +259,7 @@ export function C360TicketsSupport({
       </KpiGrid>
 
       {/* Search and filters sit above both columns; they narrow the list on the left. */}
-      <div className="cards-wrap">
+      <div className="wrap-loose items-stretch">
         <SearchBox value={query} onChange={setQuery} placeholder="Search by Ticket ID, issue or service type" />
         <FilterSelect label="Ticket Type" value={typeFilter} options={typeOptions} onChange={setTypeFilter} />
         <FilterSelect label="Status" value={statusFilter} options={statusOptions} onChange={setStatusFilter} />
@@ -281,11 +281,11 @@ export function C360TicketsSupport({
                       aria-pressed={selected?.id === t.id}
                       onClick={() => setPickedId(t.id)}
                       className={`w-full text-left card-option p-3 ${
-                        selected?.id === t.id ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-surface'
+                        selected?.id === t.id ? 'list-card-selected' : 'list-card-idle'
                       }`}
                     >
-                      <span className="split-tight">
-                        <span className="heading-strong">{t.id}</span>
+                      <span className="split-nowrap gap-2">
+                        <span className="title title-sm font-semibold">{t.id}</span>
                         <span className="caption-secondary whitespace-nowrap">{fmtDate(new Date(t.createdAt).toISOString()) ?? '-'}</span>
                       </span>
                       <span className="block caption-secondary break-words">
@@ -310,9 +310,9 @@ export function C360TicketsSupport({
             <>
               <div className="cluster">
                 <IconTile icon={IC.tag} tone="blue" />
-                <span className="title-lg min-w-0 break-words">{selected.id}</span>
+                <span className="title title-lg min-w-0 break-words">{selected.id}</span>
                 <StatusPill status={selected.status} />
-                <span className="ml-auto row-tight">
+                <span className="ml-auto row gap-2">
                   <Button variant="secondary" compact type="button" onClick={() => openFull(selected.id)}>
                     View Full Ticket &rarr;
                   </Button>
@@ -357,7 +357,7 @@ export function C360TicketsSupport({
                 <ul>
                   {related.map((r) => (
                     <li key={r.label} className="row-rule">
-                      <button type="button" onClick={r.onClick} disabled={!r.onClick} className="row-action row py-2.5 text-[length:var(--fs-body)] disabled:opacity-50 disabled:cursor-not-allowed">
+                      <button type="button" onClick={r.onClick} disabled={!r.onClick} className="row-action-disabled">
                         <Icon path={r.icon} className="icon-sm text-fg-2" />
                         <span className="flex-1 text-fg-2">{r.label}</span>
                         <span className="text-fg font-medium">{r.count}</span>

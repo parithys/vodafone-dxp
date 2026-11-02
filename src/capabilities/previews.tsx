@@ -291,7 +291,7 @@ function EligibilityScenario({ idNumber }: { idNumber: string }) {
     <div className="space-y-4">
       <EligibilityGateStep idNumber={idNumber} result={r} onResult={setR} announcePass={false} scope="product" />
       <div className="row justify-end divider-top pt-4">
-        <OutcomeActions eligibility={r} onAbandon={() => {}} defaultButton={<Button variant="primary">Continue</Button>} />
+        <OutcomeActions eligibility={r} defaultButton={<Button variant="primary">Continue</Button>} />
       </div>
     </div>
   );
@@ -342,7 +342,7 @@ function DrawerDemo() {
 function ToastDemo() {
   const push = useNotificationStore((s) => s.pushToast);
   return (
-    <div className="wrap-row">
+    <div className="wrap-loose gap-2">
       {(['success', 'info', 'warning', 'error'] as const).map((k) => (
         <Button key={k} variant="secondary" onClick={() => push(k, `Sample ${k} notification`, { detail: 'Raised from the Capability Library.' })}>
           Show {k}

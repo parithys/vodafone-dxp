@@ -78,8 +78,8 @@ export function ContactsSection({ ctx }: { ctx: Ctx }) {
               <button key={r.key} type="button" onClick={() => setSelected(r.key)} className={`list-row-start gap-3 pad-row row-rule-card ${cur?.key === r.key ? 'bg-surface' : ''}`}>
                 <Avatar name={r.name} size="sm" />
                 <span className="min-w-0 flex-1">
-                  <span className="cluster-sm">
-                    <span className="subtitle truncate">{r.name}</span>
+                  <span className="cluster gap-2">
+                    <span className="title title-md font-semibold truncate">{r.name}</span>
                     {r.badge && <Pill tone={r.badgeTone ?? 'green'}>{r.badge}</Pill>}
                   </span>
                   <span className="block caption-secondary">{r.relation}</span>
@@ -111,8 +111,8 @@ export function ContactsSection({ ctx }: { ctx: Ctx }) {
             <div className="pad-panel cluster">
               <Avatar name={cur?.name ?? ''} />
               <div>
-                <div className="cluster-sm">
-                  <span className="title-md">{cur?.name}</span>
+                <div className="cluster gap-2">
+                  <span className="title title-md">{cur?.name}</span>
                   {cur?.badge && <Pill tone={cur.badgeTone ?? 'green'}>{cur.badge === 'Primary' ? 'Primary Contact' : cur.badge}</Pill>}
                 </div>
                 <div className="caption-secondary">{cur?.relation}</div>

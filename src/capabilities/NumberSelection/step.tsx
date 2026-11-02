@@ -15,7 +15,7 @@ import { REFRESH_ALT } from '../../assets/icons';
 export function RefreshNumbersButton({ onClick }: { onClick: () => void }) {
   return (
     <Button variant="secondary" compact onClick={onClick}>
-      <Icon path={REFRESH_ALT} className="w-4 h-4" />
+      <Icon path={REFRESH_ALT} className="size-4 " />
       Refresh
     </Button>
   );

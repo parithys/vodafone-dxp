@@ -76,14 +76,14 @@ export function PortInStatusScreen() {
       <PageHeader
         title={<>Port-In Status</>}
         description={<>Where each MNP port-in request stands with NPAS, and what happens next.</>}
-        actions={open ? <Link to={PORT_IN_STATUS_PATH} className="text-on-dark font-medium hover:underline text-[length:var(--fs-body)]">All port-in requests</Link> : undefined}
+        actions={open ? <Link to={PORT_IN_STATUS_PATH} className="on-dark-link-body">All port-in requests</Link> : undefined}
       />
       <ErrorBanner message={loadError} />
       {open ? (
         <PortInDetail record={open} />
       ) : id && !loading ? (
         <p className="text-secondary">
-          No port-in request <code>{id}</code> was found. <Link to={PORT_IN_STATUS_PATH} className="text-link font-medium hover:underline">Back to all requests</Link>
+          No port-in request <code>{id}</code> was found. <Link to={PORT_IN_STATUS_PATH} className="link font-medium">Back to all requests</Link>
         </p>
       ) : (
         <DataTable<PortInRecord>
@@ -145,7 +145,7 @@ function PortInDetail({ record }: { record: PortInRecord }) {
       <section className="card p-5 space-y-5" aria-label="Port-in request">
         <div className="wrap-loose items-start justify-between">
           <div>
-            <h2 className="title-md">
+            <h2 className="title title-md">
               {record.portInNumber} <span className="text-muted font-normal">· {record.id}</span>
             </h2>
             <p className="text-secondary">
@@ -172,7 +172,7 @@ function PortInDetail({ record }: { record: PortInRecord }) {
           </p>
         )}
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4">
+        <div className="pair-grid lg:grid-cols-4 gap-x-6 gap-y-4">
           <Field label="Port Status">{record.portStatus}</Field>
           <Field label="Tracking Record">{record.trackingStatus}</Field>
           <Field label="NPAS Reference">{record.npasReference}</Field>
@@ -209,7 +209,7 @@ function PortInDetail({ record }: { record: PortInRecord }) {
 
       {SHOW_DEMO_CONTENT && waiting && (
         <section className="card card-surface p-5 space-y-3" aria-label="Simulate NPAS response">
-          <h3 className="title-sm">Simulate NPAS Response</h3>
+          <h3 className="title title-sm">Simulate NPAS Response</h3>
           <p className="caption-secondary">Demo control: NPAS is not connected, so its answer is entered here.</p>
           <div className="wrap-loose items-end">
             <Button variant="primary" disabled={pending} onClick={() => void apply(approvePortIn(record), 'NPAS approved the port-in request.')}>
@@ -233,7 +233,7 @@ function PortInDetail({ record }: { record: PortInRecord }) {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="card p-5" aria-label="Status history">
-          <h3 className="title-sm mb-3">Status History</h3>
+          <h3 className="title title-sm mb-3">Status History</h3>
           <ol className="space-y-3">
             {[...record.history].reverse().map((h, i) => (
               <li key={`${h.status}-${i}`} className="flex gap-3">
@@ -248,14 +248,14 @@ function PortInDetail({ record }: { record: PortInRecord }) {
           </ol>
         </section>
         <section className="card p-5" aria-label="Notifications">
-          <h3 className="title-sm mb-3">Customer Notifications</h3>
+          <h3 className="title title-sm mb-3">Customer Notifications</h3>
           {record.notifications.length === 0 ? (
-            <p className="text-muted text-[length:var(--fs-body)]">None sent.</p>
+            <p className="muted-body">None sent.</p>
           ) : (
             <ul className="space-y-3">
               {[...record.notifications].reverse().map((n, i) => (
                 <li key={`${n.type}-${i}`}>
-                  <div className="row-tight">
+                  <div className="row gap-2">
                     <span className="value-text">{n.type}</span>
                     <Badge variant={n.status === 'Sent' ? 'success' : 'danger'}>{n.status}</Badge>
                     <span className="caption-muted">{n.channel} to {n.to} · {when(n.at)}</span>

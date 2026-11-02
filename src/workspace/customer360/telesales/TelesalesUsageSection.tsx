@@ -51,7 +51,7 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
        
        
         actions={
-          <label className="inline-flex items-center gap-3 card px-4 py-2 text-[length:var(--fs-body)]">
+          <label className="usage-chip card">
             Select Connection
             <FilterSelect captioned label="Select Connection" value={pickedRef} options={services.map((s) => ({ value: s.ref, label: `${s.identifier} (${s.label})` }))} onChange={setPickedRef} />
             <Pill tone="green">{cur?.status ?? 'Active'}</Pill>
@@ -84,7 +84,7 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
             />
           </div>
           <BarChart data={chart} unit={unit} height={170} />
-          <div className="px-5 pb-4 flex gap-5 caption-secondary">
+          <div className="panel-foot-meta">
             <span>
               <span className="inline-block dot bg-accent mr-1" />
               Regular Usage
@@ -126,8 +126,8 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
           <div className="p-5 pair-grid-sm">
             {insights.map((i) => (
               <div key={i.name} className="card-outline p-4">
-                <Icon path={ICON.bars} className="w-4 h-4 text-muted" />
-                <div className="title-sm mt-3">{i.name.replace('Calls', 'Calls').replace(/^High (Data|Roaming) (User)?$/, (m) => m)}</div>
+                <Icon path={ICON.bars} className="size-4 text-muted" />
+                <div className="title title-sm mt-3">{i.name.replace('Calls', 'Calls').replace(/^High (Data|Roaming) (User)?$/, (m) => m)}</div>
                 <div className="caption-secondary">{i.sub}</div>
               </div>
             ))}

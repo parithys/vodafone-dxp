@@ -21,7 +21,7 @@ export function EligibilityChecksList({ rows }: { rows: EligibilityRow[] }) {
             {/* The RESULT, not a static description of what the check does -
                 see the inline panel's own note on this below. */}
             {row.detail && (
-              <p className={`text-[length:var(--fs-caption)] leading-snug whitespace-pre-line ${row.tone === 'advisory' ? 'text-[var(--tint-blue-fg)]' : 'text-fg-2'}`}>{row.detail}</p>
+              <p className={`note-line ${row.tone === 'advisory' ? 'text-[var(--tint-blue-fg)]' : 'text-fg-2'}`}>{row.detail}</p>
             )}
           </div>
         </li>
@@ -33,7 +33,7 @@ export function EligibilityChecksList({ rows }: { rows: EligibilityRow[] }) {
 function EligibilityOutcomeLegend() {
   return (
     <div className="mt-6 pt-4 divider-top">
-      <h4 className="heading-strong mb-2">What These Outcomes Mean</h4>
+      <h4 className="title title-sm font-semibold mb-2">What These Outcomes Mean</h4>
       <ul className="list-disc pl-5 space-y-2">
         {OUTCOME_LEGEND.map((item) => (
           <li key={item.title} className="text-[length:var(--fs-caption)] leading-snug">

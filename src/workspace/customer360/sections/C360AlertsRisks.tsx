@@ -174,8 +174,8 @@ export function C360AlertsRisks({ data, goToTab }: { data: Customer360Data; serv
       <div className="space-y-4">
         <section className="card p-4 space-y-4 min-w-0">
           <div className="split">
-            <h3 className="subtitle">All Alerts &amp; Risks ({alerts.length})</h3>
-            <div className="cards-wrap">
+            <h3 className="title title-md font-semibold">All Alerts &amp; Risks ({alerts.length})</h3>
+            <div className="wrap-loose items-stretch">
               <FilterSelect
                 label="Severity"
                 value={severity}
@@ -259,7 +259,7 @@ export function C360AlertsRisks({ data, goToTab }: { data: Customer360Data; serv
             action={notes.length > 3 ? <LinkAction onClick={() => setShowAllNotes((v) => !v)}>{showAllNotes ? 'Show Less' : 'View All'}</LinkAction> : undefined}
           >
             {shownNotes.length === 0 ? (
-              <p className="empty-note-sm">No notifications or notes for this customer.</p>
+              <p className="empty-note py-2">No notifications or notes for this customer.</p>
             ) : (
               <ul>
                 {shownNotes.map((n) => {

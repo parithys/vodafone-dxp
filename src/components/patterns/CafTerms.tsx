@@ -56,12 +56,12 @@ export function FullTerms({
   return (
     <section aria-label="Full Terms and Conditions" className="card ">
       <div className="split-nowrap divider-bottom pad-row">
-        <h3 className="heading-strong">Key Terms &amp; Conditions</h3>
+        <h3 className="title title-sm font-semibold">Key Terms &amp; Conditions</h3>
       </div>
       {/* tabIndex so the panel can be scrolled with the keyboard. */}
       <div
         tabIndex={scrollMode === 'page' ? undefined : 0}
-        className={`pad-row space-y-4 ${scrollMode === 'page' ? '' : 'max-h-[34rem] overflow-y-auto focus:outline-none focus-visible:shadow-[var(--focus-ring)]'}`}
+        className={`pad-row space-y-4 ${scrollMode === 'page' ? '' : 'max-h-[34rem] overflow-y-auto focus-ring'}`}
       >
         {sections.map((s) => (
           <div key={s.sectionId}>

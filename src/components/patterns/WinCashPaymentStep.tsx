@@ -83,7 +83,7 @@ export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWit
           <p className="caption-secondary mt-1">Nothing is due today, so no payment is taken. A zero-value receipt is issued.</p>
         </div>
         {value.paid && value.zeroValue ? (
-          <div className="row-tight">
+          <div className="row gap-2">
             <Badge variant="success">Zero-Value Receipt Issued</Badge>
             <span className="caption-muted">Receipt: {value.reference}</span>
           </div>
@@ -154,7 +154,7 @@ export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWit
       </div>
 
       {value.paid ? (
-        <div className="row-tight">
+        <div className="row gap-2">
           <Badge variant="success">Paid</Badge>
           <span className="caption-muted">{value.reference ? `Reference: ${value.reference}` : value.method ? `Paid by ${value.method}` : null}</span>
         </div>
@@ -205,7 +205,7 @@ export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWit
         <div className="space-y-3">
           {value.declined && (
             <div className="notice-danger-edge p-3 space-y-1">
-              <div className="row-tight">
+              <div className="row gap-2">
                 <Badge variant="danger">Payment Declined</Badge>
               </div>
               <p className="text-[length:var(--fs-caption)] text-fg">
@@ -215,7 +215,7 @@ export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWit
           )}
           {value.errored && (
             <div className="notice-danger-edge p-3 space-y-1">
-              <div className="row-tight">
+              <div className="row gap-2">
                 <Badge variant="danger">WinCash Error</Badge>
               </div>
               <p className="text-[length:var(--fs-caption)] text-fg">

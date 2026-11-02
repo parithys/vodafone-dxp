@@ -65,7 +65,7 @@ export function HeaderContextChips() {
           <Tooltip content="When the product catalogue last synchronised (seeded)" placement="bottom">
             <div className="flex flex-col leading-tight">
               <span className="caption-muted uppercase tracking-wide">Catalog Sync</span>
-              <span className="heading-strong">
+              <span className="title title-sm font-semibold">
                 {syncedMinutesAgo === null ? '-' : `${syncedMinutesAgo} min ago`}
               </span>
             </div>
@@ -84,7 +84,7 @@ export function HeaderContextChips() {
           <Tooltip content="Oversight scope - drives the figures on your dashboard" placement="bottom">
             <div className="flex flex-col leading-tight">
               <span className="caption-muted uppercase tracking-wide">Region</span>
-              <span className="heading-strong">{regionLabel}</span>
+              <span className="title title-sm font-semibold">{regionLabel}</span>
             </div>
           </Tooltip>
           <Button variant="primary" compact onClick={cycleRegion}>

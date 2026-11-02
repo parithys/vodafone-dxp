@@ -22,7 +22,7 @@ interface CountryMarkerProps {
 // reads as one set rather than two treatments. Swapping the chips for real
 // flags later is a drop-in: add cases here, change nothing at the call sites.
 export function CountryMarker({ iso, className = '' }: CountryMarkerProps) {
-  const base = `w-4 h-4 shrink-0 rounded-[var(--radius-pill)] ${className}`;
+  const base = `size-4 shrink-0 rounded-[var(--radius-pill)] ${className}`;
 
   if (iso === 'QA') {
     // Qatar: maroon field, white hoist band, nine-point serration between

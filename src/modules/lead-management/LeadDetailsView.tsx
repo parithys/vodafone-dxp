@@ -100,7 +100,7 @@ export function LeadDetailsView() {
         <div className="flex-1 min-w-0 space-y-6">
           <div className="card p-5">
             <div className="row mb-1">
-              <h1 className="title-xl">Lead {lead.leadId}</h1>
+              <h1 className="title title-xl">Lead {lead.leadId}</h1>
               <Badge variant={lead.status === 'Rejected' ? 'danger' : 'outlined-red'}>{lead.status}</Badge>
             </div>
             <p className="text-fg-2">{lead.serviceNeeded} - owned by {lead.ownerId}</p>
@@ -132,8 +132,8 @@ export function LeadDetailsView() {
 
         <div className="split-pane-side">
           <div className="card p-5">
-            <h2 className="title-md mb-3">Actions</h2>
-            <div className="stack-sm">
+            <h2 className="title title-md mb-3">Actions</h2>
+            <div className="stack gap-2">
               <Button
                 variant="primary"
                 className="w-full justify-center"
@@ -153,7 +153,7 @@ export function LeadDetailsView() {
               </Button>
               <Button
                 variant="secondary"
-                className="w-full justify-center !text-danger !border-danger"
+                className="btn-danger-block"
                 onClick={() => setModal('reject')}
               >
                 Reject
@@ -162,37 +162,37 @@ export function LeadDetailsView() {
           </div>
 
           <div className="card p-5">
-            <h2 className="title-md mb-3">Overview</h2>
+            <h2 className="title title-md mb-3">Overview</h2>
             <div className="space-y-3 text-[length:var(--fs-body)]">
-              <div className="split-tight">
+              <div className="split-nowrap gap-2">
                 <span className="text-muted">Status</span>
                 <Badge variant={lead.status === 'Rejected' ? 'danger' : 'outlined-red'}>{lead.status}</Badge>
               </div>
-              <div className="split-tight">
+              <div className="split-nowrap gap-2">
                 <span className="text-muted">Lead #</span>
                 <span className="text-accent font-medium">{lead.leadId}</span>
               </div>
-              <div className="split-tight">
+              <div className="split-nowrap gap-2">
                 <span className="text-muted">Service Needed</span>
                 <span className="text-fg text-right">{lead.serviceNeeded}</span>
               </div>
-              <div className="split-tight">
+              <div className="split-nowrap gap-2">
                 <span className="text-muted">Owner</span>
                 <span className="text-fg">{lead.ownerId}</span>
               </div>
               {lead.contactName && (
-                <div className="split-tight">
+                <div className="split-nowrap gap-2">
                   <span className="text-muted">Contact</span>
                   <span className="text-fg">{lead.contactName}</span>
                 </div>
               )}
               {lead.mobileNumber && (
-                <div className="split-tight">
+                <div className="split-nowrap gap-2">
                   <span className="text-muted">Mobile</span>
                   <span className="text-fg">{lead.mobileNumber}</span>
                 </div>
               )}
-              <div className="split-tight">
+              <div className="split-nowrap gap-2">
                 <span className="text-muted">Created Via</span>
                 <span className="text-fg">{lead.createdVia}</span>
               </div>
@@ -220,12 +220,12 @@ export function LeadDetailsView() {
 
       <Drawer open={modal === 'reassign'} onClose={() => setModal(null)} title="Lead Owner">
         <Input aria-label="Filter by Last Name" placeholder="Filter by Last Name" value={ownerFilter} onChange={(e) => setOwnerFilter(e.target.value)} />
-        <div className="mt-3 divide-y divide-border-soft max-h-64 overflow-y-auto">
+        <div className="mt-3 scroll-list max-h-64">
           {filteredAgents.map((a) => (
             <button type="button"
               key={a.userId}
               onClick={() => submitReassign(a)}
-              className="w-full text-left px-2 py-2 hover:bg-surface flex justify-between"
+              className="row-pick"
             >
               <span className="text-fg">{a.firstName} {a.lastName}</span>
               <span className="caption-muted">{a.jobTitle}</span>

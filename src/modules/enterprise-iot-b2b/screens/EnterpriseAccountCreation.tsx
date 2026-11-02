@@ -60,7 +60,7 @@ export function EnterpriseAccountCreation() {
       <div className="space-y-4">
         <Input label="Account/Company Name" value={name} onChange={(e) => setName(e.target.value)} />
 
-        <div className="flex items-end gap-2">
+        <div className="row-bottom">
           <div className="flex-1">
             <Select
               label="CR Type / ID Type"
@@ -111,7 +111,7 @@ export function EnterpriseAccountCreation() {
 
         {creditLimit && (
           <div className="card p-3">
-            <label className="row-tight body-text">
+            <label className="row gap-2 body-text">
               <Checkbox checked={financeApproved} onChange={(e) => setFinanceApproved(e.target.checked)} />
               Business Finance has approved this credit limit
             </label>

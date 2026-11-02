@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useWorkflowStore } from '../../../stores/workflowStore';
 import * as mockDataEngine from '../../../engines/mockDataEngine';
 import type { DraftOrderRecord, WizardStep } from './guidedWizardTypes';
+import { withoutIdVerification } from './resumeModel';
 
 /** Draft value naming the customer a journey was opened for. */
 export const LAUNCH_CUSTOMER_KEY = 'launchCustomerId';
@@ -57,7 +58,7 @@ export function useJourneyStartResume(wizardId: string, steps: WizardStep[]) {
       // wherever this journey's last session happened to stop.
       void mockDataEngine
         .get<DraftOrderRecord>('orders', nav.resumeOrderId)
-        .then((order) => {
+        .then(async (order) => {
           if (!order?.draftValues) return;
           // Key, not index: active steps are filtered by each step's skip(),
           // so an index saved against one customer's journey can point at a
@@ -74,11 +75,16 @@ export function useJourneyStartResume(wizardId: string, steps: WizardStep[]) {
           // non-HRN and refused it only after payment.)
           const { eligibility: _staleEligibility, ...resumedValues } = order.draftValues;
           const position = resumePosition(stepIndex);
+          // The draft's own task, so the journey keeps the Task ID the agent was given when it was saved.
+          const task = (await mockDataEngine.list<{ taskId: string; relatedOrderId?: string }>('tasks')).find((t) => t.relatedOrderId === order.orderId);
           hydrateDraft(wizardId, {
             currentStep: position.currentStep,
             maxStepReached: position.maxStepReached,
-            values: resumedValues,
+            values: withoutIdVerification(resumedValues),
             draftOrderId: order.orderId,
+            // Continue after ID verification restores the journey to the step it was saved on.
+            ...(stepIndex > 0 && order.draftStepKey ? { resumeToStepKey: order.draftStepKey } : {}),
+            ...(task ? { resumeTaskId: task.taskId } : {}),
           });
         })
         .finally(consume);

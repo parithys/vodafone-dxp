@@ -66,7 +66,7 @@ export function WorkspaceNotYetBuilt({ navKey }: { navKey: NavKey }) {
           <h2 className="eyebrow mt-6 mb-2">
             Available Today
           </h2>
-          <div className="wrap-row">
+          <div className="wrap-loose gap-2">
             {launchers.map((l) => (
               // Soft-pink fill (2026-09-27), matching every other secondary/
               // clickable button in the app - see ProductLinePage.tsx's
@@ -83,7 +83,7 @@ export function WorkspaceNotYetBuilt({ navKey }: { navKey: NavKey }) {
                 className={`group chip-button ${SECONDARY_BUTTON_SURFACE}`}
               >
                 {l.label}
-                <Icon path={OPEN_ARROW} className="w-3.5 h-3.5 text-muted group-hover:text-accent" />
+                <Icon path={OPEN_ARROW} className="size-3.5 text-muted group-hover:text-accent" />
               </Link>
             ))}
           </div>

@@ -234,7 +234,7 @@ export function evaluateEligibilityChecks(ctx: EligibilityContext, asOf: Date): 
       ? ctx.under18Exception === 'chosen'
         ? 'Under-18 exception requested: this applicant is under 18. The journey continues and the order is held for approval by the agent\'s manager; it cannot complete until it is approved.'
         : ctx.under18Exception === 'available'
-          ? 'Underage customer: this applicant is under 18. Abandon the order, or apply for an exception with the Court Type Order.'
+          ? 'The customer is under 18 years old. Abandon the order or Apply for an Exception using a Court Order.'
           : 'MOI records indicate this applicant is under 18. The connection cannot proceed.'
       // The age itself, per 2026-09-26 direction. An agent judging a
       // borderline applicant against the document in their hand needs the

@@ -258,7 +258,7 @@ export function TicketApprovalReview() {
         <p className="text-secondary">This ticket already has a decision recorded - see Decision history above.</p>
       ) : isEligibleApprover ? (
         // Decision buttons are for the authorised approvers only; everyone else sees the notice above and no buttons.
-        <div className="wrap-row">
+        <div className="wrap-loose gap-2">
           <Button variant="primary" onClick={() => setModal('approve')}>Approve</Button>
           <Button variant="secondary" className="!text-danger !border-danger" onClick={() => setModal('reject')}>Reject</Button>
           <Button variant="secondary" onClick={() => setModal('return')}>Return</Button>

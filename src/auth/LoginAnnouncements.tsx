@@ -22,8 +22,8 @@ function Card({ a }: { a: NewsItem }) {
       aria-label={`Read more: ${a.title} (opens in a new tab)`}
       className="group announcement-card"
     >
-      <img src={appPath(a.image)} alt="" className="block w-full aspect-[5/3] object-cover" />
-      <span className="block px-[6%] pt-4 pb-5 space-y-1.5">
+      <img src={appPath(a.image)} alt="" className="cover-image" />
+      <span className="announcement-body">
         <span className="login-card-title">{a.title}</span>
         <span className="text-secondary leading-snug line-clamp-3">{a.summary}</span>
         <span className="block pt-2 caption-muted">{formatNewsDate(a.date)}</span>
@@ -100,7 +100,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
       <div className="spread items-center mb-4">
         <h3 className="text-on-dark font-semibold label-caps">Latest Updates</h3>
         {slides && (
-        <div className="row-tight">
+        <div className="row gap-2">
           <button
             type="button"
             aria-pressed={stopped}
@@ -115,7 +115,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             onClick={prev}
             className="on-dark-round-btn"
           >
-            <Icon path={CHEVRON_LEFT} className="w-5 h-5" />
+            <Icon path={CHEVRON_LEFT} className="size-5 " />
           </button>
           <button
             type="button"
@@ -123,7 +123,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             onClick={next}
             className="on-dark-round-btn"
           >
-            <Icon path={CHEVRON_RIGHT} className="w-5 h-5" />
+            <Icon path={CHEVRON_RIGHT} className="size-5 " />
           </button>
         </div>
         )}
@@ -131,7 +131,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
       {/* Two cards show at a time; the track slides one card per step. Reduced-motion users get no slide. */}
       <div className="overflow-hidden" aria-live={stopped || paused ? 'polite' : 'off'}>
         <div
-          className={`flex gap-4 ${animate ? 'transition-transform duration-[var(--motion-slower)] ease-[var(--ease-standard)] motion-reduce:transition-none' : ''}`}
+          className={`flex gap-4 ${animate ? 'slide-transition' : ''}`}
           style={{ transform: `translateX(calc(${pos} * -1 * (50% + 0.5rem)))` }}
           onTransitionEnd={onSlideEnd}
         >
@@ -143,7 +143,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
         </div>
       </div>
       {slides && (
-      <div className="flex items-center gap-3 justify-center mt-6" role="group" aria-label="Choose announcement">
+      <div className="row gap-0 justify-center mt-6" role="group" aria-label="Choose announcement">
         {items.map((a, i) => (
           <button
             key={a.id}
@@ -151,7 +151,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             aria-current={i === index ? 'true' : undefined}
             aria-label={`Show ${a.title}`}
             onClick={() => goTo(i)}
-            className={`dot-md transition-colors ${i === index ? 'bg-accent' : 'bg-on-dark-4 hover:bg-on-dark-3'}`}
+            className={`dot-button ${i === index ? 'text-accent' : 'text-on-dark-4 hover:text-on-dark-3'}`}
           />
         ))}
       </div>

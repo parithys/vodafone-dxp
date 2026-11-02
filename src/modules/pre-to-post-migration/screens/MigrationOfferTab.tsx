@@ -68,7 +68,7 @@ export function MigrationOfferTab() {
                 <Badge variant={badgeVariantFor(status)}>{status}</Badge>
               </div>
               <p className="text-secondary mb-2">{o.offerDescription}</p>
-              <dl className="grid grid-cols-3 gap-2 caption-muted mb-3">
+              <dl className="grid-3-tight caption-muted mb-3">
                 <div>Campaign: {o.campaignCode}</div>
                 <div>Promotion: {o.promotionId}</div>
                 <div>MSISDN: {o.serviceIdentifier}</div>

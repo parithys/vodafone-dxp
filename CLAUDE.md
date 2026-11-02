@@ -191,9 +191,14 @@ Reusable UI looks live in `src/ui-components.css` (`@layer components`, `@apply`
 `.caption-heading`, `.data-row`, `.link-action`, `.scan-corner-*`.
 Layout vocabulary (`.row`, `.row-tight`, `.split`, `.cluster`, `.stack-center`), option cards (`.option-card`, `.card-option`), callouts
 (`.notice-*`), chips and tags (`.chip*`, `.tag-*`) and popovers (`.popover`, `.popover-surface`) are in the same file. Text roles (`.title-*`, `.body-text`, `.caption-*`, `.eyebrow`), layouts (`.row-between`, `.spread`, `.actions-end`,
-`.fields-*`, `.stack*`), `.icon-*`, `.dot*` and `.pad-*` too. A static `className` may carry at most 3 utility classes
-(classes defined in `ui-components.css`/`index.css` do not count); `tests/classNameBudget.test.mjs` fails on more, apart from the
-context-specific strings in its baseline, which may only shrink. Do not name a class like a Tailwind utility (`columns-2` broke one).
+`.fields-*`, `.stack*`), `.icon-*`, `.dot*` and `.pad-*` too. A `className` may carry at most 3 utility classes
+(classes defined in `ui-components.css`/`index.css` do not count): its static classes plus, per `${...}`, the largest class string in that
+expression - and the same limit applies to any class-list constant or branch string in `src/`. `tests/classNameBudget.test.mjs` enforces it
+(its baseline is empty and may only shrink). A semantic class beside a utility that sets the same property loses to the utility (component
+layer < utilities), so put such a property in a class too (`.field-fill`, `.rail-item-narrow`) rather than leaving the utility. Do not name a class like a Tailwind utility (`columns-2` broke one).
+One style, one class: `tests/semanticCssDuplicates.test.mjs` fails when two classes carry the same (or ~the same) utility set or a class is
+unused. Express a variant as a modifier on its base (`.title` + `.title-lg`, `.row` + a `gap-*` utility, `.link` + `.focus-ring`) and classes that
+share base properties as one grouped rule (`.a, .b { ... }`), never as a copy.
 `python3 reference/scripts/build_ui_component_inventory.py` regenerates `reference/outputs/UI_Component_Inventory_Reference.xlsx`
 (every unique component, its category, usage, variants, styling approach and near-duplicates). Use one of these (or add one there) instead of repeating a long
 utility string; one-off layout (margins, widths) stays as utilities at the call site and, being unlayered, overrides the class.

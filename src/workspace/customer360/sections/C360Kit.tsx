@@ -144,7 +144,7 @@ export function ViewPill({ onClick }: { onClick?: () => void }) {
 export function ActionButton({ children, icon, onClick, primary = false, disabled = false }: { children: ReactNode; icon?: string; onClick?: () => void; primary?: boolean; disabled?: boolean }) {
   return (
     <Button variant={primary ? 'primary' : 'secondary'} compact onClick={onClick} disabled={disabled}>
-      {icon && <Icon path={icon} className="w-4 h-4" />}
+      {icon && <Icon path={icon} className="size-4 " />}
       {children}
     </Button>
   );
@@ -159,14 +159,14 @@ export function TabPage({ icon, tone = 'blue', title, subtitle, actions, childre
     <div className="card p-5 space-y-4">
       {(title || actions) && (
         <div className="split">
-          <div className="row-loose min-w-0">
+          <div className="row gap-4 min-w-0">
             {icon && <IconTile icon={icon} tone={tone} size="lg" />}
             <div className="min-w-0">
-              {title && <h2 className="title-lg leading-tight">{title}</h2>}
+              {title && <h2 className="title title-lg leading-tight">{title}</h2>}
               {subtitle && <p className="text-secondary">{subtitle}</p>}
             </div>
           </div>
-          {actions && <div className="row-tight">{actions}</div>}
+          {actions && <div className="row gap-2">{actions}</div>}
         </div>
       )}
       {children}
@@ -201,9 +201,9 @@ export function KpiTile({
   const body = (
     <>
       <IconTile icon={icon} tone={tone} size="lg" />
-      <div className="min-w-0 flex-1 text-left">
+      <div className="fill-start">
         <div className="text-secondary">{label}</div>
-        <div className="title-lg leading-tight break-words">{value}</div>
+        <div className="title title-lg leading-tight break-words">{value}</div>
         {caption && <div className="caption-secondary mt-0.5">{caption}</div>}
         {link && onLink && (
           <span
@@ -214,7 +214,7 @@ export function KpiTile({
               onLink();
             }}
             onKeyDown={(e) => e.key === 'Enter' && onLink()}
-            className="inline-block mt-1 link-body cursor-pointer"
+            className="inline-block mt-1 link-body-strong cursor-pointer"
           >
             {link} &rarr;
           </span>
@@ -224,7 +224,7 @@ export function KpiTile({
     </>
   );
   // A cell of the KPI card (see KpiGrid): its right and bottom edges are the dividers between cells.
-  const cls = 'p-4 flex items-center gap-4 min-w-0 border-r border-b border-border-soft';
+  const cls = 'row gap-4 cell-ruled';
   return onClick ? (
     <button type="button" onClick={onClick} className={`${cls} w-full hover:bg-surface`}>
       {body}
@@ -243,7 +243,7 @@ export function KpiGrid({ children, cols = 5 }: { children: ReactNode; cols?: 3 
   const c = cols === 3 ? '' : cols === 6 ? '@6xl:grid-cols-6' : cols === 4 ? '@6xl:grid-cols-4' : '@6xl:grid-cols-5';
   return (
     <div className="card overflow-hidden">
-      <div className={`grid grid-cols-1 @lg:grid-cols-2 @4xl:grid-cols-3 ${c} -mr-px -mb-px`}>{children}</div>
+      <div className={`collapsed-grid @4xl:grid-cols-3 ${c}`}>{children}</div>
     </div>
   );
 }
@@ -256,7 +256,7 @@ export function Panel({ icon, title, action, children, className = '', flush = f
     // A panel whose rows were all withheld by field access (empty body) is not drawn.
     <section data-container-id={id ?? (typeof title === 'string' ? containerId(title) : undefined)} className={`card min-w-0 has-[>.panel-body:empty]:hidden ${className}`}>
       <header className="card-header-row">
-        <h3 className="flex items-center gap-2.5 subtitle min-w-[10rem]">
+        <h3 className="kit-title">
           {icon && <Icon path={icon} className="icon-md" />}
           <span className="min-w-0 break-words">{title}</span>
         </h3>
@@ -277,7 +277,7 @@ export function DetailRows({ rows, align = 'right' }: { rows: { label: string; v
       {shown.map((r) => (
         <div key={r.label} className="data-row">
           <dt className="text-fg">{r.label}</dt>
-          <dd className={`text-fg min-w-0 break-words ${r.strong === false ? '' : 'font-medium'} ${align === 'right' ? 'text-right' : ''}`}>
+          <dd className={`value-cell ${r.strong === false ? '' : 'font-medium'} ${align === 'right' ? 'text-right' : ''}`}>
             {modeOf(r.label) === 'drill-down' ? <RevealValue>{r.value}</RevealValue> : r.value}
           </dd>
         </div>
@@ -439,7 +439,7 @@ export function FilterSelect({ label, value, options, onChange, hideLabel = fals
           setOpen((o) => !o);
         }}
         className={`w-full text-left select-trigger ${
-          captioned ? 'pt-1 pb-1.5' : 'py-2 min-h-[var(--control-h-md)] flex items-center'
+          captioned ? 'select-trigger-captioned' : 'select-trigger-plain'
         }`}
       >
         {captioned ? (
@@ -477,7 +477,7 @@ export function FilterSelect({ label, value, options, onChange, hideLabel = fals
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => choose(i)}
               onMouseEnter={() => setActive(i)}
-              className={`cursor-pointer whitespace-nowrap px-3 py-2 body-text ${i === active ? 'bg-[var(--field-focus-bg)]' : ''} ${o.value === value ? 'font-medium text-accent' : ''}`}
+              className={`menu-option ${i === active ? 'bg-[var(--field-focus-bg)]' : ''} ${o.value === value ? 'font-medium text-accent' : ''}`}
             >
               {o.label}
             </li>

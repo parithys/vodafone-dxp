@@ -128,7 +128,7 @@ export function C360AddressService({
               ]}
             />
           ) : (
-            <p className="text-muted text-[length:var(--fs-body)]">No addresses on file for this customer.</p>
+            <p className="muted-body">No addresses on file for this customer.</p>
           )}
         </Panel>
 
@@ -158,11 +158,11 @@ export function C360AddressService({
                   <span className="flex-1 text-fg-2">{a.label}</span>
                   {has.length > 0 ? (
                     <>
-                      <span className="w-5 h-5 rounded-[var(--radius-pill)] bg-success-solid text-on-dark icon-tile">
-                        <Icon path={IC.check} className="w-3 h-3" />
+                      <span className="status-disc-success">
+                        <Icon path={IC.check} className="size-3 " />
                       </span>
                       <span className="w-36 min-w-0">
-                        <span className="block text-success font-medium leading-tight">In Service</span>
+                        <span className="success-line">In Service</span>
                         <span className="line-caption">{has.length} line{has.length === 1 ? '' : 's'}</span>
                       </span>
                     </>

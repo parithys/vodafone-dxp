@@ -109,7 +109,7 @@ export function BellNotificationsSection() {
     <div>
       {canConfigure ? (
         <div className="card p-5 mb-6">
-          <h2 className="title-md mb-1">Configure a Notification</h2>
+          <h2 className="title title-md mb-1">Configure a Notification</h2>
           <p className="caption-secondary mb-4">
             Notifications appear as a banner on the customer's Customer 360 screen until they expire - agents cannot dismiss them
             manually (BIN-06).
@@ -154,7 +154,7 @@ export function BellNotificationsSection() {
         </div>
       ) : (
         <div className="card p-5 mb-6">
-          <h2 className="title-md mb-1">Configure a Notification</h2>
+          <h2 className="title title-md mb-1">Configure a Notification</h2>
           <p className="caption-secondary">
             Restricted to Backoffice and privileged staff roles (Agent 360 BIN-01). This persona does not have
             configuration access.
@@ -162,7 +162,7 @@ export function BellNotificationsSection() {
         </div>
       )}
 
-      <h3 className="title-md mb-2">All Notifications</h3>
+      <h3 className="title title-md mb-2">All Notifications</h3>
       <div className="card divide-y divide-border-soft">
         {notifications.length === 0 && <EmptyState compact message="No notifications configured yet." />}
         {notifications.map((n) => (

@@ -20,7 +20,7 @@ export function PrepaidCartStep({ lines, onAddAnother }: { lines: PrepaidLine[];
   return (
     <div className="space-y-4">
       {lines.length === 0 ? (
-        <p role="status" className="text-muted text-[length:var(--fs-body)]">
+        <p role="status" className="muted-body">
           Choose the pack, number and SIM first; the subscription then appears here.
         </p>
       ) : (

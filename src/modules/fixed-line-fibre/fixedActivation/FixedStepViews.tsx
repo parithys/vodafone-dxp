@@ -69,15 +69,15 @@ export function InstallationAddressStep({ values, setValue }: { values: Values; 
                 role="radio"
                 aria-checked={selected}
                 onClick={() => setValue('installation', { serviceType: t.value as FixedServiceType, rfs: undefined })}
-                className={`relative stack-center gap-2 card-frame p-4 ${
+                className={`choice-tile ${
                   selected
                     ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
-                    : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
+                    : 'card-idle text-fg'
                 }`}
               >
                 {selected && <SelectedTick />}
-                <span className={`inline-flex p-2 rounded-[var(--radius-card)] ${selected ? 'bg-[var(--field-card-selected)] text-on-dark' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'}`}>
-                  <Icon path={SERVICE_ICON[t.value]} className="w-6 h-6" />
+                <span className={`option-glyph ${selected ? 'glyph-chosen' : 'icon-tint'}`}>
+                  <Icon path={SERVICE_ICON[t.value]} className="size-6 " />
                 </span>
                 <span className="text-[length:var(--fs-caption)] font-medium">{t.label}</span>
               </button>
@@ -91,7 +91,7 @@ export function InstallationAddressStep({ values, setValue }: { values: Values; 
         <div className="row notice-success pad-row">
           <Icon path={INSTALLATION_WIFI} className="icon-md text-success" />
           <div className="min-w-0 flex-1">
-            <p className="heading-strong">Fibre Readiness</p>
+            <p className="title title-sm font-semibold">Fibre Readiness</p>
             <p className="text-[length:var(--fs-caption)] text-success">Location is RFS (Ready For Service) - fibre can be installed here.</p>
           </div>
           <Icon path={CHECK} className="icon-md text-success" />
@@ -135,15 +135,15 @@ export function NumberDevicesStep({ values, setValue }: { values: Values; setVal
   return (
     <div className="space-y-6">
       <section>
-        <h3 className="subtitle-lg mb-2">Fixed Line Number</h3>
+        <h3 className="title title-lg font-semibold mb-2">Fixed Line Number</h3>
         <p className="text-secondary mb-2">Allocated automatically for this order.</p>
-        <p className="title-xl">{msisdn ?? '…'}</p>
+        <p className="title title-xl">{msisdn ?? '…'}</p>
       </section>
       <section>
-        <h3 className="subtitle-lg mb-2">Devices</h3>
+        <h3 className="title title-lg font-semibold mb-2">Devices</h3>
         <ul className="divide-y divide-border-soft card-outline">
           {(devices ?? []).map((d) => (
-            <li key={d.serial} className="flex justify-between p-3 text-[length:var(--fs-body)]">
+            <li key={d.serial} className="summary-line">
               <span className="text-fg">{d.name}</span>
               <span className="text-fg-2">{d.serial}</span>
             </li>

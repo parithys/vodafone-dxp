@@ -20,7 +20,7 @@ export function EligibilityOutcomePanel() {
   return (
     <div className="space-y-2" role="region" aria-label={`${open} blockers`}>
       <div className="flex justify-end">
-        <button type="button" onClick={close} className="text-[length:var(--fs-caption)] link-underline px-1">
+        <button type="button" onClick={close} className="text-[length:var(--fs-caption)] link underline px-1">
           Hide
         </button>
       </div>
@@ -37,13 +37,11 @@ export function EligibilityOutcomePanel() {
 export function OutcomeActions({
   eligibility,
   defaultButton,
-  onAbandon,
   exception,
 }: {
   eligibility: EligibilityResult | undefined;
   defaultButton: ReactNode;
-  onAbandon: () => void;
-  /** An applicant under 18: Apply for Exception sits beside Abandon Order (the only two actions), opening the Exception Request. */
+  /** An applicant under 18: Apply for Exception is the footer's only action there, opening the Exception Request. */
   exception?: {
     requirement: { id: string; label: string } | undefined;
     approverRole: string;
@@ -102,14 +100,11 @@ export function OutcomeActions({
   );
 
   if (outcome === 'Hard Stop') {
-    // An under-18 applicant: Abandon Order or Apply for Exception, and nothing else - no way past the age check.
+    // An under-18 applicant: Apply for Exception is the only footer action (Abandon Order is in the page header) - no way past the age check.
     const underage = Boolean(exception) && Boolean(eligibility?.checks.some((c) => c.exceptionOffer === 'under-18'));
     if (underage && exception) {
       return (
         <div className="row">
-          <Button variant="secondary" onClick={onAbandon}>
-            Abandon Order
-          </Button>
           <Button variant="primary" onClick={() => setExceptionOpen(true)}>
             Apply for Exception
           </Button>
@@ -126,11 +121,8 @@ export function OutcomeActions({
         </div>
       );
     }
-    return (
-      <Button variant="primary" onClick={onAbandon}>
-        Abandon Order
-      </Button>
-    );
+    // Nothing to continue to, and Abandon Order is in the page header: no footer action. An empty fragment, not null - the footer falls back to Continue on null.
+    return <></>;
   }
   if (outcome === 'Soft Stop')
     return (

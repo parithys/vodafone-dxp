@@ -39,17 +39,17 @@ export function EmptyState({
   return (
     <div
       role={role === 'none' ? undefined : role}
-      className={`stack-center justify-center text-center ${compact ? 'gap-2 px-4 py-6' : 'gap-3 px-6 py-12'} ${className}`}
+      className={`centered-stack justify-center ${compact ? 'empty-state-compact' : 'empty-state-roomy'} ${className}`}
     >
       <span
         aria-hidden="true"
-        className={`flex items-center justify-center rounded-[var(--radius-pill)] bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)] ${compact ? 'h-10 w-10' : 'h-14 w-14'}`}
+        className={`empty-icon ${compact ? 'h-10 w-10' : 'h-14 w-14'}`}
       >
         <Icon path={icon} className={compact ? 'w-5 h-5' : 'w-7 h-7'} />
       </span>
-      {title && <p className="heading-strong">{title}</p>}
-      {message && <p className="max-w-md text-muted text-[length:var(--fs-body)]">{message}</p>}
-      {action && <div className="mt-1 cluster-sm justify-center">{action}</div>}
+      {title && <p className="title title-sm font-semibold">{title}</p>}
+      {message && <p className="max-w-md muted-body">{message}</p>}
+      {action && <div className="mt-1 cluster justify-center gap-2">{action}</div>}
     </div>
   );
 }

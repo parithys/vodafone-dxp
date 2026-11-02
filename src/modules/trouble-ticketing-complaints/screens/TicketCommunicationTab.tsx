@@ -88,7 +88,7 @@ export function TicketCommunicationTab({ ticketId, onSend }: { ticketId: string;
               type="button"
               aria-pressed={selected?.templateId === t.templateId}
               onClick={() => setSelected(t)}
-              className={`w-full text-left card-frame p-2 text-[length:var(--fs-body)] ${
+              className={`template-row ${
                 selected?.templateId === t.templateId ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-[var(--field-card-hover-bg)]'
               }`}
             >

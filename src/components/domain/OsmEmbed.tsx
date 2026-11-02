@@ -30,7 +30,7 @@ export function OsmEmbed({ latitude, longitude, title, fill = false, heightClass
         src={src}
         loading="lazy"
         referrerPolicy="no-referrer"
-        className={`block w-full ${fill ? 'flex-1 min-h-80' : heightClassName} card-frame border-border-soft`}
+        className={`block w-full ${fill ? 'map-fill' : heightClassName} card-frame-soft`}
       />
       {!hasPin && <p className="pt-2 caption-muted">No coordinates are on file for this address, so the map shows Doha.</p>}
     </div>

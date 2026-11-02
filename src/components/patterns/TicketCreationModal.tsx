@@ -240,7 +240,7 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
         />
         {duplicates.length > 0 && (
           <div className="notice-warning p-3">
-            <p className="text-[length:var(--fs-caption)] text-fg font-medium">
+            <p className="feature-line">
               {duplicates.length} potential duplicate {duplicates.length === 1 ? 'ticket' : 'tickets'} found for this customer/category/area (ASC-02/04):
             </p>
             <ul className="list-disc list-inside caption-secondary">
@@ -279,7 +279,7 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
         />
         <div>
           <div className="caption-muted mb-1">Priority (derived from Customer Type, CRE-16)</div>
-          <div className="row-tight">
+          <div className="row gap-2">
             <Badge variant={derivedPriority === '1-ASAP' ? 'danger' : derivedPriority === '2-High' ? 'warning' : 'filled-neutral'}>
               {derivedPriority}
             </Badge>

@@ -18,7 +18,7 @@ export function SignatureCapture({
 }) {
   return (
     <div className="mt-3">
-      <p className={`mb-2 font-bold text-[length:var(--fs-body)] ${disabled ? 'text-fg-2' : 'text-fg'}`}>{label}</p>
+      <p className={`title title-sm mb-2 ${disabled ? 'text-fg-2' : ''}`}>{label}</p>
       {/* key: switching between disabled and enabled remounts the pad, which discards anything drawn. */}
       <SignaturePad key={String(disabled)} doneLabel="Save" disabled={disabled} onDone={onSave} />
     </div>

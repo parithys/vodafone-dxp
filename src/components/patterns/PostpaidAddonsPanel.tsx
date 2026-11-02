@@ -36,7 +36,7 @@ export function PostpaidAddonsPanel({
 }: PostpaidAddonsPanelProps) {
   return (preBundled ? (
         <div className="notice-warning pad-row">
-          <p className="heading-strong">Add-Ons Unavailable for This Plan</p>
+          <p className="title title-sm font-semibold">Add-Ons Unavailable for This Plan</p>
           <p className="text-[var(--warn-text)] text-[length:var(--fs-caption)] mt-1">
             The selected plan is pre-bundled and already includes its extras, so it does not accept add-ons.
             Choose another plan to add extras.

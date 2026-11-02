@@ -80,14 +80,14 @@ export function ServiceList({ services, selectedRef, emptyMessage, personaId, re
               }
               className={`split-nowrap p-3 ${expandable ? 'cursor-pointer' : ''}`}
             >
-              <span className="row-tight min-w-0">
+              <span className="row gap-2 min-w-0">
                 {expandable && <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="icon-sm text-muted" />}
                 <span className="min-w-0">
-                  <span className="block heading-strong truncate">{service.label}</span>
+                  <span className="block title title-sm font-semibold truncate">{service.label}</span>
                   <span className="line-caption">{service.identifier}</span>
                 </span>
               </span>
-              <span className="row-tight shrink-0">
+              <span className="row gap-2 shrink-0">
                 {/* Source statuses are not one vocabulary - 'Active' from
                     installed assets, 'active subscription' / 'Try & Buy trial' /
                     'Home Move / TON' from GigaHome - so the raw value is shown

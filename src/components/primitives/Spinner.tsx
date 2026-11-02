@@ -41,11 +41,8 @@ export function Spinner({ size = 20, label, className = '' }: SpinnerProps) {
     <span
       role="status"
       aria-label={label}
-      className={`inline-block shrink-0 rounded-[var(--radius-pill)] motion-safe:animate-spin
-        bg-[conic-gradient(from_0deg,transparent_0deg,var(--accent)_300deg,var(--accent))]
-        motion-reduce:bg-[conic-gradient(var(--accent),var(--accent))]
-        [mask:radial-gradient(farthest-side,transparent_calc(100%-2px),#000_calc(100%-2px))]
-        ${className}`}
+      className={`spinner-conic
+ ${className}`}
       style={{ width: size, height: size, animationDuration: 'var(--motion-spin)' }}
     />
   );

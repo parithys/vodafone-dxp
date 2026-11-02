@@ -58,7 +58,7 @@ export function StepSummarySection({
         <button
           type="button"
           onClick={onGo}
-          className="row-button gap-2 pad-row text-left heading-strong hover:bg-surface-warm"
+          className="section-toggle title title-sm font-semibold"
         >
           {icon ? <Icon path={icon} className="icon-md text-muted" /> : <PendingDisc />}
           <span className="truncate">{title}</span>
@@ -71,7 +71,7 @@ export function StepSummarySection({
     // The same row as a completed step, but with the in-progress mark in place of the tick, on a tinted band so it stands apart; it has no details, chevron or Edit.
     return (
       <section aria-current="step" className="divider-bottom last:border-b-0 bg-surface-warm">
-        <div className="row-tight pad-row heading-strong">
+        <div className="row gap-2 pad-row title title-sm font-semibold">
           {icon ? <Icon path={icon} className="icon-md text-accent" /> : <InProgressDisc />}
           <span className="truncate">{title}</span>
         </div>
@@ -82,13 +82,13 @@ export function StepSummarySection({
     <section
       className="divider-bottom last:border-b-0"
     >
-      <div className="row-tight pad-row">
+      <div className="row gap-2 pad-row">
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={bodyId}
-          className="row-tight flex-1 min-w-0 text-left heading-strong rounded-[var(--radius-sm)] focus-ring"
+          className="row gap-2 fill-start title title-sm font-semibold rounded-[var(--radius-sm)] focus-ring"
         >
           {/* The step's own icon when one is given (orange for a milestone). Otherwise completed: a solid green disc with a white tick - or a white flag on an orange disc, when the step reached a journey milestone. */}
           {icon ? (

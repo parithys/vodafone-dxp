@@ -26,17 +26,17 @@ export function pageItems(page: number, pages: number): (number | 'gap')[] {
  */
 export function Pager({ page, pages, onPage, className = '' }: { page: number; pages: number; onPage: (page: number) => void; className?: string }) {
   if (pages <= 1) return null;
-  const base = 'flex h-9 min-w-9 shrink-0 items-center justify-center gap-1.5 px-3 text-[length:var(--fs-body)] focus:outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--focus-outline)] transition-colors';
-  const cell = `${base} text-fg hover:bg-[var(--icon-tile-bg)] disabled:text-muted disabled:hover:bg-transparent`;
+  const base = 'pager-button';
+  const cell = `${base} pager-cell`;
   // The current page is the Primary button: its gradient (and hover gradient), on-accent text, bold.
-  const current = `${base} bg-[image:var(--accent-gradient)] text-accent-on font-bold hover:bg-[image:var(--accent-gradient-hover)]`;
+  const current = `${base} pager-current`;
   return (
     <nav
       aria-label="Pagination"
       className={`button-group ${className}`}
     >
       <button type="button" aria-label="Previous page" disabled={page <= 1} onClick={() => onPage(page - 1)} className={cell}>
-        <Icon path={CHEVRON_LEFT} className="h-4 w-4" />
+        <Icon path={CHEVRON_LEFT} className=" size-4" />
         Previous
       </button>
       {pageItems(page, pages).map((p, i) =>
@@ -59,7 +59,7 @@ export function Pager({ page, pages, onPage, className = '' }: { page: number; p
       )}
       <button type="button" aria-label="Next page" disabled={page >= pages} onClick={() => onPage(page + 1)} className={cell}>
         Next
-        <Icon path={CHEVRON_RIGHT} className="h-4 w-4" />
+        <Icon path={CHEVRON_RIGHT} className=" size-4" />
       </button>
     </nav>
   );

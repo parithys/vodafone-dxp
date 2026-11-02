@@ -45,7 +45,7 @@ const isBillRow = (b: Rec) => b.status === 'billed' || b.status === 'paid';
 function Chevron() {
   return (
     <button type="button" disabled aria-label="Open" className="text-fg disabled:opacity-60 disabled:cursor-not-allowed">
-      <Icon path={IC.chevRight} className="w-4 h-4" />
+      <Icon path={IC.chevRight} className="size-4 " />
     </button>
   );
 }
@@ -53,7 +53,7 @@ function Chevron() {
 /** Red link-styled action that has no destination yet - rendered inert. */
 function InertLink({ children }: { children: string }) {
   return (
-    <span aria-disabled="true" title="Not available yet" className="text-link font-medium text-[length:var(--fs-body)] opacity-40 cursor-not-allowed whitespace-nowrap">
+    <span aria-disabled="true" title="Not available yet" className="link-disabled">
       {children} &rarr;
     </span>
   );
@@ -193,11 +193,11 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
                   aria-pressed={profileId === row.id}
                   onClick={() => setProfileId(row.id)}
                   className={`w-full text-left card-option p-3 ${
-                    profileId === row.id ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-surface'
+                    profileId === row.id ? 'list-card-selected' : 'list-card-idle'
                   }`}
                 >
                   <span className="block value-text break-words">{row.title}</span>
-                  <span className="mt-0.5 split-tight text-[length:var(--fs-caption)]">
+                  <span className="mt-0.5 split-nowrap gap-2 text-[length:var(--fs-caption)]">
                     <span className="text-fg-2 break-all">{row.sub}</span>
                     <span className={`font-semibold shrink-0 ${row.out > 0 ? 'text-accent' : 'text-fg'}`}>{qar(row.out)}</span>
                   </span>
@@ -216,7 +216,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
         <aside className="card p-4 space-y-4 min-w-0">
           <div className="cluster">
             <IconTile icon={IC.wallet} tone="red" />
-            <span className="title-lg break-words min-w-0">{selected ? (str(selected.name) ?? DASH) : 'All billing profiles'}</span>
+            <span className="title title-lg break-words min-w-0">{selected ? (str(selected.name) ?? DASH) : 'All billing profiles'}</span>
             {selected && str(selected.collectionStatus) && <StatusPill status={String(selected.collectionStatus)} />}
             <span className="ml-auto">
               <Button variant="primary" compact disabled>
@@ -267,8 +267,8 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
           <Panel icon={IC.card} title="Payment Methods" action={<InertLink>Manage</InertLink>}>
             {str(stageProfile?.paymentMethod) ? (
               <div className="row py-1">
-                <span className="w-10 h-10 rounded-[var(--radius-button)] bg-surface icon-tile">
-                  <Icon path={IC.card} className="w-5 h-5" />
+                <span className="icon-box bg-surface transition-none">
+                  <Icon path={IC.card} className="size-5 " />
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="value-text break-words">{String(stageProfile?.paymentMethod)}</div>
@@ -276,7 +276,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
                 </div>
               </div>
             ) : (
-              <p className="text-muted text-[length:var(--fs-body)] py-2">No payment method on file.</p>
+              <p className="muted-body py-2">No payment method on file.</p>
             )}
           </Panel>
 
@@ -301,7 +301,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
 
           {showsRecharge && (
             <Panel icon={IC.refresh} title="Recharge History (Prepaid)">
-              <p className="empty-note-sm">No prepaid recharge history on file.</p>
+              <p className="empty-note py-2">No prepaid recharge history on file.</p>
             </Panel>
           )}
         </aside>

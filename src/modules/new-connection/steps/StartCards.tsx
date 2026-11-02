@@ -71,20 +71,20 @@ export function StartCards({
           key={c.key}
           type="button"
           onClick={() => start(c)}
-          className={`flex items-start gap-3 flex-col card-option-lg p-5 text-left ${
+          className={`start-card card-option-lg ${
             c.primary
-              ? 'border-transparent bg-[image:var(--accent-gradient)] text-accent-on enabled:hover:bg-[image:var(--accent-gradient-hover)]'
-              : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
+              ? 'primary-tile'
+              : 'card-idle text-fg'
           }`}
         >
-          <span className={`inline-flex p-3 rounded-[var(--radius-card)] ${c.primary ? 'bg-on-dark-fill-2 text-accent-on' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'}`}>
-            <Icon path={c.icon} className="w-6 h-6" />
+          <span className={`option-glyph p-3 ${c.primary ? 'bg-on-dark-fill-2 text-accent-on' : 'icon-tint'}`}>
+            <Icon path={c.icon} className="size-6 " />
           </span>
-          <span className="block font-bold text-[length:var(--fs-h5)] leading-snug">{c.title}</span>
-          <span className={`block flex-1 text-[length:var(--fs-body)] ${c.primary ? 'text-accent-on' : 'text-fg-2'}`}>{c.description}</span>
-          <span className="inline-flex items-center gap-1 font-bold text-[length:var(--fs-body)]">
+          <span className="title-inherit title-lg block leading-snug">{c.title}</span>
+          <span className={`text-secondary block flex-1 ${c.primary ? 'text-accent-on' : ''}`}>{c.description}</span>
+          <span className="title-inherit title-sm inline-flex items-center gap-1">
             Start
-            <Icon path={ICONS.chevron} className="w-4 h-4" />
+            <Icon path={ICONS.chevron} className="size-4 " />
           </span>
         </button>
       ))}

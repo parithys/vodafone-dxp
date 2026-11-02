@@ -264,7 +264,7 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
       </KpiGrid>
 
       {/* Search and filters sit above both columns; they narrow the list on the left. */}
-      <div className="cards-wrap">
+      <div className="wrap-loose items-stretch">
         <SearchBox value={query} onChange={reset(setQuery)} placeholder="Search by activity ID, description or user" />
         <FilterSelect label="Activity Type" value={typeFilter} options={typeOptions} onChange={reset(setTypeFilter)} />
         <FilterSelect label="Date Range" value={range} options={RANGES.map((r) => ({ value: r.value, label: r.label }))} onChange={reset(setRange)} />
@@ -278,7 +278,7 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
             {tab !== 'all' && (
               <button type="button" onClick={() => openTab('all')} className="chip border border-[var(--field-card-border)] text-fg focus-ring">
                 {TABS.find((t) => t.key === tab)?.label}
-                <Icon path={IC.x} className="w-3 h-3" />
+                <Icon path={IC.x} className="size-3 " />
               </button>
             )}
             {paging.slice.length === 0 ? (
@@ -294,7 +294,7 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
                         aria-pressed={selected?.id === a.id}
                         onClick={() => setPickedId(a.id)}
                         className={`w-full row-start text-left card-option p-3 ${
-                          selected?.id === a.id ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-surface'
+                          selected?.id === a.id ? 'list-card-selected' : 'list-card-idle'
                         }`}
                       >
                         <IconTile icon={TYPE_STYLE[a.type].icon} tone={TYPE_STYLE[a.type].tone} size="sm" />
@@ -322,11 +322,11 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
             <>
               <div className="cluster">
                 <IconTile icon={TYPE_STYLE[selected.type].icon} tone={TYPE_STYLE[selected.type].tone} />
-                <span className="title-lg break-words min-w-0">{selected.description}</span>
+                <span className="title title-lg break-words min-w-0">{selected.description}</span>
                 <Pill tone={TYPE_STYLE[selected.type].tone}>{selected.type.replace(' Activity', '')}</Pill>
-                <span className="ml-auto row-tight">
+                <span className="ml-auto row gap-2">
                   <span className="chip-field">
-                    <Icon path={IC.calendar} className="w-4 h-4" />
+                    <Icon path={IC.calendar} className="size-4 " />
                     {rangeText(days, now)}
                   </span>
                   <ActionButton icon={IC.download} disabled>

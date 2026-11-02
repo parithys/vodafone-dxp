@@ -34,7 +34,7 @@ export function Modal({ open, onClose, title, children, footer, widthClassName =
   // cursor-default (not pointer): clicking the backdrop dismisses the modal, but a full-screen dismiss surface should not read as "clickable".
   return (
     <OverlayPortal>
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="scrim scrim-center" onClick={onClose}>
       <div
         ref={dialogRef}
         className={`modal-dialog ${widthClassName}`}
@@ -44,7 +44,7 @@ export function Modal({ open, onClose, title, children, footer, widthClassName =
         aria-label={title}
       >
         <div className="row-between mb-4">
-          <h2 className="title-lg">{title}</h2>
+          <h2 className="title title-lg">{title}</h2>
           <CloseButton onClick={onClose} className="-mr-2" />
         </div>
         <div>{children}</div>

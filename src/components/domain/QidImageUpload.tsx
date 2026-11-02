@@ -153,10 +153,10 @@ export function QidImageUpload({
   return (
     <div className="card p-4 stack">
           {/* Scanner header: what this is. Whether the reader is available is not shown: the agent only learns of a failure after the permitted attempts. */}
-          <div className="split-top-wrap gap-x-4 gap-y-2">
+          <div className="split-top flex-wrap gap-x-4 gap-y-2">
             <div className="row min-w-0">
-              <Icon path={SCAN_CORNERS} className="w-6 h-6 text-accent shrink-0" />
-              <span className="title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
+              <Icon path={SCAN_CORNERS} className="size-6 text-accent shrink-0" />
+              <span className="title title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
             </div>
             {/* The two ways in, always available whatever has been done so far, in this order: the reader, then upload. An upload stands as a
                 completed scan (no reader pass, so no attempt is charged). */}
@@ -175,7 +175,7 @@ export function QidImageUpload({
                     onClick={runScan}
                     aria-label={scanned && value.source !== 'upload' && retakes > 0 ? `Retake scan, ${retakes} so far` : undefined}
                   >
-                    <Icon path={SCAN_CORNERS} className="w-4 h-4" />
+                    <Icon path={SCAN_CORNERS} className="size-4 " />
                     {scanned && value.source !== 'upload' ? `Retake scan${retakes > 0 ? ` (${retakes})` : ''}` : 'Initiate scan'}
                   </Button>
                 ) : undefined
@@ -209,13 +209,13 @@ export function QidImageUpload({
               <figcaption className="caption-secondary">{documentType} front and back ({value.frontFile ?? 'one file'})</figcaption>
               {value.source === 'upload' && (
                 <Button variant="tertiary" compact aria-label={`Remove the uploaded ${documentType} file`} onClick={() => onChange(removeIdUpload(value, 'all'))}>
-                  <Icon path={TRASH} className="w-4 h-4" />
+                  <Icon path={TRASH} className="size-4 " />
                   Remove file
                 </Button>
               )}
             </figure>
           ) : (
-          <div className={documentType === 'Passport' ? 'grid grid-cols-1 gap-4 max-w-xs mx-auto' : 'grid grid-cols-2 gap-8 max-w-[44rem] mx-auto'}>
+          <div className={documentType === 'Passport' ? 'fields max-w-xs mx-auto' : 'pair-grid gap-8 max-w-[44rem] mx-auto'}>
             {(documentType === 'Passport' ? (['front'] as const) : (['front', 'back'] as const)).map((side) => (
               <figure key={side} className="stack-center gap-2">
                 <ScannedIdPreview
@@ -231,7 +231,7 @@ export function QidImageUpload({
                 </figcaption>
                 {value.source === 'upload' && (
                   <Button variant="tertiary" compact aria-label={`Remove the uploaded ${documentType} ${side} file`} onClick={() => onChange(removeIdUpload(value, side))}>
-                    <Icon path={TRASH} className="w-4 h-4" />
+                    <Icon path={TRASH} className="size-4 " />
                     Remove
                   </Button>
                 )}
@@ -264,12 +264,12 @@ export function QidImageUpload({
           )}
         </>
       ) : (
-        <div className="stack-lg">
+        <div className="stack gap-4">
           {/* One side uploaded so far: the document's two sides side by side - the uploaded one as it is, the other asked for, in place of the
               scanner's placeholder. Uploading it replaces the ask with the real document. */}
           {missing && (
             <div className="stack">
-              <div className="grid grid-cols-2 gap-8 max-w-[44rem] mx-auto w-full">
+              <div className="scan-pair-grid">
                 {(['front', 'back'] as const).map((side) => {
                   const have = side !== missing;
                   const file = side === 'front' ? value.frontFile : value.backFile;
@@ -278,7 +278,7 @@ export function QidImageUpload({
                       {have ? (
                         <ScannedIdPreview side={side} documentType={documentType} variant={variant} identity={identity} src={side === 'front' ? value.frontImage : value.backImage} clear />
                       ) : (
-                        <div className="w-full aspect-[1.585] dropzone stack-middle p-4 text-center">
+                        <div className="dropzone-card dropzone">
                           <span className="value-text">{documentType} {side} side needed</span>
                           <IdFileUpload side={side} label={`Upload ${side} side`} onUpload={(r) => onChange(applyIdUpload(value, r))} />
                         </div>
@@ -288,7 +288,7 @@ export function QidImageUpload({
                       </figcaption>
                       {have && (
                         <Button variant="tertiary" compact aria-label={`Remove the uploaded ${documentType} ${side} file`} onClick={() => onChange(removeIdUpload(value, side))}>
-                          <Icon path={TRASH} className="w-4 h-4" />
+                          <Icon path={TRASH} className="size-4 " />
                           Remove
                         </Button>
                       )}
@@ -301,17 +301,17 @@ export function QidImageUpload({
           {!missing && (
             <>
           {/* The scanning surface: a dashed bed holding the card guide, the instruction and the action. */}
-          <div className="dropzone px-4 py-8 stack-center gap-5 text-center">
+          <div className="dropzone px-4 py-8 centered-stack gap-5">
             <div className="scan-frame max-w-[22rem] aspect-[85.6/54]">
               {/* Guide rails at the card's four corners. */}
               <span aria-hidden="true" className="scan-corner scan-corner-tl" />
               <span aria-hidden="true" className="scan-corner scan-corner-tr" />
               <span aria-hidden="true" className="scan-corner scan-corner-bl" />
               <span aria-hidden="true" className="scan-corner scan-corner-br" />
-              <Icon path={SCAN_CORNERS} className="w-12 h-12 text-border" />
+              <Icon path={SCAN_CORNERS} className="size-12 text-border" />
             </div>
             <div className="space-y-1.5 max-w-xl">
-              {!canScan && <h4 className="title-lg">Card Could Not Be Read</h4>}
+              {!canScan && <h4 className="title title-lg">Card Could Not Be Read</h4>}
               {canScan && (
                 <p className="text-secondary">
                   {`Both sides of the ${documentType === 'Other ID' ? 'document' : documentType} are required for verification`}

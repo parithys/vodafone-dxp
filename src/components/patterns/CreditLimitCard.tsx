@@ -4,7 +4,7 @@ import { accountTypeForJourney, creditLimitOptions, creditSegmentOf, customerCat
 import { isHrn } from '../../engines/hrnConfiguration';
 import { formatQar } from '../../lib/format';
 
-const row = 'flex items-baseline justify-between gap-4 py-1.5 border-b border-border-soft';
+const row = 'baseline-line';
 
 /**
  * A NEW account's credit limit (a new customer, or a customer with no billing account yet): the account type the agent's journey opens, the customer's
@@ -88,7 +88,7 @@ export function CreditLimitCard({
   }
   return (
     <section aria-label="Credit limit" className="space-y-3 mt-8">
-      <h3 className="subtitle">Credit Limit</h3>
+      <h3 className="title title-md font-semibold">Credit Limit</h3>
       <dl className="text-[length:var(--fs-body)]">
         {rows}
         {note}

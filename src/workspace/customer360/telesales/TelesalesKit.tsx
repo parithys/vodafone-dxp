@@ -22,7 +22,6 @@ export const ICON = {
   download: DOWNLOAD,
 };
 
-const THIN = 'border-[var(--field-card-border)]';
 
 interface Slots {
   toolbar: HTMLElement | null;
@@ -69,7 +68,7 @@ export function HeaderButton({ children, primary, onClick }: { children: ReactNo
 
 export function HeaderLink({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="order-first link-underline text-[length:var(--fs-body)] font-medium">
+    <button type="button" onClick={onClick} className="order-first link-body-strong underline">
       {children}
     </button>
   );
@@ -79,12 +78,12 @@ export function HeaderLink({ children, onClick }: { children: ReactNode; onClick
 export function StatStrip({ items }: { items: { value: ReactNode; label: string; tone?: 'ok' | 'bad' | 'warn'; icon?: string }[] }) {
   const color = { ok: 'text-success', bad: 'text-danger', warn: 'text-[var(--warn-text)]' };
   return (
-    <section data-mcard className={`card-frame ${THIN} bg-bg overflow-hidden self-start w-full min-w-0`}>
+    <section data-mcard className={`card-outline bg-bg panel-fill`}>
       <div className="grid grid-cols-2">
         {items.map((i, n) => (
           <div key={i.label} className={`pad-row border-[var(--field-card-border)] ${n % 2 === 0 ? 'border-r' : ''} ${n < items.length - (items.length % 2 === 0 ? 2 : 1) ? 'border-b' : ''}`}>
-            <div className={`row-tight font-bold text-[length:var(--fs-h4)] ${i.tone ? color[i.tone] : 'text-fg'}`}>
-              {i.icon && <Icon path={i.icon} className="w-4 h-4 text-fg" />}
+            <div className={`row gap-2 title title-xl ${i.tone ? color[i.tone] : ''}`}>
+              {i.icon && <Icon path={i.icon} className="size-4 text-fg" />}
               {i.value}
             </div>
             <div className="caption-secondary">{i.label}</div>
@@ -130,7 +129,7 @@ export function ActionList({ items }: { items: { title: string; sub: string; ico
       {items.map((a) => (
         <button key={a.title} type="button" onClick={a.onClick} className="list-row justify-between gap-3 pad-panel">
           <span className="min-w-0">
-            <span className="block subtitle">{a.title}</span>
+            <span className="block title title-md font-semibold">{a.title}</span>
             <span className="block caption-secondary">{a.sub}</span>
           </span>
           <Icon path={a.icon ?? I.chevron} className="icon-sm text-muted" />
@@ -149,13 +148,13 @@ export function TileLinks({ items, columns = 5 }: { items: { key: string; title:
           key={t.key}
           type="button"
           onClick={t.onClick}
-          className={`row card-frame ${THIN} pad-row text-left hover:bg-surface ${t.active ? 'border-accent bg-surface' : ''}`}
+          className={`row card-outline pad-row text-left hover:bg-surface ${t.active ? 'card-current' : ''}`}
         >
           <span className="text-accent shrink-0">
-            <Icon path={t.icon} className="w-4 h-4" />
+            <Icon path={t.icon} className="size-4 " />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block heading-strong truncate">{t.title}</span>
+            <span className="block title title-sm font-semibold truncate">{t.title}</span>
             <span className="block caption-secondary">{t.sub}</span>
           </span>
           <Icon path={I.chevron} className="icon-sm text-muted" />
@@ -177,7 +176,7 @@ export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md'
     .slice(0, 2)
     .join('')
     .toUpperCase();
-  return <span className={`inline-flex items-center justify-center font-bold text-accent shrink-0 ${size === 'sm' ? 'w-7 text-[length:var(--fs-caption)]' : 'w-10 text-[length:var(--fs-body)]'}`}>{ini}</span>;
+  return <span className={`initial-badge ${size === 'sm' ? 'w-7 text-[length:var(--fs-caption)]' : 'w-10 text-[length:var(--fs-body)]'}`}>{ini}</span>;
 }
 
 /** Vertical red bars (billing history, usage trend); `stack` draws a second series on top in slate. */
@@ -186,7 +185,7 @@ export function BarChart({ data, unit = '', height = 150 }: { data: { label: str
   const ticks = [max, Math.round((max * 2) / 3), Math.round(max / 3), 0];
   return (
     <div className="flex gap-3 pad-panel">
-      <div className="flex flex-col justify-between text-muted text-[length:var(--fs-micro)] text-right" style={{ height }}>
+      <div className="axis-labels" style={{ height }}>
         {ticks.map((t, i) => (
           <span key={i}>
             {t}
@@ -205,7 +204,7 @@ export function BarChart({ data, unit = '', height = 150 }: { data: { label: str
         </div>
         <div className="flex gap-3 mt-1">
           {data.map((d) => (
-            <div key={d.label} className="flex-1 text-center text-muted text-[length:var(--fs-micro)]">
+            <div key={d.label} className="flex-1 text-center micro-muted">
               {d.label}
             </div>
           ))}

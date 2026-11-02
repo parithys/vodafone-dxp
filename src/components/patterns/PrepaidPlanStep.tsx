@@ -106,7 +106,7 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
     return (
       <div className="space-y-6">
         <div>
-          {showTitle && <h3 className="subtitle">Prepaid Packs</h3>}
+          {showTitle && <h3 className="title title-md font-semibold">Prepaid Packs</h3>}
           <p className="caption-muted">Select a starter pack. For a SIM without a bundle, choose New Prepaid Standard SIM.</p>
         </div>
         {packGrid}
@@ -121,13 +121,13 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
       {/* Pulled up under the wizard's heading (its 16px gap is too loose for a one-line description) and closer to the pack below. */}
       <p className="text-secondary -mt-3 mb-4">Personalise the pack with optional services and discounts.</p>
       {!selectedPlan ? (
-        <p className="text-muted text-[length:var(--fs-body)]">Select a pack first - its discounts and add-ons appear here.</p>
+        <p className="muted-body">Select a pack first - its discounts and add-ons appear here.</p>
       ) : (
         <>
           <section aria-label="Selected pack" className="space-y-4">
-            <div className="split-top-wrap gap-4">
+            <div className="split-top flex-wrap gap-4">
               <div className="min-w-0 space-y-2">
-                <h3 className="title-xl leading-snug">{selectedPlan.name}</h3>
+                <h3 className="title title-xl leading-snug">{selectedPlan.name}</h3>
                 <span className="tag-promo">
                   Selected Pack
                 </span>
@@ -138,16 +138,16 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
               </SelectedPlanFigure>
             </div>
             {/* Benefits and the optional add-ons share one row. */}
-            <div className={`grid gap-x-8 gap-y-5 ${onSelectAddons && addons.length > 0 ? 'sm:grid-cols-2' : ''}`}>
+            <div className={`grid-roomy ${onSelectAddons && addons.length > 0 ? 'sm:grid-cols-2' : ''}`}>
               <div>
-                <p className="text-accent font-bold text-[length:var(--fs-caption)] uppercase tracking-wide mb-2.5">Benefits</p>
+                <p className="text-accent caps-label mb-2.5">Benefits</p>
                 <ul className="space-y-2">
                   {[
                     selectedPlan.dataAllowanceGB ? `${selectedPlan.dataAllowanceGB} GB data` : 'No data bundle',
                     selectedPlan.minutesAllowance,
                     selectedPlan.packValidityDays ? `Valid for ${selectedPlan.packValidityDays} days` : 'No validity period',
                   ].map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 body-text">
+                    <li key={f} className="row-start gap-2.5 body-text">
                       <Icon path={CHECK} className="icon-sm text-accent mt-1" />
                       {f}
                     </li>
@@ -156,7 +156,7 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
               </div>
               {onSelectAddons && addons.length > 0 && (
             <section aria-labelledby="prepaid-addons" className="space-y-2">
-              <h3 id="prepaid-addons" className="subtitle">
+              <h3 id="prepaid-addons" className="title title-md font-semibold">
                 Add-ons <span className="caption-muted font-normal">(optional)</span>
               </h3>
               {addons.map((a) => {
@@ -187,8 +187,8 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
             </div>
           </section>
 
-          <section aria-label="Eligible discounts" className="space-y-3 border-t border-[var(--field-card-border)] pt-6">
-            <h3 className="subtitle">Eligible Discounts</h3>
+          <section aria-label="Eligible discounts" className="section-rule">
+            <h3 className="title title-md font-semibold">Eligible Discounts</h3>
             {/* One choice, shown as selectable cards with a tick mark (like the number cards), not radio buttons. */}
             <div role="radiogroup" aria-label="Eligible discounts" className="grid-2-up-sm">
               {[
@@ -208,14 +208,14 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
                     role="radio"
                     aria-checked={on}
                     onClick={() => onSelectDiscount(o.id)}
-                    className={`option-card isolate gap-1 pad-panel pr-14 text-left ${
+                    className={`option-card option-card-tight pad-panel ${
                       on ? CARD_SELECTED : CARD_IDLE
                     }`}
                   >
                     {on && <SelectedCardTexture />}
                     {on && <SelectedTick />}
                     <span className="flex items-baseline gap-2">
-                      <span className="heading-strong">{o.title}</span>
+                      <span className="title title-sm font-semibold">{o.title}</span>
                       {o.value}
                     </span>
                     <span className="caption-muted">{o.detail}</span>
@@ -231,9 +231,9 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
       {selectedPlan && (
         // The running total, as the postpaid Monthly summary: a dark panel (fixed navy, white text in both themes) with the
         // charges listed at the left and the total at the right. Number and SIM charges join it at checkout.
-        <div className="summary-banner split-top-wrap gap-4">
+        <div className="summary-banner split-top flex-wrap gap-4">
           <table className="w-[min(32rem,100%)] text-[length:var(--fs-caption)]">
-            <caption className="opacity-70 text-[length:var(--fs-tag)] caps-strong text-left pb-2">Pack summary</caption>
+            <caption className="table-head-faint">Pack summary</caption>
             <tbody className="divide-y divide-[var(--divider-on-dark)]">
               {[
                 [selectedPlan.name, `${formatQar(selectedPlan.starterPackChargeQAR)}`],
@@ -243,7 +243,7 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
                 ...chosenAddons.map((a) => [`${a.name} · Added`, `${formatQar(a.price)}`]),
               ].map(([label, value]) => (
                 <tr key={label}>
-                  <th scope="row" className="opacity-80 font-normal text-left py-1.5 pr-4">
+                  <th scope="row" className="table-cell-faint">
                     {label}
                   </th>
                   <td className="font-semibold text-right py-1.5">{value}</td>

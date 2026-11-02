@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { useBlocker, useLocation } from 'react-router-dom';
-import { draftHasProgress, useWorkflowStore } from '../../stores/workflowStore';
+import { draftNeedsSaving, useWorkflowStore } from '../../stores/workflowStore';
 import { AbandonDialog, LeaveJourneyDialog, SaveExitDialog } from '../../components/patterns/wizard/WizardDialogs';
 import { CustomerMirrorPanel } from '../../components/patterns/wizard/CustomerMirrorPanel';
 import { WizardTitleBand } from '../../components/patterns/wizard/WizardTitleBand';
@@ -88,6 +88,7 @@ export function GuidedActivationWizard({
     setAbandonNoKeep,
     abandonOrder,
     saveAndExit,
+    saveDraftHere,
     saveDraft,
     requestAbandon,
     abandonOnLeave,
@@ -126,7 +127,7 @@ export function GuidedActivationWizard({
   const isDesktop = useMinWidth(1024);
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
     if (!confirmLeave || isMirror || currentLocation.pathname === nextLocation.pathname) return false;
-    return draftHasProgress(useWorkflowStore.getState().drafts[wizardId]);
+    return draftNeedsSaving(useWorkflowStore.getState().drafts[wizardId]);
   });
   const leaveModal = (
     <LeaveJourneyDialog
@@ -173,7 +174,7 @@ export function GuidedActivationWizard({
       onClose={() => setExitOpen(false)}
       onConfirm={() => {
         setExitOpen(false);
-        void saveAndExit(activityComments).then(() => setActivityComments(''));
+        void saveDraftHere(activityComments).then(() => setActivityComments(''));
       }}
     />
   );

@@ -37,10 +37,10 @@ export function WizardFooter({
 
   return (
         <div className={fixedToViewport
-          ? `fixed inset-x-0 ${fixedPosition} z-[var(--z-sticky-raised)] border-t border-border-soft bg-bg shadow-raised`
+          ? `action-bar ${fixedPosition}`
           : 'mt-6'
         }>
-        <div className={`row-between w-full ${fixedToViewport ? `px-4 py-4 sm:px-8` : ''}`}>
+        <div className={`row-between w-full ${fixedToViewport ? 'footer-bar-pad' : ''}`}>
           <div className="row">
             {/* Locked (2026-09-28): Back disappears entirely alongside the
                 rail going unclickable - "disable/remove Back navigation".
@@ -48,7 +48,7 @@ export function WizardFooter({
                 though the rail behind it is frozen. */}
             {currentIndex > 0 && !isLocked && (
               <Button variant="secondary" onClick={goBack}>
-                <Icon path={CHEVRON_LEFT} className="w-4 h-4" />
+                <Icon path={CHEVRON_LEFT} className="size-4 " />
                 Back
               </Button>
             )}
@@ -58,7 +58,7 @@ export function WizardFooter({
             const defaultButton = (
               <Button variant="primary" onClick={goNext} disabled={!canProceed || submitting}>
                 {submitting ? 'Submitting…' : currentIndex === stepCount - 1 ? 'Save & Finish' : 'Continue'}
-                {!submitting && <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />}
+                {!submitting && <Icon path={CHEVRON_RIGHT} className="size-4 " />}
               </Button>
             );
             return (

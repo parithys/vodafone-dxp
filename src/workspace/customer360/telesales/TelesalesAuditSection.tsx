@@ -59,7 +59,7 @@ export function AuditSection({ ctx }: { ctx: Ctx }) {
         actions={
           <>
             <span className="chip-card card">
-              <Icon path={ICON.card} className="w-4 h-4" />
+              <Icon path={ICON.card} className="size-4 " />
               {first ? dateTime(first.at).d : '-'} – {rows[0] ? dateTime(rows[0].at).d : '-'}
             </span>
             <HeaderButton primary onClick={exportRows}>
@@ -69,7 +69,7 @@ export function AuditSection({ ctx }: { ctx: Ctx }) {
         }
       />
       <SectionHeader actions={
-<div className="basis-full order-last wrap-row">
+<div className="basis-full order-last wrap-loose gap-2">
             <SearchField value={query} onChange={(e) => { setQuery(e.target.value); setPage(0); }} onClear={() => { setQuery(''); setPage(0); }} placeholder="Search by keyword, reference number or details..." aria-label="Search audit trail" wrapperClassName="flex-1 min-w-48" />
             <FilterSelect label="Module" value={module} options={['All Modules', ...uniq('module')].map((x) => ({ value: x, label: x }))} onChange={(v) => { setModule(v); setPage(0); }} />
             <FilterSelect label="Action" value={action} options={['All Actions', ...uniq('action')].map((x) => ({ value: x, label: x }))} onChange={(v) => { setAction(v); setPage(0); }} />
@@ -117,7 +117,7 @@ export function AuditSection({ ctx }: { ctx: Ctx }) {
                   <span className="flex-1 meter-track-lg">
                     <span className="block h-full bg-accent" style={{ width: `${(n / maxSum) * 100}%` }} />
                   </span>
-                  <span className="w-6 text-right font-bold text-fg">{n}</span>
+                  <span className="meter-value">{n}</span>
                 </div>
               ))}
             </div>
@@ -125,7 +125,7 @@ export function AuditSection({ ctx }: { ctx: Ctx }) {
           <Card title="Quick Filters" icon={ICON.search}>
             <div className="pad-panel flex gap-2">
               {[7, 30, 90].map((d) => (
-                <button key={d} type="button" onClick={() => { setDays(d); setPage(0); }} className={`flex-1 rounded-[var(--radius-button)] px-2 py-2 text-[length:var(--fs-caption)] border ${days === d ? 'bg-[image:var(--accent-gradient)] text-accent-on hover:bg-[image:var(--accent-gradient-hover)] border-transparent font-semibold' : 'bg-bg text-fg-2 border-border'}`}>
+                <button key={d} type="button" onClick={() => { setDays(d); setPage(0); }} className={`segment-btn ${days === d ? 'segment-btn-active' : 'segment-btn-idle'}`}>
                   Last {d} days
                 </button>
               ))}
@@ -157,8 +157,8 @@ export function AuditSection({ ctx }: { ctx: Ctx }) {
           <div className="p-4 fields-sm md:grid-cols-3">
             {keyChanges.map((k, i) => (
               <div key={i} className="card-outline p-4">
-                <Icon path={ICON.card} className="w-4 h-4 text-muted" />
-                <div className="title-sm mt-4">{k.field} {k.action}</div>
+                <Icon path={ICON.card} className="size-4 text-muted" />
+                <div className="title title-sm mt-4">{k.field} {k.action}</div>
                 <div className="caption-secondary mt-1 break-words">{k.old ? `${k.old} → ${k.new}` : k.ref}</div>
                 <div className="caption-muted mt-2">{rowDate(k.at)}</div>
               </div>

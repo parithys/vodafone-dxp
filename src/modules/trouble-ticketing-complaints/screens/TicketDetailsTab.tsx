@@ -33,7 +33,7 @@ export function TicketDetailsTab({ ticket, updateRecord }: Props) {
       {(ticket.escalations ?? []).length > 0 && (
         <div className="col-span-2">
           <dt className="text-[length:var(--fs-caption)] text-fg mb-1">Escalation History</dt>
-          <ul className="list-disc list-inside text-fg text-[length:var(--fs-caption)]">
+          <ul className="bullet-list">
             {(ticket.escalations ?? []).map((e, i) => (
               <li key={i}>{e.reason} - {formatDateTime(e.escalatedAt)} by {e.escalatedBy}</li>
             ))}

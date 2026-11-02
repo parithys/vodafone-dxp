@@ -41,10 +41,10 @@ export function LineSelectionStep({ customerId, lineType, value, onChange, requi
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customerId]);
 
-  if (!customerId) return <p className="text-muted text-[length:var(--fs-body)]">Identify the customer first.</p>;
-  if (!lines) return <p className="text-muted text-[length:var(--fs-body)]">Loading the customer's lines…</p>;
+  if (!customerId) return <p className="muted-body">Identify the customer first.</p>;
+  if (!lines) return <p className="muted-body">Loading the customer's lines…</p>;
   if (lines.length === 0) {
-    return <p className="text-muted text-[length:var(--fs-body)]">No {lineType ? `${LINE_NOUN[lineType]} ` : 'mobile '}lines on file for this customer.</p>;
+    return <p className="muted-body">No {lineType ? `${LINE_NOUN[lineType]} ` : 'mobile '}lines on file for this customer.</p>;
   }
 
   return (
@@ -59,10 +59,10 @@ export function LineSelectionStep({ customerId, lineType, value, onChange, requi
             aria-pressed={selected}
             disabled={Boolean(reason)}
             onClick={() => onChange(selected ? undefined : line)}
-            className={`relative text-left card-frame p-4 disabled:cursor-not-allowed ${reason ? 'border-border-soft bg-surface' : selected ? CARD_SELECTED : CARD_IDLE}`}
+            className={`option-block ${reason ? 'border-border-soft bg-surface' : selected ? CARD_SELECTED : CARD_IDLE}`}
           >
             {selected && !reason && <SelectedTick />}
-            <div className="row-tight mb-1">
+            <div className="row gap-2 mb-1">
               <span className="text-fg font-semibold">{line.identifier}</span>
               <ServiceTypeTag type={line.lineType} />
             </div>

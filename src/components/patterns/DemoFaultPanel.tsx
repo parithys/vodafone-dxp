@@ -29,11 +29,11 @@ export function DemoFaultPanel() {
   // After every hook: an early return above a hook changes the hook order between renders.
   if (!SHOW_DEMO_FAULT_PANEL) return null;
   const armed = Object.entries(faults).filter(([, f]) => f && f.remaining > 0);
-  const select = 'rounded-[var(--radius-button)] border border-border bg-bg px-2 py-1 text-[length:var(--fs-caption)]';
+  const select = 'demo-field';
   return (
-    <div className={`${SYNTHETIC_CLASS} card-frame border-dashed border-current p-3 space-y-2`}>
+    <div className={`${SYNTHETIC_CLASS} card-frame-dashed border-current p-3 space-y-2`}>
       <p className="text-[length:var(--fs-micro)] caps-strong">Demo Only - Simulate a System Failure</p>
-      <div className="cluster-sm">
+      <div className="cluster gap-2">
         <select aria-label="System" className={select} value={service} onChange={(e) => setService(e.target.value as ServiceName | '')}>
           <option value="">Select System</option>
           {(Object.keys(SERVICE_LABEL) as ServiceName[]).map((s) => (

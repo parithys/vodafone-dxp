@@ -42,8 +42,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         return this.props.fallback;
       }
       return (
-        <div className="p-8 max-w-2xl mx-auto text-center stack-center justify-center min-h-[50vh]">
-          <h1 className="title-2xl mb-2">Something Went Wrong</h1>
+        <div className="empty-page">
+          <h1 className="title title-2xl mb-2">Something Went Wrong</h1>
           <p className="text-fg-2 mb-4">
             This screen hit a problem and could not be shown. Try again, or reload the page if it keeps happening.
           </p>
@@ -55,7 +55,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               Reload page
             </Button>
           </div>
-          <a href={appPath('/')} className="mt-3 link-underline focus-ring rounded-[var(--radius-button)]">
+          <a href={appPath('/')} className="mt-3 link underline focus-ring rounded-[var(--radius-button)]">
             Back to Home
           </a>
         </div>
