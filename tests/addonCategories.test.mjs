@@ -279,7 +279,7 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   assert.match(stepHeader, /trayAside/);
   assert.match(stepHeader, /lg:pr-\[22rem\]/);
   assert.match(wizard, /hasSummary && <StepSummaryPanel/);
-  assert.match(read('src/components/patterns/wizard/StepSummaryPanel.tsx'), /w-80[\s\S]*my-8 mr-8 card/);
+  assert.match(read('src/components/patterns/wizard/StepSummaryPanel.tsx'), /rail-end card[\s\S]*w-80/);
   assert.match(tray, /\{count\} add-ons · \{formatQar\(monthlyQar\)\}\/month/);
   assert.match(tray, /absolute inset-x-0 \$\{variant === 'header'/);
   assert.match(tray, /bottom-full mb-3/);
@@ -293,25 +293,20 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   assert.match(connection, /showSelectedAddonsTray=\{product === 'postpaid'\}/);
 });
 
-test('postpaid New Connection reviews add-on cadence, recurring charges and bill-limit impact before customer confirmation', () => {
-  const review = fs.readFileSync('src/modules/new-connection/steps/AddonReview.tsx', 'utf8');
-  const reviewStep = fs.readFileSync('src/modules/new-connection/steps/AddonReviewStep.tsx', 'utf8');
+test('postpaid New Connection has no separate Add-On Review page: the add-ons are reviewed and managed on the Addons page', () => {
   const steps = fs.readFileSync('src/modules/new-connection/postpaidSteps.tsx', 'utf8');
-  assert.match(steps, /addonReviewStep\(products/);
-  assert.ok(steps.indexOf('addonReviewStep(products') < steps.indexOf('checkoutSummaryStep('));
-  assert.match(reviewStep, /key: 'addonReview'/);
-  assert.match(review, /Billing Frequency/);
-  assert.match(review, /month equivalent/);
-  assert.match(review, /Bill-Limit Impact/);
-  assert.match(review, /Plan \+ Add-Ons/);
-  assert.match(reviewStep, /Continue to Customer Confirmation/);
-  assert.match(reviewStep, /goToStepKey\('planExtras'\)/);
+  assert.doesNotMatch(steps, /addonReview/i);
+  assert.ok(!fs.existsSync('src/modules/new-connection/steps/AddonReviewStep.tsx'));
+  assert.ok(!fs.existsSync('src/modules/new-connection/steps/AddonReview.tsx'));
+  // The Addons page is still in the flow, and Order Summary follows SIM Selection and Billing directly.
+  assert.match(steps, /postpaidExtrasStep\(/);
+  assert.ok(steps.indexOf('simTypeStep(') < steps.indexOf('checkoutSummaryStep('));
 });
 
 test('selected add-on card ticks render above the card and are not clipped at the corner', () => {
   const picker = fs.readFileSync('src/capabilities/AddonsSelection/AddonsPicker.tsx', 'utf8');
   const cardParts = fs.readFileSync('src/components/primitives/offerCardParts.tsx', 'utf8');
-  const css = fs.readFileSync('src/index.css', 'utf8');
+  const css = fs.readFileSync('src/ui-components.css', 'utf8');
   assert.match(cardParts, /SelectedTick[\s\S]*card-tick/);
   assert.match(css, /\.card-tick \{[^}]*z-index: var\(--z-raised\)/);
   assert.doesNotMatch(picker, /relative overflow-hidden rounded-\[var\(--radius-card\)\] border/);
@@ -319,7 +314,7 @@ test('selected add-on card ticks render above the card and are not clipped at th
 
 test('row-card icon tiles align to the top when add-on copy wraps', () => {
   const picker = fs.readFileSync('src/capabilities/AddonsSelection/AddonsPicker.tsx', 'utf8');
-  assert.match(picker, /h-14 w-14 shrink-0 self-start items-center justify-center card/);
+  assert.match(picker, /icon-tile h-14 w-14 self-start card/);
 });
 
 test('the order summary labels each add-on with its effective cadence, not always "/mo"', async () => {

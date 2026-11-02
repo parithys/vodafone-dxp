@@ -155,7 +155,7 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
           tone="amber"
           label="Next Best Offer"
           value={
-            <span className="flex items-center justify-between gap-2">
+            <span className="split-tight">
               {nbo ? 1 : 0}
               {nbo && <Pill solid>Recommended</Pill>}
             </span>
@@ -171,18 +171,18 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
         <KpiTile icon={IC.users} tone="purple" label="Active Leads" value={activeLeads.length} link="View all" onLink={() => jump('c360-leads')} />
       </KpiGrid>
 
-      <div className="grid grid-cols-1 @6xl:grid-cols-12 gap-4 items-start">
+      <div className="fields @6xl:grid-cols-12 items-start">
         <div id="c360-nbo" className="@6xl:col-span-4 min-w-0">
           <Panel icon={IC.star} title="Next Best Offer" action={nbo ? <Pill solid>{nbo.badge}</Pill> : undefined}>
             {nbo ? (
               <div className="space-y-4">
                 <div className="flex gap-4 min-w-0">
-                  <span className="w-24 h-24 rounded-[var(--radius-card)] bg-surface flex items-center justify-center shrink-0 text-accent">
+                  <span className="w-24 h-24 rounded-[var(--radius-card)] bg-surface icon-tile text-accent">
                     <Icon path={IC.gift} className="w-10 h-10" />
                   </span>
                   <div className="min-w-0">
-                    <div className="text-fg font-bold text-[length:var(--fs-h5)] break-words">{nbo.name}</div>
-                    <div className="text-fg-2 text-[length:var(--fs-body)] break-words">{nbo.tagline ?? DASH}</div>
+                    <div className="title-lg break-words">{nbo.name}</div>
+                    <div className="text-secondary break-words">{nbo.tagline ?? DASH}</div>
                     {nbo.status && (
                       <div className="mt-2">
                         <StatusPill status={nbo.status} />
@@ -190,11 +190,11 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
                     )}
                   </div>
                 </div>
-                <div className="flex items-start justify-between gap-3">
+                <div className="split-top gap-3">
                   {nbo.benefits.length > 0 ? (
                     <ul className="space-y-1.5 min-w-0">
                       {nbo.benefits.map((b) => (
-                        <li key={b} className="flex items-center gap-2 text-fg text-[length:var(--fs-body)]">
+                        <li key={b} className="row-tight body-text">
                           <span className="text-success shrink-0">
                             <Icon path={IC.checkCircle} className="w-4 h-4" />
                           </span>
@@ -205,13 +205,13 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
                   ) : (
                     <p className="text-muted text-[length:var(--fs-body)]">Benefits: <Dv k="offerBenefits" row={{ name: nbo.name }} /></p>
                   )}
-                  <div className="text-right shrink-0 text-fg-2 text-[length:var(--fs-body)]">
+                  <div className="text-right shrink-0 text-secondary">
                     <span className="text-fg font-bold">{qar(nbo.price) ?? DASH}</span>
                     {nbo.price !== undefined && ' / month'}
                   </div>
                 </div>
-                {showNbo && nbo.extra && <p className="text-fg-2 text-[length:var(--fs-caption)] break-words">{nbo.extra}</p>}
-                <div className="grid grid-cols-2 gap-3">
+                {showNbo && nbo.extra && <p className="caption-secondary break-words">{nbo.extra}</p>}
+                <div className="pair-grid-sm">
                   <Button variant="secondary" compact onClick={() => setShowNbo((v) => !v)}>
                     {showNbo ? 'Hide Details' : 'View Details'}
                   </Button>
@@ -221,7 +221,7 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
                 </div>
               </div>
             ) : (
-              <p className="text-muted text-[length:var(--fs-body)] py-4 text-center">No next best offer on file.</p>
+              <p className="empty-note">No next best offer on file.</p>
             )}
           </Panel>
         </div>
@@ -252,14 +252,14 @@ export function C360OffersLeads({ data }: { data: Customer360Data; services: Cus
         </div>
       </div>
 
-      <div className="grid grid-cols-1 @4xl:grid-cols-2 gap-4 items-stretch">
+      <div className="fields @4xl:grid-cols-2 items-stretch">
         <div id="c360-eligibility" className="min-w-0">
           <Panel icon={IC.target} title="Your Eligibility">
             <ul>
               {eligibility.map((e) => (
-                <li key={e.label} className="flex items-center gap-3 py-2.5 border-b border-border-soft last:border-0">
+                <li key={e.label} className="row py-2.5 row-rule">
                   <IconTile icon={e.icon} tone={e.tone} size="sm" />
-                  <span className="flex-1 min-w-0 text-fg text-[length:var(--fs-body)] break-words">{e.label}</span>
+                  <span className="flex-1 min-w-0 body-text break-words">{e.label}</span>
                   {e.status ? <StatusPill status={e.status} /> : <span className="text-fg-2">{DASH}</span>}
                 </li>
               ))}

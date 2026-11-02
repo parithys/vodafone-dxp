@@ -173,9 +173,9 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
     return (
       // The whole page, with no scrollbar: the frame has the page's own proportions (a full page when `fullPage`, else a card's) and the viewer is
       // told to fit the page to it.
-      <span className={`block w-full overflow-hidden rounded-[var(--radius-button)] border border-border-soft bg-paper ${fullPage ? 'aspect-[1/1.414]' : 'aspect-[1.585]'}`}>
+      <span className={`block id-image-frame overflow-hidden bg-paper ${fullPage ? 'aspect-[1/1.414]' : 'aspect-[1.585]'}`}>
         <object data={`${src}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`} type="application/pdf" aria-label={`Uploaded ${documentType} document (PDF)`} className="block w-full h-full">
-          <span className="block p-4 text-fg-2 text-[length:var(--fs-caption)]">This browser cannot show the PDF here. The file is uploaded all the same.</span>
+          <span className="block p-4 caption-secondary">This browser cannot show the PDF here. The file is uploaded all the same.</span>
         </object>
       </span>
     );
@@ -191,7 +191,7 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
       // bg-paper (stays white in both themes) rather than --bg because it is backing a photograph, not
       // continuing the page - a --bg-coloured frame would band visibly against
       // the image in dark mode.
-      <span className="block w-full overflow-hidden rounded-[var(--radius-button)] border border-border-soft aspect-[1.585] bg-paper">
+      <span className="id-preview">
         <img
           src={src}
           onError={() => setImageFailed(true)}
@@ -239,7 +239,7 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
         viewBox="0 0 160 220"
         role="img"
         aria-label={clear ? 'Simulated capture of the passport back side' : 'Blurred capture of the passport back side - unreadable, retake the scan'}
-        className={`w-full rounded-[var(--radius-button)] border border-border-soft ${clear ? '' : 'blur-[1.5px] saturate-50'}`}
+        className={`id-image-frame ${clear ? '' : 'blur-[1.5px] saturate-50'}`}
       >
         <rect width="160" height="220" fill={P.ceef3f8} />
         <rect x="0" y="0" width="160" height="22" fill={P.c1f3a5f} />
@@ -267,7 +267,7 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
         viewBox="0 0 160 220"
         role="img"
         aria-label={clear ? `Simulated capture of the passport data page` : `Blurred capture of the passport data page - unreadable, retake the scan`}
-        className={`w-full rounded-[var(--radius-button)] border border-border-soft ${clear ? '' : 'blur-[1.5px] saturate-50'}`}
+        className={`id-image-frame ${clear ? '' : 'blur-[1.5px] saturate-50'}`}
       >
         <rect width="160" height="220" fill={P.ceef3f8} />
         {/* Inside page */}
@@ -330,7 +330,7 @@ export function ScannedIdPreview({ side, src, documentType = 'QID', clear = true
       // Blur only the drawn content, not the frame around it (the border
       // below stays crisp) - an out-of-focus SCAN blurs the document, not the
       // UI chrome displaying it.
-      className={`w-full rounded-[var(--radius-button)] border border-border-soft ${clear ? '' : 'blur-[1.5px] saturate-50'}`}
+      className={`id-image-frame ${clear ? '' : 'blur-[1.5px] saturate-50'}`}
     >
       <rect width="214" height="135" fill={theme.bg} />
 

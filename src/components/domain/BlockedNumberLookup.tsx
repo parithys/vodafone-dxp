@@ -51,7 +51,7 @@ export function BlockedNumberLookup({
         <p
           id="blocked-number-hint"
           role="status"
-          className="empty:hidden text-[length:var(--fs-caption)] text-muted"
+          className="empty:hidden caption-muted"
         >
           {hint}
         </p>
@@ -62,19 +62,19 @@ export function BlockedNumberLookup({
       )}
       {found && (
         <section aria-label="Blocked number" className="card px-6 py-5 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-            <p className="font-bold text-[length:var(--fs-h4)] text-fg leading-tight">{toLocalMsisdn(found.msisdn)}</p>
+          <div className="wrap-center justify-between gap-x-3 gap-y-1">
+            <p className="title-xl leading-tight">{toLocalMsisdn(found.msisdn)}</p>
             <Badge variant="danger-solid">Blocked</Badge>
           </div>
           {/* What the number is. */}
-          <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
+          <dl className="detail-grid">
             <StarStat label="Type" value={isStar ? 'Star Number' : 'Free Number'} />
             {isStar && <StarStat label="Price" value={formatQar(found.priceQAR, { nbsp: true })} />}
             {lockIn !== undefined && <StarStat label="Lock-In Period" value={`${lockIn}\u00a0months`} />}
           </dl>
           {/* Who blocked it and why - what the agent came to find out - set apart, on one row, in the same three columns as the facts above, the reason taking two. Said as unknown,
               not guessed, when the record does not name a group or a reason. */}
-          <dl className="grid grid-cols-1 gap-x-6 gap-y-4 border-t border-[var(--field-card-border)] pt-4 sm:grid-cols-3">
+          <dl className="detail-grid border-t border-[var(--field-card-border)] pt-4">
             <StarStat label="Blocked By" value={found.blockedByTeam ?? 'Not recorded'} />
             <div className="sm:col-span-2">
               <StarStat label="Blocked Reason" value={found.blockedReason ?? 'Not recorded'} />

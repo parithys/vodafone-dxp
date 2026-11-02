@@ -20,8 +20,8 @@ export function SegmentBadge({ segment }: { segment: LinkedUserSegment }) {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="card p-4">
-      <p className="text-fg-2 text-[length:var(--fs-caption)]">{label}</p>
-      <p className="text-fg font-bold text-[length:var(--fs-h3)]">{value}</p>
+      <p className="caption-secondary">{label}</p>
+      <p className="title-2xl">{value}</p>
     </div>
   );
 }
@@ -119,24 +119,24 @@ export function Business360Page() {
         }
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4" aria-label="Summary">
+      <div className="fields-3 mb-4" aria-label="Summary">
         <Stat label="Linked Users" value={all.length} />
         <Stat label="EBU · Company-Paid" value={ebu} />
         <Stat label="CBU · B2B2C" value={cbu} />
       </div>
 
       <section className="card p-6">
-        <h2 className="text-fg font-semibold text-[length:var(--fs-h5)] mb-1">Linked Users</h2>
+        <h2 className="subtitle-lg mb-1">Linked Users</h2>
         {all.length === 0 ? (
-          <div className="rounded-[var(--radius-card)] border border-border-soft bg-surface p-6 text-center">
+          <div className="notice-neutral p-6 text-center">
             <p className="text-fg font-medium mb-1">No Linked Users Yet</p>
-            <p className="text-fg-2 text-[length:var(--fs-caption)]">
+            <p className="caption-secondary">
               No individual customer is linked to {account.enterpriseAccountId}. Users appear here once their account is linked to this business.
             </p>
           </div>
         ) : (
           <>
-            <div className="flex flex-wrap items-center gap-3 mb-4">
+            <div className="cluster mb-4">
               <SearchField
                 aria-label="Search linked users"
                 placeholder="Search by name or ID"

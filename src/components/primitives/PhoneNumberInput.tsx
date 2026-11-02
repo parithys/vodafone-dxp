@@ -227,7 +227,7 @@ export function PhoneNumberInput({
                 for you", where the point is that this field has one country by
                 rule. Nothing to tab through either. */}
             {fixedIso ? (
-              <span className="flex items-center gap-1 text-fg-2">
+              <span className="row-snug text-fg-2">
                 <CountryMarker iso={country.iso} />
                 {country.dial}
               </span>
@@ -244,7 +244,7 @@ export function PhoneNumberInput({
               aria-label={`Country calling code, currently ${country.name} ${country.dial}`}
               onClick={() => setOpen((v) => !v)}
               onKeyDown={onTriggerKeyDown}
-              className="flex items-center gap-1 text-fg-2 focus:outline-none focus-visible:underline"
+              className="row-snug text-fg-2 focus:outline-none focus-visible:underline"
             >
               <CountryMarker iso={country.iso} />
               {country.dial}
@@ -261,7 +261,7 @@ export function PhoneNumberInput({
                 // because left-0/right-0 resolve to the wrapper's padding box,
                 // which excludes its 1px border - without this the panel is
                 // 2px narrower than the field and the edges do not line up.
-                className="absolute z-[var(--z-popover)] top-full -left-px -right-px mt-2 max-h-64 overflow-y-auto rounded-[var(--field-radius)] border border-border-soft bg-bg shadow-raised py-1"
+                className="popover -left-px -right-px mt-2 max-h-64 popover-surface"
               >
                 {COUNTRY_DIAL_CODES.map((c, i) => (
                   <li
@@ -271,11 +271,11 @@ export function PhoneNumberInput({
                     aria-selected={c.iso === iso}
                     onMouseEnter={() => setHighlighted(i)}
                     onClick={() => pickCountry(c.iso)}
-                    className={`flex items-center justify-between gap-3 px-3 py-2 text-[length:var(--fs-caption)] cursor-pointer text-fg-2 ${
+                    className={`split-nowrap px-3 py-2 caption-secondary cursor-pointer ${
                       i === highlighted ? 'bg-[var(--field-focus-bg)]' : ''
                     }`}
                   >
-                    <span className="flex items-center gap-2 min-w-0">
+                    <span className="row-tight min-w-0">
                       <CountryMarker iso={c.iso} />
                       <span className="truncate">{c.name}</span>
                     </span>

@@ -198,32 +198,32 @@ export function Sidebar() {
       <nav
         inert={offScreen}
         aria-label="Main navigation"
-        className={`${docked ? 'md:static md:shrink-0' : ''} fixed inset-y-0 left-0 z-[var(--z-overlay)] w-[280px] transform transition-[transform,translate,opacity,box-shadow] duration-[var(--motion-slow)] ease-[var(--ease-standard)] motion-reduce:transition-none ${
+        className={`${docked ? 'md:static md:shrink-0' : ''} nav-drawer ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } ${
           // Desktop: pinned or previewing it slides in. Docked (web, pinned) it is a flex sibling of the page and takes its own width;
           // otherwise it is an overlay.
           shownDesktop ? 'md:translate-x-0 md:opacity-100' : 'md:-translate-x-full md:opacity-0'
-        } ${shownDesktop && !docked ? 'md:shadow-xl' : ''} border-r border-[var(--nav-border)] bg-[var(--nav-bg)] h-full overflow-y-auto`}
+        } ${shownDesktop && !docked ? 'md:shadow-xl' : ''}`}
         onMouseEnter={!pinned ? openPeek : undefined}
         onMouseLeave={!pinned ? closePeekSoon : undefined}
       >
       {/* Mobile drawer header: the drawer ignores the desktop collapse preference. */}
-      <div className="flex items-center justify-between h-16 px-4 border-b border-[var(--nav-border)] md:hidden">
-        <NavLink to="/" className="flex items-center gap-2 min-w-0">
+      <div className="nav-header md:hidden">
+        <NavLink to="/" className="row-tight min-w-0">
           <VodafoneMark className="w-7 h-7 shrink-0" />
           <VodafoneWordmark className="h-[18px] w-auto" />
         </NavLink>
         <button type="button"
           onClick={closeMobile}
           aria-label="Close navigation"
-          className="text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)] shrink-0"
+          className="nav-icon-btn shrink-0"
         >
           <Icon path={PANEL_TOGGLE_ICON} className="w-4.5 h-4.5" />
         </button>
       </div>
-      <div className="hidden md:flex items-center justify-between h-16 px-4 border-b border-[var(--nav-border)]">
-        <NavLink to="/" className="flex items-center gap-2 min-w-0" aria-label="Vodafone - home">
+      <div className="nav-header hidden md:flex">
+        <NavLink to="/" className="row-tight min-w-0" aria-label="Vodafone - home">
           <VodafoneMark className="w-7 h-7 shrink-0" />
           <VodafoneWordmark className="h-[18px] w-auto" />
         </NavLink>
@@ -231,8 +231,8 @@ export function Sidebar() {
         <NavCollapseButton onToggle={togglePinned} />
       </div>
       <div className="px-2 pt-3 pb-1">
-        <label className="flex items-center gap-2 h-10 px-3 rounded-[var(--radius-sm)] border border-[var(--nav-border)] text-[var(--nav-fg-muted)] focus-within:border-[var(--nav-fg-muted)] focus-within:text-[var(--nav-fg)]">
-          <Icon path={SEARCH_ICON} className="w-4 h-4 shrink-0" />
+        <label className="nav-search">
+          <Icon path={SEARCH_ICON} className="icon-sm" />
           <input
             ref={searchInputRef}
             type="search"
@@ -241,12 +241,12 @@ export function Sidebar() {
             {...listNav.inputProps}
             placeholder="Search menu"
             aria-label="Search menu"
-            className="min-w-0 flex-1 bg-transparent text-[length:var(--fs-body)] text-[var(--nav-fg)] placeholder:text-[var(--nav-fg-muted)] focus:outline-none focus-visible:shadow-none [&::-webkit-search-cancel-button]:appearance-none"
+            className="nav-search-input"
           />
         </label>
       </div>
       {q && visibleItems.length === 0 && (
-        <p className="px-4 py-3 text-[length:var(--fs-caption)] text-[var(--nav-fg-muted)]">No menu items match “{query.trim()}”.</p>
+        <p className="pad-row text-[length:var(--fs-caption)] text-[var(--nav-fg-muted)]">No menu items match “{query.trim()}”.</p>
       )}
       <ul className="py-1.5 space-y-0.5">
           {visibleItems.map((item) => {
@@ -273,13 +273,13 @@ export function Sidebar() {
             // The whole row stays one hit target - icon, label and chevron
             // alike. The chevron used to be a separate 14px button, which left
             // dead space between it and the label.
-            const rowClass = `flex-1 min-w-0 flex items-center gap-2.5 h-11 mx-2 rounded-[var(--radius-sm)] text-[length:var(--fs-body)] px-4 font-bold `;
-            const activeClass = 'bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)]';
+            const rowClass = 'nav-row ';
+            const activeClass = 'nav-active';
             // Open group holding the active child: a quiet tint, so the group
             // reads as "you are in here" without competing with the child's
             // own accent marker.
-            const inGroupClass = 'bg-[var(--nav-group-bg)] text-[var(--nav-fg)]';
-            const idleClass = 'hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)] text-[var(--nav-fg-muted)]';
+            const inGroupClass = 'nav-in-group';
+            const idleClass = 'nav-row-idle';
             const body = (
               <>
                 <Icon path={item.icon} className="w-4.5 h-4.5 shrink-0" />
@@ -287,7 +287,7 @@ export function Sidebar() {
                 {hasChildren && (
                   <Icon
                     path={CHEVRON_DOWN}
-                    className={`w-3.5 h-3.5 shrink-0 ml-auto opacity-70 transition-transform ${expanded ? 'rotate-180' : ''}`}
+                    className={`icon-xs ml-auto opacity-70 transition-transform ${expanded ? 'rotate-180' : ''}`}
                   />
                 )}
               </>
@@ -359,14 +359,14 @@ export function Sidebar() {
                             }}
                             {...optProps(`child:${child.key}`)}
                             className={() =>
-                              `${KBD_ACTIVE} flex-1 min-w-0 flex items-center gap-2.5 h-9 -ml-px pl-4 pr-3 border-l-2 text-[length:var(--fs-caption)] ${
+                              `${KBD_ACTIVE} nav-child ${
                                 child.to === activeNavPath
-                                  ? 'border-accent bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)] font-medium'
-                                  : 'border-transparent text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)] hover:border-[var(--nav-section)]'
+                                  ? 'nav-child-active'
+                                  : 'nav-child-idle'
                               }`
                             }
                           >
-                            <Icon path={child.icon} className="w-4 h-4 shrink-0" />
+                            <Icon path={child.icon} className="icon-sm" />
                             <span className="truncate">{child.label}</span>
                           </NavLink>
                           {hasJourneys && (
@@ -375,7 +375,7 @@ export function Sidebar() {
                               onClick={() => toggleNavGroup(child.key)}
                               aria-expanded={childOpen}
                               aria-label={`${childOpen ? 'Collapse' : 'Expand'} ${child.label}`}
-                              className="shrink-0 h-9 w-8 mr-4 flex items-center justify-center text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)]"
+                              className="nav-icon-btn icon-tile h-9 w-8 mr-4"
                             >
                               <Icon path={CHEVRON_DOWN} className={`w-3.5 h-3.5 transition-transform ${childOpen ? 'rotate-180' : ''}`} />
                             </button>
@@ -402,11 +402,11 @@ export function Sidebar() {
                                       state={{ navJourney: j.id }}
                                       aria-current={active ? 'page' : undefined}
                                       {...optProps(`journey:${child.key}:${j.id}`)}
-                                      className={`${KBD_ACTIVE} flex items-center h-8 pl-5 pr-3 text-[length:var(--fs-caption)] rounded-none ${
+                                      className={`${KBD_ACTIVE} nav-leaf ${
                                         // A planned journey has no page of its own (it links to its category), so it is never the active row.
                                         active
-                                          ? 'bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)] font-medium'
-                                          : 'text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)] hover:bg-[var(--nav-hover-bg)]'
+                                          ? 'nav-leaf-active'
+                                          : 'nav-leaf-idle'
                                       }`}
                                     >
                                       <span className="truncate">{j.label}</span>

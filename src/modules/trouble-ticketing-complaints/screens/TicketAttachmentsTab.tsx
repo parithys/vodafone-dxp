@@ -10,20 +10,20 @@ interface Props {
 export function TicketAttachmentsTab({ attachments, terminal, attach }: Props) {
   return (
       <div className="space-y-2">
-        {attachments.length === 0 && <p className="text-fg-2 text-[length:var(--fs-body)]">No attachments.</p>}
+        {attachments.length === 0 && <p className="text-secondary">No attachments.</p>}
         {attachments.map((a, i) => (
-          <div key={i} className="flex items-center justify-between text-[length:var(--fs-body)] border-b border-border-soft pb-1 last:border-0">
+          <div key={i} className="row-between text-[length:var(--fs-body)] row-rule pb-1">
             <span className="text-fg">{a.name} ({Math.round(a.size / 1024)} KB)</span>
-            <span className="text-[length:var(--fs-caption)] text-muted">{formatDateTime(a.uploadedAt)}</span>
+            <span className="caption-muted">{formatDateTime(a.uploadedAt)}</span>
           </div>
         ))}
         {terminal ? (
-          <p className="text-[length:var(--fs-caption)] text-muted">Attachments are blocked on Closed/Cancelled tickets (ATT-03).</p>
+          <p className="caption-muted">Attachments are blocked on Closed/Cancelled tickets (ATT-03).</p>
         ) : (
           <input
             type="file"
             aria-label="Upload attachment"
-            className="text-[length:var(--fs-caption)] text-fg-2"
+            className="caption-secondary"
             onChange={(e) => e.target.files?.[0] && attach(e.target.files[0])}
           />
         )}

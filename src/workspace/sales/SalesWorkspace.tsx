@@ -49,9 +49,9 @@ export function SalesWorkspace() {
   return (
     <div>
       <div className="px-8 pt-8">
-        <h2 className="text-[length:var(--fs-h5)] font-bold text-fg mb-1">Start a New Customer Acquisition</h2>
-        <p className="text-fg-2 text-[length:var(--fs-body)] mb-4">Select an acquisition type to begin a new journey.</p>
-        <div className="flex flex-wrap gap-2 mb-2">
+        <h2 className="title-lg mb-1">Start a New Customer Acquisition</h2>
+        <p className="text-secondary mb-4">Select an acquisition type to begin a new journey.</p>
+        <div className="wrap-row mb-2">
           {ACQUISITION_ACTIONS.map((action, index) => (
             <Button
               key={action.label}

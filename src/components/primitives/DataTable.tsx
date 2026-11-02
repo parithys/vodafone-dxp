@@ -146,7 +146,7 @@ export function DataTable<T>({
                   <th
                     key={col.key}
                     aria-sort={active ? (sort.direction === 'asc' ? 'ascending' : 'descending') : sortable ? 'none' : undefined}
-                    className={`px-4 py-3 font-semibold text-[length:var(--fs-caption-upper)] ${plain ? 'whitespace-nowrap border-b border-[var(--border)]' : ''} ${col.numeric ? 'text-right' : ''} ${col.cellClassName ?? ''}`}
+                    className={`pad-row font-semibold text-[length:var(--fs-caption-upper)] ${plain ? 'whitespace-nowrap border-b border-[var(--border)]' : ''} ${col.numeric ? 'text-right' : ''} ${col.cellClassName ?? ''}`}
                   >
                     {sortable ? (
                       <button
@@ -157,7 +157,7 @@ export function DataTable<T>({
                         {col.header}
                         <Icon
                           path={active ? (sort.direction === 'asc' ? SORT_ASC_ICON : CHEVRON_DOWN) : SORT_NEUTRAL_ICON}
-                          className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-fg' : 'text-muted'}`}
+                          className={`icon-xs ${active ? 'text-fg' : 'text-muted'}`}
                         />
                       </button>
                     ) : col.header === '' ? (
@@ -173,7 +173,7 @@ export function DataTable<T>({
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-6 text-center text-muted">
+                <td colSpan={columns.length} className="px-4 empty-line">
                   Loading…
                 </td>
               </tr>
@@ -243,7 +243,7 @@ export function DataTable<T>({
         </table>
       </div>
       {!loading && showPager && (
-        <div className="flex items-center justify-between gap-3 border-t border-[var(--table-border)] px-4 py-2">
+        <div className="split-nowrap border-t border-[var(--table-border)] px-4 py-2">
           <Pagination className="flex-1" page={currentPage + 1} total={sortedRows.length} pageSize={pageSize} onPage={(p) => setPage(p - 1)} />
         </div>
       )}

@@ -5,7 +5,7 @@ import { TicketsSection } from './TicketsSection';
 import { InteractionsSection, CommunicationsSection, RecentActivitiesSection } from './MiscSections';
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">{children}</h3>;
+  return <h3 className="caption-heading mb-2">{children}</h3>;
 }
 
 /** Customer 360's "Audit Trail" tab. customer360-fields.json defines the

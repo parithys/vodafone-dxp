@@ -95,15 +95,15 @@ export function SelectedAddonsHeader({
         onClick={() => setOpen((current) => !current)}
         className="group w-full justify-between text-left shadow-raised"
       >
-        <span className="flex min-w-0 items-center gap-3">
-          <span className="flex h-8 min-w-8 shrink-0 items-center justify-center rounded-[var(--radius-circle)] bg-accent px-2 text-[length:var(--fs-caption)] font-bold text-accent-on">
+        <span className="row min-w-0">
+          <span className="icon-tile count-badge">
             {count}
           </span>
           <span className="truncate text-[length:var(--fs-body)] font-semibold">
             {count} add-ons · {formatQar(monthlyQar)}/month
           </span>
         </span>
-        <Icon path={CHEVRON_DOWN} className={`h-4 w-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
+        <Icon path={CHEVRON_DOWN} className={`icon-sm transition-transform ${open ? 'rotate-180' : ''}`} />
       </Button>
 
       {open && (
@@ -111,11 +111,11 @@ export function SelectedAddonsHeader({
           id={panelId}
           role="dialog"
           aria-label="Selected Add-Ons"
-          className={`absolute inset-x-0 ${variant === 'header' ? 'top-full mt-3 max-h-[calc(100dvh-var(--spacing)*56)]' : 'bottom-full mb-3 max-h-[calc(100dvh-var(--spacing)*24)]'} flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-border-soft bg-bg text-fg shadow-raised`}
+          className={`absolute inset-x-0 ${variant === 'header' ? 'top-full mt-3 max-h-[calc(100dvh-var(--spacing)*56)]' : 'bottom-full mb-3 max-h-[calc(100dvh-var(--spacing)*24)]'} tray-panel`}
         >
-          <div className="shrink-0 px-5 py-4">
+          <div className="shrink-0 pad-panel">
             <h2 className="text-[length:var(--fs-h5)] font-bold">Selected Add-Ons</h2>
-            <p className="mt-1 text-[length:var(--fs-caption)] text-muted">
+            <p className="mt-1 caption-muted">
               Excludes the base plan. Promotional prices may change.
             </p>
           </div>
@@ -123,7 +123,7 @@ export function SelectedAddonsHeader({
           {selected.length > 0 ? (
             <ul className="min-h-0 overflow-y-auto divide-y divide-border-soft border-y border-border-soft">
               {selected.map((addon) => (
-                <li key={addon.productId} className="flex items-start gap-3 px-4 py-3 sm:px-5">
+                <li key={addon.productId} className="row-start pad-row sm:px-5">
                   <div className="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
                     <p className="break-words text-[length:var(--fs-body)] font-semibold leading-snug">{addon.name}</p>
                     <p className="shrink-0 whitespace-nowrap text-right text-[length:var(--fs-caption)]">
@@ -147,7 +147,7 @@ export function SelectedAddonsHeader({
             </p>
           )}
 
-          <div className="flex shrink-0 items-center justify-between gap-4 px-5 py-4">
+          <div className="spread shrink-0 items-center pad-panel">
             <span className="text-[length:var(--fs-body)] font-semibold">Monthly Add-Ons</span>
             <strong className="text-[length:var(--fs-body-lg)]">{formatQar(monthlyQar)}</strong>
           </div>

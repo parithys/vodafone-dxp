@@ -151,7 +151,7 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
         </>
       }
     >
-      <div className="grid grid-cols-1 @6xl:grid-cols-[minmax(0,1fr)_22rem] gap-4 items-start">
+      <div className="fields @6xl:grid-cols-[minmax(0,1fr)_22rem] items-start">
         <section className="card min-w-0">
           <div className="px-4 pt-2">
             {/* The tabs narrow the one list below them by status - a filter, so the pill switcher; underline tabs are for moving between sections. */}
@@ -168,7 +168,7 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
               ]}
             />
           </div>
-          <div className="flex flex-wrap items-stretch gap-3 px-4 py-4">
+          <div className="cards-wrap px-4 py-4">
             <SearchBox
               value={query}
               onChange={(v) => {
@@ -217,13 +217,13 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
         >
           {selected ? (
             <div className="space-y-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <span className="w-12 h-12 rounded-[var(--radius-button)] flex items-center justify-center shrink-0 bg-tone-accent text-accent">
+              <div className="row min-w-0">
+                <span className="w-12 h-12 rounded-[var(--radius-button)] icon-tile bg-tone-accent text-accent">
                   <Icon path={IC.file} className="w-6 h-6" />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-fg font-bold text-[length:var(--fs-body-lg)] break-words">{selected.id}</div>
-                  <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">{[selected.type, fmtDate(selected.createdAt), selected.channel].filter(Boolean).join(' | ')}</div>
+                  <div className="title-md break-words">{selected.id}</div>
+                  <div className="caption-secondary break-words">{[selected.type, fmtDate(selected.createdAt), selected.channel].filter(Boolean).join(' | ')}</div>
                 </div>
               </div>
               <DetailRows
@@ -240,7 +240,7 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
                   { label: 'Notes', value: <Dv k="orderNotes" row={{ status: selected.status }} /> },
                 ]}
               />
-              <div className="grid grid-cols-2 gap-3 pt-1">
+              <div className="pair-grid-sm pt-1">
                 <ActionButton disabled={selected.kind !== 'order'} onClick={() => navigate(`${ORDER_DETAIL_ROUTE}?id=${selected.id}`)}>
                   <span className="text-link">View Order Details &rarr;</span>
                 </ActionButton>
@@ -248,7 +248,7 @@ export function C360Orders({ data }: { data: Customer360Data; services: Customer
               </div>
             </div>
           ) : (
-            <p className="text-muted text-[length:var(--fs-body)] py-4 text-center">Select an order to see its details.</p>
+            <p className="empty-note">Select an order to see its details.</p>
           )}
         </Panel>
       </div>

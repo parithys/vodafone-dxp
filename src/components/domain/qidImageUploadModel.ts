@@ -62,6 +62,11 @@ export interface QidImageUploadProps {
    * Swap and Passport-to-QID all just need the scan to land.
    */
   onScan?: () => boolean;
+  /**
+   * A retake finished. `shownCount` is the number the Retake button showed when it was clicked ("Retake scan (4)" -> 4; the first retake of a side
+   * showed none -> 0) and `printed` what the card carries (name, date of birth, nationality). Lets the lookup act on a particular retake.
+   */
+  onRetakeDone?: (shownCount: number, printed: { name?: string; dob?: string; nationality?: string }) => void;
   /** Rendered inside the insert zone, after a failed scan. */
   /** A string, or a list of lines (an array renders as bullet points). */
   error?: string | string[];
@@ -78,6 +83,8 @@ export interface QidImageUploadProps {
   canScan?: boolean;
   /** Offer both "Initiate scan" and "Upload document" on every device. Default: the device decides (web scans, tablet uploads). */
   bothCaptureActions?: boolean;
+  /** The reader stays offered on a tablet too (upload joins it there). Default: web scans, tablet uploads. */
+  readerEverywhere?: boolean;
   /**
    * Which document is in the reader. Defaults to 'QID', which is what the
    * three journeys other than IdLookupStep capture.

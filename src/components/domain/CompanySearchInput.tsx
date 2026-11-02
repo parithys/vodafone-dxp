@@ -158,7 +158,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
           tabIndex={-1}
           aria-label={open ? 'Close company list' : 'Open company list'}
           onClick={() => setOpen((o) => !o)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg"
+          className="field-clear-btn"
         >
           <Icon path={CHEVRON_DOWN} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
@@ -166,7 +166,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
           <ul
             id={`${inputId}-listbox`}
             role="listbox"
-            className="absolute z-[var(--z-popover)] top-full left-0 right-0 max-h-80 overflow-y-auto rounded-[var(--field-radius)] border border-border-soft bg-bg shadow-raised py-1 divide-y divide-[var(--field-divider)]"
+            className="dropdown-popover"
           >
             {results.map((a, i) => (
               <li
@@ -175,14 +175,14 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
                 role="option"
                 aria-selected={a.enterpriseAccountId === value.companyAccountId}
                 onClick={() => pickExisting(a)}
-                className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? activeRow : ''}`}
+                className={`row-start pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? activeRow : ''}`}
               >
                 <span className="mt-0.5 text-[var(--field-icon)] shrink-0">
                   <Icon path={BUILDING_ICON} className="w-5 h-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[length:var(--fs-body)] font-semibold text-fg truncate">{a.name}</span>
-                  <span className="block text-[length:var(--fs-caption)] text-muted truncate">
+                  <span className="block heading-strong truncate">{a.name}</span>
+                  <span className="line-caption">
                     {[a.crNumber, a.businessType, a.level === 'parent' ? 'Parent account' : 'Sub-account'].filter(Boolean).join(' · ')}
                   </span>
                 </span>
@@ -202,7 +202,7 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
                 B2B2C contact's employer is deliberately absent from
                 enterprise-accounts. */}
             {!allowAddNew && results.length === 0 && (
-              <li className="px-4 py-3 text-[length:var(--fs-caption)] text-muted">No matching company.</li>
+              <li className="pad-row caption-muted">No matching company.</li>
             )}
             {showAddNew && (
               <li
@@ -210,14 +210,14 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
                 role="option"
                 aria-selected={false}
                 onClick={addNew}
-                className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === results.length ? activeRow : ''}`}
+                className={`row-start pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === results.length ? activeRow : ''}`}
               >
                 <span className="mt-0.5 text-accent shrink-0">
                   <Icon path={PLUS_ICON} className="w-5 h-5" />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[length:var(--fs-body)] font-semibold text-accent">Add New Company</span>
-                  <span className="block text-[length:var(--fs-caption)] text-muted truncate">
+                  <span className="line-caption">
                     {results.length === 0
                       ? `No registered company matches "${query.trim()}".`
                       : `Register "${query.trim()}" as a new company.`}
@@ -233,11 +233,11 @@ export function CompanySearchInput({ label, value, onChange, id, allowAddNew = t
           identical in the input - the same name sits there whether it links to
           an existing account or is waiting to be created. */}
       {committed && value.companyIsNew && (
-        <span className="text-[length:var(--fs-caption)] text-muted">
+        <span className="caption-muted">
           New company - will be registered when the order is submitted.
         </span>
       )}
-      {committed && selectedAccount && statusNote && <div className="flex flex-wrap items-center gap-x-3">{statusNote}</div>}
+      {committed && selectedAccount && statusNote && <div className="wrap-center gap-x-3">{statusNote}</div>}
     </div>
   );
 }

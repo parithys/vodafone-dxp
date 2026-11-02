@@ -41,14 +41,14 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
           toggle();
         }
       }}
-      className={`relative flex flex-col gap-3 rounded-[var(--radius-card)] border p-5 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+      className={`option-card gap-3 p-5 ${
         selected ? CARD_SELECTED : CARD_IDLE
       }`}
     >
       {selected && <SelectedTick />}
-      <div className="flex items-center justify-between gap-3">
+      <div className="split-nowrap">
         <span
-          className={`inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-accent text-on-dark px-2.5 py-0.5 text-[length:var(--fs-tag)] font-medium ${p.popular ? '' : 'invisible'}`}
+          className={`tag-accent px-2.5 ${p.popular ? '' : 'invisible'}`}
           aria-hidden={!p.popular}
         >
           <Icon path={STAR} className="w-3 h-3" />
@@ -56,17 +56,17 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
         </span>
         <ConnectionTypeTag category="Prepaid" />
       </div>
-      <div className="flex-1 flex flex-col gap-2">
-        <p className="text-fg font-bold text-[length:var(--fs-h5)] leading-snug">{p.name}</p>
+      <div className="fill-column gap-2">
+        <p className="title-lg leading-snug">{p.name}</p>
         <p className="text-accent pt-1">
           <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
           <span className="text-[length:var(--fs-h3)] font-bold">{formatAmount(p.starterPackChargeQAR)}</span>
-          <span className="text-fg-2 text-[length:var(--fs-caption)]"> starter pack</span>
+          <span className="caption-secondary"> starter pack</span>
         </p>
         <ul className="space-y-1.5">
           {[...rows, { icon: ICON_CARD, text: `Starter pack charge: ${formatQar(p.starterPackChargeQAR)}` }].map((f) => (
-            <li key={f.text} className="flex items-center gap-2 text-fg-2 text-[length:var(--fs-caption)]">
-              <Icon path={f.icon} className="w-4 h-4 shrink-0 text-accent" />
+            <li key={f.text} className="row-tight caption-secondary">
+              <Icon path={f.icon} className="icon-sm text-accent" />
               {f.text}
             </li>
           ))}
@@ -80,7 +80,7 @@ export function PrepaidPlanCard({ p, selectedProductId, onSelectProduct, onDesel
             setDetailPack(p);
           }}
           aria-label={`View details for ${p.name}`}
-          className="inline-flex min-h-6 items-center gap-1 rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)] font-medium"
+          className="link-inline min-h-6"
         >
           View details
           <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />

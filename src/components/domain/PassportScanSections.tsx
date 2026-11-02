@@ -3,7 +3,7 @@ import { SCAN_DOCUMENT_TITLE } from './scanDocumentLabels';
 import { Button } from '../primitives/Button';
 import { Icon } from '../primitives/Icon';
 import { Spinner } from '../primitives/Spinner';
-import { ScannedIdPreview } from './ScannedIdPreview';
+import { ScannedIdPreview, capturedFromCard } from './ScannedIdPreview';
 import { ScanFailureNotice } from './ScanFailureNotice';
 import { IdFileUpload } from './IdFileUpload';
 import { applyIdUpload, idCaptureOptions } from './idUploadModel';
@@ -19,10 +19,10 @@ import { SCAN_CORNERS } from '../../assets/icons';
 // ---------------------------------------------------------------------------------------------------------
 // The four corner brackets of a scan frame.
 
-type PassportProps = Pick<QidImageUploadProps, 'value' | 'onChange' | 'onScan' | 'error' | 'canScan' | 'bothCaptureActions' | 'demoTypes' | 'onDemoScan' | 'blurFirstScan' | 'hideUnclearNotice' | 'variant' | 'identity'>;
+type PassportProps = Pick<QidImageUploadProps, 'value' | 'onChange' | 'onScan' | 'onRetakeDone' | 'error' | 'canScan' | 'bothCaptureActions' | 'readerEverywhere' | 'demoTypes' | 'onDemoScan' | 'blurFirstScan' | 'hideUnclearNotice' | 'variant' | 'identity'>;
 
-export function PassportScanSections({ value, onChange, onScan, error, canScan = true, bothCaptureActions = false, demoTypes, onDemoScan, blurFirstScan = false, hideUnclearNotice = false, variant, identity }: PassportProps) {
-  const capture = idCaptureOptions(detectDeviceType(), canScan, bothCaptureActions);
+export function PassportScanSections({ value, onChange, onScan, onRetakeDone, error, canScan = true, bothCaptureActions = false, readerEverywhere = false, demoTypes, onDemoScan, blurFirstScan = false, hideUnclearNotice = false, variant, identity }: PassportProps) {
+  const capture = idCaptureOptions(detectDeviceType(), canScan, bothCaptureActions, readerEverywhere);
   const [scanning, setScanning] = useState<'front' | 'back' | null>(null);
   const [blurred, setBlurred] = useState({ front: false, back: false });
   const [retakes, setRetakes] = useState({ front: 0, back: 0 });
@@ -57,10 +57,12 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
         }
       }
       if (isRetake) setRetakes((r) => ({ ...r, [side]: r[side] + 1 }));
+      const shownCount = retakes[side];
       // The first pass over each side comes back blurred when the demo asks for it; a retake is clear.
       const nextBlurred = { ...blurred, [side]: blurFirstScan && !isRetake };
       setBlurred(nextBlurred);
       onChange({ ...latest.current, [scannedKey]: true, clear: !(nextBlurred.front || nextBlurred.back) });
+      if (isRetake) onRetakeDone?.(shownCount, capturedFromCard('Passport', identity));
     }, SCAN_DURATION_MS);
   };
 
@@ -73,11 +75,11 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
         {scanning === side ? (
           <>
             <Spinner size={28} label={`Scanning the Passport ${side} side`} />
-            <span className="text-fg-2 text-[length:var(--fs-caption)] uppercase tracking-[0.14em]">Scanning Passport {side} side</span>
+            <span className="caption-secondary uppercase tracking-[0.14em]">Scanning Passport {side} side</span>
           </>
         ) : done ? (
           <>
-            <figure className="flex flex-col items-center gap-2 max-w-[15rem] w-full">
+            <figure className="stack-center gap-2 max-w-[15rem] w-full">
               <ScannedIdPreview
                 side={side}
                 documentType="Passport"
@@ -86,7 +88,7 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
                 src={side === 'front' ? value.frontImage : value.backImage}
                 clear={!blurred[side]}
               />
-              <figcaption className="text-fg-2 text-[length:var(--fs-caption)]">Passport {side}</figcaption>
+              <figcaption className="caption-secondary">Passport {side}</figcaption>
             </figure>
             {blurred[side] && !hideUnclearNotice && (
               <p role="alert" className="text-danger text-[length:var(--fs-caption)]">
@@ -113,16 +115,16 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
         ) : (
           <>
             {/* Guide frame: the passport page as it lies on the glass, with rails at its corners. */}
-            <div className="relative w-full max-w-[9.5rem] aspect-[88/125] rounded-[var(--radius-card)] border border-border-soft bg-bg shadow-[var(--shadow-dash-card)] flex items-center justify-center text-muted text-[length:var(--fs-micro)] uppercase tracking-wide">
-              <span aria-hidden="true" className="absolute left-2 top-2 w-4 h-4 border-l-2 border-t-2 border-accent" />
-              <span aria-hidden="true" className="absolute right-2 top-2 w-4 h-4 border-r-2 border-t-2 border-accent" />
-              <span aria-hidden="true" className="absolute left-2 bottom-2 w-4 h-4 border-l-2 border-b-2 border-accent" />
-              <span aria-hidden="true" className="absolute right-2 bottom-2 w-4 h-4 border-r-2 border-b-2 border-accent" />
+            <div className="scan-frame max-w-[9.5rem] aspect-[88/125]">
+              <span aria-hidden="true" className="scan-corner scan-corner-tl" />
+              <span aria-hidden="true" className="scan-corner scan-corner-tr" />
+              <span aria-hidden="true" className="scan-corner scan-corner-bl" />
+              <span aria-hidden="true" className="scan-corner scan-corner-br" />
               <Icon path={SCAN_CORNERS} className="w-10 h-10 text-border" />
             </div>
             <div className="space-y-1">
-              {!canScan && <h4 className="text-fg font-bold text-[length:var(--fs-body)]">Card Could Not Be Read</h4>}
-              {canScan && <p className="text-fg-2 text-[length:var(--fs-caption)]">Scan the {side} side of the passport for verification.</p>}
+              {!canScan && <h4 className="title-sm">Card Could Not Be Read</h4>}
+              {canScan && <p className="caption-secondary">Scan the {side} side of the passport for verification.</p>}
             </div>
             {capture.scan && (
               <Button variant="primary" onClick={() => scanSide(side)}>
@@ -135,6 +137,7 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
               side={side}
               scanner={canScan}
               bothActions={bothCaptureActions}
+              readerEverywhere={readerEverywhere}
               label={`Upload ${side} side`}
               onUpload={(r) => {
                 setBlurred((b) => ({ ...b, [side]: false }));
@@ -151,18 +154,19 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
   const showError = !anyScanned && error;
 
   return (
-    <div className="card p-4 flex flex-col gap-4">
+    <div className="card p-4 stack-lg">
       {/* Scanner header: what this is. Whether the reader is available is not shown: the agent only learns of a failure after the permitted attempts. */}
-      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="split-top-wrap gap-x-4 gap-y-2">
+        <div className="row min-w-0">
           <Icon path={SCAN_CORNERS} className="w-6 h-6 text-accent shrink-0" />
-          <span className="text-fg font-bold uppercase tracking-wide text-[length:var(--fs-body)] truncate">{SCAN_DOCUMENT_TITLE}</span>
+          <span className="title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
         </div>
         {/* The whole document in one go: two files, or one (both sides in a single image or PDF, or one side). */}
         {/* Upload in place of the reader. Scanning is done by each side's own Scan / Retake button below, so the header carries no scan button of its own. */}
         <IdFileUpload
           align="end"
           bothActions={bothCaptureActions}
+              readerEverywhere={readerEverywhere}
           disabled={scanning !== null}
           onUpload={(r) => {
             setBlurred({ front: false, back: false });
@@ -170,14 +174,14 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
           }}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="fields md:grid-cols-2">
         {section('front')}
         {section('back')}
       </div>
       {showDemo && (
-        <div className={`${SYNTHETIC_CLASS} flex flex-col items-center gap-1`}>
+        <div className={`${SYNTHETIC_CLASS} stack-center gap-1`}>
           <span className="text-[length:var(--fs-micro)] uppercase tracking-wide">Demo only - simulate inserting</span>
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+          <div className="wrap-center justify-center gap-x-3 gap-y-1">
             {demoTypes.map((t) => (
               <button
                 key={t.value}
@@ -186,7 +190,7 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
                   onDemoScan(t.value);
                   scanSide('front');
                 }}
-                className="text-[length:var(--fs-caption)] text-link underline hover:opacity-80 focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-button)] px-0.5"
+                className="link-action"
               >
                 {t.label}
               </button>
@@ -198,7 +202,7 @@ export function PassportScanSections({ value, onChange, onScan, error, canScan =
         (Array.isArray(error) ? (
           <ScanFailureNotice lines={error} />
         ) : (
-          <p role="alert" className="text-danger text-[length:var(--fs-caption)] text-center max-w-[var(--size-field-message-max-w)] mx-auto">
+          <p role="alert" className="field-message mx-auto">
             {error}
           </p>
         ))}

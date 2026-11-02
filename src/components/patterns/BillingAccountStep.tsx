@@ -196,13 +196,13 @@ export function BillingAccountStep({
       {/* Nothing to choose from when the customer has no account: the new-account form below is all there is. */}
       {profiles.length > 0 && (
       <div>
-        {profiles.length > 0 && <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)] mb-1">Existing Billing Accounts</h3>}
+        {profiles.length > 0 && <h3 className="subtitle mb-1">Existing Billing Accounts</h3>}
         {/* The customer's accounts and "Create New Billing Account" sit in one row; the new-account form opens below it. */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="fields-sm sm:grid-cols-2">
           {profiles.map((p, i) => {
             const selected = value.selectedProfileId === p.billingProfileId;
             return (
-              <div key={p.billingProfileId} className={`relative rounded-[var(--radius-card)] border p-4 ${selected ? CARD_SELECTED : CARD_IDLE}`}>
+              <div key={p.billingProfileId} className={`relative card-frame p-4 ${selected ? CARD_SELECTED : CARD_IDLE}`}>
                 {selected && <SelectedTick />}
                 <button
                   type="button"
@@ -210,12 +210,12 @@ export function BillingAccountStep({
                   onClick={() => onChange({ selectedProfileId: p.billingProfileId, creatingNew: false })}
                   className="block w-full text-left"
                 >
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="row-tight mb-1">
                     <span className="text-fg font-medium">Account ending …{p.billingProfileId.slice(-4)}</span>
                     {i === 0 && <Badge variant="filled-neutral">Default</Badge>}
                   </div>
-                  <p className="text-fg-2 text-[length:var(--fs-caption)]">Primary contact: {p.billingContactName}</p>
-                  <p className="text-muted text-[length:var(--fs-caption)]">
+                  <p className="caption-secondary">Primary contact: {p.billingContactName}</p>
+                  <p className="caption-muted">
                     {(selected && value.editingProfileId === p.billingProfileId ? value.newAccount?.editAddressLine : undefined) ?? (p.billingAddress || 'No billing address on file')} · {customerEmail ?? p.billingContactEmail}
                   </p>
                 </button>
@@ -258,12 +258,12 @@ export function BillingAccountStep({
                 })
               }
               aria-expanded={Boolean(value.creatingNew)}
-              className={`flex items-center gap-3 rounded-[var(--radius-card)] border p-4 text-left ${value.creatingNew ? CARD_SELECTED : CARD_IDLE}`}
+              className={`row card-frame p-4 text-left ${value.creatingNew ? CARD_SELECTED : CARD_IDLE}`}
             >
-              <Icon path={value.creatingNew ? CHEVRON_UP : CHEVRON_DOWN} className="w-5 h-5 shrink-0 text-muted" />
+              <Icon path={value.creatingNew ? CHEVRON_UP : CHEVRON_DOWN} className="icon-md text-muted" />
               <span className="flex-1">
-                <span className="block text-fg font-semibold text-[length:var(--fs-h5)]">Create New Billing Account</span>
-                <span className="block text-fg-2 text-[length:var(--fs-body)]">
+                <span className="block subtitle-lg">Create New Billing Account</span>
+                <span className="block text-secondary">
                   Provide the following details to set up your billing account.
                 </span>
               </span>
@@ -271,7 +271,7 @@ export function BillingAccountStep({
           )}
         </div>
         {atConsumerCap && (
-          <p className="text-muted text-[length:var(--fs-caption)] mt-3">
+          <p className="caption-muted mt-3">
             This customer already holds the maximum of two billing profiles for a Consumer account - select one above.
           </p>
         )}
@@ -281,7 +281,7 @@ export function BillingAccountStep({
       {((value.creatingNew && !atConsumerCap) || editing) && (
         <div>
           <div className="pb-6">
-              {editing && <p className="pt-6 text-fg font-semibold text-[length:var(--fs-body-lg)]">Edit billing account ending …{editedProfile?.billingProfileId.slice(-4)}</p>}
+              {editing && <p className="pt-6 subtitle">Edit billing account ending …{editedProfile?.billingProfileId.slice(-4)}</p>}
               {/* Contact */}
               {/* The Primary Contact is not asked for here: the account takes the customer's own contact (the default, see needsDefaultPrimary); it is
                   changed from Customer 360 afterwards. */}
@@ -292,7 +292,7 @@ export function BillingAccountStep({
                   <div className="space-y-3 pt-3">
                     <h4 className={SECTION_TITLE}>Secondary Contact</h4>
                     <div role="radiogroup" aria-label="Secondary Contact">
-                      <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="grid-2-up-sm">
                         {contactOptions
                           .filter((o) => o.id !== newAccount.primaryContactId)
                           .map((o) => (
@@ -312,9 +312,9 @@ export function BillingAccountStep({
                           { label: 'Mobile Number', value: newAccount.secondaryContactPhone ? toLocalMsisdn(newAccount.secondaryContactPhone) : '-' },
                           { label: 'Email', value: newAccount.secondaryContactEmail || '-' },
                         ].map((row) => (
-                          <div key={row.label} className="flex items-baseline justify-between gap-4 py-1.5 border-b border-border-soft">
+                          <div key={row.label} className="spread items-baseline py-1.5 divider-bottom">
                             <dt className="text-fg-2">{row.label}</dt>
-                            <dd className="text-fg font-medium text-right break-words min-w-0">{row.value}</dd>
+                            <dd className="value-end min-w-0">{row.value}</dd>
                           </div>
                         ))}
                       </dl>
@@ -351,15 +351,15 @@ export function BillingAccountStep({
                       { label: 'Billing Email', value: (newAccount.primaryContactEmail !== undefined ? newAccount.primaryContactEmail : customerEmail) || '-' },
                       { label: 'Billing Mobile Number', value: (newAccount.primaryContactPhone !== undefined ? (newAccount.primaryContactPhone ? toLocalMsisdn(newAccount.primaryContactPhone) : '') : customerMobile) || '-' },
                     ].map((row) => (
-                      <div key={row.label} className="flex items-baseline justify-between gap-4 py-1.5 border-b border-border-soft">
+                      <div key={row.label} className="spread items-baseline py-1.5 divider-bottom">
                         <dt className="text-fg-2">{row.label}</dt>
-                        <dd className="text-fg font-medium text-right break-words min-w-0">{row.value}</dd>
+                        <dd className="value-end min-w-0">{row.value}</dd>
                       </div>
                     ))}
                   </dl>
                 )}
                 {/* Bill cycle: the same field as Bill Type and Bill Language, but disabled - it follows from the activation date and is not the agent's to change. */}
-                <div className="grid sm:grid-cols-2 gap-3 pt-3">
+                <div className="grid-2-up-sm pt-3">
                   <Select
                     label="Bill Cycle"
                     disabled
@@ -389,7 +389,7 @@ export function BillingAccountStep({
               {!editing && (
                 <div className={`${SECTION} ${SECTION_RULE}`}>
                   <h4 className={SECTION_TITLE}>VAT Details</h4>
-                  <div className="grid sm:grid-cols-2 gap-3">
+                  <div className="grid-2-up-sm">
                     <Input
                       label="VAT Registration Number"
                       value={newAccount.vatRegistrationNumber ?? ''}
@@ -427,13 +427,13 @@ function ContactCard({ name, checked, onChoose }: { name: string; checked: boole
       role="radio"
       aria-checked={checked}
       onClick={onChoose}
-      className={`relative flex items-center gap-3 rounded-[var(--radius-card)] border p-4 text-left transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${checked ? CARD_SELECTED : CARD_IDLE}`}
+      className={`relative row card-option p-4 text-left ${checked ? CARD_SELECTED : CARD_IDLE}`}
     >
       {checked && <SelectedTick />}
-      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-button)] transition-colors ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
+      <span className={`option-icon ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
         <Icon path={PERSON} className="w-5 h-5" />
       </span>
-      <span className="min-w-0 flex-1 text-fg font-medium text-[length:var(--fs-body)]">{name}</span>
+      <span className="min-w-0 flex-1 value-text">{name}</span>
     </button>
   );
 }

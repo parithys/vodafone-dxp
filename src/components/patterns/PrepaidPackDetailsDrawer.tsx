@@ -50,7 +50,7 @@ export function PrepaidPackDetailsDrawer({ pack, onClose, selectedProductId, onS
     >
       <dl>
         {rows.map(([label, value]) => (
-          <div key={label} className="flex justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+          <div key={label} className="spread py-2 row-rule text-[length:var(--fs-body)]">
             <dt className="text-fg">{label}</dt>
             <dd className="text-fg font-medium text-right">{value}</dd>
           </div>

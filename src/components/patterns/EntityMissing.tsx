@@ -25,7 +25,7 @@ export function EntityMissing({
     return (
       <div className="p-8 space-y-3" role="alert">
         <p className="text-fg">We could not load this {what} just now.</p>
-        <div className="flex items-center gap-4">
+        <div className="row-loose">
           {onRetry && (
             <button type="button" onClick={onRetry} className="text-link font-medium hover:underline">
               Try Again

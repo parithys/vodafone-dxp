@@ -25,6 +25,7 @@ export function IdScannerPanel({
   clearReconciliation,
   demoType,
   handleScanAttempt,
+  handleRetakeDone,
   handleDemoScan,
   scanBudgetSpent,
 }: {
@@ -42,6 +43,7 @@ export function IdScannerPanel({
   clearReconciliation: () => void;
   demoType: QidType | null;
   handleScanAttempt: () => boolean;
+  handleRetakeDone: (shownCount: number, printed: { name?: string; dob?: string; nationality?: string }) => void;
   handleDemoScan: (type: QidType) => void;
   /** The scan attempts are used up (not merely that manual entry is open). */
   scanBudgetSpent: boolean;
@@ -61,7 +63,7 @@ export function IdScannerPanel({
           <p className="text-fg font-semibold">
             {contextHeldTypes.length > 0 ? `No ${idTypeLabel(idType)} on file for ${contextNoDocument}` : `No identity document on file for ${contextNoDocument}`}
           </p>
-          <p className="text-fg-2 text-[length:var(--fs-caption)]">
+          <p className="caption-secondary">
             {contextHeldTypes.length > 0
               ? `They hold: ${contextHeldTypes.map((t) => idTypeLabel(t as QidType)).join(', ')}. Choose that ID type, or enter the number manually.`
               : 'There is no card to read for this customer. Enter the ID number manually.'}
@@ -112,6 +114,7 @@ export function IdScannerPanel({
         // ID.
         documentType={demoType ?? idType}
         onScan={handleScanAttempt}
+        onRetakeDone={handleRetakeDone}
         // DEMO ONLY - see QidImageUpload.demoTypes. All four are offered,
         // including the two this journey cannot sell against, because the
         // point is to show what each document looks like coming off the

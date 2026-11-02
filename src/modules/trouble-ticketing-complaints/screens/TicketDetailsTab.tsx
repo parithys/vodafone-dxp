@@ -10,7 +10,7 @@ interface Props {
 
 export function TicketDetailsTab({ ticket, updateRecord }: Props) {
   return (
-    <dl className="grid grid-cols-2 gap-4 text-[length:var(--fs-body)]">
+    <dl className="pair-grid text-[length:var(--fs-body)]">
       <div><dt className="text-[length:var(--fs-caption)] text-fg">Issue</dt><dd className="text-fg">{ticket.actualIssue ?? '-'}</dd></div>
       <div><dt className="text-[length:var(--fs-caption)] text-fg">Priority</dt><dd className="text-fg">{ticket.priority}</dd></div>
       <div><dt className="text-[length:var(--fs-caption)] text-fg">Resolution Code</dt><dd className="text-fg">{ticket.resolutionCode ?? '-'}</dd></div>

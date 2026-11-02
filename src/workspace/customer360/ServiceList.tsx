@@ -57,7 +57,7 @@ export function ServiceList({ services, selectedRef, emptyMessage, personaId, re
             key={service.ref}
             ref={selected ? selectedEl : undefined}
             aria-current={selected ? 'true' : undefined}
-            className={`rounded-[var(--radius-card)] border ${
+            className={`card-frame ${
               selected
                 ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)]'
                 : 'border-border-soft bg-bg'
@@ -78,16 +78,16 @@ export function ServiceList({ services, selectedRef, emptyMessage, personaId, re
                     }
                   : undefined
               }
-              className={`flex items-center justify-between gap-3 p-3 ${expandable ? 'cursor-pointer' : ''}`}
+              className={`split-nowrap p-3 ${expandable ? 'cursor-pointer' : ''}`}
             >
-              <span className="flex items-center gap-2 min-w-0">
-                {expandable && <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="w-4 h-4 text-muted shrink-0" />}
+              <span className="row-tight min-w-0">
+                {expandable && <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="icon-sm text-muted" />}
                 <span className="min-w-0">
-                  <span className="block text-fg text-[length:var(--fs-body)] font-semibold truncate">{service.label}</span>
-                  <span className="block text-muted text-[length:var(--fs-caption)] truncate">{service.identifier}</span>
+                  <span className="block heading-strong truncate">{service.label}</span>
+                  <span className="line-caption">{service.identifier}</span>
                 </span>
               </span>
-              <span className="flex items-center gap-2 shrink-0">
+              <span className="row-tight shrink-0">
                 {/* Source statuses are not one vocabulary - 'Active' from
                     installed assets, 'active subscription' / 'Try & Buy trial' /
                     'Home Move / TON' from GigaHome - so the raw value is shown
@@ -100,7 +100,7 @@ export function ServiceList({ services, selectedRef, emptyMessage, personaId, re
               </span>
             </div>
             {expandable && isOpen && (
-              <div className="px-3 pb-3 pt-1 border-t border-border-soft">
+              <div className="px-3 pb-3 pt-1 divider-top">
                 <TopicFieldsSection personaId={personaId} topic="Assets" resolveValue={(details) => resolveField!(service, details)} />
               </div>
             )}

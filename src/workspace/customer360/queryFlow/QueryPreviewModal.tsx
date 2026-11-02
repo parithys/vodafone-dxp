@@ -22,19 +22,19 @@ const text = (v: unknown): string | undefined => (v === undefined || v === null 
 function SectionCard({ icon, title, open = true, onToggle, children }: { icon: string; title: string; open?: boolean; onToggle?: () => void; children: ReactNode }) {
   const head = (
     <>
-      <Icon path={icon} className="w-5 h-5 shrink-0 text-fg" />
-      <h3 className="flex-1 min-w-0 text-fg font-semibold text-[length:var(--fs-body-lg)] text-left">{title}</h3>
-      {onToggle && <Icon path={IC.chevDown} className={`w-4 h-4 shrink-0 text-fg-2 transition-transform ${open ? 'rotate-180' : ''}`} />}
+      <Icon path={icon} className="icon-md text-fg" />
+      <h3 className="flex-1 min-w-0 subtitle text-left">{title}</h3>
+      {onToggle && <Icon path={IC.chevDown} className={`icon-sm text-fg-2 transition-transform ${open ? 'rotate-180' : ''}`} />}
     </>
   );
   return (
     <section className="card ">
       {onToggle ? (
-        <button type="button" onClick={onToggle} aria-expanded={open} className="w-full flex items-center gap-2.5 px-4 py-3 rounded-[var(--radius-card)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]">
+        <button type="button" onClick={onToggle} aria-expanded={open} className="row-button gap-2.5 pad-row rounded-[var(--radius-card)]">
           {head}
         </button>
       ) : (
-        <div className="flex items-center gap-2.5 px-4 py-3">{head}</div>
+        <div className="flex items-center gap-2.5 pad-row">{head}</div>
       )}
       {open && <div className="px-4 pb-4">{children}</div>}
     </section>
@@ -44,7 +44,7 @@ function SectionCard({ icon, title, open = true, onToggle, children }: { icon: s
 /** One label / value row. Labels are always the secondary text colour; a missing value reads muted. */
 function FieldRow({ label, value, strong = false, muted = false }: { label: string; value: string; strong?: boolean; muted?: boolean }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+    <div className="split-top gap-4 py-2 row-rule text-[length:var(--fs-body)]">
       <dt className="text-fg">{label}</dt>
       <dd className={`min-w-0 break-words text-right ${muted ? 'text-muted' : strong ? 'text-fg font-semibold' : 'text-fg'}`}>{value}</dd>
     </div>
@@ -167,11 +167,11 @@ export function QueryPreviewModal({
       onClose={onClose}
       title="Preview Details"
       header={
-        <div className="flex items-start gap-3 px-6 py-4 border-b border-border-soft shrink-0">
+        <div className="row-start px-6 py-4 divider-bottom shrink-0">
           <IconTile icon={IC.phone} tone="red" />
           <div className="min-w-0 flex-1 space-y-2">
-            <h2 className="text-fg font-semibold text-[length:var(--fs-h5)] break-words">{issue.name}</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="subtitle-lg break-words">{issue.name}</h2>
+            <div className="wrap-row">
               <Pill tone="blue">{serviceTypeLabel(serviceType)}</Pill>
               {issue.category && <Pill tone={/network/i.test(issue.category) ? 'red' : 'purple'}>{issue.category}</Pill>}
             </div>
@@ -180,9 +180,9 @@ export function QueryPreviewModal({
         </div>
       }
       footer={
-        <div className="flex w-full flex-wrap items-center justify-end gap-3">
+        <div className="wrap-center gap-3 w-full justify-end">
           {/* The ticket is auto-assigned to the responsible team, so there is nothing for the agent to choose. */}
-          {routing?.queue && <span className="mr-auto text-fg-2 text-[length:var(--fs-caption)]">{routing.queue}: {routing.basis}</span>}
+          {routing?.queue && <span className="mr-auto caption-secondary">{routing.queue}: {routing.basis}</span>}
           <Button variant="secondary" onClick={onCloseInteraction}>
             Close Interaction
           </Button>
@@ -215,17 +215,17 @@ export function QueryPreviewModal({
           ) : (
             <ul>
               {recentTickets.map((t) => (
-                <li key={String(t.ticketId)} className="border-b border-border-soft last:border-0">
+                <li key={String(t.ticketId)} className="row-rule">
                   <button
                     type="button"
                     onClick={onOpenTickets}
                     aria-label={`Open ${String(t.ticketId)} in Tickets & Support`}
-                    className="w-full flex items-center gap-3 py-2.5 text-left text-[length:var(--fs-body)] rounded-[var(--radius-sm)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+                    className="w-full row py-2.5 text-left text-[length:var(--fs-body)] rounded-[var(--radius-sm)] focus-ring"
                   >
                     <span className="text-fg font-semibold shrink-0">{String(t.ticketId)}</span>
                     <span className="flex-1 min-w-0 truncate text-fg-2">{text(t.actualIssue) ?? text(t.category)}</span>
                     <StatusPill status={String(t.status)} />
-                    <Icon path={IC.chevRight} className="w-4 h-4 text-fg shrink-0" />
+                    <Icon path={IC.chevRight} className="icon-sm text-fg" />
                   </button>
                 </li>
               ))}

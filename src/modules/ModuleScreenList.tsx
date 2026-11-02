@@ -105,13 +105,13 @@ export function ModuleScreenList() {
       <Link
         key={route.routeId}
         to={route.path}
-        className="group card p-5 hover:bg-[var(--field-card-hover-bg)] transition-all"
+        className="group card p-5 card-interactive transition-all"
       >
-        <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="split-top gap-2 mb-2">
           <div className="font-medium text-fg text-[length:var(--fs-body-lg)]">{screenDisplayName(route.screenName)}</div>
-          <Icon path={ICONS.openArrow} className="w-4 h-4 text-muted shrink-0 mt-1 group-hover:text-accent transition-colors" />
+          <Icon path={ICONS.openArrow} className="icon-sm text-muted mt-1 group-hover:text-accent transition-colors" />
         </div>
-        <div className="text-accent text-[length:var(--fs-micro)] font-semibold uppercase tracking-wide mb-3">
+        <div className="text-accent text-[length:var(--fs-micro)] caps-strong mb-3">
           <span className="hidden">{route.screenId} · {route.screenType}</span>
           {journeyIds.map((id, i) => (
             <span key={id} title={getJourneyMeta(id)?.name ?? id}>
@@ -120,7 +120,7 @@ export function ModuleScreenList() {
             </span>
           ))}
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="cluster-sm">
           <Badge variant={e.built ? 'success' : 'filled-neutral'}>{e.built ? 'Built' : 'Not built'}</Badge>
           <Badge variant={e.permissionLevel ? 'outlined-red' : 'filled-neutral'}>{e.permissionLevel ?? 'No access'}</Badge>
         </div>
@@ -135,7 +135,7 @@ export function ModuleScreenList() {
         actions={
           <Link
             to="/"
-            className="shrink-0 flex items-center gap-1 rounded-[var(--radius-button)] border border-on-dark-line-3 px-3 py-1.5 text-[length:var(--fs-caption)] text-on-dark-2 hover:bg-on-dark-fill-2 hover:text-on-dark"
+            className="shrink-0 row-snug on-dark-chip-btn"
           >
             <Icon path={ICONS.chevronLeft} className="w-3.5 h-3.5" />
             All modules
@@ -144,26 +144,26 @@ export function ModuleScreenList() {
         description={<>{module.screenCount} screens evidenced in this module. {MODULE_DESCRIPTIONS[module.module] ?? ''}</>}
       />
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      <div className="pair-grid sm:grid-cols-4 mb-6">
         <div className="card p-4">
           <div className="text-[length:var(--fs-h4)] font-bold text-accent">{catalogued}</div>
-          <div className="text-[length:var(--fs-caption)] text-muted">Catalogued Screens</div>
+          <div className="caption-muted">Catalogued Screens</div>
         </div>
         <div className="card p-4">
           <div className="text-[length:var(--fs-h4)] font-bold text-success">{built}</div>
-          <div className="text-[length:var(--fs-caption)] text-muted">Built</div>
+          <div className="caption-muted">Built</div>
         </div>
         <div className="card p-4">
           <div className="text-[length:var(--fs-h4)] font-bold text-fg-2">{notBuilt}</div>
-          <div className="text-[length:var(--fs-caption)] text-muted">Not Built</div>
+          <div className="caption-muted">Not Built</div>
         </div>
         <div className="card p-4">
           <div className="text-[length:var(--fs-h4)] font-bold text-accent">{grantedToRole}</div>
-          <div className="text-[length:var(--fs-caption)] text-muted">Granted to This Role</div>
+          <div className="caption-muted">Granted to This Role</div>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
+      <div className="stack sm:flex-row sm:items-center mb-6">
         <SearchField
           aria-label="Search screen ID or name"
           value={search}
@@ -172,7 +172,7 @@ export function ModuleScreenList() {
           placeholder="Search screen ID or name…"
           wrapperClassName="flex-1 max-w-sm"
         />
-        <div className="flex flex-wrap gap-2">
+        <div className="wrap-row">
           {FILTERS.map((f) => (
             <Button
               key={f.key}
@@ -185,7 +185,7 @@ export function ModuleScreenList() {
             </Button>
           ))}
         </div>
-        <span className="sm:ml-auto text-[length:var(--fs-caption)] text-muted">{visibleCount} screens</span>
+        <span className="sm:ml-auto caption-muted">{visibleCount} screens</span>
       </div>
 
       {groups.map(({ subModule, feature, routes: featureRoutes }) => {
@@ -194,8 +194,8 @@ export function ModuleScreenList() {
         return (
           <div key={`${subModule}::${feature}`} className="mb-6">
             <h2 className="text-[length:var(--fs-h5)] font-bold text-fg-2 mb-1">{subModule}</h2>
-            <p className="mb-3 text-[length:var(--fs-caption)] text-muted">{feature}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{cards}</div>
+            <p className="mb-3 caption-muted">{feature}</p>
+            <div className="fields-2 lg:grid-cols-3">{cards}</div>
           </div>
         );
       })}
@@ -206,15 +206,15 @@ export function ModuleScreenList() {
         return (
           <div className="mb-6">
             <h2 className="text-[length:var(--fs-h5)] font-bold text-fg-2 mb-1">Other Screens</h2>
-            <p className="mb-3 text-[length:var(--fs-caption)] text-muted">
+            <p className="mb-3 caption-muted">
               Not evidenced or heuristically matched to a sub-module/feature above.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{cards}</div>
+            <div className="fields-2 lg:grid-cols-3">{cards}</div>
           </div>
         );
       })()}
 
-      {visibleCount === 0 && <div className="px-4 py-6 text-center text-muted">No screens match this search/filter.</div>}
+      {visibleCount === 0 && <div className="px-4 empty-line">No screens match this search/filter.</div>}
     </div>
   );
 }

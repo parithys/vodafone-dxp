@@ -29,7 +29,7 @@ test('StandaloneStepPage: the title band, step card, heading and fixed Continue 
       h('p', null, 'content')
     )
   );
-  assert.match(out, /px-4 sm:px-8 pt-6 sm:pt-8 pb-6 bg-\[var\(--title-band-bg\)\]/, 'the wizard title band');
+  assert.match(out, /px-4 sm:px-8 pt-6 sm:pt-8 pb-6 title-band/, 'the wizard title band');
   assert.match(out, /<h1[^>]*>Number Management Portal<\/h1>/);
   assert.match(out, /Search and reserve numbers\./);
   assert.match(out, /Abandon Order/);

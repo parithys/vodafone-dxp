@@ -159,14 +159,14 @@ export function TaskDetailView() {
       />
 
       <div className="card p-5 mb-6">
-        <div className="text-[length:var(--fs-caption)] text-muted mb-1">Description</div>
-        <p className="text-fg text-[length:var(--fs-body)]">{task.taskDescription || 'No description on file.'}</p>
-        <div className="text-[length:var(--fs-caption)] text-muted mt-4 mb-1">Assigned To</div>
-        <p className="text-fg text-[length:var(--fs-body)]">{task.assignedAgentId ?? 'Unassigned'}</p>
+        <div className="caption-muted mb-1">Description</div>
+        <p className="body-text">{task.taskDescription || 'No description on file.'}</p>
+        <div className="caption-muted mt-4 mb-1">Assigned To</div>
+        <p className="body-text">{task.assignedAgentId ?? 'Unassigned'}</p>
       </div>
 
       {task.taskStatus !== 'Closed' && (
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="wrap-row mb-6">
           {task.taskStatus !== 'In Progress' && (
             <Button variant="secondary" onClick={moveToInProgress}>
               Move to In Progress
@@ -180,8 +180,8 @@ export function TaskDetailView() {
 
       {isSupervisor && task.taskStatus !== 'Closed' && (
         <div className="card p-5">
-          <h2 className="text-[length:var(--fs-body-lg)] font-bold text-fg mb-1">Assign to a Team Member</h2>
-          <p className="text-fg-2 text-[length:var(--fs-caption)] mb-3">Supervisor-only action.</p>
+          <h2 className="title-md mb-1">Assign to a Team Member</h2>
+          <p className="caption-secondary mb-3">Supervisor-only action.</p>
           <div className="flex gap-2">
             <div className="flex-1">
               <Select

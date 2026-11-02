@@ -6,7 +6,7 @@ import { connectionOf, eligibilityJourney } from '../products';
 import { managerRoleOfSubmitter } from '../../../data/approvalRouting';
 import { usePersonaStore } from '../../../stores/personaStore';
 
-/** Passport BAU/Credit Control approvals (PB-*) come from the ID type, so they are announced at Customer Verification, not repeated here. */
+/** Passport BAU/Credit Control approvals (PB-*) come from the ID type: announced once, as the ID type's own result, not again as an Active Lines one. */
 const isPassportOnly = (ruleIds: string[] | undefined) => !!ruleIds?.length && ruleIds.every((id) => id.startsWith('PB-'));
 
 /**
@@ -53,7 +53,9 @@ export function ProductEligibility({
       portIn={product === 'mnp'}
       // The customer's checks were shown at Customer Verification. Here only what this product changes: everything for Prepaid (it judges
       // ID type and line limit by its own rules), otherwise just what blocks the product, the port-in dues and the approval the line count asks for.
-      showRow={eligibilityJourney(values) === 'prepaid' ? undefined : (row) => row.tone === 'hard-stop' || row.tone === 'soft-stop' || row.id === 'port-in-dues' || (row.id === 'active-lines' && row.tone === 'approval-routing' && (deferredApprovals || !isPassportOnly(row.approvalRuleIds))) || (deferredApprovals && row.id === 'id-type-routing' && row.tone === 'approval-routing')}
+      // The ID type's Credit Control approval (a Passport, on a postpaid line) is announced HERE, once the product is chosen - not at Customer
+      // Verification, which does not know the product - and never for Prepaid, whose own rules do not route it.
+      showRow={eligibilityJourney(values) === 'prepaid' ? undefined : (row) => row.tone === 'hard-stop' || row.tone === 'soft-stop' || row.id === 'port-in-dues' || (row.id === 'active-lines' && row.tone === 'approval-routing' && (deferredApprovals || !isPassportOnly(row.approvalRuleIds))) || (row.id === 'id-type-routing' && row.tone === 'approval-routing')}
       result={eligibility}
       onResult={(r) => setValue('eligibility', r)}
       onSwitchToPrepaid={onSwitchToPrepaid}

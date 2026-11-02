@@ -29,12 +29,12 @@ export function PrepaidCartStep({ lines, onAddAnother }: { lines: PrepaidLine[];
             const plan = products.find((p) => p.productId === line.productId);
             const names = [...(line.discountId ? [line.discountId] : []), ...line.addonIds].map((id) => extras.find((e) => e.addonDiscountId === id)?.name ?? id);
             return (
-              <li key={`${line.msisdn}-${i}`} className="card card-surface p-4 flex flex-wrap items-center justify-between gap-3">
+              <li key={`${line.msisdn}-${i}`} className="card card-surface p-4 split">
                 <div className="min-w-0">
                   <p className="text-fg font-semibold">
                     Subscription {i + 1}: {plan?.name ?? line.productId}
                   </p>
-                  <p className="text-fg-2 text-[length:var(--fs-caption)]">
+                  <p className="caption-secondary">
                     {line.msisdn} · {line.prePaired ? 'Pre-Paired SIM' : line.simType.simType === 'eSIM' ? 'eSIM' : `SIM ${line.simType.simSerial}`}
                     {names.length > 0 ? ` · ${names.join(', ')}` : ''}
                   </p>
@@ -50,11 +50,11 @@ export function PrepaidCartStep({ lines, onAddAnother }: { lines: PrepaidLine[];
           The {duplicate.kind} {duplicate.value} is on more than one subscription. Go back and choose a different {duplicate.kind}.
         </p>
       )}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="cluster">
         <Button variant="secondary" onClick={onAddAnother} disabled={lines.length === 0 || Boolean(duplicate)}>
           Add Another Subscription
         </Button>
-        <span className="text-muted text-[length:var(--fs-caption)]">Or continue to checkout once the order has every subscription.</span>
+        <span className="caption-muted">Or continue to checkout once the order has every subscription.</span>
       </div>
     </div>
   );

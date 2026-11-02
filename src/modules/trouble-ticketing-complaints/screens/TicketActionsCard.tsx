@@ -33,10 +33,10 @@ export function TicketActionsCard({
 }: Props) {
   return (
     <div className="card p-5">
-      <h2 className="text-[length:var(--fs-body-lg)] text-fg font-bold mb-3">Actions</h2>
-      <div className="flex flex-col gap-2">
+      <h2 className="title-md mb-3">Actions</h2>
+      <div className="stack-sm">
         {pendingApproval && (
-          <div className="card card-surface p-3 text-[length:var(--fs-body)] text-fg-2">
+          <div className="card card-surface p-3 text-secondary">
             Pending approval decision - see the Approval Queue.
             {ticket.approvalDecision && (
               <p className="mt-1 text-[length:var(--fs-caption)]">
@@ -49,7 +49,7 @@ export function TicketActionsCard({
           <Button variant="secondary" className="w-full justify-center" onClick={assignToMe}>Assign to Me</Button>
         )}
         {canReassignQueue && !terminal && !pendingApproval && (
-          <div className="flex flex-col gap-2">
+          <div className="stack-sm">
             <Select aria-label="Reassign queue" value={reassignQueue} onChange={(e) => setReassignQueue(e.target.value)} placeholder="Reassign queue…" options={['FL Agents', 'Complaints Team'].map((q) => ({ value: q, label: q }))} />
             <Button variant="secondary" className="w-full justify-center" onClick={reassignQueueSubmit} disabled={!reassignQueue}>Reassign</Button>
           </div>
@@ -61,7 +61,7 @@ export function TicketActionsCard({
           <Button variant="secondary" className="w-full justify-center" onClick={() => setResolveOpen(true)}>Resolve</Button>
         )}
         {!canResolve && !terminal && !pendingApproval && ticket.status !== 'Solved' && ticket.status !== 'Completed' && (
-          <p className="text-[length:var(--fs-caption)] text-muted">Resolution requires Complaints Team - use Escalate to route it.</p>
+          <p className="caption-muted">Resolution requires Complaints Team - use Escalate to route it.</p>
         )}
         {ticket.status === 'Solved' && (
           <Button variant="secondary" className="w-full justify-center" onClick={complete} disabled={openActivities.length > 0}>

@@ -122,8 +122,8 @@ export function ProductActionGroups({
           sometimes changes nothing is worse than no toggle: the agent cannot
           tell whether they are seeing everything. */}
       {hiddenCount > 0 && (
-        <div className="flex items-center justify-between gap-3 pb-1">
-          <p className="text-muted text-[length:var(--fs-caption)]">
+        <div className="split-nowrap pb-1">
+          <p className="caption-muted">
             {showAll
               ? `Showing all ${totalActions} services.`
               : `Showing ${applicableActions} services for this customer's connection.`}
@@ -140,22 +140,22 @@ export function ProductActionGroups({
             <button type="button"
               onClick={() => toggleGroup(group.title)}
               aria-expanded={isOpen}
-              className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-surface"
+              className="list-row justify-between pad-row"
             >
-              <span className="font-medium text-fg text-[length:var(--fs-body)]">{group.title}</span>
-              <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="w-4 h-4 text-muted shrink-0" />
+              <span className="value-text">{group.title}</span>
+              <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="icon-sm text-muted" />
             </button>
             {isOpen && (
-              <div className="px-4 pb-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-border-soft pt-3">
+              <div className="px-4 pb-4 action-grid divider-top pt-3">
                 {group.actions.map((action) => {
                   const available = Boolean(action.path || (action.screenId && getAllRoutes().find((r) => r.screenId === action.screenId)));
                   if (!available) {
                     return (
                       <Tooltip key={action.label} content="Not yet built for this action" placement="top">
-                        <div className="flex flex-col gap-2 rounded-[var(--radius-card)] border border-dashed border-border bg-light-neutral p-4 text-muted cursor-not-allowed">
-                          <div className="flex items-start justify-between gap-2">
-                            <span className="text-[length:var(--fs-btn-compact)] font-medium uppercase tracking-wide">{action.label}</span>
-                            <Icon path={CLOCK_ICON} className="w-3.5 h-3.5 shrink-0" />
+                        <div className="stack-sm card-unavailable p-4">
+                          <div className="split-top gap-2">
+                            <span className="caps-compact">{action.label}</span>
+                            <Icon path={CLOCK_ICON} className="icon-xs" />
                           </div>
                           <p className="text-[length:var(--fs-caption)] leading-snug">{action.description}</p>
                         </div>
@@ -174,10 +174,10 @@ export function ProductActionGroups({
                     <button type="button"
                       key={action.label}
                       onClick={() => launch(action)}
-                      className={`flex flex-col gap-2 card p-4 text-left text-fg hover:bg-[var(--field-card-hover-bg)] transition-colors`}
+                      className={`stack-sm card card-button text-fg`}
                     >
-                      <span className="text-[length:var(--fs-btn-compact)] font-medium uppercase tracking-wide">{action.label}</span>
-                      <p className="text-[length:var(--fs-caption)] text-fg-2 leading-snug">{action.description}</p>
+                      <span className="caps-compact">{action.label}</span>
+                      <p className="caption-secondary leading-snug">{action.description}</p>
                     </button>
                   );
                 })}

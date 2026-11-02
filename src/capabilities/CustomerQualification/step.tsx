@@ -1,6 +1,11 @@
 import { CustomerIdentification } from '../CustomerIdentification/CustomerIdentification';
 import { contactSummary } from './summary';
-import { idTypesFor } from '../../data/idTypes';
+import { idTypesFor, isIdTypeSupported } from '../../data/idTypes';
+import { under18ApproverRole } from '../../data/under18Exception';
+import { usePersonaStore } from '../../stores/personaStore';
+import { useNotificationStore } from '../../stores/notificationStore';
+import { requirementForCondition } from '../../engines/journeyDocuments';
+import type { AdditionalDocument } from '../DocumentUpload';
 import { CUSTOMER_IDENTIFICATION_LABEL } from '../../data/stepLabels';
 import { hasIdentityDetails, isValidAltPhone, isValidEmail } from '../../components/patterns/guidedContactModel';
 import type { GuidedContactValue } from '../../components/patterns/guidedContactModel';
@@ -56,6 +61,18 @@ export interface QualificationContext {
   requestKind?: RequestKind;
 }
 
+/**
+ * Whether the Exception Request still stands: it was made for the identity now on screen, and its mandatory supporting document (the Court Type Order)
+ * is still attached. A different customer, or a removed document, means the age stop applies again and the agent must apply afresh.
+ */
+export function under18RequestHolds(values: Record<string, unknown>): boolean {
+  const req = values.under18Request as { documentId?: string; idNumber?: string } | undefined;
+  if (!req?.documentId) return false;
+  if (req.idNumber !== (values.contact as GuidedContactValue | undefined)?.idNumber) return false;
+  const docs = (values.caf as { additionalDocuments?: AdditionalDocument[] } | undefined)?.additionalDocuments ?? [];
+  return docs.some((d) => d.id === req.documentId);
+}
+
 export function customerQualificationStep({ flow, existingCustomerId, guardedContactChange, journeyType = 'postpaid', manualEntry, productAgnostic = false, knownCustomer = false, knownCustomerId, skipLineLimit = false, requestKind }: QualificationContext): WizardStep {
   const prepaid = journeyType === 'prepaid';
   return {
@@ -101,7 +118,7 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
           showIptvToggle={false}
         />
         {(
-        <div className="mt-6 pt-6 border-t border-border-soft space-y-4">
+        <div className="mt-6 pt-6 divider-top space-y-4">
           <CustomerStatusBanner customerId={eligibility?.customerId} />
           <EligibilityOutcomePanel />
           <EligibilityGateStep
@@ -118,15 +135,17 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
             // passport BAU ones - a prepaid line needs none of the ID-type approval) are announced there, for the plan type chosen.
             // A stop is still shown here, because it blocks Continue.
             showRow={(row) =>
-              // The upfront payment (HRN) depends on the journey, which a product-agnostic Customer Verification has not chosen yet (it never
-              // applies to Prepaid): the product stage announces it.
-              !(productAgnostic && row.id === 'hrn') &&
+              // The upfront payment (HRN) and the ID type's Credit Control approval (a Passport on a postpaid line) depend on the journey, which a
+              // product-agnostic Customer Verification has not chosen yet (neither applies to Prepaid): the product stage announces them.
+              !(productAgnostic && (row.id === 'hrn' || row.id === 'id-type-routing')) &&
               (values.product !== 'mnp' || !((row.id === 'active-lines' || row.id === 'id-type-routing') && row.tone === 'approval-routing'))
             }
             requestKind={requestKind}
             journeyType={journeyType}
             // A journey started as New Prepaid has product = prepaid in its draft before Customer Verification judges the customer: the under-18 exception is Prepaid's.
             exceptionJourney={values.product === 'prepaid' ? 'prepaid' : undefined}
+            // The agent submitted an Exception Request from the footer: the journey goes on, with the age check routed for approval instead of stopped.
+            exceptionRequested={under18RequestHolds(values)}
             // The customer's full set of checks, as the single-product journeys always showed them at Customer Verification: ID type
             // approval, the active-line limit, collections and the rest. (Prepaid and MNP judge a few of them differently once the product
             // is chosen; Product Selection re-judges those.)
@@ -202,6 +221,8 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
         c?.moiResult && hasIdentityDetails(c ?? {}) && isValidEmail(c?.email) && (!c?.workEmail || isValidEmail(c.workEmail)) && (!c?.altPhone || isValidAltPhone(c.altPhone)) && (!c?.personalMobile || isValidAltPhone(c.personalMobile))
       );
       if (!identityOk || !e) return false;
+      // An unsupported document type ("Others") never identifies a customer: no way on until a supported type is chosen.
+      if (!isIdTypeSupported(c?.idType)) return false;
       // A soft stop (a postpaid collections block) belongs to the product chosen later, not to identification.
       if (e.hardStop || (!productAgnostic && e.softStop)) return false;
       // An approval-routing outcome no longer blocks Continue: the journey
@@ -220,7 +241,7 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
     // Continue Prepaid; approval routing -> Request Approval (the same
     // forward path Continue would take, unguarded by isValid, with the
     // order held for approval on submit); advisory / clean -> Continue.
-    primaryAction: ({ values, abandon, defaultButton }) => (
+    primaryAction: ({ values, setValue, abandon, defaultButton }) => (
       <OutcomeActions
         // With the product not chosen yet, a collections soft stop is not an end of the road (prepaid is still offered): Continue goes on to
         // Product Selection rather than offering the Postpaid-only "Proceed to Payment".
@@ -228,6 +249,20 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
         defaultButton={defaultButton}
         // Hard stop: nothing to go back to, so the confirmation has no "Keep working".
         onAbandon={() => abandon({ hideKeepWorking: true })}
+        // An applicant under 18 may Apply for Exception: the Court Type Order is attached (under the document the journey's rules name, so the
+        // CAF's Additional Documents shows it as already attached) and the request recorded. The journey then continues and the order is held for
+        // the agent's manager (see submit). The age check itself is not lifted.
+        exception={{
+          requirement: requirementForCondition('minor-applicant'),
+          approverRole: under18ApproverRole(usePersonaStore.getState().activePersonaId),
+          onSubmit: (document) => {
+            const caf = (values.caf as { additionalDocuments?: AdditionalDocument[] } | undefined) ?? {};
+            const kept = (caf.additionalDocuments ?? []).filter((d) => d.requirementId !== document.requirementId);
+            setValue('caf', { ...caf, additionalDocuments: [...kept, document] });
+            setValue('under18Request', { submittedAt: new Date().toISOString(), documentId: document.id, idNumber: (values.contact as GuidedContactValue | undefined)?.idNumber });
+            useNotificationStore.getState().pushToast('success', 'Exception request submitted for approval.', { detail: `The order will be held for ${under18ApproverRole(usePersonaStore.getState().activePersonaId)} approval.` });
+          },
+        }}
       />
     ),
   };

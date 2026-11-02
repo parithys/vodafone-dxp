@@ -19,7 +19,6 @@ import type { Product } from './newConnectionModel';
 import { expectsApproval } from './approvalRouting';
 import { isOffersTabPlan } from '../../components/patterns/postpaidPlanModel';
 import type { DeviceType } from '../../lib/deviceType';
-import { addonReviewStep } from './steps/AddonReviewStep';
 
 /** What the postpaid steps need from the journey: the plan catalogue and the customer's benefits. */
 export interface PostpaidStepContext {
@@ -68,7 +67,6 @@ export function postpaidSteps({ products, customerBenefits, device }: PostpaidSt
     }),
     // Who will use the line (when it is not the owner) is added on this same page, from "Add Actual User": it is named on the Supplementary Form.
     simTypeStep({ device, approvalRequired: expectsApproval, withActualUser: true }),
-    addonReviewStep(products, (values) => !extrasSkip(products)(values)),
     checkoutSummaryStep({
       // An accepted offer fixes the plan, so the Plan & Add-ons step is skipped and 'plan' is not a reachable
       // key - jump to Number Selection (the first step still editable) instead of doing nothing.

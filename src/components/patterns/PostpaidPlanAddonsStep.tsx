@@ -157,7 +157,7 @@ export function PostpaidPlanAddonsStep({
                 cards, and the type-ahead dropdown suggests that tab's plans only. Beside it, the plan-type filter (All Plans, Voice Plan or
                 Broadband Plan), which starts at All Plans on each tab. */}
             {activeTab !== 'specials' && (
-            <div className="flex items-start gap-3">
+            <div className="row-start">
               <div className="min-w-0 flex-1">
                 <PlanSearchBox
                     searchRef={searchRef}
@@ -245,7 +245,7 @@ export function PostpaidPlanAddonsStep({
               <p className="text-muted text-[length:var(--fs-body)]">Select a plan first - its add-ons, bill limit and discounts appear here.</p>
             )}
             {mode === 'extras' && selectionSource === 'OFFER' && (
-              <p className="rounded-[var(--radius-card)] border border-border-soft bg-surface px-4 py-3 text-fg-2 text-[length:var(--fs-body)]">
+              <p className="notice-neutral pad-row text-secondary">
                 This plan is an offer: its add-ons and discounts are bundled, so there is nothing to choose here. Continue to review the monthly summary.
               </p>
             )}

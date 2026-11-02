@@ -48,10 +48,10 @@ export function IdLookupStatus({ loading, failure, retrying, expiredNotice, dupl
           <p>No customer has been selected automatically. Choose the record that belongs to this person, or ask Customer Data Management to merge the duplicates.</p>
           <ul className="mt-2 space-y-2">
             {duplicates.map((d) => (
-              <li key={d.customerId} className="flex items-center justify-between gap-3 rounded-[var(--radius-button)] border border-border-soft bg-bg px-3 py-2">
+              <li key={d.customerId} className="split-nowrap rounded-[var(--radius-button)] border border-border-soft bg-bg px-3 py-2">
                 <span className="min-w-0">
                   <span className="block text-fg font-medium truncate">{d.name}</span>
-                  <span className="block text-muted text-[length:var(--fs-caption)]">{d.customerId} - born {isoToDmy(d.dob)}</span>
+                  <span className="block caption-muted">{d.customerId} - born {isoToDmy(d.dob)}</span>
                 </span>
                 <Button variant="secondary" compact onClick={() => void runMoiValidation({ forceCustomerId: d.customerId })}>
                   Use this record

@@ -67,8 +67,8 @@ interface DonorAttachmentStepProps {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[length:var(--fs-caption)] text-muted">{label}</div>
-      <div className="text-fg text-[length:var(--fs-body)] break-words">{children || '-'}</div>
+      <div className="caption-muted">{label}</div>
+      <div className="body-text break-words">{children || '-'}</div>
     </div>
   );
 }
@@ -110,8 +110,8 @@ export function DonorAttachmentStep({ value, onChange, form }: DonorAttachmentSt
   if (!ready) {
     return (
       <div className="card p-4 card-surface" role="status">
-        <p className="text-fg text-[length:var(--fs-body)] font-medium">The MNP Form cannot be generated yet</p>
-        <p className="text-fg-2 text-[length:var(--fs-caption)] mt-1">Complete these first: {missing.join(', ')}.</p>
+        <p className="value-text">The MNP Form cannot be generated yet</p>
+        <p className="caption-secondary mt-1">Complete these first: {missing.join(', ')}.</p>
       </div>
     );
   }
@@ -124,17 +124,17 @@ export function DonorAttachmentStep({ value, onChange, form }: DonorAttachmentSt
   return (
     <div className="space-y-4">
       <div className="card p-4 card-surface space-y-4">
-        <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="wrap-row items-start justify-between">
           <div>
-            <p className="text-fg text-[length:var(--fs-body)] font-medium">Mobile Number Portability Application Form</p>
-            <p className="text-fg-2 text-[length:var(--fs-caption)] mt-0.5">Review the details with the customer before they sign.</p>
+            <p className="value-text">Mobile Number Portability Application Form</p>
+            <p className="caption-secondary mt-0.5">Review the details with the customer before they sign.</p>
           </div>
           <div className="text-right">
-            <div className="text-[length:var(--fs-caption)] text-muted">Form Number</div>
-            <div className="text-fg text-[length:var(--fs-body)] font-medium" data-testid="mnp-form-number">{current ? value.formNumber : 'Generating...'}</div>
+            <div className="caption-muted">Form Number</div>
+            <div className="value-text" data-testid="mnp-form-number">{current ? value.formNumber : 'Generating...'}</div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-3 pt-3 border-t border-border-soft">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-3 pt-3 divider-top">
           <Row label="Customer">{form.customerName}</Row>
           <Row label={form.idType ?? 'ID Number'}>{form.idNumber}</Row>
           <Row label="Port-In Number">{normalizePortInNumber(d.portInNumber ?? '')}</Row>
@@ -148,7 +148,7 @@ export function DonorAttachmentStep({ value, onChange, form }: DonorAttachmentSt
           <Row label="Plan">{plan ? String(plan.name) : form.productId}</Row>
           <Row label="SIM Serial">{form.simSerial}</Row>
         </div>
-        <p className="text-fg-2 text-[length:var(--fs-caption)] pt-3 border-t border-border-soft">
+        <p className="caption-secondary pt-3 divider-top">
           By signing below, the subscriber authorizes the port-in request to Vodafone Qatar.
         </p>
       </div>
@@ -156,9 +156,9 @@ export function DonorAttachmentStep({ value, onChange, form }: DonorAttachmentSt
       {current && (
         <div className="card p-4 card-surface">
           {signed ? (
-            <div className="flex items-center gap-3">
+            <div className="row">
               <Badge variant="success">Signed</Badge>
-              <img src={value.signatureDataUrl} alt="Customer signature" className="h-10 border border-border-soft rounded-[var(--radius-sm)]" />
+              <img src={value.signatureDataUrl} alt="Customer signature" className="signature-thumb" />
             </div>
           ) : (
             <SignatureCapture onSave={(dataUrl) => onChange({ ...value, signatureDataUrl: dataUrl, signed: true, signedAt: new Date().toISOString() })} />

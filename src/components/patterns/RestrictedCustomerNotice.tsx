@@ -10,11 +10,11 @@ import { LOCK } from '../../assets/icons';
  */
 export function RestrictedCustomerNotice({ compact = false, backTo, backLabel }: { compact?: boolean; backTo?: string; backLabel?: string }) {
   return (
-    <div role="alert" className={`flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--danger-border)] bg-tone-danger-soft ${compact ? 'p-3' : 'p-5'}`}>
-      <Icon path={LOCK} className="w-5 h-5 shrink-0 mt-0.5 text-danger" />
+    <div role="alert" className={`row-start notice-danger-edge ${compact ? 'p-3' : 'p-5'}`}>
+      <Icon path={LOCK} className="icon-md mt-0.5 text-danger" />
       <div className="min-w-0 space-y-1">
-        <p className="text-fg font-semibold text-[length:var(--fs-body)]">{RESTRICTED_CUSTOMER_TITLE}</p>
-        <p className="text-fg-2 text-[length:var(--fs-caption)]">{RESTRICTED_CUSTOMER_MESSAGE}</p>
+        <p className="heading-strong">{RESTRICTED_CUSTOMER_TITLE}</p>
+        <p className="caption-secondary">{RESTRICTED_CUSTOMER_MESSAGE}</p>
         {backTo && (
           <Link to={backTo} className="inline-block pt-1 text-[length:var(--fs-caption)] font-semibold text-link hover:underline">
             {backLabel ?? 'Back'}

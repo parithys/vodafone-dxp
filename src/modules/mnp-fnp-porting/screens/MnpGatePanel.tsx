@@ -9,18 +9,18 @@ export function MnpValidationGate({ gate, onFix }: { gate: GateCheck[]; onFix: (
   if (failed.length === 0) return null;
   return (
     <section className="card p-4 card-surface" aria-label="Validation gate">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="font-bold text-fg text-[length:var(--fs-body)]">Validations</h3>
+      <div className="row-between mb-2">
+        <h3 className="title-sm">Validations</h3>
         <Badge variant="danger">{failed.length} to fix</Badge>
       </div>
       <ul className="divide-y divide-border-soft">
         {gate.map((c) => (
-          <li key={c.id} className="flex items-center justify-between gap-3 py-2">
-            <span className="text-fg text-[length:var(--fs-body)]">{c.label}</span>
+          <li key={c.id} className="split-nowrap py-2">
+            <span className="body-text">{c.label}</span>
             {c.ok ? (
               <Badge variant="success">Done</Badge>
             ) : (
-              <span className="flex items-center gap-3">
+              <span className="row">
                 <span className="text-danger text-[length:var(--fs-caption)]">{c.detail}</span>
                 <Button variant="secondary" compact onClick={() => onFix(c.id)}>
                   Fix
@@ -30,7 +30,7 @@ export function MnpValidationGate({ gate, onFix }: { gate: GateCheck[]; onFix: (
           </li>
         ))}
       </ul>
-      {failed.length > 0 && <p className="text-fg-2 text-[length:var(--fs-caption)] mt-2">Payment and submission stay blocked until every validation is done.</p>}
+      {failed.length > 0 && <p className="caption-secondary mt-2">Payment and submission stay blocked until every validation is done.</p>}
     </section>
   );
 }

@@ -67,8 +67,8 @@ function EditButton({ canEdit, onClick }: { canEdit: boolean; onClick: () => voi
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[length:var(--fs-caption)] text-muted">{label}</div>
-      <div className="text-fg text-[length:var(--fs-body)]">{value ?? '-'}</div>
+      <div className="caption-muted">{label}</div>
+      <div className="body-text">{value ?? '-'}</div>
     </div>
   );
 }
@@ -185,7 +185,7 @@ export function BillingAccountPage() {
 
       <button type="button"
         onClick={() => navigate(customerId ? `/customer/${customerId}` : -1 as unknown as string)}
-        className="flex items-center gap-1.5 text-fg-2 hover:text-fg text-[length:var(--fs-caption)] mb-4"
+        className="flex items-center gap-1.5 caption-secondary hover:text-fg mb-4"
       >
         <Icon path={CHEVRON_LEFT} className="w-3.5 h-3.5" />
         Back to Customer 360
@@ -193,12 +193,12 @@ export function BillingAccountPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <section className="card p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+          <div className="row-between mb-3">
+            <h3 className="caption-heading">
               Billing Profile
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="fields-2">
             <Field label="Billing Cycle" value={profile.billingCycle} />
             <Field label="Billing Type" value={profile.billingType} />
             <Field label="Bill Medium" value={profile.billMedium} />
@@ -211,13 +211,13 @@ export function BillingAccountPage() {
         </section>
 
         <section className="card p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+          <div className="row-between mb-3">
+            <h3 className="caption-heading">
               Billing Contact
             </h3>
             <EditButton canEdit={canEdit} onClick={() => openEdit('contact')} />
           </div>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="fields-sm">
             <Field label="Name" value={profile.billingContactName} />
             <Field label="Phone" value={profile.billingContactPhone} />
             <Field label="Email" value={profile.billingContactEmail} />
@@ -225,8 +225,8 @@ export function BillingAccountPage() {
         </section>
 
         <section className="card p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+          <div className="row-between mb-3">
+            <h3 className="caption-heading">
               Billing Address
             </h3>
             <EditButton canEdit={canEdit} onClick={() => openEdit('address')} />
@@ -235,8 +235,8 @@ export function BillingAccountPage() {
         </section>
 
         <section className="card p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+          <div className="row-between mb-3">
+            <h3 className="caption-heading">
               Billing Language
             </h3>
             <EditButton canEdit={canEdit} onClick={() => openEdit('language')} />
@@ -245,8 +245,8 @@ export function BillingAccountPage() {
         </section>
 
         <section className="card p-5">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+          <div className="row-between mb-3">
+            <h3 className="caption-heading">
               Payment Mode
             </h3>
             <EditButton canEdit={canEdit} onClick={() => openEdit('payment')} />

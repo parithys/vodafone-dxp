@@ -55,7 +55,7 @@ export function TabStrip<K extends string>({
       role="tablist"
       aria-label={label}
       onKeyDown={onKeyDown}
-      className={`flex max-w-full overflow-x-auto shadow-[inset_0_calc(var(--tab-line-w)*-1)_0_0_var(--tab-line-color)] ${className}`}
+      className={`tab-strip ${className}`}
     >
       {items.map(({ key, label: text, count }) => {
         const selected = active === key;
@@ -67,19 +67,11 @@ export function TabStrip<K extends string>({
             aria-selected={selected}
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(key)}
-            className={`flex shrink-0 items-center gap-2 border-b-[length:var(--tab-active-w)] px-4 py-3 text-[length:var(--fs-body)] whitespace-nowrap transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
-              selected ? 'border-accent text-[var(--accent-text)] font-bold' : 'border-transparent text-fg hover:text-[var(--accent-text)]'
-            }`}
+            className={`tab ${selected ? 'tab-active' : ''}`}
           >
             {text}
             {count !== undefined && (
-              <span
-                className={`inline-flex h-6 min-w-6 items-center justify-center rounded-[var(--radius-pill)] px-1.5 text-[length:var(--fs-micro)] font-semibold ${
-                  selected ? 'bg-accent text-accent-on' : 'bg-[var(--icon-tile-bg)] text-fg-2'
-                }`}
-              >
-                {count}
-              </span>
+              <span className="tab-count">{count}</span>
             )}
           </button>
         );

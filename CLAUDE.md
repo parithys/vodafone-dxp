@@ -183,6 +183,21 @@ Reusable assets live in one dedicated location, not beside the component that ha
   `<link>` in `index.html`.
 - Card hover changes the background only (`hover:bg-[var(--field-card-hover-bg)]`), never a border or ring; a test enforces it.
 
+## Semantic UI classes
+
+Reusable UI looks live in `src/ui-components.css` (`@layer components`, `@apply` over tokens), named
+`.component`, `.component-variant`, `.component-size`, `.component-state`: `.btn .btn-primary .btn-lg`, `.card .card-selected`,
+`.form-control .form-control-error`, `.tab .tab-active`, `.badge .badge-success`, `.modal-dialog`, `.dropdown-popover`,
+`.caption-heading`, `.data-row`, `.link-action`, `.scan-corner-*`.
+Layout vocabulary (`.row`, `.row-tight`, `.split`, `.cluster`, `.stack-center`), option cards (`.option-card`, `.card-option`), callouts
+(`.notice-*`), chips and tags (`.chip*`, `.tag-*`) and popovers (`.popover`, `.popover-surface`) are in the same file. Text roles (`.title-*`, `.body-text`, `.caption-*`, `.eyebrow`), layouts (`.row-between`, `.spread`, `.actions-end`,
+`.fields-*`, `.stack*`), `.icon-*`, `.dot*` and `.pad-*` too. A static `className` may carry at most 3 utility classes
+(classes defined in `ui-components.css`/`index.css` do not count); `tests/classNameBudget.test.mjs` fails on more, apart from the
+context-specific strings in its baseline, which may only shrink. Do not name a class like a Tailwind utility (`columns-2` broke one).
+`python3 reference/scripts/build_ui_component_inventory.py` regenerates `reference/outputs/UI_Component_Inventory_Reference.xlsx`
+(every unique component, its category, usage, variants, styling approach and near-duplicates). Use one of these (or add one there) instead of repeating a long
+utility string; one-off layout (margins, widths) stays as utilities at the call site and, being unlayered, overrides the class.
+
 ## Build-time settings
 
 `.env.example` documents the build flags. `VITE_SHOW_DEMO=false` hides demo-only UI (scanner simulators, specimen cards)

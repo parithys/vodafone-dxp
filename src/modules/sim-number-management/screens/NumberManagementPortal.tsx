@@ -52,7 +52,7 @@ export function NumberManagementPortal() {
 
   if (stage === 'identify' && selected) {
     return (
-      <div className="flex-1 min-h-full flex flex-col">
+      <div className="fill-column min-h-full">
         <WizardTitleBand
           title="Reserve Number"
           titleAside={<span className="text-on-dark-2 text-[length:var(--fs-body)]">Identify the customer the number is reserved for.</span>}
@@ -91,7 +91,7 @@ export function NumberManagementPortal() {
             </>
           }
         >
-          <p className="text-fg-2 text-[length:var(--fs-body)]">The number stays available and nothing is reserved. You go back to the numbers.</p>
+          <p className="text-secondary">The number stays available and nothing is reserved. You go back to the numbers.</p>
         </Modal>
       </div>
     );
@@ -105,7 +105,7 @@ export function NumberManagementPortal() {
         step={{ key: 'reserved', label: 'Number Reserved', heading: `${toLocalMsisdn(last.msisdn)} is reserved`, render: () => null }}
       >
         <div className="space-y-4" role="status" aria-label="Number reserved">
-          <p className="text-fg-2 text-[length:var(--fs-body)]">
+          <p className="text-secondary">
             Held for <span className="text-fg font-medium">{last.customerName}</span> (ID {last.idNumber}). It appears under Reserved Numbers.
           </p>
           <Button variant="primary" onClick={() => setStage('select')}>
@@ -163,7 +163,7 @@ export function NumberManagementPortal() {
           </>
         }
       >
-        <p className="text-fg-2 text-[length:var(--fs-body)]">
+        <p className="text-secondary">
           {releasing ? toLocalMsisdn(releasing) : ''} goes back to the available numbers and is no longer held for the customer.
         </p>
       </Modal>

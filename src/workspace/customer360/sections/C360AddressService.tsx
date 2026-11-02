@@ -99,7 +99,7 @@ export function C360AddressService({
 
   return (
     <TabPage icon={IC.pin} tone="blue" title="Address & Service" subtitle="View customer addresses, service availability and network information">
-      <div className="grid grid-cols-1 @6xl:grid-cols-3 gap-4 items-stretch">
+      <div className="fields @6xl:grid-cols-3 items-stretch">
         <Panel
           icon={IC.home}
           title="Customer Address"
@@ -138,7 +138,7 @@ export function C360AddressService({
           className="@6xl:col-span-2 flex flex-col"
           bodyClassName="flex-1 flex flex-col"
         >
-          <p className="text-fg-2 text-[length:var(--fs-body)] mb-3">{primary ? addressLine(primary) : 'No address selected'}</p>
+          <p className="text-secondary mb-3">{primary ? addressLine(primary) : 'No address selected'}</p>
           <OsmEmbed
             title="Map of the Customer's Address"
             fill
@@ -148,22 +148,22 @@ export function C360AddressService({
         </Panel>
       </div>
 
-      <div className="grid grid-cols-1 @4xl:grid-cols-2 gap-4 items-stretch">
+      <div className="fields @4xl:grid-cols-2 items-stretch">
         <Panel icon={IC.signalTower} title="Service Availability" action={<ActionButton onClick={undefined} disabled>Check Another Address</ActionButton>}>
           <ul>
             {AVAILABILITY.map((a) => {
               const has = services.filter((s) => a.categories.includes(s.category));
               return (
-                <li key={a.label} className="flex items-center gap-3 py-2.5 border-b border-border-soft text-[length:var(--fs-body)]">
+                <li key={a.label} className="row py-2.5 divider-bottom text-[length:var(--fs-body)]">
                   <span className="flex-1 text-fg-2">{a.label}</span>
                   {has.length > 0 ? (
                     <>
-                      <span className="w-5 h-5 rounded-[var(--radius-pill)] bg-success-solid text-on-dark flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-[var(--radius-pill)] bg-success-solid text-on-dark icon-tile">
                         <Icon path={IC.check} className="w-3 h-3" />
                       </span>
                       <span className="w-36 min-w-0">
                         <span className="block text-success font-medium leading-tight">In Service</span>
-                        <span className="block text-muted text-[length:var(--fs-caption)] truncate">{has.length} line{has.length === 1 ? '' : 's'}</span>
+                        <span className="line-caption">{has.length} line{has.length === 1 ? '' : 's'}</span>
                       </span>
                     </>
                   ) : (
@@ -172,7 +172,7 @@ export function C360AddressService({
                 </li>
               );
             })}
-            <li className="flex items-center justify-between gap-3 pt-3 text-[length:var(--fs-body)]">
+            <li className="split-nowrap pt-3 text-[length:var(--fs-body)]">
               <span className="text-fg-2">Last Checked</span>
               <span className="text-fg font-medium"><Dv k="lastChecked" /></span>
             </li>

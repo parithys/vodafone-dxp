@@ -264,25 +264,25 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
       </KpiGrid>
 
       {/* Search and filters sit above both columns; they narrow the list on the left. */}
-      <div className="flex flex-wrap items-stretch gap-3">
+      <div className="cards-wrap">
         <SearchBox value={query} onChange={reset(setQuery)} placeholder="Search by activity ID, description or user" />
         <FilterSelect label="Activity Type" value={typeFilter} options={typeOptions} onChange={reset(setTypeFilter)} />
         <FilterSelect label="Date Range" value={range} options={RANGES.map((r) => ({ value: r.value, label: r.label }))} onChange={reset(setRange)} />
         <FilterSelect label="Channel" value={channelFilter} options={channelOptions} onChange={reset(setChannelFilter)} />
       </div>
 
-      <div className="grid grid-cols-1 @4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4 items-start">
+      <div className="fields @4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-start">
         {/* Left: the activities. The summary tiles above filter this list. */}
         <Panel icon={IC.activity} title={`All Activities (${paging.total})`}>
           <div className="space-y-3">
             {tab !== 'all' && (
-              <button type="button" onClick={() => openTab('all')} className="inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border border-[var(--field-card-border)] bg-surface px-2.5 py-0.5 text-[length:var(--fs-caption)] text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)]">
+              <button type="button" onClick={() => openTab('all')} className="chip border border-[var(--field-card-border)] text-fg focus-ring">
                 {TABS.find((t) => t.key === tab)?.label}
                 <Icon path={IC.x} className="w-3 h-3" />
               </button>
             )}
             {paging.slice.length === 0 ? (
-              <p className="text-muted text-[length:var(--fs-body)] py-4 text-center">No activities match the current filters.</p>
+              <p className="empty-note">No activities match the current filters.</p>
             ) : (
               <ul className="space-y-2">
                 {paging.slice.map((a) => {
@@ -293,14 +293,14 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
                         type="button"
                         aria-pressed={selected?.id === a.id}
                         onClick={() => setPickedId(a.id)}
-                        className={`w-full flex items-start gap-3 text-left rounded-[var(--radius-card)] border p-3 transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+                        className={`w-full row-start text-left card-option p-3 ${
                           selected?.id === a.id ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-surface'
                         }`}
                       >
                         <IconTile icon={TYPE_STYLE[a.type].icon} tone={TYPE_STYLE[a.type].tone} size="sm" />
                         <span className="min-w-0 flex-1">
-                          <span className="block text-fg font-medium text-[length:var(--fs-body)] break-words">{a.description}</span>
-                          <span className="block text-fg-2 text-[length:var(--fs-caption)]">
+                          <span className="block value-text break-words">{a.description}</span>
+                          <span className="block caption-secondary">
                             {a.type}
                             {d ? ` · ${d.date}${!a.dateOnly && d.time ? ` ${d.time}` : ''}` : ''}
                             {a.channel ? ` · ${a.channel}` : ''}
@@ -320,12 +320,12 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
         <aside className="card p-4 space-y-4 min-w-0">
           {selected ? (
             <>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="cluster">
                 <IconTile icon={TYPE_STYLE[selected.type].icon} tone={TYPE_STYLE[selected.type].tone} />
-                <span className="text-fg font-bold text-[length:var(--fs-h5)] break-words min-w-0">{selected.description}</span>
+                <span className="title-lg break-words min-w-0">{selected.description}</span>
                 <Pill tone={TYPE_STYLE[selected.type].tone}>{selected.type.replace(' Activity', '')}</Pill>
-                <span className="ml-auto flex items-center gap-2">
-                  <span className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg px-3 py-1.5 text-fg text-[length:var(--fs-caption)]">
+                <span className="ml-auto row-tight">
+                  <span className="chip-field">
                     <Icon path={IC.calendar} className="w-4 h-4" />
                     {rangeText(days, now)}
                   </span>
@@ -334,7 +334,7 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
                   </ActionButton>
                 </span>
               </div>
-              <p className="text-fg-2 text-[length:var(--fs-caption)] -mt-2">{when.date ? `${when.date}${!selected.dateOnly && when.time ? `  |  ${when.time}` : ''}` : '-'}</p>
+              <p className="caption-secondary -mt-2">{when.date ? `${when.date}${!selected.dateOnly && when.time ? `  |  ${when.time}` : ''}` : '-'}</p>
 
               <Panel icon={IC.clipboard} title="Activity Details" className="bg-surface-half">
                 <DetailRows
@@ -360,7 +360,7 @@ export function C360Activities({ data }: { data: Customer360Data; services: Cust
               </Button>
             </>
           ) : (
-            <p className="text-muted text-[length:var(--fs-body)] py-6 text-center">Select an activity to see its details.</p>
+            <p className="empty-line text-[length:var(--fs-body)]">Select an activity to see its details.</p>
           )}
         </aside>
       </div>

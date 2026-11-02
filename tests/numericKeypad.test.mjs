@@ -10,7 +10,7 @@ test.after(close);
 test('Digits-only ID types ask for the numeric keypad; a passport keeps the full keyboard', async () => {
   const { ID_TYPES } = await load('/src/data/idTypes.ts');
   const numeric = Object.fromEntries(ID_TYPES.map((t) => [t.type, t.numericNumber]));
-  assert.deepEqual(numeric, { QID: true, Passport: false, 'GCC ID': true, 'Diplomatic ID': true });
+  assert.deepEqual(numeric, { QID: true, Passport: false, 'GCC ID': true, 'Diplomatic ID': true, 'Other ID': false });
   assert.match(read('src/components/domain/QidInput.tsx'), /inputMode=\{current\.numericNumber \? 'numeric' : 'text'\}/);
 });
 

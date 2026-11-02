@@ -8,7 +8,7 @@ export function HandOff({ journey, onGo }: { journey: ServiceJourney; onGo: (rou
   if (!j?.route) return null;
   return (
     <div className={`${CARD} space-y-2`}>
-      <p className="text-fg text-[length:var(--fs-body)]">
+      <p className="body-text">
         <strong>{j.label}</strong> continues in its own journey - this customer has already been identified and validated here.
       </p>
       <Button variant="primary" compact onClick={() => onGo(j.route!)}>

@@ -34,8 +34,8 @@ export function WizardStepHeader({
           stay in reach however far the agent scrolls. It sits at the title row when the panel is at the top, inset from the top by the same 24px as from the right
           (items-start: the button hangs from the strip instead of being centred on its zero height). */}
       {(showCustomerView || action || trayAside) && (
-        <div className="pointer-events-none sticky top-6 z-[var(--z-raised)] flex h-0 items-start justify-end">
-          <div className="pointer-events-auto flex items-center gap-3">
+        <div className="sticky-corner">
+          <div className="pointer-events-auto row">
               {action}
               {trayAside}
               {showCustomerView && <CustomerViewButton viewOpen={viewOpen} onToggle={toggleCustomerView} />}
@@ -43,20 +43,20 @@ export function WizardStepHeader({
         </div>
       )}
         {/* Below sm the floating actions have no room beside the title, so they take their own row above it (max-sm:pt-12). */}
-        <div className={`flex min-h-[39px] flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-4 ${trayAside ? 'lg:pr-[22rem]' : showCustomerView && action ? 'sm:pr-[26rem]' : showCustomerView || action ? 'sm:pr-48' : ''} ${showCustomerView || action ? 'max-sm:pt-12' : ''}`}>
+        <div className={`split-wide min-h-[39px] mb-4 ${trayAside ? 'lg:pr-[22rem]' : showCustomerView && action ? 'sm:pr-[26rem]' : showCustomerView || action ? 'sm:pr-48' : ''} ${showCustomerView || action ? 'max-sm:pt-12' : ''}`}>
           <div>
             {currentStep?.eyebrow && (
-              <p className="text-[var(--tint-teal-fg)] text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide mb-1">{currentStep.eyebrow}</p>
+              <p className="text-[var(--tint-teal-fg)] text-[length:var(--fs-tag)] caps-strong mb-1">{currentStep.eyebrow}</p>
             )}
             <h2
               ref={stepHeadingRef}
               tabIndex={-1}
-              className="text-[length:var(--fs-h4)] font-bold text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+              className="title-xl focus-ring"
             >
               {currentStep?.heading ?? currentStep?.label}
             </h2>
             {currentStep?.subheading && (
-              <p className="text-fg-2 text-[length:var(--fs-body)] mt-1">{currentStep.subheading}</p>
+              <p className="text-secondary mt-1">{currentStep.subheading}</p>
             )}
           </div>
         </div>

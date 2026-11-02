@@ -16,11 +16,11 @@ interface CheckoutDefaultLayoutProps extends CheckoutSummaryDerived {
 }
 
 const Row = ({ label, value, detail, agentOnly }: { label: string; value: string; detail?: string; agentOnly?: boolean }) => (
-  <div className={`flex justify-between gap-4 py-2 border-b border-border-soft last:border-0 ${agentOnly ? 'agent-only' : ''}`}>
+  <div className={`spread py-2 row-rule ${agentOnly ? 'agent-only' : ''}`}>
     <dt className="text-fg">{label}</dt>
     <dd className="text-fg text-right">
       {value}
-      {detail && <span className="block text-[length:var(--fs-caption)] text-muted">{detail}</span>}
+      {detail && <span className="block caption-muted">{detail}</span>}
     </dd>
   </div>
 );
@@ -88,8 +88,8 @@ export function CheckoutDefaultLayout({
           walks Continue back through Number/SIM Type as normal, both of
           which keep their prior values, landing back here unchanged. */}
       {/* The agent's prompt and Edit are not part of the customer's pop-up. */}
-      <div className="agent-only flex items-center justify-between">
-        <p className="text-fg-2 text-[length:var(--fs-caption)]">Review with the customer before generating the CAF.</p>
+      <div className="agent-only row-between">
+        <p className="caption-secondary">Review with the customer before generating the CAF.</p>
         <Button variant="secondary" compact onClick={onEdit}>
           Edit
         </Button>
@@ -174,18 +174,18 @@ export function CheckoutDefaultLayout({
         {hrnAdvance > 0 && <Row label="Advance Payment" value={`${formatQar(hrnAdvance)}`} />}
       </dl>
 
-      <div className="rounded-[var(--radius-card)] border border-accent-border bg-surface-warm p-4 space-y-1">
+      <div className="notice-accent p-4 space-y-1">
         {/* Due today itemised (2026-09-28): the bold total, then its two
             possible components broken out underneath, so the figure above is
             never one number the agent cannot account for. Either line is
             absent when it contributes nothing - a QAR 0 row would answer a
             question nobody asked. */}
-        <div className="flex justify-between text-fg font-semibold">
+        <div className="total-row">
           <span>Due Today</span>
           <span>{formatQarAny(dueTodayQar)}</span>
         </div>
         {isStarNumber && (
-          <div className="flex justify-between text-fg-2 text-[length:var(--fs-caption)]">
+          <div className="flex justify-between caption-secondary">
             <span>
               Star Number charge
               {/* BR-115: only shown when there actually IS an overage - a QAR 0
@@ -201,13 +201,13 @@ export function CheckoutDefaultLayout({
           </div>
         )}
         {numberWaiver && numberWaivedQar > 0 && (
-          <div className="flex justify-between text-fg-2 text-[length:var(--fs-caption)]">
+          <div className="flex justify-between caption-secondary">
             <span>{numberWaiverLabel(numberWaiver)}</span>
             <span>- {formatQarAny(numberWaivedQar)}</span>
           </div>
         )}
         {hrnAdvance > 0 && (
-          <div className="flex justify-between text-fg-2 text-[length:var(--fs-caption)]">
+          <div className="flex justify-between caption-secondary">
             <span>Upfront / HRN fee</span>
             <span>{formatQarAny(hrnAdvance)}</span>
           </div>
@@ -220,7 +220,7 @@ export function CheckoutDefaultLayout({
             shows the customer is explicit that those differ: the first bill
             is a prorated part-month plus one full month billed in advance,
             not the plain recurring charge. */}
-        <div className="flex justify-between text-fg-2 text-[length:var(--fs-caption)]">
+        <div className="flex justify-between caption-secondary">
           <span>
             First month's bill (approximate)
             <span className="block text-muted">
@@ -229,7 +229,7 @@ export function CheckoutDefaultLayout({
           </span>
           <span className="shrink-0">{formatQarAny(firstBill.totalQar)}</span>
         </div>
-        <div className="flex justify-between text-fg-2 text-[length:var(--fs-caption)]">
+        <div className="flex justify-between caption-secondary">
           <span>Recurring monthly bill, from month 2</span>
           <span>{formatQarAny(monthlyRecurringQar)}/mo</span>
         </div>
@@ -239,8 +239,8 @@ export function CheckoutDefaultLayout({
             itemisation is invented here the way the rows above never invent
             one either. */}
         <div className="rounded-[var(--radius-sm)] border border-dashed border-border-soft p-3 mt-1">
-          <p className="text-fg-2 text-[length:var(--fs-caption)] font-medium">Full Second-Bill Breakdown</p>
-          <p className="text-muted text-[length:var(--fs-caption)]">Reserved - detailed content not yet designed.</p>
+          <p className="caption-secondary font-medium">Full Second-Bill Breakdown</p>
+          <p className="caption-muted">Reserved - detailed content not yet designed.</p>
         </div>
       </div>
     </div>

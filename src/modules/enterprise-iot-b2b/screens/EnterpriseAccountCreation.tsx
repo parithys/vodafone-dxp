@@ -87,7 +87,7 @@ export function EnterpriseAccountCreation() {
           </Button>
         </div>
         {crSearched && <Badge variant="success">CR Verified</Badge>}
-        {!crSearched && crNumber && <p className="text-[length:var(--fs-caption)] text-muted">Mandatory CR-number search required before account creation.</p>}
+        {!crSearched && crNumber && <p className="caption-muted">Mandatory CR-number search required before account creation.</p>}
 
         <Input label="Agent ID (for Commission)" value={agentId} onChange={(e) => setAgentId(e.target.value)} />
 
@@ -111,7 +111,7 @@ export function EnterpriseAccountCreation() {
 
         {creditLimit && (
           <div className="card p-3">
-            <label className="flex items-center gap-2 text-[length:var(--fs-body)] text-fg">
+            <label className="row-tight body-text">
               <Checkbox checked={financeApproved} onChange={(e) => setFinanceApproved(e.target.checked)} />
               Business Finance has approved this credit limit
             </label>

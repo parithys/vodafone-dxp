@@ -22,7 +22,7 @@ interface MoiResultPanelProps {
 export function MoiResultPanel({ moiResult, idType, idNumber, hideDocumentType, statusText }: MoiResultPanelProps) {
   const identity = identityFromMoi(moiResult);
   return (
-    <div className="pt-6 border-t border-border-soft">
+    <div className="pt-6 divider-top">
       <IdentityDetailsCard
         status={statusText}
         facts={identityFacts(

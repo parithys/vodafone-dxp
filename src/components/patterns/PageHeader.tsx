@@ -27,16 +27,16 @@ export function PageHeader({
 }) {
   const Heading = level === 1 ? 'h1' : 'h2';
   return (
-    <header className={`${bleed ? '-mx-8 -mt-8 mb-6' : 'mb-5'} px-5 py-3 bg-[var(--title-band-bg)] text-on-dark border-b border-[var(--field-card-border)] flex flex-wrap items-center justify-between gap-x-4 gap-y-2`}>
+    <header className={`${bleed ? '-mx-8 -mt-8 mb-6' : 'mb-5'} px-5 py-3 title-band split-wide`}>
       {/* Title, badges and description on the left; the actions on the right, centred vertically against the whole header. */}
       <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <Heading className="text-[length:var(--fs-h4)] font-bold text-on-dark break-words min-w-0">{title}</Heading>
+        <div className="wrap-center gap-x-3 gap-y-2">
+          <Heading className="title-on-dark">{title}</Heading>
           {badges}
         </div>
         {description && <div className="text-on-dark-2 text-[length:var(--fs-body)]">{description}</div>}
       </div>
-      {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
+      {actions && <div className="row-tight shrink-0">{actions}</div>}
     </header>
   );
 }

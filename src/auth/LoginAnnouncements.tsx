@@ -20,13 +20,13 @@ function Card({ a }: { a: NewsItem }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Read more: ${a.title} (opens in a new tab)`}
-      className="group block w-full h-full text-left rounded-[var(--radius-card)] bg-bg text-fg overflow-hidden shadow-[var(--shadow-login-card)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+      className="group announcement-card"
     >
       <img src={appPath(a.image)} alt="" className="block w-full aspect-[5/3] object-cover" />
       <span className="block px-[6%] pt-4 pb-5 space-y-1.5">
-        <span className="font-bold text-[length:var(--fs-body-lg)] leading-snug line-clamp-2 group-hover:underline">{a.title}</span>
-        <span className="text-fg-2 text-[length:var(--fs-body)] leading-snug line-clamp-3">{a.summary}</span>
-        <span className="block pt-2 text-muted text-[length:var(--fs-caption)]">{formatNewsDate(a.date)}</span>
+        <span className="login-card-title">{a.title}</span>
+        <span className="text-secondary leading-snug line-clamp-3">{a.summary}</span>
+        <span className="block pt-2 caption-muted">{formatNewsDate(a.date)}</span>
       </span>
     </a>
   );
@@ -97,15 +97,15 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
         if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false);
       }}
     >
-      <div className="flex items-center justify-between gap-4 mb-4">
-        <h3 className="text-on-dark font-semibold uppercase tracking-wide text-[length:var(--fs-caption-upper)]">Latest Updates</h3>
+      <div className="spread items-center mb-4">
+        <h3 className="text-on-dark font-semibold label-caps">Latest Updates</h3>
         {slides && (
-        <div className="flex items-center gap-2">
+        <div className="row-tight">
           <button
             type="button"
             aria-pressed={stopped}
             onClick={() => setStopped((v) => !v)}
-            className="rounded-[var(--radius-pill)] px-3 py-1 text-on-dark-2 text-[length:var(--fs-caption)] hover:text-on-dark focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+            className="pill text-on-dark-2 hover:text-on-dark focus-ring"
           >
             {stopped ? 'Play' : 'Pause'}
           </button>
@@ -113,7 +113,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             type="button"
             aria-label="Previous announcement"
             onClick={prev}
-            className="w-10 h-10 rounded-[var(--radius-pill)] border border-on-dark-line-3 bg-on-dark-fill-2 text-on-dark flex items-center justify-center hover:bg-on-dark-fill-3 focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+            className="on-dark-round-btn"
           >
             <Icon path={CHEVRON_LEFT} className="w-5 h-5" />
           </button>
@@ -121,7 +121,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             type="button"
             aria-label="Next announcement"
             onClick={next}
-            className="w-10 h-10 rounded-[var(--radius-pill)] border border-on-dark-line-3 bg-on-dark-fill-2 text-on-dark flex items-center justify-center hover:bg-on-dark-fill-3 focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+            className="on-dark-round-btn"
           >
             <Icon path={CHEVRON_RIGHT} className="w-5 h-5" />
           </button>
@@ -143,7 +143,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
         </div>
       </div>
       {slides && (
-      <div className="flex items-center justify-center gap-3 mt-6" role="group" aria-label="Choose announcement">
+      <div className="flex items-center gap-3 justify-center mt-6" role="group" aria-label="Choose announcement">
         {items.map((a, i) => (
           <button
             key={a.id}
@@ -151,7 +151,7 @@ function NewsCarousel({ items }: { items: NewsItem[] }) {
             aria-current={i === index ? 'true' : undefined}
             aria-label={`Show ${a.title}`}
             onClick={() => goTo(i)}
-            className={`w-2.5 h-2.5 rounded-[var(--radius-pill)] transition-colors ${i === index ? 'bg-accent' : 'bg-on-dark-4 hover:bg-on-dark-3'}`}
+            className={`dot-md transition-colors ${i === index ? 'bg-accent' : 'bg-on-dark-4 hover:bg-on-dark-3'}`}
           />
         ))}
       </div>

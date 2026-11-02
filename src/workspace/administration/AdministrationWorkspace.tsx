@@ -3,6 +3,7 @@ import { RoleAccessSection } from './RoleAccessSection';
 import { BellNotificationsSection } from './BellNotificationsSection';
 import { BulkNotesConfigSection } from './BulkNotesConfigSection';
 import { CapabilityLibrarySection } from './CapabilityLibrarySection';
+import { UiComponentsLibrarySection } from './UiComponentsLibrarySection';
 import { PageHeader } from '../../components/patterns/PageHeader';
 
 // The home for backoffice/config-oriented capabilities: the role/access
@@ -11,6 +12,7 @@ import { PageHeader } from '../../components/patterns/PageHeader';
 // placeholders, added alongside the original viewer rather than replacing it.
 const TABS: TabItem[] = [
   { key: 'capabilities', label: 'Capability Library', content: <CapabilityLibrarySection /> },
+  { key: 'ui-components', label: 'UI Components Library', content: <UiComponentsLibrarySection /> },
   { key: 'bell', label: 'Bell Notifications', content: <BellNotificationsSection /> },
   { key: 'bulk-notes', label: 'Bulk Notes', content: <BulkNotesConfigSection /> },
   { key: 'roles', label: 'Roles & Access', content: <RoleAccessSection /> },

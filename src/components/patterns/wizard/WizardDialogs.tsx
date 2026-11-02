@@ -44,7 +44,7 @@ export function AbandonDialog({
         </>
       }
     >
-      <p className="text-fg-2 text-[length:var(--fs-body)]">
+      <p className="text-secondary">
         Everything entered for this customer will be discarded and the saved draft deleted. This cannot be undone.
       </p>
       {!noKeep && (
@@ -94,7 +94,7 @@ export function SaveExitDialog({
         </>
       }
     >
-      <p className="text-fg-2 text-[length:var(--fs-body)]">This order is saved as a draft and can be resumed from Draft Orders.</p>
+      <p className="text-secondary">This order is saved as a draft and can be resumed from Draft Orders.</p>
       <div className="mt-4">
         <Textarea
           label="Comments"
@@ -142,7 +142,7 @@ export function LeaveJourneyDialog({
         </>
       }
     >
-      <p className="text-fg-2 text-[length:var(--fs-body)]">
+      <p className="text-secondary">
         This journey is not finished. Save as Draft keeps what you have entered as a draft order you can resume from Draft Orders.
         Abandon Journey discards it.
       </p>

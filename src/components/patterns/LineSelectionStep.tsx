@@ -48,7 +48,7 @@ export function LineSelectionStep({ customerId, lineType, value, onChange, requi
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div className="fields-sm sm:grid-cols-2">
       {lines.map((line) => {
         const reason = lineIneligibility(line, { requirePlan });
         const selected = value?.installedAssetId === line.installedAssetId;
@@ -59,15 +59,15 @@ export function LineSelectionStep({ customerId, lineType, value, onChange, requi
             aria-pressed={selected}
             disabled={Boolean(reason)}
             onClick={() => onChange(selected ? undefined : line)}
-            className={`relative text-left rounded-[var(--radius-card)] border p-4 disabled:cursor-not-allowed ${reason ? 'border-border-soft bg-surface' : selected ? CARD_SELECTED : CARD_IDLE}`}
+            className={`relative text-left card-frame p-4 disabled:cursor-not-allowed ${reason ? 'border-border-soft bg-surface' : selected ? CARD_SELECTED : CARD_IDLE}`}
           >
             {selected && !reason && <SelectedTick />}
-            <div className="flex items-center gap-2 mb-1">
+            <div className="row-tight mb-1">
               <span className="text-fg font-semibold">{line.identifier}</span>
               <ServiceTypeTag type={line.lineType} />
             </div>
-            <p className="text-fg text-[length:var(--fs-body)]">{line.productName}</p>
-            <p className="text-fg-2 text-[length:var(--fs-caption)]">
+            <p className="body-text">{line.productName}</p>
+            <p className="caption-secondary">
               {line.priceQAR === undefined ? 'Price not on file' : line.lineType === 'postpaid' ? `${formatQar(line.priceQAR)} / month` : `${formatQar(line.priceQAR)} starter pack`} · {line.status}
             </p>
             {reason && <p className="text-danger text-[length:var(--fs-caption)] mt-1">{reason}</p>}

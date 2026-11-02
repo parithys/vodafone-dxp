@@ -2,10 +2,10 @@ import { CARD_SELECTED, SelectedTick, CARD_IDLE } from '../../components/primiti
 import { useEffect } from 'react';
 import { Input } from '../../components/primitives/Input';
 import { Icon } from '../../components/primitives/Icon';
-import { CompanySearchInput } from './CompanySearchInput';
-import type { CompanySelection } from './CompanySearchInput';
-import { QidImageUpload } from './QidImageUpload';
-import { isScanAccepted } from './qidImageUploadModel';
+import { CompanySearchInput } from '../../components/domain/CompanySearchInput';
+import type { CompanySelection } from '../../components/domain/CompanySearchInput';
+import { QidImageUpload } from '../../components/domain/QidImageUpload';
+import { isScanAccepted } from '../../components/domain/qidImageUploadModel';
 import { CARD, CARD_SELECTABLE } from '../stepStyles';
 import { TYPE_OPTIONS, isCompanySupported } from './specialDiscountsModel';
 import type { SpecialDiscountType, SpecialDiscountsValue } from './specialDiscountsModel';
@@ -70,10 +70,12 @@ export function SpecialDiscountsStep({
       {type && type !== 'none' && (type !== 'b2b2c' || isCompanySupported(value.company)) && (
         <div className="space-y-5">
           {/* One card for the office ID: scanned, or uploaded from the same card's own "Upload document". */}
-          <div className="flex flex-col gap-2 min-w-0">
+          <div className="stack-sm min-w-0">
           <div className={EQUAL_CARD}>
           <QidImageUpload
             documentType="Office ID"
+            // This step's own rule: the reader on every device, upload on a tablet or when there is no reader.
+            readerEverywhere
             variant={type === 'b2b2c' || type === 'retired' || type === 'mada' ? type : undefined}
             value={value.officeId ?? {}}
             // A clear scan or upload is accepted and saved as it lands; a rescan or new upload replaces it, so only the latest image counts.
@@ -120,17 +122,17 @@ function OPTION_CARDS(value: SpecialDiscountsValue, onChange: (v: SpecialDiscoun
             choose();
           }
         }}
-        className={`${CARD_SELECTABLE} cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${checked ? CARD_SELECTED : CARD_IDLE}`}
+        className={`${CARD_SELECTABLE} cursor-pointer transition-colors focus-ring ${checked ? CARD_SELECTED : CARD_IDLE}`}
       >
         {checked && <SelectedTick />}
-        <div className="flex items-center gap-3">
+        <div className="row">
           {/* Icon tile: tinted at rest, solid accent when selected. */}
           <span
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-button)] transition-colors ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}
+            className={`option-icon ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}
           >
             <Icon path={TYPE_ICONS[o.key] ?? CHECK_ICON} className="w-5 h-5" />
           </span>
-          <span className="min-w-0 flex-1 text-fg font-medium text-[length:var(--fs-body)]">{o.label}</span>
+          <span className="min-w-0 flex-1 value-text">{o.label}</span>
         </div>
       </div>
     );

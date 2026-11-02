@@ -7,6 +7,8 @@ import { useNotificationStore } from '../../stores/notificationStore';
 import type { EligibilityResult } from '../../components/domain/eligibilityTypes';
 import { outcomeRows, useOutcomePreview } from './eligibilityOutcomesModel';
 import type { OutcomeKey } from './eligibilityOutcomesModel';
+import { ExceptionRequestModal } from './ExceptionRequestModal';
+import type { AdditionalDocument } from '../DocumentUpload';
 
 
 /** Inline, in the step body: the blockers behind the outcome picked in the footer. */
@@ -18,7 +20,7 @@ export function EligibilityOutcomePanel() {
   return (
     <div className="space-y-2" role="region" aria-label={`${open} blockers`}>
       <div className="flex justify-end">
-        <button type="button" onClick={close} className="text-[length:var(--fs-caption)] text-link underline px-1">
+        <button type="button" onClick={close} className="text-[length:var(--fs-caption)] link-underline px-1">
           Hide
         </button>
       </div>
@@ -36,11 +38,19 @@ export function OutcomeActions({
   eligibility,
   defaultButton,
   onAbandon,
+  exception,
 }: {
   eligibility: EligibilityResult | undefined;
   defaultButton: ReactNode;
   onAbandon: () => void;
+  /** An applicant under 18: Apply for Exception sits beside Abandon Order (the only two actions), opening the Exception Request. */
+  exception?: {
+    requirement: { id: string; label: string } | undefined;
+    approverRole: string;
+    onSubmit: (document: AdditionalDocument) => void;
+  };
 }) {
+  const [exceptionOpen, setExceptionOpen] = useState(false);
   const preview = useOutcomePreview((s) => s.open);
   const [confirm, setConfirm] = useState<'payment' | 'approval' | 'prepaid' | null>(null);
   const pushToast = useNotificationStore((s) => s.pushToast);
@@ -81,7 +91,7 @@ export function OutcomeActions({
         </>
       }
     >
-      <p className="text-fg-2 text-[length:var(--fs-body)]">
+      <p className="text-secondary">
         {confirm === 'payment'
           ? 'Continue to payment for this customer?'
           : confirm === 'prepaid'
@@ -91,15 +101,40 @@ export function OutcomeActions({
     </Modal>
   );
 
-  if (outcome === 'Hard Stop')
+  if (outcome === 'Hard Stop') {
+    // An under-18 applicant: Abandon Order or Apply for Exception, and nothing else - no way past the age check.
+    const underage = Boolean(exception) && Boolean(eligibility?.checks.some((c) => c.exceptionOffer === 'under-18'));
+    if (underage && exception) {
+      return (
+        <div className="row">
+          <Button variant="secondary" onClick={onAbandon}>
+            Abandon Order
+          </Button>
+          <Button variant="primary" onClick={() => setExceptionOpen(true)}>
+            Apply for Exception
+          </Button>
+          <ExceptionRequestModal
+            open={exceptionOpen}
+            onClose={() => setExceptionOpen(false)}
+            requirement={exception.requirement}
+            approverRole={exception.approverRole}
+            onSubmit={(d) => {
+              setExceptionOpen(false);
+              exception.onSubmit(d);
+            }}
+          />
+        </div>
+      );
+    }
     return (
       <Button variant="primary" onClick={onAbandon}>
         Abandon Order
       </Button>
     );
+  }
   if (outcome === 'Soft Stop')
     return (
-      <div className="flex items-center gap-3">
+      <div className="row">
         <Button variant="secondary" onClick={() => setConfirm('prepaid')}>
           Continue Prepaid
         </Button>

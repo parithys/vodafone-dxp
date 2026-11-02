@@ -131,10 +131,10 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eligibleIds, allAddons.length, selectedKey, billingKey]);
 
-  if (status === 'loading' && emptyMessage) return <p className="text-muted text-[length:var(--fs-caption)]">Loading add-ons…</p>;
+  if (status === 'loading' && emptyMessage) return <p className="caption-muted">Loading add-ons…</p>;
   if (status === 'error') {
     return (
-      <div role="alert" className="rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div role="alert" className="notice-warning pad-row split">
         <p className="text-[var(--warn-text)] text-[length:var(--fs-body)]">Add-ons could not be loaded. You can continue without them.</p>
         <Button variant="tertiary" compact onClick={() => { setStatus('loading'); setAttempt((n) => n + 1); }}>
           Retry
@@ -188,43 +188,43 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                     toggle(a.productId);
                   }
                 }}
-                className={`relative rounded-[var(--radius-card)] border transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${options.length > 1 ? '' : 'cursor-pointer'} ${
+                className={`relative card-option ${options.length > 1 ? '' : 'cursor-pointer'} ${
                   selected ? CARD_SELECTED : CARD_IDLE
                 }`}
               >
                 {selected && <SelectedTick />}
-                <div className="flex min-h-28 items-center gap-3 p-4 sm:gap-5 sm:p-5">
-                <span className="flex h-14 w-14 shrink-0 self-start items-center justify-center card text-fg shadow-[var(--shadow-icon-tile)]">
+                <div className="row min-h-28 p-4 sm:gap-5 sm:p-5">
+                <span className="icon-tile h-14 w-14 self-start card text-fg shadow-[var(--shadow-icon-tile)]">
                   <Icon path={DATA_ICON} className="w-5 h-5" />
                 </span>
                 <div className="min-w-0 flex-1">
                   {/* The Add-ons page names an add-on by what it gives ("2.5 GB full-speed data"); elsewhere the name leads and the description follows. */}
-                  <p className="text-fg font-semibold text-[length:var(--fs-body-lg)] leading-snug">{useTabs ? a.description ?? a.name : a.name}</p>
-                  {!useTabs && a.description && <p className="text-fg-2 text-[length:var(--fs-caption)]">{a.description}</p>}
-                  {addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing) && <p className="mt-1 text-muted text-[length:var(--fs-caption)]">{addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing)}</p>}
+                  <p className="subtitle leading-snug">{useTabs ? a.description ?? a.name : a.name}</p>
+                  {!useTabs && a.description && <p className="caption-secondary">{a.description}</p>}
+                  {addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing) && <p className="mt-1 caption-muted">{addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing)}</p>}
                 </div>
                 <div className="min-w-0 max-w-[50%] shrink-0 text-right">
                   {addonPriceDisplay(a, billing) ? (
                     <>
-                      <p className="text-fg text-[length:var(--fs-h4)] font-bold leading-none whitespace-nowrap">{addonPriceDisplay(a, billing)!.primary}</p>
-                      {addonPriceDisplay(a, billing)!.secondary && <p className="mt-2 text-fg-2 text-[length:var(--fs-caption)] max-w-48 ml-auto leading-snug">{addonPriceDisplay(a, billing)!.secondary}</p>}
+                      <p className="title-xl leading-none whitespace-nowrap">{addonPriceDisplay(a, billing)!.primary}</p>
+                      {addonPriceDisplay(a, billing)!.secondary && <p className="mt-2 caption-secondary max-w-48 ml-auto leading-snug">{addonPriceDisplay(a, billing)!.secondary}</p>}
                     </>
                   ) : a.pricing === 'free' || (!a.pricing && a.mrcQAR === 0) ? (
-                    <p className="text-fg text-[length:var(--fs-h4)] font-bold">Free</p>
+                    <p className="title-xl">Free</p>
                   ) : a.priceLabel && /QR\s*\d/.test(a.priceLabel) ? (
                     // Only wording that states a QAR amount ("QR 50 per additional SIM") is shown; open prices (TBC, Plan-based, Plan-dependent) are not displayed.
-                    <p className="text-fg text-[length:var(--fs-body)] font-bold max-w-48">{a.priceLabel}</p>
+                    <p className="title-sm max-w-48">{a.priceLabel}</p>
                   ) : a.priceLabel ? null : (
                     <p className="text-fg">
                       <span className="text-[length:var(--fs-caption)]">QAR </span>
                       <span className="text-[length:var(--fs-h4)] font-bold">{formatAmount(a.mrcQAR)}</span>
-                      <span className="text-fg-2 text-[length:var(--fs-caption)]">{source === 'prepaid' ? ' one-off' : ' /mo'}</span>
+                      <span className="caption-secondary">{source === 'prepaid' ? ' one-off' : ' /mo'}</span>
                     </p>
                   )}
                 </div>
                 </div>
                 {options.length > 1 && (
-                  <div className="border-t border-border-soft p-3">
+                  <div className="divider-top p-3">
                     <SegmentedTabs
                       label={`Billing frequency for ${a.description ?? a.name}`}
                       items={options.map((option) => ({
@@ -255,10 +255,10 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
-          className="flex w-full items-center gap-2 text-left"
+          className="row-tight w-full text-left"
         >
           <Icon path={CHEVRON_RIGHT} className={`w-4 h-4 text-muted transition-transform ${open ? 'rotate-90' : ''}`} />
-          <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">
+          <h3 className="subtitle">
             Add-ons{selectedIds.length > 0 ? ` (${selectedIds.length} selected)` : ' (optional)'}
           </h3>
         </button>
@@ -306,13 +306,13 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {([['PAID ADD-ONS', paid, 'paid'], ['COMPLIMENTARY', free, 'free']] as const).map(([title, list, kind]) => (
             <section key={kind} aria-label={title} className="space-y-4 min-w-0">
-              <div className={`flex items-center gap-2 text-[length:var(--fs-caption-upper)] font-semibold uppercase tracking-wide ${kind === 'free' ? 'text-[var(--success)]' : 'text-fg-2'}`}>
+              <div className={`row-tight label-caps font-semibold ${kind === 'free' ? 'text-[var(--success)]' : 'text-fg-2'}`}>
                 <h4>{title}</h4>
-                <span className={`inline-flex min-w-6 items-center justify-center rounded-[var(--radius-pill)] px-2 py-0.5 text-[length:var(--fs-caption)] ${kind === 'free' ? 'bg-tone-success text-[var(--success)]' : 'bg-surface text-fg-2'}`}>
+                <span className={`count-pill ${kind === 'free' ? 'bg-tone-success text-[var(--success)]' : 'bg-surface text-fg-2'}`}>
                   {list.length}
                 </span>
               </div>
-              {list.length === 0 ? <EmptyState compact message={q ? `No ${kind} add-ons in ${category} match that search.` : `No ${kind} add-ons in ${category}.`} /> : <div className="flex flex-col gap-4">{list.map((a) => rowCard(a))}</div>}
+              {list.length === 0 ? <EmptyState compact message={q ? `No ${kind} add-ons in ${category} match that search.` : `No ${kind} add-ons in ${category}.`} /> : <div className="stack-lg">{list.map((a) => rowCard(a))}</div>}
             </section>
           ))}
         </div>
@@ -335,18 +335,18 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                   toggle(a.productId);
                 }
               }}
-              className={`relative isolate flex flex-col gap-3 rounded-[var(--radius-card)] border p-5 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+              className={`option-card isolate gap-3 p-5 ${
                 selected ? CARD_SELECTED : CARD_IDLE
               }`}
             >
               {selected && <SelectedCardTexture />}
               {selected && <SelectedTick />}
-              <p className="text-fg font-bold text-[length:var(--fs-h5)] leading-snug">{a.name}</p>
-              {a.description && <p className="text-fg-2 text-[length:var(--fs-caption)]">{a.description}</p>}
+              <p className="title-lg leading-snug">{a.name}</p>
+              {a.description && <p className="caption-secondary">{a.description}</p>}
               <p className="text-accent mt-auto">
                 <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
                 <span className="text-[length:var(--fs-h3)] font-bold">{formatAmount(a.mrcQAR)}</span>
-                <span className="text-fg-2 text-[length:var(--fs-caption)]">{source === 'prepaid' ? ' one-off' : ' /mo'}</span>
+                <span className="caption-secondary">{source === 'prepaid' ? ' one-off' : ' /mo'}</span>
               </p>
             </div>
           );

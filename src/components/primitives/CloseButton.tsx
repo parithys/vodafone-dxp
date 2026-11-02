@@ -13,7 +13,7 @@ export function CloseButton({ onClick, label = 'Close', className = '' }: { onCl
         type="button"
         onClick={onClick}
         aria-label={label}
-        className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-button)] text-fg-2 hover:bg-[var(--icon-tile-bg)] hover:text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)] transition-colors ${className}`}
+        className={`btn-close ${className}`}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
           <path d={CLEAR_ICON} />

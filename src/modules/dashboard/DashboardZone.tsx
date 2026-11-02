@@ -121,11 +121,11 @@ export function DashboardZone({
   // legible - you can see what you de-emphasised rather than it vanishing.
   if (size === 'collapsed') {
     return (
-      <section className="rounded-[var(--radius-card-lg)] border border-[var(--field-card-border)] bg-bg px-5 py-4">
+      <section className="card card-lg card-inherit-fill pad-panel">
         <div className="flex items-center gap-2.5 text-fg-2">
           <Icon path={spec.headingIcon} className="w-4.5 h-4.5 text-accent shrink-0" />
           <span className="font-medium text-[length:var(--fs-body)]">{spec.heading}</span>
-          <span className="text-muted text-[length:var(--fs-caption)] ml-auto">
+          <span className="caption-muted ml-auto">
             {spec.tiles.length + spec.cards.length} metrics hidden by Focus
           </span>
         </div>
@@ -158,10 +158,10 @@ export function DashboardZone({
 
   return (
     <section className="min-w-0">
-      <div className="flex items-start justify-between gap-4 mb-4">
+      <div className="split-top gap-4 mb-4">
         <div className="min-w-0">
-          <h2 className="text-[length:var(--fs-body-lg)] font-bold tracking-tight text-fg">{spec.heading}</h2>
-          {spec.subheading && <p className="text-fg-2 text-[length:var(--fs-caption)] mt-0.5">{spec.subheading}</p>}
+          <h2 className="title-md tracking-tight">{spec.heading}</h2>
+          {spec.subheading && <p className="caption-secondary mt-0.5">{spec.subheading}</p>}
         </div>
       </div>
 
@@ -173,7 +173,7 @@ export function DashboardZone({
             const body = (
               <>
                 {tile.pill ? (
-                  <span title="Demo value - not yet connected to a live feed" className={`inline-block whitespace-nowrap rounded-[var(--radius-sm)] px-2.5 py-1 text-[length:var(--fs-2xs)] font-bold uppercase tracking-wide ${PILL_TONES[tile.pill.tone]}`}>
+                  <span title="Demo value - not yet connected to a live feed" className={`tile-pill ${PILL_TONES[tile.pill.tone]}`}>
                     {tile.pill.text}
                   </span>
                 ) : (
@@ -182,16 +182,16 @@ export function DashboardZone({
                 <div className="text-[length:var(--fs-stat)] leading-none font-extrabold text-fg mt-5">
                   {value(tile.count, tile.loadingKind)}
                 </div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)] mt-2">{tile.label}</div>
+                <div className="caption-secondary mt-2">{tile.label}</div>
               </>
             );
-            const shell = `rounded-[var(--radius-card-lg)] border border-[var(--field-card-border)] bg-bg p-5 ${itemSpan(ti, spec.tiles.length + spec.cards.length, size)}`;
+            const shell = `card card-lg card-inherit-fill p-5 ${itemSpan(ti, spec.tiles.length + spec.cards.length, size)}`;
             if (readOnly || !tile.to) return <div key={tile.key} className={shell}>{body}</div>;
             return (
               <Link
                 key={tile.key}
                 to={tile.to}
-                className={`${shell} hover:bg-[var(--field-card-hover-bg)]`}
+                className={`${shell} card-interactive`}
               >
                 {body}
               </Link>
@@ -199,13 +199,13 @@ export function DashboardZone({
           })}
           {spec.cards.map((card, ci) => (
             // As tall as its row (the grid stretches it), so every card in the row matches, with the figure pinned to the bottom.
-            <div key={card.label} className={`rounded-[var(--radius-card-lg)] border border-[var(--field-card-border)] bg-bg p-5 flex flex-col ${itemSpan(spec.tiles.length + ci, spec.tiles.length + spec.cards.length, size)}`}>
-              <div className="flex items-start justify-between gap-3 mb-4">
+            <div key={card.label} className={`card card-lg card-inherit-fill p-5 flex flex-col ${itemSpan(spec.tiles.length + ci, spec.tiles.length + spec.cards.length, size)}`}>
+              <div className="split-top gap-3 mb-4">
                 <div className="min-w-0">
                   <div className="font-bold text-fg text-[length:var(--fs-caption)] line-clamp-2">{card.label}</div>
                   <div className="text-muted text-[length:var(--fs-xs)] line-clamp-2">{card.sub}</div>
                 </div>
-                <span className={`w-10 h-10 rounded-[var(--radius-card)] ${spec.cardTone === 'pink' ? 'bg-surface-warm text-accent' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'} flex items-center justify-center shrink-0`}>
+                <span className={`w-10 h-10 rounded-[var(--radius-card)] ${spec.cardTone === 'pink' ? 'bg-surface-warm text-accent' : 'bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]'} icon-tile`}>
                   <Icon path={card.icon} className="w-4.5 h-4.5" />
                 </span>
               </div>
@@ -221,7 +221,7 @@ export function DashboardZone({
           rendered disabled - a row of dead buttons is worse than their absence. */}
       {!readOnly && spec.actions.length > 0 && (
         <>
-          <div className="flex flex-wrap gap-3 mb-6">
+          <div className="wrap-loose mb-6">
             {spec.actions.map((action, i) => (
               // The palette's soft pink fill (2026-09-27), standardised across
               // every secondary/clickable button in the app - see
@@ -252,7 +252,7 @@ export function DashboardZone({
 
       {spec.listTitle && (
         <>
-          <h3 className="text-[length:var(--fs-body-lg)] font-bold text-fg mb-3">{spec.listTitle}</h3>
+          <h3 className="title-md mb-3">{spec.listTitle}</h3>
           {(spec.listItems ?? []).length === 0 && (
             <p className="text-muted text-[length:var(--fs-body)]">{spec.listEmpty}</p>
           )}
@@ -261,24 +261,24 @@ export function DashboardZone({
               const body = (
                 <>
                   <div className="min-w-0">
-                    <div className="font-medium text-fg text-[length:var(--fs-body)] truncate">{item.primary}</div>
-                    <div className="text-fg-2 text-[length:var(--fs-caption)] truncate">{item.secondary}</div>
+                    <div className="value-text truncate">{item.primary}</div>
+                    <div className="caption-secondary truncate">{item.secondary}</div>
                   </div>
                   {item.badge ? (
                     <Badge variant="filled-neutral">{item.badge}</Badge>
                   ) : (
-                    <Icon path={ICONS.openArrow} className="w-4 h-4 text-muted shrink-0" />
+                    <Icon path={ICONS.openArrow} className="icon-sm text-muted" />
                   )}
                 </>
               );
               const shell =
-                'flex items-center justify-between gap-3 rounded-[var(--radius-card-lg)] border border-[var(--field-card-border)] bg-bg px-4 py-3';
+                'flex items-center justify-between gap-3 card card-lg card-inherit-fill px-4 py-3';
               if (readOnly || !item.to) return <div key={item.id} className={shell}>{body}</div>;
               return (
                 <Link
                   key={item.id}
                   to={item.to}
-                  className={`${shell} hover:bg-[var(--field-card-hover-bg)]`}
+                  className={`${shell} card-interactive`}
                 >
                   {body}
                 </Link>

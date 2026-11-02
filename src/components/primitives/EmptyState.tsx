@@ -39,7 +39,7 @@ export function EmptyState({
   return (
     <div
       role={role === 'none' ? undefined : role}
-      className={`flex flex-col items-center justify-center text-center ${compact ? 'gap-2 px-4 py-6' : 'gap-3 px-6 py-12'} ${className}`}
+      className={`stack-center justify-center text-center ${compact ? 'gap-2 px-4 py-6' : 'gap-3 px-6 py-12'} ${className}`}
     >
       <span
         aria-hidden="true"
@@ -47,9 +47,9 @@ export function EmptyState({
       >
         <Icon path={icon} className={compact ? 'w-5 h-5' : 'w-7 h-7'} />
       </span>
-      {title && <p className="text-fg font-semibold text-[length:var(--fs-body)]">{title}</p>}
+      {title && <p className="heading-strong">{title}</p>}
       {message && <p className="max-w-md text-muted text-[length:var(--fs-body)]">{message}</p>}
-      {action && <div className="mt-1 flex flex-wrap items-center justify-center gap-2">{action}</div>}
+      {action && <div className="mt-1 cluster-sm justify-center">{action}</div>}
     </div>
   );
 }

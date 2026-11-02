@@ -41,7 +41,7 @@ export function PassportToQidWizard() {
             key: 'msisdn-passport',
             label: 'MSISDN & Passport',
             render: ({ values, setValue }) => (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="pair-grid">
                 <PhoneNumberInput
                   label="MSISDN"
                   value={(values.msisdn as string) ?? ''}
@@ -111,15 +111,15 @@ export function PassportToQidWizard() {
               <div className="space-y-4">
                 <div className="card p-4 card-surface">
                   <p className="text-fg font-medium">Identification Number Change Form</p>
-                  <p className="text-fg-2 text-[length:var(--fs-caption)] mt-1">
+                  <p className="caption-secondary mt-1">
                     Customer: {(values.qid as IdLookupValue | undefined)?.moiResult?.name ?? '-'} - updating identification
                     from Passport {(values.passportNumber as string) ?? '-'} to QID{' '}
                     {(values.qid as IdLookupValue | undefined)?.idNumber ?? '-'}.
                   </p>
                   {signatureDataUrl ? (
-                    <div className="mt-3 flex items-center gap-3">
+                    <div className="mt-3 row">
                       <Badge variant="success">Signed</Badge>
-                      <img src={signatureDataUrl} alt="Signature" className="h-10 border border-border-soft rounded-[var(--radius-sm)]" />
+                      <img src={signatureDataUrl} alt="Signature" className="signature-thumb" />
                     </div>
                   ) : (
                     <SignatureCapture onSave={(dataUrl) => setSignatureDataUrl(dataUrl)} />

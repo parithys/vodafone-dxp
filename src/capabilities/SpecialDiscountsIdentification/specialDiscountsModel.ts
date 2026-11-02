@@ -1,5 +1,5 @@
-import type { CompanySelection } from './CompanySearchInput';
-import type { QidImageUploadValue } from './qidImageUploadModel';
+import type { CompanySelection } from '../../components/domain/CompanySearchInput';
+import type { QidImageUploadValue } from '../../components/domain/qidImageUploadModel';
 
 export type SpecialDiscountType = 'none' | 'b2b2c' | 'retired' | 'mada';
 

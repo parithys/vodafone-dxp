@@ -239,11 +239,11 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
           helperText="Real (partial sample) Siebel VFQA_TT_ACTUAL_ISSUE values - see ticketReferenceData.ts."
         />
         {duplicates.length > 0 && (
-          <div className="rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft p-3">
+          <div className="notice-warning p-3">
             <p className="text-[length:var(--fs-caption)] text-fg font-medium">
               {duplicates.length} potential duplicate {duplicates.length === 1 ? 'ticket' : 'tickets'} found for this customer/category/area (ASC-02/04):
             </p>
-            <ul className="list-disc list-inside text-[length:var(--fs-caption)] text-fg-2">
+            <ul className="list-disc list-inside caption-secondary">
               {duplicates.map((d) => (
                 <li key={d.customerId + d.category}>{d.category}{d.area ? ` - ${d.area}` : ''}</li>
               ))}
@@ -278,12 +278,12 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
           helperText={routingNote}
         />
         <div>
-          <div className="text-[length:var(--fs-caption)] text-muted mb-1">Priority (derived from Customer Type, CRE-16)</div>
-          <div className="flex items-center gap-2">
+          <div className="caption-muted mb-1">Priority (derived from Customer Type, CRE-16)</div>
+          <div className="row-tight">
             <Badge variant={derivedPriority === '1-ASAP' ? 'danger' : derivedPriority === '2-High' ? 'warning' : 'filled-neutral'}>
               {derivedPriority}
             </Badge>
-            <span className="text-[length:var(--fs-caption)] text-muted">
+            <span className="caption-muted">
               {customer ? `Segment: ${customer.segment}` : 'Enter a Customer ID to derive priority'} - not overridable by a non-privileged agent.
             </span>
           </div>
@@ -293,7 +293,7 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
         </Button>
         {!gate.pass && <p className="text-[length:var(--fs-caption)] text-danger">{gate.message}</p>}
       </div>
-      <div className="flex justify-end gap-2 mt-6">
+      <div className="actions-end mt-6">
         <Button variant="secondary" onClick={() => { reset(); onClose(); }}>Cancel</Button>
         <Button variant="primary" onClick={submit} disabled={!gate.pass || !customerId || !queue || submitting || blocked || !restrictedCustomers.ready}>
           {submitting ? 'Saving…' : 'Save'}

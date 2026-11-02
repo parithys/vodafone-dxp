@@ -65,7 +65,7 @@ interface GuidedContactStepProps {
 // renders every stroke icon in the app.
 function VerifiedBadge({ label }: { label: string }) {
   return (
-    <svg viewBox="0 0 24 24" role="img" aria-label={label} className="w-4 h-4 shrink-0">
+    <svg viewBox="0 0 24 24" role="img" aria-label={label} className="icon-sm">
       <circle cx="12" cy="12" r="12" className="text-success" fill="currentColor" />
       <path
         d="M7.5 12.5l3 3 6-6.5"
@@ -151,7 +151,7 @@ export function GuidedContactStep({ value, onChange, showIptvToggle = true, allo
       />
 
       {value.moiResult && (
-        <div className="space-y-6 pt-6 border-t border-border-soft">
+        <div className="space-y-6 pt-6 divider-top">
           {/* Two labelled groups (2026-09-30 regroup) - the registry-owned
               identity facts together, the two agent-editable contact fields
               (plus the notification/service preferences that ride with them)
@@ -186,12 +186,12 @@ export function GuidedContactStep({ value, onChange, showIptvToggle = true, allo
           />
 
           <div>
-            <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)] mb-3">Contact &amp; Notification</h3>
+            <h3 className="subtitle mb-3">Contact &amp; Notification</h3>
             {/* The two fields the agent can actually change (Email, Alt
                 phone) share a row with the one preference field evidenced
                 alongside them - see isValidEmail's header note: "Email/Alt
                 Phone/Language ... are agent-entered". */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="pair-grid">
               {/* Verification state rides INSIDE the field as a tick on its
                   right edge (2026-09-27), replacing the badge that sat
                   underneath. The badge was as wide as the input and read as a
@@ -231,7 +231,7 @@ export function GuidedContactStep({ value, onChange, showIptvToggle = true, allo
                 onChange={(e) => onChange({ ...value, personalMobile: e.target.value || undefined })}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="pair-grid mt-4">
               {/* Work Email ID: optional for every customer (existing, new, B2B2C); validated when entered. */}
               <Input
                 label="Work Email ID"
@@ -268,7 +268,7 @@ export function GuidedContactStep({ value, onChange, showIptvToggle = true, allo
               />
             </div>
             {/* Language: its own row. */}
-            <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="pair-grid mt-4">
               {/* Evidenced agent-entered field - `language` has held a slot on
                   GuidedContactValue since this step's interface was written,
                   but nothing rendered it until 2026-09-28. Defaults to

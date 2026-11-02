@@ -68,7 +68,7 @@ export function Tabs({
             <button type="button"
               key={item.key}
               onClick={() => setActive(item.key)}
-              className={`block w-full text-left px-4 py-2.5 text-[length:var(--fs-body)] border-l-2 transition-colors
+              className={`tab-vertical-item
                 ${active === item.key ? 'border-accent text-[var(--accent-text)] font-medium bg-surface' : 'border-transparent text-fg-2 hover:text-fg hover:bg-surface'}`}
             >
               {item.label}
@@ -83,9 +83,9 @@ export function Tabs({
   return (
     <div>
       {toolbar ? (
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="cluster">
           <TabStrip items={items} active={active} onChange={setActive} label={label} className="flex-1 min-w-0" />
-          <div className="flex min-w-0 flex-1 basis-[30%] items-center justify-end gap-3">{toolbar}</div>
+          <div className="row min-w-0 flex-1 basis-[30%] justify-end">{toolbar}</div>
         </div>
       ) : (
         <TabStrip items={items} active={active} onChange={setActive} label={label} />
@@ -127,7 +127,7 @@ function IconRail({ items, active, onSelect }: { items: TabItem[]; active: strin
   return (
     <nav
       aria-label="Customer sections"
-      className={`shrink-0 bg-bg max-lg:self-stretch lg:flex lg:flex-col lg:self-start lg:sticky lg:top-0 lg:my-8 lg:ml-8 lg:max-h-[calc(100vh-11rem)] lg:overflow-hidden lg:rounded-[var(--radius-card)] lg:border lg:border-[var(--field-card-border)] lg:transition-[width] lg:duration-[var(--motion-slow)] lg:ease-[var(--ease-standard)] motion-reduce:transition-none ${expanded ? 'lg:w-64' : 'lg:w-16'}`}
+      className={`rail-start ${expanded ? 'lg:w-64' : 'lg:w-16'}`}
     >
       <Tooltip content={toggleLabel} placement={expanded ? 'bottom' : 'right'}>
         <button
@@ -136,7 +136,7 @@ function IconRail({ items, active, onSelect }: { items: TabItem[]; active: strin
           aria-label={toggleLabel}
           aria-expanded={expanded}
           aria-controls={listId}
-          className={`${row} hidden lg:flex w-full shrink-0 border-b border-border-soft text-[var(--nav-fg-muted)] transition-colors duration-[var(--motion-base)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${expanded ? 'justify-end px-5' : 'justify-center'}`}
+          className={`${row} hidden lg:flex w-full shrink-0 divider-bottom nav-ghost focus-ring ${expanded ? 'justify-end px-5' : 'justify-center'}`}
         >
           <PanelIcon expanded={expanded} className="w-6 h-6" />
         </button>
@@ -149,7 +149,7 @@ function IconRail({ items, active, onSelect }: { items: TabItem[]; active: strin
               type="button"
               onClick={() => onSelect(item.key)}
               aria-label={item.label}
-              className={`${row} ${isActive && !expanded ? 'max-lg:w-auto max-lg:gap-2 max-lg:px-3' : 'w-12'} lg:w-full transition-colors duration-[var(--motion-base)] focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+              className={`${row} ${isActive && !expanded ? 'max-lg:w-auto max-lg:gap-2 max-lg:px-3' : 'w-12'} lg:w-full transition-colors duration-[var(--motion-base)] focus-ring ${
                 isActive ? 'bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)]' : 'text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)]'
               } ${expanded ? 'lg:px-5 lg:gap-3' : 'justify-center'}`}
             >

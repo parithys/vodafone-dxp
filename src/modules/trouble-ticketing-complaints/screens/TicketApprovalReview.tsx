@@ -234,8 +234,8 @@ export function TicketApprovalReview() {
       />
 
       <div className="card p-5 mb-4">
-        <p className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted mb-2">Decision History</p>
-        {auditRecords.length === 0 && <p className="text-fg-2 text-[length:var(--fs-body)]">No approval actions recorded yet for this ticket.</p>}
+        <p className="eyebrow mb-2">Decision History</p>
+        {auditRecords.length === 0 && <p className="text-secondary">No approval actions recorded yet for this ticket.</p>}
         {auditRecords.length > 0 && (
           <div className="divide-y divide-border-soft">
             {auditRecords.map((a) => (
@@ -249,16 +249,16 @@ export function TicketApprovalReview() {
       </div>
 
       {!isEligibleApprover && !decided && (
-        <div className="mb-4 rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3 text-[length:var(--fs-body)] text-[var(--warn-text)]">
+        <div className="mb-4 notice-warning cell-body text-[var(--warn-text)]">
           Only {TICKET_APPROVAL_ELIGIBLE_JOB_TITLES.join(' or ')} may approve, reject, or return this ticket.
         </div>
       )}
 
       {decided ? (
-        <p className="text-fg-2 text-[length:var(--fs-body)]">This ticket already has a decision recorded - see Decision history above.</p>
+        <p className="text-secondary">This ticket already has a decision recorded - see Decision history above.</p>
       ) : isEligibleApprover ? (
         // Decision buttons are for the authorised approvers only; everyone else sees the notice above and no buttons.
-        <div className="flex flex-wrap gap-2">
+        <div className="wrap-row">
           <Button variant="primary" onClick={() => setModal('approve')}>Approve</Button>
           <Button variant="secondary" className="!text-danger !border-danger" onClick={() => setModal('reject')}>Reject</Button>
           <Button variant="secondary" onClick={() => setModal('return')}>Return</Button>
@@ -267,7 +267,7 @@ export function TicketApprovalReview() {
 
       <Drawer open={modal === 'approve'} onClose={() => setModal(null)} title="Approve Ticket">
         <Textarea label="Notes (Optional)" value={approveNotes} onChange={(e) => setApproveNotes(e.target.value)} />
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={approve} disabled={submitting}>Submit Approval</Button>
         </div>
@@ -278,7 +278,7 @@ export function TicketApprovalReview() {
           <Select label="Reject Reason" value={rejectReason} onChange={(e) => setRejectReason(e.target.value)} placeholder="Select a reason" options={APPROVAL_REJECT_REASONS.map((r) => ({ value: r, label: r }))} />
           <Textarea label="Notes (Required)" value={rejectNotes} onChange={(e) => setRejectNotes(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={reject} disabled={!rejectReason || !rejectNotes.trim() || submitting}>Reject Ticket</Button>
         </div>
@@ -286,11 +286,11 @@ export function TicketApprovalReview() {
 
       <Drawer open={modal === 'return'} onClose={() => setModal(null)} title="Return Ticket">
         <div className="space-y-3">
-          <p className="text-fg-2 text-[length:var(--fs-body)]">Returning sends this ticket back into the approval queue for further review, rather than rejecting it outright.</p>
+          <p className="text-secondary">Returning sends this ticket back into the approval queue for further review, rather than rejecting it outright.</p>
           <Select label="Return Reason" value={returnReason} onChange={(e) => setReturnReason(e.target.value)} placeholder="Select a reason" options={APPROVAL_RETURN_REASONS.map((r) => ({ value: r, label: r }))} />
           <Textarea label="Notes (Required)" value={returnNotes} onChange={(e) => setReturnNotes(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={returnTicket} disabled={!returnReason || !returnNotes.trim() || submitting}>Return Ticket</Button>
         </div>

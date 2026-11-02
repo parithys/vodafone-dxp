@@ -18,7 +18,7 @@ export interface IdScanFileContext {
   at?: Date;
 }
 
-const TYPE_SLUG: Record<IdType, string> = { QID: 'QID', Passport: 'Passport', 'GCC ID': 'GCC-ID', 'Diplomatic ID': 'Diplomatic-ID' };
+const TYPE_SLUG: Record<IdType, string> = { QID: 'QID', Passport: 'Passport', 'GCC ID': 'GCC-ID', 'Diplomatic ID': 'Diplomatic-ID', 'Other ID': 'Other-ID' };
 
 /** `Passport_Front_N1234567_2026-10-27.jpg` - document type, side, the number on it, the capture day; the extension of an uploaded file, else .jpg for a scan. */
 export function idScanFileName(idType: IdType | undefined, side: 'Front' | 'Back', scans: IdScanState | undefined, context: IdScanFileContext = {}): string {

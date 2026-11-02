@@ -1,23 +1,21 @@
-// The under-18 exception journey (BRSD V0.3 "Age Verification" and "Age Verification Exception Scenario").
+// The under-18 exception journey (BRSD V0.3 "Age Verification" and "Age Verification Exception Scenario", widened 2026-11-01).
 //
-// An applicant under 18 is a hard stop. For the journeys and personas listed here the agent may instead choose to proceed with the Exception Journey:
-// all details entered manually, the ID copies uploaded, the Court Order document mandatory, and the order sent to the CDM queue for approval after
-// submission. The BRSD scopes it to the Retail persona and to a QID only; it sits in the Prepaid BRSD, so New Postpaid keeps its hard stop
-// (VFQ, 2026-10-02) until VFQ says otherwise. Everything the rule depends on is in this one place.
+// An applicant under 18 is a hard stop that no agent can bypass. The agent's only ways on are Abandon Order, or Apply for Exception: an Exception
+// Request with the Court Type Order uploaded, after which the journey continues and the ORDER is held for the agent's manager to approve (the age
+// rule is not lifted - the order cannot complete until it is approved). Offered in every journey, for every ID type and every persona: the age check
+// reads the date of birth from whatever identification was captured or retrieved. Everything the rule depends on is in this one place.
+
+import { managerRoleOfSubmitter } from './approvalRouting';
 
 export const UNDER_18_EXCEPTION = {
-  /** The journeys that offer the exception. */
-  journeys: ['prepaid'],
-  /** The roles that may use it ("Retail"): ROLE-01, Retail Sales. */
-  personaIds: ['ROLE-01'],
-  /** The ID types it is allowed with ("Allowed only with a QID"). */
-  idTypes: ['QID'],
-  /** Who approves the order after submission ("CDM Queue"): the CDM role. */
-  approverRole: 'CDM',
+  /** Who approves when the submitting persona has no manager route (data/approvalRouting.ts): the CDM queue, as before. */
+  fallbackApproverRole: 'CDM',
 } as const;
 
-/** Whether the agent may be offered the exception for this journey, role and ID type. */
-export function under18ExceptionOffered(args: { journey: string; personaId: string | undefined; idType: string | undefined }): boolean {
-  const c = UNDER_18_EXCEPTION;
-  return (c.journeys as readonly string[]).includes(args.journey) && Boolean(args.personaId) && (c.personaIds as readonly string[]).includes(args.personaId!) && Boolean(args.idType) && (c.idTypes as readonly string[]).includes(args.idType!);
+/** The exception is offered whenever an applicant is under 18, whatever the journey, role or ID type. */
+export function under18ExceptionOffered(_args?: { journey?: string; personaId?: string | undefined; idType?: string | undefined }): boolean {
+  return true;
 }
+
+/** The queue an under-18 exception order goes to: the submitting agent's manager, else the fallback. */
+export const under18ApproverRole = (personaId: string | undefined): string => managerRoleOfSubmitter(personaId) ?? UNDER_18_EXCEPTION.fallbackApproverRole;

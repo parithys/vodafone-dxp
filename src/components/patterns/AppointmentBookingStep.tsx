@@ -87,7 +87,7 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
     <div className="space-y-6">
       <div>
         <div className="text-[length:var(--fs-label)] text-fg-2 mb-1">SLA Cluster</div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="wrap-row">
           {CLUSTERS.map((c) => (
             <button
               key={c}
@@ -105,9 +105,9 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
       </div>
 
       <section aria-label="Appointment date" className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-fg font-bold text-[length:var(--fs-h5)]">Select appointment date - {monthYear(date ?? earliest)}</h3>
-          <span className="inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--icon-tile-bg)] px-3 py-1 text-fg-2 text-[length:var(--fs-caption)] font-semibold">
+        <div className="cluster-sm justify-between">
+          <h3 className="title-lg">Select appointment date - {monthYear(date ?? earliest)}</h3>
+          <span className="chip-soft">
             <Icon path={CLOCK} className="w-4 h-4" />
             Earliest: {dateShort(earliest)} (lead time {LEAD_TIME_DAYS} days)
           </span>
@@ -121,12 +121,12 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
                 type="button"
                 aria-pressed={selected}
                 onClick={() => choose({ date: d })}
-                className={`relative rounded-[var(--radius-card)] border px-2 py-3 text-center ${selected ? CARD_SELECTED : CARD_IDLE}`}
+                className={`relative card-frame px-2 py-3 text-center ${selected ? CARD_SELECTED : CARD_IDLE}`}
               >
                 {selected && <SelectedTick />}
-                <span className="block text-fg-2 text-[length:var(--fs-body)]">{weekdayShort(d)}</span>
-                <span className="block text-fg font-bold text-[length:var(--fs-h4)]">{dayOfMonth(d)}</span>
-                {cluster && <span className="block text-muted text-[length:var(--fs-caption)]">{bookableSlots(existing, cluster, d)} slots</span>}
+                <span className="block text-secondary">{weekdayShort(d)}</span>
+                <span className="block title-xl">{dayOfMonth(d)}</span>
+                {cluster && <span className="block caption-muted">{bookableSlots(existing, cluster, d)} slots</span>}
               </button>
             );
           })}
@@ -134,8 +134,8 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
       </section>
 
       <section aria-label="Available slots" className="space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-fg font-bold text-[length:var(--fs-h5)]">Available slots - {dateLong(date ?? earliest)}</h3>
+        <div className="cluster-sm justify-between">
+          <h3 className="title-lg">Available slots - {dateLong(date ?? earliest)}</h3>
           {technicians !== undefined && (
             <Badge variant="success">
               {technicians} technician{technicians === 1 ? '' : 's'} available
@@ -143,7 +143,7 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
           )}
         </div>
         {cluster ? (
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <div className="pair-grid-sm sm:grid-cols-5">
             {TIME_SLOTS.map((slot) => {
               const full = slotFull(cluster, date, slot);
               const selected = timeSlot === slot;
@@ -154,7 +154,7 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
                   aria-pressed={selected}
                   disabled={full}
                   onClick={() => choose({ timeSlot: slot })}
-                  className={`relative rounded-[var(--radius-card)] border px-2 py-3 text-center disabled:cursor-not-allowed ${
+                  className={`relative card-frame px-2 py-3 text-center disabled:cursor-not-allowed ${
                     full ? 'border-border-soft bg-surface text-muted' : selected ? CARD_SELECTED : CARD_IDLE
                   }`}
                 >
@@ -170,8 +170,8 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
         )}
       </section>
 
-      <section aria-label="Specific date and time" className="rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 space-y-3">
-        <label className="flex items-center gap-3 text-[length:var(--fs-body-lg)] text-fg cursor-pointer">
+      <section aria-label="Specific date and time" className="card card-inherit-fill p-4 space-y-3">
+        <label className="row text-[length:var(--fs-body-lg)] text-fg cursor-pointer">
           <Checkbox
             checked={Boolean(value.requestSpecific)}
             onChange={(e) =>
@@ -218,16 +218,16 @@ export function AppointmentBookingStep({ value, onChange }: AppointmentBookingSt
       />
 
       <section aria-label="Documents the technician collects" className="space-y-2">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h3 className="text-fg font-bold text-[length:var(--fs-h5)]">Documents the Technician Collects</h3>
-          <span className="text-muted text-[length:var(--fs-caption)]">Defaulted from Persona</span>
+        <div className="wrap-row items-baseline justify-between">
+          <h3 className="title-lg">Documents the Technician Collects</h3>
+          <span className="caption-muted">Defaulted from Persona</span>
         </div>
-        <ul className="rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg divide-y divide-border-soft">
+        <ul className="card card-inherit-fill divide-y divide-border-soft">
           {APPOINTMENT_DOCUMENTS.map((doc) => {
             const checked = documents.includes(doc.id);
             return (
               <li key={doc.id}>
-                <label className="flex items-center gap-3 px-4 py-3 text-[length:var(--fs-body)] text-fg cursor-pointer">
+                <label className="row pad-row body-text cursor-pointer">
                   <Checkbox checked={checked} onChange={(e) => toggleDocument(doc.id, e.target.checked)} />
                   <span className="flex-1">{doc.label}</span>
                   <Badge>{checked ? (defaults.includes(doc.id) ? 'Default' : 'Added') : 'Not required'}</Badge>

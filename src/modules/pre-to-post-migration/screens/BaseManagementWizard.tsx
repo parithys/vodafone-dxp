@@ -59,7 +59,7 @@ export function BaseManagementWizard() {
             render: ({ values, setValue }) => (
               <div className="space-y-4">
                 <CustomerIdentification value={(values.qid as IdLookupValue) ?? {}} onChange={(v) => setValue('qid', v)} allowNewCustomer={false} />
-                <div className="grid grid-cols-2 gap-4">
+                <div className="pair-grid">
                   <Input label="Email" value={(values.email as string) ?? ''} onChange={(e) => setValue('email', e.target.value)} />
                   <Select
                     label="Language"
@@ -80,8 +80,8 @@ export function BaseManagementWizard() {
               <div className="space-y-4">
                 <div className="card p-4 card-surface">
                   <p className="text-fg font-medium">{offer.offerName}</p>
-                  <p className="text-fg-2 text-[length:var(--fs-body)] mt-1">{offer.offerDescription}</p>
-                  <p className="text-fg text-[length:var(--fs-body)] mt-2">
+                  <p className="text-secondary mt-1">{offer.offerDescription}</p>
+                  <p className="body-text mt-2">
                     Monthly Rental: {formatQarAny(offer.monthlyRental)} + Add-on {formatQarAny(offer.addOnMonthly ?? 0)}
                   </p>
                 </div>

@@ -24,11 +24,11 @@ export function PostpaidDiscountsPanel({
   onRetryDiscounts,
 }: PostpaidDiscountsPanelProps) {
   return (!selectedProductId ? (
-        <p className="text-muted text-[length:var(--fs-caption)]">Select a plan to see eligible discounts.</p>
+        <p className="caption-muted">Select a plan to see eligible discounts.</p>
       ) : discountsState === 'loading' ? (
-        <p className="text-muted text-[length:var(--fs-caption)]">Loading discounts…</p>
+        <p className="caption-muted">Loading discounts…</p>
       ) : discountsState === 'error' ? (
-        <div role="alert" className="rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div role="alert" className="notice-warning pad-row split">
           <p className="text-[var(--warn-text)] text-[length:var(--fs-body)]">Discounts could not be loaded. You can continue without one.</p>
           <Button variant="tertiary" compact onClick={onRetryDiscounts}>
             Retry
@@ -44,8 +44,8 @@ export function PostpaidDiscountsPanel({
         // flag stays on this step normally, it just has nothing to
         // choose on this panel. Either way this explains why, rather
         // than showing a "No discount" picker with nothing behind it.
-        <div className="rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3">
-          <p className="text-fg font-semibold text-[length:var(--fs-body)]">Discounts Unavailable for This Plan</p>
+        <div className="notice-warning pad-row">
+          <p className="heading-strong">Discounts Unavailable for This Plan</p>
           <p className="text-[var(--warn-text)] text-[length:var(--fs-caption)] mt-1">
             The selected plan is pre-bundled and already includes its offer, so it does not accept extra
             discounts. Choose another plan to apply a discount.

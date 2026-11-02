@@ -49,13 +49,13 @@ export function SupportingDocumentField({
         <span className="text-[var(--field-border-error)]" aria-hidden="true">{' *'}</span>
       </p>
       <input ref={fileRef} type="file" accept={UPLOAD_RULES.supporting.accept} className="sr-only" aria-label={`Choose the ${label.toLowerCase()}`} onChange={(e) => void choose(e.target.files?.[0])} />
-      <div className="flex w-full flex-wrap items-center gap-3 rounded-[var(--field-radius)] border border-dashed border-[var(--field-border)] px-3 py-3">
+      <div className="document-slot">
         <Button variant="secondary" compact onClick={() => fileRef.current?.click()}>
           {document ? 'Replace Document' : 'Upload Document'}
         </Button>
         {document ? (
           <>
-            <span className="min-w-0 truncate text-fg text-[length:var(--fs-caption)]">
+            <span className="line-fg-caption">
               {document.fileName} <span className="text-muted">({formatBytes(document.sizeBytes)})</span>
             </span>
             <Button
@@ -70,7 +70,7 @@ export function SupportingDocumentField({
             </Button>
           </>
         ) : (
-          <span className="text-muted text-[length:var(--fs-caption)]">
+          <span className="caption-muted">
             {UPLOAD_RULES.supporting.formatsLabel}, up to {UPLOAD_RULES.supporting.maxLabel}
           </span>
         )}

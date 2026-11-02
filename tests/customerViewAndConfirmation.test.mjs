@@ -14,7 +14,7 @@ test('Checkout: the credit limit and bill limit rows are agent-only, the advance
   assert.match(layout, /<Row agentOnly label="Credit Limit"/);
   assert.match(layout, /agentOnly\s+label="Bill Limit"/);
   assert.match(layout, /<Row label="Advance Payment"/);
-  assert.match(layout, /className="agent-only flex items-center justify-between"/);
+  assert.match(layout, /className="agent-only row-between"/);
   assert.match(read('src/components/patterns/CheckoutSummaryTables.tsx'), /row\.agentOnly \? 'agent-only'/);
   for (const f of ['checkoutDetailedTables.ts', 'checkoutSummaryRows.ts', 'CheckoutDefaultLayout.tsx']) assert.doesNotMatch(read(`src/components/patterns/${f}`), /confirm before signature/, f);
   assert.doesNotMatch(read('src/components/patterns/checkoutDetailedTables.ts') + read('src/components/patterns/CheckoutDefaultLayout.tsx'), /HRN Advance/);
@@ -27,7 +27,7 @@ test('the .agent-only class is hidden in the customer window, and Recommended Of
 
 test('Order Submitted: the heading follows the order, the eSIM QR and code wait for approval, the pop-up never sends the email', () => {
   const s = read('src/components/patterns/ActivationCompleteScreen.tsx');
-  assert.match(s, /order\.pendingApproval \? 'Order submitted successfully' : 'Activation complete'/);
+  assert.match(s, /order\.pendingApproval \? 'Order Submitted for Approval' : 'Order Submitted Successfully'/);
   assert.doesNotMatch(s, /APPROVAL_SUBMITTERS|RETAIL_SUBMITTERS/);
   assert.match(s, /eSIM QR code will be sent only to your verified email address/);
   assert.match(s, /handoverPanel=\{\s*order\.esimActivationCode \?/, 'two columns only while the QR code is shown');

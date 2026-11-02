@@ -33,6 +33,7 @@ export function IdFileUpload({
   leading,
   scanner = leading !== undefined,
   bothActions = false,
+  readerEverywhere = false,
   onUpload,
 }: {
   label?: string;
@@ -46,9 +47,11 @@ export function IdFileUpload({
   scanner?: boolean;
   /** Offer the reader and upload on every device, whatever the device type. */
   bothActions?: boolean;
+  /** The reader stays offered on a tablet (upload joins it there). Default: web scans, tablet uploads. */
+  readerEverywhere?: boolean;
   onUpload: (result: IdUploadResult) => void;
 }) {
-  const { scan, upload } = idCaptureOptions(detectDeviceType(), scanner, bothActions);
+  const { scan, upload } = idCaptureOptions(detectDeviceType(), scanner, bothActions, readerEverywhere);
   const input = useRef<HTMLInputElement>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -86,7 +89,7 @@ export function IdFileUpload({
   return (
     <div className={`flex flex-col gap-1.5 ${align === 'end' ? 'items-end text-right shrink-0' : 'items-center'}`}>
       <input ref={input} type="file" accept={ID_UPLOAD_ACCEPT} multiple={!side} className="sr-only" tabIndex={-1} aria-hidden onChange={(e) => void take(e.target.files)} />
-      <div className="flex flex-nowrap items-start gap-3">
+      <div className="row-start flex-nowrap">
         {scan && leading}
         {upload && (
           <Button variant="secondary" compact className="shrink-0" disabled={disabled || busy} onClick={() => input.current?.click()}>
@@ -96,12 +99,12 @@ export function IdFileUpload({
         )}
       </div>
       {upload && !side && !pending && (
-        <span className="text-muted text-[length:var(--fs-caption)]">{UPLOAD_RULES.identity.formatsLabel}, up to {UPLOAD_RULES.identity.maxLabel} per file</span>
+        <span className="caption-muted">{UPLOAD_RULES.identity.formatsLabel}, up to {UPLOAD_RULES.identity.maxLabel} per file</span>
       )}
       {pending && (
-        <div role="group" aria-label={`What ${pending.name} shows`} className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1.5">
-          <span className="text-fg-2 text-[length:var(--fs-caption)] max-w-[14rem] truncate">{pending.name} shows:</span>
-          <div className="flex flex-wrap justify-end gap-2">
+        <div role="group" aria-label={`What ${pending.name} shows`} className="wrap-center justify-end gap-x-3 gap-y-1.5">
+          <span className="caption-secondary max-w-[14rem] truncate">{pending.name} shows:</span>
+          <div className="actions-end flex-wrap">
             {SIDE_CHOICES.map((c) => (
               <Button
                 key={c.sides}

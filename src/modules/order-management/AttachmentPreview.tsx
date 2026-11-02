@@ -79,10 +79,10 @@ function useOrderIdentity(order: AttachmentOrder): SpecimenIdentity | undefined 
 /** A sheet of paper standing in for a document the journey recorded but did not keep the file of. */
 function Sheet({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="w-full max-w-md rounded-[var(--radius-card)] border border-border-soft bg-bg p-5 text-left shadow-raised">
-      <div className="mb-3 flex items-center gap-2 border-b border-border-soft pb-3">
+    <div className="w-full max-w-md dialog-card p-5 text-left">
+      <div className="mb-3 row-tight divider-bottom pb-3">
         <Icon path={DOC} className="h-5 w-5 text-muted" strokeWidth={1.5} />
-        <p className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{title}</p>
+        <p className="subtitle">{title}</p>
       </div>
       {children}
     </div>
@@ -92,7 +92,7 @@ function Sheet({ title, children }: { title: string; children: React.ReactNode }
 function Row({ label, value }: { label: string; value?: React.ReactNode }) {
   if (!value) return null;
   return (
-    <div className="flex justify-between gap-4 py-1 text-[length:var(--fs-body)]">
+    <div className="spread py-1 text-[length:var(--fs-body)]">
       <span className="text-muted">{label}</span>
       <span className="text-fg text-right break-words min-w-0">{value}</span>
     </div>
@@ -107,21 +107,21 @@ export function AttachmentPreview({ doc, order }: { doc: OrderAttachment; order:
 
   if (shape.kind === 'id-scan' && shape.documentType) {
     return (
-      <div className="flex w-full flex-col items-center gap-3">
+      <div className="stack-center gap-3 w-full">
         <div className="w-full max-w-md">
           <ScannedIdPreview side={shape.side} documentType={shape.documentType} identity={identity} />
         </div>
-        <p className="text-fg-2 text-[length:var(--fs-caption)]">{doc.label} - {doc.detail}</p>
+        <p className="caption-secondary">{doc.label} - {doc.detail}</p>
       </div>
     );
   }
   if (shape.kind === 'office-id') {
     return (
-      <div className="flex w-full flex-col items-center gap-3">
+      <div className="stack-center gap-3 w-full">
         <div className="w-full max-w-md">
           <ScannedIdPreview side="front" variant={shape.variant} identity={identity} />
         </div>
-        <p className="text-fg-2 text-[length:var(--fs-caption)]">{doc.label} - {doc.detail}</p>
+        <p className="caption-secondary">{doc.label} - {doc.detail}</p>
       </div>
     );
   }
@@ -132,12 +132,12 @@ export function AttachmentPreview({ doc, order }: { doc: OrderAttachment; order:
         <Row label="ID Number" value={order.idNumber} />
         <Row label="Order" value={order.orderId} />
         <Row label="Signed" value={created} />
-        <p className="mt-3 text-muted text-[length:var(--fs-caption)]">Customer Signature</p>
-        <div className="mt-1 flex h-24 items-center justify-center rounded-[var(--radius-sm)] border border-dashed border-border bg-surface">
+        <p className="mt-3 caption-muted">Customer Signature</p>
+        <div className="mt-1 flex h-24 items-center justify-center placeholder-tile">
           {doc.previewUrl ? (
             <img src={doc.previewUrl} alt={`Signature of ${order.customerName ?? 'the customer'}`} className="max-h-full max-w-full object-contain" />
           ) : (
-            <span className="text-fg-2 text-[length:var(--fs-body)]">{doc.detail ?? 'Signed'}</span>
+            <span className="text-secondary">{doc.detail ?? 'Signed'}</span>
           )}
         </div>
       </Sheet>

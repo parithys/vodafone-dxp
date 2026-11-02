@@ -5,7 +5,7 @@ export function ServiceTypeTag({ type, className = '' }: { type: ServiceTypeTagK
   const tag = SERVICE_TYPE_TAGS[type];
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] px-2.5 py-0.5 text-[length:var(--fs-tag)] font-medium whitespace-nowrap shrink-0 ${tag.colour} ${className}`}
+      className={`badge ${tag.colour} ${className}`}
     >
       {tag.label}
     </span>

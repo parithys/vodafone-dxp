@@ -6,7 +6,7 @@ import type { OfferProduct } from '../../components/primitives/offerCardParts';
 import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick } from '../../components/primitives/offerCardParts';
 import { STAR, TREND_UP } from '../../assets/icons';
 import * as mockDataEngine from '../../engines/mockDataEngine';
-import { journeyLabel, continuesHere, offerTypeOf, hasDestination, offerTypesFor, isHomeJourney, isPrepaidJourney } from './serviceJourneys';
+import { SERVICE_JOURNEYS, journeyLabel, continuesHere, offerTypeOf, hasDestination, offerTypesFor, isHomeJourney, isPrepaidJourney } from './serviceJourneys';
 import type { OfferJourneys } from './serviceJourneys';
 import { HandOff } from './HandOff';
 import { offerHighlight } from './crossSalesModel';
@@ -27,7 +27,8 @@ export function CrossSalesStep({
   customerId: string | undefined;
   value: CrossSalesValue;
   onChange: (v: CrossSalesValue) => void;
-  onHandOff: (route: string) => void;
+  /** An offer for another journey (an upgrade, say) continues there: the route, and the identified customer when there is one, so that journey opens for them. */
+  onHandOff: (route: string, customer?: { customerId: string }) => void;
   /** With onInterestedOffer: each card carries its own Select Offer (take this offer and go on) and Interested (raise a lead
    * for it) buttons in place of "Select offer". */
   onContinue?: () => void;
@@ -96,13 +97,13 @@ export function CrossSalesStep({
   if (!offers) return <p className="text-muted text-[length:var(--fs-body)]">Checking for cross-sales offers…</p>;
   if (offers.length === 0 && !showAllOfferTypes) {
     return (
-      <div className="flex items-center gap-5 rounded-[var(--radius-card-lg)] border border-[var(--border-soft)] bg-[linear-gradient(135deg,var(--bg),var(--surface-subtle))] p-5">
-        <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[var(--radius-card)] bg-bg text-[var(--tint-teal-fg)] shadow-[var(--shadow-icon-tile)]">
+      <div className="flex items-center gap-5 promo-banner p-5">
+        <span className="icon-tile h-16 w-16 rounded-[var(--radius-card)] bg-bg text-[var(--tint-teal-fg)] shadow-[var(--shadow-icon-tile)]">
           <Icon path={TREND_UP} className="w-6 h-6" />
         </span>
         <div className="min-w-0">
-          <p className="text-fg font-semibold text-[length:var(--fs-body)]">No Cross-Sales Offer Available</p>
-          <p className="text-fg-2 text-[length:var(--fs-caption)]">Continue to choose a service from the standard catalogue.</p>
+          <p className="heading-strong">No Cross-Sales Offer Available</p>
+          <p className="caption-secondary">Continue to choose a service from the standard catalogue.</p>
         </div>
       </div>
     );
@@ -125,7 +126,7 @@ export function CrossSalesStep({
       <div className="space-y-8" role="radiogroup" aria-label="Offers">
         {sections.map(({ type, items }) => (
           <section key={type.key} aria-labelledby={`offer-type-${type.key}`} className="space-y-3">
-            <h3 id={`offer-type-${type.key}`} className="text-fg font-bold text-[length:var(--fs-h5)]">
+            <h3 id={`offer-type-${type.key}`} className="title-lg">
               {type.label}
             </h3>
             {items.length > 0 && (
@@ -158,7 +159,7 @@ export function CrossSalesStep({
                   toggle();
                 }
               }}
-              className={`relative rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 ${o.sample ? 'cursor-default' : 'cursor-pointer'} transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+              className={`relative card-option p-5 stack ${o.sample ? 'cursor-default' : 'cursor-pointer'} ${
                 selected ? CARD_SELECTED : recommended ? CARD_HIGHLIGHT : CARD_IDLE
               }`}
             >
@@ -166,24 +167,24 @@ export function CrossSalesStep({
               {/* Top row: the Recommended flag on the left, the journey tag pinned right. */}
               <div className="flex min-h-[25px] items-center gap-1.5">
                 {recommended && (
-                  <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-[var(--radius-pill)] bg-accent text-on-dark px-2 py-0.5 text-[length:var(--fs-tag)] font-medium">
+                  <span className="tag-accent shrink-0 whitespace-nowrap px-2">
                     <Icon path={STAR} className="w-3 h-3" />
                     Recommended
                   </span>
                 )}
                 {/* Every card carries its journey tag, pinned right. */}
-                {o.sample && <span className="shrink-0 rounded-[var(--radius-pill)] border border-border-soft px-2 py-0.5 text-muted text-[length:var(--fs-tag)]">Sample</span>}
+                {o.sample && <span className="shrink-0 tag-outline px-2">Sample</span>}
               </div>
               <div className="flex-1 space-y-2">
-                <p className="text-fg font-bold text-[length:var(--fs-h5)] leading-snug">{o.offerName}</p>
-                <p className="text-fg-2 text-[length:var(--fs-caption)]">{o.offerDescription}</p>
+                <p className="title-lg leading-snug">{o.offerName}</p>
+                <p className="caption-secondary">{o.offerDescription}</p>
                 <p className="text-accent">
                   <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
                   <span className="text-[length:var(--fs-h3)] font-bold">{o.monthlyRental}</span>
-                  {perMonth && <span className="text-fg-2 text-[length:var(--fs-caption)]"> /month</span>}
+                  {perMonth && <span className="caption-secondary"> /month</span>}
                 </p>
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-1">
+              <div className="wrap-center justify-between gap-x-3 gap-y-2 pt-1">
                 {/* Opens the full offer details in the side drawer; it stops
                     propagation so looking never selects the offer. */}
                 <button
@@ -194,13 +195,13 @@ export function CrossSalesStep({
                     setDetailOffer(o);
                   }}
                   onKeyDown={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1 rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)] font-medium"
+                  className="link-inline"
                 >
                   View details
                   <Icon path={CHEVRON_RIGHT} className="w-4 h-4" />
                 </button>
                 {onInterestedOffer ? (
-                  <div className="flex flex-wrap items-center gap-2 ml-auto">
+                  <div className="cluster-sm ml-auto">
                     <Button
                       variant="secondary"
                       compact
@@ -223,12 +224,27 @@ export function CrossSalesStep({
                       variant="primary"
                       compact
                       disabled={o.sample || !hasDestination(o.serviceJourney, journey)}
-                      title={o.sample ? 'A sample offer - not available to select' : hasDestination(o.serviceJourney, journey) ? undefined : 'The upgrade journey is not available yet'}
+                      title={
+                        o.sample
+                          ? 'A sample offer - not available to select'
+                          : hasDestination(o.serviceJourney, journey)
+                            ? undefined
+                            : o.serviceJourney
+                              ? 'This offer\'s journey is not available yet'
+                              : 'This offer does not name a journey to continue in'
+                      }
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (!selected) toggle();
-                        // A postpaid offer continues here; one that continues in another journey shows its hand-off instead.
-                        if (continuesHere(o.serviceJourney, journey)) setAdvanceFor(o.offerId);
+                        // The destination follows the offer: one for a journey this wizard runs (new postpaid, prepaid, home, MNP) is selected and the
+                        // wizard goes on; one for another journey (the Prepaid to Postpaid and Postpaid to Postpaid upgrades) opens that journey straight
+                        // away, for the customer already identified here.
+                        if (continuesHere(o.serviceJourney, journey)) {
+                          if (!selected) toggle();
+                          setAdvanceFor(o.offerId);
+                          return;
+                        }
+                        const route = SERVICE_JOURNEYS.find((j) => j.key === o.serviceJourney)?.route;
+                        if (route) onHandOff(route, customerId ? { customerId } : undefined);
                       }}
                       onKeyDown={(e) => e.stopPropagation()}
                     >
@@ -256,7 +272,7 @@ export function CrossSalesStep({
           own height (105px, measured), so nothing below it moves. */}
       <div className="min-h-[105px]">
         {accepted && !continuesHere(accepted.serviceJourney, journey) && accepted.serviceJourney && (
-          <HandOff journey={accepted.serviceJourney} onGo={onHandOff} />
+          <HandOff journey={accepted.serviceJourney} onGo={(route) => onHandOff(route, customerId ? { customerId } : undefined)} />
         )}
       </div>
       <OfferDetailsDrawer

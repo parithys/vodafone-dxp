@@ -62,7 +62,7 @@ export function OrdersTicketsSection({ ctx }: { ctx: Ctx }) {
       />
       <WideBlock className="">
       <Card title={`Orders ({orders.length})`} icon={ICON.card} link="View All Orders" onLink={() => ctx.goToTab('ts-history')}>
-        <div className="px-4 py-3 flex gap-2 border-b border-[var(--field-card-border)]">
+        <div className="panel-bar">
           <SearchField value={oq} onChange={(e) => { setOq(e.target.value); setOp(0); }} onClear={() => { setOq(''); setOp(0); }} placeholder="Search by order number, product or status..." aria-label="Search orders" wrapperClassName="flex-1 min-w-48" />
           <FilterSelect label="Order Type" value={ot} options={oTypes.map((x) => ({ value: x, label: x }))} onChange={(v) => { setOt(v); setOp(0); }} />
           <FilterSelect label="Order Status" value={os} options={oStats.map((x) => ({ value: x, label: x }))} onChange={(v) => { setOs(v); setOp(0); }} />
@@ -86,7 +86,7 @@ export function OrdersTicketsSection({ ctx }: { ctx: Ctx }) {
       </WideBlock>
       <WideBlock className="">
         <Card title={`Trouble Tickets (${tickets.length})`} icon={ICON.help} link="View All Tickets" onLink={() => ctx.goToTab('ts-history')}>
-          <div className="px-4 py-3 flex gap-2 border-b border-[var(--field-card-border)]">
+          <div className="panel-bar">
             <SearchField value={tq} onChange={(e) => { setTq(e.target.value); setTp(0); }} onClear={() => { setTq(''); setTp(0); }} placeholder="Search by ticket number, issue or status..." aria-label="Search tickets" wrapperClassName="flex-1 min-w-48" />
             <FilterSelect label="Ticket Category" value={tc} options={tCats.map((x) => ({ value: x, label: x }))} onChange={(v) => { setTc(v); setTp(0); }} />
             <FilterSelect label="Ticket Status" value={ts} options={tStats.map((x) => ({ value: x, label: x }))} onChange={(v) => { setTs(v); setTp(0); }} />

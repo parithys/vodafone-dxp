@@ -159,13 +159,13 @@ function decisionTone(action: string | undefined): { row: string; title: string 
 function HistoryPreview({ history }: { history: ApprovalHistoryEntry[] }) {
   if (history.length === 0) return null;
   return (
-    <div className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--field-card-border)] divide-y divide-border-soft">
-      <p className="px-3 py-2 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted">Task History</p>
+    <div className="list-frame">
+      <p className="px-3 py-2 eyebrow">Task History</p>
       {history.map((entry) => {
         const tone = decisionTone(entry.actionTaken);
         return (
         <div key={entry.activityNumber} className={`px-3 py-2 ${tone.row}`}>
-          <div className="flex items-center justify-between gap-3">
+          <div className="split-nowrap">
             <span className={`${tone.title} text-[length:var(--fs-caption)]`}>{entry.actionTaken}</span>
             <span className="text-muted text-[length:var(--fs-micro)]">{formatDateTime(entry.transactionDate)}</span>
           </div>
@@ -195,7 +195,7 @@ function DetailSection({ title, children }: { title: string; children: React.Rea
   return (
     <section className={DETAIL_CARD}>
       <h3 className={DETAIL_CARD_TITLE}>{title}</h3>
-      <dl className={`grid grid-cols-1 gap-x-6 gap-y-4 text-[length:var(--fs-body)] sm:grid-cols-2`}>{children}</dl>
+      <dl className={`cols-1-2 gap-x-6 gap-y-4 text-[length:var(--fs-body)]`}>{children}</dl>
     </section>
   );
 }
@@ -275,12 +275,12 @@ function ApprovalSummary({
   const outcomeComment = order.rejectComment ?? order.returnComment;
   return (
     <section className={`${DETAIL_CARD} mt-4`} aria-label="Approval summary">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-border-soft pb-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Approval</h3>
+      <div className="mb-4 split divider-bottom pb-3">
+        <h3 className="subtitle">Approval</h3>
         <Badge variant={state.variant}>{state.headline}</Badge>
       </div>
 
-      <dl className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 text-[length:var(--fs-body)]">
+      <dl className="mb-5 fields-2 text-[length:var(--fs-body)]">
         <div>
           <dt className="text-[length:var(--fs-caption)] text-fg">Approver Role</dt>
           <dd className="text-fg">{requiredRole ?? '-'}</dd>
@@ -293,13 +293,13 @@ function ApprovalSummary({
 
       {items.length > 0 && (
         <div>
-          <p className="mb-2 text-fg-2 text-[length:var(--fs-caption-upper)] uppercase tracking-wide">
+          <p className="mb-2 text-fg-2 label-caps">
             Why this order needs approval ({items.length})
           </p>
           <ul className="space-y-2">
             {items.map((r, i) => (
-              <li key={`${r.title}-${i}`} className="flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3">
-                <Icon path={ALERT_ICON_ALT} className="mt-0.5 w-5 h-5 shrink-0 text-[var(--warn-text)]" />
+              <li key={`${r.title}-${i}`} className="row-start notice-warning pad-row">
+                <Icon path={ALERT_ICON_ALT} className="mt-0.5 icon-md text-[var(--warn-text)]" />
                 <span className="min-w-0">
                   <span className="block text-[var(--warn-text)] font-semibold text-[length:var(--fs-body)]">{r.title}</span>
                   <span className="block text-fg text-[length:var(--fs-caption)]">{r.detail}</span>
@@ -311,12 +311,12 @@ function ApprovalSummary({
       )}
 
       {(outcomeReason || outcomeComment) && (
-        <div className="mt-5 rounded-[var(--radius-card)] bg-surface px-4 py-3">
-          <p className="mb-1 text-fg-2 text-[length:var(--fs-caption-upper)] uppercase tracking-wide">
+        <div className="mt-5 rounded-[var(--radius-card)] bg-surface pad-row">
+          <p className="mb-1 text-fg-2 label-caps">
             {status === 'Returned' ? 'Returned because' : 'Decision'}
           </p>
-          {outcomeReason && <p className="text-fg font-medium text-[length:var(--fs-body)]">{outcomeReason}</p>}
-          {outcomeComment && <p className="text-fg-2 text-[length:var(--fs-body)]">{outcomeComment}</p>}
+          {outcomeReason && <p className="value-text">{outcomeReason}</p>}
+          {outcomeComment && <p className="text-secondary">{outcomeComment}</p>}
         </div>
       )}
     </section>
@@ -331,31 +331,31 @@ function ActivitiesPanel({ history }: { history: ApprovalHistoryEntry[] }) {
   return (
     <section className={DETAIL_CARD}>
       <div className="flex items-baseline gap-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Activities</h3>
-        <span className="text-muted text-[length:var(--fs-caption)]">
+        <h3 className="subtitle">Activities</h3>
+        <span className="caption-muted">
           {history.length} {history.length === 1 ? 'activity' : 'activities'}
         </span>
       </div>
-      <p className="mt-1 pb-4 mb-4 border-b border-border-soft text-fg-2 text-[length:var(--fs-body)]">Approval history for this order.</p>
+      <p className="mt-1 pb-4 mb-4 divider-bottom text-secondary">Approval history for this order.</p>
       {history.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 py-12 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-[var(--radius-pill)] bg-surface text-muted">
+        <div className="stack-center gap-2 py-12 text-center">
+          <span className="disc-lg bg-surface text-muted">
             <Icon path={HISTORY_ICON} className="w-8 h-8" strokeWidth={1.5} />
           </span>
-          <p className="mt-2 text-fg font-semibold text-[length:var(--fs-body-lg)]">No Approval Activity Yet</p>
-          <p className="max-w-md text-fg-2 text-[length:var(--fs-body)]">
+          <p className="mt-2 subtitle">No Approval Activity Yet</p>
+          <p className="max-w-md text-secondary">
             Approval actions will appear here once they are recorded. Review this history before confirming a decision.
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--field-card-border)] divide-y divide-border-soft">
+        <div className="list-frame">
           {history.map((entry) => {
             const tone = decisionTone(entry.actionTaken);
             return (
-            <div key={entry.activityNumber} className={`px-4 py-3 ${tone.row}`}>
-              <div className="flex items-center justify-between gap-3">
+            <div key={entry.activityNumber} className={`pad-row ${tone.row}`}>
+              <div className="split-nowrap">
                 <span className={`${tone.title} text-[length:var(--fs-body)]`}>{entry.actionTaken}</span>
-                <span className="text-muted text-[length:var(--fs-caption)]">{formatDateTime(entry.transactionDate)}</span>
+                <span className="caption-muted">{formatDateTime(entry.transactionDate)}</span>
               </div>
               {/* "Task ID / Task Name" lines were dropped 2026-09-28: the page H1 and Contact line already carry both. */}
               {entry.notes && <div className="text-fg text-[length:var(--fs-caption)] mt-0.5">{entry.notes}</div>}
@@ -387,16 +387,16 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
   return (
     <section className={DETAIL_CARD}>
       <div className="mb-4 flex items-baseline gap-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Attachments</h3>
-        <span className="text-muted text-[length:var(--fs-caption)]">
+        <h3 className="subtitle">Attachments</h3>
+        <span className="caption-muted">
           {attachments.length} document{attachments.length === 1 ? '' : 's'}
         </span>
       </div>
       {attachments.length === 0 ? (
-        <p className="text-fg-2 text-[length:var(--fs-body)]">No attachments were recorded for this order.</p>
+        <p className="text-secondary">No attachments were recorded for this order.</p>
       ) : (
         <>
-          <p className="mb-4 text-fg-2 text-[length:var(--fs-body)]">Documents submitted with this order.</p>
+          <p className="mb-4 text-secondary">Documents submitted with this order.</p>
           <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
             <div className="min-w-0">
               <DataTable
@@ -405,16 +405,16 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
                     key: 'label',
                     header: 'Document',
                     render: (a) => (
-                      <span className="flex items-center gap-3">
+                      <span className="row">
                         <FileIcon doc={a} className="w-6 h-6" />
                         <span className="min-w-0">
                           <span className="block text-fg">{a.label}</span>
-                          {(a.fileName ?? a.detail) && <span className="block text-muted text-[length:var(--fs-caption)] break-all">{a.fileName ?? a.detail}</span>}
+                          {(a.fileName ?? a.detail) && <span className="block caption-muted break-all">{a.fileName ?? a.detail}</span>}
                         </span>
                       </span>
                     ),
                   },
-                  { key: 'detail', header: 'Source', render: (a) => <span className="text-fg-2 text-[length:var(--fs-caption)]">{a.detail ?? '-'}</span> },
+                  { key: 'detail', header: 'Source', render: (a) => <span className="caption-secondary">{a.detail ?? '-'}</span> },
                 ]}
                 rows={attachments.map((a, i) => ({ ...a, id: String(i) }))}
                 rowKey={(a) => a.id}
@@ -423,13 +423,13 @@ function AttachmentsPanel({ attachments, order }: { attachments: OrderAttachment
               />
             </div>
 
-            <div className="flex min-h-64 flex-col items-center justify-center gap-3 card card-surface p-6 text-center" aria-live="polite">
+            <div className="stack-middle min-h-64 card card-surface p-6 text-center" aria-live="polite">
               {doc ? (
                 <AttachmentPreview doc={doc} order={order} />
               ) : (
                 <>
                   <Icon path={DOC} className="w-14 h-14 text-muted" strokeWidth={1.5} />
-                  <p className="text-fg-2 text-[length:var(--fs-body)]">Select a document to preview it here.</p>
+                  <p className="text-secondary">Select a document to preview it here.</p>
                 </>
               )}
             </div>
@@ -533,14 +533,14 @@ function OrderDetailsPanel({ order, lastUpdatedMs }: { order: Order; lastUpdated
           <section className={DETAIL_CARD}>
             <h3 className={DETAIL_CARD_TITLE}>Charges</h3>
             {hasCharges && (
-              <div className="grid grid-cols-2 divide-x divide-border-soft border-b border-border-soft pb-4 mb-4">
+              <div className="grid grid-cols-2 divide-x divide-border-soft divider-bottom pb-4 mb-4">
                 <div className="pr-4">
-                  <p className="text-[length:var(--fs-caption)] text-muted">Monthly Recurring</p>
-                  <p className="text-fg font-bold text-[length:var(--fs-h5)]">{qar(monthly) ?? '-'}</p>
+                  <p className="caption-muted">Monthly Recurring</p>
+                  <p className="title-lg">{qar(monthly) ?? '-'}</p>
                 </div>
                 <div className="pl-4">
-                  <p className="text-[length:var(--fs-caption)] text-muted">Due Today</p>
-                  <p className="text-fg font-bold text-[length:var(--fs-h5)]">{qar(order.dueTodayQAR) ?? '-'}</p>
+                  <p className="caption-muted">Due Today</p>
+                  <p className="title-lg">{qar(order.dueTodayQAR) ?? '-'}</p>
                 </div>
               </div>
             )}
@@ -803,7 +803,7 @@ export function OrderApprovalDetail() {
         // only when it says something the order status does not: a decision that sent the order back to the agent.
         // Every other approval state is implied by the order status or spelled out in the Approval card.
         actions={
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          <div className="cluster-sm justify-end">
             {order.status === ORDER_AWAITING_DECISION && (order.approvalStatus === 'Returned' || order.approvalStatus === 'Resubmitted') && (
               <Badge variant={badgeVariantFor(order.approvalStatus)} aria-label={`Approval status: ${order.approvalStatus}`}>
                 {order.approvalStatus}
@@ -826,10 +826,10 @@ export function OrderApprovalDetail() {
       </div>
 
       {mayResubmit && (
-        <div className="mt-4 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg px-4 py-3 flex flex-wrap items-center gap-3">
+        <div className="mt-4 card card-inherit-fill pad-row cluster">
           <div className="min-w-0 flex-1">
-            <p className="text-fg font-medium text-[length:var(--fs-body)]">This order was rejected for correction</p>
-            <p className="text-fg-2 text-[length:var(--fs-caption)]">
+            <p className="value-text">This order was rejected for correction</p>
+            <p className="caption-secondary">
               {order.rejectComment ? `${order.rejectComment} ` : ''}Correct what was asked for, then send it back for another decision.
             </p>
           </div>
@@ -841,7 +841,7 @@ export function OrderApprovalDetail() {
 
       {/* Decision buttons are for approvers only; everyone else sees none. */}
       {isEligibleApprover && (
-      <div className="flex flex-wrap gap-2 mt-6">
+      <div className="wrap-row mt-6">
         <Button variant="primary" onClick={() => setModal('approve')}>
           Approve
         </Button>
@@ -865,10 +865,10 @@ export function OrderApprovalDetail() {
       <Drawer open={modal === 'resubmit'} onClose={() => setModal(null)} title="Resubmit Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <p className="text-fg-2 text-[length:var(--fs-body)]">Tell the approver what you corrected. The order returns to the approval queue it was routed to.</p>
+          <p className="text-secondary">Tell the approver what you corrected. The order returns to the approval queue it was routed to.</p>
           <Textarea label="What Was Corrected (Required)" value={resubmitComment} onChange={(e) => setResubmitComment(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={resubmit} disabled={!resubmitComment.trim() || submitting}>Resubmit Order</Button>
         </div>
@@ -877,13 +877,13 @@ export function OrderApprovalDetail() {
       <Drawer open={modal === 'approve'} onClose={() => setModal(null)} title="Approve Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <label className="flex items-start gap-2 text-[length:var(--fs-body)] text-fg">
+          <label className="flex items-start gap-2 body-text">
             <Checkbox className="mt-1" checked={ackApprove} onChange={(e) => setAckApprove(e.target.checked)} />
             By clicking submit, I agree that I have verified all the documents and details to proceed with submission.
           </label>
           <Textarea label="Comments" value={approveComment} onChange={(e) => setApproveComment(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={approve} disabled={!ackApprove || submitting}>Submit Approval</Button>
         </div>
@@ -901,7 +901,7 @@ export function OrderApprovalDetail() {
           />
           <Textarea label="Comments (Required)" value={rejectComment} onChange={(e) => setRejectComment(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button
             variant="destructive"
@@ -916,7 +916,7 @@ export function OrderApprovalDetail() {
       <Drawer open={modal === 'return'} onClose={() => setModal(null)} title="Return Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <p className="text-fg-2 text-[length:var(--fs-body)]">
+          <p className="text-secondary">
             Returning sends this order back to the approval queue for correction, rather than rejecting it outright.
           </p>
           <Select
@@ -928,7 +928,7 @@ export function OrderApprovalDetail() {
           />
           <Textarea label="Notes" value={returnComment} onChange={(e) => setReturnComment(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={returnOrder} disabled={!returnReason || !returnComment || submitting}>
             Return Order

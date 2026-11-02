@@ -90,4 +90,6 @@ export interface IdentityDocRecord {
   documentType?: string;
   expiryDate?: string;
   docStatus?: string;
+  /** A Passport's visa as MOI returns it (identity-documents.json). */
+  visa?: import('../../data/passportVisa').PassportVisa;
 }

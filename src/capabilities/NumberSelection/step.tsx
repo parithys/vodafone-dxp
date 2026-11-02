@@ -98,7 +98,7 @@ export function numberSelectionStep(
             const caf = (values.caf as { additionalDocuments?: AdditionalDocument[] } | undefined) ?? {};
             const attachedDocs = caf.additionalDocuments ?? [];
             return (
-              <div className="flex items-center gap-3">
+              <div className="row">
                 <WaiveOff
                   chargeQar={values.msisdn ? charge : 0}
                   numberChosen={Boolean(values.msisdn)}

@@ -48,10 +48,10 @@ export function LeadsSection({ ctx }: { ctx: Ctx }) {
           { value: stat('closed') + stat('lost'), label: 'Closed / Lost' },
         ]}
       />
-      <WideBlock className="grid grid-cols-1 lg:grid-cols-[1fr_20rem] gap-4 items-start">
+      <WideBlock className="fields lg:grid-cols-[1fr_20rem] items-start">
         <div className="space-y-4">
           <Card title={`Leads List (${leads.length})`} icon={ICON.search}>
-            <div className="px-4 py-3 flex gap-2 border-b border-[var(--field-card-border)]">
+            <div className="panel-bar">
               <SearchField value={query} onChange={(e) => setQuery(e.target.value)} onClear={() => setQuery('')} placeholder="Search by lead type, MSISDN, status or comments..." aria-label="Search leads" wrapperClassName="flex-1 min-w-48" />
               <FilterSelect label="Lead Type" value={type} options={types.map((x) => ({ value: x, label: x }))} onChange={(v) => setType(v)} />
               <FilterSelect label="Lead Status" value={status} options={statuses.map((x) => ({ value: x, label: x }))} onChange={(v) => setStatus(v)} />
@@ -117,7 +117,7 @@ export function LeadsSection({ ctx }: { ctx: Ctx }) {
             />
           </Card>
           <Card title="Lead Guidelines" icon={ICON.shield}>
-            <ul className="px-5 py-4 text-fg-2 text-[length:var(--fs-body)] space-y-3">
+            <ul className="pad-panel text-secondary space-y-3">
               <li>Use appropriate Lead Type based on customer interest.</li>
               <li>Add detailed comments to help with follow-up.</li>
               <li>Convert eligible leads to a sales order.</li>

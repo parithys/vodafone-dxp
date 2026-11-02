@@ -68,8 +68,8 @@ export function ContactSection({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+      <div className="row-between mb-3">
+        <h3 className="caption-heading">
           Customer Contacts
         </h3>
       </div>
@@ -163,12 +163,12 @@ function ContactEditDrawer({
       }
     >
       <div className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="fields-3">
           <Input label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} readOnly={readOnly} disabled={readOnly} />
           <Input label="Middle Name(s)" value={middleName} onChange={(e) => setMiddleName(e.target.value)} readOnly={readOnly} disabled={readOnly} />
           <Input label="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} readOnly={readOnly} disabled={readOnly} />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="fields-2">
           <Tooltip content="ID Type cannot be changed here. Use the KYC identity-correction wizard." placement="top">
             <Input label="ID Type" value={contact.idType} disabled readOnly />
           </Tooltip>
@@ -178,11 +178,11 @@ function ContactEditDrawer({
         </div>
         <Badge variant="filled-neutral">ID Type / ID Number are protected fields</Badge>
         <Input label="ID Expiration Date" type="date" value={contact.idExpirationDate ?? ''} disabled readOnly />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="fields-2">
           <Input label="Nationality" value={nationality} onChange={(e) => setNationality(e.target.value)} readOnly={readOnly} disabled={readOnly} />
           <Input label="Date of Birth" type="date" value={dob} onChange={(e) => setDob(e.target.value)} readOnly={readOnly} disabled={readOnly} />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="fields-2">
           <Select label="Gender" value={gender} onChange={(e) => setGender(e.target.value)} options={GENDER_OPTIONS} disabled={readOnly} />
           <Select
             label="Preferred Language"
@@ -192,7 +192,7 @@ function ContactEditDrawer({
             disabled={readOnly}
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="fields-2">
           <ContactPhoneInput
             label="Cell Number"
             value={cellNumber}

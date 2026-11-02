@@ -63,16 +63,16 @@ export function WfmSerialNumberCheck() {
             <button type="button"
               key={o.orderId}
               onClick={() => setSelectedOrderId(o.orderId)}
-              className="w-full text-left px-4 py-3 hover:bg-surface flex justify-between items-center"
+              className="list-row pad-row justify-between"
             >
               <div>
                 <div className="text-fg">{o.orderId} - {o.customerName}</div>
-                <div className="text-[length:var(--fs-caption)] text-muted">{o.orderType} · {o.msisdn}</div>
+                <div className="caption-muted">{o.orderType} · {o.msisdn}</div>
               </div>
               <Badge variant="warning">Pending WFM Installation</Badge>
             </button>
           ))}
-          {pending.length === 0 && <div className="px-4 py-6 text-center text-muted">No orders pending installation.</div>}
+          {pending.length === 0 && <div className="px-4 empty-line">No orders pending installation.</div>}
         </div>
       </div>
     );

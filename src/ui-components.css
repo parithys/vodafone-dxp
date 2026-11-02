@@ -1,0 +1,1120 @@
+/* The semantic UI layer: one class per reusable UI component, its variants, sizes and states, written once on top of the design tokens.
+ *
+ *   .component            the component          .btn  .card  .badge  .tab  .form-control  .modal-dialog
+ *   .component-variant    what kind of one       .btn-primary  .btn-secondary  .badge-success  .card-selected
+ *   .component-size       how big                .btn-sm  .btn-md  .btn-lg
+ *   .component-state      what condition         .tab-active  .form-control-error  .form-control-readonly  .card-selected
+ *
+ * Each class holds the utilities, tokens and interaction states (hover, focus, active, disabled) that used to be repeated on every element, via @apply,
+ * so a rendered element reads `class="btn btn-primary btn-lg"` and the look is the same as before. All of it is in @layer components: a call site's own
+ * utility (a width, a margin, a one-off colour) still overrides it. The React components in components/primitives apply these classes; use them
+ * (or the component) rather than copying utility strings. Listed, with a live example of each, in Administration > UI Components Library.
+ */
+@layer components {
+  /* ------------------------------------------------------------------ Cards */
+  /* The card shell: radius, 1px card border and the page-card fill. Spacing and any one-off colour stay on the element. .card-surface swaps the fill
+     for the quieter --surface. */
+  .card {
+    border-radius: var(--radius-card);
+    border: 1px solid var(--field-card-border);
+    background-color: var(--bg);
+  }
+  /* Larger corner radius (dashboard tiles and rows). */
+  .card-lg {
+    border-radius: var(--radius-card-lg);
+  }
+  /* A card that is a link or button: the fill changes on hover, nothing else. */
+  .card-interactive {
+    @apply hover:bg-[var(--field-card-hover-bg)];
+  }
+  .card-surface {
+    background-color: var(--surface);
+  }
+  /* The selectable-card states, one definition for every card grid (offers, plans, numbers, ID types). Hover changes the fill only. */
+  .card-idle {
+    @apply border-[var(--field-card-border)] bg-bg hover:bg-[var(--field-card-hover-bg)];
+  }
+  .card-selected {
+    @apply border-[var(--field-card-selected)] bg-[linear-gradient(135deg,var(--surface-warm),var(--bg)_90%)] shadow-[var(--shadow-selected-ring)];
+  }
+  /* A card the app singles out (the Recommended offer): blue border, flat soft blue wash. */
+  .card-highlight {
+    @apply border-[var(--signal-blue)] bg-[var(--tone-blue-bg-soft)] hover:bg-[var(--tone-blue-bg-hover)];
+  }
+  /* The selected mark on a selectable card (SelectedTick): a red circle with a tick on the card's top-right corner. The card must be `relative`; the
+     tick is only rendered while the card is selected. */
+  .card-tick {
+    position: absolute;
+    top: -0.625rem;
+    right: -0.625rem;
+    z-index: var(--z-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: var(--radius-circle);
+    background-color: var(--accent);
+    color: var(--accent-on);
+    box-shadow: var(--shadow-selected-ring);
+  }
+
+  /* ---------------------------------------------------------------- Buttons */
+  /* The fill of a secondary button follows what it sits on: the page tint on a white surface (card, dialog, header band), white on the grey page
+     itself - a page-tint button there would disappear into the background. The surface sets the pair below. */
+  #main-content {
+    --btn-secondary-fill: var(--bg);
+    --btn-secondary-hover: var(--icon-tile-bg);
+  }
+  /* .card-inherit-fill (a marker, no rules of its own) keeps a card from setting the pair, so buttons inside follow what the card sits on. */
+  .card:not(.card-inherit-fill),
+  header,
+  [role='dialog'] {
+    --btn-secondary-fill: var(--icon-tile-bg);
+    --btn-secondary-hover: var(--bg);
+  }
+  /* The secondary surface (a Button, and the link-styled buttons beside one): the page-tint fill, the standard grey border and a bold label; white on
+     hover. Colour only - on a Button, .btn.btn-secondary adds the box. !important: the base font-medium would otherwise win over this layered class. */
+  .btn-secondary {
+    border-color: var(--border);
+    background: var(--btn-secondary-fill);
+    color: var(--fg);
+    font-weight: var(--fw-bold) !important;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--btn-secondary-hover);
+  }
+
+  /* .btn: what every button shares. Variants follow it (.btn-primary, .btn-secondary, .btn-tertiary, .btn-destructive), then a size (.btn-sm, .btn-md,
+     .btn-lg); a text-link button (.btn-tertiary) has no box and sets its own text size. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-medium tracking-[var(--tracking-btn)] transition-[color,background-color,border-color,box-shadow,transform] duration-[var(--motion-fast)] disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  /* The primary fill: --accent-gradient, white label, a transparent 1px border (so a primary and a secondary side by side are the same height). The
+     disabled state is a flat --accent-disabled: `disabled:bg-none` clears the gradient image so the flat colour shows. */
+  .btn-primary {
+    @apply border-transparent bg-[image:var(--accent-gradient)] text-accent-on font-bold! border enabled:hover:bg-[image:var(--accent-gradient-hover)] enabled:active:scale-[0.99] disabled:opacity-100 disabled:bg-none disabled:bg-[var(--accent-disabled)] rounded-[var(--radius-button)] px-4 py-2;
+  }
+  .btn.btn-secondary {
+    @apply border rounded-[var(--radius-button)] px-4 py-2;
+  }
+  /* A text link that acts like a button: no box, so no padding or border. The weight is the base font-medium (500): the old utility list also named
+     font-bold, but font-medium won over it, so the rendered weight has always been 500 and stays so. */
+  .btn-tertiary {
+    @apply text-link hover:underline underline-offset-2 rounded-[var(--radius-sm)] focus-visible:shadow-[var(--focus-ring)] focus:outline-none text-[length:var(--fs-body)];
+  }
+  /* Solid danger red (no gradient, so it never reads as the primary call to action). */
+  .btn-destructive {
+    @apply border border-transparent bg-danger-solid text-on-dark font-bold! enabled:hover:bg-danger-solid-hover enabled:active:scale-[0.99] disabled:opacity-100 disabled:bg-tone-danger rounded-[var(--radius-button)] px-4 py-2;
+  }
+  .btn-glass {
+    @apply bg-[var(--white-glass-10)] backdrop-blur text-fg border border-transparent rounded-[var(--radius-button)] px-5 py-2;
+  }
+  /* Box adjustments of the box variants. */
+  .btn-primary.btn-pill {
+    @apply px-6 py-2.5;
+  }
+  .btn.btn-secondary.btn-chip {
+    @apply py-1.5;
+  }
+  .btn-sm {
+    @apply text-[length:var(--fs-btn-compact)] min-h-[var(--control-h-sm)];
+  }
+  .btn-md {
+    @apply text-[length:var(--fs-btn)] min-h-[var(--control-h-md)];
+  }
+  .btn-lg {
+    @apply text-[length:var(--fs-body-lg)] px-6! py-3! min-h-[var(--control-h-lg)];
+  }
+  /* The icon-only button (a 36px hit area, 28px small), and the close control of a dialog. */
+  .btn-icon {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-button)] text-muted hover:text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors;
+  }
+  .btn-icon-sm {
+    @apply h-7 w-7;
+  }
+  .btn-icon-danger {
+    @apply hover:text-danger;
+  }
+  .btn-icon-bordered {
+    @apply border border-[var(--field-card-border)] bg-bg;
+  }
+  .btn-close {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-button)] text-fg-2 hover:bg-[var(--icon-tile-bg)] hover:text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)] transition-colors;
+  }
+
+  /* ------------------------------------------------------------ Tags & badges */
+  /* Red text uses --accent-text (the app-wide `.text-accent` rule in index.css does the same), never the fill red: it must clear 4.5:1 on the tint. */
+  /* The pill: a status, a category or a service type. Colour comes from the variant (.badge-success ...) or, for a service type, from lib/serviceTypeTag. */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] px-2.5 py-0.5 text-[length:var(--fs-tag)] font-medium whitespace-nowrap shrink-0;
+  }
+  .badge-outlined-red {
+    @apply border border-accent text-[var(--accent-text)] bg-transparent;
+  }
+  .badge-filled-neutral {
+    @apply bg-light-neutral text-fg-2;
+  }
+  .badge-success {
+    @apply bg-bg border border-[var(--success-border)] text-success;
+  }
+  .badge-success-solid {
+    @apply bg-[var(--badge-success-solid)] text-on-dark border border-transparent;
+  }
+  .badge-warning {
+    @apply bg-bg border border-[var(--warn-border)] text-[var(--warn-text)];
+  }
+  .badge-danger {
+    @apply bg-bg border border-[var(--danger-border)] text-danger;
+  }
+  .badge-danger-solid {
+    @apply bg-[var(--danger-solid)] text-on-dark border border-transparent;
+  }
+  .badge-info {
+    @apply bg-bg border border-[var(--info-border)] text-[var(--info)];
+  }
+  .badge-accent {
+    @apply bg-accent text-accent-on;
+  }
+  .badge-tag-blue {
+    @apply bg-[var(--tag-blue-bg)] text-[var(--tag-blue-fg)] border border-transparent;
+  }
+  .badge-tag-amber {
+    @apply bg-[var(--tag-amber-bg)] text-[var(--warn-text)] border border-transparent;
+  }
+  .badge-tag-green {
+    @apply bg-tone-success text-success border border-transparent;
+  }
+  .badge-tag-violet {
+    @apply bg-tone-info text-[var(--info)] border border-transparent;
+  }
+  .badge-tag-red {
+    @apply bg-tone-accent text-[var(--accent-text)] border border-transparent;
+  }
+  .badge-tag-primary {
+    @apply bg-[var(--tag-primary-bg)] text-[var(--tag-primary-fg)] border border-transparent;
+  }
+
+  /* -------------------------------------------------------------------- Tabs */
+  /* Level 1: the underline strip (.tab-strip, its .tab buttons, the selected one .tab-active, an optional .tab-count). */
+  .tab-strip {
+    @apply flex max-w-full overflow-x-auto shadow-[inset_0_calc(var(--tab-line-w)*-1)_0_0_var(--tab-line-color)];
+  }
+  .tab {
+    @apply flex shrink-0 items-center gap-2 border-b-[length:var(--tab-active-w)] px-4 py-3 text-[length:var(--fs-body)] whitespace-nowrap transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] border-transparent text-fg hover:text-[var(--accent-text)];
+  }
+  .tab.tab-active {
+    @apply border-accent text-[var(--accent-text)] font-bold;
+  }
+  .tab-count {
+    @apply inline-flex h-6 min-w-6 items-center justify-center rounded-[var(--radius-pill)] px-1.5 text-[length:var(--fs-micro)] font-semibold bg-[var(--icon-tile-bg)] text-fg-2;
+  }
+  .tab.tab-active .tab-count {
+    @apply bg-accent text-accent-on;
+  }
+  /* Level 2: the pill switcher (.tab-segmented, its .tab-segment buttons, the selected one .tab-segment-active). */
+  .tab-segmented {
+    @apply inline-flex max-w-full gap-1 overflow-x-auto rounded-[var(--radius-card)] bg-[var(--icon-tile-bg)] p-1;
+  }
+  .tab-segment {
+    @apply flex shrink-0 items-center gap-2 rounded-[var(--radius-button)] px-5 py-2 text-[length:var(--fs-body)] whitespace-nowrap transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[var(--icon-tile-fg)] font-medium hover:text-fg;
+  }
+  .tab-segment.tab-segment-active {
+    @apply bg-bg text-fg font-bold shadow-[var(--shadow-dash-card)];
+  }
+  .tab-segment-count {
+    @apply inline-flex h-5 min-w-5 items-center justify-center rounded-[var(--radius-pill)] px-1.5 text-[length:var(--fs-micro)] font-semibold bg-bg text-fg-2;
+  }
+  .tab-segment.tab-segment-active .tab-segment-count {
+    @apply bg-accent text-accent-on;
+  }
+
+  /* ------------------------------------------------------------ Form controls */
+  /* A text field (Input, Textarea, SearchField): the shape and text; then ONE border state - .form-control-default, -filled, -error or -readonly. The
+     focus and disabled looks are in the base. Hover borders apply to default and filled only. */
+  .form-control {
+    @apply rounded-[var(--field-radius)] border px-3 py-2 text-[length:var(--fs-body)] text-[var(--color-field-text-filled)] focus:outline-none disabled:border-[var(--field-border-disabled)] disabled:text-[var(--field-label-disabled)] disabled:bg-[var(--field-bg-disabled)];
+  }
+  .form-control:not(.form-control-readonly) {
+    @apply focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)];
+  }
+  .form-control-default {
+    @apply bg-bg border-[var(--field-border)] enabled:hover:border-[var(--field-hover-border)];
+  }
+  .form-control-filled {
+    @apply bg-bg border-[var(--field-border-filled)] enabled:hover:border-[var(--field-hover-border)];
+  }
+  .form-control-error {
+    @apply bg-bg border-[var(--field-border-error)];
+  }
+  /* Registry data the agent reads but does not edit: the recessed fill, no hover, no focus look, not selectable. */
+  .form-control-readonly {
+    @apply bg-surface cursor-default select-none border-[var(--field-border)];
+  }
+  /* The search box: full width, room for the icon at the left and the clear button at the right. */
+  .form-control-search {
+    @apply w-full pr-10 min-h-[var(--control-h-md)] placeholder:text-muted disabled:cursor-not-allowed disabled:placeholder:text-[var(--field-label-disabled)];
+  }
+  /* The tick box and the round radio: native control stripped (appearance-none), the fill and border from the tokens, the mark drawn by the sibling
+     .checkbox-mark / .radio-mark (the input also carries `peer`). */
+  .checkbox {
+    @apply appearance-none m-0 w-[var(--size-choice-box)] h-[var(--size-choice-box)] rounded-[var(--radius-checkbox)] border border-[var(--field-border)] bg-bg cursor-pointer checked:bg-[var(--field-checkbox-selected)] checked:border-[var(--field-checkbox-selected)] disabled:cursor-not-allowed disabled:border-[var(--field-border-disabled)] disabled:bg-[var(--field-bg-disabled)] focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:shadow-[var(--field-focus-ring)];
+  }
+  .checkbox-mark {
+    @apply pointer-events-none absolute inset-0 w-[var(--size-choice-box)] h-[var(--size-choice-box)] text-on-dark opacity-0 peer-checked:opacity-100;
+  }
+  .radio {
+    @apply appearance-none m-0 w-[var(--size-choice-box)] h-[var(--size-choice-box)] rounded-[var(--radius-pill)] border border-[var(--field-border)] bg-bg cursor-pointer checked:bg-[var(--field-radio-selected)] checked:border-[var(--field-radio-selected)] disabled:cursor-not-allowed disabled:border-[var(--field-border-disabled)] disabled:bg-[var(--field-bg-disabled)] focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:shadow-[var(--field-focus-ring)];
+  }
+  .radio-mark {
+    @apply pointer-events-none absolute inset-0 m-auto w-[6px] h-[6px] rounded-[var(--radius-pill)] bg-accent-on opacity-0 peer-checked:opacity-100 peer-disabled:bg-[var(--field-label-disabled)];
+  }
+
+  /* -------------------------------------------------------- Modals & drawers */
+  .modal-backdrop {
+    @apply fixed inset-0 z-[var(--z-overlay)] flex items-center justify-center bg-[var(--black-80)] cursor-default;
+  }
+  .modal-dialog {
+    @apply w-full max-h-[90vh] overflow-y-auto rounded-[var(--radius-card)] bg-bg shadow-raised p-6;
+  }
+  .drawer-backdrop {
+    @apply fixed inset-0 z-[var(--z-overlay)] bg-[var(--black-80)];
+  }
+  .drawer-panel {
+    @apply fixed right-0 inset-y-0 z-[var(--z-overlay)] w-[50vw] min-w-[min(420px,100vw)] max-w-full flex flex-col bg-bg border-l border-border-soft shadow-raised transform transition-transform duration-[var(--motion-base)] ease-[var(--ease-standard)];
+  }
+
+  /* ------------------------------------------------- Text, links, rows, popovers */
+  /* Small uppercase section heading (spacing such as mb-2 stays at the call site). */
+  .caption-heading {
+    @apply text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg;
+  }
+  /* Inline text-link button. */
+  .link-action {
+    @apply text-[length:var(--fs-caption)] text-link underline hover:opacity-80 focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-button)] px-0.5;
+  }
+  /* Label / value row in a list, ruled between rows. */
+  .data-row {
+    @apply flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)];
+  }
+  /* Quiet "nothing here" line. */
+  .empty-note {
+    @apply text-muted text-[length:var(--fs-body)] py-4 text-center;
+  }
+  /* Suggestion list under a search field (the parent is `relative`). */
+  .dropdown-popover {
+    @apply absolute z-[var(--z-popover)] top-full left-0 right-0 max-h-80 overflow-y-auto rounded-[var(--field-radius)] border border-border-soft bg-bg shadow-raised py-1 divide-y divide-[var(--field-divider)];
+  }
+  /* The four corner brackets of a scan frame. */
+  .scan-corner {
+    @apply absolute w-4 h-4 border-accent;
+  }
+  .scan-corner-tl {
+    @apply left-2 top-2 border-l-2 border-t-2;
+  }
+  .scan-corner-tr {
+    @apply right-2 top-2 border-r-2 border-t-2;
+  }
+  .scan-corner-bl {
+    @apply left-2 bottom-2 border-l-2 border-b-2;
+  }
+  .scan-corner-br {
+    @apply right-2 bottom-2 border-r-2 border-b-2;
+  }
+
+  /* ----------------------------------------------------- Navigation (sidebar) */
+  /* The drawer itself: fixed to the left edge, slides and fades. Open/closed translation and the docked override stay on the element. */
+  .nav-drawer {
+    @apply fixed inset-y-0 left-0 z-[var(--z-overlay)] w-[280px] transform transition-[transform,translate,opacity,box-shadow] duration-[var(--motion-slow)] ease-[var(--ease-standard)] motion-reduce:transition-none border-r border-[var(--nav-border)] bg-[var(--nav-bg)] h-full overflow-y-auto;
+  }
+  .nav-header {
+    @apply flex items-center justify-between h-16 px-4 border-b border-[var(--nav-border)];
+  }
+  .nav-search {
+    @apply flex items-center gap-2 h-10 px-3 rounded-[var(--radius-sm)] border border-[var(--nav-border)] text-[var(--nav-fg-muted)] focus-within:border-[var(--nav-fg-muted)] focus-within:text-[var(--nav-fg)];
+  }
+  .nav-search-input {
+    @apply min-w-0 flex-1 bg-transparent text-[length:var(--fs-body)] text-[var(--nav-fg)] placeholder:text-[var(--nav-fg-muted)] focus:outline-none focus-visible:shadow-none [&::-webkit-search-cancel-button]:appearance-none;
+  }
+  .nav-icon-btn {
+    @apply text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)];
+  }
+  /* The row colours shared by every level: the current page, and the group that holds it. */
+  .nav-active {
+    @apply bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)];
+  }
+  .nav-in-group {
+    @apply bg-[var(--nav-group-bg)] text-[var(--nav-fg)];
+  }
+  /* Level 1: a destination or group. */
+  .nav-row {
+    @apply flex-1 min-w-0 flex items-center gap-2.5 h-11 mx-2 rounded-[var(--radius-sm)] text-[length:var(--fs-body)] px-4 font-bold;
+  }
+  .nav-row-idle {
+    @apply hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)] text-[var(--nav-fg-muted)];
+  }
+  /* Level 2: a category under a group, marked by a left rule. */
+  .nav-child {
+    @apply flex-1 min-w-0 flex items-center gap-2.5 h-9 -ml-px pl-4 pr-3 border-l-2 text-[length:var(--fs-caption)];
+  }
+  .nav-child-active {
+    @apply border-accent bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)] font-medium;
+  }
+  .nav-child-idle {
+    @apply border-transparent text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)] hover:border-[var(--nav-section)];
+  }
+  /* Level 3: a journey under a category. */
+  .nav-leaf {
+    @apply flex items-center h-8 pl-5 pr-3 text-[length:var(--fs-caption)] rounded-none;
+  }
+  .nav-leaf-active {
+    @apply bg-[var(--nav-active-bg)] bg-[image:var(--nav-active-image)] text-[var(--nav-active-fg)] font-medium;
+  }
+  .nav-leaf-idle {
+    @apply text-[var(--nav-fg-muted)] hover:text-[var(--nav-fg)] hover:bg-[var(--nav-hover-bg)];
+  }
+
+  /* ------------------------------------------- Header bar, menus and popovers */
+  .header-bar {
+    @apply relative z-[var(--z-header)] grid grid-cols-[auto_minmax(0,1fr)_auto] md:grid-cols-[auto_minmax(8rem,28rem)_minmax(max-content,1fr)_auto] items-center gap-3 h-16 px-4 border-b border-[var(--nav-border)] bg-header-glass backdrop-blur;
+  }
+  /* Round header icon button: ghost (the menu toggle) or outlined (theme, bell). Size and position stay on the element. */
+  .header-icon-btn {
+    @apply rounded-[var(--radius-pill)] flex items-center justify-center text-fg-2 hover:bg-surface;
+  }
+  .header-icon-btn-outlined {
+    @apply border border-border-soft;
+  }
+  .header-count-pill {
+    @apply min-w-10 h-10 px-2 rounded-[var(--radius-pill)] bg-accent text-accent-on flex items-center justify-center font-semibold text-[length:var(--fs-body)] cursor-pointer;
+  }
+  .header-unread-dot {
+    @apply absolute top-1.5 right-1.5 w-2 h-2 rounded-[var(--radius-pill)] bg-accent;
+  }
+  .profile-chip {
+    @apply flex items-center gap-2 rounded-[var(--radius-pill)] pl-1.5 pr-3 py-1.5 hover:bg-surface;
+  }
+  .avatar {
+    @apply w-7 h-7 rounded-[var(--radius-pill)] bg-accent text-on-dark text-[length:var(--fs-caption)] font-semibold flex items-center justify-center;
+  }
+  /* A dropdown panel hung under a header control (use with .card; the width stays on the element). */
+  .menu-popover {
+    @apply absolute right-0 mt-2 shadow-raised z-[var(--z-popover)];
+  }
+  .menu-heading {
+    @apply px-4 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-fg;
+  }
+  .menu-item {
+    @apply block w-full px-4 py-2.5 text-left border-b border-border-soft last:border-b-0 hover:bg-surface focus:outline-none focus-visible:bg-surface;
+  }
+  .menu-link {
+    @apply block px-4 py-2.5 text-[length:var(--fs-body)] text-fg-2 hover:bg-surface hover:text-fg border-t border-border-soft;
+  }
+  .menu-action-danger {
+    @apply w-full flex items-center gap-2 px-4 py-3 border-t border-border-soft text-danger hover:bg-surface text-left;
+  }
+
+  /* ====================================================================================================================================
+     Layout vocabulary, option cards, notices, chips and the other reusable surfaces. Each class bundles the utilities that used to be repeated
+     as one long string; spacing and one-off sizes stay on the element. Added by the className-budget refactor (tests/classNameBudget.test.mjs).
+     ==================================================================================================================================== */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .icon-tile {
+    @apply flex shrink-0 items-center justify-center;
+  }
+  .stack-center {
+    @apply flex flex-col items-center;
+  }
+  .stack-middle {
+    @apply flex flex-col items-center justify-center gap-3;
+  }
+  .split {
+    @apply flex flex-wrap items-center justify-between gap-3;
+  }
+  .split-wide {
+    @apply flex flex-wrap items-center justify-between gap-x-4 gap-y-2;
+  }
+  .split-nowrap {
+    @apply flex items-center justify-between gap-3;
+  }
+  .cluster {
+    @apply flex flex-wrap items-center gap-3;
+  }
+  .cluster-tight {
+    @apply flex flex-wrap items-center gap-x-2 gap-y-1;
+  }
+  .row {
+    @apply flex items-center gap-3;
+  }
+  .row-tight {
+    @apply flex items-center gap-2;
+  }
+  .row-loose {
+    @apply flex items-center gap-4;
+  }
+  .row-start {
+    @apply flex items-start gap-3;
+  }
+  .center-y {
+    @apply top-1/2 -translate-y-1/2;
+  }
+  .center-absolute {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+  .divider-top {
+    @apply border-t border-border-soft;
+  }
+  .divider-bottom {
+    @apply border-b border-border-soft;
+  }
+  .row-rule {
+    @apply border-b border-border-soft last:border-0;
+  }
+  .row-rule-card {
+    @apply border-b border-[var(--field-card-border)] last:border-0;
+  }
+  .heading-strong {
+    @apply text-fg font-semibold text-[length:var(--fs-body)];
+  }
+  .narrow-center {
+    @apply w-full max-w-xl mx-auto;
+  }
+  .list-row {
+    @apply w-full flex items-center text-left hover:bg-surface;
+  }
+  .list-row-start {
+    @apply w-full flex items-start text-left hover:bg-surface;
+  }
+  .row-button {
+    @apply w-full flex items-center focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .row-action {
+    @apply w-full text-left enabled:hover:bg-surface;
+  }
+  .card-button {
+    @apply text-left p-4 hover:bg-[var(--field-card-hover-bg)] transition-colors;
+  }
+  .card-button-inert {
+    @apply disabled:cursor-default disabled:border-dashed disabled:hover:bg-bg;
+  }
+  .icon-button-bare {
+    @apply inline-flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-fg;
+  }
+  .icon-button-on-dark {
+    @apply inline-flex h-6 w-6 items-center justify-center text-on-dark-2 hover:text-on-dark;
+  }
+  .menu-entry {
+    @apply w-full flex items-center gap-2.5 px-4 py-1.5 min-h-11 text-left text-[length:var(--fs-body)] focus:outline-none focus-visible:bg-surface focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-outline)];
+  }
+  .button-bleed {
+    @apply rounded-[var(--radius-button)] p-1.5 -m-1.5 text-left transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] disabled:cursor-default;
+  }
+  .nav-ghost {
+    @apply text-[var(--nav-fg-muted)] transition-colors duration-[var(--motion-base)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)];
+  }
+  .on-dark-round-btn {
+    @apply w-10 h-10 rounded-[var(--radius-pill)] border border-on-dark-line-3 bg-on-dark-fill-2 text-on-dark flex items-center justify-center hover:bg-on-dark-fill-3 focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .on-dark-pill-btn {
+    @apply rounded-[var(--radius-pill)] border border-transparent bg-on-dark-fill-2 px-3 py-1 text-on-dark hover:bg-on-dark-fill-3 focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .on-dark-chip-btn {
+    @apply rounded-[var(--radius-button)] border border-on-dark-line-3 px-3 py-1.5 text-[length:var(--fs-caption)] text-on-dark-2 hover:bg-on-dark-fill-2 hover:text-on-dark;
+  }
+  .card-option {
+    @apply rounded-[var(--radius-card)] border transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .card-option-lg {
+    @apply rounded-[var(--radius-card-lg)] border transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .card-unavailable {
+    @apply rounded-[var(--radius-card)] border border-dashed border-border bg-light-neutral text-muted cursor-not-allowed;
+  }
+  .dialog-card {
+    @apply rounded-[var(--radius-card)] border border-border-soft bg-bg shadow-raised;
+  }
+  .consent-panel {
+    @apply rounded-[var(--radius-card)] border border-[var(--field-card-border)] border-x-4 border-x-accent bg-surface-warm;
+  }
+  .summary-banner {
+    @apply rounded-[var(--radius-card-lg)] bg-[var(--summary-bg)] text-[var(--summary-fg)] p-6;
+  }
+  .promo-banner {
+    @apply rounded-[var(--radius-card-lg)] border border-[var(--border-soft)] bg-[linear-gradient(135deg,var(--bg),var(--surface-subtle))];
+  }
+  .notice-warning {
+    @apply rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft;
+  }
+  .notice-warning-edge {
+    @apply rounded-[var(--radius-card)] border border-[var(--warn-border)] bg-tone-warn;
+  }
+  .notice-warning-field {
+    @apply rounded-[var(--radius-card)] border border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)];
+  }
+  .notice-danger {
+    @apply rounded-[var(--radius-card)] border border-danger bg-tone-danger-soft;
+  }
+  .notice-success {
+    @apply rounded-[var(--radius-card)] border border-success bg-tone-success;
+  }
+  .notice-neutral {
+    @apply rounded-[var(--radius-card)] border border-border-soft bg-surface;
+  }
+  .on-dark-danger {
+    @apply border border-[var(--on-dark-danger-line)] bg-[var(--on-dark-danger-fill)];
+  }
+  .placeholder-box {
+    @apply rounded-[var(--radius-card)] border border-dashed border-[var(--border-soft)] text-muted text-[length:var(--fs-caption)];
+  }
+  .placeholder-tile {
+    @apply rounded-[var(--radius-sm)] border border-dashed border-border bg-surface;
+  }
+  .icon-tile-soft {
+    @apply rounded-[var(--radius-card)] bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)];
+  }
+  .disc-lg {
+    @apply flex h-16 w-16 items-center justify-center rounded-[var(--radius-pill)];
+  }
+  .title-band {
+    @apply bg-[var(--title-band-bg)] text-on-dark border-b border-[var(--field-card-border)];
+  }
+  .btn-on-title-band {
+    @apply [--btn-secondary-fill:var(--icon-tile-bg)] [--btn-secondary-hover:var(--bg)];
+  }
+  .card-header-row {
+    @apply flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 pt-4 pb-3;
+  }
+  .card-footer {
+    @apply flex items-center justify-between px-5 py-3 border-t border-border-soft text-[length:var(--fs-caption)] text-muted;
+  }
+  .action-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 gap-3;
+  }
+  .toolbar-end {
+    @apply flex flex-wrap items-center justify-end gap-x-5 gap-y-3 empty:hidden;
+  }
+  .sticky-corner {
+    @apply pointer-events-none sticky top-6 z-[var(--z-raised)] flex h-0 items-start justify-end;
+  }
+  .dash-hero {
+    @apply bg-[image:var(--dash-hero-gradient)] text-on-dark rounded-b-[var(--radius-lg)];
+  }
+  .drawer-footer {
+    @apply grid grid-flow-col auto-cols-fr gap-4 px-6 py-4 border-t border-border-soft shrink-0;
+  }
+  .button-group {
+    @apply inline-flex max-w-full items-stretch overflow-x-auto rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg divide-x divide-[var(--field-card-border)];
+  }
+  .dropzone {
+    @apply rounded-[var(--radius-card)] border border-dashed border-border bg-[var(--surface-subtle)];
+  }
+  .document-slot {
+    @apply flex w-full flex-wrap items-center gap-3 rounded-[var(--field-radius)] border border-dashed border-[var(--field-border)] px-3 py-3;
+  }
+  .id-preview {
+    @apply block w-full overflow-hidden rounded-[var(--radius-button)] border border-border-soft aspect-[1.585] bg-paper;
+  }
+  .scan-frame {
+    @apply relative w-full rounded-[var(--radius-card)] border border-border-soft bg-bg shadow-[var(--shadow-dash-card)] flex items-center justify-center text-muted text-[length:var(--fs-micro)] uppercase tracking-wide;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-surface px-2.5 py-0.5 text-[length:var(--fs-caption)];
+  }
+  .chip-boxed {
+    @apply inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--field-card-border)] bg-surface px-2.5 py-0.5 text-[length:var(--fs-caption)];
+  }
+  .chip-field {
+    @apply inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg px-3 py-1.5 text-fg text-[length:var(--fs-caption)];
+  }
+  .chip-card {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-fg font-semibold text-[length:var(--fs-body)];
+  }
+  .chip-soft {
+    @apply inline-flex items-center gap-2 rounded-[var(--radius-pill)] bg-[var(--icon-tile-bg)] px-3 py-1 text-fg-2 text-[length:var(--fs-caption)] font-semibold;
+  }
+  .tag-accent {
+    @apply inline-flex items-center gap-1 rounded-[var(--radius-pill)] bg-accent text-on-dark py-0.5 text-[length:var(--fs-tag)] font-medium;
+  }
+  .tag-warm {
+    @apply inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-surface-warm px-2.5 py-0.5 text-[var(--accent-text)] text-[length:var(--fs-tag)] font-medium;
+  }
+  .tag-outline {
+    @apply rounded-[var(--radius-pill)] border border-border-soft py-0.5 text-muted text-[length:var(--fs-tag)];
+  }
+  .tag-promo {
+    @apply inline-flex rounded-[var(--radius-pill)] bg-[var(--tint-pink-bg)] px-2.5 py-0.5 text-[var(--tint-pink-fg)] text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide;
+  }
+  .tile-pill {
+    @apply inline-block whitespace-nowrap rounded-[var(--radius-sm)] px-2.5 py-1 text-[length:var(--fs-2xs)] font-bold uppercase tracking-wide;
+  }
+  .hint-pill {
+    @apply rounded-[var(--radius-sm)] bg-[var(--icon-tile-bg)] px-2.5 py-1 text-[length:var(--fs-xs)] font-medium text-fg-2;
+  }
+  .marker-chip {
+    @apply inline-flex items-center justify-center bg-surface border border-border-soft text-[0.5rem] font-semibold leading-none text-fg-2;
+  }
+  .count-pill {
+    @apply inline-flex min-w-6 items-center justify-center rounded-[var(--radius-pill)] px-2 py-0.5 text-[length:var(--fs-caption)];
+  }
+  .count-badge {
+    @apply h-8 min-w-8 rounded-[var(--radius-circle)] bg-accent px-2 text-[length:var(--fs-caption)] font-bold text-accent-on;
+  }
+  .count-badge-danger {
+    @apply inline-flex items-center justify-center w-6 h-6 rounded-[var(--radius-pill)] bg-danger-solid text-on-dark text-[length:var(--fs-micro)] font-semibold;
+  }
+  .pin-marker {
+    @apply w-12 h-12 rounded-[var(--radius-pill)] bg-accent text-accent-on flex items-center justify-center;
+  }
+  .ping-ring {
+    @apply absolute inline-flex h-full w-full rounded-[var(--radius-pill)] bg-accent-on opacity-75 motion-safe:animate-ping;
+  }
+  .floating-label {
+    @apply rounded-[var(--radius-button)] bg-bg px-3 py-2 text-[length:var(--fs-caption)];
+  }
+  .back-link {
+    @apply inline-flex items-center gap-1 rounded-[var(--radius-button)] px-3 py-1 text-fg font-semibold text-[length:var(--fs-caption)];
+  }
+  .link-inline {
+    @apply inline-flex items-center gap-1 rounded-[var(--radius-button)] text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[length:var(--fs-caption)] font-medium;
+  }
+  .link-quiet {
+    @apply inline-flex min-h-6 items-center text-fg hover:underline underline-offset-4 transition-colors;
+  }
+  .link {
+    @apply text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .choice-label {
+    @apply cursor-pointer items-center gap-2 text-fg text-[length:var(--fs-body)];
+  }
+  .toast-region {
+    @apply inset-x-0 z-[var(--z-toast)] flex flex-col items-center gap-2 px-4 pointer-events-none;
+  }
+  .toast-link {
+    @apply block text-[length:var(--fs-caption)] font-medium text-link underline decoration-white/30 underline-offset-2 hover:decoration-current;
+  }
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[var(--z-toast)] focus:rounded-[var(--radius-button)] focus:bg-bg focus:px-4 focus:py-2 focus:text-fg focus:font-semibold focus:shadow-raised;
+  }
+  .login-input {
+    @apply w-full rounded-[var(--field-radius)] border border-on-dark-line-3 bg-on-dark-fill-1 px-4 py-3.5 text-on-dark text-[length:var(--fs-body)] placeholder:text-on-dark-3 hover:border-on-dark-3 focus:outline-none focus-visible:border-[var(--field-focus-border)] focus-visible:shadow-[var(--field-focus-ring)];
+  }
+  .login-footer {
+    @apply flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[length:var(--fs-body)] text-on-dark-2;
+  }
+  .on-dark-popover {
+    @apply rounded-[var(--radius-card)] border border-on-dark-line-3 bg-on-dark-fill-2 backdrop-blur shadow-raised z-[var(--z-popover)] text-on-dark;
+  }
+  .login-stage {
+    @apply text-on-dark flex flex-col overflow-hidden bg-[var(--login-bg)];
+  }
+  .login-brand-panel {
+    @apply bg-charcoal-panel text-on-dark flex flex-col;
+  }
+  .announcement-card {
+    @apply block w-full h-full text-left rounded-[var(--radius-card)] bg-bg text-fg overflow-hidden shadow-[var(--shadow-login-card)] focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .meta-cell {
+    @apply px-3 first:pl-0 border-l border-on-dark-line-2 first:border-l-0;
+  }
+  .profile-subbar {
+    @apply absolute inset-x-0 -mx-8 flex flex-wrap items-center gap-x-6 gap-y-1 border-b border-[var(--field-card-border)] bg-bg px-8 py-2 shadow-raised text-[length:var(--fs-body)];
+  }
+  .profile-avatar {
+    @apply w-16 h-16 rounded-[var(--radius-card-lg)] bg-[var(--brand-plum)] text-on-dark shadow-[var(--shadow-icon-tile)] flex shrink-0 items-center justify-center text-[length:var(--fs-h4)] font-bold;
+  }
+  .profile-aside {
+    @apply lg:border-l lg:border-on-dark-line-2 lg:pl-6 lg:w-52 min-w-40 shrink-0 flex flex-col justify-center;
+  }
+  .breadcrumb-bar {
+    @apply flex flex-wrap items-center gap-x-1.5 gap-y-1 px-6 py-2.5 text-[length:var(--fs-caption)] text-fg border-b border-[var(--nav-border)] bg-bg;
+  }
+  .logo-swap-out {
+    @apply absolute w-7 h-7 transition-all duration-[var(--motion-base)] ease-out group-hover:opacity-0 group-hover:scale-75 group-focus-visible:opacity-0 group-focus-visible:scale-75;
+  }
+  .logo-swap-in {
+    @apply absolute w-6 h-6 text-[var(--nav-fg)] opacity-0 scale-75 transition-all duration-[var(--motion-base)] ease-out group-hover:opacity-100 group-hover:scale-100 group-focus-visible:opacity-100 group-focus-visible:scale-100;
+  }
+  .tab-vertical-item {
+    @apply block w-full text-left px-4 py-2.5 text-[length:var(--fs-body)] border-l-2 transition-colors;
+  }
+  .input-addon {
+    @apply flex items-center gap-2 self-stretch rounded-l-[calc(var(--field-radius)-1px)] bg-[var(--surface)] pl-3 pr-2 text-[length:var(--fs-body)] text-fg-2 shrink-0 select-none;
+  }
+  .input-bare {
+    @apply flex-1 min-w-0 bg-transparent text-[length:var(--fs-body)] text-[var(--color-field-text-filled)] focus:outline-none focus-visible:shadow-none disabled:text-[var(--field-label-disabled)];
+  }
+  .input-shell {
+    @apply flex items-center gap-2 rounded-[var(--field-radius)] border pl-3 pr-2 py-2 focus-within:border-[var(--field-focus-border)]! focus-within:bg-[var(--field-focus-bg)] focus-within:shadow-[var(--field-focus-ring)];
+  }
+  .select-trigger {
+    @apply rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg px-3 pr-10 focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .select-chevron {
+    @apply w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-fg-2;
+  }
+  .select-menu {
+    @apply absolute left-0 top-full z-[var(--z-raised)] mt-1 min-w-full max-h-64 overflow-y-auto rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg py-1 shadow-raised;
+  }
+  .tray-panel {
+    @apply flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-border-soft bg-bg text-fg shadow-raised;
+  }
+  .option-card {
+    @apply relative flex flex-col cursor-pointer rounded-[var(--radius-card)] border transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .count-chip {
+    @apply rounded-[var(--radius-pill)] bg-surface text-fg min-w-8 text-center px-2 py-0.5 text-[length:var(--fs-caption)];
+  }
+  .card-row-button {
+    @apply w-full text-left p-4 hover:bg-[var(--field-card-hover-bg)];
+  }
+  .nav-icon-tile {
+    @apply flex shrink-0 items-center justify-center w-9 h-9 rounded-[var(--radius-sm)];
+  }
+  .nav-icon-tile-lg {
+    @apply flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)];
+  }
+  .nav-ghost-quiet {
+    @apply text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] focus-visible:bg-[var(--nav-hover-bg)] transition-colors duration-[var(--motion-base)];
+  }
+  .on-dark-ghost {
+    @apply text-on-dark-2 transition-colors duration-[var(--motion-base)] hover:bg-on-dark-fill-2 hover:text-on-dark;
+  }
+  .cluster-center {
+    @apply flex flex-wrap items-center justify-center gap-3;
+  }
+  .rail-end {
+    @apply hidden lg:flex lg:flex-col shrink-0 self-start sticky top-0 max-h-[calc(100vh-11rem)] overflow-hidden my-8 mr-8 transition-[width] duration-[var(--motion-slow)] ease-[var(--ease-standard)] motion-reduce:transition-none;
+  }
+  .rail-start {
+    @apply shrink-0 bg-bg max-lg:self-stretch lg:flex lg:flex-col lg:self-start lg:sticky lg:top-0 lg:my-8 lg:ml-8 lg:max-h-[calc(100vh-11rem)] lg:overflow-hidden lg:rounded-[var(--radius-card)] lg:border lg:border-[var(--field-card-border)] lg:transition-[width] lg:duration-[var(--motion-slow)] lg:ease-[var(--ease-standard)] motion-reduce:transition-none;
+  }
+  .icon-button-inline {
+    @apply p-1.5 rounded-[var(--radius-button)] text-muted hover:text-accent focus:outline-none focus-visible:shadow-[var(--focus-ring)];
+  }
+  .stack-start {
+    @apply flex flex-col items-start gap-4;
+  }
+  .code-chip {
+    @apply block break-all rounded-[var(--radius-button)] bg-surface-warm px-2 py-1 text-[length:var(--fs-caption)] text-fg;
+  }
+  .detail-grid {
+    @apply grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3;
+  }
+  .chip-button {
+    @apply inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border px-3 py-1.5 text-[length:var(--fs-caption)];
+  }
+  .text-secondary {
+    @apply text-fg-2 text-[length:var(--fs-body)];
+  }
+  /* Floating panel under a control: layering and scroll (.popover), then the field-like surface (.popover-surface). .dropdown-popover is both,
+     stretched to the control width, for suggestion lists. */
+  .popover,
+  .dropdown-popover {
+    @apply absolute z-[var(--z-popover)] top-full overflow-y-auto shadow-raised;
+  }
+  .popover-surface,
+  .dropdown-popover {
+    @apply rounded-[var(--field-radius)] border border-border-soft bg-bg py-1;
+  }
+
+  /* ---- Text roles, layout rows and grids, icons, meters and small surfaces (className budget, 4+ utilities) ---- */
+  .split-tight {
+    @apply flex gap-2 items-center justify-between;
+  }
+  .split-top {
+    @apply flex items-start justify-between;
+  }
+  .spread {
+    @apply flex justify-between gap-4;
+  }
+  .actions-end {
+    @apply flex gap-2 justify-end;
+  }
+  .cluster-sm {
+    @apply flex flex-wrap items-center gap-2;
+  }
+  .wrap-row {
+    @apply flex flex-wrap gap-2;
+  }
+  .wrap-center {
+    @apply flex flex-wrap items-center;
+  }
+  .fields {
+    @apply grid grid-cols-1 gap-4;
+  }
+  .fields-2 {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2;
+  }
+  .fields-3 {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-3;
+  }
+  .grid-2-up {
+    @apply grid gap-4 sm:grid-cols-2;
+  }
+  .pair-grid {
+    @apply grid grid-cols-2 gap-4;
+  }
+  .label-caps {
+    @apply text-[length:var(--fs-caption-upper)] tracking-wide uppercase;
+  }
+  .eyebrow {
+    @apply text-[length:var(--fs-caption-upper)] tracking-wide uppercase text-muted;
+  }
+  .title-sm {
+    @apply font-bold text-[length:var(--fs-body)] text-fg;
+  }
+  .title-md {
+    @apply font-bold text-[length:var(--fs-body-lg)] text-fg;
+  }
+  .title-lg {
+    @apply font-bold text-[length:var(--fs-h5)] text-fg;
+  }
+  .title-xl {
+    @apply font-bold text-[length:var(--fs-h4)] text-fg;
+  }
+  .subtitle {
+    @apply font-semibold text-[length:var(--fs-body-lg)] text-fg;
+  }
+  .value-text {
+    @apply font-medium text-[length:var(--fs-body)] text-fg;
+  }
+  .value-end {
+    @apply break-words font-medium text-fg text-right;
+  }
+  .body-text {
+    @apply text-[length:var(--fs-body)] text-fg;
+  }
+  .caption-muted {
+    @apply text-[length:var(--fs-caption)] text-muted;
+  }
+  .caption-secondary {
+    @apply text-[length:var(--fs-caption)] text-fg-2;
+  }
+  .line-caption {
+    @apply block text-[length:var(--fs-caption)] text-muted truncate;
+  }
+  .line-body {
+    @apply block text-[length:var(--fs-body)] text-fg truncate;
+  }
+  .icon-sm {
+    @apply h-4 w-4 shrink-0;
+  }
+  .icon-md {
+    @apply h-5 w-5 shrink-0;
+  }
+  .card-outline {
+    @apply rounded-[var(--radius-card)] border border-[var(--field-card-border)];
+  }
+  .panel-soft {
+    @apply rounded-[var(--radius-card)] border border-border-soft bg-bg;
+  }
+  .list-frame {
+    @apply rounded-[var(--radius-card)] border border-[var(--field-card-border)] divide-y divide-border-soft overflow-hidden;
+  }
+  .empty-line {
+    @apply py-6 text-center text-muted;
+  }
+  .card-frame {
+    @apply rounded-[var(--radius-card)] border;
+  }
+  .pill {
+    @apply rounded-[var(--radius-pill)] px-3 py-1 text-[length:var(--fs-caption)];
+  }
+  .row-between {
+    @apply flex items-center justify-between;
+  }
+  .panel-header {
+    @apply flex items-center justify-between px-5 py-3;
+  }
+  .panel-bar {
+    @apply flex gap-2 px-4 py-3 border-b border-[var(--field-card-border)];
+  }
+  .wrap-loose {
+    @apply flex flex-wrap gap-3;
+  }
+  .wrap-top {
+    @apply flex flex-wrap items-start;
+  }
+  .split-top-wrap {
+    @apply flex flex-wrap items-start justify-between;
+  }
+  .wrap-between {
+    @apply flex flex-wrap justify-between;
+  }
+  .caps-strong {
+    @apply font-semibold tracking-wide uppercase;
+  }
+  .fill-column {
+    @apply flex flex-1 flex-col;
+  }
+  .stack-sm {
+    @apply flex flex-col gap-2;
+  }
+  .option-icon {
+    @apply flex shrink-0 items-center justify-center h-10 w-10 rounded-[var(--radius-button)] transition-colors;
+  }
+  .dot {
+    @apply h-2 w-2 rounded-[var(--radius-pill)];
+  }
+  .dot-sm {
+    @apply h-1.5 w-1.5 rounded-[var(--radius-pill)];
+  }
+  .subtitle-lg {
+    @apply font-semibold text-[length:var(--fs-h5)] text-fg;
+  }
+  .row-snug {
+    @apply flex items-center gap-1;
+  }
+  .cards-wrap {
+    @apply flex flex-wrap gap-3 items-stretch;
+  }
+  .cards-row {
+    @apply flex gap-3 items-stretch;
+  }
+  .fields-sm {
+    @apply grid grid-cols-1 gap-3;
+  }
+  .pair-grid-sm {
+    @apply grid grid-cols-2 gap-3;
+  }
+  .grid-2-up-sm {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+  .cols-1-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2;
+  }
+  .cell-body {
+    @apply px-4 py-3 text-[length:var(--fs-body)];
+  }
+  .signature-thumb {
+    @apply h-10 border border-border-soft rounded-[var(--radius-sm)];
+  }
+  .pad-panel {
+    @apply px-5 py-4;
+  }
+  .pad-row {
+    @apply px-4 py-3;
+  }
+  .meter-track {
+    @apply h-1.5 rounded-[var(--radius-pill)] bg-border-soft overflow-hidden;
+  }
+  .meter-track-lg {
+    @apply h-2 rounded-[var(--radius-pill)] bg-surface overflow-hidden;
+  }
+  .badge-square {
+    @apply inline-block rounded-[var(--radius-button)] px-2 py-0.5 text-[length:var(--fs-caption)];
+  }
+  .link-caption {
+    @apply text-link text-[length:var(--fs-caption)] font-medium hover:underline;
+  }
+  .link-body {
+    @apply text-link font-medium text-[length:var(--fs-body)] hover:underline;
+  }
+  .link-underline {
+    @apply text-link underline;
+  }
+  .title-2xl {
+    @apply font-bold text-[length:var(--fs-h3)] text-fg;
+  }
+  .title-on-dark {
+    @apply text-[length:var(--fs-h4)] font-bold text-on-dark break-words min-w-0;
+  }
+  .caps-compact {
+    @apply text-[length:var(--fs-btn-compact)] font-medium uppercase tracking-wide;
+  }
+  .empty-note-sm {
+    @apply text-muted text-[length:var(--fs-body)] py-2 text-center;
+  }
+  .baseline-row {
+    @apply flex items-baseline justify-between gap-3 text-[length:var(--fs-body)];
+  }
+  .icon-xs {
+    @apply h-3.5 w-3.5 shrink-0;
+  }
+  .icon-2xs {
+    @apply h-3 w-3 shrink-0;
+  }
+  .line-title {
+    @apply font-medium text-fg text-[length:var(--fs-body-lg)] truncate;
+  }
+  .line-fg-caption {
+    @apply min-w-0 truncate text-fg text-[length:var(--fs-caption)];
+  }
+  .grid-cell-head {
+    @apply border border-border-soft px-3 py-2 font-bold text-fg;
+  }
+  .link-on-dark {
+    @apply text-on-dark underline underline-offset-4 hover:opacity-80;
+  }
+  .total-row {
+    @apply flex justify-between text-fg font-semibold;
+  }
+  .notice-danger-edge {
+    @apply rounded-[var(--radius-card)] border border-[var(--danger-border)] bg-tone-danger-soft;
+  }
+  .notice-accent {
+    @apply rounded-[var(--radius-card)] border border-accent-border bg-surface-warm;
+  }
+  .field-clear-btn {
+    @apply absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg;
+  }
+  .field-message {
+    @apply text-danger text-[length:var(--fs-caption)] text-center max-w-[var(--size-field-message-max-w)];
+  }
+  .stack {
+    @apply flex flex-col gap-3;
+  }
+  .stack-lg {
+    @apply flex flex-col gap-4;
+  }
+  .id-image-frame {
+    @apply w-full rounded-[var(--radius-button)] border border-border-soft;
+  }
+  .dot-md {
+    @apply h-2.5 w-2.5 rounded-[var(--radius-pill)];
+  }
+  .toast-time {
+    @apply text-[length:var(--fs-caption)] font-medium whitespace-nowrap text-on-dark;
+  }
+  .toast-title {
+    @apply text-on-dark font-semibold text-[length:var(--fs-caption)] uppercase tracking-[0.12em] truncate;
+  }
+  .toast-body {
+    @apply block text-on-dark-2 text-[length:var(--fs-caption)] font-normal leading-snug;
+  }
+  .toast-subject {
+    @apply font-bold text-[length:var(--fs-caption)] leading-snug text-fg;
+  }
+  .toast-row {
+    @apply flex items-center gap-2.5 px-3.5 py-3;
+  }
+  .login-heading {
+    @apply text-[length:var(--fs-h2)] font-bold leading-[1.15] text-on-dark;
+  }
+  .login-lead {
+    @apply text-[length:var(--fs-lead)] font-normal text-on-dark;
+  }
+  .login-card-title {
+    @apply font-bold text-[length:var(--fs-body-lg)] leading-snug line-clamp-2 group-hover:underline;
+  }
+  .login-alert {
+    @apply rounded-[var(--radius-sm)] border border-[var(--on-dark-danger-line)] bg-[var(--on-dark-danger-fill)] px-3 py-2.5 text-[length:var(--fs-caption)] text-on-dark;
+  }
+  .profile-name {
+    @apply block text-fg text-[length:var(--fs-caption)] font-medium leading-tight;
+  }
+  .profile-role {
+    @apply block text-muted text-[length:var(--fs-micro)] leading-tight;
+  }
+  .split-pane {
+    @apply flex flex-col lg:flex-row items-start gap-6;
+  }
+  .split-pane-side {
+    @apply w-full lg:w-72 shrink-0 space-y-6;
+  }
+  .scroll-area {
+    @apply min-h-0 flex-1 overflow-y-auto;
+  }
+}

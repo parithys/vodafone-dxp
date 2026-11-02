@@ -66,7 +66,7 @@ export function productStep(ctx: ProductStepContext): WizardStep {
         selectProduct(ctx, values, setValue, product, { advance: true });
       };
       return (
-        <div className="flex items-center gap-3">
+        <div className="row">
           {canUseFeature(personaId, HOME_CONNECTION_FEATURE) && (
             <Button variant="secondary" onClick={() => handOverToHomeConnection(ctx, values, homeConnectionRoute(ctx))}>
               New Home Connection

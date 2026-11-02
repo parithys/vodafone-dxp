@@ -75,7 +75,7 @@ export function CreditLimitCard({
     !policy.editable && !(hrn && policy.lock === 'hrn') && policy.message ? (
       <div className="py-1.5">
         <dt className="sr-only">Note</dt>
-        <dd className="text-muted text-[length:var(--fs-caption)]">{policy.message}</dd>
+        <dd className="caption-muted">{policy.message}</dd>
       </div>
     ) : null;
   if (embedded) {
@@ -88,7 +88,7 @@ export function CreditLimitCard({
   }
   return (
     <section aria-label="Credit limit" className="space-y-3 mt-8">
-      <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Credit Limit</h3>
+      <h3 className="subtitle">Credit Limit</h3>
       <dl className="text-[length:var(--fs-body)]">
         {rows}
         {note}

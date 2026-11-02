@@ -29,17 +29,17 @@ export function LinkedBusinessLine({ customerId }: { customerId: string }) {
   const { business } = linked;
   return (
     // A full-width rule (out to the header's edges), then the line. Left edge = the customer name's: the header padding (1.25rem) + the avatar (4rem) + the gap after it (1rem).
-    <div className="mt-4 -mx-5 pr-5 pl-[calc(1.25rem+4rem+1rem)] pt-3 border-t border-border-soft">
-      <div aria-label="Linked business" className="flex flex-wrap items-center gap-x-10 gap-y-1 text-[length:var(--fs-body)]">
+    <div className="mt-4 -mx-5 pr-5 pl-[calc(1.25rem+4rem+1rem)] pt-3 divider-top">
+      <div aria-label="Linked business" className="wrap-center gap-x-10 gap-y-1 text-[length:var(--fs-body)]">
         <p>
           <span className="text-fg-2">Company Name: </span>
-          <Link to={`/customer/${business.enterpriseAccountId}`} className="text-link underline font-semibold">
+          <Link to={`/customer/${business.enterpriseAccountId}`} className="link-underline font-semibold">
             {business.name}
           </Link>
         </p>
         <p>
           <span className="text-fg-2">Company Code: </span>
-          <Link to={`/customer/${business.enterpriseAccountId}`} className="text-link underline font-semibold">
+          <Link to={`/customer/${business.enterpriseAccountId}`} className="link-underline font-semibold">
             {business.enterpriseAccountId}
           </Link>
         </p>
@@ -54,7 +54,7 @@ export function LinkedBusinessCard({ customerId }: { customerId: string }) {
   if (lookup?.status !== 'unresolved') return null;
   return (
     <div className="mt-4">
-      <p role="alert" className="rounded-[var(--radius-card)] bg-warn-bg text-[var(--warn-text)] px-4 py-3 text-[length:var(--fs-body)]">
+      <p role="alert" className="rounded-[var(--radius-card)] bg-warn-bg text-[var(--warn-text)] cell-body">
         This customer is linked to business account {lookup.parentBusinessId}, which could not be found. Check the link before relying on the customer's segment or billing.
       </p>
     </div>

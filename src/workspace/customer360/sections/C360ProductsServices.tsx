@@ -52,9 +52,9 @@ function Field({ label, value }: { label: string; value: ReactNode | undefined |
   const mode = useFieldAccess()(label);
   if (mode === 'hidden') return null;
   return (
-    <div className="flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+    <div className="data-row">
       <dt className="text-fg shrink-0">{label}</dt>
-      <dd className="text-fg font-medium min-w-0 break-words text-right">{mode === 'drill-down' ? <RevealValue>{dash(value)}</RevealValue> : dash(value)}</dd>
+      <dd className="value-end min-w-0">{mode === 'drill-down' ? <RevealValue>{dash(value)}</RevealValue> : dash(value)}</dd>
     </div>
   );
 }
@@ -133,7 +133,7 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
       render: (s) => (
         <div className="min-w-0">
           <div className="font-semibold break-words">{s.identifier}</div>
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="wrap-center gap-1.5">
             <ConnectionTypeTag category={s.category} />
             {get(s).primary && <PrimaryTag />}
           </div>
@@ -226,9 +226,9 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
       <div className="grid grid-cols-1 @lg:grid-cols-2 @4xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,3.2fr)] -mr-px -mb-px">
         <KpiTile icon={IC.box} tone="blue" label="Total Connections" value={services.length} />
         <KpiTile icon={IC.shieldCheck} tone="green" label="Active Services" value={active} />
-        <section className="@lg:col-span-2 @4xl:col-span-1 p-4 min-w-0 border-r border-b border-border-soft">
-          <h3 className="text-fg font-semibold text-[length:var(--fs-body)] mb-2">Service Types</h3>
-          <ul className="grid grid-cols-2 @lg:grid-cols-5 gap-3">
+        <section className="@lg:col-span-2 @4xl:col-span-1 p-4 min-w-0 border-r divider-bottom">
+          <h3 className="heading-strong mb-2">Service Types</h3>
+          <ul className="pair-grid-sm @lg:grid-cols-5">
             {TYPE_TILES.map((t) => {
               const count = services.filter((s) => typeLabel(s) === t.label).length;
               const on = typeFilter === t.label;
@@ -240,14 +240,14 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
                     disabled={count === 0}
                     onClick={() => setTypeFilter(on ? null : t.label)}
                     title={on ? `Showing ${t.label} only - click to show all` : `Show ${t.label} services only`}
-                    className={`flex w-full items-center gap-2 min-w-0 rounded-[var(--radius-button)] p-1.5 -m-1.5 text-left transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] disabled:cursor-default ${
+                    className={`row-tight w-full min-w-0 button-bleed ${
                       on ? 'bg-[var(--field-card-selected-bg)] ring-1 ring-inset ring-[var(--field-card-selected)]' : count > 0 ? 'hover:bg-surface' : ''
                     }`}
                   >
                     <IconTile icon={t.icon} tone={t.tone} size="sm" />
                     <div className="min-w-0">
-                      <div className="text-fg-2 text-[length:var(--fs-caption)] truncate">{t.label}</div>
-                      <div className="text-fg font-bold text-[length:var(--fs-body-lg)] leading-tight">{count}</div>
+                      <div className="caption-secondary truncate">{t.label}</div>
+                      <div className="title-md leading-tight">{count}</div>
                     </div>
                   </button>
                 </li>
@@ -258,13 +258,13 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
       </div>
       </div>
 
-      <div className={`grid grid-cols-1 gap-4 items-start ${panelOpen ? '@4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]' : ''}`}>
+      <div className={`fields items-start ${panelOpen ? '@4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]' : ''}`}>
         <div className="space-y-4 min-w-0">
           <Panel
             icon={IC.bars}
             title={`All Services (${services.length})`}
             action={
-              <div className="flex flex-wrap items-center justify-end gap-2 min-w-0">
+              <div className="cluster-sm justify-end min-w-0">
                 <div className="w-56 max-w-full flex">
                   <SearchBox value={query} onChange={setQuery} placeholder="Search by MSISDN, plan or service" />
                 </div>
@@ -299,15 +299,15 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
         {panelOpen && (
         <aside className="@container card p-4 space-y-4 min-w-0">
             {!selected || !sel ? (
-              <p className="text-muted text-[length:var(--fs-body)] py-6 text-center">{services.length === 0 ? 'No services to show.' : 'Select a service to see its details.'}</p>
+              <p className="empty-line text-[length:var(--fs-body)]">{services.length === 0 ? 'No services to show.' : 'Select a service to see its details.'}</p>
             ) : (
               <>
-                <div className="flex items-center gap-3">
+                <div className="row">
                   <IconTile icon={mobileSel ? IC.mobile : selected.tab === 'fibre' ? IC.wifi : IC.cpu} tone="red" />
-                  <span className="text-fg font-bold text-[length:var(--fs-h5)] break-words min-w-0">{selected.identifier}</span>
+                  <span className="title-lg break-words min-w-0">{selected.identifier}</span>
                   {sel.status && <StatusPill status={sel.status} />}
                   {sel.primary && (
-                    <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--field-card-border)] bg-surface px-2.5 py-0.5 text-[length:var(--fs-caption)] text-fg-2">
+                    <span className="chip-boxed text-fg-2">
                       <Icon path={IC.star} className="w-3.5 h-3.5" />
                       Primary MSISDN
                     </span>
@@ -349,7 +349,7 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
                   </div>
                 </Panel>
 
-                <div className="grid grid-cols-1 @lg:grid-cols-2 @4xl:grid-cols-3 gap-4">
+                <div className="fields @lg:grid-cols-2 @4xl:grid-cols-3">
                   <Panel icon={IC.settings} title="Service Details">
                     <dl>
                       {mobileSel && <Field label="SIM Serial Number" value={sel.simSerial ?? <Dv k="simSerial" />} />}
@@ -371,10 +371,10 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
                       ) : (
                         <ul>
                           {sel.addons.map((a) => (
-                            <li key={String(a.addonDiscountId)} className="flex items-center justify-between gap-2 py-1.5 text-[length:var(--fs-body)]">
+                            <li key={String(a.addonDiscountId)} className="split-tight py-1.5 text-[length:var(--fs-body)]">
                               <span className="min-w-0">
                                 <span className="block text-fg break-words">{String(a.name)}</span>
-                                {str(a.description) && <span className="block text-fg-2 text-[length:var(--fs-caption)] break-words">{String(a.description)}</span>}
+                                {str(a.description) && <span className="block caption-secondary break-words">{String(a.description)}</span>}
                               </span>
                               {sel.status && <StatusPill status={sel.status} />}
                             </li>

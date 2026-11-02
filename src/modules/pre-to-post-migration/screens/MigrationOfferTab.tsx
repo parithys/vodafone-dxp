@@ -63,12 +63,12 @@ export function MigrationOfferTab() {
           const status = dispositioned[o.offerId] ?? o.status;
           return (
             <div key={o.offerId} className="card p-4">
-              <div className="flex items-center justify-between mb-1">
+              <div className="row-between mb-1">
                 <span className="text-fg font-medium">{o.offerName}</span>
                 <Badge variant={badgeVariantFor(status)}>{status}</Badge>
               </div>
-              <p className="text-fg-2 text-[length:var(--fs-body)] mb-2">{o.offerDescription}</p>
-              <dl className="grid grid-cols-3 gap-2 text-[length:var(--fs-caption)] text-muted mb-3">
+              <p className="text-secondary mb-2">{o.offerDescription}</p>
+              <dl className="grid grid-cols-3 gap-2 caption-muted mb-3">
                 <div>Campaign: {o.campaignCode}</div>
                 <div>Promotion: {o.promotionId}</div>
                 <div>MSISDN: {o.serviceIdentifier}</div>

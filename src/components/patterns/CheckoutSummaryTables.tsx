@@ -17,7 +17,7 @@ export function SummaryTables({ tables }: { tables: SummaryTable[] }) {
       {tables.map((t, ti) => (
         <table
           key={ti}
-          className={`w-full border-collapse text-[length:var(--fs-body)] text-fg ${tables.length > 2 ? (ti === 0 ? 'lg:col-start-1 lg:row-span-2' : 'lg:col-start-2') : ''}`}
+          className={`w-full border-collapse body-text ${tables.length > 2 ? (ti === 0 ? 'lg:col-start-1 lg:row-span-2' : 'lg:col-start-2') : ''}`}
         >
           {t.title && (
             <thead>
@@ -36,7 +36,7 @@ export function SummaryTables({ tables }: { tables: SummaryTable[] }) {
                 </th>
                 <td className={`${cell} ${row.boldValue ? 'font-semibold' : ''}`}>
                   {row.value}
-                  {row.detail && <span className="block text-[length:var(--fs-caption)] text-muted">{row.detail}</span>}
+                  {row.detail && <span className="block caption-muted">{row.detail}</span>}
                 </td>
               </tr>
             ))}

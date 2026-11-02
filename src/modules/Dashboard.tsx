@@ -125,23 +125,23 @@ export function Dashboard() {
           (removed 2026-09-27) - see dashboardLayout.ts's header note - so
           this is just the heading now, not a row splitting space with a
           control that no longer exists. */}
-      <header className="-mx-8 -mt-8 px-8 pt-8 pb-24 bg-[image:var(--dash-hero-gradient)] text-on-dark rounded-b-[var(--radius-lg)]">
-        <p className="flex items-center gap-2 text-on-dark font-semibold text-[length:var(--fs-caption)]">
+      <header className="-mx-8 -mt-8 px-8 pt-8 pb-24 dash-hero">
+        <p className="row-tight text-on-dark font-semibold text-[length:var(--fs-caption)]">
           <span className="w-3 h-3 rounded-[var(--radius-pill)] bg-success" aria-hidden="true" />
           {regional ? regionLabel : 'Doha Retail'} · Live operations
         </p>
-        <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
+        <div className="mt-6 wrap-between items-end gap-x-8 gap-y-6">
           <div className="min-w-0 max-w-3xl">
             <p className="text-on-dark text-[length:var(--fs-caption)]">{today}</p>
             <h1 className="mt-1 text-[length:clamp(1.75rem,4vw,2.25rem)] leading-tight font-extrabold tracking-tight break-words">{layout.heading}</h1>
           </div>
-          <dl className="flex flex-wrap gap-3">
+          <dl className="wrap-loose">
             {[
               { value: waiting === null ? '-' : String(waiting), label: 'Customers in Queue' },
               { value: String(customersServed), label: 'Customers Served' },
               { value: AVERAGE_WAIT_TIME_DEMO, label: 'Average Wait Time', demo: true },
             ].map((s) => (
-              <div key={s.label} title={'demo' in s ? 'Demo value - not yet connected to a live feed' : undefined} className="min-w-[7.5rem] rounded-[var(--radius-card)] border border-on-dark-line-2 bg-on-dark-fill-2 px-5 py-4">
+              <div key={s.label} title={'demo' in s ? 'Demo value - not yet connected to a live feed' : undefined} className="min-w-[7.5rem] card-frame border-on-dark-line-2 bg-on-dark-fill-2 pad-panel">
                 <dd className="text-[length:var(--fs-stat-sm)] font-extrabold">{s.value}</dd>
                 <dt className="text-on-dark text-[length:var(--fs-sm)]">{s.label}</dt>
               </div>
@@ -176,7 +176,7 @@ export function Dashboard() {
               className="!border-transparent !bg-transparent !py-4 !text-[length:var(--fs-body-lg)] focus-visible:!border-[var(--field-focus-border)] focus-visible:!bg-[var(--field-focus-bg)]"
             />
             {customerQuery === '' && (
-              <kbd className="pointer-events-none absolute right-5 hidden sm:block top-1/2 -translate-y-1/2 rounded-[var(--radius-sm)] bg-[var(--icon-tile-bg)] px-2.5 py-1 text-[length:var(--fs-xs)] font-medium text-fg-2">Press /</kbd>
+              <kbd className="pointer-events-none absolute right-5 hidden sm:block center-y hint-pill">Press /</kbd>
             )}
           </div>
         </div>

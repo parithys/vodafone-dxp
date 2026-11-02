@@ -91,8 +91,8 @@ export function DemographicEditDrawer({ open, onClose, customer, onSaved, onTick
           onChange={(e) => setPreferredLanguage(e.target.value)}
           options={LANGUAGE_OPTIONS}
         />
-        <div className="pt-2 border-t border-border-soft">
-          <p className="text-[length:var(--fs-caption)] text-muted">
+        <div className="pt-2 divider-top">
+          <p className="caption-muted">
             KYC Status and Account Status are system-derived and not editable here.
           </p>
         </div>

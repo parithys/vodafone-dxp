@@ -220,10 +220,10 @@ export function TicketsDashboard({ padded = true }: TicketsDashboardProps) {
         }
       />
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      <div className="pair-grid sm:grid-cols-4 mb-6">
         {TICKET_STATUSES.map((status) => (
           <div key={status} className="card p-4">
-            <div className="text-[length:var(--fs-caption)] text-muted">{status}</div>
+            <div className="caption-muted">{status}</div>
             <div className="text-[length:var(--fs-h3)] text-fg font-medium">{counts[status] ?? 0}</div>
           </div>
         ))}
@@ -240,8 +240,8 @@ export function TicketsDashboard({ padded = true }: TicketsDashboardProps) {
         onChange={setView}
         className="mb-4"
       />
-      <div className="flex flex-wrap items-end gap-3 mb-4">
-        <div className="ml-auto flex flex-wrap items-end gap-2">
+      <div className="wrap-loose items-end mb-4">
+        <div className="ml-auto wrap-row items-end">
           <SearchField
             aria-label="Search ticket #, customer, category, issue"
             placeholder="Search ticket #, customer, category, issue…"
@@ -293,8 +293,8 @@ export function TicketsDashboard({ padded = true }: TicketsDashboardProps) {
       </div>
 
       {selectedIds.size > 0 && (
-        <div className="flex items-center gap-3 mb-3 card p-3">
-          <span className="text-[length:var(--fs-body)] text-fg">{selectedIds.size} selected</span>
+        <div className="row mb-3 card p-3">
+          <span className="body-text">{selectedIds.size} selected</span>
           <Button variant="secondary" compact onClick={bulkAssign}>Bulk Assign to Me</Button>
           <Button variant="secondary" compact onClick={bulkClose}>Bulk Close</Button>
           <Button variant="secondary" compact className="ml-auto" onClick={() => setSelectedIds(new Set())}>Clear selection</Button>

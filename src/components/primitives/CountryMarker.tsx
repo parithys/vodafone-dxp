@@ -43,7 +43,7 @@ export function CountryMarker({ iso, className = '' }: CountryMarkerProps) {
 
   return (
     <span
-      className={`${base} inline-flex items-center justify-center bg-surface border border-border-soft text-[0.5rem] font-semibold leading-none text-fg-2`}
+      className={`${base} marker-chip`}
       aria-hidden="true"
     >
       {iso}

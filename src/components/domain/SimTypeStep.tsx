@@ -73,7 +73,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
   if (prePaired) {
     return (
       <div className="max-w-xl space-y-3">
-        <h4 className="text-fg font-medium text-[length:var(--fs-body)]">Pre-Paired SIM</h4>
+        <h4 className="value-text">Pre-Paired SIM</h4>
         <SimSerialScanner
           value={value.simSerial ?? ''}
           device={device}
@@ -94,7 +94,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
           }
         />
         {value.prePaired && value.simValid && (
-          <dl className="rounded-[var(--radius-card)] border border-success bg-tone-success p-3 space-y-1 text-[length:var(--fs-caption)]">
+          <dl className="notice-success p-3 space-y-1 text-[length:var(--fs-caption)]">
             <div className="flex justify-between gap-3">
               <dt className="text-fg">SIM Type</dt>
               <dd className="text-fg font-medium">Pre-Paired SIM</dd>
@@ -132,7 +132,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
     <div className="grid grid-cols-[repeat(auto-fill,minmax(max(15rem,calc((100%-1.5rem)/2)),1fr))] gap-6">
       {/* Physical SIM - the default-focused, primary path. */}
       <div className="space-y-3">
-        <h4 className="text-fg font-medium text-[length:var(--fs-body)]">Physical SIM</h4>
+        <h4 className="value-text">Physical SIM</h4>
         <SimSerialScanner
           value={value.simSerial ?? ''}
           device={device}
@@ -160,7 +160,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
 
       {/* eSIM - the explicit alternative, not a second tab behind a click. */}
       <div className="space-y-3">
-        <h4 className="text-fg font-medium text-[length:var(--fs-body)]">eSIM</h4>
+        <h4 className="value-text">eSIM</h4>
         {/* The QR code and send-to-email controls have moved to the
             activation-complete screen (EsimActivationPanel). This step only
             issues the code; showing a scannable QR here meant the customer
@@ -174,7 +174,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
                 customer before payment. Calling it "issued" four steps early
                 described a handover that has not happened. */}
             <Badge variant="success">eSIM selected</Badge>
-            <dl className="rounded-[var(--radius-card)] border border-success bg-tone-success p-3 space-y-1 text-[length:var(--fs-caption)]">
+            <dl className="notice-success p-3 space-y-1 text-[length:var(--fs-caption)]">
               <div className="flex justify-between gap-3">
                 <dt className="text-fg">SIM Type</dt>
                 <dd className="text-fg font-medium">eSIM</dd>
@@ -184,7 +184,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
                 <dd className="text-fg font-medium">{value.simIccid ?? '-'}</dd>
               </div>
             </dl>
-            <p className="text-fg-2 text-[length:var(--fs-body)]">
+            <p className="text-secondary">
               The eSIM activation QR code will be generated only after successful payment and order {approvalRequired ? 'approval' : 'submission'}, and will then be sent to {customerEmail ?? 'the customer'}.
             </p>
           </>
@@ -196,7 +196,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
             {/* Stated up front (2026-09-28 request), not only after
                 selecting - the agent should know this before choosing eSIM,
                 not discover it afterward. */}
-            <p className="text-muted text-[length:var(--fs-caption)]">
+            <p className="caption-muted">
               The eSIM QR code will be generated only after successful payment and order {approvalRequired ? 'approval' : 'submission'}.
             </p>
           </>

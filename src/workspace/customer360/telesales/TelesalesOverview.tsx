@@ -97,8 +97,8 @@ export function Pill({ tone, children }: { tone: keyof typeof PILL; children: Re
 export function Card({ title, icon, link, onLink, children, className = '' }: { title: string; icon: string; link?: string; onLink?: () => void; children: ReactNode; className?: string }) {
   return (
     <section data-mcard className={`card overflow-hidden self-start w-full min-w-0 ${className}`}>
-      <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-[var(--field-card-border)]">
-        <h3 className="inline-flex items-center gap-2.5 text-fg font-semibold text-[length:var(--fs-body-lg)]">
+      <div className="split-nowrap pad-panel border-b border-[var(--field-card-border)]">
+        <h3 className="inline-flex items-center gap-2.5 subtitle">
           <Icon path={icon} className="w-5 h-5" />
           {title}
         </h3>
@@ -113,7 +113,7 @@ export function Card({ title, icon, link, onLink, children, className = '' }: { 
   );
 }
 
-export const Label = ({ children }: { children: ReactNode }) => <div className="text-fg-2 text-[length:var(--fs-caption)]">{children}</div>;
+export const Label = ({ children }: { children: ReactNode }) => <div className="caption-secondary">{children}</div>;
 export const Value = ({ children, big }: { children: ReactNode; big?: boolean }) => (
   <div className={`text-fg font-semibold ${big ? 'text-[length:var(--fs-h4)]' : 'text-[length:var(--fs-body-lg)]'}`}>{children}</div>
 );
@@ -121,9 +121,9 @@ export const Value = ({ children, big }: { children: ReactNode; big?: boolean })
 /** Label on the left, value on the right - the Contact / Address / Lead / Usage row. */
 export function KV({ label, children, striped }: { label: string; children: ReactNode; striped?: boolean }) {
   return (
-    <div className={`flex items-center justify-between gap-4 px-5 py-3.5 border-b border-[var(--field-card-border)] last:border-0 ${striped ? 'bg-surface-half' : ''}`}>
-      <span className="text-fg-2 text-[length:var(--fs-body)]">{label}</span>
-      <span className="text-fg text-[length:var(--fs-body)] font-medium text-right break-words">{children}</span>
+    <div className={`spread items-center px-5 py-3.5 row-rule-card ${striped ? 'bg-surface-half' : ''}`}>
+      <span className="text-secondary">{label}</span>
+      <span className="value-end text-[length:var(--fs-body)]">{children}</span>
     </div>
   );
 }
@@ -144,18 +144,18 @@ export function Ring({ value, unit, sub, fraction, label, wide }: { value: strin
   const f = Math.max(0, Math.min(1, fraction ?? 0));
   return (
     <div className="space-y-1.5 min-w-0">
-      <div className="flex items-baseline justify-between gap-3 text-[length:var(--fs-body)]">
+      <div className="baseline-row">
         <span className="text-fg-2">{label}</span>
         <span className="text-right">
           <span className="font-bold text-fg">
             {value}
             {unit ? ` ${unit}` : ''}
           </span>
-          {sub && <span className="text-muted text-[length:var(--fs-caption)]"> {sub}</span>}
+          {sub && <span className="caption-muted"> {sub}</span>}
         </span>
       </div>
       {!wide && fraction !== undefined && (
-        <div className="h-1.5 rounded-[var(--radius-pill)] bg-border-soft overflow-hidden" role="progressbar" aria-valuenow={Math.round(f * 100)} aria-valuemin={0} aria-valuemax={100}>
+        <div className="meter-track" role="progressbar" aria-valuenow={Math.round(f * 100)} aria-valuemin={0} aria-valuemax={100}>
           <div className="h-full rounded-[var(--radius-pill)] bg-accent" style={{ width: `${f * 100}%` }} />
         </div>
       )}
@@ -210,8 +210,8 @@ export function AdditionalInformation({ ctx }: { ctx: Ctx }) {
     // links were clipped away (overflow-hidden), leaving an empty strip above the next card. It spans every
     // column and sits last on the Overview (see telesalesTabs).
     <section data-mcard className="card overflow-hidden self-start w-full min-w-0 [grid-column:1/-1]">
-      <div className="px-5 py-4 border-b border-[var(--field-card-border)]">
-        <h3 className="inline-flex items-center gap-2.5 text-fg font-semibold text-[length:var(--fs-body-lg)]">
+      <div className="pad-panel border-b border-[var(--field-card-border)]">
+        <h3 className="inline-flex items-center gap-2.5 subtitle">
           <Icon path={I.grid} className="w-5 h-5" />
           Additional Information
         </h3>

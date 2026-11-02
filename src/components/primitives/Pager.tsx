@@ -33,7 +33,7 @@ export function Pager({ page, pages, onPage, className = '' }: { page: number; p
   return (
     <nav
       aria-label="Pagination"
-      className={`inline-flex max-w-full items-stretch overflow-x-auto rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg divide-x divide-[var(--field-card-border)] ${className}`}
+      className={`button-group ${className}`}
     >
       <button type="button" aria-label="Previous page" disabled={page <= 1} onClick={() => onPage(page - 1)} className={cell}>
         <Icon path={CHEVRON_LEFT} className="h-4 w-4" />
@@ -41,7 +41,7 @@ export function Pager({ page, pages, onPage, className = '' }: { page: number; p
       </button>
       {pageItems(page, pages).map((p, i) =>
         p === 'gap' ? (
-          <span key={`gap-${i}`} aria-hidden="true" className="flex h-9 min-w-9 shrink-0 items-center justify-center px-2 text-[length:var(--fs-body)] text-fg-2">
+          <span key={`gap-${i}`} aria-hidden="true" className="icon-tile h-9 min-w-9 px-2 text-secondary">
             ...
           </span>
         ) : (

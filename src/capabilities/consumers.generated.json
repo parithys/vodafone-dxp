@@ -29,9 +29,11 @@
         "modules/mobile-prepaid",
         "modules/mobile-service-changes",
         "modules/new-connection",
+        "modules/order-management",
         "modules/pre-to-post-migration",
         "modules/sim-number-management",
-        "workspace/administration"
+        "workspace/administration",
+        "workspace/customer360"
       ],
       "bypass": []
     },

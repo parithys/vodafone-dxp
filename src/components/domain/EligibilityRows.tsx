@@ -12,10 +12,10 @@ import type { EligibilityRow } from './eligibilityRowsModel';
  * function rather than two near-identical blocks. */
 export function EligibilityChecksList({ rows }: { rows: EligibilityRow[] }) {
   return (
-    <ul className="rounded-[var(--radius-card)] border border-[var(--field-card-border)] overflow-hidden divide-y divide-border-soft">
+    <ul className="list-frame">
       {rows.map((row) => (
-        <li key={row.id} className={`flex items-center gap-3 px-4 py-3 ${ROW_TONE[row.tone]}`}>
-          <Icon path={ROW_ICON[row.tone]} className={`w-5 h-5 shrink-0 ${ICON_TONE[row.tone]}`} />
+        <li key={row.id} className={`row pad-row ${ROW_TONE[row.tone]}`}>
+          <Icon path={ROW_ICON[row.tone]} className={`icon-md ${ICON_TONE[row.tone]}`} />
           <div className="min-w-0 flex-1">
             <p className={`font-semibold text-[length:var(--fs-body)] ${row.tone === 'advisory' ? 'text-[var(--tint-blue-fg)]' : 'text-fg'}`}>{row.title}</p>
             {/* The RESULT, not a static description of what the check does -
@@ -32,8 +32,8 @@ export function EligibilityChecksList({ rows }: { rows: EligibilityRow[] }) {
 
 function EligibilityOutcomeLegend() {
   return (
-    <div className="mt-6 pt-4 border-t border-border-soft">
-      <h4 className="text-fg font-semibold text-[length:var(--fs-body)] mb-2">What These Outcomes Mean</h4>
+    <div className="mt-6 pt-4 divider-top">
+      <h4 className="heading-strong mb-2">What These Outcomes Mean</h4>
       <ul className="list-disc pl-5 space-y-2">
         {OUTCOME_LEGEND.map((item) => (
           <li key={item.title} className="text-[length:var(--fs-caption)] leading-snug">

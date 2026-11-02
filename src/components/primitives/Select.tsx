@@ -252,11 +252,11 @@ export function Select({
             openList();
             triggerRef.current?.focus();
           }}
-          className="absolute right-3 top-1/2 -translate-y-1/2 disabled:cursor-not-allowed"
+          className="absolute right-3 center-y disabled:cursor-not-allowed"
         >
           <Icon
             path={CHEVRON_DOWN}
-            className={`w-4 h-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''} ${
+            className={`icon-sm transition-transform ${open ? 'rotate-180' : ''} ${
               dark ? 'text-on-dark-3' : disabled ? 'text-muted' : selected ? 'text-[var(--field-icon-active)]' : 'text-muted'
             }`}
           />
@@ -279,7 +279,7 @@ export function Select({
                 aria-selected={opt.value === value}
                 onMouseEnter={() => setHighlighted(i)}
                 onClick={() => commit(opt.value)}
-                className={`px-4 py-3 text-[length:var(--fs-body)] cursor-pointer ${optionClasses} ${
+                className={`cell-body cursor-pointer ${optionClasses} ${
                   i === highlighted ? `${dark ? 'bg-on-dark-fill-2' : 'bg-[var(--field-focus-bg)]'}` : ''
                 }`}
               >
@@ -288,7 +288,7 @@ export function Select({
             ))}
           </ul>
           {shown.length === 0 && (
-            <p role="status" className="px-4 py-3 text-muted text-[length:var(--fs-body)]">
+            <p role="status" className="cell-body text-muted">
               No Matches
             </p>
           )}
@@ -296,7 +296,7 @@ export function Select({
         )}
       </div>
       {helperText && !error && (
-        <span id={helperId} className="text-[length:var(--fs-caption)] text-muted">
+        <span id={helperId} className="caption-muted">
           {helperText}
         </span>
       )}

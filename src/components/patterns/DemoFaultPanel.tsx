@@ -31,9 +31,9 @@ export function DemoFaultPanel() {
   const armed = Object.entries(faults).filter(([, f]) => f && f.remaining > 0);
   const select = 'rounded-[var(--radius-button)] border border-border bg-bg px-2 py-1 text-[length:var(--fs-caption)]';
   return (
-    <div className={`${SYNTHETIC_CLASS} rounded-[var(--radius-card)] border border-dashed border-current p-3 space-y-2`}>
-      <p className="text-[length:var(--fs-micro)] uppercase tracking-wide font-semibold">Demo Only - Simulate a System Failure</p>
-      <div className="flex flex-wrap items-center gap-2">
+    <div className={`${SYNTHETIC_CLASS} card-frame border-dashed border-current p-3 space-y-2`}>
+      <p className="text-[length:var(--fs-micro)] caps-strong">Demo Only - Simulate a System Failure</p>
+      <div className="cluster-sm">
         <select aria-label="System" className={select} value={service} onChange={(e) => setService(e.target.value as ServiceName | '')}>
           <option value="">Select System</option>
           {(Object.keys(SERVICE_LABEL) as ServiceName[]).map((s) => (

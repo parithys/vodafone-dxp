@@ -99,7 +99,7 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
           tabIndex={-1}
           aria-label={open ? `Close ${label} list` : `Open ${label} list`}
           onClick={() => setOpen((o) => !o)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg"
+          className="field-clear-btn"
         >
           <Icon path={CHEVRON_DOWN} className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
         </button>
@@ -107,7 +107,7 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
           <ul
             id={`${id}-listbox`}
             role="listbox"
-            className="absolute z-[var(--z-popover)] top-full left-0 right-0 max-h-80 overflow-y-auto rounded-[var(--field-radius)] border border-border-soft bg-bg shadow-raised py-1 divide-y divide-[var(--field-divider)]"
+            className="dropdown-popover"
           >
             {results.map((o, i) => (
               <li
@@ -116,18 +116,18 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
                 role="option"
                 aria-selected={norm(o.value) === q}
                 onClick={() => pick(o)}
-                className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? activeRow : ''}`}
+                className={`row-start pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? activeRow : ''}`}
               >
                 <span className="mt-0.5 text-[var(--field-icon)] shrink-0">
                   <Icon path={PIN_ICON} className="w-5 h-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[length:var(--fs-body)] font-semibold text-fg truncate">{o.value}</span>
-                  {o.detail && <span className="block text-[length:var(--fs-caption)] text-muted truncate">{o.detail}</span>}
+                  <span className="block heading-strong truncate">{o.value}</span>
+                  {o.detail && <span className="line-caption">{o.detail}</span>}
                 </span>
               </li>
             ))}
-            {results.length === 0 && <li className="px-4 py-3 text-[length:var(--fs-caption)] text-danger">{NOT_FOUND}</li>}
+            {results.length === 0 && <li className="pad-row text-[length:var(--fs-caption)] text-danger">{NOT_FOUND}</li>}
           </ul>
         )}
       </SearchField>

@@ -143,36 +143,36 @@ export function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-sans bg-charcoal-panel">
       {/* Sign-in panel - ordered after the brand panel on md:+ (DOM order, and so tab order, is unchanged); takes the full width when the brand panel is not shown (phone, tablet). */}
-      <div role="main" className={`w-full shrink-0 md:order-2 bg-charcoal-panel text-on-dark flex flex-col px-[8%] py-8 ${showBrandPanel ? 'md:w-[42%] lg:w-[38%]' : ''}`}>
+      <div role="main" className={`w-full shrink-0 md:order-2 login-brand-panel px-[8%] py-8 ${showBrandPanel ? 'md:w-[42%] lg:w-[38%]' : ''}`}>
         <div className="my-auto py-10 space-y-8">
           <div>
-            <div className="flex items-center gap-3 mb-6">
+            <div className="row mb-6">
               <VodafoneMark className="w-10 h-10 shrink-0" />
               <VodafoneWordmark className="h-6 w-auto [&_path]:fill-[var(--on-dark)]" />
             </div>
-            <p className="text-on-dark-2 font-semibold uppercase tracking-wide text-[length:var(--fs-caption-upper)] mb-3">Staff Portal</p>
+            <p className="text-on-dark-2 font-semibold label-caps mb-3">Staff Portal</p>
             <h1 className="text-[length:var(--fs-h3)] font-bold leading-tight text-on-dark mb-3">Welcome Back</h1>
             <p className="text-on-dark-2 text-[length:var(--fs-body-lg)]">Sign in to your Vodafone workspace.</p>
           </div>
 
           <div className="space-y-6" onKeyDown={handleFormKeyDown}>
             {loginError && (
-              <div role="alert" className="rounded-[var(--radius-sm)] border border-[var(--on-dark-danger-line)] bg-[var(--on-dark-danger-fill)] px-3 py-2.5 text-[length:var(--fs-caption)] text-on-dark">
+              <div role="alert" className="login-alert">
                 {loginError}
               </div>
             )}
-            <div className="flex flex-col gap-2">
+            <div className="stack-sm">
               <label htmlFor="staff-id" className="text-[length:var(--fs-body)] font-medium text-on-dark">Staff ID</label>
               <input
                 id="staff-id"
                 value={staffId}
                 onChange={(e) => setStaffId(e.target.value)}
                 placeholder="e.g. VFQ-12345"
-                className="login-field w-full rounded-[var(--field-radius)] border border-on-dark-line-3 bg-on-dark-fill-1 px-4 py-3.5 text-on-dark text-[length:var(--fs-body)] placeholder:text-on-dark-3 hover:border-on-dark-3 focus:outline-none focus-visible:border-[var(--field-focus-border)] focus-visible:shadow-[var(--field-focus-ring)]"
+                className="login-field login-input"
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="stack-sm">
               <label htmlFor="login-password" className="text-[length:var(--fs-body)] font-medium text-on-dark">Password</label>
               <div className="relative">
                 <input
@@ -181,14 +181,14 @@ export function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="login-field w-full rounded-[var(--field-radius)] border border-on-dark-line-3 bg-on-dark-fill-1 px-4 py-3.5 pr-12 text-on-dark text-[length:var(--fs-body)] placeholder:text-on-dark-3 hover:border-on-dark-3 focus:outline-none focus-visible:border-[var(--field-focus-border)] focus-visible:shadow-[var(--field-focus-ring)]"
+                  className="login-field login-input pr-12"
                 />
                 <Tooltip content={showPassword ? 'Hide password' : 'Show password'} placement="top">
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
-                    className="absolute right-3 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center text-on-dark-2 hover:text-on-dark"
+                    className="absolute right-3 center-y icon-button-on-dark"
                   >
                     <Icon path={showPassword ? ICONS.eyeOff : ICONS.eye} className="w-5 h-5" />
                   </button>
@@ -197,7 +197,7 @@ export function LoginPage() {
               <button
                 type="button"
                 onClick={() => setForgotPasswordOpen(true)}
-                className="self-end text-[length:var(--fs-body)] text-on-dark underline underline-offset-4 hover:opacity-80"
+                className="self-end text-[length:var(--fs-body)] link-on-dark"
               >
                 Forgot password?
               </button>
@@ -208,8 +208,8 @@ export function LoginPage() {
               {!signingIn && <Icon path={ICONS.arrowRight} className="w-5 h-5" />}
             </Button>
 
-            <div className="flex items-start gap-3 text-on-dark-2 text-[length:var(--fs-body)]">
-              <Icon path={ICONS.lock} className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="row-start text-on-dark-2 text-[length:var(--fs-body)]">
+              <Icon path={ICONS.lock} className="icon-md mt-0.5" />
               <p>
                 Authorised staff access only.
                 <span className="block">All activity is monitored and logged.</span>
@@ -218,18 +218,18 @@ export function LoginPage() {
           </div>
         </div>
 
-        <div className="relative flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[length:var(--fs-body)] text-on-dark-2">
+        <div className="relative login-footer">
           <div className="relative">
             <span>Need help? </span>
             <button
               type="button"
               onClick={() => setHelpOpen((v) => !v)}
-              className="text-on-dark underline underline-offset-4 hover:opacity-80"
+              className="link-on-dark"
             >
               Contact IT support
             </button>
             {helpOpen && (
-              <div className="absolute bottom-full left-0 mb-2 w-64 rounded-[var(--radius-card)] border border-on-dark-line-3 bg-on-dark-fill-2 backdrop-blur shadow-raised z-[var(--z-popover)] p-4 text-on-dark">
+              <div className="absolute bottom-full left-0 mb-2 w-64 on-dark-popover p-4">
                 <p className="text-on-dark font-medium mb-1">Help &amp; support</p>
                 <p className="text-on-dark-2 text-[length:var(--fs-body)]">
                   Contact the IT Service Desk at <span className="text-link">servicedesk@vodafone.qa</span> or extension 4100 for platform issues.
@@ -244,16 +244,16 @@ export function LoginPage() {
       {/* Brand panel - the Doha skyline photo (public/brand/login-bg.jpg, Hongbin on Unsplash, Unsplash License) under a
           navy scrim that is darkest where the headline and the update cards sit. Not rendered on a phone or tablet. */}
       {showBrandPanel && (
-        <div className="relative flex-1 px-[6%] py-8 flex flex-col text-on-dark md:order-1 overflow-hidden bg-[var(--login-bg)]">
+        <div className="relative flex-1 px-[6%] py-8 login-stage md:order-1">
           <img src={appPath('/brand/login-bg.jpg')} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-[image:var(--login-scrim)]" />
-          <header className="relative flex items-start justify-between gap-6">
+          <header className="relative split-top gap-6">
             <VodafoneLogo />
           </header>
 
           <div className="relative mt-[12%] max-w-[85%]">
-            <h2 className="text-[length:var(--fs-h2)] font-bold leading-[1.15] text-on-dark">Together, we move Qatar forward.</h2>
-            <p className="mt-3 text-[length:var(--fs-lead)] font-normal text-on-dark">Your people. Your updates. Your day.</p>
+            <h2 className="login-heading">Together, we move Qatar forward.</h2>
+            <p className="mt-3 login-lead">Your people. Your updates. Your day.</p>
           </div>
 
           <div className="relative mt-[6%] mb-auto">

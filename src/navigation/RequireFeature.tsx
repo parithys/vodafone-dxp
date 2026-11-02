@@ -13,7 +13,7 @@ export function RequireFeature({ featureKey, children }: { featureKey: string; c
   if (canUseFeature(personaId, featureKey)) return <>{children}</>;
   return (
     <div className="p-8 w-full" role="alert">
-      <h1 className="text-[length:var(--fs-h3)] font-bold text-fg mt-3 mb-2">No Access</h1>
+      <h1 className="title-2xl mt-3 mb-2">No Access</h1>
       <p className="text-fg-2 mb-4">Your role does not have access to this page.</p>
       <Link to="/">
         <Button variant="primary">Back to Dashboard</Button>

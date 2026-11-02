@@ -26,7 +26,7 @@ function Field({ label, requirement, value, strong = true }: { label: string; /*
   if (mode === 'hidden') return null;
   const empty = value === undefined || value === null || value === '';
   return (
-    <div className="flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+    <div className="data-row">
       <dt className="text-fg shrink-0" data-req={requirement}>{label}</dt>
       <dd className={`text-fg min-w-0 break-words text-right ${strong ? 'font-medium' : ''}`}>{empty ? '-' : mode === 'drill-down' ? <RevealValue>{value}</RevealValue> : value}</dd>
     </div>
@@ -197,7 +197,7 @@ export function C360AccountInformation({
           value={qar(creditLimit) ?? '-'}
           caption={
             utilisation !== undefined && (
-              <span className="flex items-center gap-2">
+              <span className="row-tight">
                 <span className="shrink-0">Utilisation: {utilisation}%</span>
                 <span className="flex-1 min-w-12">
                   <Progress pct={utilisation} tone="blue" />
@@ -212,7 +212,7 @@ export function C360AccountInformation({
           tone="red"
           label="Dunning Stage"
           value={
-            <span className="flex flex-wrap items-center justify-between gap-2">
+            <span className="cluster-sm justify-between">
               <span>{stage ?? '-'}</span>
               {standing && <Pill tone={toneForStage(standing)}>{standing}</Pill>}
             </span>
@@ -220,7 +220,7 @@ export function C360AccountInformation({
         />
       </KpiGrid>
 
-      <div className="grid grid-cols-1 @4xl:grid-cols-3 gap-4 items-start">
+      <div className="fields @4xl:grid-cols-3 items-start">
         <div className="space-y-4 min-w-0">
           <Panel
             icon={IC.file}
@@ -295,12 +295,12 @@ export function C360AccountInformation({
             ) : (
               <ul>
                 {counts.map((r) => (
-                  <li key={r.label} className="flex items-center gap-3 py-1.5 border-b border-border-soft last:border-0">
-                    <span className={`flex items-center gap-3 flex-1 min-w-0 rounded-[var(--radius-button)] px-2 py-1.5 bg-surface-half`}>
+                  <li key={r.label} className="row py-1.5 row-rule">
+                    <span className={`row flex-1 min-w-0 rounded-[var(--radius-button)] px-2 py-1.5 bg-surface-half`}>
                       <IconTile icon={r.icon} tone={r.tone} size="sm" />
-                      <span className="text-fg text-[length:var(--fs-body)] flex-1 min-w-0 truncate">{r.label}</span>
+                      <span className="body-text flex-1 min-w-0 truncate">{r.label}</span>
                     </span>
-                    <span className="text-fg font-semibold text-[length:var(--fs-body)] w-8 text-right">{r.n}</span>
+                    <span className="heading-strong w-8 text-right">{r.n}</span>
                   </li>
                 ))}
               </ul>
@@ -308,14 +308,14 @@ export function C360AccountInformation({
           </Panel>
 
           <Panel icon={IC.layers} title="Account Hierarchy" action={<LinkAction onClick={go('products-services')}>View Hierarchy</LinkAction>}>
-            <div className="flex items-center gap-3">
+            <div className="row">
               <IconTile icon={IC.user} tone="blue" size="sm" />
               <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-fg font-semibold text-[length:var(--fs-body)] break-words">{data.customer.name}</span>
+                <div className="cluster-sm">
+                  <span className="heading-strong break-words">{data.customer.name}</span>
                   {account && !account.parentAccountId && <Pill tone="blue">Primary</Pill>}
                 </div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">Account No: {account?.accountId ?? data.customer.customerId}</div>
+                <div className="caption-secondary break-words">Account No: {account?.accountId ?? data.customer.customerId}</div>
               </div>
             </div>
             {tree.length === 0 ? (
@@ -323,13 +323,13 @@ export function C360AccountInformation({
             ) : (
               <ul className="ml-4 mt-1 border-l border-[var(--border)] pl-6 space-y-2 pt-2">
                 {tree.map((n, i) => (
-                  <li key={n.id} className="flex items-center gap-3">
+                  <li key={n.id} className="row">
                     <IconTile icon={i % 2 === 0 ? IC.home : IC.building} tone={i % 2 === 0 ? 'amber' : 'purple'} size="sm" />
                     <div className="min-w-0 flex-1">
-                      <div className="text-fg font-medium text-[length:var(--fs-body)] break-words">{n.name}</div>
-                      <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">Account No: {n.id}</div>
+                      <div className="value-text break-words">{n.name}</div>
+                      <div className="caption-secondary break-words">Account No: {n.id}</div>
                     </div>
-                    <span className="rounded-[var(--radius-pill)] bg-surface text-fg min-w-8 text-center px-2 py-0.5 text-[length:var(--fs-caption)]">{n.count}</span>
+                    <span className="count-chip">{n.count}</span>
                   </li>
                 ))}
               </ul>
@@ -340,7 +340,7 @@ export function C360AccountInformation({
             <ul>
               {pendingRows.map((r) => (
                 <li key={r.label}>
-                  <button type="button" disabled={!goToTab} onClick={go(r.tab)} className="w-full flex items-center justify-between gap-3 py-1.5 border-b border-border-soft text-[length:var(--fs-body)] enabled:hover:bg-surface">
+                  <button type="button" disabled={!goToTab} onClick={go(r.tab)} className="w-full split-nowrap py-1.5 divider-bottom text-[length:var(--fs-body)] enabled:hover:bg-surface">
                     <span className="text-fg-2 text-left">{r.label}</span>
                     <span className="text-fg font-medium">{r.value}</span>
                   </button>
@@ -365,7 +365,7 @@ export function C360AccountInformation({
           >
             <dl>
               {financial.map((r) => (
-                <div key={r.label} className="flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+                <div key={r.label} className="data-row">
                   <dt className="text-fg">{r.label}</dt>
                   <dd className={`font-medium text-right ${r.red && r.value ? 'text-accent' : 'text-fg'}`}>{r.value ?? '-'}</dd>
                 </div>
@@ -379,14 +379,14 @@ export function C360AccountInformation({
             ) : (
               <ul>
                 {contactRows.map((c, i) => (
-                  <li key={c.key} className="flex items-center gap-3 py-2 border-b border-border-soft last:border-0">
+                  <li key={c.key} className="row py-2 row-rule">
                     <IconTile icon={IC.user} tone={i === 0 ? 'blue' : i === 1 ? 'red' : 'purple'} size="sm" />
                     <div className="min-w-0 flex-1">
-                      <div className="text-fg font-semibold text-[length:var(--fs-body)] break-words">{c.name}</div>
-                      <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">{c.sub}</div>
+                      <div className="heading-strong break-words">{c.name}</div>
+                      <div className="caption-secondary break-words">{c.sub}</div>
                     </div>
                     {c.badge && <Pill tone="blue">{c.badge}</Pill>}
-                    <Icon path={IC.chevRight} className="w-4 h-4 text-fg shrink-0" />
+                    <Icon path={IC.chevRight} className="icon-sm text-fg" />
                   </li>
                 ))}
               </ul>
@@ -404,12 +404,12 @@ export function C360AccountInformation({
                   const { date, time } = fmtDateTime(a.transactionDate);
                   return (
                     <li key={String(a.activityNumber)}>
-                      <button type="button" disabled={!goToTab} onClick={go('activities')} className="w-full flex items-center gap-3 py-2 border-b border-border-soft last:border-0 text-left text-[length:var(--fs-caption)] enabled:hover:bg-surface">
+                      <button type="button" disabled={!goToTab} onClick={go('activities')} className="row-action row py-2 row-rule text-[length:var(--fs-caption)]">
                         <span className="text-fg-2 w-24 shrink-0">{[date, time].filter(Boolean).join(' ') || '-'}</span>
                         <IconTile icon={m.icon} tone={m.tone} size="sm" />
-                        <span className="text-fg text-[length:var(--fs-body)] flex-1 min-w-0 break-words">{topic}</span>
-                        <span className="text-fg text-[length:var(--fs-body)] shrink-0 max-w-32 truncate">{str(a.orderId) ?? str(a.msisdn) ?? str(a.status) ?? '-'}</span>
-                        <Icon path={IC.chevRight} className="w-4 h-4 text-fg shrink-0" />
+                        <span className="body-text flex-1 min-w-0 break-words">{topic}</span>
+                        <span className="body-text shrink-0 max-w-32 truncate">{str(a.orderId) ?? str(a.msisdn) ?? str(a.status) ?? '-'}</span>
+                        <Icon path={IC.chevRight} className="icon-sm text-fg" />
                       </button>
                     </li>
                   );

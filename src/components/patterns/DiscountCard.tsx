@@ -14,18 +14,18 @@ export function DiscountCard({ title, description, value, selected, onToggle }: 
           onToggle();
         }
       }}
-      className={`relative isolate flex flex-col gap-3 rounded-[var(--radius-card)] border p-5 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+      className={`option-card isolate gap-3 p-5 ${
         selected ? CARD_SELECTED : CARD_IDLE
       }`}
     >
       {selected && <SelectedCardTexture />}
       {selected && <SelectedTick />}
       {/* Name on the left, the discount on the right, on one row. */}
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-fg font-bold text-[length:var(--fs-h5)] leading-snug">{title}</p>
+      <div className="split-top gap-3">
+        <p className="title-lg leading-snug">{title}</p>
         <p className={`shrink-0 font-bold text-[length:var(--fs-h5)] ${value === '-' ? 'text-muted' : 'text-success'}`}>{value}</p>
       </div>
-      {description && <p className="text-fg-2 text-[length:var(--fs-caption)]">{description}</p>}
+      {description && <p className="caption-secondary">{description}</p>}
     </div>
   );
 }

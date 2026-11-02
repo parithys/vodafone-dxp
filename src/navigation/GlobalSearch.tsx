@@ -243,57 +243,57 @@ export function GlobalSearch() {
       }}
     >
       {open && q && (
-        <div className="absolute z-[var(--z-popover)] top-full left-0 right-0 mt-1 max-h-96 overflow-y-auto card shadow-raised">
-          {!hasResults && <p className="px-4 py-6 text-center text-muted text-[length:var(--fs-body)]">No matches for &ldquo;{query}&rdquo;.</p>}
+        <div className="popover left-0 right-0 mt-1 max-h-96 card">
+          {!hasResults && <p className="px-4 empty-line text-[length:var(--fs-body)]">No matches for &ldquo;{query}&rdquo;.</p>}
 
           {moduleMatches.length > 0 && (
             <div>
-              <p className="px-4 pt-3 pb-1 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted">Modules</p>
+              <p className="px-4 pt-3 pb-1 eyebrow">Modules</p>
               {moduleMatches.map((m, i) => (
                 <button type="button"
                   key={m.moduleId}
                   id={`global-search-opt-${i}`}
                   onClick={() => go(`/${m.moduleSlug}`)}
-                  className={`w-full flex items-center justify-between gap-2 px-4 py-2 text-left hover:bg-surface ${active === i ? 'bg-surface' : ''}`}
+                  className={`list-row justify-between gap-2 px-4 py-2 ${active === i ? 'bg-surface' : ''}`}
                 >
                   <span className="text-fg truncate">{m.module}</span>
-                  <span className="text-muted text-[length:var(--fs-caption)] shrink-0">{m.screenCount} screens</span>
+                  <span className="caption-muted shrink-0">{m.screenCount} screens</span>
                 </button>
               ))}
             </div>
           )}
 
           {screenMatches.length > 0 && (
-            <div className="border-t border-border-soft">
-              <p className="px-4 pt-3 pb-1 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted">Screens</p>
+            <div className="divider-top">
+              <p className="px-4 pt-3 pb-1 eyebrow">Screens</p>
               {screenMatches.map((r, i) => (
                 <button type="button"
                   key={r.routeId}
                   id={`global-search-opt-${screenBase + i}`}
                   onClick={() => go(r.path)}
-                  className={`w-full flex items-center justify-between gap-2 px-4 py-2 text-left hover:bg-surface ${active === screenBase + i ? 'bg-surface' : ''}`}
+                  className={`list-row justify-between gap-2 px-4 py-2 ${active === screenBase + i ? 'bg-surface' : ''}`}
                 >
                   <span className="text-fg truncate">{screenDisplayName(r.screenName)}</span>
-                  <span className="text-muted text-[length:var(--fs-caption)] shrink-0">{r.module}</span>
+                  <span className="caption-muted shrink-0">{r.module}</span>
                 </button>
               ))}
             </div>
           )}
 
           {recordResults.length > 0 && (
-            <div className="border-t border-border-soft">
-              <p className="px-4 pt-3 pb-1 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted">Records</p>
+            <div className="divider-top">
+              <p className="px-4 pt-3 pb-1 eyebrow">Records</p>
               {recordResults.map((r, i) => (
                 <button type="button"
                   key={r.key}
                   id={`global-search-opt-${recordBase + i}`}
                   onClick={() => go(r.path)}
-                  className={`w-full flex items-center justify-between gap-2 px-4 py-2 text-left hover:bg-surface ${active === recordBase + i ? 'bg-surface' : ''}`}
+                  className={`list-row justify-between gap-2 px-4 py-2 ${active === recordBase + i ? 'bg-surface' : ''}`}
                 >
                   <span className="text-fg truncate">
-                    {r.label} <span className="text-muted text-[length:var(--fs-caption)]">· {r.kind}</span>
+                    {r.label} <span className="caption-muted">· {r.kind}</span>
                   </span>
-                  <span className="text-muted text-[length:var(--fs-caption)] shrink-0">{r.sub}</span>
+                  <span className="caption-muted shrink-0">{r.sub}</span>
                 </button>
               ))}
             </div>

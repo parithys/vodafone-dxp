@@ -21,9 +21,11 @@ export function QidImageUpload({
   value,
   onChange,
   onScan,
+  onRetakeDone,
   error,
   canScan = true,
   bothCaptureActions = false,
+  readerEverywhere = false,
   documentType = 'QID',
   demoTypes,
   onDemoScan,
@@ -116,12 +118,14 @@ export function QidImageUpload({
       // owns rather than this card.
       if (onScan?.() === false) return;
       if (isRetake) setRetakes((n) => n + 1);
+      const printed = capturedFromCard(documentType, identity);
       // Blurred only on a first pass, and only when the caller asked for the
       // simulation. Every retake is clear - once the agent has re-seated the
       // card, the demo has made its point, and a card that stays unreadable
       // forever would just look broken rather than illustrative.
       const clear = !blurFirstScan || isRetake;
-      onChange({ ...value, frontScanned: true, backScanned: true, frontImage: undefined, backImage: undefined, frontFile: undefined, backFile: undefined, combined: undefined, sidesSet: undefined, source: 'scan', captured: capturedFromCard(documentType, identity), clear });
+      onChange({ ...value, frontScanned: true, backScanned: true, frontImage: undefined, backImage: undefined, frontFile: undefined, backFile: undefined, combined: undefined, sidesSet: undefined, source: 'scan', captured: printed, clear });
+      if (isRetake) onRetakeDone?.(retakes, printed);
     }, SCAN_DURATION_MS);
   };
 
@@ -131,9 +135,11 @@ export function QidImageUpload({
         value={value}
         onChange={onChange}
         onScan={onScan}
+        onRetakeDone={onRetakeDone}
         error={error}
         canScan={canScan}
         bothCaptureActions={bothCaptureActions}
+        readerEverywhere={readerEverywhere}
         demoTypes={demoTypes}
         onDemoScan={onDemoScan}
         blurFirstScan={blurFirstScan}
@@ -145,18 +151,19 @@ export function QidImageUpload({
   }
 
   return (
-    <div className="card p-4 flex flex-col gap-3">
+    <div className="card p-4 stack">
           {/* Scanner header: what this is. Whether the reader is available is not shown: the agent only learns of a failure after the permitted attempts. */}
-          <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-            <div className="flex items-center gap-3 min-w-0">
+          <div className="split-top-wrap gap-x-4 gap-y-2">
+            <div className="row min-w-0">
               <Icon path={SCAN_CORNERS} className="w-6 h-6 text-accent shrink-0" />
-              <span className="text-fg font-bold uppercase tracking-wide text-[length:var(--fs-body)] truncate">{SCAN_DOCUMENT_TITLE}</span>
+              <span className="title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
             </div>
             {/* The two ways in, always available whatever has been done so far, in this order: the reader, then upload. An upload stands as a
                 completed scan (no reader pass, so no attempt is charged). */}
             <IdFileUpload
               align="end"
               bothActions={bothCaptureActions}
+              readerEverywhere={readerEverywhere}
               disabled={scanning}
               leading={
                 canScan ? (
@@ -183,9 +190,9 @@ export function QidImageUpload({
           never left the reader, and losing them the place they were at.
           Same height as the insert zone so the step does not jump. */}
       {scanning ? (
-        <div className="min-h-[var(--size-dropzone-min-h)] rounded-[var(--radius-card)] border border-dashed border-border bg-[var(--surface-subtle)] px-4 py-8 flex flex-col items-center justify-center gap-3">
+        <div className="min-h-[var(--size-dropzone-min-h)] dropzone px-4 py-8 stack-middle">
           <Spinner size={28} label={`${pass === 'retake' ? 'Rescanning' : 'Scanning'} the ${documentType}`} />
-          <span className="text-fg-2 text-[length:var(--fs-caption)] uppercase tracking-[0.14em] text-center">
+          <span className="caption-secondary uppercase tracking-[0.14em] text-center">
             {pass === 'retake' ? 'Rescanning' : 'Scanning'} {documentType === 'QID' ? 'QID' : documentType}
           </span>
         </div>
@@ -197,9 +204,9 @@ export function QidImageUpload({
               (same document, same crop) and the maroon band alone is a thin
               cue to hang that on. */}
           {value.combined ? (
-            <figure className="flex flex-col items-center gap-2 max-w-md mx-auto">
+            <figure className="stack-center gap-2 max-w-md mx-auto">
               <ScannedIdPreview side="front" documentType={documentType} variant={variant} identity={identity} src={value.frontImage} clear fullPage />
-              <figcaption className="text-fg-2 text-[length:var(--fs-caption)]">{documentType} front and back ({value.frontFile ?? 'one file'})</figcaption>
+              <figcaption className="caption-secondary">{documentType} front and back ({value.frontFile ?? 'one file'})</figcaption>
               {value.source === 'upload' && (
                 <Button variant="tertiary" compact aria-label={`Remove the uploaded ${documentType} file`} onClick={() => onChange(removeIdUpload(value, 'all'))}>
                   <Icon path={TRASH} className="w-4 h-4" />
@@ -210,7 +217,7 @@ export function QidImageUpload({
           ) : (
           <div className={documentType === 'Passport' ? 'grid grid-cols-1 gap-4 max-w-xs mx-auto' : 'grid grid-cols-2 gap-8 max-w-[44rem] mx-auto'}>
             {(documentType === 'Passport' ? (['front'] as const) : (['front', 'back'] as const)).map((side) => (
-              <figure key={side} className="flex flex-col items-center gap-2">
+              <figure key={side} className="stack-center gap-2">
                 <ScannedIdPreview
                   side={side}
                   documentType={documentType}
@@ -219,7 +226,7 @@ export function QidImageUpload({
                   src={side === 'front' ? value.frontImage : value.backImage}
                   clear={value.clear ?? true}
                 />
-                <figcaption className="text-fg-2 text-[length:var(--fs-caption)] capitalize">
+                <figcaption className="caption-secondary capitalize">
                   {documentType === 'Passport' ? 'Passport data page' : `${documentType === 'QID' ? 'QID' : documentType} ${side}${value.source === 'upload' && (side === 'front' ? value.frontFile : value.backFile) ? ` (${side === 'front' ? value.frontFile : value.backFile})` : ''}`}
                 </figcaption>
                 {value.source === 'upload' && (
@@ -257,26 +264,26 @@ export function QidImageUpload({
           )}
         </>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="stack-lg">
           {/* One side uploaded so far: the document's two sides side by side - the uploaded one as it is, the other asked for, in place of the
               scanner's placeholder. Uploading it replaces the ask with the real document. */}
           {missing && (
-            <div className="flex flex-col gap-3">
+            <div className="stack">
               <div className="grid grid-cols-2 gap-8 max-w-[44rem] mx-auto w-full">
                 {(['front', 'back'] as const).map((side) => {
                   const have = side !== missing;
                   const file = side === 'front' ? value.frontFile : value.backFile;
                   return (
-                    <figure key={side} className="flex flex-col items-center gap-2">
+                    <figure key={side} className="stack-center gap-2">
                       {have ? (
                         <ScannedIdPreview side={side} documentType={documentType} variant={variant} identity={identity} src={side === 'front' ? value.frontImage : value.backImage} clear />
                       ) : (
-                        <div className="w-full aspect-[1.585] rounded-[var(--radius-card)] border border-dashed border-border bg-[var(--surface-subtle)] flex flex-col items-center justify-center gap-3 p-4 text-center">
-                          <span className="text-fg font-medium text-[length:var(--fs-body)]">{documentType} {side} side needed</span>
+                        <div className="w-full aspect-[1.585] dropzone stack-middle p-4 text-center">
+                          <span className="value-text">{documentType} {side} side needed</span>
                           <IdFileUpload side={side} label={`Upload ${side} side`} onUpload={(r) => onChange(applyIdUpload(value, r))} />
                         </div>
                       )}
-                      <figcaption className="text-fg-2 text-[length:var(--fs-caption)] capitalize">
+                      <figcaption className="caption-secondary capitalize">
                         {have ? `${documentType} ${side}${file ? ` (${file})` : ''}` : `${documentType} ${side}`}
                       </figcaption>
                       {have && (
@@ -294,20 +301,20 @@ export function QidImageUpload({
           {!missing && (
             <>
           {/* The scanning surface: a dashed bed holding the card guide, the instruction and the action. */}
-          <div className="rounded-[var(--radius-card)] border border-dashed border-border bg-[var(--surface-subtle)] px-4 py-8 flex flex-col items-center gap-5 text-center">
-            <div className="relative w-full max-w-[22rem] aspect-[85.6/54] rounded-[var(--radius-card)] border border-border-soft bg-bg shadow-[var(--shadow-dash-card)] flex items-center justify-center text-muted text-[length:var(--fs-micro)] uppercase tracking-wide">
+          <div className="dropzone px-4 py-8 stack-center gap-5 text-center">
+            <div className="scan-frame max-w-[22rem] aspect-[85.6/54]">
               {/* Guide rails at the card's four corners. */}
-              <span aria-hidden="true" className="absolute left-2 top-2 w-4 h-4 border-l-2 border-t-2 border-accent" />
-              <span aria-hidden="true" className="absolute right-2 top-2 w-4 h-4 border-r-2 border-t-2 border-accent" />
-              <span aria-hidden="true" className="absolute left-2 bottom-2 w-4 h-4 border-l-2 border-b-2 border-accent" />
-              <span aria-hidden="true" className="absolute right-2 bottom-2 w-4 h-4 border-r-2 border-b-2 border-accent" />
+              <span aria-hidden="true" className="scan-corner scan-corner-tl" />
+              <span aria-hidden="true" className="scan-corner scan-corner-tr" />
+              <span aria-hidden="true" className="scan-corner scan-corner-bl" />
+              <span aria-hidden="true" className="scan-corner scan-corner-br" />
               <Icon path={SCAN_CORNERS} className="w-12 h-12 text-border" />
             </div>
             <div className="space-y-1.5 max-w-xl">
-              {!canScan && <h4 className="text-fg font-bold text-[length:var(--fs-h5)]">Card Could Not Be Read</h4>}
+              {!canScan && <h4 className="title-lg">Card Could Not Be Read</h4>}
               {canScan && (
-                <p className="text-fg-2 text-[length:var(--fs-body)]">
-                  {`Both sides of the ${documentType} are required for verification`}
+                <p className="text-secondary">
+                  {`Both sides of the ${documentType === 'Other ID' ? 'document' : documentType} are required for verification`}
                 </p>
               )}
             </div>
@@ -318,11 +325,11 @@ export function QidImageUpload({
               reasonably read it as "choose the document type first".
               A real reader offers no such choice. */}
           {canScan && demoTypes && demoTypes.length > 0 && onDemoScan && (
-            <div className={`${SYNTHETIC_CLASS} flex flex-col items-center gap-1`}>
+            <div className={`${SYNTHETIC_CLASS} stack-center gap-1`}>
               <span className="text-[length:var(--fs-micro)] uppercase tracking-wide">
                 Demo only - simulate inserting
               </span>
-              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+              <div className="wrap-center justify-center gap-x-3 gap-y-1">
                 {demoTypes.map((t) => (
                   <button
                     key={t.value}
@@ -331,9 +338,7 @@ export function QidImageUpload({
                       onDemoScan(t.value);
                       runScan();
                     }}
-                    className="text-[length:var(--fs-caption)] text-link underline
-                      hover:opacity-80 focus:outline-none
-                      focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-button)] px-0.5"
+                    className="link-action"
                   >
                     {t.label}
                   </button>
@@ -348,7 +353,7 @@ export function QidImageUpload({
             Array.isArray(error) ? (
               <ScanFailureNotice lines={error} />
             ) : (
-              <p role="alert" className="text-danger text-[length:var(--fs-caption)] text-center max-w-[var(--size-field-message-max-w)]">
+              <p role="alert" className="field-message">
                 {error}
               </p>
             )

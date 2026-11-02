@@ -3,6 +3,8 @@ import { QidNumberField, QidTypeSelector } from '../domain/QidInput';
 import type { QidType } from '../domain/QidInput';
 import { IdScannerPanel } from './IdScannerPanel';
 import { Badge } from '../primitives/Badge';
+import { ErrorBanner } from '../primitives/ErrorBanner';
+import { UNSUPPORTED_ID_TYPE_MESSAGE } from '../../data/idTypes';
 import { Input } from '../primitives/Input';
 import { useIdLookup } from './useIdLookup';
 import { IdLookupStatus } from './IdLookupStatus';
@@ -118,6 +120,8 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
     typeChosen,
     demoType,
     effectiveScannable,
+    unsupportedType,
+    unsupportedScanTried,
     handleIdTypeChange,
     contextIdentity,
     contextNoDocument,
@@ -133,6 +137,7 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
     manualEntryUnlocked,
     captureMode,
     handleScanAttempt,
+    handleRetakeDone,
     handleDemoScan,
     handleBarcodeScan,
     handleKeyDown,
@@ -178,8 +183,11 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
   const numberLocked = captureMode === 'ocr-auto' || captureMode === 'ocr-number';
   const expiryLocked = captureMode === 'ocr-auto';
 
+  // Keyed by the document type: choosing another type is a new document in the reader, so the scanner's own count (the "Retake scan (n)" label)
+  // starts again with the lookup's attempt count, and the two never drift apart.
   const scannerBlock = effectiveScannable && (
     <IdScannerPanel
+      key={idType}
       value={value}
       onChange={onChange}
       latest={latest}
@@ -194,6 +202,7 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
       clearReconciliation={clearReconciliation}
       demoType={demoType}
       handleScanAttempt={handleScanAttempt}
+      handleRetakeDone={handleRetakeDone}
       handleDemoScan={handleDemoScan}
       scanBudgetSpent={scanBudgetSpent}
     />
@@ -223,7 +232,7 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
   // A clear read (first scan, Retake 1) goes straight to MOI, so its number and expiry are never shown as fields - not while MOI is being
   // called either, or they would flash up and vanish. They appear only if the lookup comes back with a problem the agent must see.
   const autoLookupClean = captureMode === 'ocr-auto' && !notFound && !reconciliation && !linkProblem && !ownerMismatch;
-  const numberBlock = typeChosen && !(verifyThenFetch && (value.moiResult || autoLookupClean)) && (!effectiveScannable || (scanComplete && Boolean(value.idNumber)) || manualEntryUnlocked || typedCapture) && (
+  const numberBlock = typeChosen && !unsupportedType && !(verifyThenFetch && (value.moiResult || autoLookupClean)) && (!effectiveScannable || (scanComplete && Boolean(value.idNumber)) || manualEntryUnlocked || typedCapture) && (
     <QidNumberField
       idType={idType}
       inputRef={numberInputRef}
@@ -345,6 +354,9 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
           {scannerBlock}
         </>
       )}
+
+      {/* "Others" (and any unsupported type): the scan is refused, with this message, and the journey cannot go on until a supported type is chosen. */}
+      {unsupportedType && unsupportedScanTried && <ErrorBanner message={UNSUPPORTED_ID_TYPE_MESSAGE} />}
 
       {/* The number field comes AFTER the scanner and only once there is a
           number to show. Scanning is the primary path, so leading with an

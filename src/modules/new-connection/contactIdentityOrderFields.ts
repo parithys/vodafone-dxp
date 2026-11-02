@@ -8,13 +8,15 @@ import type { GuidedContactValue } from '../../capabilities';
  */
 export function contactIdentityOrderFields(
   contact: Pick<GuidedContactValue, 'companyName' | 'occupation' | 'moiResult'> | undefined
-): { customerSponsor?: string; customerOccupation?: string; idLink?: { customerId: string; via: string; passportNumber?: string; qid: string } } {
+): { customerSponsor?: string; customerOccupation?: string; customerVisa?: import('../../data/passportVisa').PassportVisa; idLink?: { customerId: string; via: string; passportNumber?: string; qid: string } } {
   const sponsor = contact?.companyName?.trim();
   const occupation = contact?.occupation?.trim();
   const link = contact?.moiResult?.linkedIdUpdate;
   return {
     ...(sponsor ? { customerSponsor: sponsor } : {}),
     ...(occupation ? { customerOccupation: occupation } : {}),
+    // A Passport's visa as MOI returned it: kept with the order, hidden in the journey (Customer 360 shows the customer's own copy).
+    ...(contact?.moiResult?.visa ? { customerVisa: contact.moiResult.visa } : {}),
     // The QID was linked to an existing customer (through their Passport) rather than creating a new one.
     ...(link ? { idLink: { customerId: link.customerId, via: link.via, passportNumber: link.passportNumber, qid: link.documentNumber } } : {}),
   };

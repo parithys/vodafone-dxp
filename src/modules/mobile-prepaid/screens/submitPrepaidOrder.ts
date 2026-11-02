@@ -18,7 +18,8 @@ import type { AdditionalDocument } from '../../../capabilities';
 import type { useEntityStore } from '../../../stores/entityStore';
 import { DEVICE_LABEL, type DeviceType } from '../../../lib/deviceType';
 import { formatQar } from '../../../lib/format';
-import { UNDER_18_EXCEPTION } from '../../../data/under18Exception';
+import { under18ApproverRole } from '../../../data/under18Exception';
+import { usePersonaStore } from '../../../stores/personaStore';
 import { idScanAttachments } from '../../new-connection/idScanAttachments';
 
 interface AccountRecord {
@@ -114,7 +115,7 @@ export async function submitPrepaidOrder(
     manualIdEntry ? 'Identity manually entered - Store Manager approval required' : '',
     routedChecks.some((c) => c.id === 'id-type-routing') ? 'ID type requires Credit Control approval - routed to Credit Control' : '',
     routedChecks.some((c) => c.id === 'id-validity') ? 'ID expiry date not on file - routed for approval' : '',
-    eligibility?.under18Exception ? 'Under-18 exception journey - CDM queue approval required' : '',
+    eligibility?.under18Exception ? `Under-18 exception - Court Type Order attached; ${under18ApproverRole(usePersonaStore.getState().activePersonaId)} approval required` : '',
     numberWaived ? `Additional discount of ${formatQar(totals.numberWaivedQar)} on a Star number - approval required` : '',
   ]
     .filter(Boolean)
@@ -160,7 +161,7 @@ export async function submitPrepaidOrder(
     createdAt: now(),
     orderSubType: 'Consumer',
     status: pendingApproval ? 'Submitted for Approval' : 'Open',
-    ...(pendingApproval ? { manualIdEntry: manualIdEntry || undefined, approvalReason, approverRole: eligibility?.under18Exception ? UNDER_18_EXCEPTION.approverRole : creditControl || routedChecks.some((c) => c.id === 'id-type-routing') ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : undefined } : {}),
+    ...(pendingApproval ? { manualIdEntry: manualIdEntry || undefined, approvalReason, approverRole: eligibility?.under18Exception ? under18ApproverRole(usePersonaStore.getState().activePersonaId) : creditControl || routedChecks.some((c) => c.id === 'id-type-routing') ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : undefined } : {}),
     customerName: contact?.moiResult?.name,
     customerId,
     accountId,

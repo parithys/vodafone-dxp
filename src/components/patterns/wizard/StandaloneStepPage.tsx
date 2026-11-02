@@ -33,7 +33,7 @@ export function StandaloneStepPage({
 }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   return (
-    <div className="flex-1 min-h-full flex flex-col">
+    <div className="fill-column min-h-full">
       <WizardTitleBand
         title={title}
         titleAside={description ? <span className="text-on-dark-2 text-[length:var(--fs-body)]">{description}</span> : undefined}

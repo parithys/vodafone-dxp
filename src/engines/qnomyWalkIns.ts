@@ -1,6 +1,6 @@
 import * as mockDataEngine from './mockDataEngine';
 import { canViewCustomerSegment } from './agentPrivilegeEngine';
-import { queuesForRole, waitingCountFor, queueScope, mobileMatches, DEMO_UNKNOWN_ONLY_QUEUE, QUEUE_LABELS, type QueueTicket } from './qnomyQueueEngine';
+import { queuesForRole, waitingCountFor, queueScope, mobileMatches, customerKindDue, ticketKind, DEMO_UNKNOWN_ONLY_QUEUE, QUEUE_CUSTOMER_MODE, QUEUE_LABELS, type CustomerKind, type QueueTicket } from './qnomyQueueEngine';
 
 /**
  * The walk-in queue is never empty. A branch always has someone arriving at a kiosk, so when a role's queue has been worked down to nobody, the
@@ -16,6 +16,18 @@ export function nextWalkInTicket(
   unknownOnly = false
 ): Record<string, unknown> | undefined {
   if (waitingCountFor(personaId, tickets, queueScope(customers, unknownOnly)) > 0) return undefined;
+  return walkInTicket(personaId, tickets, customers, now, unknownOnly ? 'unknown' : 'existing');
+}
+
+/** A walk-in of the given kind, whether or not anyone is waiting (the alternating queue issues the kind whose turn it is). */
+export function walkInTicket(
+  personaId: string | undefined,
+  tickets: (QueueTicket & { kioskMobileNumber: string | null })[],
+  customers: { customerId: string; phone?: string; segment?: string }[],
+  now: Date,
+  kind: CustomerKind
+): Record<string, unknown> {
+  const unknownOnly = kind === 'unknown';
   const queues = queuesForRole(personaId);
   const journeyCode = queues[tickets.length % queues.length];
   const eligible = unknownOnly ? [] : customers.filter((c) => c.phone && canViewCustomerSegment(personaId, c.segment));
@@ -56,10 +68,30 @@ export function ensureWalkInWaiting(personaId: string | undefined): Promise<void
       mockDataEngine.list<QueueTicket & { kioskMobileNumber: string | null }>('qtickets'),
       mockDataEngine.list<{ customerId: string; phone?: string; segment?: string }>('customers'),
     ]);
-    const ticket = nextWalkInTicket(personaId, tickets, customers, new Date(), DEMO_UNKNOWN_ONLY_QUEUE);
+    // Alternating queue: an empty queue gets the kind whose turn it is; otherwise the original rule (the full queue, or Unknown only).
+    const ticket =
+      QUEUE_CUSTOMER_MODE === 'alternate'
+        ? waitingCountFor(personaId, tickets) > 0
+          ? undefined
+          : walkInTicket(personaId, tickets, customers, new Date(), customerKindDue(tickets, customers))
+        : nextWalkInTicket(personaId, tickets, customers, new Date(), DEMO_UNKNOWN_ONLY_QUEUE);
     if (ticket) await mockDataEngine.create('qtickets', ticket);
   })().finally(() => {
     inFlight = undefined;
   });
   return inFlight;
+}
+
+/**
+ * Alternating queue: makes sure a ticket of `kind` is waiting in the role's queues, issuing one at the kiosk when none is. Next Customer calls this for
+ * the kind whose turn it is, so Existing and Unknown customers really alternate however the seeded queue happens to be mixed.
+ */
+export async function ensureKindWaiting(personaId: string | undefined, kind: CustomerKind): Promise<void> {
+  const [tickets, customers] = await Promise.all([
+    mockDataEngine.list<QueueTicket & { kioskMobileNumber: string | null }>('qtickets'),
+    mockDataEngine.list<{ customerId: string; phone?: string; segment?: string }>('customers'),
+  ]);
+  const mine = new Set(queuesForRole(personaId));
+  if (tickets.some((t) => t.status === 'Waiting' && t.journeyCode && mine.has(t.journeyCode) && ticketKind(t, customers) === kind)) return;
+  await mockDataEngine.create('qtickets', walkInTicket(personaId, tickets, customers, new Date(), kind));
 }

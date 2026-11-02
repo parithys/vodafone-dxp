@@ -72,10 +72,10 @@ function ToastBrandMark({ brand }: { brand: ToastBrand }) {
   // A competitor's customer shows no mark at all.
   if (brand.operator !== 'vodafone') return null;
   return (
-    <span className="flex items-center gap-2">
-      <VodafoneMark className="w-4 h-4 shrink-0" />
+    <span className="row-tight">
+      <VodafoneMark className="icon-sm" />
       {brand.segment && (
-        <span className="text-[length:var(--fs-caption)] font-medium whitespace-nowrap text-on-dark">
+        <span className="toast-time">
           {brand.segment}
         </span>
       )}
@@ -188,7 +188,7 @@ export function ToastContainer() {
         { key: 'top', list: toasts.filter((t) => !t.rows?.length), pos: 'top-[calc(4rem+0.75rem)]' },
         { key: 'bottom', list: toasts.filter((t) => t.rows?.length), pos: 'bottom-4' },
       ].map(({ key, list, pos }) => (
-        <div key={key} className={`fixed ${pos} inset-x-0 z-[var(--z-toast)] flex flex-col items-center gap-2 px-4 pointer-events-none`}>
+        <div key={key} className={`fixed ${pos} toast-region`}>
       {list.map((t) => {
         const structured = Boolean(t.rows?.length);
         return (
@@ -202,14 +202,14 @@ export function ToastContainer() {
           >
             {structured ? (
               <>
-                <div className="flex items-center justify-between gap-4 px-5 py-3.5">
-                  <span className="flex items-center gap-3 min-w-0">
+                <div className="spread items-center px-5 py-3.5">
+                  <span className="row min-w-0">
                     <span
-                      className="w-2.5 h-2.5 rounded-[var(--radius-pill)] shrink-0"
+                      className="dot-md shrink-0"
                       style={{ backgroundColor: dotColour[t.kind] }}
                       aria-hidden="true"
                     />
-                    <span className="text-on-dark font-semibold text-[length:var(--fs-caption)] uppercase tracking-[0.12em] truncate">
+                    <span className="toast-title">
                       {t.message}
                       {/* The reference keeps the headline's uppercase and
                           tracking - it inherits them - and changes only
@@ -222,7 +222,7 @@ export function ToastContainer() {
                       so the mark lands inside the header row rather than
                       becoming a third justify-between column floating in the
                       middle of it. */}
-                  <span className="flex items-center gap-4 shrink-0">
+                  <span className="row-loose shrink-0">
                     {t.brand && <ToastBrandMark brand={t.brand} />}
                     <button type="button"
                       onClick={() => dismissToast(t.id)}
@@ -237,7 +237,7 @@ export function ToastContainer() {
                 {/* Full-bleed: a sibling of the header, not a child of it. */}
                 <div className="border-t border-on-dark-line-1" />
 
-                <div className="px-5 py-4">
+                <div className="pad-panel">
                   {/* Two rows, one column per field. grid-rows-2 with
                       grid-flow-col puts each dt on the top row and its dd
                       directly beneath, while keeping dt/dd adjacent in the DOM
@@ -272,7 +272,7 @@ export function ToastContainer() {
                               qualifies the value above without competing with
                               it for the row's visual weight. */}
                           {row.sub && (
-                            <span className="block text-on-dark-2 text-[length:var(--fs-caption)] font-normal leading-snug">
+                            <span className="toast-body">
                               {row.sub}
                             </span>
                           )}
@@ -302,7 +302,7 @@ export function ToastContainer() {
                                   // aria-label is announced without being rendered, so
                                   // this costs the visual design nothing.
                                   aria-label={link.note ? `${link.label} - ${link.note}` : link.label}
-                                  className={`block text-[length:var(--fs-caption)] font-medium text-link underline decoration-white/30 underline-offset-2 hover:decoration-current`}
+                                  className={`toast-link`}
                                 >
                                   {link.label}
                                 </Link>
@@ -316,20 +316,20 @@ export function ToastContainer() {
                 </div>
               </>
             ) : (
-              <div className="flex items-center gap-2.5 px-3.5 py-3">
+              <div className="toast-row">
                 <span className="shrink-0" style={{ color: kindDot[t.kind] }} aria-hidden="true">
                   <Icon path={KIND_ICON[t.kind]} className="w-5 h-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-bold text-[length:var(--fs-caption)] leading-snug text-fg">{t.message}</p>
+                  <p className="toast-subject">{t.message}</p>
                   {t.detail && (
-                    <p className="text-[length:var(--fs-caption)] leading-snug mt-0.5 text-fg-2">{t.detail}</p>
+                    <p className="caption-secondary leading-snug mt-0.5">{t.detail}</p>
                   )}
                 </div>
                 <button type="button"
                   onClick={() => dismissToast(t.id)}
                   aria-label="Dismiss notification"
-                  className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-fg"
+                  className="icon-button-bare"
                 >
                   <Icon path={CLEAR_ICON} className="w-4 h-4" />
                 </button>

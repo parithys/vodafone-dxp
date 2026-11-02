@@ -40,6 +40,8 @@ interface MoiResult {
   /** The scanned document's own expiry date (ISO), off the identity-documents
    * match rather than the customer record. */
   expiryDate?: string;
+  /** A Passport's visa as MOI returned it. Kept with the customer and the order, never displayed in a journey (Customer 360 shows it). */
+  visa?: import('../../data/passportVisa').PassportVisa;
 }
 
 export interface GuidedContactValue {

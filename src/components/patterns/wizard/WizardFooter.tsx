@@ -40,8 +40,8 @@ export function WizardFooter({
           ? `fixed inset-x-0 ${fixedPosition} z-[var(--z-sticky-raised)] border-t border-border-soft bg-bg shadow-raised`
           : 'mt-6'
         }>
-        <div className={`flex w-full items-center justify-between ${fixedToViewport ? `px-4 py-4 sm:px-8` : ''}`}>
-          <div className="flex items-center gap-3">
+        <div className={`row-between w-full ${fixedToViewport ? `px-4 py-4 sm:px-8` : ''}`}>
+          <div className="row">
             {/* Locked (2026-09-28): Back disappears entirely alongside the
                 rail going unclickable - "disable/remove Back navigation".
                 currentIndex > 0 alone would still show it on Payment even

@@ -31,12 +31,12 @@ export function NavLogoToggle({
         onFocus={onFocus}
         aria-label={label}
         aria-expanded={expanded}
-        className="group relative shrink-0 w-9 h-9 rounded-[var(--radius-sm)] flex items-center justify-center text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] focus-visible:bg-[var(--nav-hover-bg)] focus-visible:shadow-[var(--focus-ring)] focus:outline-none transition-colors duration-[var(--motion-base)]"
+        className="group relative nav-icon-tile nav-ghost-quiet focus-ring"
       >
-        <VodafoneMark className="absolute w-7 h-7 transition-all duration-[var(--motion-base)] ease-out group-hover:opacity-0 group-hover:scale-75 group-focus-visible:opacity-0 group-focus-visible:scale-75" />
+        <VodafoneMark className="logo-swap-out" />
         <PanelIcon
           expanded={expanded}
-          className="absolute w-6 h-6 text-[var(--nav-fg)] opacity-0 scale-75 transition-all duration-[var(--motion-base)] ease-out group-hover:opacity-100 group-hover:scale-100 group-focus-visible:opacity-100 group-focus-visible:scale-100"
+          className="logo-swap-in"
         />
       </button>
     </Tooltip>
@@ -55,7 +55,7 @@ export function NavCollapseButton({ onToggle }: { onToggle: () => void }) {
         onClick={onToggle}
         aria-label="Collapse navigation"
         aria-expanded={true}
-        className="relative shrink-0 w-9 h-9 rounded-[var(--radius-sm)] flex items-center justify-center text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)] focus-visible:bg-[var(--nav-hover-bg)] focus-visible:shadow-[var(--focus-ring)] focus:outline-none transition-colors duration-[var(--motion-base)]"
+        className="relative nav-icon-tile nav-ghost focus-visible:bg-[var(--nav-hover-bg)] focus-ring"
       >
         <PanelIcon expanded={true} className="w-6 h-6" />
       </button>

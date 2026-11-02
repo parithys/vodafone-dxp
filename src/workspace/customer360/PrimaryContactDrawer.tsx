@@ -66,7 +66,7 @@ export function PrimaryContactDrawer({
           onChange={(e) => setChosen(e.target.value)}
           options={contacts.map((c) => ({ value: c.contactRecordId, label: contactName(c) }))}
         />
-        <p className="text-[length:var(--fs-caption)] text-muted">The first contact is the default. Saving creates a reference ticket for follow-up.</p>
+        <p className="caption-muted">The first contact is the default. Saving creates a reference ticket for follow-up.</p>
       </div>
     </Drawer>
   );

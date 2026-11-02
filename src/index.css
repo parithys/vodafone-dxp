@@ -1,5 +1,6 @@
 @import "tailwindcss" source(".");
 @import "./tokens.css";
+@import "./ui-components.css";
 @import "./components/primitives/tooltip-tokens.css";
 @import "./components/primitives/tooltip.css";
 
@@ -285,55 +286,6 @@ select:not([multiple]):not([size]):not(.appearance-none) {
     caret-color: var(--on-dark);
     box-shadow: 0 0 0 1000px var(--charcoal-panel) inset;
     transition: background-color 9999s ease-out 0s;
-  }
-  /* The card shell, defined once: radius, 1px card border and the page-card fill. Spacing and any one-off colour stay on the
-     element (utilities outrank this layer). .card-surface swaps the fill for the quieter --surface. */
-  .card {
-    border-radius: var(--radius-card);
-    border: 1px solid var(--field-card-border);
-    background-color: var(--bg);
-  }
-  .card-surface {
-    background-color: var(--surface);
-  }
-  /* The selected mark on a selectable card (SelectedTick): a red circle with a tick on the card's top-right corner. The card must be
-     `relative`; the tick is only rendered while the card is selected. */
-  .card-tick {
-    position: absolute;
-    top: -0.625rem;
-    right: -0.625rem;
-    z-index: var(--z-raised);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: var(--radius-circle);
-    background-color: var(--accent);
-    color: var(--accent-on);
-    box-shadow: var(--shadow-selected-ring);
-  }
-  /* The fill follows what the button sits on: the page tint on a white surface (card, dialog, header band), white on the
-     grey page itself - a page-tint button there would disappear into the background. The surface sets the pair below. */
-  #main-content {
-    --btn-secondary-fill: var(--bg);
-    --btn-secondary-hover: var(--icon-tile-bg);
-  }
-  .card,
-  header,
-  [role='dialog'] {
-    --btn-secondary-fill: var(--icon-tile-bg);
-    --btn-secondary-hover: var(--bg);
-  }
-  .btn-secondary {
-    border-color: var(--border);
-    background: var(--btn-secondary-fill);
-    color: var(--fg);
-    /* !important: Button's base `font-medium` utility would otherwise win over this layered class. */
-    font-weight: var(--fw-bold) !important;
-  }
-  .btn-secondary:hover:not(:disabled) {
-    background: var(--btn-secondary-hover);
   }
 }
 

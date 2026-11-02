@@ -44,7 +44,7 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
       />
       <div className="contents">
         <Card title="Account Information" icon={ICON.card} link="View Account Hierarchy" onLink={() => ctx.goToTab('ts-products')}>
-          <div className="px-5 py-4 grid grid-cols-3 gap-4">
+          <div className="pad-panel grid grid-cols-3 gap-4">
             <div>
               <Label>Account Number</Label>
               <Value>{str(data.accounts[0]?.accountId)}</Value>
@@ -58,7 +58,7 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
               <Value>{str(r('Segment'))}</Value>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6 px-0">
+          <div className="cols-1-2 sm:gap-x-6 px-0">
             <KV label="Current Dunning Stage">
               <Pill tone={dunning && !/^(none|no dunning|current)$/i.test(dunning) ? 'amber' : 'green'}>{dunning ?? '-'}</Pill>
             </KV>
@@ -70,7 +70,7 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
               </KV>
             ))}
           </div>
-          <div className="px-5 py-4 grid grid-cols-4 gap-2">
+          <div className="pad-panel grid grid-cols-4 gap-2">
             {[
               ['Mobile', ICON.phone, ['Prepaid', 'Postpaid']],
               ['Fixed Line', ICON.phone, ['Fixed Line']],
@@ -79,14 +79,14 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
             ].map(([label, icon, cats]) => (
               <div key={label as string} className="rounded-[var(--radius-card)] bg-surface px-2 py-3 text-center">
                 <Icon path={icon as string} className="w-5 h-5 mx-auto text-fg" />
-                <div className="text-fg font-bold text-[length:var(--fs-h4)]">{count(cats as string[])}</div>
-                <div className="text-muted text-[length:var(--fs-caption)]">{label as string}</div>
+                <div className="title-xl">{count(cats as string[])}</div>
+                <div className="caption-muted">{label as string}</div>
               </div>
             ))}
           </div>
           <div className="px-5 pb-5">
-            <div className="text-fg-2 font-semibold text-[length:var(--fs-body)] border-b border-[var(--field-card-border)] pb-2 mb-2">Billing Email ID(s)</div>
-            <ul className="text-fg text-[length:var(--fs-body)] space-y-1">
+            <div className="text-secondary font-semibold border-b border-[var(--field-card-border)] pb-2 mb-2">Billing Email ID(s)</div>
+            <ul className="body-text space-y-1">
               {(allEmails ? emails : emails.slice(0, 2)).map((e) => (
                 <li key={e}>• {e}</li>
               ))}
@@ -103,21 +103,21 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
             three roles for every customer, so it is shown only for the Enterprise (EBU) segment. */}
         {isBusinessSeg && (
           <Card title="Key Contacts" icon={ICON.user} link="View All" onLink={() => ctx.goToTab('ts-contact')}>
-            {keyContacts.length === 0 && <p className="px-5 py-4 text-muted text-[length:var(--fs-body)]">No key contacts on file.</p>}
+            {keyContacts.length === 0 && <p className="pad-panel text-muted text-[length:var(--fs-body)]">No key contacts on file.</p>}
             {keyContacts.map((k) => (
-              <div key={k.role} className="flex gap-4 px-5 py-4 border-b border-[var(--field-card-border)] last:border-0">
+              <div key={k.role} className="flex gap-4 pad-panel row-rule-card">
                 <Avatar name={k.name ?? 'Manager'} />
                 <div className="min-w-0">
-                  <div className="text-muted uppercase tracking-wide text-[length:var(--fs-caption-upper)]">{k.role}</div>
-                  {k.name && <div className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{k.name}</div>}
+                  <div className="eyebrow">{k.role}</div>
+                  {k.name && <div className="subtitle">{k.name}</div>}
                   {k.mobile && (
-                    <div className="text-fg-2 text-[length:var(--fs-body)] inline-flex items-center gap-2">
+                    <div className="text-secondary inline-flex items-center gap-2">
                       <Icon path={ICON.phone} className="w-3.5 h-3.5" />
                       {k.mobile}
                     </div>
                   )}
                   {k.email && (
-                    <div className="text-fg-2 text-[length:var(--fs-body)] flex items-center gap-2">
+                    <div className="text-secondary row-tight">
                       <Icon path={ICON.globe} className="w-3.5 h-3.5" />
                       {k.email}
                     </div>
@@ -149,16 +149,16 @@ export function AccountSection({ ctx }: { ctx: Ctx }) {
               const t = dateTime(e.at);
               return (
                 <div key={i} className="flex gap-4 py-3">
-                  <div className="w-24 shrink-0 text-fg-2 text-[length:var(--fs-caption)]">
+                  <div className="w-24 shrink-0 caption-secondary">
                     <div>{t.d}</div>
                     <div>{t.t}</div>
                   </div>
-                  <span className={`w-8 h-8 rounded-[var(--radius-pill)] ${toneColor[e.tone]} flex items-center justify-center text-on-dark shrink-0`}>
+                  <span className={`w-8 h-8 rounded-[var(--radius-pill)] ${toneColor[e.tone]} icon-tile text-on-dark`}>
                     <Icon path={ICON.refresh} className="w-3.5 h-3.5" />
                   </span>
                   <div className="min-w-0">
-                    <div className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{e.type}</div>
-                    <div className="text-fg-2 text-[length:var(--fs-body)]">{e.detail}</div>
+                    <div className="subtitle">{e.type}</div>
+                    <div className="text-secondary">{e.detail}</div>
                   </div>
                 </div>
               );

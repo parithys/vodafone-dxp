@@ -28,7 +28,13 @@
     "scannedAt": null,
     "docStatus": "Active",
     "uploadDateTime": null,
-    "serviceReference": "CUST-1002"
+    "serviceReference": "CUST-1002",
+    "visa": {
+      "visaNumber": "VQ-2026-0045121",
+      "visaType": "Residence Permit",
+      "expiryDate": "2028-06-30"
+    },
+    "_visaNote": "App-level demo addition (2026-11-01) - visa details are demo values: no source names them."
   },
   {
     "identityDocumentId": "IDD-5503",
@@ -126,7 +132,12 @@
     "_note": "App-level demo addition - fixed QA test ID (see customers.json CUST-9001) so this value resolves everywhere IdLookupStep/QidInput is used.",
     "docStatus": "Archived",
     "uploadDateTime": "2026-08-24T09:00:00+03:00",
-    "serviceReference": "CUST-9001"
+    "serviceReference": "CUST-9001",
+    "visa": {
+      "visaNumber": "VQ-2026-0099001",
+      "visaType": "Residence Permit",
+      "expiryDate": "2028-06-30"
+    }
   },
   {
     "identityDocumentId": "IDD-AUTO-CUST-1003",
@@ -304,7 +315,13 @@
     "docStatus": "Active",
     "uploadDateTime": "2026-09-30T10:00:00+03:00",
     "serviceReference": "CUST-3016",
-    "issuingCountry": "Chinese"
+    "issuingCountry": "Chinese",
+    "visa": {
+      "visaNumber": "VQ-2025-0031877",
+      "visaType": "Work Visa",
+      "expiryDate": "2026-03-31"
+    },
+    "_visaNote": "App-level demo addition (2026-11-01) - this Passport's visa has EXPIRED, so Customer Verification hard-stops. The visa details are demo values: no source names them."
   },
   {
     "_note": "Customer-Inventory seed (2026-10-02)",
@@ -485,7 +502,8 @@
     "docStatus": "Active",
     "uploadDateTime": "2026-09-30T10:00:00+03:00",
     "serviceReference": "CUST-3032",
-    "issuingCountry": "Indian"
+    "issuingCountry": "Indian",
+    "_visaNote": "App-level demo addition (2026-11-01) - MOI returns NO visa for this Passport, so Customer Verification hard-stops."
   },
   {
     "_note": "Customer-Inventory seed (2026-10-02)",
@@ -665,7 +683,12 @@
     "docStatus": "Active",
     "uploadDateTime": "2026-09-30T10:00:00+03:00",
     "serviceReference": "CUST-3061",
-    "issuingCountry": "Bangladeshi"
+    "issuingCountry": "Bangladeshi",
+    "visa": {
+      "visaNumber": "VQ-2026-0061402",
+      "visaType": "Family Visa",
+      "expiryDate": "2027-12-31"
+    }
   },
   {
     "_note": "Customer-Inventory seed (2026-10-02)",

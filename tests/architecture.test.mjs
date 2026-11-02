@@ -125,7 +125,7 @@ test('architecture: layers only import downward', () => {
 // glyph is changed once. The only icon-shaped paths allowed elsewhere are bespoke artwork drawn inside its own SVG component.
 const ARTWORK = new Set([
   'components/primitives/VodafoneMark.tsx', 'components/primitives/VodafoneWordmark.tsx', 'components/primitives/CountryMarker.tsx',
-  'components/primitives/PanelIcon.tsx', 'components/domain/ScannedIdPreview.tsx', 'capabilities/SpecialDiscountsIdentification/ScannedIdPreview.tsx',
+  'components/primitives/PanelIcon.tsx', 'components/domain/ScannedIdPreview.tsx',
   'components/patterns/wizard/StepSummarySection.tsx', 'components/patterns/wizard/StepSummaryPanel.tsx', 'components/primitives/Checkbox.tsx',
 ]);
 

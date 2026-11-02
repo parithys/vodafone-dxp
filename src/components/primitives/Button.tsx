@@ -94,83 +94,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   compact?: boolean;
 }
 
-const base =
-  'inline-flex items-center justify-center gap-2 font-medium tracking-[var(--tracking-btn)] transition-[color,background-color,border-color,box-shadow,transform] duration-[var(--motion-fast)] disabled:opacity-40 disabled:cursor-not-allowed';
-
-// Hover/active use the `enabled:` variant so disabled buttons never shift
-// color on hover - the visual affordance must match the cursor (not-allowed)
-// and the lack of a real click handler (UI cursor remediation, Phase 6).
-//
-// Two changes from the 2026-09-24 reference, both on the primary variants:
-//
-// - No --shadow-brand glow. That asset contains zero <filter>/feDropShadow
-//   elements anywhere: every surface in it is separated by a 1px border, not
-//   elevation. Floating overlays (dropdown, modal, drawer, toast, tooltip)
-//   deliberately keep their shadows - the reference shows no overlay, so
-//   there is nothing in it to copy, and a panel over content needs the
-//   separation that an in-flow button does not.
-// - Disabled is a flat --accent-disabled fill instead of inheriting the
-//   base `disabled:opacity-40`. The reference's disabled CTAs are solid
-//   #ffb3b3, which holds up over both --bg and --surface where a 40%
-//   translucent red shifts with whatever sits behind it.
-// Every variant carries a 1px border, transparent where the design has none.
-// Without it a filled variant is 2px shorter than `ghost-rect`, whose border
-// sits outside the padding box - so a primary and a secondary side by side
-// (Finish / Abandoned in the topbar) rendered 37px against 39px. Declaring the
-// border everywhere equalises the box model instead of tuning padding per
-// variant, which would have shifted the label rather than the edge.
-// The three pill variants used --radius-cta-pill (60px) / --radius-glass-pill
-// (24px) until 2026-09-27, then briefly --radius-pill (9999px) for an
-// app-wide pill-radius pass. As of the SAME day, every button variant in the
-// app - including these - was flattened to --radius-button (8px) for radius
-// consistency: nothing currently uses these three variants (grepped: zero
-// call sites), so their "-pill" suffix is now a naming leftover, not a
-// rendered shape - they are visually identical to primary-rect/ghost-rect,
-// distinguished only by fill/padding.
-const variantClasses: Record<ButtonVariant, string> = {
-  // `disabled:bg-none` is REQUIRED, not tidy-up: it clears the gradient
-  // background-image so the flat --accent-disabled background-color underneath
-  // can show. Without it a disabled primary still renders the full-strength
-  // gradient and reads as enabled.
-  //
-  // The press state lost its colour shift (`enabled:active:bg-accent-active`)
-  // and is now `scale-[0.99]` alone. That class set a background-COLOR, which
-  // the gradient image covers completely - it had become dead code the moment
-  // the fill became an image. The 2026-09-27 spec defines only a normal and a
-  // hover state, so rather than invent a third gradient this keeps the tactile
-  // press and drops the shade. Hover also no longer eases: CSS cannot
-  // interpolate between two linear-gradients, so it is an instant swap
-  // regardless of the transition list in `base`.
-  'primary-rect': `${PRIMARY_SURFACE} border enabled:hover:bg-[image:var(--accent-gradient-hover)] enabled:active:scale-[0.99] disabled:opacity-100 disabled:bg-none disabled:bg-[var(--accent-disabled)] rounded-[var(--radius-button)] px-4 py-2`,
-  'primary-pill': `${PRIMARY_SURFACE} border enabled:hover:bg-[image:var(--accent-gradient-hover)] enabled:active:scale-[0.99] disabled:opacity-100 disabled:bg-none disabled:bg-[var(--accent-disabled)] rounded-[var(--radius-button)] px-6 py-2.5`,
-  // `bg-bg` (white) at rest, not `bg-transparent`: a transparent fill on
-  // --page-bg (#f5f7f9) left only a 1px border to read the button by, which
-  // measured no different resting-vs-disabled since `disabled:opacity-40`
-  // had no fill to fade - an enabled Cancel/Back/Close read as inactive.
-  // White-at-rest / --surface-on-hover mirrors secondary-rect's own
-  // resting/hover pair below.
-  // Same look as secondary-rect (white, grey border, bold, flat) so Back/Cancel and the actions beside them match.
-  'ghost-rect': `${SECONDARY_BUTTON_SURFACE} border rounded-[var(--radius-button)] px-4 py-2`,
-  'glass-pill': 'bg-[var(--white-glass-10)] backdrop-blur text-fg border border-transparent rounded-[var(--radius-button)] px-5 py-2',
-  // Same fix as ghost-rect above - was bg-transparent AND border-transparent,
-  // i.e. no visible chrome at all until hover.
-  'content-ghost-pill': `${SECONDARY_BUTTON_SURFACE} border rounded-[var(--radius-button)] px-4 py-1.5`,
-  // Same px-4 py-2 box as primary-rect, so the two sit level side by side.
-  'secondary-rect': `${SECONDARY_BUTTON_SURFACE} border rounded-[var(--radius-button)] px-4 py-2`,
-  primary: '',
-  secondary: '',
-  // A text link that acts like a button: no box, so no padding or border.
-  tertiary: 'text-link font-bold hover:underline underline-offset-2 rounded-[var(--radius-sm)] focus-visible:shadow-[var(--focus-ring)] focus:outline-none',
-  // Solid danger red (no gradient, so it never reads as the primary call to action).
-  destructive: 'border border-transparent bg-danger-solid text-on-dark !font-bold enabled:hover:bg-danger-solid-hover enabled:active:scale-[0.99] disabled:opacity-100 disabled:bg-tone-danger rounded-[var(--radius-button)] px-4 py-2',
-};
-variantClasses.primary = variantClasses['primary-rect'];
-variantClasses.secondary = variantClasses['secondary-rect'];
-
-const sizeText: Record<ButtonSize, string> = {
-  sm: 'text-[length:var(--fs-btn-compact)] min-h-[var(--control-h-sm)]',
-  md: 'text-[length:var(--fs-btn)] min-h-[var(--control-h-md)]',
-  lg: 'text-[length:var(--fs-body-lg)] !px-6 !py-3 min-h-[var(--control-h-lg)]',
+// The look of every variant lives in src/ui-components.css as semantic classes (.btn, .btn-primary, .btn-secondary, .btn-tertiary, .btn-destructive,
+// .btn-glass; sizes .btn-sm / .btn-md / .btn-lg), so a button reads `class="btn btn-primary btn-md"` and the utilities, tokens and hover / active /
+// disabled states are written once, there. The comments that explained each choice (the transparent border that keeps a primary and a secondary the
+// same height, the flat disabled fill, no glow, no colour shift on press) are kept with those rules.
+const variantClass: Record<ButtonVariant, string> = {
+  primary: 'btn-primary',
+  'primary-rect': 'btn-primary',
+  'primary-pill': 'btn-primary btn-pill',
+  // Back / Cancel and the actions beside them: white (page tint on a card), grey border, bold, flat.
+  secondary: 'btn-secondary',
+  'secondary-rect': 'btn-secondary',
+  'ghost-rect': 'btn-secondary',
+  'content-ghost-pill': 'btn-secondary btn-chip',
+  'glass-pill': 'btn-glass',
+  tertiary: 'btn-tertiary',
+  destructive: 'btn-destructive',
 };
 
 export function Button({ variant = 'primary', size, compact, className = '', children, ...rest }: ButtonProps) {
@@ -178,7 +117,8 @@ export function Button({ variant = 'primary', size, compact, className = '', chi
   return (
     <button
       type="button"
-      className={`${base} ${variantClasses[variant]} ${variant === 'tertiary' ? 'text-[length:var(--fs-body)]' : sizeText[resolved]} ${className}`}
+      // A text-link button (tertiary) has no box and sets its own text size, so it takes no size class.
+      className={`btn ${variantClass[variant]} ${variant === 'tertiary' ? '' : `btn-${resolved}`} ${className}`}
       {...rest}
     >
       {children}

@@ -70,7 +70,7 @@ export function simTypeStep(
       />
       {/* "Add Secondary Contact": ticked once a SIM is chosen (or while the section is open); unticking removes the section and everything entered in it. */}
       {opts.withActualUser && (simSelected(values) || actualUserOpen(values)) && (
-        <label className="mt-8 flex w-fit cursor-pointer items-center gap-2 text-fg text-[length:var(--fs-body)]">
+        <label className="mt-8 flex w-fit choice-label">
           <Checkbox
             checked={actualUserOpen(values)}
             onChange={(e) => setValue('actualUser', e.target.checked ? { ...((values.actualUser as ActualUserValue | undefined) ?? {}), choice: 'other' } : undefined)}
@@ -79,7 +79,7 @@ export function simTypeStep(
         </label>
       )}
       {actualUserOpen(values) && (
-        <section aria-label="Secondary Contact" className="mt-4 pt-6 border-t border-border-soft space-y-4">
+        <section aria-label="Secondary Contact" className="mt-4 pt-6 divider-top space-y-4">
           <ActualUser hideChoice value={(values.actualUser as ActualUserValue) ?? {}} onChange={(v) => setValue('actualUser', v)} primaryIdNumber={primaryId(values)} primaryCustomerId={primaryCustomerId(values)} />
         </section>
       )}

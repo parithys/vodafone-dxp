@@ -50,7 +50,7 @@ export function ChoiceCards<K extends string>({
               role="radio"
               aria-checked={selected}
               onClick={() => onChange(t.key)}
-              className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+              className={`relative stack-center gap-2 card-option p-4 ${
                 selected ? (t.tone ? TONE[t.tone].card : `${CARD_SELECTED} text-[var(--field-card-selected)]`) : `${CARD_IDLE} text-fg`
               }`}
             >

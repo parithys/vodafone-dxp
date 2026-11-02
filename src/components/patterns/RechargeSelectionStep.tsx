@@ -55,7 +55,7 @@ export function RechargeSelectionStep({
   return (
     <div className="space-y-4">
       {anySample && (
-        <p className="rounded-[var(--radius-card)] border border-[var(--warn-border)] bg-[var(--warn-bg)] px-3 py-2 text-[length:var(--fs-caption)] text-[var(--warn-text)]">
+        <p className="notice-warning-field px-3 py-2 text-[length:var(--fs-caption)]">
           Sample recharge options: the real catalogue has not been supplied yet.
         </p>
       )}
@@ -65,7 +65,7 @@ export function RechargeSelectionStep({
         active={shown?.category}
         onChange={setCategory}
       />
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" role="group" aria-label={`${shown?.category ?? ''} recharges`}>
+      <div className="grid-2-up-sm lg:grid-cols-3" role="group" aria-label={`${shown?.category ?? ''} recharges`}>
         {shown?.items.map((r) => {
           const chosen = r.rechargeId === value;
           const pick = () => onChange(chosen && !required ? undefined : r.rechargeId);
@@ -82,22 +82,22 @@ export function RechargeSelectionStep({
                   pick();
                 }
               }}
-              className={`relative cursor-pointer rounded-[var(--radius-card)] border p-4 transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${chosen ? CARD_SELECTED : CARD_IDLE}`}
+              className={`relative cursor-pointer card-option p-4 ${chosen ? CARD_SELECTED : CARD_IDLE}`}
             >
               {chosen && <SelectedTick />}
-              <p className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{r.name}</p>
-              {r.description && <p className="mt-1 text-muted text-[length:var(--fs-caption)]">{r.description}</p>}
-              <p className="mt-3 text-fg text-[length:var(--fs-h4)] font-bold leading-none">{formatQar(r.amountQar)}</p>
+              <p className="subtitle">{r.name}</p>
+              {r.description && <p className="mt-1 caption-muted">{r.description}</p>}
+              <p className="mt-3 title-xl leading-none">{formatQar(r.amountQar)}</p>
             </div>
           );
         })}
       </div>
       {note && (
-        <p role="status" className="text-fg-2 text-[length:var(--fs-caption)]">
+        <p role="status" className="caption-secondary">
           {note.message}
         </p>
       )}
-      {!required && !value && <p className="text-muted text-[length:var(--fs-caption)]">A recharge is optional: continue without one to charge only the pack.</p>}
+      {!required && !value && <p className="caption-muted">A recharge is optional: continue without one to charge only the pack.</p>}
     </div>
   );
 }

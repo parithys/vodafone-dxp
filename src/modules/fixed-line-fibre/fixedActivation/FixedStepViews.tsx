@@ -69,7 +69,7 @@ export function InstallationAddressStep({ values, setValue }: { values: Values; 
                 role="radio"
                 aria-checked={selected}
                 onClick={() => setValue('installation', { serviceType: t.value as FixedServiceType, rfs: undefined })}
-                className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 ${
+                className={`relative stack-center gap-2 card-frame p-4 ${
                   selected
                     ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
                     : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
@@ -88,13 +88,13 @@ export function InstallationAddressStep({ values, setValue }: { values: Values; 
       )}
       {installation.serviceType === 'fiber' && complete && !checking && rfs === 'rfs' && (
         // Fibre Readiness is the RFS verdict: shown only when the location is RFS, above the address it is about.
-        <div className="flex items-center gap-3 rounded-[var(--radius-card)] border px-4 py-3 border-success bg-tone-success">
-          <Icon path={INSTALLATION_WIFI} className="w-5 h-5 shrink-0 text-success" />
+        <div className="row notice-success pad-row">
+          <Icon path={INSTALLATION_WIFI} className="icon-md text-success" />
           <div className="min-w-0 flex-1">
-            <p className="text-fg font-semibold text-[length:var(--fs-body)]">Fibre Readiness</p>
+            <p className="heading-strong">Fibre Readiness</p>
             <p className="text-[length:var(--fs-caption)] text-success">Location is RFS (Ready For Service) - fibre can be installed here.</p>
           </div>
-          <Icon path={CHECK} className="w-5 h-5 shrink-0 text-success" />
+          <Icon path={CHECK} className="icon-md text-success" />
         </div>
       )}
       {installation.serviceType === 'fiber' && complete && !checking && rfs && rfs !== 'rfs' && (
@@ -135,13 +135,13 @@ export function NumberDevicesStep({ values, setValue }: { values: Values; setVal
   return (
     <div className="space-y-6">
       <section>
-        <h3 className="text-fg font-semibold text-[length:var(--fs-h5)] mb-2">Fixed Line Number</h3>
-        <p className="text-fg-2 text-[length:var(--fs-body)] mb-2">Allocated automatically for this order.</p>
-        <p className="text-fg font-bold text-[length:var(--fs-h4)]">{msisdn ?? '…'}</p>
+        <h3 className="subtitle-lg mb-2">Fixed Line Number</h3>
+        <p className="text-secondary mb-2">Allocated automatically for this order.</p>
+        <p className="title-xl">{msisdn ?? '…'}</p>
       </section>
       <section>
-        <h3 className="text-fg font-semibold text-[length:var(--fs-h5)] mb-2">Devices</h3>
-        <ul className="divide-y divide-border-soft border border-[var(--field-card-border)] rounded-[var(--radius-card)]">
+        <h3 className="subtitle-lg mb-2">Devices</h3>
+        <ul className="divide-y divide-border-soft card-outline">
           {(devices ?? []).map((d) => (
             <li key={d.serial} className="flex justify-between p-3 text-[length:var(--fs-body)]">
               <span className="text-fg">{d.name}</span>

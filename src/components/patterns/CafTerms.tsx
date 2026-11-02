@@ -55,24 +55,24 @@ export function FullTerms({
   }
   return (
     <section aria-label="Full Terms and Conditions" className="card ">
-      <div className="flex items-center justify-between gap-3 border-b border-border-soft px-4 py-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body)]">Key Terms &amp; Conditions</h3>
+      <div className="split-nowrap divider-bottom pad-row">
+        <h3 className="heading-strong">Key Terms &amp; Conditions</h3>
       </div>
       {/* tabIndex so the panel can be scrolled with the keyboard. */}
       <div
         tabIndex={scrollMode === 'page' ? undefined : 0}
-        className={`px-4 py-3 space-y-4 ${scrollMode === 'page' ? '' : 'max-h-[34rem] overflow-y-auto focus:outline-none focus-visible:shadow-[var(--focus-ring)]'}`}
+        className={`pad-row space-y-4 ${scrollMode === 'page' ? '' : 'max-h-[34rem] overflow-y-auto focus:outline-none focus-visible:shadow-[var(--focus-ring)]'}`}
       >
         {sections.map((s) => (
           <div key={s.sectionId}>
-            <h4 className="text-fg font-medium text-[length:var(--fs-body)]">{s.title}</h4>
-            <p className="text-fg-2 text-[length:var(--fs-caption)] leading-relaxed mt-1">{s.body}</p>
+            <h4 className="value-text">{s.title}</h4>
+            <p className="caption-secondary leading-relaxed mt-1">{s.body}</p>
           </div>
         ))}
         {/* The application form (agreement checkbox and signature) is the LAST thing in the
             scroll area, so the customer has to scroll through every section to reach it. */}
         {closingHeader}
-        <div className="border-t border-border-soft mt-2 pt-2">{children}</div>
+        <div className="divider-top mt-2 pt-2">{children}</div>
       </div>
     </section>
   );

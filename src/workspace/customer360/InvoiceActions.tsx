@@ -27,7 +27,7 @@ export function InvoiceActions({ bill, customerName }: { bill: Record<string, un
   if (!authorised) {
     return (
       <Tooltip content="Not authorised to download/print/resend invoices" placement="top">
-        <span className="text-muted text-[length:var(--fs-caption)] cursor-not-allowed">Restricted</span>
+        <span className="caption-muted cursor-not-allowed">Restricted</span>
       </Tooltip>
     );
   }
@@ -40,7 +40,7 @@ export function InvoiceActions({ bill, customerName }: { bill: Record<string, un
   const print = () => pushToast('success', `Invoice ${bill.billId} sent to print.`);
 
   return (
-    <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+    <div className="row-snug" onClick={(e) => e.stopPropagation()}>
       <Tooltip content="Download invoice" placement="top">
         <IconButton onClick={download} label="Download Invoice" icon={DOWNLOAD_ICON} />
       </Tooltip>

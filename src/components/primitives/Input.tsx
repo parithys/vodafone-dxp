@@ -67,7 +67,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   // standard way to block focus-on-click without reaching for `disabled`,
   // which would also drop the text to the greyed disabled colour - wrong for
   // registry data the agent still has to read, just not touch).
-  const readOnlyClass = isReadOnly ? 'bg-surface cursor-default select-none' : 'bg-bg';
   const blockReadOnlyFocus = isReadOnly ? (e: MouseEvent<HTMLInputElement>) => e.preventDefault() : undefined;
   // OUT OF THE TAB ORDER, and no focus ring (2026-09-26).
   //
@@ -85,9 +84,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   //
   // A caller can still opt back in by passing its own tabIndex, since `rest`
   // spreads after this.
-  const focusClass = isReadOnly
-    ? ''
-    : 'focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)]';
   // No hover border on a read-only field: it cannot be edited, so the hover
   // highlight (which signals "this is interactive") would be misleading.
   // Disabled fields are already excluded by the `enabled:` variant.
@@ -97,6 +93,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     : isFilled && !isReadOnly
       ? `border-[var(--field-border-filled)]${hoverBorder}`
       : `border-[var(--field-border)]${hoverBorder}`;
+  // The field's one border state, a semantic class (src/ui-components.css): error, readonly, filled or default.
+  const controlState = error ? 'form-control-error' : isReadOnly ? 'form-control-readonly' : isFilled ? 'form-control-filled' : 'form-control-default';
   return (
     <div className="flex flex-col gap-1">
       {label && (
@@ -133,7 +131,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         >
           {leadingAddon && (
             <>
-              <span className="flex items-center gap-2 self-stretch rounded-l-[calc(var(--field-radius)-1px)] bg-[var(--surface)] pl-3 pr-2 text-[length:var(--fs-body)] text-fg-2 shrink-0 select-none">
+              <span className="input-addon">
                 {leadingAddon}
               </span>
               <span className="self-stretch my-2 w-px bg-[var(--field-border)] shrink-0" aria-hidden="true" />
@@ -145,8 +143,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             aria-required={rest.required || undefined}
             aria-invalid={error ? true : undefined}
             aria-describedby={describedBy}
-            className={`flex-1 min-w-0 bg-transparent px-3 py-2 text-[length:var(--fs-body)] text-[var(--color-field-text-filled)]
-              focus:outline-none focus-visible:shadow-none disabled:text-[var(--field-label-disabled)]
+            className={`input-bare px-3 py-2
               ${isReadOnly ? 'select-none' : ''}
               ${className}`}
             tabIndex={isReadOnly ? -1 : undefined}
@@ -155,7 +152,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             inputMode={keypad}
           />
           {trailingAddon && (
-            <span className="flex items-center gap-2 pr-3 pl-2 shrink-0 select-none">{trailingAddon}</span>
+            <span className="row-tight pr-3 pl-2 shrink-0 select-none">{trailingAddon}</span>
           )}
         </div>
       ) : (
@@ -165,12 +162,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           aria-required={rest.required || undefined}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
-          className={`rounded-[var(--field-radius)] border px-3 py-2 text-[length:var(--fs-body)] text-[var(--color-field-text-filled)]
-            ${readOnlyClass}
-            ${borderClass}
-            focus:outline-none ${focusClass}
-            disabled:border-[var(--field-border-disabled)] disabled:text-[var(--field-label-disabled)] disabled:bg-[var(--field-bg-disabled)]
-            ${className}`}
+          className={`form-control ${controlState} ${className}`}
           tabIndex={isReadOnly ? -1 : undefined}
           onMouseDown={blockReadOnlyFocus}
           {...rest}
@@ -178,7 +170,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         />
       )}
       {helperText && !error && (
-        <span id={helperId} className="text-[length:var(--fs-caption)] text-muted">
+        <span id={helperId} className="caption-muted">
           {helperText}
         </span>
       )}

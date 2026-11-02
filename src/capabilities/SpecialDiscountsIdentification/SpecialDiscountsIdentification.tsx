@@ -1,6 +1,6 @@
 import { SpecialDiscountsStep } from './SpecialDiscountsStep';
 import type { SpecialDiscountsValue } from './specialDiscountsModel';
-import type { CompanySelection } from './CompanySearchInput';
+import type { CompanySelection } from '../../components/domain/CompanySearchInput';
 
 /**
  * SPECIAL DISCOUNTS IDENTIFICATION - the Special Discounts section of Mobile Postpaid Activation (the SSOT), as its own capability:
@@ -20,7 +20,7 @@ export interface SpecialDiscountsIdentificationProps {
 export function SpecialDiscountsIdentification({ value, onChange, derivedCompany }: SpecialDiscountsIdentificationProps) {
   return (
     <div className="space-y-4">
-      <h3 className="text-fg font-semibold text-[length:var(--fs-h5)]">Special Discounts</h3>
+      <h3 className="subtitle-lg">Special Discounts</h3>
       <SpecialDiscountsStep value={value} onChange={onChange} derivedCompany={derivedCompany} />
     </div>
   );

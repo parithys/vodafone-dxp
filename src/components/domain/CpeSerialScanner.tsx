@@ -62,7 +62,7 @@ export function CpeSerialScanner({ label, deviceType, value, onChange }: CpeSeri
         onBlur={(e) => validate(e.target.value)}
         error={error ?? undefined}
       />
-      {checking && <p className="text-[length:var(--fs-caption)] text-muted mt-1">Checking inventory…</p>}
+      {checking && <p className="caption-muted mt-1">Checking inventory…</p>}
     </div>
   );
 }

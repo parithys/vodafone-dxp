@@ -28,10 +28,7 @@ export function Radio({ className = '', ...rest }: RadioProps) {
     <span className={`relative inline-flex shrink-0 ${className}`}>
       <input
         type="radio"
-        className="peer appearance-none m-0 w-[var(--size-choice-box)] h-[var(--size-choice-box)] rounded-[var(--radius-pill)] border border-[var(--field-border)] bg-bg cursor-pointer
-          checked:bg-[var(--field-radio-selected)] checked:border-[var(--field-radio-selected)]
-          disabled:cursor-not-allowed disabled:border-[var(--field-border-disabled)] disabled:bg-[var(--field-bg-disabled)]
-          focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:shadow-[var(--field-focus-ring)]"
+        className="peer radio"
         {...rest}
       />
       {/* Never hit-testable - a click landing on the centre must reach the
@@ -39,7 +36,7 @@ export function Radio({ className = '', ...rest }: RadioProps) {
           geometry is identical in both states. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 m-auto w-[6px] h-[6px] rounded-[var(--radius-pill)] bg-accent-on opacity-0 peer-checked:opacity-100 peer-disabled:bg-[var(--field-label-disabled)]"
+        className="radio-mark"
       />
     </span>
   );

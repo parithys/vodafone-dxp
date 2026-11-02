@@ -43,9 +43,7 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
   const otherBilling: WizardStep = { ...billingStep({ journey: billingJourney }), skip: (values) => !billingStepActive(values) || values.product === undefined || values.product === 'postpaid' };
   const postpaidBilling: WizardStep = { ...billingStep({ journey: () => 'postpaid' }), skip: (values) => values.product !== 'postpaid' };
   const postpaid = shared(postpaidSteps(ctx));
-  const atReview = postpaid.findIndex((s) => s.key === 'addonReview');
-  const atCheckout = postpaid.findIndex((s) => s.key === 'checkout');
-  const billingIndex = atReview === -1 ? atCheckout : atReview;
+  const billingIndex = postpaid.findIndex((s) => s.key === 'checkout');
   const postpaidInOrder = billingIndex === -1 ? postpaid : [...postpaid.slice(0, billingIndex), postpaidBilling, ...postpaid.slice(billingIndex)];
   return [
     // Identification is the same for every product: scan, MOI, the eligibility checks common to all, special discounts.

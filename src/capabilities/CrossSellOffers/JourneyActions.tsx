@@ -42,7 +42,7 @@ export function NewJourneyButtons({
     goNext();
   }, [pending, goNext]);
   return (
-    <div className="flex items-center gap-3">
+    <div className="row">
       {/* The journey's own button comes last, as the primary action. */}
       {[...JOURNEY_BUTTONS].filter((b) => b.journey === here || !allowed || allowed(b.journey)).sort((a, b) => Number(a.journey === here) - Number(b.journey === here)).map(({ label, journey }) => {
         const route = SERVICE_JOURNEYS.find((j) => j.key === journey)?.route;

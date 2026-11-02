@@ -19,7 +19,7 @@ function Row({ as, className, onClick, children }: { as: 'div' | 'button'; class
 
 function LevelBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[length:var(--fs-micro)] uppercase tracking-wide font-semibold text-muted shrink-0">
+    <span className="text-[length:var(--fs-micro)] caps-strong text-muted shrink-0">
       {children}
     </span>
   );
@@ -43,13 +43,13 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
 
   return (
     <div className="space-y-3">
-      <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-1">
+      <h3 className="caption-heading mb-1">
         Account Hierarchy
       </h3>
 
       {/* Level 1 - Customer Account */}
-      <div className="rounded-[var(--radius-card)] border border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] p-4">
-        <div className="flex items-center gap-3">
+      <div className="card-frame border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] p-4">
+        <div className="row">
           <LevelBadge>Customer Account</LevelBadge>
           <span className="font-medium text-fg">{data.customer.name}</span>
           <Badge variant="filled-neutral">{data.customer.customerId}</Badge>
@@ -69,10 +69,10 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
             <div key={String(billingProfileId)} className="card ">
               <Row
                 as={expandAll ? 'div' : 'button'}
-                className={`w-full flex items-center gap-3 px-4 py-3 text-left ${expandAll ? '' : 'hover:bg-surface'}`}
+                className={`w-full row pad-row text-left ${expandAll ? '' : 'hover:bg-surface'}`}
                 onClick={expandAll ? undefined : () => setExpandedBillingId(isOpen ? null : String(billingProfileId))}
               >
-                {!expandAll && <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="w-4 h-4 text-muted shrink-0" />}
+                {!expandAll && <Icon path={isOpen ? CHEVRON_UP : CHEVRON_DOWN} className="icon-sm text-muted" />}
                 <LevelBadge>Billing Account</LevelBadge>
                 <span className="font-medium text-fg">{String(profile?.name ?? billingProfileId)}</span>
                 <Badge variant="filled-neutral">{String(billingProfileId)}</Badge>
@@ -85,7 +85,7 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
                     // Search halfway through a queue-driven interaction.
                     state={location.state}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-link text-[length:var(--fs-caption)] font-medium hover:underline"
+                    className="link-caption"
                   >
                     View Billing Account →
                   </Link>
@@ -93,7 +93,7 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
               </Row>
 
               {isOpen && (
-                <div className="px-4 pb-4 pl-10 space-y-2 border-t border-border-soft pt-3">
+                <div className="px-4 pb-4 pl-10 space-y-2 divider-top pt-3">
                   {serviceAccounts.length === 0 && (
                     <p className="text-muted text-[length:var(--fs-body)]">No service accounts under this billing account.</p>
                   )}
@@ -104,40 +104,40 @@ export function AccountHierarchySection({ data, expandAll = false }: { data: Cus
                       <div key={account.accountId} className="card card-surface">
                         <Row
                           as={expandAll ? 'div' : 'button'}
-                          className={`w-full flex items-center gap-3 px-3 py-2.5 text-left ${expandAll ? '' : 'hover:bg-surface-warm'}`}
+                          className={`w-full row px-3 py-2.5 text-left ${expandAll ? '' : 'hover:bg-surface-warm'}`}
                           onClick={expandAll ? undefined : () => setExpandedServiceId(svcOpen ? null : account.accountId)}
                         >
-                          {!expandAll && <Icon path={svcOpen ? CHEVRON_UP : CHEVRON_DOWN} className="w-3.5 h-3.5 text-muted shrink-0" />}
+                          {!expandAll && <Icon path={svcOpen ? CHEVRON_UP : CHEVRON_DOWN} className="icon-xs text-muted" />}
                           <LevelBadge>Service Account</LevelBadge>
-                          <span className="text-fg text-[length:var(--fs-body)]">{account.accountType}</span>
+                          <span className="body-text">{account.accountType}</span>
                           <Badge variant={account.status === 'Active' ? 'success' : 'filled-neutral'}>{account.status}</Badge>
                           {String(acct.barringStatus ?? 'Not Barred') !== 'Not Barred' && (
                             <Badge variant="warning">{String(acct.barringStatus)}</Badge>
                           )}
                         </Row>
                         {svcOpen && (
-                          <div className="px-3 pb-3 pl-8 grid grid-cols-2 gap-3 text-[length:var(--fs-body)]">
+                          <div className="px-3 pb-3 pl-8 pair-grid-sm text-[length:var(--fs-body)]">
                             <div>
-                              <div className="text-[length:var(--fs-caption)] text-muted">Account ID</div>
+                              <div className="caption-muted">Account ID</div>
                               <div className="text-fg">{account.accountId}</div>
                             </div>
                             <div>
-                              <div className="text-[length:var(--fs-caption)] text-muted">Barring Type</div>
+                              <div className="caption-muted">Barring Type</div>
                               <div className="text-fg">{String(acct.barringType ?? '-')}</div>
                             </div>
                             <div>
-                              <div className="text-[length:var(--fs-caption)] text-muted">Barring Reason</div>
+                              <div className="caption-muted">Barring Reason</div>
                               <div className="text-fg">{String(acct.barringReason ?? '-')}</div>
                             </div>
                             {account.parentAccountId && (
                               <div>
-                                <div className="text-[length:var(--fs-caption)] text-muted">Reports To</div>
+                                <div className="caption-muted">Reports To</div>
                                 <div className="text-fg">{account.parentAccountId}</div>
                               </div>
                             )}
                             {account.subAccountIds && account.subAccountIds.length > 0 && (
                               <div>
-                                <div className="text-[length:var(--fs-caption)] text-muted">Sub-Accounts</div>
+                                <div className="caption-muted">Sub-Accounts</div>
                                 <div className="text-fg">{account.subAccountIds.join(', ')}</div>
                               </div>
                             )}

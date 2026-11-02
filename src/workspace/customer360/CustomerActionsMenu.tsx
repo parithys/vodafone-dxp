@@ -166,7 +166,7 @@ function MenuPanel({
     >
       {groups.map(({ key, label: groupLabel, children }, i) => (
         <div key={key} className={i > 0 ? 'border-t border-border-soft mt-1 pt-1' : ''}>
-          <p className="px-4 pt-2 pb-1 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted">{groupLabel}</p>
+          <p className="px-4 pt-2 pb-1 eyebrow">{groupLabel}</p>
           {children.map((child) => (
             <button
               key={child.key}
@@ -175,7 +175,7 @@ function MenuPanel({
               aria-disabled={child.disabled || undefined}
               title={child.disabled ? child.hint : undefined}
               onClick={() => !child.disabled && onPick(child)}
-              className={`w-full flex items-center gap-2.5 px-4 py-1.5 min-h-11 text-left text-[length:var(--fs-body)] focus:outline-none focus-visible:bg-surface focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-outline)] ${
+              className={`menu-entry ${
                 child.disabled ? 'text-muted cursor-default' : 'text-fg hover:bg-surface'
               }`}
             >
@@ -304,33 +304,33 @@ export function ServiceActionsMenu({
         <Icon path={CHEVRON_DOWN} className="w-3.5 h-3.5 -rotate-90" />
       </Button>
       <Drawer open={open} onClose={() => setOpen(false)} title={`Actions for ${service.identifier}`} bodyClassName="px-6 py-5">
-        <p className="text-fg-2 text-[length:var(--fs-body)] mb-5">
+        <p className="text-secondary mb-5">
           {facts.kind === 'mobile' ? `Mobile · ${service.category}` : service.label}
           {facts.status ? ` · ${facts.status}` : ''}. Only what applies to this service as it is now is listed.
         </p>
         <div className="space-y-6">
           {hub && (
             <section aria-label="New Connections">
-              <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted mb-2">New Connections</h3>
+              <h3 className="eyebrow mb-2">New Connections</h3>
               <button
                 type="button"
                 onClick={() => {
                   setOpen(false);
                   navigate('/new-connections', { state: { launch } });
                 }}
-                className="w-full flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 text-left transition-colors hover:bg-[var(--field-card-hover-bg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+                className="w-full row-start card card-inherit-fill card-button focus-ring"
               >
                 <IconTile icon={PLUS_ICON} />
                 <span className="min-w-0 flex-1">
-                  <span className="block font-medium text-[length:var(--fs-body)] text-fg">Start a New Connection</span>
-                  <span className="block text-fg-2 text-[length:var(--fs-caption)]">New mobile or home connection, or add a line, for this customer</span>
+                  <span className="block value-text">Start a New Connection</span>
+                  <span className="block caption-secondary">New mobile or home connection, or add a line, for this customer</span>
                 </span>
               </button>
             </section>
           )}
           {applicable.map((group) => (
             <section key={group.key} aria-label={group.label}>
-              <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted mb-2">{group.label}</h3>
+              <h3 className="eyebrow mb-2">{group.label}</h3>
               <ul className="space-y-2">
                 {group.actions.map(({ journey, category, open: isOpen }) => {
                   const reachable = isOpen && Boolean(resolveJourneyTarget(journey));
@@ -340,16 +340,16 @@ export function ServiceActionsMenu({
                         type="button"
                         disabled={!reachable}
                         onClick={() => run(journey)}
-                        className="w-full flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4 text-left transition-colors hover:bg-[var(--field-card-hover-bg)] disabled:cursor-default disabled:border-dashed disabled:hover:bg-bg focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+                        className="w-full row-start card card-inherit-fill card-button card-button-inert focus-ring"
                       >
                         <span className={reachable ? '' : 'opacity-50'}>
                           <IconTile icon={journeyIcon(journey.id, category.icon)} />
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className={`block font-medium text-[length:var(--fs-body)] ${reachable ? 'text-fg' : 'text-fg-2'}`}>{journey.title}</span>
-                          <span className="block text-fg-2 text-[length:var(--fs-caption)]">{journey.description}</span>
+                          <span className="block caption-secondary">{journey.description}</span>
                         </span>
-                        {!reachable && <span className="shrink-0 text-muted text-[length:var(--fs-caption)]">Not Yet Open</span>}
+                        {!reachable && <span className="shrink-0 caption-muted">Not Yet Open</span>}
                       </button>
                     </li>
                   );

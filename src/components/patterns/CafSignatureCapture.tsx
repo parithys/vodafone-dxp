@@ -220,7 +220,7 @@ export function CafSignatureCapture({
             present for the whole unsigned review, so repeating one here
             would say the same thing twice; once signed, that chrome - and
             its heading - disappears, and this is what fills the gap. */}
-        {signed && <h2 className="text-[length:var(--fs-h4)] font-bold text-fg">Signed</h2>}
+        {signed && <h2 className="title-xl">Signed</h2>}
 
         {/* Concise, dynamic, business-maintained bullets (2026-09-28 request),
             read to the customer before signature. Moved above the CAF card
@@ -235,15 +235,15 @@ export function CafSignatureCapture({
           {/* Key Information is the part the customer must not skip, so it is a tinted panel with 4px
               brand-accent left and right edges and an uppercase heading (2026-10-04). Existing tokens only: --surface-warm
               fill, --accent edge; text stays --fg / --fg-2 (about 12:1 and 6:1 on that fill). */}
-          <div className="my-2 rounded-[var(--radius-card)] border border-[var(--field-card-border)] border-x-4 border-x-accent bg-surface-warm p-6 space-y-3">
+          <div className="my-2 consent-panel p-6 space-y-3">
             {/* Renamed from "What the customer is agreeing to" (2026-09-28
                 request) to match the heading BR-009's Key Information panel
                 already uses elsewhere (NewMnpWizard, NewPrepaidWizard) -
                 Postpaid-only; the other five journeys sharing this component
                 keep their own heading below, unaffected. */}
-            <h4 className="text-fg font-bold uppercase tracking-wide text-[length:var(--fs-body-lg)]">Key Information</h4>
+            <h4 className="title-md uppercase tracking-wide">Key Information</h4>
             {bullets.length > 0 && (
-              <ul className="list-disc pl-5 space-y-1 text-[length:var(--fs-caption)] text-fg-2">
+              <ul className="list-disc pl-5 space-y-1 caption-secondary">
                 {bullets.map((b) => (
                   <li key={b}>{b}</li>
                 ))}
@@ -252,7 +252,7 @@ export function CafSignatureCapture({
             {orderSummary && orderSummary.length > 0 && (
               <dl className={bullets.length > 0 ? 'pt-2 border-t border-border-soft' : undefined}>
                 {orderSummary.map((row) => (
-                  <div key={row.label} className="flex justify-between gap-4 py-1.5 border-b border-border-soft last:border-0">
+                  <div key={row.label} className="spread py-1.5 row-rule">
                     <dt className="text-fg text-[length:var(--fs-caption)]">{row.label}</dt>
                     <dd className="text-fg text-[length:var(--fs-caption)] text-right">{row.value}</dd>
                   </div>
@@ -263,9 +263,9 @@ export function CafSignatureCapture({
                 bullets above are the concise answer for the common cases;
                 this is for anything they do not cover. */}
             {termsUrl && (
-              <p className="text-[length:var(--fs-caption)] text-muted">
+              <p className="caption-muted">
                 For anything not covered above,{' '}
-                <a href={termsUrl} target="_blank" rel="noreferrer" className="text-link underline">
+                <a href={termsUrl} target="_blank" rel="noreferrer" className="link-underline">
                   View Full Terms & Conditions
                 </a>
                 .
@@ -284,13 +284,13 @@ export function CafSignatureCapture({
           closingHeader={
             signed ? (
               // Signed: the same heading row as the secondary contact's form (the name is on the Signed by line below).
-              <div className="text-[length:var(--fs-caption)] text-muted">
-                <h3 className="text-fg font-semibold text-[length:var(--fs-body)]">Key Terms &amp; Conditions: Primary Contact</h3>
+              <div className="caption-muted">
+                <h3 className="heading-strong">Key Terms &amp; Conditions: Primary Contact</h3>
                 {customerName && <p className="text-fg font-medium">{customerName}</p>}
               </div>
             ) : (
-              <div className="mt-2 border-t border-border-soft pt-4 text-[length:var(--fs-caption)] text-muted">
-                <h3 className="text-fg font-semibold text-[length:var(--fs-body)]">Terms &amp; Conditions: Primary Contact</h3>
+              <div className="mt-2 divider-top pt-4 caption-muted">
+                <h3 className="heading-strong">Terms &amp; Conditions: Primary Contact</h3>
                 {customerName && <p className="text-fg font-medium">{customerName}</p>}
               </div>
             )
@@ -300,7 +300,7 @@ export function CafSignatureCapture({
           {formDetails && formDetails.length > 0 && (
             <dl className="mb-2">
               {formDetails.map((row) => (
-                <div key={row.label} className="flex justify-between gap-4 py-1 border-b border-border-soft last:border-0 text-[length:var(--fs-caption)]">
+                <div key={row.label} className="spread py-1 row-rule text-[length:var(--fs-caption)]">
                   <dt className="text-fg">{row.label}</dt>
                   <dd className="text-fg text-right">{row.value}</dd>
                 </div>
@@ -308,25 +308,25 @@ export function CafSignatureCapture({
             </dl>
           )}
           {idLabel && (
-            <p className="text-fg text-[length:var(--fs-body)]">
+            <p className="body-text">
               {idLabel}: <span className="font-medium">{idValue ?? '-'}</span>
             </p>
           )}
           {supplementaryForm && !fullTerms && (
-            <div id="supplementary-form-primary" className="mt-3 rounded-[var(--radius-card)] border border-border-soft p-3 space-y-2" aria-label="Supplementary Form">
+            <div id="supplementary-form-primary" className="mt-3 card-frame border-border-soft p-3 space-y-2" aria-label="Supplementary Form">
               <dl>
-                <div className="flex justify-between gap-4 py-1 border-b border-border-soft text-[length:var(--fs-caption)]">
+                <div className="spread py-1 divider-bottom text-[length:var(--fs-caption)]">
                   <dt className="text-fg">Primary Customer</dt>
                   <dd className="text-fg text-right">{customerName ?? '-'}</dd>
                 </div>
                 {supplementaryForm.rows.map((row) => (
-                  <div key={row.label} className="flex justify-between gap-4 py-1 border-b border-border-soft last:border-0 text-[length:var(--fs-caption)]">
+                  <div key={row.label} className="spread py-1 row-rule text-[length:var(--fs-caption)]">
                     <dt className="text-fg">{row.label}</dt>
                     <dd className="text-fg text-right">{row.value}</dd>
                   </div>
                 ))}
               </dl>
-              <p className="text-fg-2 text-[length:var(--fs-caption)]">
+              <p className="caption-secondary">
                 The primary customer's one signature below signs both forms: the Customer Application Form and this Supplementary Form.
               </p>
             </div>
@@ -335,32 +335,32 @@ export function CafSignatureCapture({
           {signed ? (
             <div className={`${fullTerms ? '' : 'mt-3 '}flex items-center gap-3`}>
               <Badge variant="success">{fullTerms ? `Signed by ${customerName ?? 'the primary customer'}` : supplementaryForm ? 'Signed: CAF and Supplementary Form' : 'Signed'}</Badge>
-              <img src={value.signatureDataUrl} alt="Signature" className="h-10 border border-border-soft rounded-[var(--radius-sm)]" />
+              <img src={value.signatureDataUrl} alt="Signature" className="signature-thumb" />
             </div>
           ) : (
             <>
               {/* Full variant: marketing consent (ticked by default), then the terms, then the supplementary terms. */}
               {fullTerms && (
-                <p className="text-fg text-[length:var(--fs-body)]">
+                <p className="body-text">
                   I understand that a copy of the Terms and Conditions will be delivered to the email I provided and verified.
                 </p>
               )}
               {fullTerms && (
-                <label className="mt-3 flex items-center gap-2 cursor-pointer">
+                <label className="mt-3 row-tight cursor-pointer">
                   <Checkbox checked={value.marketingConsent !== false} onChange={(e) => onChange({ ...value, marketingConsent: e.target.checked })} />
-                  <span className="text-fg text-[length:var(--fs-body)]">I agree to receive marketing communications and special offers (Campaigns).</span>
+                  <span className="body-text">I agree to receive marketing communications and special offers (Campaigns).</span>
                 </label>
               )}
               {requireTermsAgreement && (
-                <label className="mt-3 flex items-center gap-2 cursor-pointer">
+                <label className="mt-3 row-tight cursor-pointer">
                   <Checkbox
                     checked={Boolean(value.termsAccepted)}
                     onChange={(e) => onChange({ ...value, termsAccepted: e.target.checked })}
                   />
-                  <span className="text-fg text-[length:var(--fs-body)]">
+                  <span className="body-text">
                     {fullTerms ? 'I have read and agreed to the full' : 'I have read and agree to the full'}{' '}
                     {termsUrl ? (
-                      <a href={termsUrl} target="_blank" rel="noreferrer" className="text-link underline">
+                      <a href={termsUrl} target="_blank" rel="noreferrer" className="link-underline">
                         Terms and Conditions
                       </a>
                     ) : (
@@ -371,13 +371,13 @@ export function CafSignatureCapture({
                 </label>
               )}
               {(supplementaryForm || fullTerms) && (
-                <label className="mt-3 flex items-center gap-2 cursor-pointer">
+                <label className="mt-3 row-tight cursor-pointer">
                   <Checkbox checked={Boolean(value.supplementaryAgreed)} onChange={(e) => onChange({ ...value, supplementaryAgreed: e.target.checked })} />
                   {fullTerms ? (
-                    <span className="text-fg text-[length:var(--fs-body)]">
+                    <span className="body-text">
                       I have read and agreed to the applicable{' '}
                       {termsUrl ? (
-                        <a href={termsUrl} target="_blank" rel="noreferrer" className="text-link underline">
+                        <a href={termsUrl} target="_blank" rel="noreferrer" className="link-underline">
                           Supplementary Terms
                         </a>
                       ) : (
@@ -387,8 +387,8 @@ export function CafSignatureCapture({
 
                     </span>
                   ) : (
-                    <span className="text-fg text-[length:var(--fs-body)]">I have read and agree to the{' '}
-                      <button type="button" className="text-link underline" onClick={() => document.getElementById('supplementary-form-primary')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>
+                    <span className="body-text">I have read and agree to the{' '}
+                      <button type="button" className="link-underline" onClick={() => document.getElementById('supplementary-form-primary')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>
                         Supplementary Form
                       </button>
                       .</span>
@@ -430,8 +430,8 @@ export function CafSignatureCapture({
             enabled once that consent is ticked. Shown after the primary customer has signed. */}
         {signed && supplementaryForm && (
           <section id="supplementary-form-secondary" aria-label="Supplementary Form - secondary contact" className="card p-4 space-y-3">
-            <div className="text-[length:var(--fs-caption)] text-muted">
-              <h3 className="text-fg font-semibold text-[length:var(--fs-body)]">Supplementary Form: Secondary Contact</h3>
+            <div className="caption-muted">
+              <h3 className="heading-strong">Supplementary Form: Secondary Contact</h3>
               {supplementaryForm.actualUserName && <p className="text-fg font-medium">{supplementaryForm.actualUserName}</p>}
             </div>
             {/* The terms the secondary contact agrees to by signing. */}
@@ -444,16 +444,16 @@ export function CafSignatureCapture({
               ))}
             </ul>
             {secondarySigned ? (
-              <div className="flex items-center gap-3">
+              <div className="row">
                 <Badge variant="success">Signed by {supplementaryForm.actualUserName ?? 'the secondary contact'}</Badge>
-                <img src={value.secondarySignatureDataUrl} alt="Secondary contact signature" className="h-10 border border-border-soft rounded-[var(--radius-sm)]" />
+                <img src={value.secondarySignatureDataUrl} alt="Secondary contact signature" className="signature-thumb" />
               </div>
             ) : (
               <>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="row-tight cursor-pointer">
                   <Checkbox checked={Boolean(value.secondaryAgreed)} onChange={(e) => onChange({ ...value, secondaryAgreed: e.target.checked })} />
-                  <span className="text-fg text-[length:var(--fs-body)]">I have read and agree to the{' '}
-                    <button type="button" className="text-link underline" onClick={() => document.getElementById('supplementary-form-secondary')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>
+                  <span className="body-text">I have read and agree to the{' '}
+                    <button type="button" className="link-underline" onClick={() => document.getElementById('supplementary-form-secondary')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>
                       Supplementary Form
                     </button>
                     .</span>
@@ -496,9 +496,9 @@ export function CafSignatureCapture({
             gates this beyond having signed at all. */}
         {onSave ? (
           // Save and Continue on the right. Continue appears once signed.
-          <div className="agent-only flex items-center justify-between gap-3">
+          <div className="agent-only split-nowrap">
             <div />
-            <div className="flex items-center gap-3">
+            <div className="row">
               {onSave && (
                 <Button variant="secondary" onClick={onSave}>
                   Save
@@ -551,7 +551,7 @@ export function CafSignatureCapture({
                 type="button"
                 aria-pressed={selected}
                 onClick={() => onChange({ ...value, cafType: t.type })}
-                className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 ${
+                className={`relative stack-center gap-2 card-frame p-4 ${
                   selected ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)] text-[var(--field-card-selected)]' : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
                 }`}
               >
@@ -566,25 +566,25 @@ export function CafSignatureCapture({
 
       {value.cafType === 'Digital' && (
         <div className="card p-4 card-surface">
-          <div className="text-[length:var(--fs-caption)] text-muted mb-2">
+          <div className="caption-muted mb-2">
             <span>Vodafone Customer Application Form</span>
           </div>
-          <p className="text-fg text-[length:var(--fs-body)]">
+          <p className="body-text">
             Applicant: <span className="font-medium">{customerName ?? '-'}</span>
           </p>
           {idLabel && (
-            <p className="text-fg text-[length:var(--fs-body)]">
+            <p className="body-text">
               {idLabel}: <span className="font-medium">{idValue ?? '-'}</span>
             </p>
           )}
-          <p className="text-fg-2 text-[length:var(--fs-caption)] mt-1">
+          <p className="caption-secondary mt-1">
             By signing below, the applicant accepts the General Terms and Conditions of Vodafone Qatar.
           </p>
 
           {value.signatureDataUrl ? (
-            <div className="mt-3 flex items-center gap-3">
+            <div className="mt-3 row">
               <Badge variant="success">Signed</Badge>
-              <img src={value.signatureDataUrl} alt="Signature" className="h-10 border border-border-soft rounded-[var(--radius-sm)]" />
+              <img src={value.signatureDataUrl} alt="Signature" className="signature-thumb" />
             </div>
           ) : (
             <SignatureCapture onSave={(dataUrl) => onChange({ ...value, signatureDataUrl: dataUrl })} />
@@ -610,10 +610,10 @@ export function CafSignatureCapture({
           they sign. */}
       {orderSummary && orderSummary.length > 0 && (
         <div className="card card-surface p-4 space-y-2">
-          <h4 className="text-fg font-medium text-[length:var(--fs-body)]">What the Customer Is Agreeing To</h4>
+          <h4 className="value-text">What the Customer Is Agreeing To</h4>
           <dl className="text-[length:var(--fs-caption)]">
             {orderSummary.map((row) => (
-              <div key={row.label} className="flex justify-between gap-4 py-1.5 border-b border-border-soft last:border-0">
+              <div key={row.label} className="spread py-1.5 row-rule">
                 <dt className="text-fg">{row.label}</dt>
                 <dd className="text-fg text-right">{row.value}</dd>
               </div>
@@ -624,7 +624,7 @@ export function CafSignatureCapture({
               href={termsUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-block text-[length:var(--fs-caption)] text-link underline"
+              className="inline-block text-[length:var(--fs-caption)] link-underline"
             >
               Read the full terms and conditions
             </a>

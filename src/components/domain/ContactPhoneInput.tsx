@@ -122,12 +122,12 @@ export function ContactPhoneInput({
         <div
           // bg set via this JS ternary, not Tailwind's disabled: pseudo-class:
           // `disabled` sits on the <input> below, not on this wrapper div.
-          className={`flex items-center gap-2 rounded-[var(--field-radius)] border pl-3 pr-2 py-2 focus-within:border-[var(--field-focus-border)]! focus-within:bg-[var(--field-focus-bg)] focus-within:shadow-[var(--field-focus-ring)]
+          className={`input-shell
             ${disabled ? 'bg-[var(--field-bg-disabled)] border-[var(--field-border-disabled)]' : 'bg-bg ' + borderClass}
             ${className}`}
         >
           <span aria-hidden="true" className="text-base leading-none">🇶🇦</span>
-          <span className="text-[length:var(--fs-body)] text-fg-2 shrink-0">+974</span>
+          <span className="text-secondary shrink-0">+974</span>
           <span className="w-px h-5 bg-[var(--field-border-disabled)] shrink-0" />
           <input
             ref={inputRef}
@@ -144,7 +144,7 @@ export function ContactPhoneInput({
             onBlur={() => setFocused(false)}
             placeholder={placeholder}
             aria-describedby={describedBy}
-            className="flex-1 min-w-0 bg-transparent text-[length:var(--fs-body)] text-[var(--color-field-text-filled)] focus:outline-none focus-visible:shadow-none disabled:text-[var(--field-label-disabled)]"
+            className="input-bare"
           />
           {customerId && (
             <button
@@ -167,7 +167,7 @@ export function ContactPhoneInput({
             id={listboxId}
             role="listbox"
             aria-label="Saved contacts"
-            className="absolute z-[var(--z-popover)] top-full left-0 right-0 max-h-80 overflow-y-auto rounded-[var(--field-radius)] border border-border-soft bg-bg shadow-raised py-1 divide-y divide-[var(--field-divider)]"
+            className="dropdown-popover"
           >
             {contacts.map((c, i) => (
               <li
@@ -176,23 +176,23 @@ export function ContactPhoneInput({
                 role="option"
                 aria-selected={nav.active === i}
                 onClick={() => pick(c)}
-                className={`flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? 'bg-[var(--field-focus-bg)]' : ''}`}
+                className={`row pad-row cursor-pointer hover:bg-[var(--field-focus-bg)] ${nav.active === i ? 'bg-[var(--field-focus-bg)]' : ''}`}
               >
-                <span className="w-8 h-8 rounded-[var(--radius-pill)] bg-accent text-on-dark text-[length:var(--fs-caption)] font-semibold flex items-center justify-center shrink-0">
+                <span className="avatar w-8 h-8 shrink-0">
                   {initials(c.firstName, c.lastName)}
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[length:var(--fs-body)] text-fg truncate">{formatQatarPhoneForDisplay(c.cellNumber ?? '')}</span>
-                  <span className="block text-[length:var(--fs-caption)] text-muted truncate">{[c.firstName, c.middleName, c.lastName].filter(Boolean).join(' ')}</span>
+                  <span className="line-body">{formatQatarPhoneForDisplay(c.cellNumber ?? '')}</span>
+                  <span className="line-caption">{[c.firstName, c.middleName, c.lastName].filter(Boolean).join(' ')}</span>
                 </span>
               </li>
             ))}
-            {contacts.length === 0 && <li className="px-4 py-3 text-[length:var(--fs-body)] text-muted">No saved contacts.</li>}
+            {contacts.length === 0 && <li className="cell-body text-muted">No saved contacts.</li>}
           </ul>
         )}
       </div>
       {helperText && !error && (
-        <span id={helperId} className="text-[length:var(--fs-caption)] text-muted">
+        <span id={helperId} className="caption-muted">
           {helperText}
         </span>
       )}

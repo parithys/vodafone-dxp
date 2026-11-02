@@ -83,8 +83,8 @@ const FIBRE_ACTIVATION_ROUTE = '/fixed-line-fibre/new-fixed-line-wizard-contact-
 /** The agent's Orders page. */
 const MY_ORDERS_ROUTE = '/orders';
 
-// The heading follows the ORDER: "for approval" only when it was actually held (its Status row and the email say the same), "Activation complete"
-// when it went through. (It used to follow the submitter's role, which could say "for approval" over a Complete order.)
+// The heading follows the ORDER: "Submitted for Approval" only when it was actually held (its Status row and the email say the same), "Submitted
+// Successfully" when it went through. (It used to follow the submitter's role, which could say "for approval" over a Complete order.)
 
 // Orders whose confirmation email has already been sent this session, so re-rendering (or React's
 // double-invoked effects) can never send it twice.
@@ -216,7 +216,7 @@ export function ActivationCompleteScreen({
     setLeadId(id);
     pushToast('success', `Lead ${id} created`, { key: `lead-${id}` });
   };
-  const heading = order.heading ?? (order.pendingApproval ? 'Order submitted successfully' : 'Activation complete');
+  const heading = order.heading ?? (order.pendingApproval ? 'Order Submitted for Approval' : 'Order Submitted Successfully');
   return (
     <div className="p-8">
       <OrderConfirmationScreen
@@ -227,7 +227,7 @@ export function ActivationCompleteScreen({
         // header, not in a second column.
         headerNote={
           order.esimActivationCode ? (
-            <p className="rounded-[var(--radius-card)] border border-border-soft bg-surface px-4 py-3 text-fg-2 text-[length:var(--fs-body)]">
+            <p className="notice-neutral pad-row text-secondary">
               Your order details and eSIM QR code will be sent only to your verified email address.
             </p>
           ) : emailStatus === 'sent' ? (
@@ -288,7 +288,7 @@ export function ActivationCompleteScreen({
           </>
         }
       >
-        <p className="text-fg-2 text-[length:var(--fs-body)]">
+        <p className="text-secondary">
           Records an additional activity on order {order.orderId}. The automatic activity is still created when you choose Done &amp; Exit.
         </p>
         <div className="mt-4">
@@ -305,11 +305,11 @@ export function ActivationCompleteScreen({
       {/* Only when there is an offer: the fibre offer for a location that is ready for service. Nothing is shown while the location is being
           read, or when there is none (no location on file, or not ready for fibre). */}
       {fibre === 'rfs' && (
-        <section aria-label="Eligible offers" className="w-full max-w-xl mx-auto mt-6 card p-5 text-center no-print print:hidden">
-          <h2 className="text-fg font-semibold text-[length:var(--fs-body-lg)] mb-3">This customer location is Ready for Service.</h2>
+        <section aria-label="Eligible offers" className="narrow-center mt-6 card p-5 text-center no-print print:hidden">
+          <h2 className="subtitle mb-3">This customer location is Ready for Service.</h2>
           <ul className="divide-y divide-border-soft">
-            <li className="flex items-center justify-between gap-3 py-2">
-              <span className="text-fg text-[length:var(--fs-body)]">Fibre at the customer's location</span>
+            <li className="split-nowrap py-2">
+              <span className="body-text">Fibre at the customer's location</span>
               <Badge variant="success">RFS - Eligible for Fibre</Badge>
             </li>
           </ul>

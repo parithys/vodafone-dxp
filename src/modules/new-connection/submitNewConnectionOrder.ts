@@ -10,6 +10,7 @@ import type { ActualUserValue } from '../../capabilities/ActualUser';
 import { hrnAdvanceQar } from '../../engines/hrnConfiguration';
 import { usePersonaStore } from '../../stores/personaStore';
 import { managerRoleOfSubmitter } from '../../data/approvalRouting';
+import { under18ApproverRole } from '../../data/under18Exception';
 import { defaultBillLimitQar, formatQar, monthlyCharges } from '../../engines/postpaidPricing';
 import { effectiveCreditLimitQar, emailVerification, maskEmail, persistBillingAccount } from '../../capabilities';
 import { orderTerms, primaryContactMobile } from '../../capabilities';
@@ -181,6 +182,7 @@ export async function submitNewConnectionOrder(
       const approvalReason = pendingApproval ? [
                 lineLimitApproval ? (lineDecision ? `Line approval required - ${approvalMessages(lineDecision)}` : `Active postpaid line limit reached - ${activeLinesCheck?.message?.split('\nApproval Routing')[0]}`) : '',
                 manualIdEntry ? 'Identity manually entered - Store Manager approval required' : '',
+                eligibility?.under18Exception ? `Under-18 exception - Court Type Order attached; ${under18ApproverRole(usePersonaStore.getState().activePersonaId)} approval required` : '',
                 idTypeRouting ? (passportManagerRole ? `Passport requires ${passportManagerRole} approval - routed to ${passportManagerRole}` : 'ID type requires Credit Control approval - routed to Credit Control') : '',
                 eligibility?.checks.some((c) => c.id === 'id-validity' && c.outcome === 'approval-routing') ? 'ID expiry date not on file - routed for approval' : '',
                 eligibility?.requiresHrnAdvance ? `HRN customer - ${formatQar(hrnAdvanceQar({ nationality: eligibility?.nationality, personaId: usePersonaStore.getState().activePersonaId }))} advance payment applies` : '',
@@ -214,12 +216,13 @@ export async function submitNewConnectionOrder(
         ...(pendingApproval
           ? {
               manualIdEntry: manualIdEntry || undefined,
+              ...(eligibility?.under18Exception ? { under18Exception: true } : {}),
               // Every trigger that routed the order is named, so the approver sees all the reasons (2026-10-10:
               // HRN, B2B2C, MADA / B2B2C discount and a missing ID expiry were routed but carried no reason).
               approvalReason,
               // Line-limit cases go to the Collection Team (Credit Control), a manual-entry order to the Store Manager, and an order
               // routed for its ID type to Credit Control as well.
-              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined,
+              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : eligibility?.under18Exception ? under18ApproverRole(usePersonaStore.getState().activePersonaId) : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined,
             }
           : {}),
         customerName: contact.moiResult?.name,

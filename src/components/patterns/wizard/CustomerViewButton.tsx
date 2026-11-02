@@ -10,7 +10,7 @@ export function CustomerViewButton({ viewOpen, onToggle }: { viewOpen: boolean; 
     <>
       {/* Says which content the customer can see; the container's outline says where it ends. */}
       {viewOpen && (
-        <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-surface-warm px-2.5 py-0.5 text-accent text-[length:var(--fs-tag)] font-medium">
+        <span className="tag-warm">
           <Icon path={EYE_ICON} className="w-3.5 h-3.5" />
           Visible to customer
         </span>
@@ -28,8 +28,8 @@ export function CustomerViewButton({ viewOpen, onToggle }: { viewOpen: boolean; 
         >
           {viewOpen && (
             <span aria-hidden="true" className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-[var(--radius-pill)] bg-accent-on opacity-75 motion-safe:animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-[var(--radius-pill)] bg-accent-on" />
+              <span className="ping-ring" />
+              <span className="relative inline-flex dot bg-accent-on" />
             </span>
           )}
           <Icon path={EYE_ICON} className="w-4 h-4" />

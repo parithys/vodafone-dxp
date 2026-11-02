@@ -36,8 +36,8 @@ const baseCtx = (over = {}) => ({
 });
 const outcome = (checks, id) => checks.find((c) => c.id === id)?.outcome;
 
-test('KYC_01: the prepaid ID types are QID, Diplomatic ID, GCC ID and Passport', () => {
-  assert.deepEqual(ids.idTypesFor('prepaid').sort(), ['Diplomatic ID', 'GCC ID', 'Passport', 'QID']);
+test('KYC_01: the prepaid ID types are QID, Diplomatic ID, GCC ID and Passport (Others is offered but unsupported - idTypeSupport.test.mjs)', () => {
+  assert.deepEqual(ids.idTypesFor('prepaid').filter((t) => ids.isIdTypeSupported(t)).sort(), ['Diplomatic ID', 'GCC ID', 'Passport', 'QID']);
 });
 
 test('KYC_01: Passport and GCC ID are permitted outright on prepaid, but still route on postpaid', () => {
@@ -337,23 +337,18 @@ test('Age Verification: under 18 is a hard stop; with the exception offered the 
   assert.equal(engine.hasHardStop(expired), true);
 });
 
-test('the under-18 exception is offered only on Prepaid, to the Retail role, with a QID - every other combination is the plain hard stop', async () => {
+test('the under-18 exception is offered in every journey, to every role, with every ID type; its approver is the submitter\'s manager, else CDM; the Court Order is required', async () => {
   const exc = await load('/src/data/under18Exception.ts');
   const offered = (journey, personaId, idType) => exc.under18ExceptionOffered({ journey, personaId, idType });
-  assert.equal(offered('prepaid', 'ROLE-01', 'QID'), true);
-  // Whole table over journeys x roles x ID types, written from the BRSD (Retail, QID only, Prepaid BRSD) and not from the code under test.
-  const journeys = ['prepaid', 'postpaid'];
-  const roles = ['ROLE-01', 'ROLE-05', 'ROLE-12', 'ROLE-16', undefined];
-  const idTypes = ['QID', 'Passport', 'GCC ID', 'Diplomatic ID', undefined];
-  let offeredCount = 0;
-  for (const j of journeys) for (const r of roles) for (const t of idTypes) {
-    const expected = j === 'prepaid' && r === 'ROLE-01' && t === 'QID';
-    assert.equal(offered(j, r, t), expected, `${j} / ${r} / ${t}`);
-    if (expected) offeredCount += 1;
+  // Whole table over journeys x roles x ID types (the 2026-11-01 direction: "consistently across all supported ID types").
+  for (const j of ['prepaid', 'postpaid', 'mnp', 'fixed-line']) for (const r of ['ROLE-01', 'ROLE-05', 'ROLE-12', 'ROLE-16', undefined]) for (const t of ['QID', 'Passport', 'GCC ID', 'Diplomatic ID', 'Other ID', undefined]) {
+    assert.equal(offered(j, r, t), true, `${j} / ${r} / ${t}`);
   }
-  assert.equal(offeredCount, 1);
-  // The approver is the CDM queue, and the Court Order is a required document for a minor (document-types.json 'minor-applicant').
-  assert.equal(exc.UNDER_18_EXCEPTION.approverRole, 'CDM');
+  // Approver: the sales personas' manager (data/approvalRouting.ts); a persona with no manager route falls back to CDM.
+  assert.equal(exc.under18ApproverRole('ROLE-01'), 'Sales Manager');
+  assert.equal(exc.under18ApproverRole('ROLE-22'), 'Sales Manager');
+  assert.equal(exc.under18ApproverRole('ROLE-16'), 'CDM');
+  assert.equal(exc.under18ApproverRole(undefined), 'CDM');
   const docs = JSON.parse(fs.readFileSync('public/config/document-types.json', 'utf8'));
   const court = (docs.types ?? docs.documentTypes ?? docs).find?.((d) => d.id === 'court-type-order');
   assert.deepEqual(court?.requiredWhen, ['minor-applicant']);
@@ -376,7 +371,7 @@ test('Journey Summary: the sections both journeys share read the same in New Pre
   assert.deepEqual(common, ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'checkout', 'caf', 'payment']);
   // Sections only one journey has - written from the two journeys, not computed from the rule under test.
   assert.deepEqual(pre.map((s) => s.key).filter((k) => !common.includes(k)), ['recharge', 'cart'], 'Prepaid-only: Recharge and Subscriptions');
-  assert.deepEqual(post.map((s) => s.key).filter((k) => !common.includes(k)), ['billingAccount', 'addonReview'], 'Postpaid-only: Billing and Add-On Review');
+  assert.deepEqual(post.map((s) => s.key).filter((k) => !common.includes(k)), ['billingAccount'], 'Postpaid-only: Billing');
 
   // Same label for the same section.
   for (const k of common) assert.equal(labels(pre)[k], labels(post)[k], `${k} is named the same in both journeys`);

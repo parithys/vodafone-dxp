@@ -48,7 +48,7 @@ export function FixedPlanStep({ values, setValue }: { values: Values; setValue: 
 
   return (
     <div className="space-y-4">
-      <p className="text-fg-2 text-[length:var(--fs-caption)]">Please Select a Plan.</p>
+      <p className="caption-secondary">Please Select a Plan.</p>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(max(15rem,calc((100%-2rem)/3)),1fr))] gap-4">
         {plans.map((p) => {
           const selected = selectedId === p.productId;
@@ -75,29 +75,29 @@ export function FixedPlanStep({ values, setValue }: { values: Values; setValue: 
                   toggle();
                 }
               }}
-              className={`relative flex flex-col gap-3 rounded-[var(--radius-card)] border p-5 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${selected ? CARD_SELECTED : CARD_IDLE}`}
+              className={`option-card gap-3 p-5 ${selected ? CARD_SELECTED : CARD_IDLE}`}
             >
               {selected && <SelectedTick />}
-              <div className="flex items-center justify-end gap-3">
+              <div className="row justify-end">
                 <ConnectionTypeTag category="GigaHome Fibre" />
               </div>
               <div className="flex-1 space-y-2">
-                <p className="text-fg font-bold text-[length:var(--fs-h5)] leading-snug">{p.name}</p>
+                <p className="title-lg leading-snug">{p.name}</p>
                 <p className="text-accent pt-1">
                   <span className="text-[length:var(--fs-body)] font-semibold">QAR </span>
                   <span className="text-[length:var(--fs-h3)] font-bold">{formatAmount(p.mrcQAR)}</span>
-                  <span className="text-fg-2 text-[length:var(--fs-caption)]"> /month</span>
+                  <span className="caption-secondary"> /month</span>
                 </p>
                 <ul className="space-y-1.5">
                   {rows.map((f) => (
-                    <li key={f.text} className="flex items-center gap-2 text-fg-2 text-[length:var(--fs-caption)]">
-                      <Icon path={f.icon} className="w-4 h-4 shrink-0 text-accent" />
+                    <li key={f.text} className="row-tight caption-secondary">
+                      <Icon path={f.icon} className="icon-sm text-accent" />
                       {f.text}
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="flex items-center justify-end gap-3 pt-1">
+              <div className="row justify-end pt-1">
                 <Button variant={selected ? 'primary' : 'secondary'} tabIndex={-1} aria-hidden className="pointer-events-none">
                   {selected ? 'Selected' : 'Select plan'}
                 </Button>

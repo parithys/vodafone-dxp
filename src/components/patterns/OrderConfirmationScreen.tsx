@@ -57,9 +57,9 @@ export function OrderConfirmationScreen({
     // receipt on the left and - when there is something to hand over (the eSIM QR) - that handover on the right, then
     // every action in one row, with the print actions in a second row. Under lg the two columns stack, receipt first, so the page still prints on one A4 sheet.
     <div className="max-w-6xl mx-auto py-8">
-      <div className="flex flex-col items-center text-center">
-        <h1 className="text-[length:var(--fs-h3)] font-bold text-fg mb-6">{heading}</h1>
-        <div className="w-16 h-16 rounded-[var(--radius-pill)] bg-success-solid text-on-dark flex items-center justify-center mb-6">
+      <div className="stack-center text-center">
+        <h1 className="title-2xl mb-6">{heading}</h1>
+        <div className="disc-lg bg-success-solid text-on-dark mb-6">
           <Icon path={CHECK} className="w-8 h-8" />
         </div>
         <p className="text-fg-2 mb-2">
@@ -79,7 +79,7 @@ export function OrderConfirmationScreen({
       <div className={`grid grid-cols-1 gap-8 mt-8 ${handoverPanel ? 'lg:grid-cols-2' : 'max-w-xl mx-auto items-start'}`}>
         <dl className="card p-5">
           {summaryLines.map((line) => (
-            <div key={line.label} className="flex justify-between gap-4 py-2 border-b border-border-soft last:border-0">
+            <div key={line.label} className="spread py-2 row-rule">
               <dt className="text-fg">{line.label}</dt>
               <dd className="text-fg font-medium text-right">{line.value}</dd>
             </div>
@@ -90,7 +90,7 @@ export function OrderConfirmationScreen({
       </div>
 
       {/* Actions act on the order as a whole, so they span both columns, in one row (wrapping on a narrow screen). */}
-      <div className="no-print print:hidden flex flex-wrap items-center justify-center gap-3 mt-8">
+      <div className="no-print print:hidden cluster-center mt-8">
         {actions.map((action) => (
           <Button key={action.label} variant={action.variant ?? 'secondary'} onClick={action.onClick}>
             {action.label}
@@ -98,7 +98,7 @@ export function OrderConfirmationScreen({
         ))}
       </div>
       {printActions && printActions.length > 0 && (
-        <div className="no-print print:hidden flex flex-wrap items-center justify-center gap-3 mt-3">
+        <div className="no-print print:hidden cluster-center mt-3">
           {printActions.map((action) => (
             <Button key={action.label} variant={action.variant ?? 'secondary'} onClick={action.onClick}>
               {action.label}

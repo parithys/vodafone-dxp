@@ -53,27 +53,27 @@ function ReserveSummary({ msisdn, priceQAR, values, setValue }: { msisdn: string
   return (
     <div className="space-y-4">
       <div className="card p-4 card-surface space-y-2">
-        <div className="flex justify-between gap-4">
-          <span className="text-fg-2 text-[length:var(--fs-body)]">Number</span>
-          <span className="text-fg font-bold text-[length:var(--fs-body)]">{toLocalMsisdn(msisdn)}</span>
+        <div className="spread">
+          <span className="text-secondary">Number</span>
+          <span className="title-sm">{toLocalMsisdn(msisdn)}</span>
         </div>
-        <div className="flex justify-between gap-4">
-          <span className="text-fg-2 text-[length:var(--fs-body)]">{star ? 'Star Number price' : 'Category'}</span>
-          <span className="text-fg text-[length:var(--fs-body)]">{star ? formatQar(priceQAR) : 'Free'}</span>
+        <div className="spread">
+          <span className="text-secondary">{star ? 'Star Number price' : 'Category'}</span>
+          <span className="body-text">{star ? formatQar(priceQAR) : 'Free'}</span>
         </div>
-        <div className="flex justify-between gap-4">
-          <span className="text-fg-2 text-[length:var(--fs-body)]">Reserved For</span>
-          <span className="text-fg text-[length:var(--fs-body)] text-right">{identity?.moiResult?.name ?? '-'}</span>
+        <div className="spread">
+          <span className="text-secondary">Reserved For</span>
+          <span className="body-text text-right">{identity?.moiResult?.name ?? '-'}</span>
         </div>
-        <div className="flex justify-between gap-4">
-          <span className="text-fg-2 text-[length:var(--fs-body)]">{identity?.idType ?? 'ID'} number</span>
-          <span className="text-fg text-[length:var(--fs-body)]">{identity?.idNumber ?? '-'}</span>
+        <div className="spread">
+          <span className="text-secondary">{identity?.idType ?? 'ID'} number</span>
+          <span className="body-text">{identity?.idNumber ?? '-'}</span>
         </div>
       </div>
       {reason ? (
         <p role="alert" className="text-danger text-[length:var(--fs-body)]">{reason}</p>
       ) : (
-        <p className="text-fg-2 text-[length:var(--fs-caption)]">Reserving holds this number against the customer above until it is used on an order or released.</p>
+        <p className="caption-secondary">Reserving holds this number against the customer above until it is used on an order or released.</p>
       )}
     </div>
   );

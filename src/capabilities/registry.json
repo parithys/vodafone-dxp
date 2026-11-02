@@ -41,18 +41,17 @@
       "specialDiscountsIdentificationStep"
     ],
     "stepLabel": "SPECIAL_DISCOUNTS_IDENTIFICATION_LABEL",
-    "summary": "The Special Discounts section of Mobile Postpaid Activation as its own capability: choose Consumer B2B2C, Retiree or MADA, supply the evidence (company, ID number, Office ID scan or upload) and accept or reject the benefit. Independent of Customer Verification and Customer Type; always offers both Initiate scan and Upload document.",
+    "summary": "The Special Discounts section of Mobile Postpaid Activation as its own capability: choose Consumer B2B2C, Retiree or MADA, supply the evidence (company, ID number, Office ID scan or upload) and accept or reject the benefit. Independent of Customer Verification and Customer Type (its own step and model), but it draws the Office ID capture from the shared ID upload components; it keeps the reader on every device and adds Upload document on a tablet (`readerEverywhere`).",
     "parts": [
-      "capabilities/SpecialDiscountsIdentification/CompanySearchInput.tsx",
-      "capabilities/SpecialDiscountsIdentification/IdFileUpload.tsx",
-      "capabilities/SpecialDiscountsIdentification/PassportScanSections.tsx",
-      "capabilities/SpecialDiscountsIdentification/QidImageUpload.tsx",
-      "capabilities/SpecialDiscountsIdentification/ScanFailureNotice.tsx",
-      "capabilities/SpecialDiscountsIdentification/ScannedIdPreview.tsx",
       "capabilities/SpecialDiscountsIdentification/SpecialDiscountsStep.tsx",
-      "capabilities/SpecialDiscountsIdentification/idUploadModel.ts",
-      "capabilities/SpecialDiscountsIdentification/qidImageUploadModel.ts",
-      "capabilities/SpecialDiscountsIdentification/specialDiscountsModel.ts"
+      "capabilities/SpecialDiscountsIdentification/specialDiscountsModel.ts",
+      "components/domain/CompanySearchInput.tsx",
+      "components/domain/QidImageUpload.tsx",
+      "components/domain/IdFileUpload.tsx",
+      "components/domain/idUploadModel.ts",
+      "components/domain/PassportScanSections.tsx",
+      "components/domain/qidImageUploadModel.ts",
+      "components/domain/ScanFailureNotice.tsx"
     ],
     "previewable": true,
     "publicApi": []

@@ -58,8 +58,8 @@ export function AddressSection({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">
+      <div className="row-between mb-3">
+        <h3 className="caption-heading">
           Customer Addresses
         </h3>
       </div>
@@ -176,19 +176,19 @@ export function AddressEditDrawer({
       <div className="space-y-4">
         <Input label="Address Line 1" value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} readOnly={readOnly} disabled={readOnly} />
         <Input label="Address Line 2" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} readOnly={readOnly} disabled={readOnly} />
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="fields-3">
           <Select label="Zone" value={zone} onChange={(e) => onZoneChange(e.target.value)} options={ZONE_OPTIONS} disabled={readOnly} />
           <Select label="Street No." value={streetNo} onChange={(e) => onStreetChange(e.target.value)} options={streetOptions} disabled={readOnly} />
           <Select label="Building No." value={buildingNo} onChange={(e) => setBuildingNo(e.target.value)} options={buildingOptions} disabled={readOnly} />
         </div>
-        <p className="text-[length:var(--fs-caption)] text-muted -mt-2">
+        <p className="caption-muted -mt-2">
           Street and building options filter automatically based on the selected zone (CAM-19).
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="fields-2">
           <Input label="City" value={city} onChange={(e) => setCity(e.target.value)} readOnly={readOnly} disabled={readOnly} />
           <Input label="Country" value={country} onChange={(e) => setCountry(e.target.value)} readOnly={readOnly} disabled={readOnly} />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="fields-2">
           <Input label="PO Box" value={poBox} onChange={(e) => setPoBox(e.target.value)} readOnly={readOnly} disabled={readOnly} />
           <Input label="Kahramaa ID" value={kahramaaId} onChange={(e) => setKahramaaId(e.target.value)} readOnly={readOnly} disabled={readOnly} />
         </div>

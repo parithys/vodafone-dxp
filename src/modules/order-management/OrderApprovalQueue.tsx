@@ -119,7 +119,7 @@ export function OrderApprovalQueue({ padded = true, query = '', filters }: Order
                   {r.assignedApproverId === currentAgentId ? 'Open' : 'Assign to Me'}
                 </Button>
               ) : (
-                <span className="text-muted text-[length:var(--fs-caption)]">
+                <span className="caption-muted">
                   Requires: {r.approverRole ?? getRequiredApproverRole(r.orderType)}
                 </span>
               ),

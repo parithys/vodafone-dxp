@@ -253,7 +253,7 @@ export function GuidedActivationWizard({
   }
 
   return (
-    <div className="flex-1 min-h-full flex flex-col">
+    <div className="fill-column min-h-full">
       {!hideTitleBand && (
       <WizardTitleBand
         title={title}

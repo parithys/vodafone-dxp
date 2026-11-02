@@ -16,8 +16,8 @@ function capitalize(value: unknown): string {
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[length:var(--fs-caption)] text-muted">{label}</div>
-      <div className="text-fg text-[length:var(--fs-body)]">{value ?? '-'}</div>
+      <div className="caption-muted">{label}</div>
+      <div className="body-text">{value ?? '-'}</div>
     </div>
   );
 }
@@ -25,11 +25,11 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 function SectionCard({ title, children, note }: { title: string; children: React.ReactNode; note?: string }) {
   return (
     <section>
-      <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">{title}</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 card p-5">
+      <h3 className="caption-heading mb-2">{title}</h3>
+      <div className="fields-3 card p-5">
         {children}
       </div>
-      {note && <p className="text-[length:var(--fs-caption)] text-muted mt-1.5">{note}</p>}
+      {note && <p className="caption-muted mt-1.5">{note}</p>}
     </section>
   );
 }
@@ -58,7 +58,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
   return (
     <div className="space-y-6">
       {hasMetrics && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="fields-3">
           {creditLimit && (
             <MetricCard
               label="Credit Limit"
@@ -87,7 +87,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="fields-3">
         <MetricCard
           label="Current Charges"
           value={latestBill ? `${formatAmountAny(String((latestBill as Record<string, unknown>).currentChargesQAR ?? '-'))} QAR` : '-'}
@@ -107,8 +107,8 @@ export function BillingSection({ data }: { data: Customer360Data }) {
 
       {profile && (
         <section>
-          <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">Billing Profile</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 card p-5">
+          <h3 className="caption-heading mb-2">Billing Profile</h3>
+          <div className="fields-3 card p-5">
             <Field label="Billing Cycle" value={profile.billingCycle ? String(profile.billingCycle) : undefined} />
             <Field label="Billing Type" value={profile.billingType ? String(profile.billingType) : undefined} />
             <Field label="Billing Address" value={profile.billingAddress ? String(profile.billingAddress) : undefined} />
@@ -117,8 +117,8 @@ export function BillingSection({ data }: { data: Customer360Data }) {
       )}
 
       <section>
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">Credit Risk</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 card p-5">
+        <h3 className="caption-heading mb-2">Credit Risk</h3>
+        <div className="fields-3 card p-5">
           <Field
             label="Collection Status"
             value={
@@ -167,8 +167,8 @@ export function BillingSection({ data }: { data: Customer360Data }) {
         const balance = data.inPlatformBalances.find((b) => b.accountId === svc.accountId);
         const cdrs = data.callDetailRecords.filter((c) => c.accountId === svc.accountId);
         return (
-          <div key={svc.accountId} className="space-y-4 rounded-[var(--radius-card)] border border-dashed border-border p-4">
-            <p className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-muted">
+          <div key={svc.accountId} className="space-y-4 card-frame border-dashed border-border p-4">
+            <p className="eyebrow font-semibold">
               {svc.accountType} · {svc.accountId}
             </p>
 
@@ -200,7 +200,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
             </SectionCard>
 
             <section>
-              <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">Call Detail Records</h3>
+              <h3 className="caption-heading mb-2">Call Detail Records</h3>
               <DataTable
                 rows={cdrs}
                 rowKey={(r) => String(r.cdrId)}
@@ -213,7 +213,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
                   { key: 'chargeQAR', header: 'Charge (QAR)' },
                 ]}
               />
-              <p className="text-[length:var(--fs-caption)] text-muted mt-1.5">{DR_NOTE}</p>
+              <p className="caption-muted mt-1.5">{DR_NOTE}</p>
             </section>
           </div>
         );
@@ -237,8 +237,8 @@ export function BillingSection({ data }: { data: Customer360Data }) {
       </SectionCard>
 
       <section>
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">Bills (Last 12 Months)</h3>
+        <div className="row-between mb-2">
+          <h3 className="caption-heading">Bills (Last 12 Months)</h3>
         </div>
         <DataTable
           rows={billsInWindow}
@@ -259,7 +259,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
       </section>
 
       <section>
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">Payments</h3>
+        <h3 className="caption-heading mb-2">Payments</h3>
         <DataTable
           rows={data.payments}
           rowKey={(r) => String(r.paymentId)}
@@ -275,7 +275,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
       </section>
 
       <section>
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">Adjustments &amp; Refunds</h3>
+        <h3 className="caption-heading mb-2">Adjustments &amp; Refunds</h3>
         <DataTable
           rows={data.adjustments}
           rowKey={(r) => String(r.adjustmentId)}
@@ -289,7 +289,7 @@ export function BillingSection({ data }: { data: Customer360Data }) {
       </section>
 
       <section>
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">Deposits</h3>
+        <h3 className="caption-heading mb-2">Deposits</h3>
         <DataTable
           rows={data.deposits}
           rowKey={(r) => String(r.depositId)}

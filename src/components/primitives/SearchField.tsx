@@ -29,7 +29,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
   return (
     <div ref={wrapperRef} className={`relative ${wrapperClassName}`}>
       {!hideIcon && (
-        <span className={`absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${rest.disabled ? 'text-[var(--field-label-disabled)]' : 'text-muted'}`}>
+        <span className={`absolute left-3 center-y pointer-events-none ${rest.disabled ? 'text-[var(--field-label-disabled)]' : 'text-muted'}`}>
           <Icon path={SEARCH_ICON} className="w-4.5 h-4.5" />
         </span>
       )}
@@ -37,13 +37,13 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
         ref={ref}
         type="text"
         value={value}
-        className={`w-full rounded-[var(--field-radius)] border bg-bg ${hideIcon ? 'pl-3' : 'pl-10'} pr-10 py-2 min-h-[var(--control-h-md)] text-[var(--color-field-text-filled)] text-[length:var(--fs-body)] placeholder:text-muted enabled:hover:border-[var(--field-hover-border)] focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)] disabled:cursor-not-allowed disabled:border-[var(--field-border-disabled)] disabled:bg-[var(--field-bg-disabled)] disabled:text-[var(--field-label-disabled)] disabled:placeholder:text-[var(--field-label-disabled)] ${rest.disabled ? '' : filled ? 'border-[var(--field-border-filled)]' : 'border-[var(--field-border)]'} ${className}`}
+        className={`form-control form-control-search ${hideIcon ? 'pl-3' : 'pl-10'} ${rest.disabled ? 'form-control-default' : filled ? 'form-control-filled' : 'form-control-default'} ${className}`}
         {...rest}
         // A dropdown-style field (company, Kahramaa / Vodafone ID) shows no placeholder; a real search box keeps its hint.
         placeholder={rest.role === 'combobox' ? undefined : rest.placeholder}
       />
       {onClear && filled && !rest.disabled && (
-        <button type="button" onClick={onClear} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg">
+        <button type="button" onClick={onClear} aria-label="Clear search" className="field-clear-btn">
           <Icon path={CLEAR_ICON} className="w-4 h-4" />
         </button>
       )}

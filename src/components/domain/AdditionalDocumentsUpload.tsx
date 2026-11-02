@@ -211,7 +211,7 @@ export function AdditionalDocumentsUpload({
   return (
     <div className={`card ${whiteBackground ? '' : 'bg-surface'} p-4 space-y-4`}>
       <div>
-        <h4 className="text-fg font-bold text-[length:var(--fs-body)]">Additional Documents</h4>
+        <h4 className="title-sm">Additional Documents</h4>
       </div>
 
       {missing.length > 0 && (
@@ -221,11 +221,11 @@ export function AdditionalDocumentsUpload({
             {missing.length === 1 ? '1 required document is still to be uploaded.' : `${missing.length} required documents are still to be uploaded.`}
           </p>
           {missing.map((r) => (
-            <div key={r.id} className="card flex items-center gap-3 px-3 py-3">
-              <Icon path={DOC} className="w-4 h-4 text-muted shrink-0" />
+            <div key={r.id} className="card row px-3 py-3">
+              <Icon path={DOC} className="icon-sm text-muted" />
               <span className="min-w-0 flex-1">
-                <span className="block text-fg font-semibold text-[length:var(--fs-body)]">{r.label}</span>
-                <span className="block text-muted text-[length:var(--fs-caption)]">{r.reason}</span>
+                <span className="block heading-strong">{r.label}</span>
+                <span className="block caption-muted">{r.reason}</span>
               </span>
               <Button
                 variant="primary"
@@ -243,7 +243,7 @@ export function AdditionalDocumentsUpload({
       )}
 
       <div className="@container">
-        <div className="grid grid-cols-1 items-start gap-4">
+        <div className="fields items-start">
         {noTypesToOffer ? null : !atLimit ? (
           <section aria-label="Upload new documents" className="space-y-4">
               {/* Row 1: the Document Type (or label) beside Browse files, the button on the field's baseline. Row 2: the helper, or the chosen file. */}
@@ -280,13 +280,13 @@ export function AdditionalDocumentsUpload({
                   {staged ? 'Choose another file' : 'Browse files'}
                 </Button>
               </div>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="cluster">
                 {staged ? (
-                  <span className="min-w-0 truncate text-fg text-[length:var(--fs-caption)]">
+                  <span className="line-fg-caption">
                     {staged.name} <span className="text-muted">({formatSize(staged.size)})</span>
                   </span>
                 ) : (
-                  <span className="text-muted text-[length:var(--fs-caption)]">{RULES.formatsLabel}, up to {RULES.maxLabel}</span>
+                  <span className="caption-muted">{RULES.formatsLabel}, up to {RULES.maxLabel}</span>
                 )}
                 {staged && (
                   <Button
@@ -304,10 +304,10 @@ export function AdditionalDocumentsUpload({
               </div>
               {progress !== undefined && (
                 <div className="space-y-1">
-                  <div role="progressbar" aria-label="Upload progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} className="h-2 w-full overflow-hidden rounded-[var(--radius-pill)] bg-surface">
+                  <div role="progressbar" aria-label="Upload progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} className="meter-track-lg w-full">
                     <div className="h-full rounded-[var(--radius-pill)] bg-accent transition-[width] duration-[var(--motion-base)] ease-out" style={{ width: `${progress}%` }} />
                   </div>
-                  <p className="text-muted text-[length:var(--fs-caption)]">Uploading {staged?.name} - {progress}%</p>
+                  <p className="caption-muted">Uploading {staged?.name} - {progress}%</p>
                 </div>
               )}
               <Button variant="primary" className="w-full" onClick={() => void uploadStaged()} disabled={!label.trim() || !staged || progress !== undefined}>
@@ -315,28 +315,28 @@ export function AdditionalDocumentsUpload({
               </Button>
           </section>
         ) : (
-          <p className="text-muted text-[length:var(--fs-caption)]">Maximum of {maxDocuments} documents reached. Remove one to upload another.</p>
+          <p className="caption-muted">Maximum of {maxDocuments} documents reached. Remove one to upload another.</p>
         )}
         {(rows.some((r) => !r.removable) || documents.length > 0) && (
           // One flat list of every document scanned or uploaded earlier in the journey: no container per document or per group.
           <section aria-label="Journey documents" className="space-y-2">
             {documents.length > 0 && (
               <div className="space-y-1.5" aria-label="Uploaded documents" role="group">
-                <p className="text-fg font-semibold text-[length:var(--fs-body)]">Uploaded Documents</p>
+                <p className="heading-strong">Uploaded Documents</p>
                 <ul className="space-y-1.5">
                   {documents.map((d) => {
                     const dataUrl = documentFileOf(d.id)?.dataUrl;
                     return (
                       <li key={d.id} className="text-[length:var(--fs-body)]">
                         {dataUrl ? (
-                          <button type="button" className="text-link underline text-left" onClick={() => setViewing({ title: `${d.label} - ${d.fileName}`, dataUrl })}>
+                          <button type="button" className="link-underline text-left" onClick={() => setViewing({ title: `${d.label} - ${d.fileName}`, dataUrl })}>
                             {d.label}
                           </button>
                         ) : (
                           <span className="text-fg-2">{d.label}</span>
                         )}
-                        <span className="text-muted text-[length:var(--fs-caption)]"> ({d.fileName})</span>{' '}
-                        <button type="button" className="text-[length:var(--fs-caption)] text-fg-2 underline hover:text-fg" aria-label={`Remove ${d.fileName}`} onClick={() => remove(d.id)}>
+                        <span className="caption-muted"> ({d.fileName})</span>{' '}
+                        <button type="button" className="caption-secondary underline hover:text-fg" aria-label={`Remove ${d.fileName}`} onClick={() => remove(d.id)}>
                           Remove
                         </button>
                       </li>
@@ -351,9 +351,9 @@ export function AdditionalDocumentsUpload({
               aria-expanded={journeyOpen}
               aria-controls="journey-documents-list"
               onClick={() => setJourneyOpen((o) => !o)}
-              className="inline-flex items-center gap-1 text-link font-medium text-[length:var(--fs-body)] hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-sm)]"
+              className="inline-flex items-center gap-1 link font-medium text-[length:var(--fs-body)] rounded-[var(--radius-sm)]"
             >
-              View All Journey Documents <span className="text-muted font-normal text-[length:var(--fs-caption)]">({rows.filter((r) => !r.removable).length})</span>
+              View All Journey Documents <span className="caption-muted font-normal">({rows.filter((r) => !r.removable).length})</span>
               <Icon path={journeyOpen ? SORT_ASC_ICON : CHEVRON_DOWN} className="w-4 h-4" />
             </button>
             <ul id="journey-documents-list" hidden={!journeyOpen} className="space-y-1.5">
@@ -372,7 +372,7 @@ export function AdditionalDocumentsUpload({
                     // A plain text link that opens the document; a document no copy is held of is just its name.
                     <li key={d.id} className="text-[length:var(--fs-body)]">
                       {viewable ? (
-                        <button type="button" className="text-link underline text-left" onClick={() => setViewing({ title, dataUrl, scan: dataUrl ? undefined : d.scan })}>
+                        <button type="button" className="link-underline text-left" onClick={() => setViewing({ title, dataUrl, scan: dataUrl ? undefined : d.scan })}>
                           {title}
                         </button>
                       ) : (
@@ -395,9 +395,9 @@ export function AdditionalDocumentsUpload({
               <ScannedIdPreview side={viewing.scan.side} documentType={viewing.scan.documentType} variant={viewing.scan.variant} clear />
             </div>
           ) : viewing.dataUrl && /^data:application\/pdf/.test(viewing.dataUrl) ? (
-            <iframe title={viewing.title} src={blobUrlOf(viewing.dataUrl)} className="h-[70vh] w-full rounded-[var(--radius-card)] border border-border-soft bg-bg" />
+            <iframe title={viewing.title} src={blobUrlOf(viewing.dataUrl)} className="h-[70vh] w-full panel-soft" />
           ) : viewing.dataUrl ? (
-            <img src={viewing.dataUrl} alt={viewing.title} className="mx-auto max-h-[75vh] max-w-full rounded-[var(--radius-card)] border border-border-soft bg-bg" />
+            <img src={viewing.dataUrl} alt={viewing.title} className="mx-auto max-h-[75vh] max-w-full panel-soft" />
           ) : null)}
       </Drawer>
 

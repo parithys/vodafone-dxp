@@ -216,9 +216,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
             disabled={scanning || checking}
             aria-label="Scan SIM barcode"
             title={scanning ? 'Scanning…' : 'Scan SIM barcode'}
-            className={`${touch ? 'p-3 -mr-3' : 'p-1.5 -mr-1.5'} rounded-[var(--radius-button)] text-muted
-              hover:text-accent disabled:opacity-50 disabled:hover:text-muted
-              focus:outline-none focus-visible:shadow-[var(--focus-ring)]`}
+            className={`${touch ? 'p-3 -mr-3' : 'p-1.5 -mr-1.5'} rounded-[var(--radius-button)] text-muted hover:text-accent disabled:opacity-50 disabled:hover:text-muted focus-ring`}
           >
             <Icon path={BARCODE_ICON} className="w-4 h-4" />
           </button>
@@ -238,16 +236,16 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
           {scanning ? 'Scanning…' : 'Scan SIM barcode'}
         </Button>
       )}
-      <div className="mt-2 flex items-center gap-3">
+      <div className="mt-2 row">
         {/* "Scanning…" used to be the button's own label; now that the
             trigger is an icon, this line is what carries that same visible
             feedback (the icon itself only shows it via a disabled state and
             hover title). */}
-        {scanning && <span className="text-[length:var(--fs-caption)] text-muted">Scanning…</span>}
-        {checking && !scanning && <span className="text-[length:var(--fs-caption)] text-muted">Checking stock…</span>}
+        {scanning && <span className="caption-muted">Scanning…</span>}
+        {checking && !scanning && <span className="caption-muted">Checking stock…</span>}
       </div>
       {!suppressValidation && shown && shown.serial === value && !error && (
-        <dl className="mt-2 rounded-[var(--radius-card)] border border-success bg-tone-success p-3 space-y-1 text-[length:var(--fs-caption)]">
+        <dl className="mt-2 notice-success p-3 space-y-1 text-[length:var(--fs-caption)]">
           <div className="flex justify-between gap-3">
             <dt className="text-fg">SIM Type</dt>
             <dd className="text-fg font-medium">{shown.details.simKind ?? 'Physical'}</dd>

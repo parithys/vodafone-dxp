@@ -44,7 +44,7 @@ test('Document Upload: one set of rules for every upload, one capability for the
   assert.match(uploadFileProblem({ name: 'bill.pdf', size: 0 }, UPLOAD_RULES.supporting), /empty/);
   assert.match(uploadFileProblem({ name: 'noext', size: 5 }, UPLOAD_RULES.supporting), /only PDF or JPG/);
   // no upload component keeps a limit or accept list of its own
-  for (const f of ['src/components/domain/AdditionalDocumentsUpload.tsx', 'src/components/domain/CafDocumentUpload.tsx', 'src/components/domain/idUploadModel.ts', 'src/capabilities/SpecialDiscountsIdentification/idUploadModel.ts']) {
+  for (const f of ['src/components/domain/AdditionalDocumentsUpload.tsx', 'src/components/domain/CafDocumentUpload.tsx', 'src/components/domain/idUploadModel.ts']) {
     const src = read(f);
     assert.doesNotMatch(src, /\d\s*\*\s*1024\s*\*\s*1024/, `${f} has its own size limit`);
     assert.doesNotMatch(src, /'\.pdf,\.jpg/, `${f} has its own accept list`);

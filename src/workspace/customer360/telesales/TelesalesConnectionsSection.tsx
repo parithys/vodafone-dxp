@@ -43,9 +43,9 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
   const dataTotal = use ? Number(use.currentDataUsageGB) + Number(use.availableDataBalanceGB) : 0;
   const dataLeft = bal?.dataBalanceGB != null ? Number(bal.dataBalanceGB) : Number(use?.availableDataBalanceGB ?? 0);
   const bar = (label: string, left: number, total: number, unit: string) => (
-    <div key={label} className="flex items-center gap-3 px-5 py-2.5">
-      <span className="w-12 text-fg-2 text-[length:var(--fs-caption)]">{label}</span>
-      <span className="flex-1 h-2 rounded-[var(--radius-pill)] bg-surface overflow-hidden">
+    <div key={label} className="row px-5 py-2.5">
+      <span className="w-12 caption-secondary">{label}</span>
+      <span className="flex-1 meter-track-lg">
         <span className="block h-full bg-accent" style={{ width: `${total ? Math.min(100, (left / total) * 100) : 0}%` }} />
       </span>
       <span className="text-fg font-semibold text-[length:var(--fs-caption)] whitespace-nowrap">
@@ -78,9 +78,9 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
           { value: c(['GigaHome Fibre', 'GigaHome 5G']), label: 'GigaHome' },
         ]}
       />
-      <WideBlock className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-4 items-start">
+      <WideBlock className="fields lg:grid-cols-[1fr_1.2fr] items-start">
         <Card title="" icon={ICON.bars}>
-          <div className="px-4 py-3 flex gap-2 border-b border-[var(--field-card-border)]">
+          <div className="panel-bar">
             <SearchField value={query} onChange={(e) => setQuery(e.target.value)} onClear={() => setQuery('')} placeholder="Search by MSISDN, service number or plan name..." aria-label="Search connections" wrapperClassName="flex-1 min-w-48" />
             <FilterSelect label="Service Type" value={type} options={SERVICE_FILTERS.map((x) => ({ value: x, label: x }))} onChange={(v) => setType(v)} />
             <FilterSelect label="Status" value={status} options={['All Status', 'Active', 'Suspended'].map((x) => ({ value: x, label: x }))} onChange={(v) => setStatus(v)} />
@@ -88,17 +88,17 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
           {shown.map((s) => {
             const rr = buildAssetsFieldResolver(s, data);
             return (
-              <button key={s.ref} type="button" onClick={() => setPicked(s.ref)} className={`w-full text-left px-5 py-4 border-b border-[var(--field-card-border)] last:border-0 hover:bg-surface ${cur?.ref === s.ref ? 'bg-surface' : ''}`}>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="flex items-center gap-2 min-w-0">
-                    <Icon path={ICON.phone} className="w-4 h-4 shrink-0" />
-                    <span className="text-fg font-bold text-[length:var(--fs-body-lg)] truncate">{s.identifier}</span>
+              <button key={s.ref} type="button" onClick={() => setPicked(s.ref)} className={`w-full text-left pad-panel row-rule-card hover:bg-surface ${cur?.ref === s.ref ? 'bg-surface' : ''}`}>
+                <div className="split-nowrap">
+                  <span className="row-tight min-w-0">
+                    <Icon path={ICON.phone} className="icon-sm" />
+                    <span className="title-md truncate">{s.identifier}</span>
                     <Pill tone={pillFor(s.status ?? 'Active') === 'red' ? 'red' : 'green'}>{s.status ?? 'Active'}</Pill>
                     <ConnectionTypeTag category={s.category} />
                   </span>
-                  <Icon path={ICON.chevron} className="w-4 h-4 text-muted shrink-0" />
+                  <Icon path={ICON.chevron} className="icon-sm text-muted" />
                 </div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)] mt-1">
+                <div className="caption-secondary mt-1">
                   {group(s.category)} | {s.category} | {s.label}
                 </div>
                 <div className="grid grid-cols-5 gap-2 mt-2 text-[length:var(--fs-caption)]">
@@ -118,16 +118,16 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
               </button>
             );
           })}
-          {shown.length === 0 && <p className="px-5 py-4 text-muted text-[length:var(--fs-body)]">No connections match.</p>}
+          {shown.length === 0 && <p className="pad-panel text-muted text-[length:var(--fs-body)]">No connections match.</p>}
         </Card>
 
         <Card title="" icon={ICON.bars}>
           {cur ? (
             <>
-              <div className="px-5 py-4 flex items-start justify-between">
+              <div className="pad-panel split-top">
                 <div>
-                  <div className="text-fg font-bold text-[length:var(--fs-h4)]">{cur.identifier}</div>
-                  <div className="text-fg-2 text-[length:var(--fs-body)]">
+                  <div className="title-xl">{cur.identifier}</div>
+                  <div className="text-secondary">
                     {group(cur.category)} | {cur.category} | {cur.label}
                   </div>
                 </div>
@@ -154,7 +154,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                 <>
                   <div className="grid grid-cols-2 border-t border-[var(--field-card-border)]">
                     <div className="border-r border-[var(--field-card-border)]">
-                      <div className="flex items-center justify-between px-5 py-3">
+                      <div className="panel-header">
                         <span className="text-fg font-semibold">Service Details</span>
                         <span className="text-link font-semibold text-[length:var(--fs-caption)]">Edit</span>
                       </div>
@@ -172,7 +172,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                       </KV>
                     </div>
                     <div>
-                      <div className="flex items-center justify-between px-5 py-3">
+                      <div className="panel-header">
                         <span className="text-fg font-semibold">Financials</span>
                         <button type="button" onClick={() => ctx.goToTab('ts-billing')} className="text-link font-semibold text-[length:var(--fs-caption)]">
                           View Usage
@@ -188,10 +188,10 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                       <KV label="Primary Balance">{bal ? `${formatQarAny(str(bal.mainBalanceQAR ?? 0))}` : '-'}</KV>
                     </div>
                   </div>
-                  <div className="px-5 py-4 space-y-3 border-t border-[var(--field-card-border)] text-[length:var(--fs-body)]">
+                  <div className="pad-panel space-y-3 border-t border-[var(--field-card-border)] text-[length:var(--fs-body)]">
                     <div>
                       <span className="text-fg font-semibold">✓ Active Add-ons ({addons.length})</span> <span className="text-accent font-semibold">View All</span>
-                      <div className="flex flex-wrap gap-3 mt-1 text-fg-2">
+                      <div className="wrap-loose mt-1 text-fg-2">
                         {addons.length === 0 && <span>None</span>}
                         {addons.map((a) => (
                           <span key={str(a.addonDiscountId)}>
@@ -202,7 +202,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                     </div>
                     <div>
                       <span className="text-fg font-semibold">Barring Flags</span> <span className="text-accent font-semibold">View Details</span>
-                      <div className="flex flex-wrap gap-3 mt-1 text-fg-2">
+                      <div className="wrap-loose mt-1 text-fg-2">
                         {['Outgoing Bar', 'Incoming Bar', 'Any Barring Flags'].map((b) => (
                           <span key={b}>
                             {b} <Pill tone="red">No</Pill>
@@ -212,7 +212,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
                     </div>
                     <div>
                       <span className="text-fg font-semibold">Usage Behaviour</span> <span className="text-accent font-semibold">View Details</span>
-                      <div className="flex flex-wrap gap-2 mt-1">
+                      <div className="wrap-row mt-1">
                         {usageBehaviour.map((u) => (
                           <Pill key={u} tone="amber">
                             {u}
@@ -268,7 +268,7 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
               )}
             </>
           ) : (
-            <p className="px-5 py-4 text-muted">No connection selected.</p>
+            <p className="pad-panel text-muted">No connection selected.</p>
           )}
         </Card>
       </WideBlock>

@@ -76,7 +76,7 @@ export function PlanSearchBox({
           id="plan-search-listbox"
           role="listbox"
           aria-label="Plan suggestions"
-          className="absolute z-[var(--z-popover)] top-full left-0 right-0 mt-1 max-h-72 overflow-y-auto rounded-[var(--field-radius)] border border-border-soft bg-bg shadow-raised py-1 divide-y divide-[var(--field-divider)]"
+          className="dropdown-popover mt-1 max-h-72"
         >
           {suggestions.map((p, i) => (
             <li
@@ -85,16 +85,16 @@ export function PlanSearchBox({
               role="option"
               aria-selected={selectedProductId === p.productId}
               onClick={() => pick(p)}
-              className={`flex items-center justify-between gap-3 px-4 py-2.5 cursor-pointer hover:bg-surface ${nav.active === i ? 'bg-surface ring-2 ring-inset ring-[var(--field-focus-border)]' : ''}`}
+              className={`split-nowrap px-4 py-2.5 cursor-pointer hover:bg-surface ${nav.active === i ? 'bg-surface ring-2 ring-inset ring-[var(--field-focus-border)]' : ''}`}
             >
-              <span className="flex min-w-0 items-center gap-2">
-                <span className="text-fg text-[length:var(--fs-body)] truncate">{p.name}</span>
+              <span className="row-tight min-w-0">
+                <span className="body-text truncate">{p.name}</span>
               </span>
-              <span className="text-muted text-[length:var(--fs-caption)] shrink-0">{formatQarAny(p.mrcQAR)}/mo</span>
+              <span className="caption-muted shrink-0">{formatQarAny(p.mrcQAR)}/mo</span>
             </li>
           ))}
           {suggestions.length === 0 && (
-            <li className="px-4 py-2.5 text-muted text-[length:var(--fs-caption)]">No matching plans.</li>
+            <li className="px-4 py-2.5 caption-muted">No matching plans.</li>
           )}
         </ul>
       )}

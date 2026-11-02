@@ -19,7 +19,7 @@ import { formatAmountAny } from '../../../lib/format';
 // boilerplate files; each is still a real, independently reachable tab.
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">{children}</h3>;
+  return <h3 className="caption-heading mb-2">{children}</h3>;
 }
 
 const INTERACTION_CHANNELS = ['Email', 'SMS', 'Phone', 'Call Center', 'Store', 'Digital App'] as const;
@@ -76,7 +76,7 @@ export function InteractionsSection({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
+      <div className="row-between mb-3">
         <SectionTitle>Interactions</SectionTitle>
         <Button variant="primary" compact onClick={() => setLogOpen(true)}>
           Log Interaction
@@ -211,8 +211,8 @@ export function RecentActivitiesSection({ data }: { data: Customer360Data }) {
       <ul className="space-y-2">
         {entries.map((entry, i) => (
           <li key={i} className="flex gap-3 card p-3">
-            <span className="text-muted text-[length:var(--fs-caption)] shrink-0 w-40">{entry.at}</span>
-            <span className="text-fg text-[length:var(--fs-body)]">{entry.label}</span>
+            <span className="caption-muted shrink-0 w-40">{entry.at}</span>
+            <span className="body-text">{entry.label}</span>
           </li>
         ))}
       </ul>

@@ -34,19 +34,19 @@ function Row({ label, children, top }: { label: string; children: ReactNode; top
   const mode = useFieldAccess()(label);
   if (mode === 'hidden') return null;
   return (
-    <div className={`flex justify-between gap-4 py-2 text-[length:var(--fs-body)] ${top ? 'items-start' : 'items-center'}`}>
+    <div className={`spread py-2 text-[length:var(--fs-body)] ${top ? 'items-start' : 'items-center'}`}>
       <span className="text-fg-2 shrink-0">{label}</span>
-      <span className="text-fg font-medium text-right min-w-0 break-words">{mode === 'drill-down' ? <RevealValue>{children}</RevealValue> : children}</span>
+      <span className="value-end min-w-0">{mode === 'drill-down' ? <RevealValue>{children}</RevealValue> : children}</span>
     </div>
   );
 }
 
 function Empty({ children }: { children: ReactNode }) {
-  return <p className="text-muted text-[length:var(--fs-body)] py-4 text-center">{children}</p>;
+  return <p className="empty-note">{children}</p>;
 }
 
 function Chevron() {
-  return <Icon path={IC.chevRight} className="w-4 h-4 text-fg shrink-0" />;
+  return <Icon path={IC.chevRight} className="icon-sm text-fg" />;
 }
 
 interface OfferRow {
@@ -171,7 +171,7 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
         <KpiTile icon={IC.tag} tone="amber" label="Open Tickets" value={openTickets} chevron onClick={goToTab ? () => goToTab('tickets-support') : undefined} />
       </KpiGrid>
 
-      <div className="grid grid-cols-1 @2xl:grid-cols-2 @4xl:grid-cols-3 gap-3 items-stretch">
+      <div className="fields-sm @2xl:grid-cols-2 @4xl:grid-cols-3 items-stretch">
         {/* Account Summary */}
         <Panel icon={IC.user} title="Account Summary" action={<LinkAction onClick={go('account-info')}>View Details</LinkAction>}>
           <div className="divide-y divide-border-soft">
@@ -189,7 +189,7 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
               {goToTab ? (
                 <button type="button" onClick={() => goToTab('account-info')} className="inline-flex items-center gap-1 text-right text-link hover:underline">
                   {dash(data.customer.name)}
-                  <Icon path={IC.chevRight} className="w-3.5 h-3.5 shrink-0" />
+                  <Icon path={IC.chevRight} className="icon-xs" />
                 </button>
               ) : (
                 dash(data.customer.name)
@@ -223,17 +223,17 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
                 const tag = connectionTag(category);
                 const suspended = services.filter((s) => s.category === category && isSuspended(s)).length;
                 return (
-                  <li key={category} className="border-b border-border-soft last:border-0">
-                    <button type="button" onClick={go('products-services')} disabled={!goToTab} className="flex items-center gap-3 py-2.5 w-full text-left enabled:hover:bg-surface">
+                  <li key={category} className="row-rule">
+                    <button type="button" onClick={go('products-services')} disabled={!goToTab} className="row py-2.5 row-action">
                       <IconTile icon={TYPE_ICON[category]} tone={tag.tone} />
                       <span className="min-w-0 flex-1">
-                        <span className="block text-fg font-semibold text-[length:var(--fs-body)] break-words">{tag.label}</span>
-                        <span className="block text-fg-2 text-[length:var(--fs-caption)]">
+                        <span className="block heading-strong break-words">{tag.label}</span>
+                        <span className="block caption-secondary">
                           {count} {count === 1 ? 'service' : 'services'}
                           {suspended > 0 ? ` · ${suspended} suspended` : ''}
                         </span>
                       </span>
-                      <span className="text-fg font-bold text-[length:var(--fs-body-lg)]">{count}</span>
+                      <span className="title-md">{count}</span>
                       <Chevron />
                     </button>
                   </li>
@@ -256,7 +256,7 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
               {previousPayment ? (
                 <span className="block">
                   {qar(previousPayment.amountQar)}
-                  <span className="block text-fg-2 font-normal text-[length:var(--fs-caption)]">{dash(fmtDate(previousPayment.capturedAt))}</span>
+                  <span className="block caption-secondary font-normal">{dash(fmtDate(previousPayment.capturedAt))}</span>
                 </span>
               ) : (
                 '-'
@@ -267,7 +267,7 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
               {latestBill ? (
                 <span className="block">
                   {qar(latestBill.totalAmount)}
-                  <span className="block text-fg-2 font-normal text-[length:var(--fs-caption)]">{dash(fmtDate(`${str(latestBill.billPeriod)}-01`)?.replace(/^\d+ /, ''))}</span>
+                  <span className="block caption-secondary font-normal">{dash(fmtDate(`${str(latestBill.billPeriod)}-01`)?.replace(/^\d+ /, ''))}</span>
                 </span>
               ) : (
                 '-'
@@ -286,11 +286,11 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
             <ul>
               {offers.map((o, i) => (
                 <li key={`${o.label}${o.title}${i}`}>
-                  <button type="button" onClick={go('offers-leads')} disabled={!goToTab} className="flex items-center gap-3 py-2.5 w-full text-left border-b border-border-soft last:border-0 enabled:hover:bg-surface">
+                  <button type="button" onClick={go('offers-leads')} disabled={!goToTab} className="row py-2.5 row-action row-rule">
                     <IconTile icon={o.icon} tone="grey" size="sm" />
                     <span className="min-w-0 flex-1">
-                      {o.label && <span className="block text-fg-2 text-[length:var(--fs-caption)]">{o.label}</span>}
-                      <span className="block text-fg font-medium text-[length:var(--fs-body)] break-words">{o.title}</span>
+                      {o.label && <span className="block caption-secondary">{o.label}</span>}
+                      <span className="block value-text break-words">{o.title}</span>
                     </span>
                     {o.pill && <Pill tone={o.pill.tone} solid={o.pill.solid}>{o.pill.text}</Pill>}
                     {o.pill?.tone !== 'grey' && <Chevron />}
@@ -310,15 +310,15 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
               {feed.map((e, i) => {
                 const t = fmtDateTime(e.at);
                 return (
-                  <li key={i} className="flex items-center gap-3 py-2.5 border-b border-border-soft last:border-0">
-                    <span className="w-20 shrink-0 text-fg-2 text-[length:var(--fs-caption)] leading-snug">
+                  <li key={i} className="row py-2.5 row-rule">
+                    <span className="w-20 shrink-0 caption-secondary leading-snug">
                       {t.date}
                       {t.time && <span className="block">{t.time}</span>}
                     </span>
                     <IconTile icon={e.icon} tone="grey" size="sm" />
                     <span className="min-w-0 flex-1">
-                      <span className="block text-fg font-semibold text-[length:var(--fs-body)] break-words">{e.title}</span>
-                      {e.sub && <span className="block text-fg-2 text-[length:var(--fs-caption)] break-words">{e.sub}</span>}
+                      <span className="block heading-strong break-words">{e.title}</span>
+                      {e.sub && <span className="block caption-secondary break-words">{e.sub}</span>}
                     </span>
                   </li>
                 );
@@ -347,11 +347,11 @@ export function C360Overview({ data, services, goToTab, onTicketCreated, queryFo
         <Panel icon={IC.shield} title="Alerts & Risks" action={<LinkAction onClick={go('alerts-risks')}>View All</LinkAction>}>
           <ul>
             {alerts.map((a) => (
-              <li key={a.title} className="flex items-center gap-3 py-2.5 border-b border-border-soft last:border-0">
+              <li key={a.title} className="row py-2.5 row-rule">
                 <IconTile icon={a.icon} tone={a.tone} size="sm" />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-fg font-medium text-[length:var(--fs-body)] break-words">{a.title}</span>
-                  <span className="block text-fg-2 text-[length:var(--fs-caption)] break-words">{a.sub}</span>
+                  <span className="block value-text break-words">{a.title}</span>
+                  <span className="block caption-secondary break-words">{a.sub}</span>
                 </span>
                 <StatusPill status={a.level} />
               </li>

@@ -47,7 +47,7 @@ export function CustomerSearchPage() {
       <form
         role="search"
         aria-label="Customer search"
-        className="flex items-stretch gap-3 mb-2"
+        className="cards-row mb-2"
         onSubmit={(e) => {
           e.preventDefault();
           runSearch();
@@ -82,7 +82,7 @@ export function CustomerSearchPage() {
       </form>
 
       {!showingResults && (
-        <p className="text-muted text-[length:var(--fs-caption)] mt-3">
+        <p className="caption-muted mt-3">
           {canSearch
             ? 'Press Enter or Search to search.'
             : `Enter at least ${MIN_QUERY_LENGTH} characters, then press Enter or Search to see results.`}

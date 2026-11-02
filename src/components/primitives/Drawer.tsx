@@ -56,10 +56,10 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
   // Prevents losing in-progress form input from an accidental click outside the panel.
   return (
     <OverlayPortal>
-    <div className="fixed inset-0 z-[var(--z-overlay)] bg-[var(--black-80)]">
+    <div className="drawer-backdrop">
       <div
         ref={panelRef}
-        className={`fixed right-0 inset-y-0 z-[var(--z-overlay)] w-[50vw] min-w-[min(420px,100vw)] max-w-full flex flex-col bg-bg border-l border-border-soft shadow-raised transform transition-transform duration-[var(--motion-base)] ease-[var(--ease-standard)] ${
+        className={`drawer-panel ${
           entered ? 'translate-x-0' : 'translate-x-full'
         }`}
         role="dialog"
@@ -67,14 +67,14 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
         aria-label={title}
       >
         {header ?? (
-          <div className="flex items-center justify-between px-6 pt-5 pb-3 shrink-0">
-            <h2 className="text-muted text-[length:var(--fs-caption)] uppercase tracking-wide">{title}</h2>
+          <div className="row-between px-6 pt-5 pb-3 shrink-0">
+            <h2 className="caption-muted uppercase tracking-wide">{title}</h2>
             <CloseButton onClick={onClose} />
           </div>
         )}
         <div className={`flex-1 overflow-y-auto bg-[var(--surface)] ${bodyClassName}`}>{children}</div>
         {/* The footer's buttons share its width equally (Close beside the primary action). */}
-        {footer && <div className="grid grid-flow-col auto-cols-fr gap-4 px-6 py-4 border-t border-border-soft shrink-0">{footer}</div>}
+        {footer && <div className="drawer-footer">{footer}</div>}
       </div>
     </div>
     </OverlayPortal>

@@ -290,7 +290,7 @@ function EligibilityScenario({ idNumber }: { idNumber: string }) {
   return (
     <div className="space-y-4">
       <EligibilityGateStep idNumber={idNumber} result={r} onResult={setR} announcePass={false} scope="product" />
-      <div className="flex items-center justify-end gap-3 border-t border-border-soft pt-4">
+      <div className="row justify-end divider-top pt-4">
         <OutcomeActions eligibility={r} onAbandon={() => {}} defaultButton={<Button variant="primary">Continue</Button>} />
       </div>
     </div>
@@ -307,10 +307,10 @@ function Eligibility() {
 function Cards() {
   const [on, setOn] = useState<'a' | 'b' | 'c'>('a');
   const card = (k: 'a' | 'b' | 'c', title: string, style: string, note: string) => (
-    <button type="button" aria-pressed={on === k} onClick={() => setOn(k)} className={`relative rounded-[var(--radius-card)] border p-4 text-left ${on === k ? CARD_SELECTED : style}`}>
+    <button type="button" aria-pressed={on === k} onClick={() => setOn(k)} className={`relative card-frame p-4 text-left ${on === k ? CARD_SELECTED : style}`}>
       {on === k && <SelectedTick />}
       <span className="block text-fg font-semibold">{title}</span>
-      <span className="block text-fg-2 text-[length:var(--fs-caption)]">{note}</span>
+      <span className="block caption-secondary">{note}</span>
     </button>
   );
   return (
@@ -334,7 +334,7 @@ function DrawerDemo() {
             <Button variant="primary" onClick={() => setOpen(false)}>Done</Button>
           </>
         }>
-        <p className="text-fg-2 text-[length:var(--fs-body)]">Side drawer: reference material or a short form, read beside the page instead of covering it.</p>
+        <p className="text-secondary">Side drawer: reference material or a short form, read beside the page instead of covering it.</p>
       </Drawer>
     </>
   );
@@ -342,7 +342,7 @@ function DrawerDemo() {
 function ToastDemo() {
   const push = useNotificationStore((s) => s.pushToast);
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="wrap-row">
       {(['success', 'info', 'warning', 'error'] as const).map((k) => (
         <Button key={k} variant="secondary" onClick={() => push(k, `Sample ${k} notification`, { detail: 'Raised from the Capability Library.' })}>
           Show {k}
@@ -370,7 +370,7 @@ function Wizard() {
       key: 'identity',
       label: 'Customer Verification',
       render: ({ values, setValue }) => (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid-2-up">
           <Input label="ID Number" value={(values.idNumber as string) ?? ''} onChange={(e) => setValue('idNumber', e.target.value)} />
           <Input label="Full Name" value={(values.name as string) ?? ''} onChange={(e) => setValue('name', e.target.value)} />
         </div>
@@ -385,18 +385,18 @@ function Wizard() {
       key: 'plan',
       label: 'Offers & Plans',
       render: ({ values, setValue }) => (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid-2-up-sm">
           {SAMPLE_PLANS.map((p) => (
             <button
               key={p.id}
               type="button"
               aria-pressed={values.plan === p.id}
               onClick={() => setValue('plan', p.id)}
-              className={`relative rounded-[var(--radius-card)] border p-4 text-left ${values.plan === p.id ? CARD_SELECTED : CARD_IDLE}`}
+              className={`relative card-frame p-4 text-left ${values.plan === p.id ? CARD_SELECTED : CARD_IDLE}`}
             >
               {values.plan === p.id && <SelectedTick />}
               <span className="block text-fg font-semibold">{p.name}</span>
-              <span className="block text-fg-2 text-[length:var(--fs-caption)]">{p.note}</span>
+              <span className="block caption-secondary">{p.note}</span>
             </button>
           ))}
         </div>
@@ -407,7 +407,7 @@ function Wizard() {
     {
       key: 'review',
       label: 'Checkout',
-      render: () => <p className="text-fg-2 text-[length:var(--fs-body)]">The last step: Continue becomes Save &amp; Finish and submits the journey.</p>,
+      render: () => <p className="text-secondary">The last step: Continue becomes Save &amp; Finish and submits the journey.</p>,
     },
   ];
   return (
@@ -493,9 +493,9 @@ function PaginationDemo() {
   const paging = usePagination(rows, 10);
   return (
     <div className="space-y-3">
-      <ul className="divide-y divide-border-soft rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg">
+      <ul className="divide-y divide-border-soft card card-inherit-fill">
         {paging.slice.map((r) => (
-          <li key={r} className="px-4 py-2 text-fg text-[length:var(--fs-body)]">
+          <li key={r} className="px-4 py-2 body-text">
             {r}
           </li>
         ))}

@@ -86,7 +86,7 @@ export function AddDiscountAction({
         }
       >
         {(
-          <div className="flex flex-col gap-3">
+          <div className="stack">
             <DiscountCard title="No Discount" description="Continue without a discount" value="-" selected={!draft} onToggle={() => setDraft(undefined)} />
             {discountsAscending(options).map((d) => (
               <DiscountCard

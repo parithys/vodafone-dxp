@@ -126,7 +126,7 @@ export function StepSummaryPanel({
             milestone={!isCurrent && milestoneSteps?.has(step.key)}
             current={isCurrent}
           >
-            {rows.length > 0 ? rows : isCurrent ? null : <p className="py-2 text-muted text-[length:var(--fs-caption)]">Nothing entered on this page yet.</p>}
+            {rows.length > 0 ? rows : isCurrent ? null : <p className="py-2 caption-muted">Nothing entered on this page yet.</p>}
           </StepSummarySection>
         );
       })
@@ -145,13 +145,13 @@ export function StepSummaryPanel({
           type="button"
           onClick={() => setAccordionOpen((o) => !o)}
           aria-expanded={accordionOpen}
-          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left rounded-[var(--radius-card)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+          className="split-nowrap w-full pad-row text-left rounded-[var(--radius-card)] focus-ring"
         >
-          <span className="text-fg font-semibold text-[length:var(--fs-body)]">{accordionOpen ? 'Hide summary' : 'View summary'}</span>
-          <span className="text-fg-2 text-[length:var(--fs-caption)]">{count}</span>
+          <span className="heading-strong">{accordionOpen ? 'Hide summary' : 'View summary'}</span>
+          <span className="caption-secondary">{count}</span>
         </button>
         {live}
-        {accordionOpen && <div className="border-t border-border-soft max-h-96 overflow-y-auto">{body}{returnRow}</div>}
+        {accordionOpen && <div className="divider-top max-h-96 overflow-y-auto">{body}{returnRow}</div>}
       </aside>
     );
   }
@@ -168,10 +168,10 @@ export function StepSummaryPanel({
     // Collapses and expands sideways like the left navigation: the card narrows to a rail that keeps the header tile (now the expand control).
     <aside
       aria-label="Summary of completed steps"
-      className={`hidden lg:flex lg:flex-col ${collapsed ? 'w-16' : 'w-80'} shrink-0 self-start sticky top-0 max-h-[calc(100vh-11rem)] overflow-hidden my-8 mr-8 card transition-[width] duration-[var(--motion-slow)] ease-[var(--ease-standard)] motion-reduce:transition-none `}
+      className={`rail-end card ${collapsed ? 'w-16' : 'w-80'}`}
     >
       {collapsed ? (
-        <header className="flex h-14 shrink-0 items-center justify-center">
+        <header className="icon-tile h-14">
           <Tooltip content={toggleLabel} placement="left">
             <button
               type="button"
@@ -179,7 +179,7 @@ export function StepSummaryPanel({
               aria-label={toggleLabel}
               aria-expanded={false}
               aria-controls={bodyId}
-              className="relative flex h-10 w-10 items-center justify-center rounded-[var(--radius-sm)] text-[var(--nav-fg-muted)] transition-colors duration-[var(--motion-base)] hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-fg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+              className="relative nav-icon-tile-lg nav-ghost focus-ring"
             >
               {/* The navigation's panel icon, mirrored: this panel is on the right, so the chevron points back towards the content to open it. */}
               <PanelIcon expanded={false} className="w-6 h-6 -scale-x-100" />
@@ -189,7 +189,7 @@ export function StepSummaryPanel({
       ) : (
         /* The header stays put; only the sections below it scroll. Its content keeps a fixed width so the title does not reflow while the card narrows. */
         <header className="shrink-0 border-b border-on-dark-line-2 bg-[var(--title-band-bg)] px-4 py-4">
-          <div className="flex w-72 items-center gap-3">
+          <div className="row w-72">
             <span className={tileClass} aria-hidden="true">
               {tileIcon}
             </span>
@@ -203,7 +203,7 @@ export function StepSummaryPanel({
                 aria-label={toggleLabel}
                 aria-expanded
                 aria-controls={bodyId}
-                className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-sm)] text-on-dark-2 transition-colors duration-[var(--motion-base)] hover:bg-on-dark-fill-2 hover:text-on-dark focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+                className="relative nav-icon-tile on-dark-ghost focus-ring"
               >
                 {/* The navigation's panel icon, mirrored: this panel is on the right, so the chevron points away from the content to fold it. */}
                 <PanelIcon expanded className="w-6 h-6 -scale-x-100" />
@@ -214,7 +214,7 @@ export function StepSummaryPanel({
       )}
       {live}
       {collapsed ? (
-        <nav id={bodyId} aria-label="Journey steps" className="min-h-0 flex-1 overflow-y-auto pb-2">
+        <nav id={bodyId} aria-label="Journey steps" className="scroll-area pb-2">
           <ul>
             {entries.map(({ step, isCurrent }) => {
               const rowClass = `flex h-12 w-full items-center justify-center transition-colors duration-[var(--motion-base)] focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
@@ -244,7 +244,7 @@ export function StepSummaryPanel({
             {returnEntry && (
               <li>
                 <Tooltip content={returnEntry.label} placement="left">
-                  <button type="button" onClick={toggleCollapsed} aria-label={`${returnEntry.label}, not completed. Expand journey summary`} aria-expanded={false} aria-controls={bodyId} className="flex h-12 w-full items-center justify-center text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]">
+                  <button type="button" onClick={toggleCollapsed} aria-label={`${returnEntry.label}, not completed. Expand journey summary`} aria-expanded={false} aria-controls={bodyId} className="row-button h-12 justify-center text-[var(--nav-fg-muted)] hover:bg-[var(--nav-hover-bg)]">
                     <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5">
                       <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
                     </svg>
@@ -255,7 +255,7 @@ export function StepSummaryPanel({
           </ul>
         </nav>
       ) : (
-        <div id={bodyId} className="min-h-0 w-80 flex-1 overflow-y-auto">
+        <div id={bodyId} className="scroll-area w-80">
           {body}
           {returnRow}
         </div>

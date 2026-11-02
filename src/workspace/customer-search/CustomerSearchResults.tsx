@@ -123,14 +123,14 @@ export function CustomerSearchResults({
       <div className="space-y-2">
         {searching && <p className="text-muted text-[length:var(--fs-body)]">Searching…</p>}
         {!searching && results.length === 0 && businesses.length === 0 && (
-          <div role="status" className="flex flex-col items-center gap-3 rounded-[var(--radius-card)] border border-dashed border-border bg-[var(--surface-subtle)] px-6 py-10 text-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-[var(--radius-card)] bg-[var(--icon-tile-bg)] text-[var(--icon-tile-fg)]">
+          <div role="status" className="stack-center gap-3 dropzone px-6 py-10 text-center">
+            <span className="flex h-14 w-14 items-center justify-center icon-tile-soft">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7" aria-hidden="true">
                 <path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3 M8.5 8.5l5 5 M13.5 8.5l-5 5" />
               </svg>
             </span>
-            <p className="text-fg font-bold text-[length:var(--fs-body-lg)]">Customer Data Not Found</p>
-            <p className="max-w-md text-fg-2 text-[length:var(--fs-body)]">
+            <p className="title-md">Customer Data Not Found</p>
+            <p className="max-w-md text-secondary">
               No customer record matches <span className="font-bold text-fg">“{submitted}”</span>. Check the ID/number, or try searching by name or email instead.
             </p>
           </div>
@@ -140,16 +140,16 @@ export function CustomerSearchResults({
             <button type="button"
               key={account.enterpriseAccountId}
               onClick={() => navigate(`/customer/${account.enterpriseAccountId}`, { state: { navKey: 'customer-search' } })}
-              className="w-full text-left card p-4 hover:bg-[var(--field-card-hover-bg)] flex items-center justify-between gap-3"
+              className="card-row-button card split-nowrap"
             >
               <div className="min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-medium text-fg text-[length:var(--fs-body-lg)] truncate">
+                <div className="row-tight mb-1">
+                  <span className="line-title">
                     <Highlight text={account.name} query={submitted} words />
                   </span>
                   <Badge variant="outlined-red">Business</Badge>
                 </div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)]">
+                <div className="caption-secondary">
                   <Highlight text={account.enterpriseAccountId} query={submitted} /> · {users.length} linked user{users.length === 1 ? '' : 's'}
                 </div>
               </div>
@@ -165,15 +165,15 @@ export function CustomerSearchResults({
             <button type="button"
               key={customer.customerId}
               onClick={() => openCustomer({ customer, matchedOn })}
-              className="w-full text-left card p-4 hover:bg-[var(--field-card-hover-bg)] transition-all flex items-center justify-between gap-4"
+              className="card-row-button card transition-all spread items-center"
             >
               <div className="min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-medium text-fg text-[length:var(--fs-body-lg)] truncate"><Highlight text={customer.name} query={submitted} words />
+                <div className="row-tight mb-1">
+                  <span className="line-title"><Highlight text={customer.name} query={submitted} words />
                   </span>
                   {customer.blacklisted && <Badge variant="danger">Blacklisted</Badge>}
                 </div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)]">
+                <div className="caption-secondary">
                   <Highlight text={customer.customerId} query={submitted} /> · {customer.idType} <Highlight text={customer.qid} query={submitted} /> · {customer.segment}
                   {customer.phone ? <> · <Highlight text={customer.phone} query={submitted} /></> : null}
                   {matchedDocumentNumber ? <> · ID document <Highlight text={matchedDocumentNumber} query={submitted} /></> : null}

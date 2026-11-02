@@ -6,11 +6,10 @@ import { CHECK, ICON_CALL, ICON_CARD, ICON_DATA, ICON_GIFT, ICON_SPEED, ICON_TV 
 // steps) and the Plan & Add-ons plan cards (PostpaidPlanAddonsStep). One definition, so the two stay alike.
 
 /** The selectable-card states, one definition for every card grid that uses them (offers, plans, numbers). */
-export const CARD_SELECTED = 'border-[var(--field-card-selected)] bg-[linear-gradient(135deg,var(--surface-warm),var(--bg)_90%)] shadow-[var(--shadow-selected-ring)]';
-export const CARD_IDLE =
-  'border-[var(--field-card-border)] bg-bg hover:bg-[var(--field-card-hover-bg)]';
+export const CARD_SELECTED = 'card-selected';
+export const CARD_IDLE = 'card-idle';
 /** A card the app singles out (the Recommended offer, a Popular plan): blue border, flat soft blue wash (red is kept for the selected card). */
-export const CARD_HIGHLIGHT = 'border-[var(--signal-blue)] bg-[var(--tone-blue-bg-soft)] hover:bg-[var(--tone-blue-bg-hover)]';
+export const CARD_HIGHLIGHT = 'card-highlight';
 
 /**
  * The price figure of the plan or pack the agent has chosen ("Monthly plan QAR 145", "Starter pack QAR 50"), on the selected-card highlight
@@ -20,7 +19,7 @@ export const CARD_HIGHLIGHT = 'border-[var(--signal-blue)] bg-[var(--tone-blue-b
 export function SelectedPlanFigure({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className={`card px-4 py-2.5 text-right ${CARD_SELECTED}`}>
-      <p className="text-muted text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide">{label}</p>
+      <p className="text-muted text-[length:var(--fs-tag)] caps-strong">{label}</p>
       <p className="text-fg">{children}</p>
     </div>
   );

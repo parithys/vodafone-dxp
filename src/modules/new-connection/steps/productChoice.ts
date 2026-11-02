@@ -101,6 +101,16 @@ export function handOverToHomeConnection(ctx: ProductStepContext, values: Record
   ctx.navigate(route);
 }
 
+/**
+ * Another journey takes over for the customer identified here (an upgrade offer's journey): it opens for that customer (router state `launch`, which its
+ * scan and eligibility read), and this journey's draft and customer hold are released so leaving does not ask what to do with a draft.
+ */
+export function handOverToJourney(ctx: ProductStepContext, route: string, customer?: { customerId: string }): void {
+  useCustomerContext.getState().endJourney(ctx.wizardId);
+  useWorkflowStore.getState().clearDraft(ctx.wizardId);
+  ctx.navigate(route, customer ? { state: { launch: customer } } : undefined);
+}
+
 /** Fixed Line's connection type (Fibre / Fixed-Line / FWA / 5G Home), chosen on its own step after Product Selection. Changing it drops what the other type chose. */
 export function selectHomeKind(ctx: ProductStepContext, values: Record<string, unknown>, kind: HomeProduct): void {
   if (values.homeProduct === kind) return;

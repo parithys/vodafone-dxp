@@ -88,7 +88,7 @@ export function Shell({ children }: { children: ReactNode }) {
       {/* First tab stop: jump past the sidebar and the top bar (WCAG 2.4.1). Visible only while focused. */}
       <a
         href={`#${MAIN_ID}`}
-        className="no-print sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[var(--z-toast)] focus:rounded-[var(--radius-button)] focus:bg-bg focus:px-4 focus:py-2 focus:text-fg focus:font-semibold focus:shadow-raised"
+        className="no-print skip-link"
         onClick={(e) => {
           e.preventDefault();
           document.getElementById(MAIN_ID)?.focus();
@@ -103,7 +103,7 @@ export function Shell({ children }: { children: ReactNode }) {
         <div className="no-print contents">
           <Sidebar />
         </div>
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="fill-column overflow-hidden">
           <div className="no-print contents">
             <PersonaSwitcher />
             <Breadcrumbs />

@@ -86,7 +86,7 @@ export function TicketApprovalQueue({ padded = true }: TicketApprovalQueueProps)
                   {r.assignedApproverId === currentAgentId ? 'Open' : 'Assign to Me'}
                 </Button>
               ) : (
-                <span className="text-muted text-[length:var(--fs-caption)]">
+                <span className="caption-muted">
                   Requires: {TICKET_APPROVAL_ELIGIBLE_JOB_TITLES.join(' or ')}
                 </span>
               ),

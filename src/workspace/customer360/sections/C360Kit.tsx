@@ -116,7 +116,7 @@ export function IconTile({ icon, tone = 'blue', size = 'md' }: { icon: string; t
   const box = size === 'lg' ? 'w-12 h-12' : size === 'sm' ? 'w-8 h-8' : 'w-10 h-10';
   const glyph = size === 'lg' ? 'w-6 h-6' : size === 'sm' ? 'w-4 h-4' : 'w-5 h-5';
   return (
-    <span className={`${box} rounded-[var(--radius-button)] flex items-center justify-center shrink-0 ${TONE[tone].bg} ${TONE[tone].fg}`}>
+    <span className={`${box} rounded-[var(--radius-button)] icon-tile ${TONE[tone].bg} ${TONE[tone].fg}`}>
       <Icon path={icon} className={glyph} />
     </span>
   );
@@ -158,15 +158,15 @@ export function TabPage({ icon, tone = 'blue', title, subtitle, actions, childre
   return (
     <div className="card p-5 space-y-4">
       {(title || actions) && (
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-4 min-w-0">
+        <div className="split">
+          <div className="row-loose min-w-0">
             {icon && <IconTile icon={icon} tone={tone} size="lg" />}
             <div className="min-w-0">
-              {title && <h2 className="text-fg font-bold text-[length:var(--fs-h5)] leading-tight">{title}</h2>}
-              {subtitle && <p className="text-fg-2 text-[length:var(--fs-body)]">{subtitle}</p>}
+              {title && <h2 className="title-lg leading-tight">{title}</h2>}
+              {subtitle && <p className="text-secondary">{subtitle}</p>}
             </div>
           </div>
-          {actions && <div className="flex items-center gap-2">{actions}</div>}
+          {actions && <div className="row-tight">{actions}</div>}
         </div>
       )}
       {children}
@@ -202,9 +202,9 @@ export function KpiTile({
     <>
       <IconTile icon={icon} tone={tone} size="lg" />
       <div className="min-w-0 flex-1 text-left">
-        <div className="text-fg-2 text-[length:var(--fs-body)]">{label}</div>
-        <div className="text-fg font-bold text-[length:var(--fs-h5)] leading-tight break-words">{value}</div>
-        {caption && <div className="text-fg-2 text-[length:var(--fs-caption)] mt-0.5">{caption}</div>}
+        <div className="text-secondary">{label}</div>
+        <div className="title-lg leading-tight break-words">{value}</div>
+        {caption && <div className="caption-secondary mt-0.5">{caption}</div>}
         {link && onLink && (
           <span
             role="link"
@@ -214,13 +214,13 @@ export function KpiTile({
               onLink();
             }}
             onKeyDown={(e) => e.key === 'Enter' && onLink()}
-            className="inline-block mt-1 text-link font-medium text-[length:var(--fs-body)] hover:underline cursor-pointer"
+            className="inline-block mt-1 link-body cursor-pointer"
           >
             {link} &rarr;
           </span>
         )}
       </div>
-      {chevron && <Icon path={IC.chevRight} className="w-5 h-5 text-fg shrink-0" />}
+      {chevron && <Icon path={IC.chevRight} className="icon-md text-fg" />}
     </>
   );
   // A cell of the KPI card (see KpiGrid): its right and bottom edges are the dividers between cells.
@@ -255,9 +255,9 @@ export function Panel({ icon, title, action, children, className = '', flush = f
   return (
     // A panel whose rows were all withheld by field access (empty body) is not drawn.
     <section data-container-id={id ?? (typeof title === 'string' ? containerId(title) : undefined)} className={`card min-w-0 has-[>.panel-body:empty]:hidden ${className}`}>
-      <header className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 pt-4 pb-3">
-        <h3 className="flex items-center gap-2.5 text-fg font-semibold text-[length:var(--fs-body-lg)] min-w-[10rem]">
-          {icon && <Icon path={icon} className="w-5 h-5 shrink-0" />}
+      <header className="card-header-row">
+        <h3 className="flex items-center gap-2.5 subtitle min-w-[10rem]">
+          {icon && <Icon path={icon} className="icon-md" />}
           <span className="min-w-0 break-words">{title}</span>
         </h3>
         {action}
@@ -275,7 +275,7 @@ export function DetailRows({ rows, align = 'right' }: { rows: { label: string; v
   return (
     <dl>
       {shown.map((r) => (
-        <div key={r.label} className="flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+        <div key={r.label} className="data-row">
           <dt className="text-fg">{r.label}</dt>
           <dd className={`text-fg min-w-0 break-words ${r.strong === false ? '' : 'font-medium'} ${align === 'right' ? 'text-right' : ''}`}>
             {modeOf(r.label) === 'drill-down' ? <RevealValue>{r.value}</RevealValue> : r.value}
@@ -438,35 +438,35 @@ export function FilterSelect({ label, value, options, onChange, hideLabel = fals
           setActive(selectedIndex);
           setOpen((o) => !o);
         }}
-        className={`w-full text-left rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg px-3 pr-10 focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+        className={`w-full text-left select-trigger ${
           captioned ? 'pt-1 pb-1.5' : 'py-2 min-h-[var(--control-h-md)] flex items-center'
         }`}
       >
         {captioned ? (
           <>
-            <span className="block text-muted text-[length:var(--fs-caption)] leading-tight">{label}</span>
-            <span className="block truncate text-fg text-[length:var(--fs-body)]">{selected?.label}</span>
+            <span className="block caption-muted leading-tight">{label}</span>
+            <span className="line-body">{selected?.label}</span>
           </>
         ) : hideLabel ? (
           <>
             <span className="sr-only">{label}</span>
-            <span className="block truncate text-fg text-[length:var(--fs-body)]">{selected?.label}</span>
+            <span className="line-body">{selected?.label}</span>
           </>
         ) : (
           // "Severity: All" - the caption becomes a prefix on the value; an "All Modules" / "All Status" option reads as plain "All".
-          <span className="block truncate text-fg text-[length:var(--fs-body)]">
+          <span className="line-body">
             <span className="text-muted">{label}: </span>
             {/^all\b/i.test(selected?.label ?? '') && /^all( \w+)?$/i.test(selected?.label ?? '') ? 'All' : selected?.label}
           </span>
         )}
-        <Icon path={IC.chevDown} className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-fg-2" />
+        <Icon path={IC.chevDown} className="select-chevron" />
       </button>
       {open && (
         <ul
           id={`${id}-list`}
           role="listbox"
           aria-label={label}
-          className="absolute left-0 top-full z-[var(--z-raised)] mt-1 min-w-full max-h-64 overflow-y-auto rounded-[var(--radius-button)] border border-[var(--field-card-border)] bg-bg py-1 shadow-raised"
+          className="select-menu"
         >
           {options.map((o, i) => (
             <li
@@ -477,7 +477,7 @@ export function FilterSelect({ label, value, options, onChange, hideLabel = fals
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => choose(i)}
               onMouseEnter={() => setActive(i)}
-              className={`cursor-pointer whitespace-nowrap px-3 py-2 text-[length:var(--fs-body)] text-fg ${i === active ? 'bg-[var(--field-focus-bg)]' : ''} ${o.value === value ? 'font-medium text-accent' : ''}`}
+              className={`cursor-pointer whitespace-nowrap px-3 py-2 body-text ${i === active ? 'bg-[var(--field-focus-bg)]' : ''} ${o.value === value ? 'font-medium text-accent' : ''}`}
             >
               {o.label}
             </li>
@@ -492,7 +492,7 @@ export function Progress({ pct, tone = 'red' }: { pct: number; tone?: Tone }) {
   const clamped = Math.max(0, Math.min(100, pct));
   const bar = tone === 'green' ? 'bg-success' : tone === 'amber' ? 'bg-[var(--warn)]' : tone === 'blue' ? 'bg-[var(--signal-blue)]' : 'bg-accent';
   return (
-    <div className="h-1.5 rounded-[var(--radius-pill)] bg-border-soft overflow-hidden" role="progressbar" aria-valuenow={clamped} aria-valuemin={0} aria-valuemax={100}>
+    <div className="meter-track" role="progressbar" aria-valuenow={clamped} aria-valuemin={0} aria-valuemax={100}>
       <div className={`h-full rounded-[var(--radius-pill)] ${bar}`} style={{ width: `${clamped}%` }} />
     </div>
   );
@@ -502,11 +502,11 @@ export function Progress({ pct, tone = 'red' }: { pct: number; tone?: Tone }) {
 export function UsageBar({ pct, value, unit, label }: { pct: number; value: ReactNode; unit?: string; label: string }) {
   return (
     <div className="space-y-1.5">
-      <div className="flex items-baseline justify-between gap-3 text-[length:var(--fs-body)]">
+      <div className="baseline-row">
         <span className="text-fg-2">{label}</span>
         <span className="text-right">
           <span className="font-bold text-fg">{value}</span>
-          {unit && <span className="text-muted text-[length:var(--fs-caption)]"> {unit}</span>}
+          {unit && <span className="caption-muted"> {unit}</span>}
         </span>
       </div>
       <Progress pct={pct} />

@@ -13,9 +13,9 @@ export function ScanFailureNotice({ lines }: { lines: string[] }) {
   const condition = rest.length >= 2 ? rest[rest.length - 1] : undefined;
   const next = condition ? rest.slice(0, -1) : rest;
   return (
-    <div role="alert" className="w-full rounded-[var(--radius-card)] border border-danger bg-tone-danger-soft p-4 text-left space-y-2">
+    <div role="alert" className="w-full notice-danger p-4 text-left space-y-2">
       <p className="flex items-start gap-2 text-danger text-[length:var(--fs-body)] font-semibold">
-        <Icon path={ALERT_ICON} className="w-5 h-5 shrink-0 mt-0.5" />
+        <Icon path={ALERT_ICON} className="icon-md mt-0.5" />
         <span>{what}</span>
       </p>
       {next.map((line) => (
@@ -23,7 +23,7 @@ export function ScanFailureNotice({ lines }: { lines: string[] }) {
           {line}
         </p>
       ))}
-      {condition && <p className="text-fg-2 text-[length:var(--fs-caption)] pl-7 pt-2 border-t border-[var(--border-soft)]">{condition}</p>}
+      {condition && <p className="caption-secondary pl-7 pt-2 border-t border-[var(--border-soft)]">{condition}</p>}
     </div>
   );
 }

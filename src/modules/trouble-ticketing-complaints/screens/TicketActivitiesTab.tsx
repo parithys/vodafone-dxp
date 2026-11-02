@@ -18,10 +18,10 @@ export function TicketActivitiesTab({ activities, closeActivity, activityText, s
       <div className="space-y-3">
         {activities.length === 0 && <EmptyState compact message="No activities logged yet." />}
         {activities.map((a, i) => (
-          <div key={i} className="flex items-center justify-between border-b border-border-soft pb-2 last:border-0">
+          <div key={i} className="row-between row-rule pb-2">
             <div>
-              <span className="text-fg text-[length:var(--fs-body)]">{a.description}</span>
-              <span className="block text-[length:var(--fs-caption)] text-muted">{a.type} · {a.createdBy} · {formatDateTime(a.createdAt)}</span>
+              <span className="body-text">{a.description}</span>
+              <span className="block caption-muted">{a.type} · {a.createdBy} · {formatDateTime(a.createdAt)}</span>
             </div>
             {a.open ? (
               <Button variant="secondary" compact onClick={() => closeActivity(i)}>Close</Button>

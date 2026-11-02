@@ -1,3 +1,4 @@
+import type { PassportVisa } from '../../../data/passportVisa';
 import { Button } from '../../../components/primitives/Button';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
@@ -17,7 +18,7 @@ const dash = (v: ReactNode | undefined | null): ReactNode => (v === undefined ||
 function CardTitle({ icon, children }: { icon: string; children: ReactNode }) {
   return (
     <span className="inline-flex items-center gap-2.5 min-w-0">
-      <Icon path={icon} className="w-5 h-5 shrink-0 text-[var(--signal-blue)]" />
+      <Icon path={icon} className="icon-md text-[var(--signal-blue)]" />
       <span className="min-w-0 break-words">{children}</span>
     </span>
   );
@@ -98,6 +99,7 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
   const visibleContacts = allContacts ? hierarchy : hierarchy.slice(0, 3);
 
   const addresses = data.addresses as Rec[];
+  const passportVisa = (customer as { passportVisa?: PassportVisa }).passportVisa;
 
   return (
     <TabPage
@@ -133,6 +135,14 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
               // Captured at identification; shown here and nowhere in a journey.
               { label: 'Sponsor', value: dash(str((customer as { companyName?: string }).companyName)) },
               { label: 'Occupation', value: dash(str((customer as { occupation?: string }).occupation)) },
+              // A Passport holder's visa, as MOI returned it at identification: shown here and nowhere in a journey.
+              ...(passportVisa
+                ? [
+                    { label: 'Visa Number', value: dash(passportVisa.visaNumber) },
+                    { label: 'Visa Type', value: dash(passportVisa.visaType) },
+                    { label: 'Visa Expiry Date', value: dash(fmtDate(passportVisa.expiryDate)) },
+                  ]
+                : []),
             ]}
           />
         </Panel>
@@ -181,7 +191,7 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
               {authorised.map((a) => (
                 <li key={String(a.authorisedPersonId)} className="px-3 py-2 text-[length:var(--fs-body)] min-w-0">
                   <div className="text-fg font-medium break-words">{str(a.name) ?? '-'}</div>
-                  <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">
+                  <div className="caption-secondary break-words">
                     {[str(a.jobTitle), Array.isArray(a.roles) ? (a.roles as string[]).join(', ') : undefined, str(a.mobile), str(a.email)].filter(Boolean).join(' | ') || '-'}
                   </div>
                 </li>
@@ -200,21 +210,21 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
           ) : (
             <ul>
               {visibleContacts.map((c) => (
-                <li key={c.key} className="flex items-center gap-3 py-2.5 border-b border-border-soft last:border-0 min-w-0">
+                <li key={c.key} className="row py-2.5 row-rule min-w-0">
                   <span
-                    className={`w-11 h-11 rounded-[var(--radius-pill)] flex items-center justify-center shrink-0 font-semibold text-[length:var(--fs-body)] ${
+                    className={`w-11 h-11 rounded-[var(--radius-pill)] icon-tile font-semibold text-[length:var(--fs-body)] ${
                       c.primary ? 'bg-accent text-accent-on' : 'bg-tone-accent text-accent'
                     }`}
                   >
                     {initials(c.name)}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-fg font-semibold text-[length:var(--fs-body)] break-words">{c.name}</span>
+                    <div className="cluster-sm">
+                      <span className="heading-strong break-words">{c.name}</span>
                       {c.primary && <PrimaryTag />}
                     </div>
-                    <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">{c.role}</div>
-                    <div className="flex flex-wrap gap-x-4 text-fg-2 text-[length:var(--fs-caption)]">
+                    <div className="caption-secondary break-words">{c.role}</div>
+                    <div className="flex flex-wrap gap-x-4 caption-secondary">
                       {c.mobile && <span className="break-all">{c.mobile}</span>}
                       {c.email && <span className="break-all">{c.email}</span>}
                     </div>
@@ -236,13 +246,13 @@ export function C360ContactIdentity({ data, services, goToTab, onEdit }: { data:
                 const line = [str(a.addressLine1), str(a.addressLine2)].filter(Boolean);
                 const place = [str(a.city), str(a.country)].filter(Boolean).join(', ');
                 return (
-                  <li key={str(a.id) ?? i} className="rounded-[var(--radius-button)] border border-[var(--field-card-border)] p-3 flex items-center gap-3 min-w-0">
+                  <li key={str(a.id) ?? i} className="rounded-[var(--radius-button)] border border-[var(--field-card-border)] p-3 row min-w-0">
                     <IconTile icon={primary ? IC.home : IC.building} tone="grey" size="lg" />
                     <div className="min-w-0 flex-1">
                       <div>
                         <Pill tone={primary ? 'green' : 'grey'}>{primary ? 'Primary Address' : 'Other Address'}</Pill>
                       </div>
-                      <div className="text-fg-2 text-[length:var(--fs-caption)] mt-1 break-words">{[...line, place].filter(Boolean).join(', ') || '-'}</div>
+                      <div className="caption-secondary mt-1 break-words">{[...line, place].filter(Boolean).join(', ') || '-'}</div>
                     </div>
                     <Pill tone={active ? 'green' : 'grey'}>{active ? 'Active' : 'Inactive'}</Pill>
                   </li>

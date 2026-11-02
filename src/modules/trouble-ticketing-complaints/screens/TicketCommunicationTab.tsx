@@ -70,7 +70,7 @@ export function TicketCommunicationTab({ ticketId, onSend }: { ticketId: string;
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="fields md:grid-cols-2">
       <div>
         <SearchField
           aria-label="Search templates"
@@ -81,14 +81,14 @@ export function TicketCommunicationTab({ ticketId, onSend }: { ticketId: string;
           wrapperClassName="mb-2"
         />
         <div className="space-y-1 max-h-72 overflow-y-auto">
-          {matches.length === 0 && <p className="text-fg-2 text-[length:var(--fs-body)]">No matching templates.</p>}
+          {matches.length === 0 && <p className="text-secondary">No matching templates.</p>}
           {matches.map((t) => (
             <button
               key={t.templateId}
               type="button"
               aria-pressed={selected?.templateId === t.templateId}
               onClick={() => setSelected(t)}
-              className={`w-full text-left rounded-[var(--radius-card)] border p-2 text-[length:var(--fs-body)] ${
+              className={`w-full text-left card-frame p-2 text-[length:var(--fs-body)] ${
                 selected?.templateId === t.templateId ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)] shadow-[var(--shadow-selected-ring)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-[var(--field-card-hover-bg)]'
               }`}
             >
@@ -102,11 +102,11 @@ export function TicketCommunicationTab({ ticketId, onSend }: { ticketId: string;
         </div>
       </div>
       <div className="card p-3">
-        {!selected && <p className="text-fg-2 text-[length:var(--fs-body)]">Select a template to preview.</p>}
+        {!selected && <p className="text-secondary">Select a template to preview.</p>}
         {selected && (
           <div className="space-y-2">
             <div className="text-fg font-medium">{selected.keyword}</div>
-            <p className="text-fg-2 text-[length:var(--fs-body)]">
+            <p className="text-secondary">
               {resolveBody(selected.bodyEn) ?? <span className="italic text-muted">No English body populated in the source workbook for this template.</span>}
             </p>
             <Button variant="primary" onClick={send} disabled={sending || !selected.bodyEn}>

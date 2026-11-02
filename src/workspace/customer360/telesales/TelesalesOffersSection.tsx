@@ -27,16 +27,16 @@ export function OffersSection({ ctx }: { ctx: Ctx }) {
   const doi = str(data.deviceInstallments[0]?.eligibilityListMembership);
   const c = (d: string) => asText(contactInformationResolvers[d]?.({ data, services }));
   const row = (name: string, sub: string, icon: string, pill?: ReactNodeLike) => (
-    <div key={name} className="flex items-center gap-3 px-5 py-4 border-b border-[var(--field-card-border)] last:border-0">
+    <div key={name} className="row pad-panel row-rule-card">
       <span className="text-accent shrink-0">
         <Icon path={icon} className="w-5 h-5" />
       </span>
       <div className="min-w-0 flex-1">
-        <div className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{name}</div>
-        <div className="text-fg-2 text-[length:var(--fs-caption)]">{sub}</div>
+        <div className="subtitle">{name}</div>
+        <div className="caption-secondary">{sub}</div>
       </div>
       {pill}
-      <Icon path={ICON.chevron} className="w-4 h-4 text-muted shrink-0" />
+      <Icon path={ICON.chevron} className="icon-sm text-muted" />
     </div>
   );
   return (
@@ -65,14 +65,14 @@ export function OffersSection({ ctx }: { ctx: Ctx }) {
       />
       <div className="contents">
         <Card title="Next Best Offers" icon={ICON.star} link="View All Offers" className="md:[grid-column:span_2]">
-          <p className="px-5 py-3 text-fg-2 text-[length:var(--fs-body)]">AI recommended offers based on customer profile and usage behaviour.</p>
-          <div className="px-5 pb-5 grid grid-cols-2 gap-4">
+          <p className="px-5 py-3 text-secondary">AI recommended offers based on customer profile and usage behaviour.</p>
+          <div className="px-5 pb-5 pair-grid">
             {cards.map((o, i) => (
-              <div key={o.name} className={`rounded-[var(--radius-card)] border p-4 ${i === 0 ? 'border-accent border-2' : 'border-[var(--field-card-border)]'}`}>
-                <span className={`inline-block rounded-[var(--radius-button)] px-2 py-0.5 text-[length:var(--fs-caption)] font-bold text-on-dark ${i === 0 ? 'bg-accent' : 'bg-[var(--telesales-blue)]'}`}>{o.badge}</span>
-                <div className="text-fg font-bold text-[length:var(--fs-h4)] mt-8">{o.name}</div>
-                <div className="text-fg-2 text-[length:var(--fs-body)] mb-2">{o.tagline}</div>
-                <ul className="text-fg-2 text-[length:var(--fs-body)] space-y-1 mb-3">
+              <div key={o.name} className={`card-frame p-4 ${i === 0 ? 'border-accent border-2' : 'border-[var(--field-card-border)]'}`}>
+                <span className={`badge-square font-bold text-on-dark ${i === 0 ? 'bg-accent' : 'bg-[var(--telesales-blue)]'}`}>{o.badge}</span>
+                <div className="title-xl mt-8">{o.name}</div>
+                <div className="text-secondary mb-2">{o.tagline}</div>
+                <ul className="text-secondary space-y-1 mb-3">
                   {o.benefits.map((b) => (
                     <li key={b}>✓ {b}</li>
                   ))}

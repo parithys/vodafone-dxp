@@ -66,7 +66,7 @@ test('before a product is chosen the journey is Customer Verification, Address a
 });
 
 test('every product continues the same wizard: identification, address, billing profile (where the product has one), product selection, then that product\'s own steps', () => {
-  assert.deepEqual(activeKeys({ product: 'postpaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'billingAccount', 'addonReview', 'checkout', 'caf', 'payment'], 'New Postpaid: SIM Selection -> Billing -> Add-On Review -> Order Summary');
+  assert.deepEqual(activeKeys({ product: 'postpaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'billingAccount', 'checkout', 'caf', 'payment'], 'New Postpaid: SIM Selection -> Billing -> Order Summary (the add-ons are reviewed on the Addons page)');
   assert.deepEqual(activeKeys({ product: 'prepaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'recharge', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment']);
   assert.deepEqual(activeKeys({ product: 'fixed-line' }), ['contact', 'address', 'billingAccount', 'product', 'homeKind', 'installation', 'plan', 'number', 'checkout', 'caf', 'payment', 'appointment']);
   assert.deepEqual(activeKeys({ product: 'mnp', mnpType: 'postpaid' }), ['contact', 'address', 'billingAccount', 'product', 'mnpType', 'sim', 'plan', 'planExtras', 'donor-details', 'checkout', 'donor-attachment', 'caf', 'payment']);
@@ -138,7 +138,8 @@ test('identification reports only the checks common to every product; the produc
     deals: [], outstandingQar: 100, lineCapReached: true, activeLinesDetail: 'cap',
   };
   const common = engine.evaluateEligibilityChecks({ ...ctx, scope: 'common' }, new Date('2026-10-13')).map((c) => c.id);
-  assert.deepEqual(common.sort(), ['age', 'blacklist-security', 'deals', 'id-validity']);
+  // A Passport also reports its visa (visa-validity), which does not depend on the product either.
+  assert.deepEqual(common.sort(), ['age', 'blacklist-security', 'deals', 'id-validity', 'visa-validity']);
   const full = engine.evaluateEligibilityChecks({ ...ctx, scope: 'product' }, new Date('2026-10-13'));
   assert.ok(['id-type-routing', 'blacklist-collections', 'active-lines'].every((id) => full.some((c) => c.id === id)));
   assert.equal(full.find((c) => c.id === 'blacklist-collections').outcome, 'soft-stop', 'a collections block stops a postpaid product');
@@ -321,7 +322,7 @@ test('every journey floats its Back and Continue footer: it is the wizard defaul
   assert.match(guidedWizard, /fixedToViewport=\{fixedFooter\}/);
   assert.doesNotMatch(guidedWizard, /hasSummaryAside/);
   assert.match(footer, /fixed inset-x-0 \$\{fixedPosition\} z-\[var\(--z-sticky-raised\)\] border-t/);
-  assert.match(footer, /flex w-full items-center justify-between/);
+  assert.match(footer, /row-between w-full/);
   assert.match(guidedWizard, /fixedFooter \?[\s\S]*'pb-24'/);
   // The capability library's framed previews stay inline: a viewport-fixed bar would escape the frame.
   assert.equal((previews.match(/fixedFooter=\{false\}/g) ?? []).length, 2);

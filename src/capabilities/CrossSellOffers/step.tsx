@@ -36,7 +36,7 @@ export function offersStep({ applyCrossSales, navigate, createRecord, journey = 
         customerId={(values.eligibility as EligibilityResult | undefined)?.customerId}
         value={(values.crossSales as CrossSalesValue) ?? {}}
         onChange={(v) => applyCrossSales(setValue, v)}
-        onHandOff={(route) => navigate(route)}
+        onHandOff={(route, customer) => navigate(route, customer ? { state: { launch: customer } } : undefined)}
         journey={journey}
         onContinue={goNext}
         onInterestedOffer={async (offer) => {

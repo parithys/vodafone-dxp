@@ -37,7 +37,7 @@ export function postpaidPlanStep(ctx: PostpaidPlanContext): WizardStep {
     isValid: (values) => Boolean(values.productId),
     // Once a plan is chosen on Standard Plans or Special Offers, Customise Add-ons and Edit Discount sit just before Continue.
     primaryAction: ({ values, setValue, goNext, defaultButton }) => (
-      <div className="flex items-center gap-3">
+      <div className="row">
         <CustomiseAddonsAction
           productId={values.productId as string | undefined}
           preBundled={Boolean(ctx.products.find((p) => p.productId === values.productId)?.preBundledOffer) || values.planTab === 'specials'}

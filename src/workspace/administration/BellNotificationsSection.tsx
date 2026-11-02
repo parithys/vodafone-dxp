@@ -109,12 +109,12 @@ export function BellNotificationsSection() {
     <div>
       {canConfigure ? (
         <div className="card p-5 mb-6">
-          <h2 className="text-[length:var(--fs-body-lg)] font-bold text-fg mb-1">Configure a Notification</h2>
-          <p className="text-fg-2 text-[length:var(--fs-caption)] mb-4">
+          <h2 className="title-md mb-1">Configure a Notification</h2>
+          <p className="caption-secondary mb-4">
             Notifications appear as a banner on the customer's Customer 360 screen until they expire - agents cannot dismiss them
             manually (BIN-06).
           </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="pair-grid-sm">
             <Input label="Customer ID" placeholder="e.g. CUST-1001" value={customerId} onChange={(e) => setCustomerId(e.target.value)} />
             <Input
               label="Expiry Date"
@@ -154,25 +154,25 @@ export function BellNotificationsSection() {
         </div>
       ) : (
         <div className="card p-5 mb-6">
-          <h2 className="text-[length:var(--fs-body-lg)] font-bold text-fg mb-1">Configure a Notification</h2>
-          <p className="text-fg-2 text-[length:var(--fs-caption)]">
+          <h2 className="title-md mb-1">Configure a Notification</h2>
+          <p className="caption-secondary">
             Restricted to Backoffice and privileged staff roles (Agent 360 BIN-01). This persona does not have
             configuration access.
           </p>
         </div>
       )}
 
-      <h3 className="text-[length:var(--fs-body-lg)] font-bold text-fg mb-2">All Notifications</h3>
+      <h3 className="title-md mb-2">All Notifications</h3>
       <div className="card divide-y divide-border-soft">
         {notifications.length === 0 && <EmptyState compact message="No notifications configured yet." />}
         {notifications.map((n) => (
-          <div key={n.notificationId} className="px-4 py-3 flex items-start justify-between gap-4">
+          <div key={n.notificationId} className="pad-row split-top gap-4">
             <div className="min-w-0">
-              <div className="text-fg text-[length:var(--fs-body)]">
+              <div className="body-text">
                 {n.customerId} - <span className="text-fg-2">{n.message}</span>
               </div>
               {n.expiresAt && (
-                <div className="text-muted text-[length:var(--fs-caption)] mt-0.5">Expires {formatDate(n.expiresAt)}</div>
+                <div className="caption-muted mt-0.5">Expires {formatDate(n.expiresAt)}</div>
               )}
             </div>
             <Badge variant={displayStatus(n) === 'Published' ? 'success' : displayStatus(n) === 'Expired' ? 'filled-neutral' : 'warning'}>

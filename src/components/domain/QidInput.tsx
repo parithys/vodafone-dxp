@@ -136,7 +136,7 @@ export function QidTypeSelector({
     <div>
       <p className="text-[length:var(--fs-label)] text-fg-2">ID Type</p>
       {/* Sub-title: the types that cannot be picked here without pre-approval. */}
-      <p className={`text-[length:var(--fs-caption)] text-muted ${unavailable.size > 0 ? 'mt-0.5 mb-2' : 'mb-2'}`}>
+      <p className={`caption-muted ${unavailable.size > 0 ? 'mt-0.5 mb-2' : 'mb-2'}`}>
         {unavailable.size > 0 &&
           `Required pre-approval: ${offered.filter((t) => unavailable.has(t.type)).map((t) => t.label).join(', ')}`}
       </p>
@@ -164,7 +164,7 @@ export function QidTypeSelector({
               aria-disabled={isUnavailable || undefined}
               aria-pressed={selected}
               onClick={() => !isUnavailable && onIdTypeChange(t.type)}
-              className={`relative flex flex-row items-center justify-start gap-3 rounded-[var(--radius-card)] border p-4 ${
+              className={`relative row flex-row justify-start card-frame p-4 ${
                 isUnavailable
                   ? 'border-border-soft bg-bg text-muted opacity-60'
                   : selected
@@ -184,7 +184,7 @@ export function QidTypeSelector({
         })}
       </div>
       {unavailable.size > 0 && unavailableHint && (
-        <p className="mt-2 text-[length:var(--fs-caption)] text-muted">{unavailableHint}</p>
+        <p className="mt-2 caption-muted">{unavailableHint}</p>
       )}
     </div>
   );
@@ -225,7 +225,7 @@ export function QidNumberField({
           HAS a status to show. min-h keeps the line the same height with and
           without a badge, so the field below does not shift when the lookup
           resolves. */}
-      <div className={`flex items-center gap-3 min-h-7 mb-1 ${inlineField ? 'justify-start' : 'justify-between'}`}>
+      <div className={`row min-h-7 mb-1 ${inlineField ? 'justify-start' : 'justify-between'}`}>
         {inlineField ? null : (
           <label htmlFor="qid-number-input" className="block text-[length:var(--fs-label)] text-fg">
             {current.numberLabel}
@@ -236,7 +236,7 @@ export function QidNumberField({
       {/* Right-aligned under `status`, same reasoning as that slot - a fact
           about the lookup, not about the field itself, so it reads as an
           annex to the badge above it rather than a second label. */}
-      {statusDetail && <p className="text-[length:var(--fs-caption)] text-muted text-right -mt-0.5 mb-1">{statusDetail}</p>}
+      {statusDetail && <p className="caption-muted text-right -mt-0.5 mb-1">{statusDetail}</p>}
       <div className={`flex gap-2 ${inlineField ? 'items-end' : ''}`}>
         {/* readOnly, not disabled: a scanned number is data the agent reads
             back off the screen, and disabled styling drops it to
@@ -269,8 +269,7 @@ export function QidNumberField({
             readOnly
             tabIndex={-1}
             onMouseDown={(e) => e.preventDefault()}
-            className={`flex-1 min-w-0 rounded-[var(--field-radius)] border px-3 py-2 text-[length:var(--fs-body)] text-fg
-              bg-surface cursor-default select-none
+            className={`flex-1 min-w-0 rounded-[var(--field-radius)] border px-3 py-2 body-text bg-surface cursor-default select-none
               ${error ? 'border-[var(--field-border-error)]' : 'border-[var(--field-border)]'}
               focus:outline-none`}
           />
@@ -293,11 +292,10 @@ export function QidNumberField({
                 fixed number for whichever ID type is currently selected. */}
             <button
               type="button"
-              onClick={() => (onBarcodeScan ? onBarcodeScan() : onChange(barcodeNumber ?? BARCODE_DEMO_NUMBERS[idType]))}
+              onClick={() => (onBarcodeScan ? onBarcodeScan() : onChange(barcodeNumber ?? BARCODE_DEMO_NUMBERS[idType as keyof typeof BARCODE_DEMO_NUMBERS] ?? ''))}
               aria-label={`Simulate scanning the ${current.numberLabel.replace(/ Number$/, '')} barcode`}
               title="Scan barcode"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded-[var(--radius-button)] text-muted
-                hover:text-accent focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+              className="absolute right-1.5 center-y icon-button-inline"
             >
               <Icon path={BARCODE_ICON} className="w-4 h-4" />
             </button>
@@ -320,7 +318,7 @@ export function QidNumberField({
         )}
       </div>
       {error && <p className="text-[var(--field-border-error)] text-[length:var(--fs-caption)] mt-1">{error}</p>}
-      {!error && hint && <p className="text-muted text-[length:var(--fs-caption)] mt-1">{hint}</p>}
+      {!error && hint && <p className="caption-muted mt-1">{hint}</p>}
     </div>
   );
 }

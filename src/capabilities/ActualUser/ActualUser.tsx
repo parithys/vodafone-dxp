@@ -66,16 +66,16 @@ export function ActualUser({
                   onChange({ ...value, choice: o.key });
                 }
               }}
-              className={`${CARD_SELECTABLE} cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${checked ? CARD_SELECTED : CARD_IDLE}`}
+              className={`${CARD_SELECTABLE} cursor-pointer transition-colors focus-ring ${checked ? CARD_SELECTED : CARD_IDLE}`}
             >
               {checked && <SelectedTick />}
-              <div className="flex items-center gap-3">
-                <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-button)] transition-colors ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
+              <div className="row">
+                <span className={`option-icon ${checked ? 'bg-accent text-accent-on' : 'bg-surface-warm text-accent'}`}>
                   <Icon path={o.icon} className="w-5 h-5" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-fg font-medium text-[length:var(--fs-body)]">{o.label}</span>
-                  <span className="block text-fg-2 text-[length:var(--fs-caption)]">{o.hint}</span>
+                  <span className="block value-text">{o.label}</span>
+                  <span className="block caption-secondary">{o.hint}</span>
                 </span>
               </div>
             </div>

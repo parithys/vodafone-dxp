@@ -96,17 +96,17 @@ export function LeadDetailsView() {
 
   return (
     <div className="p-8 w-full">
-      <div className="flex flex-col lg:flex-row items-start gap-6">
+      <div className="split-pane">
         <div className="flex-1 min-w-0 space-y-6">
           <div className="card p-5">
-            <div className="flex items-center gap-3 mb-1">
-              <h1 className="text-[length:var(--fs-h4)] font-bold text-fg">Lead {lead.leadId}</h1>
+            <div className="row mb-1">
+              <h1 className="title-xl">Lead {lead.leadId}</h1>
               <Badge variant={lead.status === 'Rejected' ? 'danger' : 'outlined-red'}>{lead.status}</Badge>
             </div>
             <p className="text-fg-2">{lead.serviceNeeded} - owned by {lead.ownerId}</p>
           </div>
 
-          <dl className="grid grid-cols-2 gap-4 text-[length:var(--fs-body)] card p-5">
+          <dl className="pair-grid text-[length:var(--fs-body)] card p-5">
             <div>
               <dt className="text-[length:var(--fs-caption)] text-fg">Sub Status</dt>
               <dd className="text-fg">{lead.subStatus ?? '-'}</dd>
@@ -130,10 +130,10 @@ export function LeadDetailsView() {
           </dl>
         </div>
 
-        <div className="w-full lg:w-72 shrink-0 space-y-6">
+        <div className="split-pane-side">
           <div className="card p-5">
-            <h2 className="text-[length:var(--fs-body-lg)] text-fg font-bold mb-3">Actions</h2>
-            <div className="flex flex-col gap-2">
+            <h2 className="title-md mb-3">Actions</h2>
+            <div className="stack-sm">
               <Button
                 variant="primary"
                 className="w-full justify-center"
@@ -162,37 +162,37 @@ export function LeadDetailsView() {
           </div>
 
           <div className="card p-5">
-            <h2 className="text-[length:var(--fs-body-lg)] text-fg font-bold mb-3">Overview</h2>
+            <h2 className="title-md mb-3">Overview</h2>
             <div className="space-y-3 text-[length:var(--fs-body)]">
-              <div className="flex items-center justify-between gap-2">
+              <div className="split-tight">
                 <span className="text-muted">Status</span>
                 <Badge variant={lead.status === 'Rejected' ? 'danger' : 'outlined-red'}>{lead.status}</Badge>
               </div>
-              <div className="flex items-center justify-between gap-2">
+              <div className="split-tight">
                 <span className="text-muted">Lead #</span>
                 <span className="text-accent font-medium">{lead.leadId}</span>
               </div>
-              <div className="flex items-center justify-between gap-2">
+              <div className="split-tight">
                 <span className="text-muted">Service Needed</span>
                 <span className="text-fg text-right">{lead.serviceNeeded}</span>
               </div>
-              <div className="flex items-center justify-between gap-2">
+              <div className="split-tight">
                 <span className="text-muted">Owner</span>
                 <span className="text-fg">{lead.ownerId}</span>
               </div>
               {lead.contactName && (
-                <div className="flex items-center justify-between gap-2">
+                <div className="split-tight">
                   <span className="text-muted">Contact</span>
                   <span className="text-fg">{lead.contactName}</span>
                 </div>
               )}
               {lead.mobileNumber && (
-                <div className="flex items-center justify-between gap-2">
+                <div className="split-tight">
                   <span className="text-muted">Mobile</span>
                   <span className="text-fg">{lead.mobileNumber}</span>
                 </div>
               )}
-              <div className="flex items-center justify-between gap-2">
+              <div className="split-tight">
                 <span className="text-muted">Created Via</span>
                 <span className="text-fg">{lead.createdVia}</span>
               </div>
@@ -212,7 +212,7 @@ export function LeadDetailsView() {
           />
           <Textarea label="Reject Comment" value={rejectComment} onChange={(e) => setRejectComment(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={submitReject} disabled={!rejectCode}>Confirm Rejection</Button>
         </div>
@@ -228,7 +228,7 @@ export function LeadDetailsView() {
               className="w-full text-left px-2 py-2 hover:bg-surface flex justify-between"
             >
               <span className="text-fg">{a.firstName} {a.lastName}</span>
-              <span className="text-muted text-[length:var(--fs-caption)]">{a.jobTitle}</span>
+              <span className="caption-muted">{a.jobTitle}</span>
             </button>
           ))}
           {filteredAgents.length === 0 && <p className="text-muted py-3 text-center">No matching candidates.</p>}

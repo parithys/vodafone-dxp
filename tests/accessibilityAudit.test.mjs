@@ -27,11 +27,12 @@ test('every page-level tab strip has an accessible name', () => {
 });
 
 test('"View details" on a plan card is at least 24 px tall (WCAG 2.5.8)', () => {
-  assert.match(read('src/components/patterns/PostpaidPlanCard.tsx'), /inline-flex min-h-6 items-center gap-1/);
+  assert.match(read('src/components/patterns/PostpaidPlanCard.tsx'), /link-inline min-h-6/);
+  assert.match(read('src/ui-components.css'), /\.link-inline \{[^}]*inline-flex items-center gap-1/);
 });
 
 test('the remaining audit findings stay fixed: tab text uses the accent-text colour, embedded headers are not a second h1, the search combobox points only at an open list, small targets reach 24 px', () => {
-  assert.match(read('src/components/primitives/TabStrip.tsx'), /border-accent text-\[var\(--accent-text\)\] font-bold/);
+  assert.match(read('src/ui-components.css'), /\.tab\.tab-active \{[^}]*border-accent text-\[var\(--accent-text\)\] font-bold/);
   const css = read('src/tokens.css');
   assert.ok(contrast(token(css, '--accent-text'), token(css, '--page-bg') ?? '#f1f4fa') >= 4.5 || true);
   assert.ok(contrast('#d40000', '#f1f4fa') >= 4.5, 'accent-text on the page background');
@@ -39,23 +40,27 @@ test('the remaining audit findings stay fixed: tab text uses the accent-text col
   assert.match(read('src/modules/trouble-ticketing-complaints/screens/TicketsDashboard.tsx'), /level=\{padded \? 1 : 2\}/);
   assert.match(read('src/modules/trouble-ticketing-complaints/screens/TicketApprovalQueue.tsx'), /level=\{padded \? 1 : 2\}/);
   assert.match(read('src/components/patterns/PlanSearchBox.tsx'), /aria-controls=\{searchOpen && planSearch\.trim\(\) \? 'plan-search-listbox' : undefined\}/);
-  for (const f of ['src/navigation/Breadcrumbs.tsx', 'src/components/primitives/DataTable.tsx']) assert.match(read(f), /min-h-6/, f);
-  for (const f of ['src/capabilities/Toasts/Toast.tsx', 'src/navigation/SessionReferenceNumbers.tsx']) assert.match(read(f), /inline-flex h-6 w-6 shrink-0/, f);
+  assert.match(read('src/components/primitives/DataTable.tsx'), /min-h-6/);
+  assert.match(read('src/navigation/Breadcrumbs.tsx'), /link-quiet/);
+  assert.match(read('src/ui-components.css'), /\.link-quiet \{[^}]*min-h-6/);
+  for (const f of ['src/capabilities/Toasts/Toast.tsx', 'src/navigation/SessionReferenceNumbers.tsx']) assert.match(read(f), /icon-button-bare/, f);
+  assert.match(read('src/ui-components.css'), /\.icon-button-bare \{[^}]*inline-flex h-6 w-6 shrink-0/);
 });
 
 test('the page title band (PageHeader, wizard title, Customer 360 header) reads --title-band-bg: charcoal in light, the section-header surface in dark; notifications are separated', () => {
   const css = read('src/tokens.css');
   assert.match(css, /--title-band-bg: var\(--charcoal-panel\);/);
   assert.match(css, /--title-band-bg: var\(--bg\);/);
-  for (const f of ['src/components/patterns/PageHeader.tsx', 'src/components/patterns/wizard/WizardTitleBand.tsx', 'src/workspace/customer360/CustomerProfileHeader.tsx', 'src/components/patterns/wizard/StepSummaryPanel.tsx']) assert.match(read(f), /bg-\[var\(--title-band-bg\)\]/, f);
-  assert.match(read('src/navigation/PersonaSwitcher.tsx'), /border-b border-border-soft last:border-b-0 hover:bg-surface/, 'a separator after each workflow notification');
+  for (const f of ['src/components/patterns/PageHeader.tsx', 'src/components/patterns/wizard/WizardTitleBand.tsx', 'src/workspace/customer360/CustomerProfileHeader.tsx', 'src/components/patterns/wizard/StepSummaryPanel.tsx']) assert.match(read(f), /bg-\[var\(--title-band-bg\)\]|title-band/, f);
+  assert.match(read('src/navigation/PersonaSwitcher.tsx'), /menu-item/, 'the workflow notifications are menu items');
+  assert.match(read('src/ui-components.css'), /\.menu-item \{[^}]*border-b border-border-soft last:border-b-0/, 'a separator after each workflow notification');
   assert.match(read('src/lib/serviceTypeTag.ts'), /label: 'Voice Plan'/);
   assert.match(read('src/lib/serviceTypeTag.ts'), /label: 'Broadband Plan'/);
 });
 
 test('Administration headings do not skip a level: the capability name is an h2 and its sections h3', () => {
   const s = read('src/workspace/administration/CapabilityLibrarySection.tsx');
-  assert.ok(s.includes('<h2 className="text-fg font-bold'));
+  assert.ok(s.includes('<h2 className="title-xl'));
   assert.ok(!/<h4\b/.test(s), 'no h4 directly under the h2');
   assert.equal((s.match(/<h3\b/g) ?? []).length, (s.match(/<\/h3>/g) ?? []).length);
 });

@@ -80,7 +80,8 @@ test('the Pagination bar renders nothing on one page; on several it is "Page a o
   // No container or background of its own: the wrapper carries no border, fill, radius or padding; only the pager group is bordered.
   const wrapper = html.slice(0, html.indexOf('<span'));
   assert.doesNotMatch(wrapper, /border|bg-|rounded|px-|py-/);
-  assert.match(html.slice(html.indexOf('<nav')), /border border-\[var\(--field-card-border\)\]/, 'the pager group keeps its border');
+  assert.match(html.slice(html.indexOf('<nav')), /button-group/, 'the pager group keeps its border');
+  assert.match(fs.readFileSync('src/ui-components.css', 'utf8'), /\.button-group \{[^}]*border border-\[var\(--field-card-border\)\]/);
 });
 
 // ---- single source of truth, read from the source ----

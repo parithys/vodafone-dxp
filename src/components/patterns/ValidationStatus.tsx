@@ -74,7 +74,7 @@ export function ValidationStatus({
   return (
     <div
       role={variant === 'technical' || variant === 'business-failure' ? 'alert' : 'status'}
-      className={`rounded-[var(--radius-card)] border p-4 flex gap-3 ${s.shell}`}
+      className={`card-frame p-4 flex gap-3 ${s.shell}`}
     >
       <span className={`mt-0.5 shrink-0 ${s.icon}`}>
         {busy ? (
@@ -84,11 +84,11 @@ export function ValidationStatus({
         )}
       </span>
       <div className="min-w-0 space-y-1">
-        <p className={`text-[length:var(--fs-micro)] uppercase tracking-wide font-semibold ${s.icon}`}>{tag ?? s.tag}</p>
-        <p className="text-fg font-medium text-[length:var(--fs-body)]">{title}</p>
-        {children && <div className="text-fg-2 text-[length:var(--fs-body)]">{children}</div>}
-        {reference && <p className="text-muted text-[length:var(--fs-caption)]">Reference: {reference}</p>}
-        {actions && <div className="flex flex-wrap items-center gap-2 pt-2">{actions}</div>}
+        <p className={`text-[length:var(--fs-micro)] caps-strong ${s.icon}`}>{tag ?? s.tag}</p>
+        <p className="value-text">{title}</p>
+        {children && <div className="text-secondary">{children}</div>}
+        {reference && <p className="caption-muted">Reference: {reference}</p>}
+        {actions && <div className="cluster-sm pt-2">{actions}</div>}
       </div>
     </div>
   );

@@ -12,14 +12,22 @@ const h = React.createElement;
 test('Button: variants render the design-system classes, sizes and disabled state', async () => {
   const { Button } = await load('/src/components/primitives/Button.tsx');
   const primary = html(h(Button, { variant: 'primary' }, 'Continue'));
-  assert.match(primary, /accent-gradient/);
+  // The look is semantic classes (.btn + variant + size), defined once in src/ui-components.css.
+  assert.match(primary, /class="btn btn-primary btn-md/);
   assert.match(primary, /Continue/);
-  assert.match(html(h(Button, { variant: 'secondary' }, 'Back')), /btn-secondary/);
-  assert.match(html(h(Button, { variant: 'tertiary' }, 'View')), /text-link/);
-  assert.match(html(h(Button, { variant: 'destructive' }, 'Drop')), /bg-danger/);
-  assert.match(html(h(Button, { size: 'sm' }, 'x')), /fs-btn-compact/);
+  assert.match(html(h(Button, { variant: 'secondary' }, 'Back')), /class="btn btn-secondary btn-md/);
+  assert.match(html(h(Button, { variant: 'tertiary' }, 'View')), /class="btn btn-tertiary/);
+  assert.doesNotMatch(html(h(Button, { variant: 'tertiary' }, 'View')), /btn-(sm|md|lg)/, 'a text-link button has no box, so no size');
+  assert.match(html(h(Button, { variant: 'destructive' }, 'Drop')), /btn btn-destructive btn-md/);
+  assert.match(html(h(Button, { size: 'sm' }, 'x')), /btn-sm/);
+  assert.match(html(h(Button, { size: 'lg' }, 'x')), /btn-lg/);
   assert.match(html(h(Button, { disabled: true }, 'x')), /disabled=""/);
-  assert.doesNotMatch(primary, /shadow-\[/); // no glow on any button
+  const css = fs.readFileSync('src/ui-components.css', 'utf8');
+  assert.match(css, /\.btn-primary \{[^}]*bg-\[image:var\(--accent-gradient\)\]/, 'the primary fill is the accent gradient');
+  assert.match(css, /\.btn-primary \{[^}]*disabled:bg-\[var\(--accent-disabled\)\]/);
+  assert.match(css, /\.btn-destructive \{[^}]*bg-danger-solid/);
+  assert.match(css, /\.btn-sm \{[^}]*fs-btn-compact/);
+  assert.doesNotMatch(css.match(/\.btn-primary \{[^}]*\}/)[0], /shadow-/); // no glow on any button
 });
 
 test('ChoiceCards: one radiogroup of icon cards - the chosen one is checked, ticked and highlighted; no native radio inputs', async () => {
@@ -38,7 +46,8 @@ test('TabStrip: tablist semantics, one tab in the tab order, accent underline an
   assert.match(out, /role="tablist"/);
   assert.equal((out.match(/role="tab"/g) ?? []).length, 2);
   assert.equal((out.match(/tabindex="0"/g) ?? []).length, 1);
-  assert.match(out, /aria-selected="true"[^>]*class="[^"]*border-accent[^"]*text-\[var\(--accent-text\)\][^"]*font-bold/);
+  assert.match(out, /aria-selected="true"[^>]*class="tab tab-active"/);
+  assert.match(fs.readFileSync('src/ui-components.css', 'utf8'), /\.tab\.tab-active \{[^}]*border-accent text-\[var\(--accent-text\)\] font-bold/, 'the selected tab: accent underline, accent text, bold');
   assert.match(out, />4</);
 });
 
@@ -50,8 +59,9 @@ test('SegmentedTabs: tablist semantics, one tab in the tab order, the Level 2 pi
   assert.equal((out.match(/aria-selected="true"/g) ?? []).length, 1);
   assert.equal((out.match(/tabindex="0"/g) ?? []).length, 1);
   assert.equal((out.match(/tabindex="-1"/g) ?? []).length, 1);
-  assert.match(out, /icon-tile-bg\)\] p-1/, 'the pill track');
-  assert.doesNotMatch(out, /border-b-\[length:var\(--tab-active-w\)\]/, 'never an underline');
+  assert.match(out, /class="tab-segmented/, 'the pill track');
+  assert.match(fs.readFileSync('src/ui-components.css', 'utf8'), /\.tab-segmented \{[^}]*icon-tile-bg\)\] p-1/);
+  assert.doesNotMatch(out, /class="tab /, 'never an underline');
 });
 
 test('Pager: hidden for one page; marks the current page; previous/next disable at the ends', async () => {
@@ -218,17 +228,19 @@ test('idCaptureOptions: reader on web, upload on tablet, upload when there is no
   assert.deepEqual(idCaptureOptions('tablet', false), { scan: false, upload: true });
 });
 
-// Special Discounts Identification is an independent copy of the Mobile Postpaid Special Discounts section: it imports none of the shared
-// identification / customer-type parts or the device rule, and always offers both capture actions.
-test('Special Discounts Identification is decoupled from Customer Verification (it has its own capture rule, which reads the device since 2026-10-27)', async () => {
+// Special Discounts Identification keeps its own step and model, and draws the Office ID capture from the shared ID upload components (it used to carry
+// forked copies of six of them). Its one difference from the other ID steps - the reader on every device - is the `readerEverywhere` option.
+test('Special Discounts Identification shares the ID capture components and keeps its capture rule (reader on every device, upload on a tablet)', async () => {
   const dir = 'src/capabilities/SpecialDiscountsIdentification';
-  const shared = /from '(?:\.\.\/)+(?:components\/(?:patterns|domain)\/(?:IdFileUpload|PassportScanSections|QidImageUpload|QidInput|ScannedIdPreview|idUploadModel|qidImageUploadModel|GuidedContactStep|IdLookupStep|useIdLookup|CompanySearchInput)|capabilities\/(?:CustomerIdentification|CustomerType))'/;
-  for (const f of fs.readdirSync(dir).filter((n) => /\.tsx?$/.test(n))) assert.ok(!shared.test(fs.readFileSync(path.join(dir, f), 'utf8')), `${f} reaches into a shared part`);
-  const { idCaptureOptions } = await load('/src/capabilities/SpecialDiscountsIdentification/idUploadModel.ts');
-  assert.deepEqual(idCaptureOptions(true, 'web'), { scan: true, upload: false });
-  assert.deepEqual(idCaptureOptions(true, 'tablet'), { scan: true, upload: true });
-  assert.deepEqual(idCaptureOptions(false, 'web'), { scan: false, upload: true }, 'no reader: upload stays on the web');
-  assert.deepEqual(idCaptureOptions(false, 'tablet'), { scan: false, upload: true });
+  const own = fs.readdirSync(dir).filter((n) => /\.tsx?$/.test(n));
+  for (const forked of ['CompanySearchInput', 'IdFileUpload', 'PassportScanSections', 'QidImageUpload', 'ScanFailureNotice', 'ScannedIdPreview', 'idUploadModel', 'qidImageUploadModel'])
+    assert.ok(!own.some((n) => n.startsWith(forked)), `${forked} is the shared component, not a copy`);
+  assert.match(fs.readFileSync(`${dir}/SpecialDiscountsStep.tsx`, 'utf8'), /<QidImageUpload[\s\S]*readerEverywhere/);
+  const { idCaptureOptions } = await load('/src/components/domain/idUploadModel.ts');
+  assert.deepEqual(idCaptureOptions('web', true, false, true), { scan: true, upload: false });
+  assert.deepEqual(idCaptureOptions('tablet', true, false, true), { scan: true, upload: true });
+  assert.deepEqual(idCaptureOptions('web', false, false, true), { scan: false, upload: true }, 'no reader: upload stays on the web');
+  assert.deepEqual(idCaptureOptions('tablet', false, false, true), { scan: false, upload: true });
   const m = await load('/src/capabilities/SpecialDiscountsIdentification/specialDiscountsModel.ts');
   assert.deepEqual(m.TYPE_OPTIONS.map((o) => o.label), ['Standard Customer', 'Consumer B2B2C', 'Retiree', 'MADA']);
 });
@@ -244,13 +256,14 @@ test('Tab hierarchy: a page-level TabStrip is the underline; inside a tab panel 
   const { Tabs } = await load('/src/components/primitives/Tabs.tsx');
   const strip = () => h(TabStrip, { items: [{ key: 'a', label: 'One' }, { key: 'b', label: 'Two' }], active: 'a', onChange() {} });
   const page = html(strip());
-  assert.match(page, /border-b-\[length:var\(--tab-active-w\)\]/, 'level 1 is the underline');
+  assert.match(page, /class="tab-strip/, 'level 1 is the underline strip');
+  assert.match(page, /class="tab /);
   const nested = html(h(NestedTabs, null, strip()));
-  assert.match(nested, /icon-tile-bg\)\] p-1/, 'level 2 is the pill');
-  assert.doesNotMatch(nested, /border-b-\[length:var\(--tab-active-w\)\]/, 'never an underline when nested');
+  assert.match(nested, /class="tab-segmented/, 'level 2 is the pill');
+  assert.doesNotMatch(nested, /class="tab /, 'never an underline when nested');
   const inTab = html(h(Tabs, { items: [{ key: 'x', label: 'X', content: strip() }] }));
   assert.equal((inTab.match(/role="tablist"/g) ?? []).length, 2);
-  assert.equal((inTab.match(/border-b-\[length:var\(--tab-active-w\)\]/g) ?? []).length, 1, 'only the page-level strip is an underline');
+  assert.equal((inTab.match(/class="tab-strip/g) ?? []).length, 1, 'only the page-level strip is an underline');
 });
 
 test('no field shows placeholder / watermark text: the shared Input, Textarea, PhoneNumberInput and Select drop the prop', () => {

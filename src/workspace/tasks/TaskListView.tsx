@@ -138,7 +138,7 @@ export function TaskListView() {
                 {/* The priority star hangs in the cell's left padding, so every Task ID - flagged or not - starts at the
                     same x as the column header. */}
                 {t.priorityFlag && (
-                  <span title="Priority" aria-label="Priority" className="absolute -left-6 top-1/2 -translate-y-1/2 inline-flex text-[var(--priority)]">
+                  <span title="Priority" aria-label="Priority" className="absolute -left-6 center-y inline-flex text-[var(--priority)]">
                     <Icon path={STAR} className="w-3.5 h-3.5 fill-current" />
                   </span>
                 )}

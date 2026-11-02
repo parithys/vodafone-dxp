@@ -90,7 +90,7 @@ export function WaiveOff({
         onClose={close}
         title="Additional Discount"
         footer={
-          <div className="flex w-full flex-wrap items-center justify-between gap-3">
+          <div className="split w-full">
             <div>
               {waiver && (
                 <Button
@@ -128,7 +128,7 @@ export function WaiveOff({
           </div>
         }
       >
-        <p className="text-fg-2 text-[length:var(--fs-body)]">
+        <p className="text-secondary">
           The Star Number’s upfront charge is <strong className="text-fg">{formatQar(chargeQar)}</strong>. Enter the additional discount amount you would like to apply. The order will be sent for approval, and a supporting document must be attached.
         </p>
         <div className="mt-4 space-y-3">
@@ -146,13 +146,13 @@ export function WaiveOff({
                 Supporting Document<span className="text-[var(--field-border-error)]" aria-hidden="true"> *</span>
               </p>
               <input ref={fileRef} type="file" accept={UPLOAD_RULES.supporting.accept} className="sr-only" aria-label="Choose the supporting document" onChange={(e) => void chooseFile(e.target.files?.[0])} />
-              <div className="flex w-full flex-wrap items-center gap-3 rounded-[var(--field-radius)] border border-dashed border-[var(--field-border)] px-3 py-3">
+              <div className="document-slot">
                 <Button variant="secondary" compact onClick={() => fileRef.current?.click()}>
                   {draftDoc ? 'Replace Document' : 'Upload Document'}
                 </Button>
                 {draftDoc ? (
                   <>
-                    <span className="min-w-0 truncate text-fg text-[length:var(--fs-caption)]">
+                    <span className="line-fg-caption">
                       {draftDoc.fileName} <span className="text-muted">({formatBytes(draftDoc.sizeBytes)})</span>
                     </span>
                     <Button
@@ -167,7 +167,7 @@ export function WaiveOff({
                     </Button>
                   </>
                 ) : (
-                  <span className="text-muted text-[length:var(--fs-caption)]">{UPLOAD_RULES.supporting.formatsLabel}, up to {UPLOAD_RULES.supporting.maxLabel}</span>
+                  <span className="caption-muted">{UPLOAD_RULES.supporting.formatsLabel}, up to {UPLOAD_RULES.supporting.maxLabel}</span>
                 )}
               </div>
               {fileError && (

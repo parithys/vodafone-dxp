@@ -642,7 +642,7 @@ export function Customer360Layout() {
       </div>
 
       {!telesales && !headerOnly && (
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="pair-grid mb-4">
         <MetricCard label="Account Status" value={accountStatus} subtext={`${data.accounts.length} account${data.accounts.length === 1 ? '' : 's'}`} />
         <MetricCard
           label="Current Bill"
@@ -668,7 +668,7 @@ export function Customer360Layout() {
         // (2026-09-29 decision): a department granted no real-time or
         // drill-down access to any of the 13 topics (e.g. EBU Operations)
         // sees this rather than a crash or a blank/broken tab strip.
-        <p className={`text-fg-2 text-[length:var(--fs-body)] card p-6 ${headerOnly ? 'm-8' : ''}`}>
+        <p className={`text-secondary card p-6 ${headerOnly ? 'm-8' : ''}`}>
           No Customer 360 sections are visible for your role.
         </p>
       ) : (

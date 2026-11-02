@@ -47,7 +47,7 @@ export function SegmentedTabs<K extends string>({
       role="tablist"
       aria-label={label}
       onKeyDown={onKeyDown}
-      className={`inline-flex max-w-full gap-1 overflow-x-auto rounded-[var(--radius-card)] bg-[var(--icon-tile-bg)] p-1 ${className}`}
+      className={`tab-segmented ${className}`}
     >
       {items.map(({ key, label: text, count }) => (
         <button
@@ -57,19 +57,11 @@ export function SegmentedTabs<K extends string>({
           aria-selected={active === key}
           tabIndex={active === key ? 0 : -1}
           onClick={() => onChange(key)}
-          className={`flex shrink-0 items-center gap-2 rounded-[var(--radius-button)] px-5 py-2 text-[length:var(--fs-body)] whitespace-nowrap transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
-            active === key ? 'bg-bg text-fg font-bold shadow-[var(--shadow-dash-card)]' : 'text-[var(--icon-tile-fg)] font-medium hover:text-fg'
-          }`}
+          className={`tab-segment ${active === key ? 'tab-segment-active' : ''}`}
         >
           {text}
           {count !== undefined && (
-            <span
-              className={`inline-flex h-5 min-w-5 items-center justify-center rounded-[var(--radius-pill)] px-1.5 text-[length:var(--fs-micro)] font-semibold ${
-                active === key ? 'bg-accent text-accent-on' : 'bg-bg text-fg-2'
-              }`}
-            >
-              {count}
-            </span>
+            <span className="tab-segment-count">{count}</span>
           )}
         </button>
       ))}

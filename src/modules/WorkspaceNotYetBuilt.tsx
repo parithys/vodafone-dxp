@@ -43,17 +43,17 @@ export function WorkspaceNotYetBuilt({ navKey }: { navKey: NavKey }) {
       }
     >
       {requestedId && (
-        <p className="text-fg-2 text-[length:var(--fs-body)] mb-4">
+        <p className="text-secondary mb-4">
           A detail view for <code className="text-[length:var(--fs-caption)]">{requestedId}</code> is planned here.
         </p>
       )}
 
       {planned?.capabilities && planned.capabilities.length > 0 && (
         <>
-          <h2 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted mt-6 mb-2">
+          <h2 className="eyebrow mt-6 mb-2">
             Planned Capabilities
           </h2>
-          <ul className="text-fg-2 text-[length:var(--fs-body)] space-y-1 list-disc pl-5">
+          <ul className="text-secondary space-y-1 list-disc pl-5">
             {planned.capabilities.map((c) => (
               <li key={c}>{c}</li>
             ))}
@@ -63,10 +63,10 @@ export function WorkspaceNotYetBuilt({ navKey }: { navKey: NavKey }) {
 
       {launchers.length > 0 && (
         <>
-          <h2 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-muted mt-6 mb-2">
+          <h2 className="eyebrow mt-6 mb-2">
             Available Today
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="wrap-row">
             {launchers.map((l) => (
               // Soft-pink fill (2026-09-27), matching every other secondary/
               // clickable button in the app - see ProductLinePage.tsx's
@@ -80,7 +80,7 @@ export function WorkspaceNotYetBuilt({ navKey }: { navKey: NavKey }) {
               <Link
                 key={l.to}
                 to={l.to}
-                className={`group inline-flex items-center gap-1.5 rounded-[var(--radius-button)] border px-3 py-1.5 text-[length:var(--fs-caption)] ${SECONDARY_BUTTON_SURFACE}`}
+                className={`group chip-button ${SECONDARY_BUTTON_SURFACE}`}
               >
                 {l.label}
                 <Icon path={OPEN_ARROW} className="w-3.5 h-3.5 text-muted group-hover:text-accent" />

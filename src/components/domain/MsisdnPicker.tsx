@@ -278,7 +278,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
 
   // One row: the "search by" dropdown, the search box, and (XXYY only) the all-patterns checkbox; it wraps below the box on a narrow toolbar.
   const searchNode = (
-    <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
+    <div className="wrap-top gap-x-4 gap-y-2">
     <div className="flex min-w-0 flex-1 basis-80 items-start gap-2">
       <div className="shrink-0 w-36">
         <Select
@@ -298,7 +298,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       {searchMode === 'price' ? (
         // Price: two compact boxes instead of the search box - Min Price, a dash, Max Price.
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
+          <div className="row-tight">
             {([['Min Price', priceMin, setPriceMin], ['Max Price', priceMax, setPriceMax]] as const).map(([label, val, set], i) => (
               <Fragment key={label}>
                 {i === 1 && <span aria-hidden="true" className="text-fg-2">-</span>}
@@ -358,7 +358,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       )}
     </div>
     {searchMode === 'xxyy' && (
-      <label className="flex h-[var(--field-height)] shrink-0 items-center gap-2 whitespace-nowrap cursor-pointer text-fg text-[length:var(--fs-body)]">
+      <label className="flex h-[var(--field-height)] shrink-0 choice-label whitespace-nowrap">
         <Checkbox
           checked={allPatterns}
           onChange={(e) => {
@@ -374,7 +374,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   // The dropdown reads "Sort by" until the agent picks an order (the default order still applies meanwhile).
   const sortPlaceholder = !sortChosen[tab === 'Star' ? 'Star' : 'Free'];
   const sortNode = (
-        <div className={`flex items-center gap-2 ${tab !== 'Star' ? 'w-full [&>div]:w-full' : 'justify-end'}`}>
+        <div className={`row-tight ${tab !== 'Star' ? 'w-full [&>div]:w-full' : 'justify-end'}`}>
           {tab === 'Star' ? (
             // Price sort as ONE toggle: it shows the order the list is in (High to Low until the agent changes it) and a click flips to the other. The tooltip is the header's (Tooltip, bottom).
             (() => {
@@ -415,7 +415,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       {/* BR-115 entitlement, stated once up front under the step title rather than only on each card that
           exceeds it - the agent should know the cap before scanning individual prices. */}
       {entitlementQar !== undefined && (
-        <p className="text-muted text-[length:var(--fs-caption)]">
+        <p className="caption-muted">
             Your selected plan includes a Star Number worth up to <strong className="text-accent font-bold text-[length:var(--fs-body)]">{`QAR\u00a0${entitlementQar.toLocaleString('en-US')}`}</strong> at no extra charge.
             If you choose a higher-value number, you only pay the difference.
         </p>
@@ -439,14 +439,14 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
           FREE_SORT_OPTIONS: a price sort would rank Free rows by a figure the customer never pays); Reserved has none. Tier chips and
           the TIER filter were removed on 2026-09-27 per the annotated walkthrough. */}
       {tab !== 'Reserved' && (
-        <div className="flex items-start gap-3">
+        <div className="row-start">
           <div className="min-w-0 flex-1">{searchNode}</div>
           {showSort && <div className="shrink-0">{sortNode}</div>}
         </div>
       )}
       {/* Star tab: "Show within my entitlement" filter, with the other Star-tab filters. */}
       {tab === 'Star' && entitlementQar !== undefined && (
-        <label className="flex w-fit items-center gap-2 cursor-pointer text-fg text-[length:var(--fs-body)]">
+        <label className="flex w-fit choice-label">
           <Checkbox
             checked={withinEntitlementOnly}
             onChange={(e) => {
@@ -459,16 +459,16 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
       )}
       {/* Active filters (an entitlement limit, a typed search, the all-patterns list), each removable, with one Clear filters. */}
       {tab === 'Star' && (withinEntitlementOnly || search || showingAllPatterns) && (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-fg-2 text-[length:var(--fs-caption)]">Active Filters</span>
+        <div className="cluster-sm">
+          <span className="caption-secondary">Active Filters</span>
           {showingAllPatterns && (
-            <span className="inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-surface px-2.5 py-0.5 text-[length:var(--fs-caption)] text-fg">
+            <span className="chip text-fg">
               All Patterns
               <button
                 type="button"
                 aria-label="Remove filter All Patterns"
                 onClick={() => { setAllPatterns(false); setPage(0); }}
-                className="text-fg-2 hover:text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-pill)]"
+                className="text-fg-2 hover:text-fg focus-ring rounded-[var(--radius-pill)]"
               >
                 <Icon path={CLEAR_ICON} className="w-3.5 h-3.5" />
               </button>
@@ -579,14 +579,14 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                     toggle();
                   }
                 }}
-                className={`relative isolate flex flex-col gap-3 rounded-[var(--radius-card)] border px-6 py-5 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+                className={`option-card isolate gap-3 px-6 py-5 ${
                   isSelected ? CARD_SELECTED : CARD_IDLE
                 }`}
               >
                 {isSelected && <SelectedCardTexture />}
                 {/* The state mark: the shared corner tick when selected (also exposed as aria-pressed). */}
                 {isSelected && <SelectedTick />}
-                <p className="font-bold text-[length:var(--fs-h4)] text-fg leading-tight pr-10">{toLocalMsisdn(n.msisdn)}</p>
+                <p className="title-xl leading-tight pr-10">{toLocalMsisdn(n.msisdn)}</p>
                 {/* The facts sit side by side while the card has room for two and stack when it does not (a narrow panel, a phone), never overflow. */}
                 <div className="relative grid grid-cols-[repeat(auto-fit,minmax(7.5rem,1fr))] gap-x-6 gap-y-4">
                   {facts.map((f) => (
@@ -612,7 +612,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                   toggle();
                 }
               }}
-              className={`relative isolate flex flex-col gap-1.5 rounded-[var(--radius-card)] border px-4 py-3 cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+              className={`option-card isolate gap-1.5 pad-row ${
                 isSelected ? CARD_SELECTED : CARD_IDLE
               }`}
             >
@@ -622,12 +622,12 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                   aria-pressed on the card. */}
               {isSelected && <SelectedTick />}
               {/* On the selected surface the green FREE pill text is darkened (#1f6b2c, about 6:1) to keep 4.5:1. */}
-              <div className={`relative flex flex-wrap items-center justify-between gap-x-3 gap-y-1 ${isSelected ? '[&_.text-success]:text-[var(--tint-green-fg)]' : ''}`}>
+              <div className={`relative wrap-center justify-between gap-x-3 gap-y-1 ${isSelected ? '[&_.text-success]:text-[var(--tint-green-fg)]' : ''}`}>
                 <p className="font-bold text-[length:var(--fs-h5,20px)] text-fg whitespace-nowrap">{toLocalMsisdn(n.msisdn)}</p>
                 {tag}
               </div>
               {tab === 'Reserved' && n.reservedAt && (
-                <p className="text-fg-2 text-[length:var(--fs-caption)]">
+                <p className="caption-secondary">
                   Reserved {formatDateTime(n.reservedAt)}
                 </p>
               )}
@@ -637,9 +637,9 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
                     <p className="font-semibold text-accent text-[length:var(--fs-caption)]">Upfront charge: {formatQar(upfront)}</p>
                   )}
                   {planMrcQar !== undefined && entitlementQar !== undefined && (
-                    <p className="text-fg-2 text-[length:var(--fs-caption)]">Plan entitlement: up to {formatQar(entitlementQar)}</p>
+                    <p className="caption-secondary">Plan entitlement: up to {formatQar(entitlementQar)}</p>
                   )}
-                  {lockIn !== undefined && <p className="text-fg-2 text-[length:var(--fs-caption)]">Lock-in period: {lockIn} months</p>}
+                  {lockIn !== undefined && <p className="caption-secondary">Lock-in period: {lockIn} months</p>}
                 </>
               ) : null}
               {unreserve}

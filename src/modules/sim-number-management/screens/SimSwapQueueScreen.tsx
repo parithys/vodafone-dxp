@@ -132,7 +132,7 @@ export function SimSwapQueueScreen() {
         description={<>MSISDN: {order.msisdn}</>}
       />
 
-      <dl className="grid grid-cols-2 gap-4 text-[length:var(--fs-body)] card p-4 mb-6">
+      <dl className="pair-grid text-[length:var(--fs-body)] card p-4 mb-6">
         <div>
           <dt className="text-[length:var(--fs-caption)] text-fg">New SIM Serial</dt>
           <dd className="text-fg">{order.newSimSerialNumber ?? '-'}</dd>
@@ -152,11 +152,11 @@ export function SimSwapQueueScreen() {
       </dl>
 
       {blockMessage && (
-        <div className="mb-4 rounded-[var(--radius-card)] border border-[var(--warn)] bg-tone-warn-soft px-4 py-3 text-[length:var(--fs-body)] text-[var(--warn-text)]">{blockMessage}</div>
+        <div className="mb-4 notice-warning cell-body text-[var(--warn-text)]">{blockMessage}</div>
       )}
       {/* Decision buttons only while the swap is awaiting a decision and only for the roles that work this queue. */}
       {authority.mayDecide && (
-        <div className="flex flex-wrap gap-2">
+        <div className="wrap-row">
           <Button variant="primary" onClick={() => setModal('approve')}>
             Approve
           </Button>
@@ -168,7 +168,7 @@ export function SimSwapQueueScreen() {
 
       <Drawer open={modal === 'approve'} onClose={() => setModal(null)} title="Approve SIM Swap">
         <Textarea label="Comments" value={approveComment} onChange={(e) => setApproveComment(e.target.value)} />
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="primary" onClick={approve}>Approve SIM Swap</Button>
         </div>
@@ -185,7 +185,7 @@ export function SimSwapQueueScreen() {
           />
           <Textarea label="Comments" value={rejectComment} onChange={(e) => setRejectComment(e.target.value)} />
         </div>
-        <div className="flex justify-end gap-2 mt-6">
+        <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
           <Button variant="destructive" onClick={reject} disabled={!rejectReason}>Drop Order</Button>
         </div>

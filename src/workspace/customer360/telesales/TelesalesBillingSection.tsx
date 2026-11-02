@@ -38,7 +38,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
   const smsLeft = bal?.smsBalanceCount != null ? Number(bal.smsBalanceCount) : Number(ex?.smsRemaining ?? 0);
   const tile = (label: string, value: string, red?: boolean) => (
     <div key={label} className="rounded-[var(--radius-card)] bg-surface p-3">
-      <div className="text-fg font-semibold text-[length:var(--fs-body)] leading-tight">{label}</div>
+      <div className="heading-strong leading-tight">{label}</div>
       <div className={`font-bold text-[length:var(--fs-h4)] mt-1 ${red ? 'text-accent' : 'text-fg'}`}>{value}</div>
     </div>
   );
@@ -47,7 +47,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
       <SectionHeader />
       <div className="contents">
         <Card title="Billing Summary" icon={ICON.card} link="View Full Details" onLink={() => ctx.goToTab('ts-billing')}>
-          <div className="p-5 grid grid-cols-2 gap-3">
+          <div className="p-5 pair-grid-sm">
             {tile('Outstanding Balance', qar(outstanding), true)}
             {tile('Unbilled Usage', qar(unbilled))}
             {tile('Due Date', latestBill?.dueDate ? dateTime(latestBill.dueDate).d : '-')}
@@ -60,7 +60,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
           <KV label="Last Payment">
             {lastPay ? (
               <span>
-                <b>{qar(Number(lastPay.amountQar))}</b> <span className="text-muted text-[length:var(--fs-caption)]">{dateTime(lastPay.capturedAt).d} · {str(lastPay.captureChannel)}</span>
+                <b>{qar(Number(lastPay.amountQar))}</b> <span className="caption-muted">{dateTime(lastPay.capturedAt).d} · {str(lastPay.captureChannel)}</span>
               </span>
             ) : (
               '-'
@@ -75,7 +75,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
           <KV label="Due Date">{latestBill?.dueDate ? dateTime(latestBill.dueDate).d : '-'}</KV>
           <KV label="Total Amount">{latestBill ? qar(Number(latestBill.totalAmount ?? 0)) : '-'}</KV>
           <KV label="Amount Paid">{qar(paidTotal)}</KV>
-          <div className="flex items-center justify-between px-5 py-3">
+          <div className="panel-header">
             <span className="text-accent font-semibold text-[length:var(--fs-body)]">Outstanding Amount</span>
             <span className="text-accent font-bold text-[length:var(--fs-h4)]">{qar(outstanding)}</span>
           </div>
@@ -135,7 +135,7 @@ export function BillingSection({ ctx }: { ctx: Ctx }) {
             rows={payments}
             empty="No payments on file."
           />
-          <div className="flex items-center justify-between px-5 py-3 border-t border-[var(--field-card-border)]">
+          <div className="panel-header border-t border-[var(--field-card-border)]">
             <span className="inline-flex items-center gap-2 text-fg font-semibold">
               <Icon path={ICON.bars} className="w-4 h-4" />
               Unbilled Usage

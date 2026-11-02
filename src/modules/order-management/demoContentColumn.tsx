@@ -94,7 +94,7 @@ export const demoContentColumn = {
     return title ? (
       <span className="block min-w-0 break-words">
         <span className="block text-fg font-medium">{title}</span>
-        {detail && <span className="block text-muted text-[length:var(--fs-caption)]">{detail}</span>}
+        {detail && <span className="block caption-muted">{detail}</span>}
       </span>
     ) : (
       '-'

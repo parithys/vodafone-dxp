@@ -8,7 +8,7 @@ import { CHEVRON_RIGHT, FLAG } from '../../../assets/icons';
 /** The mark of a step that is under way but not finished: an outlined disc, half filled. */
 function InProgressDisc() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 shrink-0 text-[var(--summary-milestone)]">
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="icon-md text-[var(--summary-milestone)]">
       <circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" strokeWidth="2" />
       <path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor" />
     </svg>
@@ -18,7 +18,7 @@ function InProgressDisc() {
 /** The mark of a step reached earlier but not finished and not on screen: an empty outlined disc, in grey, so it reads as waiting, not as the page being worked on. */
 function PendingDisc() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 shrink-0 text-muted">
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="icon-md text-muted">
       <circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" strokeWidth="2" />
     </svg>
   );
@@ -54,13 +54,13 @@ export function StepSummarySection({
   const bodyId = useId();
   if (onGo) {
     return (
-      <section className="border-b border-border-soft last:border-b-0">
+      <section className="divider-bottom last:border-b-0">
         <button
           type="button"
           onClick={onGo}
-          className="flex w-full items-center gap-2 px-4 py-3 text-left text-fg font-semibold text-[length:var(--fs-body)] hover:bg-surface-warm focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+          className="row-button gap-2 pad-row text-left heading-strong hover:bg-surface-warm"
         >
-          {icon ? <Icon path={icon} className="w-5 h-5 shrink-0 text-muted" /> : <PendingDisc />}
+          {icon ? <Icon path={icon} className="icon-md text-muted" /> : <PendingDisc />}
           <span className="truncate">{title}</span>
           <span className="sr-only">(not completed)</span>
         </button>
@@ -70,9 +70,9 @@ export function StepSummarySection({
   if (current) {
     // The same row as a completed step, but with the in-progress mark in place of the tick, on a tinted band so it stands apart; it has no details, chevron or Edit.
     return (
-      <section aria-current="step" className="border-b border-border-soft last:border-b-0 bg-surface-warm">
-        <div className="flex items-center gap-2 px-4 py-3 text-fg font-semibold text-[length:var(--fs-body)]">
-          {icon ? <Icon path={icon} className="w-5 h-5 shrink-0 text-accent" /> : <InProgressDisc />}
+      <section aria-current="step" className="divider-bottom last:border-b-0 bg-surface-warm">
+        <div className="row-tight pad-row heading-strong">
+          {icon ? <Icon path={icon} className="icon-md text-accent" /> : <InProgressDisc />}
           <span className="truncate">{title}</span>
         </div>
       </section>
@@ -80,21 +80,21 @@ export function StepSummarySection({
   }
   return (
     <section
-      className="border-b border-border-soft last:border-b-0"
+      className="divider-bottom last:border-b-0"
     >
-      <div className="flex items-center gap-2 px-4 py-3">
+      <div className="row-tight pad-row">
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={bodyId}
-          className="flex flex-1 min-w-0 items-center gap-2 text-left text-fg font-semibold text-[length:var(--fs-body)] rounded-[var(--radius-sm)] focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+          className="row-tight flex-1 min-w-0 text-left heading-strong rounded-[var(--radius-sm)] focus-ring"
         >
           {/* The step's own icon when one is given (orange for a milestone). Otherwise completed: a solid green disc with a white tick - or a white flag on an orange disc, when the step reached a journey milestone. */}
           {icon ? (
-            <Icon path={icon} className={`w-5 h-5 shrink-0 ${milestone ? 'text-[var(--summary-milestone)]' : 'text-fg-2'}`} />
+            <Icon path={icon} className={`icon-md ${milestone ? 'text-[var(--summary-milestone)]' : 'text-fg-2'}`} />
           ) : (
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 shrink-0">
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="icon-md">
               {/* A milestone step's disc is orange, not the completed green, so it stands apart from the other steps. */}
               <circle cx="12" cy="12" r="12" className={milestone ? 'text-[var(--summary-milestone)]' : 'text-success'} fill="currentColor" />
               {milestone ? (
@@ -106,7 +106,7 @@ export function StepSummarySection({
           )}
           <span className="truncate">{title}</span>
           {milestone && <span className="sr-only">(milestone reached)</span>}
-          <Icon path={CHEVRON_RIGHT} className={`w-4 h-4 shrink-0 text-fg-2 transition-transform ${open ? 'rotate-90' : ''}`} />
+          <Icon path={CHEVRON_RIGHT} className={`icon-sm text-fg-2 transition-transform ${open ? 'rotate-90' : ''}`} />
         </button>
         {onEdit && (
           <Button variant="tertiary" compact className="shrink-0" onClick={onEdit} aria-label={`Edit ${title}`}>

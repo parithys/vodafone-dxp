@@ -108,3 +108,21 @@ test('for an upload, the card\'s printed details are not "captured": only the ty
   const hook = fs.readFileSync('src/components/patterns/useIdLookup.ts', 'utf8');
   assert.match(hook, /captureMode === 'upload' \? undefined : latest\.current\.qidScans\?\.captured/);
 });
+
+test('DEMO: the click on "Retake scan (4)" shows the reconciliation scenario, for every document type and a Passport\'s sides; no other retake does', async () => {
+  const model = await load('/src/components/patterns/idLookupModel.ts');
+  assert.equal(model.RECONCILIATION_DEMO_RETAKE, 4, 'the number the Retake button shows when it is clicked');
+  // What the demo shows: the reader misreads the printed date of birth, so exactly that attribute disagrees with MOI.
+  const printed = { name: 'Ahmed Abdulla Hassan Al-Sulaiti', dob: '12/03/1985', nationality: 'Qatari' };
+  const list = r.reconcileIdentity({ ...printed, dob: model.misreadDate(printed.dob) }, printed);
+  assert.deepEqual(byAttr(list), { idNumber: 'not-captured', expiry: 'not-captured', name: 'match', dob: 'mismatch', nationality: 'match' });
+  assert.equal(r.mismatchMessage(list), 'The scanned ID does not match the MOI record: Date of birth. Check the card and try again.');
+  const hook = fs.readFileSync('src/components/patterns/useIdLookup.ts', 'utf8');
+  assert.match(hook, /shownCount !== RECONCILIATION_DEMO_RETAKE/);
+  assert.match(hook, /setReconciliation\(undefined\);\s*(?:\/\/[^\n]*\n\s*)?(?:if|const)/, 'a new pass clears the previous result');
+  // Both scanners report a finished retake with the number its button showed: the card scanner (QID, GCC ID, Diplomatic ID) and the passport's two sides.
+  assert.match(fs.readFileSync('src/components/domain/QidImageUpload.tsx', 'utf8'), /if \(isRetake\) onRetakeDone\?\.\(retakes, printed\)/);
+  assert.match(fs.readFileSync('src/components/domain/PassportScanSections.tsx', 'utf8'), /if \(isRetake\) onRetakeDone\?\.\(shownCount, capturedFromCard\('Passport', identity\)\)/);
+  // The scanner's retake label restarts with the lookup when the document type changes.
+  assert.match(fs.readFileSync('src/components/patterns/IdLookupStep.tsx', 'utf8'), /IdScannerPanel\s+key=\{idType\}/);
+});

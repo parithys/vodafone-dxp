@@ -8,7 +8,7 @@ import type { EntityKind } from '../../../engines/mockDataEngine';
 import type { EligibilityResult } from '../../../components/domain/eligibilityTypes';
 import { Radio } from '../../../components/primitives/Radio';
 import { Icon } from '../../../components/primitives/Icon';
-import { clearAndQuiet, selectProduct } from './productChoice';
+import { clearAndQuiet, handOverToJourney, productEligibilityClear, selectProduct } from './productChoice';
 import { ProductEligibility } from './ProductEligibility';
 import { StartCards } from './StartCards';
 import { HOME_PRODUCTS, IN_JOURNEY_OFFERS, PRODUCTS, PRODUCT_OF_OFFER_JOURNEY, homeProductOfOffer, mnpTypeOfOffer } from '../products';
@@ -75,10 +75,13 @@ export function ProductSelection({
   const buttons = variant === 'buttons' || launch;
   // A product chosen by a footer button (or named by the entry point) moves on by itself once its eligibility is judged and
   // quiet. The flag is cleared as it fires, so coming Back to this page later never skips it again.
-  const advance = values.productPreselected === true && Boolean(product) && clearAndQuiet(values, { requireHomeKind: homeJourney });
+  // An offer the agent selected (Select Offer) also goes on when its eligibility routes the order for approval: the routing is shown on this page
+  // and the order is held when it is submitted, and there is no Continue here to go on with.
+  const advance = values.productPreselected === true && Boolean(product) && (values.advanceOnApproval === true ? productEligibilityClear(values, { requireHomeKind: homeJourney }) : clearAndQuiet(values, { requireHomeKind: homeJourney }));
   useEffect(() => {
     if (!advance || new URLSearchParams(window.location.search).get('mirror') === '1') return;
     setValue('productPreselected', false);
+    setValue('advanceOnApproval', false);
     goNext();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [advance]);
@@ -105,7 +108,14 @@ export function ProductSelection({
           customerId={eligibility?.customerId}
           value={crossSales ?? {}}
           onChange={onOfferChange}
-          onHandOff={(route) => ctx.navigate(route)}
+          // An offer for another journey (an upgrade) opens that journey for the customer identified here: this draft has done its job.
+          onHandOff={(route, customer) => handOverToJourney(ctx, route, customer)}
+          // Select Offer on a card: the offer's product is chosen (onChange above), then the page moves on by itself once that product's eligibility is
+          // judged and quiet - the same hand-over the footer buttons use. Without this the offer was only selected and the agent was left on the page.
+          onContinue={() => {
+            setValue('advanceOnApproval', true);
+            setValue('productPreselected', true);
+          }}
           journey={IN_JOURNEY_OFFERS}
           // An existing customer sees every offer type, topped up with sample offers; a new customer sees only what they have.
           showAllOfferTypes={eligibility?.isExistingCustomer === true}
@@ -130,7 +140,7 @@ export function ProductSelection({
       <section aria-labelledby="product-choice" className="space-y-3">
         {!buttons && (
           <>
-          <h3 id="product-choice" className="text-fg font-bold text-[length:var(--fs-h5)]">
+          <h3 id="product-choice" className="title-lg">
             {homeJourney ? 'Which connection does the customer want?' : 'What does the customer want?'}
           </h3>
           {homeJourney ? (
@@ -145,7 +155,7 @@ export function ProductSelection({
                     aria-checked={selected}
                     title={p.description}
                     onClick={() => chooseProduct('fixed-line', undefined, p.key)}
-                    className={`relative flex flex-col items-center gap-2 rounded-[var(--radius-card)] border p-4 ${
+                    className={`relative stack-center gap-2 card-frame p-4 ${
                       selected
                         ? `${CARD_SELECTED} text-[var(--field-card-selected)]`
                         : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'
@@ -165,11 +175,11 @@ export function ProductSelection({
               {PRODUCTS.map((p) => {
                 const selected = product === p.key;
                 return (
-                  <label key={p.key} className={`flex items-start gap-3 rounded-[var(--radius-card)] border p-4 cursor-pointer ${selected ? CARD_SELECTED : CARD_IDLE}`}>
+                  <label key={p.key} className={`row-start card-frame p-4 cursor-pointer ${selected ? CARD_SELECTED : CARD_IDLE}`}>
                     <Radio name="new-connection-product" className="mt-1" checked={selected} onChange={() => chooseProduct(p.key, p.key === 'mnp' ? (mnpType ?? 'postpaid') : undefined, p.key === 'fixed-line' ? homeProduct : undefined)} />
                     <span>
                       <span className="block text-fg font-medium">{p.label}</span>
-                      <span className="block text-fg-2 text-[length:var(--fs-caption)]">{p.description}</span>
+                      <span className="block caption-secondary">{p.description}</span>
                     </span>
                   </label>
                 );

@@ -25,10 +25,10 @@ export function NotYetBuiltPanel({
   return (
     <div className="p-8 w-full">
       <Badge variant="filled-neutral">{badge}</Badge>
-      <h1 className="text-[length:var(--fs-h4)] font-bold text-fg mt-3 mb-2">{title}</h1>
+      <h1 className="title-xl mt-3 mb-2">{title}</h1>
       <p className="text-fg-2 mb-4">{body}</p>
       {details && details.length > 0 && (
-        <dl className="text-[length:var(--fs-body)] text-fg-2 space-y-1">
+        <dl className="text-secondary space-y-1">
           {details.map((d) => (
             <div key={d.term}>
               <dt className="inline font-medium text-fg">{d.term}: </dt>
@@ -38,7 +38,7 @@ export function NotYetBuiltPanel({
         </dl>
       )}
       {children}
-      {footnote && <p className="text-[length:var(--fs-caption)] text-muted mt-4">{footnote}</p>}
+      {footnote && <p className="caption-muted mt-4">{footnote}</p>}
     </div>
   );
 }

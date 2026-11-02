@@ -76,7 +76,7 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
   }, [loaded, totals.totalDueQar, totals.simCardChargeQar, totals.addonsChargeQar, totals.rechargeChargeQar, totals.starterPackChargeQar, totals.numberPriceQar, totals.numberWaivedQar, totals.lineCount]);
 
   const Row = ({ label, value }: { label: string; value: string }) => (
-    <div className="flex justify-between gap-4 py-2 border-b border-border-soft last:border-0">
+    <div className="spread py-2 row-rule">
       <dt className="text-fg">{label}</dt>
       <dd className="text-fg text-right">{value}</dd>
     </div>
@@ -104,8 +104,8 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
         const iccid = line.simType.simType === 'Physical' ? sims.find((s) => s.simSerial === line.simType.simSerial)?.iccid : undefined;
         return (
           <section key={`${line.msisdn}-${i}`} aria-label={`Subscription ${i + 1}`} className="card card-surface p-4 space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">{fees || existingLine ? 'Order' : `Subscription ${i + 1}`}</h3>
+            <div className="split-nowrap">
+              <h3 className="subtitle">{fees || existingLine ? 'Order' : `Subscription ${i + 1}`}</h3>
               {line.prePaired && <Badge variant="accent">Pre-Paired SIM</Badge>}
             </div>
             <dl>
@@ -136,23 +136,23 @@ export function PrepaidCheckoutStep({ customerName, idType, lines, onTotalsCompu
               {!fees && !existingLine && <Row label="SIM Card Charge" value={charges.simCardChargeQar > 0 ? qar(charges.simCardChargeQar) : 'Waived'} />}
               {!fees && <Row label="Due for This Subscription" value={qar(charges.totalQar)} />}
             </dl>
-            {!fees && !existingLine && <p className="text-[length:var(--fs-caption)] text-muted">{charges.simCardMessage}</p>}
+            {!fees && !existingLine && <p className="caption-muted">{charges.simCardMessage}</p>}
           </section>
         );
       })}
 
-      <div className="rounded-[var(--radius-card)] border border-accent-border bg-surface-warm p-4">
+      <div className="notice-accent p-4">
         {fees?.map((f) => (
-          <div key={f.label} className="flex justify-between text-fg text-[length:var(--fs-body)] mb-1">
+          <div key={f.label} className="flex justify-between body-text mb-1">
             <span>{f.label}</span>
             <span>{qar(f.amountQar)}</span>
           </div>
         ))}
-        <div className="flex justify-between text-fg font-semibold">
+        <div className="total-row">
           <span>Total Payable Today</span>
           <span>{qar(totals.totalDueQar)}</span>
         </div>
-        <p className="mt-1 text-[length:var(--fs-caption)] text-fg-2">
+        <p className="mt-1 caption-secondary">
           {fees
             ? totals.totalDueQar === 0
               ? 'Nothing is due, so a zero-value receipt is issued at payment.'

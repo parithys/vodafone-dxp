@@ -70,24 +70,24 @@ export function ContactsSection({ ctx }: { ctx: Ctx }) {
       <div className="contents">
         <div className="contents">
           <Card title={`Contacts List (${total})`} icon={ICON.user}>
-            <div className="px-4 py-3 flex gap-2 border-b border-[var(--field-card-border)]">
+            <div className="panel-bar">
               <SearchField value={query} onChange={(e) => setQuery(e.target.value)} onClear={() => setQuery('')} placeholder="Search contacts by name, role or email..." aria-label="Search contacts" wrapperClassName="flex-1 min-w-48" />
               <FilterSelect label="Filter by Role" value={role} options={['All Roles', 'Customer (Self)', 'Authorised Person', 'Notification Contact', 'Family Member'].map((x) => ({ value: x, label: x }))} onChange={(v) => setRole(v)} />
             </div>
             {shown.map((r) => (
-              <button key={r.key} type="button" onClick={() => setSelected(r.key)} className={`w-full flex items-start gap-3 px-4 py-3 text-left border-b border-[var(--field-card-border)] last:border-0 hover:bg-surface ${cur?.key === r.key ? 'bg-surface' : ''}`}>
+              <button key={r.key} type="button" onClick={() => setSelected(r.key)} className={`list-row-start gap-3 pad-row row-rule-card ${cur?.key === r.key ? 'bg-surface' : ''}`}>
                 <Avatar name={r.name} size="sm" />
                 <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-2">
-                    <span className="text-fg font-semibold text-[length:var(--fs-body-lg)] truncate">{r.name}</span>
+                  <span className="cluster-sm">
+                    <span className="subtitle truncate">{r.name}</span>
                     {r.badge && <Pill tone={r.badgeTone ?? 'green'}>{r.badge}</Pill>}
                   </span>
-                  <span className="block text-fg-2 text-[length:var(--fs-caption)]">{r.relation}</span>
-                  <span className="block text-fg-2 text-[length:var(--fs-caption)] truncate">
+                  <span className="block caption-secondary">{r.relation}</span>
+                  <span className="block caption-secondary truncate">
                     {r.mobile} | {r.email}
                   </span>
                 </span>
-                <Icon path={ICON.chevron} className="w-4 h-4 text-muted shrink-0 mt-2" />
+                <Icon path={ICON.chevron} className="icon-sm text-muted mt-2" />
               </button>
             ))}
           </Card>
@@ -108,17 +108,17 @@ export function ContactsSection({ ctx }: { ctx: Ctx }) {
 
         <div className="contents">
           <Card title="Contact Details" icon={ICON.user} link="Edit">
-            <div className="px-5 py-4 flex items-center gap-3 flex-wrap">
+            <div className="pad-panel cluster">
               <Avatar name={cur?.name ?? ''} />
               <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-fg font-bold text-[length:var(--fs-body-lg)]">{cur?.name}</span>
+                <div className="cluster-sm">
+                  <span className="title-md">{cur?.name}</span>
                   {cur?.badge && <Pill tone={cur.badgeTone ?? 'green'}>{cur.badge === 'Primary' ? 'Primary Contact' : cur.badge}</Pill>}
                 </div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)]">{cur?.relation}</div>
+                <div className="caption-secondary">{cur?.relation}</div>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6">
+            <div className="cols-1-2 sm:gap-x-6">
             <KV label="ID Type">{str(c('ID Type')) === 'QID' ? 'Qatar ID' : str(c('ID Type')) || '-'}</KV>
             <KV label="ID Number">{str(c('ID Number')) || '-'}</KV>
             <KV label="ID Status">

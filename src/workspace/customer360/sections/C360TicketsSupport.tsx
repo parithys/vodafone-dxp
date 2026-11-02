@@ -259,19 +259,19 @@ export function C360TicketsSupport({
       </KpiGrid>
 
       {/* Search and filters sit above both columns; they narrow the list on the left. */}
-      <div className="flex flex-wrap items-stretch gap-3">
+      <div className="cards-wrap">
         <SearchBox value={query} onChange={setQuery} placeholder="Search by Ticket ID, issue or service type" />
         <FilterSelect label="Ticket Type" value={typeFilter} options={typeOptions} onChange={setTypeFilter} />
         <FilterSelect label="Status" value={statusFilter} options={statusOptions} onChange={setStatusFilter} />
         <FilterSelect label="Date Range" value={range} options={RANGES.map((r) => ({ value: r.value, label: r.label }))} onChange={setRange} />
       </div>
 
-      <div className="grid grid-cols-1 @4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4 items-start">
+      <div className="fields @4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-start">
         {/* Left: the tickets. */}
         <Panel icon={IC.headset} title={`All Tickets (${rows.length})`}>
           <div className="space-y-3">
             {rows.length === 0 ? (
-              <p className="text-muted text-[length:var(--fs-body)] py-4 text-center">No tickets match the current filters.</p>
+              <p className="empty-note">No tickets match the current filters.</p>
             ) : (
               <ul className="space-y-2">
                 {rows.map((t) => (
@@ -280,18 +280,18 @@ export function C360TicketsSupport({
                       type="button"
                       aria-pressed={selected?.id === t.id}
                       onClick={() => setPickedId(t.id)}
-                      className={`w-full text-left rounded-[var(--radius-card)] border p-3 transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+                      className={`w-full text-left card-option p-3 ${
                         selected?.id === t.id ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-surface'
                       }`}
                     >
-                      <span className="flex items-center justify-between gap-2">
-                        <span className="text-fg font-semibold text-[length:var(--fs-body)]">{t.id}</span>
-                        <span className="text-fg-2 text-[length:var(--fs-caption)] whitespace-nowrap">{fmtDate(new Date(t.createdAt).toISOString()) ?? '-'}</span>
+                      <span className="split-tight">
+                        <span className="heading-strong">{t.id}</span>
+                        <span className="caption-secondary whitespace-nowrap">{fmtDate(new Date(t.createdAt).toISOString()) ?? '-'}</span>
                       </span>
-                      <span className="block text-fg-2 text-[length:var(--fs-caption)] break-words">
+                      <span className="block caption-secondary break-words">
                         {t.type} · {t.issue}
                       </span>
-                      <span className="mt-2 flex flex-wrap items-center gap-1.5">
+                      <span className="mt-2 wrap-center gap-1.5">
                         <StatusPill status={t.status} />
                         {t.priority !== '-' && <Pill tone={priorityTone(t.priority)}>{priorityLabel(t.priority)}</Pill>}
                         {t.overdue && <Pill tone="red">Overdue</Pill>}
@@ -308,11 +308,11 @@ export function C360TicketsSupport({
         <aside className="card p-4 space-y-4 min-w-0">
           {selected ? (
             <>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="cluster">
                 <IconTile icon={IC.tag} tone="blue" />
-                <span className="text-fg font-bold text-[length:var(--fs-h5)] min-w-0 break-words">{selected.id}</span>
+                <span className="title-lg min-w-0 break-words">{selected.id}</span>
                 <StatusPill status={selected.status} />
-                <span className="ml-auto flex items-center gap-2">
+                <span className="ml-auto row-tight">
                   <Button variant="secondary" compact type="button" onClick={() => openFull(selected.id)}>
                     View Full Ticket &rarr;
                   </Button>
@@ -356,12 +356,12 @@ export function C360TicketsSupport({
               <Panel icon={IC.link} title="Related Information">
                 <ul>
                   {related.map((r) => (
-                    <li key={r.label} className="border-b border-border-soft last:border-0">
-                      <button type="button" onClick={r.onClick} disabled={!r.onClick} className="w-full flex items-center gap-3 py-2.5 text-[length:var(--fs-body)] text-left enabled:hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed">
-                        <Icon path={r.icon} className="w-4 h-4 text-fg-2 shrink-0" />
+                    <li key={r.label} className="row-rule">
+                      <button type="button" onClick={r.onClick} disabled={!r.onClick} className="row-action row py-2.5 text-[length:var(--fs-body)] disabled:opacity-50 disabled:cursor-not-allowed">
+                        <Icon path={r.icon} className="icon-sm text-fg-2" />
                         <span className="flex-1 text-fg-2">{r.label}</span>
                         <span className="text-fg font-medium">{r.count}</span>
-                        <Icon path={IC.chevRight} className="w-4 h-4 text-fg shrink-0" />
+                        <Icon path={IC.chevRight} className="icon-sm text-fg" />
                       </button>
                     </li>
                   ))}
@@ -369,7 +369,7 @@ export function C360TicketsSupport({
               </Panel>
             </>
           ) : (
-            <p className="text-muted text-[length:var(--fs-body)] py-6 text-center">{tickets.length === 0 ? 'No tickets on file for this customer.' : 'Select a ticket to see its details.'}</p>
+            <p className="empty-line text-[length:var(--fs-body)]">{tickets.length === 0 ? 'No tickets on file for this customer.' : 'Select a ticket to see its details.'}</p>
           )}
         </aside>
       </div>

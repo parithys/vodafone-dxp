@@ -183,7 +183,7 @@ export function ZsbAddressStep({ value, onChange, idNumber, nationality, showSer
   // form, above the address - the one layout every journey's address step uses.
   const serviceInformation = (
     <section className={CARD}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="pair-grid">
         {/* Optional for a postpaid mobile line, which needs no serviceable premises - unlike the
             fibre journeys, where the KID is what makes an address installable. */}
         <ServiceLocationSearchInput

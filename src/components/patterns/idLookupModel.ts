@@ -88,6 +88,8 @@ export interface MoiResult {
    * exists on that dataset at all.
    */
   expiryDate?: string;
+  /** A Passport's visa as MOI returned it; kept with the customer and the order, never displayed in a journey. */
+  visa?: import('../../data/passportVisa').PassportVisa;
   /**
    * When this lookup last resolved (ISO), stamped by runMoiValidation below.
    * Evidenced as "MOI Update Time" on the backend Contact/Account record
@@ -110,6 +112,14 @@ export const MAX_SCAN_ATTEMPTS = 2;
 // The original budget, still used by the eight journeys that lead with a type
 // selector rather than auto-detection.
 export const LEGACY_MAX_SCAN_ATTEMPTS = 4;
+
+/**
+ * DEMO: the ID Reconciliation scenario is shown on the click on "Retake scan (4)" - the number the Retake button shows - for every document type
+ * (Qatar ID, GCC ID, Diplomatic ID, and a Passport's sides, each counting its own retakes). The reader misreads the printed date of birth on it,
+ * so what was captured disagrees with MOI and the identity is refused with the reconciliation message. Retaking again reads the card correctly.
+ * Only the journeys that verify then fetch (Customer Verification) have it; change the number here to show it on another retake.
+ */
+export const RECONCILIATION_DEMO_RETAKE = 4;
 
 /**
  * ID types with a physical card the reader can capture, and therefore the

@@ -41,8 +41,8 @@ export function TicketsSection({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg">Tickets</h3>
+      <div className="row-between mb-3">
+        <h3 className="caption-heading">Tickets</h3>
         <Button variant="primary" compact onClick={() => setModalOpen(true)}>
           Create Ticket
         </Button>

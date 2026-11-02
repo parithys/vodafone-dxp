@@ -15,11 +15,6 @@ export function Textarea({ label, error, helperText, className = '', id, 'aria-d
   const errorId = `${textareaId}-error`;
   const describedBy = [ariaDescribedby, error ? errorId : helperText ? helperId : undefined].filter(Boolean).join(' ') || undefined;
   const isFilled = rest.value !== undefined && rest.value !== null && rest.value !== '';
-  const borderClass = error
-    ? 'border-[var(--field-border-error)]'
-    : isFilled
-      ? 'border-[var(--field-border-filled)] enabled:hover:border-[var(--field-hover-border)]'
-      : 'border-[var(--field-border)] enabled:hover:border-[var(--field-hover-border)]';
   return (
     <div className="flex flex-col gap-1">
       {label && (
@@ -39,15 +34,11 @@ export function Textarea({ label, error, helperText, className = '', id, 'aria-d
         aria-describedby={describedBy}
         aria-invalid={error ? true : undefined}
         aria-required={rest.required || undefined}
-        className={`rounded-[var(--field-radius)] border px-3 py-2 text-[length:var(--fs-body)] text-[var(--color-field-text-filled)] bg-bg
-          ${borderClass}
-          focus:outline-none focus-visible:border-[var(--field-focus-border)]! focus-visible:bg-[var(--field-focus-bg)] focus-visible:shadow-[var(--field-focus-ring)]
-          disabled:border-[var(--field-border-disabled)] disabled:text-[var(--field-label-disabled)] disabled:bg-[var(--field-bg-disabled)]
-          ${className}`}
+        className={`form-control ${error ? 'form-control-error' : isFilled ? 'form-control-filled' : 'form-control-default'} ${className}`}
         {...rest}
       />
       {helperText && !error && (
-        <span id={helperId} className="text-[length:var(--fs-caption)] text-muted">
+        <span id={helperId} className="caption-muted">
           {helperText}
         </span>
       )}

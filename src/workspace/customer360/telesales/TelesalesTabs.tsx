@@ -93,7 +93,7 @@ function DeepDiveRow({ title, children }: { title: string; children: ReactNode }
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left text-fg text-[length:var(--fs-body)] hover:bg-surface"
+        className="list-row justify-between pad-row body-text"
       >
         {title}
         <Icon path={open ? CHEVRON_UP : CHEVRON_DOWN} className="w-4 h-4 text-muted" />
@@ -197,7 +197,7 @@ export function buildTelesalesTabs(ctx: TelesalesContext): TabItem[] {
     );
   };
   const heading = (t: string) => (
-    <h3 className="text-[length:var(--fs-caption-upper)] uppercase tracking-wide font-semibold text-fg mb-2">{t}</h3>
+    <h3 className="caption-heading mb-2">{t}</h3>
   );
   const visible = (topic: string) => getVisibleTopicFields(personaId, topic).length > 0;
 

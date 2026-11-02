@@ -42,8 +42,8 @@ const when = (iso?: string) => (iso ? formatDateTime(iso) : '-');
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[length:var(--fs-caption)] text-muted">{label}</div>
-      <div className="text-fg text-[length:var(--fs-body)] break-words">{children || '-'}</div>
+      <div className="caption-muted">{label}</div>
+      <div className="body-text break-words">{children || '-'}</div>
     </div>
   );
 }
@@ -82,7 +82,7 @@ export function PortInStatusScreen() {
       {open ? (
         <PortInDetail record={open} />
       ) : id && !loading ? (
-        <p className="text-fg-2 text-[length:var(--fs-body)]">
+        <p className="text-secondary">
           No port-in request <code>{id}</code> was found. <Link to={PORT_IN_STATUS_PATH} className="text-link font-medium hover:underline">Back to all requests</Link>
         </p>
       ) : (
@@ -143,12 +143,12 @@ function PortInDetail({ record }: { record: PortInRecord }) {
   return (
     <div className="space-y-6">
       <section className="card p-5 space-y-5" aria-label="Port-in request">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="wrap-loose items-start justify-between">
           <div>
-            <h2 className="font-bold text-fg text-[length:var(--fs-body-lg)]">
+            <h2 className="title-md">
               {record.portInNumber} <span className="text-muted font-normal">· {record.id}</span>
             </h2>
-            <p className="text-fg-2 text-[length:var(--fs-body)]">
+            <p className="text-secondary">
               Order {record.orderId}{record.customerName ? ` · ${record.customerName}` : ''}
             </p>
           </div>
@@ -156,18 +156,18 @@ function PortInDetail({ record }: { record: PortInRecord }) {
         </div>
 
         {record.orderStatus === 'NPAS Approved' && record.confirmedPortIn && (
-          <p className="card card-surface px-4 py-3 text-fg text-[length:var(--fs-body)]" role="status">
+          <p className="card card-surface pad-row body-text" role="status">
             Approved by NPAS. Confirmed Port-In Date <strong>{record.confirmedPortIn.date}</strong>, between {record.confirmedPortIn.start} and {record.confirmedPortIn.end}. The
             number is activated in that window; nothing is activated before it.
           </p>
         )}
         {record.portStatus === 'Rejected' && record.rejectionReason && (
-          <p className="card card-surface px-4 py-3 text-fg text-[length:var(--fs-body)]" role="status">
+          <p className="card card-surface pad-row body-text" role="status">
             Rejected by the donor operator: <strong>{record.rejectionReasonCode} - {record.rejectionReason}</strong>. The order is closed and the customer has been notified.
           </p>
         )}
         {waiting && (
-          <p className="card card-surface px-4 py-3 text-fg-2 text-[length:var(--fs-body)]" role="status">
+          <p className="card card-surface pad-row text-secondary" role="status">
             Waiting for the final NPAS response, due by {when(record.npasDeadline)}. No inventory, SIM association, activation or billing happens until NPAS approves.
           </p>
         )}
@@ -190,7 +190,7 @@ function PortInDetail({ record }: { record: PortInRecord }) {
           <Field label="Source Cancelled Order">{record.sourceCancelledOrderId}</Field>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-border-soft">
+        <div className="cluster pt-4 divider-top">
           {waiting && (
             <Button variant="secondary" onClick={() => setConfirmCancel(true)} disabled={pending}>
               Cancel request
@@ -209,9 +209,9 @@ function PortInDetail({ record }: { record: PortInRecord }) {
 
       {SHOW_DEMO_CONTENT && waiting && (
         <section className="card card-surface p-5 space-y-3" aria-label="Simulate NPAS response">
-          <h3 className="font-bold text-fg text-[length:var(--fs-body)]">Simulate NPAS Response</h3>
-          <p className="text-fg-2 text-[length:var(--fs-caption)]">Demo control: NPAS is not connected, so its answer is entered here.</p>
-          <div className="flex flex-wrap items-end gap-3">
+          <h3 className="title-sm">Simulate NPAS Response</h3>
+          <p className="caption-secondary">Demo control: NPAS is not connected, so its answer is entered here.</p>
+          <div className="wrap-loose items-end">
             <Button variant="primary" disabled={pending} onClick={() => void apply(approvePortIn(record), 'NPAS approved the port-in request.')}>
               NPAS approves
             </Button>
@@ -233,34 +233,34 @@ function PortInDetail({ record }: { record: PortInRecord }) {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="card p-5" aria-label="Status history">
-          <h3 className="font-bold text-fg text-[length:var(--fs-body)] mb-3">Status History</h3>
+          <h3 className="title-sm mb-3">Status History</h3>
           <ol className="space-y-3">
             {[...record.history].reverse().map((h, i) => (
               <li key={`${h.status}-${i}`} className="flex gap-3">
-                <span className="mt-1.5 w-2 h-2 rounded-[var(--radius-pill)] bg-accent shrink-0" aria-hidden="true" />
+                <span className="mt-1.5 dot bg-accent shrink-0" aria-hidden="true" />
                 <div>
-                  <div className="text-fg text-[length:var(--fs-body)] font-medium">{h.status}</div>
-                  <div className="text-muted text-[length:var(--fs-caption)]">{when(h.at)}</div>
-                  {h.note && <div className="text-fg-2 text-[length:var(--fs-caption)]">{h.note}</div>}
+                  <div className="value-text">{h.status}</div>
+                  <div className="caption-muted">{when(h.at)}</div>
+                  {h.note && <div className="caption-secondary">{h.note}</div>}
                 </div>
               </li>
             ))}
           </ol>
         </section>
         <section className="card p-5" aria-label="Notifications">
-          <h3 className="font-bold text-fg text-[length:var(--fs-body)] mb-3">Customer Notifications</h3>
+          <h3 className="title-sm mb-3">Customer Notifications</h3>
           {record.notifications.length === 0 ? (
             <p className="text-muted text-[length:var(--fs-body)]">None sent.</p>
           ) : (
             <ul className="space-y-3">
               {[...record.notifications].reverse().map((n, i) => (
                 <li key={`${n.type}-${i}`}>
-                  <div className="flex items-center gap-2">
-                    <span className="text-fg text-[length:var(--fs-body)] font-medium">{n.type}</span>
+                  <div className="row-tight">
+                    <span className="value-text">{n.type}</span>
                     <Badge variant={n.status === 'Sent' ? 'success' : 'danger'}>{n.status}</Badge>
-                    <span className="text-muted text-[length:var(--fs-caption)]">{n.channel} to {n.to} · {when(n.at)}</span>
+                    <span className="caption-muted">{n.channel} to {n.to} · {when(n.at)}</span>
                   </div>
-                  <div className="text-fg-2 text-[length:var(--fs-caption)] mt-0.5">{n.message}</div>
+                  <div className="caption-secondary mt-0.5">{n.message}</div>
                 </li>
               ))}
             </ul>
@@ -290,7 +290,7 @@ function PortInDetail({ record }: { record: PortInRecord }) {
           </>
         }
       >
-        <p className="text-fg-2 text-[length:var(--fs-body)]">
+        <p className="text-secondary">
           The request is withdrawn before NPAS answers, the reserved SIM is released and the customer is notified. You can start a Quick Draft from the cancelled order afterwards.
         </p>
       </Modal>

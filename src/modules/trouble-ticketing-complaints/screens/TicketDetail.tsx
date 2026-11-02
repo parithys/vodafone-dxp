@@ -89,7 +89,7 @@ export function TicketDetail() {
 
   return (
     <div className="p-8 w-full">
-      <div className="flex flex-col lg:flex-row items-start gap-6">
+      <div className="split-pane">
         <div className="flex-1 min-w-0 space-y-6">
           <TicketHeaderCard ticket={ticket} ragVariant={ragVariant} ragLabel={ragLabel} notesCount={notes.length} slaMessage={slaRule.message} surveyNotifications={surveyNotifications} />
 
@@ -116,7 +116,7 @@ export function TicketDetail() {
           </div>
         </div>
 
-        <div className="w-full lg:w-72 shrink-0 space-y-6">
+        <div className="split-pane-side">
           <TicketActionsCard
             ticket={ticket}
             terminal={terminal}

@@ -7,7 +7,9 @@ import { useActedForCustomer } from './useActedForCustomer';
 import { useEnterToSubmit } from '../../hooks/useEnterToSubmit';
 import type { NationalAddress, NewCustomerMoi } from './idLookupModel';
 import { pickHrnDemoNas, type DemoNasRecord } from './idLookupModel';
-import { MAX_SCAN_ATTEMPTS, LEGACY_MAX_SCAN_ATTEMPTS, SCANNABLE_ID_TYPES, captureModeOf, NEW_CUSTOMER_ID_TYPES, buildNewCustomerPatch, isoToDmy, selectScanCandidates } from './idLookupModel';
+import { isIdTypeSupported } from '../../data/idTypes';
+import { visaFromMoi, type PassportVisa } from '../../data/passportVisa';
+import { MAX_SCAN_ATTEMPTS, LEGACY_MAX_SCAN_ATTEMPTS, RECONCILIATION_DEMO_RETAKE, misreadDate, SCANNABLE_ID_TYPES, captureModeOf, NEW_CUSTOMER_ID_TYPES, buildNewCustomerPatch, isoToDmy, selectScanCandidates } from './idLookupModel';
 import type { DuplicateCandidate, IdLookupValue } from './idLookupModel';
 import { isIdExpired } from '../../engines/eligibilityEngine';
 import { canViewCustomerSegment } from '../../engines/agentPrivilegeEngine';
@@ -101,6 +103,10 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
    */
   const chosenType: QidType | undefined = !autoDetectIdType && !demoType ? idType : undefined;
   const scannable = typeChosen && SCANNABLE_ID_TYPES.has(idType);
+  // The chosen document type is one the app cannot identify a customer on ("Others"): its scan is refused and nothing can be entered for it.
+  const unsupportedType = typeChosen && !isIdTypeSupported(idType);
+  // Set when the agent tries to scan it, which is when the message is shown; cleared by choosing another type.
+  const [unsupportedScanTried, setUnsupportedScanTried] = useState(false);
   // Everything that asks "is there a reader on this screen" must accept a demo
   // scan too, or the capture disappears the moment a non-scannable type wins.
   const effectiveScannable = scannable || demoType !== null;
@@ -111,6 +117,7 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     // click on the selected chip would wipe a number the agent had just typed.
     if (nextType === idType && typeChosen) return;
     setNotFound(false);
+    setUnsupportedScanTried(false);
     // Clear the NUMBER, not just the MOI result. The two ID schemes have
     // nothing in common, so a number carried across a type switch is always
     // wrong for the field it now sits in - the reported case was a QID,
@@ -274,7 +281,7 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     try {
       // MOI: the identity document registry.
       const identityDocs = await callService('moi', () =>
-        mockDataEngine.list<{ documentNumber: string; documentType: string; customerId: string; expiryDate?: string }>('identity-documents')
+        mockDataEngine.list<{ documentNumber: string; documentType: string; customerId: string; expiryDate?: string; visa?: Partial<PassportVisa> }>('identity-documents')
       );
       if (stale()) return;
       const docMatches = identityDocs.filter((d) => d.documentNumber === requested);
@@ -292,6 +299,8 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
               )
             ).find((r) => r.documentNumber === requested);
       if (stale()) return;
+      // Only a Passport carries a visa; incomplete details from MOI are not kept as if they were one.
+      const passportVisa = docMatch?.documentType === 'Passport' ? visaFromMoi(docMatch.visa) : undefined;
       const match = docMatch ?? (nasRecord && { customerId: undefined, expiryDate: nasRecord.expiryDate });
       if (!match) {
         // Every system ANSWERED and none knows this number: a business result.
@@ -443,6 +452,7 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
             // The NAS's own address for this person: kept apart from the address the journey captures, and never shown.
             nationalAddress: nasRecord?.nationalAddress,
             expiryDate: match.expiryDate,
+            visa: passportVisa,
             moiUpdateTime: new Date().toISOString(),
         });
         return;
@@ -498,10 +508,15 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
             occupation: customer.occupation,
             linkedIdUpdate: linked,
             expiryDate: match.expiryDate,
+            visa: passportVisa,
             moiUpdateTime: new Date().toISOString(),
         });
         // MOI's latest answer updates the customer's ID details (ID Type, ID Number) - each change goes to the audit trail with the old value. The
         // identification itself does not depend on it, so a failed write does not undo an identity MOI confirmed.
+        // A Passport's visa, as MOI returned it, is kept on the customer's record (Customer 360 shows it; no journey screen does).
+        if (accepted && passportVisa) {
+          await useEntityStore.getState().updateRecord('customers', 'customerId', customer.customerId, { passportVisa }, { how: 'MOI visa details', by: 'MOI' }).catch(() => undefined);
+        }
         if (accepted && docMatch && !linked) {
           const patch = moiIdDetailsPatch(customer, docMatch, identityDocs);
           if (patch) {
@@ -616,6 +631,13 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
   // Returns whether this attempt read the card. QidImageUpload leaves its
   // value untouched on false, so a failed attempt keeps the insert prompt up.
   const handleScanAttempt = () => {
+    // A new pass over the reader starts clean: a reconciliation result belongs to the capture it judged.
+    setReconciliation(undefined);
+    // An unsupported document type is refused outright: not read, not counted against the attempts, and the manual fallback never opens for it.
+    if (unsupportedType) {
+      setUnsupportedScanTried(true);
+      return false;
+    }
     const attempt = scanAttempts + 1;
     setScanAttempts(attempt);
     // The fallback is NOT opened merely because the budget is spent. A second
@@ -703,6 +725,19 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     return { documentType: found.documentType as QidType, documentNumber: found.documentNumber, expiryDate: found.expiryDate };
   };
 
+
+  // DEMO: the reconciliation scenario on one retake (RECONCILIATION_DEMO_RETAKE), whatever the document type. The reader misreads the date of birth
+  // printed on the card; the card's own details stand for what MOI returns for the number it carries, so this is the same comparison Fetch makes,
+  // shown at once.
+  const handleRetakeDone = (shownCount: number, printed: { name?: string; dob?: string; nationality?: string }) => {
+    if (!verifyThenFetch || shownCount !== RECONCILIATION_DEMO_RETAKE || latest.current.moiResult || !printed.dob) return;
+    setReconciliation(
+      reconcileIdentity(
+        { name: printed.name, dob: misreadDate(printed.dob), nationality: printed.nationality },
+        { name: printed.name, dob: printed.dob, nationality: printed.nationality }
+      )
+    );
+  };
 
   useEffect(() => {
     if (!effectiveScannable || !scanComplete) {
@@ -805,6 +840,8 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     typeChosen,
     demoType,
     effectiveScannable,
+    unsupportedType,
+    unsupportedScanTried,
     handleIdTypeChange,
     contextIdentity,
     contextNoDocument,
@@ -824,6 +861,7 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     scanBudgetSpent,
     manualEntryUnlocked,
     handleScanAttempt,
+    handleRetakeDone,
     handleDemoScan,
     handleBarcodeScan,
     handleKeyDown,

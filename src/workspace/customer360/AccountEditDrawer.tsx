@@ -157,16 +157,16 @@ export function AccountEditDrawer({
     >
       <div className="space-y-4">
         <dl className="divide-y divide-border-soft text-[length:var(--fs-body)]">
-          <div className="flex items-baseline justify-between gap-4 py-1.5">
+          <div className="spread items-baseline py-1.5">
             <dt className="text-fg-2">Account Type</dt>
             <dd className="text-fg font-medium">{account?.accountType ?? '-'}</dd>
           </div>
-          <div className="flex items-baseline justify-between gap-4 py-1.5">
+          <div className="spread items-baseline py-1.5">
             <dt className="text-fg-2">Customer Segment</dt>
             <dd className="text-fg font-medium">{customer.segment}</dd>
           </div>
         </dl>
-        <p className="text-[length:var(--fs-caption)] text-muted">The account type and customer segment of an existing account cannot be changed.</p>
+        <p className="caption-muted">The account type and customer segment of an existing account cannot be changed.</p>
         <Select
           label="Credit Limit (QAR)"
           value={limit}
@@ -199,7 +199,7 @@ export function AccountEditDrawer({
           value={status}
           onChange={setStatus}
         />
-        <p className="pt-2 border-t border-border-soft text-[length:var(--fs-caption)] text-muted">
+        <p className="pt-2 divider-top caption-muted">
           Only these account details can be changed here. Saving creates a reference ticket for follow-up.
         </p>
       </div>

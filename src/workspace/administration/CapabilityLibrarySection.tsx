@@ -17,12 +17,12 @@ const editorLink = (path: string) => `vscode://file/${APP_ROOT}/src/${path}`;
 function PathRow({ path }: { path: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <li className="flex items-center gap-3 py-1.5">
+    <li className="row py-1.5">
       <code className="text-[length:var(--fs-caption)] text-fg flex-1 break-all">src/{path}</code>
       <Button variant="tertiary" compact onClick={() => { void navigator.clipboard?.writeText(`src/${path}`); setCopied(true); setTimeout(() => setCopied(false), 1200); }}>
         {copied ? 'Copied' : 'Copy path'}
       </Button>
-      <a className="text-link text-[length:var(--fs-caption)] font-medium hover:underline" href={editorLink(path)}>
+      <a className="link-caption" href={editorLink(path)}>
         Open in Editor
       </a>
     </li>
@@ -36,17 +36,17 @@ function Detail({ cap }: { cap: CapabilityDef }) {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <div className="flex items-center gap-3 flex-wrap">
-          <h2 className="text-fg font-bold text-[length:var(--fs-h4)]">{cap.name}</h2>
+        <div className="cluster">
+          <h2 className="title-xl">{cap.name}</h2>
           <Badge variant={cap.status === 'consolidated' ? 'success' : 'warning'}>
             {cap.status === 'consolidated' ? 'In the library' : 'Registered in place'}
           </Badge>
         </div>
-        <p className="text-fg-2 text-[length:var(--fs-body)]">{cap.summary}</p>
+        <p className="text-secondary">{cap.summary}</p>
       </div>
 
-      <section aria-label="Live preview" className="rounded-[var(--radius-card)] border border-border-soft bg-bg p-5 space-y-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Live Preview</h3>
+      <section aria-label="Live preview" className="panel-soft p-5 space-y-3">
+        <h3 className="subtitle">Live Preview</h3>
         {preview ? (
           <div className="rounded-[var(--radius-card)] bg-[var(--surface)] p-4">
             {/* A journey draws its tabs as the underline strip; the library sits in a tab panel, so the preview resets the level to show them the same. */}
@@ -59,8 +59,8 @@ function Detail({ cap }: { cap: CapabilityDef }) {
         )}
       </section>
 
-      <section aria-label="Where it lives" className="rounded-[var(--radius-card)] border border-border-soft bg-bg p-5 space-y-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Where It Lives</h3>
+      <section aria-label="Where it lives" className="panel-soft p-5 space-y-3">
+        <h3 className="subtitle">Where It Lives</h3>
         <dl className="grid grid-cols-[10rem_1fr] gap-y-2 text-[length:var(--fs-body)]">
           <dt className="text-fg">Entry Point</dt>
           <dd className="text-fg font-medium">{cap.entry}</dd>
@@ -79,34 +79,34 @@ function Detail({ cap }: { cap: CapabilityDef }) {
             </>
           )}
         </dl>
-        <p className="text-muted text-[length:var(--fs-caption)]">
+        <p className="caption-muted">
           Edit these files to change the capability's UI, styling, fields, states or logic. Every journey below imports them, so the
           change reaches all of them.
         </p>
       </section>
 
-      <section aria-label="Implementation files" className="rounded-[var(--radius-card)] border border-border-soft bg-bg p-5">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)] mb-2">Implementation Files</h3>
+      <section aria-label="Implementation files" className="panel-soft p-5">
+        <h3 className="subtitle mb-2">Implementation Files</h3>
         <ul className="divide-y divide-border-soft">
           <PathRow path={cap.home} />
           {[...cap.parts, ...cap.publicApi].map((p) => <PathRow key={p} path={p} />)}
         </ul>
       </section>
 
-      <section aria-label="Used by" className="rounded-[var(--radius-card)] border border-border-soft bg-bg p-5 space-y-3">
-        <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Used by {journeys.length} journeys and areas</h3>
-        <div className="flex flex-wrap gap-2">
+      <section aria-label="Used by" className="panel-soft p-5 space-y-3">
+        <h3 className="subtitle">Used by {journeys.length} journeys and areas</h3>
+        <div className="wrap-row">
           {journeys.map((j) => (
-            <span key={j} className="rounded-[var(--radius-pill)] bg-surface text-fg-2 px-3 py-1 text-[length:var(--fs-caption)] font-medium">{j}</span>
+            <span key={j} className="pill bg-surface text-fg-2 font-medium">{j}</span>
           ))}
         </div>
         {consumers && consumers.bypass.length > 0 && (
-          <div className="rounded-[var(--radius-card)] border border-warn bg-tone-warn p-3 text-[length:var(--fs-caption)] text-fg">
+          <div className="card-frame border-warn bg-tone-warn p-3 text-[length:var(--fs-caption)] text-fg">
             <div className="font-semibold mb-1">Bypassing the capability ({consumers.bypass.length})</div>
             <ul className="space-y-0.5">{consumers.bypass.map((b) => <li key={b}><code>{b}</code></li>)}</ul>
           </div>
         )}
-        <p className="text-muted text-[length:var(--fs-caption)]">
+        <p className="caption-muted">
           Generated from the import graph - regenerate with reference/scripts/build_reusable_capabilities_inventory.py.
         </p>
       </section>
@@ -126,7 +126,7 @@ export function CapabilityLibrarySection() {
     <div className="grid grid-cols-[18rem_1fr] gap-6 items-start">
       <aside aria-label="Capabilities" className="space-y-3">
         <Input label="Search Capabilities" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="e.g. address, payment" />
-        <p className="text-muted text-[length:var(--fs-caption)]">
+        <p className="caption-muted">
           {CAPABILITY_REGISTRY.length} capabilities - {CAPABILITY_REGISTRY.filter((c) => c.status === 'consolidated').length} in the library
         </p>
         <ul className="space-y-1">

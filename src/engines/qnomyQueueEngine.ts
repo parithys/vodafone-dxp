@@ -129,11 +129,33 @@ export interface QueueTicket {
 }
 
 /**
- * DEMO SWITCH (2026-10-27): when true, the walk-in queue serves Unknown customers only - a ticket counts, is called and is issued
- * only if its kiosk number is NOT a customer on file (the same test `factsForKioskNumber` uses to call someone Other Operator's). Set to
- * false after the demo to restore the full queue (Vodafone and Other Operator walk-ins); nothing else needs undoing.
+ * DEMO SWITCH: which customers the walk-in queue serves.
+ *   'alternate'    (2026-11-01) every Next Customer alternates between an Existing Customer (a kiosk number that matches a customer on file) and an
+ *                  Unknown Customer (one that matches nobody - the same test `factsForKioskNumber` uses to call someone Other Operator's), starting
+ *                  with an Existing Customer. The walk-in kiosk issues the kind whose turn it is when none of that kind is waiting.
+ *   'unknown-only' (2026-10-27) the queue serves Unknown customers only.
+ *   'all'          the full queue, oldest first: nothing else needs undoing.
  */
-export const DEMO_UNKNOWN_ONLY_QUEUE = true;
+export type QueueCustomerMode = 'alternate' | 'unknown-only' | 'all';
+export const QUEUE_CUSTOMER_MODE: QueueCustomerMode = 'alternate';
+/** Kept for the 'unknown-only' mode's callers: true only in that mode. */
+export const DEMO_UNKNOWN_ONLY_QUEUE = (QUEUE_CUSTOMER_MODE as QueueCustomerMode) === 'unknown-only';
+
+export type CustomerKind = 'existing' | 'unknown';
+
+/** Whether a ticket's kiosk number is a customer on file (existing) or nobody we hold (unknown). */
+export const ticketKind = (t: { kioskMobileNumber?: string | null }, customers: { phone?: string }[]): CustomerKind =>
+  customers.some((c) => mobileMatches(t.kioskMobileNumber, c.phone)) ? 'existing' : 'unknown';
+
+/**
+ * Whose turn it is: the opposite kind to the ticket called most recently (by `calledAt`, stamped when Next Customer calls it), and an Existing Customer
+ * when nobody has been called yet. Derived from the tickets themselves, so it survives a reload and needs no counter of its own.
+ */
+export function customerKindDue(tickets: { kioskMobileNumber?: string | null; calledAt?: string | null }[], customers: { phone?: string }[]): CustomerKind {
+  const last = tickets.filter((t) => t.calledAt).sort((a, b) => String(b.calledAt).localeCompare(String(a.calledAt)))[0];
+  if (!last) return 'existing';
+  return ticketKind(last, customers) === 'existing' ? 'unknown' : 'existing';
+}
 
 /** Which tickets the queue serves: all of them, or - under the demo switch - only those whose kiosk number matches no customer on file. */
 export type TicketScope = (t: { kioskMobileNumber?: string | null }) => boolean;
@@ -149,12 +171,15 @@ export function queueScope(customers: { phone?: string }[], unknownOnly = DEMO_U
 export function nextTicketFor<T extends QueueTicket>(
   personaId: string | undefined,
   tickets: T[],
-  inScope: TicketScope = () => true
+  inScope: TicketScope = () => true,
+  /** Calls a ticket of this kind first (alternate mode); when none of that kind waits, the oldest of any kind is called. */
+  preferred?: (t: T) => boolean
 ): T | undefined {
   const mine = new Set(queuesForRole(personaId));
-  return tickets
+  const waiting = tickets
     .filter((t) => t.status === 'Waiting' && t.journeyCode && mine.has(t.journeyCode) && inScope(t))
-    .sort((a, b) => a.generatedAt.localeCompare(b.generatedAt))[0];
+    .sort((a, b) => a.generatedAt.localeCompare(b.generatedAt));
+  return (preferred && waiting.find(preferred)) || waiting[0];
 }
 
 export function waitingCountFor(personaId: string | undefined, tickets: QueueTicket[], inScope: TicketScope = () => true): number {

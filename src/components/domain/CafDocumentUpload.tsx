@@ -76,8 +76,8 @@ export function CafDocumentUpload({ documents, onChange }: CafDocumentUploadProp
   return (
     <div className="card p-4 space-y-3">
       <div>
-        <h4 className="text-fg font-medium text-[length:var(--fs-body)]">Signed Documents</h4>
-        <p className="text-muted text-[length:var(--fs-caption)]">
+        <h4 className="value-text">Signed Documents</h4>
+        <p className="caption-muted">
           Up to {MAX_DOCUMENTS} files, {RULES.maxLabel} each. {RULES.formatsLabel}.
         </p>
       </div>
@@ -85,11 +85,11 @@ export function CafDocumentUpload({ documents, onChange }: CafDocumentUploadProp
       {documents.length > 0 && (
         <ul className="divide-y divide-border-soft card ">
           {documents.map((doc) => (
-            <li key={doc.id} className="flex items-center gap-3 px-3 py-2">
-              <Icon path={DOC} className="w-4 h-4 text-muted shrink-0" />
+            <li key={doc.id} className="row px-3 py-2">
+              <Icon path={DOC} className="icon-sm text-muted" />
               <span className="min-w-0 flex-1">
-                <span className="block text-fg text-[length:var(--fs-body)] truncate">{doc.fileName}</span>
-                <span className="block text-muted text-[length:var(--fs-caption)]">
+                <span className="line-body">{doc.fileName}</span>
+                <span className="block caption-muted">
                   {doc.docType} · {formatSize(doc.sizeBytes)}
                 </span>
               </span>
@@ -100,7 +100,7 @@ export function CafDocumentUpload({ documents, onChange }: CafDocumentUploadProp
       )}
 
       {atLimit ? (
-        <p className="text-muted text-[length:var(--fs-caption)]">
+        <p className="caption-muted">
           Maximum of {MAX_DOCUMENTS} documents reached. Remove one to upload another.
         </p>
       ) : (

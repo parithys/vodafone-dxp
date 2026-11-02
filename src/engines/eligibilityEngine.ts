@@ -1,3 +1,4 @@
+import { isVisaValid, type PassportVisa } from '../data/passportVisa';
 import { EXCEPTION_ROUTED_ID_TYPES } from '../data/idTypes';
 import type { EligibilityDecision } from '../domain/eligibility';
 import { PORT_IN_DUES_THRESHOLD_QAR } from '../data/portInRules';
@@ -51,6 +52,8 @@ export interface IdentityDocForEligibility {
   /** Seeded 2026-09-25 - see identity-documents.json's _expiryNote. */
   expiryDate?: string;
   docStatus?: string;
+  /** A Passport's visa as MOI returns it. A Passport needs a valid one (the 'visa-validity' check). */
+  visa?: PassportVisa;
 }
 
 export interface DealForEligibility {
@@ -113,7 +116,7 @@ export interface EligibilityContext {
 }
 
 /** The checks that do not depend on the product (see EligibilityContext.scope). */
-export const COMMON_CHECK_IDS: ReadonlySet<string> = new Set(['id-validity', 'age', 'blacklist-security', 'blacklist-unclassified', 'deals']);
+export const COMMON_CHECK_IDS: ReadonlySet<string> = new Set(['id-validity', 'visa-validity', 'age', 'blacklist-security', 'blacklist-unclassified', 'deals']);
 
 /**
  * ID types that divert to the Back Office Fulfilment / exception-approval workflow rather than
@@ -202,12 +205,25 @@ export function evaluateEligibilityChecks(ctx: EligibilityContext, asOf: Date): 
     });
   }
 
+  // 1b. Visa validity - a Passport only. MOI must return a visa that has not expired; without one the journey cannot go on (a hard stop, no
+  // approval route). The visa's own details are never put in the message: they are kept for Customer 360, not shown in a journey.
+  if ((doc?.documentType ?? customer.idType) === 'Passport') {
+    const validVisa = isVisaValid(doc?.visa, asOf);
+    checks.push({
+      id: 'visa-validity',
+      label: 'Visa Validity',
+      passed: validVisa,
+      outcome: validVisa ? 'pass' : 'hard-stop',
+      message: validVisa ? 'A valid visa was found for this Passport' : 'No valid visa was found for this Passport. The journey cannot continue.',
+    });
+  }
+
   // 2. Age.
   const age = ageOn(customer.dob, asOf);
   const underage = age !== undefined && age < MINIMUM_AGE;
   checks.push({
     id: 'age',
-    label: 'Age Check',
+    label: underage ? 'Underage Customer' : 'Age Check',
     passed: !underage,
     // Under-18 is a HARD STOP (VFQ business, 2026-10-02, for new and existing
     // customers alike). It was briefly Approval Routing ("Under 18 approval")
@@ -216,9 +232,9 @@ export function evaluateEligibilityChecks(ctx: EligibilityContext, asOf: Date): 
     ...(underage && ctx.under18Exception === 'available' ? { exceptionOffer: 'under-18' as const } : {}),
     message: underage
       ? ctx.under18Exception === 'chosen'
-        ? 'Under-18 exception journey: this applicant is under 18. All details are entered manually, the ID copies and the Court Order are uploaded, and the order goes to the CDM queue for approval after submission.'
+        ? 'Under-18 exception requested: this applicant is under 18. The journey continues and the order is held for approval by the agent\'s manager; it cannot complete until it is approved.'
         : ctx.under18Exception === 'available'
-          ? 'MOI records indicate this applicant is under 18. Stop the journey, or proceed with the exception journey (manual entry, ID copies and a Court Order, approval by the CDM queue).'
+          ? 'Underage customer: this applicant is under 18. Abandon the order, or apply for an exception with the Court Type Order.'
           : 'MOI records indicate this applicant is under 18. The connection cannot proceed.'
       // The age itself, per 2026-09-26 direction. An agent judging a
       // borderline applicant against the document in their hand needs the

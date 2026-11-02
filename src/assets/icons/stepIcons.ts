@@ -28,7 +28,6 @@ const ICONS: Record<string, string> = {
   planExtras: PLUS,
   addons: PLUS,
   'addons-prepaid': PLUS,
-  addonReview: CHECKLIST,
   review: CHECKLIST,
   decision: CHECKLIST,
   discount: PERCENT,

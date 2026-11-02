@@ -158,11 +158,11 @@ export function PersonaSwitcher() {
     // stepped where they met. Sharing the token rather than copying the value
     // keeps them joined in dark mode too, where the two resolve differently
     // (#3a3d42 vs rgba(255,255,255,.1)).
-    <header className="relative z-[var(--z-header)] grid grid-cols-[auto_minmax(0,1fr)_auto] md:grid-cols-[auto_minmax(8rem,28rem)_minmax(max-content,1fr)_auto] items-center gap-3 h-16 px-4 border-b border-[var(--nav-border)] bg-header-glass backdrop-blur">
+    <header className="header-bar">
       <button type="button"
         onClick={toggleMobileOpen}
         aria-label="Open navigation"
-        className="md:hidden col-start-1 w-9 h-9 -ml-1 rounded-[var(--radius-pill)] flex items-center justify-center text-fg-2 hover:bg-surface shrink-0"
+        className="header-icon-btn md:hidden col-start-1 w-9 h-9 -ml-1 shrink-0"
       >
         <Icon path={ICONS.menu} className="w-5 h-5" />
       </button>
@@ -184,7 +184,7 @@ export function PersonaSwitcher() {
       </div>
 
       <TooltipGroup>
-      <div ref={containerRef} className="col-start-3 md:col-start-4 justify-self-end ml-auto flex items-center gap-2">
+      <div ref={containerRef} className="col-start-3 md:col-start-4 justify-self-end ml-auto row-tight">
         {/* Customers served this session. The COUNT alone is on screen and
             "Customers Served" is the tooltip, per direction - the topbar is
             already dense, and a bare figure beside the icon row reads as a
@@ -224,7 +224,7 @@ export function PersonaSwitcher() {
               // navigation target, and the base-layer button/link cursor rule
               // in index.css does not reach a <Link> with no href-shaped
               // ancestor styling of its own.
-              className="min-w-10 h-10 px-2 rounded-[var(--radius-pill)] bg-accent text-accent-on flex items-center justify-center font-semibold text-[length:var(--fs-body)] cursor-pointer"
+              className="header-count-pill"
             >
               {customersServed}
             </Link>
@@ -235,7 +235,7 @@ export function PersonaSwitcher() {
           <button type="button"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="w-10 h-10 rounded-[var(--radius-pill)] border border-border-soft flex items-center justify-center text-fg-2 hover:bg-surface"
+            className="header-icon-btn header-icon-btn-outlined w-10 h-10"
           >
             <Icon path={theme === 'dark' ? ICONS.sun : ICONS.moon} className="w-4.5 h-4.5" />
           </button>
@@ -248,18 +248,18 @@ export function PersonaSwitcher() {
               aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
               aria-haspopup="true"
               aria-expanded={open === 'notifications'}
-              className="relative w-10 h-10 rounded-[var(--radius-pill)] border border-border-soft flex items-center justify-center text-fg-2 hover:bg-surface"
+              className="header-icon-btn header-icon-btn-outlined relative w-10 h-10"
             >
               <Icon path={ICONS.bell} className="w-4.5 h-4.5" />
-              {unreadCount > 0 && <span aria-hidden="true" className="absolute top-1.5 right-1.5 w-2 h-2 rounded-[var(--radius-pill)] bg-accent" />}
+              {unreadCount > 0 && <span aria-hidden="true" className="header-unread-dot" />}
             </button>
           </Tooltip>
           {open === 'notifications' && (
-            <div className="absolute right-0 mt-2 w-80 card shadow-raised z-[var(--z-popover)] max-h-96 overflow-y-auto">
-              <p className="px-4 py-3 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-fg border-b border-border-soft">Notifications</p>
+            <div className="card menu-popover w-80 max-h-96 overflow-y-auto">
+              <p className="menu-heading py-3 divider-bottom">Notifications</p>
               {inbox.items.length > 0 && (
-                <div className="border-b border-border-soft">
-                  <p className="px-4 pt-3 pb-1 text-[length:var(--fs-caption-upper)] uppercase tracking-wide text-fg">Workflow Updates</p>
+                <div className="divider-bottom">
+                  <p className="menu-heading pt-3 pb-1">Workflow Updates</p>
                   {inbox.items.map((i) => (
                     <button
                       key={i.id}
@@ -268,17 +268,17 @@ export function PersonaSwitcher() {
                         setOpen(null);
                         navigate(i.to);
                       }}
-                      className="block w-full px-4 py-2.5 text-left border-b border-border-soft last:border-b-0 hover:bg-surface focus:outline-none focus-visible:bg-surface"
+                      className="menu-item"
                     >
-                      <span className="block text-fg font-medium text-[length:var(--fs-body)]">{i.title}</span>
-                      <span className="block text-fg-2 text-[length:var(--fs-caption)] break-words">{i.detail}</span>
+                      <span className="block value-text">{i.title}</span>
+                      <span className="block caption-secondary break-words">{i.detail}</span>
                     </button>
                   ))}
                 </div>
               )}
               {history.length === 0 && inbox.items.length === 0 && <EmptyState compact message="No notifications yet." />}
               {history.map((h) => (
-                <div key={h.id} className="px-4 py-3 border-b border-border-soft last:border-0">
+                <div key={h.id} className="pad-row row-rule">
                   {/* The reference is rendered here too, not just in the
                       toast. A keyed notification stores its number separately
                       from its headline so the toast can colour it, so a bell
@@ -287,7 +287,7 @@ export function PersonaSwitcher() {
                       --field-calendar-range raw, not the toast's white-lifted
                       mix: this panel is a light --bg surface, where that mix
                       would be near-invisible. */}
-                  <p className="text-fg text-[length:var(--fs-body)]">
+                  <p className="body-text">
                     {h.message}
                     {h.reference && (
                       <span className="ml-1 font-semibold text-[var(--field-calendar-range)]">{h.reference}</span>
@@ -295,8 +295,8 @@ export function PersonaSwitcher() {
                   </p>
                   {/* History shares the toast model, so a toast that split its
                       subject onto a detail line would otherwise lose it here. */}
-                  {h.detail && <p className="text-fg-2 text-[length:var(--fs-caption)]">{h.detail}</p>}
-                  <p className="text-[length:var(--fs-caption)] text-muted mt-0.5">{formatTime(h.at)}</p>
+                  {h.detail && <p className="caption-secondary">{h.detail}</p>}
+                  <p className="caption-muted mt-0.5">{formatTime(h.at)}</p>
                 </div>
               ))}
             </div>
@@ -309,42 +309,42 @@ export function PersonaSwitcher() {
             aria-label="User profile menu"
             aria-haspopup="menu"
             aria-expanded={open === 'profile'}
-            className="flex items-center gap-2 rounded-[var(--radius-pill)] pl-1.5 pr-3 py-1.5 hover:bg-surface"
+            className="profile-chip"
           >
-            <span className="w-7 h-7 rounded-[var(--radius-pill)] bg-accent text-on-dark text-[length:var(--fs-caption)] font-semibold flex items-center justify-center">
+            <span className="avatar">
               {initials}
             </span>
             <span className="hidden md:block text-left">
-              <span className="block text-fg text-[length:var(--fs-caption)] font-medium leading-tight">{profile?.name ?? staffId}</span>
-              <span className="block text-muted text-[length:var(--fs-micro)] leading-tight">{profile?.team ?? '-'}</span>
+              <span className="profile-name">{profile?.name ?? staffId}</span>
+              <span className="profile-role">{profile?.team ?? '-'}</span>
             </span>
             <Icon path={ICONS.chevronDown} className="w-3.5 h-3.5 text-muted" />
           </button>
           {open === 'profile' && (
-            <div className="absolute right-0 mt-2 w-72 card shadow-raised z-[var(--z-popover)]">
-              <div className="px-4 py-3">
+            <div className="card menu-popover w-72">
+              <div className="pad-row">
                 <p className="text-fg font-medium">{profile?.name ?? staffId}</p>
-                <p className="text-muted text-[length:var(--fs-caption)]">
+                <p className="caption-muted">
                   {staffId} · {profile?.jobTitle ?? '-'}
                 </p>
               </div>
               <Link
                 to="/profile"
                 onClick={() => setOpen(null)}
-                className="block px-4 py-2.5 text-[length:var(--fs-body)] text-fg-2 hover:bg-surface hover:text-fg border-t border-border-soft"
+                className="menu-link"
               >
                 Edit profile
               </Link>
-              <div className="px-4 py-3 border-t border-border-soft">
-                <p className="flex items-center gap-2 text-fg-2 text-[length:var(--fs-body)]">
+              <div className="pad-row divider-top">
+                <p className="row-tight text-secondary">
                   <Icon path={ICONS.help} className="w-4 h-4" />
                   Help &amp; Support
                 </p>
-                <p className="text-muted text-[length:var(--fs-caption)] mt-1">
+                <p className="caption-muted mt-1">
                   Contact the IT Service Desk at <span className="text-link">servicedesk@vodafone.qa</span> or extension 4100 for platform issues.
                 </p>
               </div>
-              <div className="px-4 py-3 border-t border-border-soft">
+              <div className="pad-row divider-top">
                 <label className="text-[length:var(--fs-caption)] text-fg mb-1 block">Switch Role</label>
                 <Select
                   aria-label="Switch role"
@@ -355,7 +355,7 @@ export function PersonaSwitcher() {
               </div>
               <button type="button"
                 onClick={requestSignOut}
-                className="w-full flex items-center gap-2 px-4 py-3 border-t border-border-soft text-danger hover:bg-surface text-left"
+                className="menu-action-danger"
               >
                 <Icon path={ICONS.signOut} className="w-4 h-4" />
                 Sign out
@@ -380,7 +380,7 @@ export function PersonaSwitcher() {
           </div>
         }
       >
-        <p className="text-fg-2 text-[length:var(--fs-body)]">
+        <p className="text-secondary">
           {pendingLeave?.kind === 'signOut'
             ? 'A journey is in progress and has not been saved. Signing out discards it - use Save as Draft in the journey to keep it as a draft.'
             : 'A journey is in progress. The new role may not be able to continue it - use Save as Draft in the journey first to keep it as a draft.'}

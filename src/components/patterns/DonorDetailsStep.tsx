@@ -88,7 +88,7 @@ export function DonorDetailsStep({ value, onChange }: DonorDetailsStepProps) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="fields-2">
         {/* The standard mobile number field: Qatar (+974) fixed, 8 national digits. It stores +974XXXXXXXX, which normalizePortInNumber reads. */}
         <PhoneNumberInput
           label="Port-In Number"

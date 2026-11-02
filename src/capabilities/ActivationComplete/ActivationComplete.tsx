@@ -29,14 +29,14 @@ export function ActivationComplete({ order, service = 'mobile', showActivityId =
   return (
     <>
       {allowCustomerView && showActivityId && (
-        <div className="pointer-events-none sticky top-6 z-[var(--z-raised)] flex h-0 items-start justify-end">
-          <div className="pointer-events-auto mr-8 mt-8 flex items-center gap-3">
+        <div className="sticky-corner">
+          <div className="pointer-events-auto mr-8 mt-8 row">
             <CustomerViewButton viewOpen={viewOpen} onToggle={toggleCustomerView} />
           </div>
         </div>
       )}
       {popupBlocked && (
-        <p role="alert" className="mx-8 mt-4 text-fg-2 text-[length:var(--fs-caption)]">The browser blocked the customer view pop-up. Allow pop-ups for this site and try again.</p>
+        <p role="alert" className="mx-8 mt-4 caption-secondary">The browser blocked the customer view pop-up. Allow pop-ups for this site and try again.</p>
       )}
       <p className="sr-only" role="status" aria-live="polite">{shareAnnouncement}</p>
     <ActivationCompleteScreen

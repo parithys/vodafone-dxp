@@ -71,7 +71,7 @@ export function StartCards({
           key={c.key}
           type="button"
           onClick={() => start(c)}
-          className={`flex flex-col items-start gap-3 rounded-[var(--radius-card-lg)] border p-5 text-left transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+          className={`flex items-start gap-3 flex-col card-option-lg p-5 text-left ${
             c.primary
               ? 'border-transparent bg-[image:var(--accent-gradient)] text-accent-on enabled:hover:bg-[image:var(--accent-gradient-hover)]'
               : 'border-[var(--field-card-border)] bg-bg text-fg hover:bg-[var(--field-card-hover-bg)]'

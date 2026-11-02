@@ -1,4 +1,4 @@
-export const CARD = 'rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4';
+export const CARD = 'card card-inherit-fill p-4';
 
 // Selectable cards: geometry only. The colours come from the selected/unselected
 // branch, because CARD's own border-border-soft + bg-bg would otherwise compete

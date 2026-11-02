@@ -65,9 +65,9 @@ function Section({ title, defaultOpen = true, chevronWhenOpen = 'up', children }
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between rounded-[var(--radius-button)] text-left focus:outline-none focus-visible:shadow-[var(--focus-ring)]"
+        className="row-button justify-between rounded-[var(--radius-button)] text-left"
       >
-        <h3 className="text-fg font-bold text-[length:var(--fs-h5)]">{title}</h3>
+        <h3 className="title-lg">{title}</h3>
         <Icon path={open ? openIcon : closedIcon} className="w-5 h-5 text-fg" />
       </button>
       {open && children}
@@ -171,26 +171,26 @@ export function OfferDetailsDrawer({
         <div className="space-y-6">
           {/* Offer summary */}
           <div className="flex items-start gap-4">
-            <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[var(--radius-card)] bg-surface-warm">
+            <span className="icon-tile h-24 w-24 rounded-[var(--radius-card)] bg-surface-warm">
               <IconDisc path={fixedService ? ICONS.house : ICONS.phone} className="h-16 w-16 bg-bg text-accent" />
             </span>
             <div className="min-w-0 space-y-2">
-              <h2 className="text-fg font-bold text-[length:var(--fs-h5)] leading-tight">{o.offerName}</h2>
-              <p className="text-fg-2 text-[length:var(--fs-body)]">{o.offerDescription}</p>
-              {!hideStatusTags && <div className="flex flex-wrap gap-2">
-                <span className="rounded-[var(--radius-pill)] bg-surface-warm text-accent px-3 py-1 text-[length:var(--fs-caption)] font-medium">{o.status}</span>
-                {o.offerType && <span className="rounded-[var(--radius-pill)] bg-surface text-fg-2 px-3 py-1 text-[length:var(--fs-caption)] font-medium">{o.offerType}</span>}
+              <h2 className="title-lg leading-tight">{o.offerName}</h2>
+              <p className="text-secondary">{o.offerDescription}</p>
+              {!hideStatusTags && <div className="wrap-row">
+                <span className="pill bg-surface-warm text-accent font-medium">{o.status}</span>
+                {o.offerType && <span className="pill bg-surface text-fg-2 font-medium">{o.offerType}</span>}
               </div>}
             </div>
           </div>
 
           {/* What the plan includes */}
           {highlight && (
-            <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-surface-warm px-5 py-4 flex items-center gap-4">
+            <div className="relative overflow-hidden rounded-[var(--radius-card)] bg-surface-warm pad-panel row-loose">
               <Icon path={ICONS.gift} className="w-9 h-9 shrink-0 text-accent" />
               <div className="min-w-0 pr-16">
-                <p className="text-fg font-bold text-[length:var(--fs-body)]">{highlight.title}</p>
-                <p className="text-fg-2 text-[length:var(--fs-caption)]">{highlight.subtitle}</p>
+                <p className="title-sm">{highlight.title}</p>
+                <p className="caption-secondary">{highlight.subtitle}</p>
               </div>
               <svg viewBox="0 0 120 80" className="absolute right-0 top-0 h-full w-28" aria-hidden="true" preserveAspectRatio="xMaxYMid slice">
                 <circle cx="95" cy="40" r="46" fill="var(--accent)" fillOpacity="0.12" />
@@ -203,8 +203,8 @@ export function OfferDetailsDrawer({
             <Section title="Plan Details">
               <ul className={`${PANEL} p-4 space-y-2`}>
                 {planDetails.map((d) => (
-                  <li key={d} className="flex items-center gap-3 text-fg text-[length:var(--fs-body)]">
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-[var(--radius-pill)] bg-accent" />
+                  <li key={d} className="row body-text">
+                    <span className="dot-sm shrink-0 bg-accent" />
                     {d}
                   </li>
                 ))}
@@ -215,14 +215,14 @@ export function OfferDetailsDrawer({
           {o.policy ? (
             <Section title={o.policy.title}>
               <div className={`${PANEL} p-4 space-y-4`}>
-                <ul className="list-disc space-y-2 pl-5 text-fg text-[length:var(--fs-body)]">
+                <ul className="list-disc space-y-2 pl-5 body-text">
                   {o.policy.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
                 {o.policy.tables.map((t, i) => (
                   <div key={i} className="space-y-2">
-                    {t.title && <p className="text-fg text-[length:var(--fs-body)]">{t.title}</p>}
+                    {t.title && <p className="body-text">{t.title}</p>}
                     <table className="w-full border-collapse text-left text-[length:var(--fs-body)]">
                       <thead>
                         <tr>
@@ -236,17 +236,17 @@ export function OfferDetailsDrawer({
                       <tbody>
                         {t.rows.map(([k, v]) => (
                           <tr key={k}>
-                            <th scope="row" className="border border-border-soft px-3 py-2 font-bold text-fg">
+                            <th scope="row" className="grid-cell-head">
                               {k}
                             </th>
-                            <td className="border border-border-soft px-3 py-2 font-bold text-fg">{v}</td>
+                            <td className="grid-cell-head">{v}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
                 ))}
-                <ul className="list-disc space-y-3 pl-5 text-fg text-[length:var(--fs-body)]">
+                <ul className="list-disc space-y-3 pl-5 body-text">
                   {o.policy.links.map((l) => (
                     <li key={l.text}>
                       {l.text}
@@ -254,7 +254,7 @@ export function OfferDetailsDrawer({
                         <button
                           type="button"
                           onClick={() => pushToast('info', 'This page is not available yet.', { key: 'policy-link' })}
-                          className="mt-1 block text-left text-link hover:underline focus:outline-none focus-visible:shadow-[var(--focus-ring)] rounded-[var(--radius-sm)]"
+                          className="mt-1 block text-left link rounded-[var(--radius-sm)]"
                         >
                           {l.label}
                         </button>
@@ -269,15 +269,15 @@ export function OfferDetailsDrawer({
           <Section title="Offer Information">
             <dl className={`${PANEL} px-4`}>
               {rows.map((r, i) => (
-                <div key={r.label} className="flex items-center gap-4">
+                <div key={r.label} className="row-loose">
                   <IconDisc path={r.icon} className="h-10 w-10 bg-surface text-fg-2" />
-                  <div className={`flex flex-1 items-center justify-between gap-4 py-4 ${i > 0 ? 'border-t border-border-soft' : ''}`}>
-                    <dt className="text-fg text-[length:var(--fs-body)]">{r.label}</dt>
+                  <div className={`spread flex-1 items-center py-4 ${i > 0 ? 'border-t border-border-soft' : ''}`}>
+                    <dt className="body-text">{r.label}</dt>
                     <dd className="text-right">
                       {r.pill ? (
-                        <span className="rounded-[var(--radius-pill)] bg-tone-success text-success px-3 py-1 text-[length:var(--fs-caption)] font-medium">{r.value}</span>
+                        <span className="pill bg-tone-success text-success font-medium">{r.value}</span>
                       ) : (
-                        <span className="text-fg text-[length:var(--fs-body)]">{r.value}</span>
+                        <span className="body-text">{r.value}</span>
                       )}
                     </dd>
                   </div>
@@ -291,13 +291,13 @@ export function OfferDetailsDrawer({
               <div className={`${PANEL} p-4 flex items-start gap-4`}>
                 <IconDisc path={ICONS.cube} className="h-14 w-14 bg-surface-warm text-accent" />
                 <div className="space-y-2 pt-1">
-                  <p className="text-fg-2 text-[length:var(--fs-body)]">
+                  <p className="text-secondary">
                     {includedNames.length} item{includedNames.length === 1 ? '' : 's'} included
                   </p>
                   <ul className="space-y-1">
                     {includedNames.map((n) => (
-                      <li key={n} className="flex items-center gap-3 text-fg text-[length:var(--fs-body)]">
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-[var(--radius-pill)] bg-accent" />
+                      <li key={n} className="row body-text">
+                        <span className="dot-sm shrink-0 bg-accent" />
                         {n}
                       </li>
                     ))}
@@ -312,11 +312,11 @@ export function OfferDetailsDrawer({
 
           {!o.policy && showRelatedDocuments && (
           <Section title="Need more information?" chevronWhenOpen="down">
-            <div className={`${PANEL} p-4 flex items-center gap-4`}>
+            <div className={`${PANEL} p-4 row-loose`}>
               <IconDisc path={ICONS.doc} className="h-14 w-14 bg-surface text-fg-2" />
               <div className="flex-1">
-                <p className="text-fg font-medium text-[length:var(--fs-body)]">Related Documents</p>
-                <p className="text-fg-2 text-[length:var(--fs-caption)]">Terms, conditions and more</p>
+                <p className="value-text">Related Documents</p>
+                <p className="caption-secondary">Terms, conditions and more</p>
               </div>
               {/* No offer documents exist in the app yet, so this says so instead of going nowhere. */}
               <Button variant="tertiary" compact onClick={() => pushToast('info', 'No documents are attached to this offer yet', { key: 'offer-documents' }) }>

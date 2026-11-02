@@ -64,8 +64,8 @@ export function Pagination({
   const w = pageWindow(total, pageSize, page);
   if (w.pages <= 1) return null;
   return (
-    <div className={`flex flex-wrap items-center justify-between gap-3 pt-6 ${className}`}>
-      <span className="text-fg text-[length:var(--fs-body)]">{pageLabel(w.page, w.pages)}</span>
+    <div className={`split pt-6 ${className}`}>
+      <span className="body-text">{pageLabel(w.page, w.pages)}</span>
       <Pager page={w.page} pages={w.pages} onPage={onPage} />
     </div>
   );

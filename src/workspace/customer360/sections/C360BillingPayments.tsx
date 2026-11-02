@@ -176,7 +176,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
         <KpiTile icon={IC.bars} tone="red" label="Unbilled Usage" value={qar(unbilled) ?? DASH} />
       </KpiGrid>
 
-      <div className="grid grid-cols-1 @4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4 items-start">
+      <div className="fields @4xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-start">
         {/* Left: the billing profiles; picking one scopes the whole page to it (the same master / detail shape as Products & Services). */}
         <Panel icon={IC.bars} title={`Billing Profiles (${profiles.length})`}>
           <ul className="space-y-2">
@@ -192,12 +192,12 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
                   type="button"
                   aria-pressed={profileId === row.id}
                   onClick={() => setProfileId(row.id)}
-                  className={`w-full text-left rounded-[var(--radius-card)] border p-3 transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+                  className={`w-full text-left card-option p-3 ${
                     profileId === row.id ? 'border-[var(--field-card-selected)] bg-[var(--field-card-selected-bg)]' : 'border-[var(--field-card-border)] bg-bg hover:bg-surface'
                   }`}
                 >
-                  <span className="block text-fg font-medium text-[length:var(--fs-body)] break-words">{row.title}</span>
-                  <span className="mt-0.5 flex items-center justify-between gap-2 text-[length:var(--fs-caption)]">
+                  <span className="block value-text break-words">{row.title}</span>
+                  <span className="mt-0.5 split-tight text-[length:var(--fs-caption)]">
                     <span className="text-fg-2 break-all">{row.sub}</span>
                     <span className={`font-semibold shrink-0 ${row.out > 0 ? 'text-accent' : 'text-fg'}`}>{qar(row.out)}</span>
                   </span>
@@ -214,9 +214,9 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
 
         {/* Right: everything for the chosen profile. */}
         <aside className="card p-4 space-y-4 min-w-0">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="cluster">
             <IconTile icon={IC.wallet} tone="red" />
-            <span className="text-fg font-bold text-[length:var(--fs-h5)] break-words min-w-0">{selected ? (str(selected.name) ?? DASH) : 'All billing profiles'}</span>
+            <span className="title-lg break-words min-w-0">{selected ? (str(selected.name) ?? DASH) : 'All billing profiles'}</span>
             {selected && str(selected.collectionStatus) && <StatusPill status={String(selected.collectionStatus)} />}
             <span className="ml-auto">
               <Button variant="primary" compact disabled>
@@ -225,7 +225,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
             </span>
           </div>
 
-          <div className="grid grid-cols-1 @lg:grid-cols-2 gap-4 items-stretch">
+          <div className="fields @lg:grid-cols-2 items-stretch">
             <Panel icon={IC.settings} title="Bill Settings" action={<InertLink>Manage</InertLink>}>
               <dl>
                 {[
@@ -234,9 +234,9 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
                   { label: 'Bill Cycle', value: str(stageProfile?.billingCycle) ?? DASH },
                   { label: 'eBill / Paperless', value: ebill ? <Pill tone={/email|ebill|e-bill|paperless/i.test(ebill) ? 'green' : 'grey'}>{/email|ebill|e-bill|paperless/i.test(ebill) ? 'Enabled' : 'Disabled'}</Pill> : DASH },
                 ].map((r) => (
-                  <div key={r.label} className="flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+                  <div key={r.label} className="data-row">
                     <dt className="text-fg">{r.label}</dt>
-                    <dd className="text-fg font-medium text-right min-w-0 break-words">{r.value}</dd>
+                    <dd className="value-end min-w-0">{r.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -255,9 +255,9 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
                   { label: 'IC Barring Date', value: <Dv k="icBarringDate" /> },
                   { label: 'Eligible for PTP', value: ptpEligible ? <Pill tone={ptpEligible === 'Yes' ? 'green' : 'grey'}>{ptpEligible}</Pill> : DASH },
                 ].map((r) => (
-                  <div key={r.label} className="flex items-center justify-between gap-4 py-2 border-b border-border-soft last:border-0 text-[length:var(--fs-body)]">
+                  <div key={r.label} className="data-row">
                     <dt className="text-fg">{r.label}</dt>
-                    <dd className="text-fg font-medium text-right min-w-0 break-words">{r.value}</dd>
+                    <dd className="value-end min-w-0">{r.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -266,13 +266,13 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
 
           <Panel icon={IC.card} title="Payment Methods" action={<InertLink>Manage</InertLink>}>
             {str(stageProfile?.paymentMethod) ? (
-              <div className="flex items-center gap-3 py-1">
-                <span className="w-10 h-10 rounded-[var(--radius-button)] bg-surface flex items-center justify-center shrink-0">
+              <div className="row py-1">
+                <span className="w-10 h-10 rounded-[var(--radius-button)] bg-surface icon-tile">
                   <Icon path={IC.card} className="w-5 h-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div className="text-fg font-medium text-[length:var(--fs-body)] break-words">{String(stageProfile?.paymentMethod)}</div>
-                  <div className="text-fg-2 text-[length:var(--fs-caption)]">Auto-pay: {str(stageProfile?.autoPayStatus) ?? DASH}</div>
+                  <div className="value-text break-words">{String(stageProfile?.paymentMethod)}</div>
+                  <div className="caption-secondary">Auto-pay: {str(stageProfile?.autoPayStatus) ?? DASH}</div>
                 </div>
               </div>
             ) : (
@@ -283,7 +283,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
           <Panel icon={IC.file} title={`Bill History (${historyBills.length})`} flush>
             <GridTable cols={billCols} rows={shownBills} rowKey={(r) => String(r.billId)} empty="No bills on file." />
             {historyBills.length > PAGE && (
-              <div className="px-4 py-3">
+              <div className="pad-row">
                 <Button variant="tertiary" compact onClick={() => setShowAllBills((v) => !v)}>
                   {showAllBills ? 'Show fewer bills' : 'View All Bills'} &rarr;
                 </Button>
@@ -301,7 +301,7 @@ export function C360BillingPayments({ data, goToTab }: { data: Customer360Data; 
 
           {showsRecharge && (
             <Panel icon={IC.refresh} title="Recharge History (Prepaid)">
-              <p className="text-muted text-[length:var(--fs-body)] py-2 text-center">No prepaid recharge history on file.</p>
+              <p className="empty-note-sm">No prepaid recharge history on file.</p>
             </Panel>
           )}
         </aside>

@@ -9,7 +9,9 @@ import { useQnomyQueueStore } from '../stores/qnomyQueueStore';
 import { useAuthStore } from '../stores/authStore';
 import { ensureWalkInWaiting } from '../engines/qnomyWalkIns';
 import { closeHeldQnomyTicket } from '../engines/qnomyRelease';
-import { nextTicketFor, waitingCountFor, queueLabelsForRole, queueScope, mobileMatches } from '../engines/qnomyQueueEngine';
+import { nextTicketFor, waitingCountFor, queueLabelsForRole, queueScope, mobileMatches, customerKindDue, ticketKind, QUEUE_CUSTOMER_MODE } from '../engines/qnomyQueueEngine';
+import { ensureKindWaiting } from '../engines/qnomyWalkIns';
+import { canUseFeature } from '../engines/personaEngine';
 import { usePersonaStore } from '../stores/personaStore';
 import { canSeeQnomyTicketNumber, canSeeCtiReferenceNumber } from '../engines/agentPrivilegeEngine';
 import { toActiveCustomerSummary, type CustomerRecord } from '../engines/customer360Engine';
@@ -229,6 +231,8 @@ export function SessionReferenceNumbers() {
     await updateRecord('qtickets', 'qTicketId', waiting.qTicketId, {
       status: 'Fed to Agent-in-DXP',
       agentInDxpSessionId: sessionId,
+      // When it was called: the next call is the other kind (see customerKindDue).
+      calledAt: new Date().toISOString(),
     });
     setAssignedQTicketId(waiting.qTicketId);
     // Retained for the whole interaction, whether or not it resolves to an
@@ -242,13 +246,20 @@ export function SessionReferenceNumbers() {
 
   const handleNextCustomer = async () => {
     setCallingNext(true);
-    const [qTickets, customers, serviceSources] = await Promise.all([
+    let [qTickets, customers, serviceSources] = await Promise.all([
       mockDataEngine.list<QTicketRecord>('qtickets'),
       mockDataEngine.list<CustomerRecord>('customers'),
       loadServiceSources(),
     ]);
-    // Only from a queue this role serves (qnomyQueueEngine), oldest first.
-    const waiting = nextTicketFor(activePersonaId, qTickets, queueScope(customers));
+    // Alternating queue: the customer called is the kind whose turn it is - an Existing Customer, then an Unknown Customer, and so on. When none of
+    // that kind is waiting the kiosk issues one, so the alternation holds however the queue is mixed.
+    const due = QUEUE_CUSTOMER_MODE === 'alternate' ? customerKindDue(qTickets, customers) : undefined;
+    if (due) {
+      await ensureKindWaiting(activePersonaId, due);
+      qTickets = await mockDataEngine.list<QTicketRecord>('qtickets');
+    }
+    // Only from a queue this role serves (qnomyQueueEngine), oldest first (of the kind due, when alternating).
+    const waiting = nextTicketFor(activePersonaId, qTickets, queueScope(customers), due ? (t) => ticketKind(t, customers) === due : undefined);
     setCallingNext(false);
     if (!waiting) {
       pushToast('info', `No customers waiting in your queue (${queueLabelsForRole(activePersonaId)}).`);
@@ -281,14 +292,12 @@ export function SessionReferenceNumbers() {
 
     pushToast(...ticketToast(waiting, matched?.name ?? null, matched?.customerId ?? null, waiting.kioskMobileNumber, facts));
 
-    // Per direction (2026-10-27): calling the next customer keeps the agent on
-    // the Dashboard with the Assigned Ticket Number notification showing. No
-    // journey or Customer 360 is opened for them - they choose where to go
-    // from here. Navigating to '/' (rather than staying put) still matters when
-    // Next Customer was clicked from another page: Customer360Layout reads the
-    // route param, not activeCustomer, so staying would leave the PREVIOUS
-    // customer's record on screen while the header announced a new one.
-    navigate('/');
+    // An Existing Customer (the kiosk number resolved to a customer this role may see) takes the agent straight to that customer's profile in
+    // Customer 360, with the Assigned Ticket Number notification showing. An Unknown Customer has no profile to open, so the agent stays on the
+    // Dashboard with the notification and chooses where to go from there (2026-10-27 direction). A role with no Customer 360 grant stays on the
+    // Dashboard too. Navigating either way (rather than staying put) matters when Next Customer was clicked from another page: Customer360Layout
+    // reads the route param, not activeCustomer, so staying would leave the PREVIOUS customer's record on screen while the header announced a new one.
+    navigate(matched && canUseFeature(activePersonaId, 'workspace.customer360-view') ? `/customer/${matched.customerId}` : '/');
   };
 
   // A Qnomy-eligible agent ALWAYS has something here: a held ticket, a just-
@@ -299,7 +308,7 @@ export function SessionReferenceNumbers() {
   if (!showQnomy && !(showCti && ctiTicket)) return null;
 
   return (
-    <div className="flex items-center gap-2 shrink-0">
+    <div className="row-tight shrink-0">
       {showQnomy && activeQTicket && (
         <>
           {/* Before the ticket text, so it reads as "info about this ticket"
@@ -309,7 +318,7 @@ export function SessionReferenceNumbers() {
               type="button"
               onClick={showTicketDetails}
               aria-label={`Show details for ticket ${activeQTicket.qTicketId}`}
-              className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-fg transition-colors"
+              className="icon-button-bare transition-colors"
             >
               <Icon path={INFO_ICON_PATH} className="w-4.5 h-4.5" />
             </button>
@@ -334,8 +343,8 @@ export function SessionReferenceNumbers() {
                   which is why it was pinned in the header in the first
                   place, and it matters most for a walk-in with no record on
                   file. The tooltip still names that case. */}
-              <span className="text-[length:var(--fs-caption)] uppercase tracking-wide text-muted">Qnomy #</span>
-              <span className="text-fg font-semibold text-[length:var(--fs-body)]">{activeQTicket.qTicketId}</span>
+              <span className="caption-muted uppercase tracking-wide">Qnomy #</span>
+              <span className="heading-strong">{activeQTicket.qTicketId}</span>
             </div>
           </Tooltip>
           <Button variant="primary" compact disabled={finishing || abandoning} onClick={handleFinish}>
@@ -360,8 +369,8 @@ export function SessionReferenceNumbers() {
         <>
           <Tooltip content={`Waiting in your queue: ${queueLabelsForRole(activePersonaId)}`} placement="bottom">
             <div className="flex flex-col leading-tight">
-              <span className="text-[length:var(--fs-caption)] uppercase tracking-wide text-muted">Queue</span>
-              <span className="text-fg font-semibold text-[length:var(--fs-body)]">
+              <span className="caption-muted uppercase tracking-wide">Queue</span>
+              <span className="heading-strong">
                 {waitingCount === null ? '-' : `${waitingCount} waiting`}
               </span>
             </div>

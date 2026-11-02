@@ -58,17 +58,17 @@ export function NumberSelection({ value, onChange, variant = 'journey', plan, re
   if (!prePaired) return picker;
   return (
     <div className="space-y-4">
-      <label className="flex cursor-pointer items-start gap-3 rounded-[var(--radius-card)] border border-[var(--field-card-border)] bg-bg p-4">
+      <label className="row-start cursor-pointer card card-inherit-fill p-4">
         <Checkbox className="mt-1" checked={prePaired.checked} onChange={(e) => prePaired.onChange(e.target.checked)} />
         <span>
-          <span className="block text-fg font-medium text-[length:var(--fs-body)]">Use a Pre-Paired SIM</span>
-          <span className="block text-fg-2 text-[length:var(--fs-caption)]">
+          <span className="block value-text">Use a Pre-Paired SIM</span>
+          <span className="block caption-secondary">
             The number is already on the SIM, so number selection is skipped. The SIM is scanned in the next step.
           </span>
         </span>
       </label>
       {prePaired.checked ? (
-        <p role="status" className="rounded-[var(--radius-card)] border border-dashed border-[var(--border-soft)] px-5 py-4 text-muted text-[length:var(--fs-caption)]">
+        <p role="status" className="placeholder-box pad-panel">
           No number to choose: it is shown, read-only, once the Pre-Paired SIM is scanned.
         </p>
       ) : (

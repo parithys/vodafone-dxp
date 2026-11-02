@@ -41,9 +41,9 @@ export function JourneyCard({ journey, index, to, state }: { journey: Journey; i
 
   const body = (
     <>
-      <div className="flex items-start justify-between gap-2 mb-3">
+      <div className="split-top gap-2 mb-3">
         <Badge variant={s.variant}>{s.label}</Badge>
-        <span className="flex items-center gap-2 text-[length:var(--fs-caption)] text-muted shrink-0">
+        <span className="row-tight caption-muted shrink-0">
           {journey.product && <span>{journey.product}</span>}
           <span className="tabular-nums">{String(index + 1).padStart(2, '0')}</span>
         </span>

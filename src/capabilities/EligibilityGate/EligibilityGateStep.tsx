@@ -82,6 +82,8 @@ interface EligibilityGateStepProps {
    * started as New Prepaid says 'prepaid' here, so the Prepaid-only under-18 exception is offered at Customer Verification. Defaults to `journeyType`.
    */
   exceptionJourney?: string;
+  /** The agent has submitted an Exception Request for an under-18 applicant (from the footer): the age check is routed for approval instead of stopping the journey. */
+  exceptionRequested?: boolean;
   /** The role a postpaid Passport order is routed to (the submitter's manager), when the journey routes it there; see EligibilityContext.passportApprover. */
   passportApprover?: string;
   /**
@@ -129,6 +131,7 @@ export function EligibilityGateStep({
   result,
   journeyType = 'postpaid',
   exceptionJourney,
+  exceptionRequested = false,
   passportApprover,
   scope = 'product',
   portIn = false,
@@ -148,7 +151,14 @@ export function EligibilityGateStep({
   const requestedType: ConnectionType = connectionType ?? (journeyType === 'prepaid' ? 'MOBILE_PREPAID' : 'MOBILE_POSTPAID');
   const personaId = usePersonaStore((s) => s.activePersonaId);
   // The agent chose the under-18 exception journey (kept on the result, so it survives leaving and re-entering the step).
-  const [exceptionChosen, setExceptionChosen] = useState(Boolean(result?.under18Exception));
+  const [exceptionChosen, setExceptionChosen] = useState(Boolean(result?.under18Exception) || exceptionRequested);
+  // The request stands (made for this identity, its document still attached): the age check is routed. When it no longer stands, the stop returns.
+  const wasRequested = useRef(exceptionRequested);
+  useEffect(() => {
+    if (exceptionRequested) setExceptionChosen(true);
+    else if (wasRequested.current) setExceptionChosen(false);
+    wasRequested.current = exceptionRequested;
+  }, [exceptionRequested]);
   // A different identity starts without the choice: it belongs to the person it was made for.
   const previousId = useRef(idNumber);
   useEffect(() => {
@@ -499,23 +509,8 @@ export function EligibilityGateStep({
     <div className="space-y-3">
       <EligibilityChecksList rows={unresolved} />
 
-      {/* Pattern 1: Hard Stop. No button of any kind - "no option to proceed"
-          means exactly that, not a disabled one sitting here as a tease. */}
-      {hardStop && (
-        <p className="text-danger text-[length:var(--fs-caption)]">
-          This journey cannot continue for this customer - resolve the blocking check above before retrying.
-        </p>
-      )}
-      {/* The under-18 exception (BRSD V0.3): the agent chooses between stopping here (do nothing, the journey is already stopped) and
-          proceeding with the exception journey, which routes the order to the CDM queue. Offered only where data/under18Exception.ts allows. */}
-      {hardStop && checks.some((c) => c.exceptionOffer === 'under-18') && (
-        <div className="flex flex-wrap items-center gap-3">
-          <Button variant="secondary" compact onClick={() => setExceptionChosen(true)}>
-            Proceed With Exception
-          </Button>
-          <span className="text-fg-2 text-[length:var(--fs-caption)]">Or stop here: the journey ends for this customer.</span>
-        </div>
-      )}
+      {/* Pattern 1: Hard Stop. The blocking check above says it; there is no button here, and no line repeating it. The footer carries the actions
+          (Abandon Order; for an underage customer also Apply for Exception). */}
       {/* Pattern 3: Alternative Product. Only a collections soft-stop reaches
           here (the engine's only 'soft-stop' outcome), and only Postpaid has
           an alternative to offer - a Prepaid customer hitting the same block

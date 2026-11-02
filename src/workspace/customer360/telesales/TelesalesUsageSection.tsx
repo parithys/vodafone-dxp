@@ -60,9 +60,9 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
       />
       <StatStrip
         items={[
-          { value: <span>{dataLeft} GB <span className="text-muted font-normal text-[length:var(--fs-caption)]">of {Math.round(dataTotal)} GB</span></span>, label: 'Data Usage', icon: ICON.grid },
-          { value: <span>{voiceLeft} <span className="text-muted font-normal text-[length:var(--fs-caption)]">of {voiceTotal} Mins</span></span>, label: 'Voice Usage', icon: ICON.phone },
-          { value: <span>{smsLeft} <span className="text-muted font-normal text-[length:var(--fs-caption)]">of {smsTotal} SMS</span></span>, label: 'SMS Usage', icon: ICON.phone },
+          { value: <span>{dataLeft} GB <span className="caption-muted font-normal">of {Math.round(dataTotal)} GB</span></span>, label: 'Data Usage', icon: ICON.grid },
+          { value: <span>{voiceLeft} <span className="caption-muted font-normal">of {voiceTotal} Mins</span></span>, label: 'Voice Usage', icon: ICON.phone },
+          { value: <span>{smsLeft} <span className="caption-muted font-normal">of {smsTotal} SMS</span></span>, label: 'SMS Usage', icon: ICON.phone },
           { value: qar(Number(bal?.mainBalanceQAR ?? 0)), label: 'Primary Balance' },
           { value: dig?.appLastLoginAt ? dateTime(dig.appLastLoginAt).d : '-', label: dig?.appActiveUser ? 'Active User · Last App Login' : 'Last App Login' },
           { value: dig ? `${str(dig.appDigitalAdoptionPct)}%` : '-', label: 'Digital Adoption' },
@@ -84,13 +84,13 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
             />
           </div>
           <BarChart data={chart} unit={unit} height={170} />
-          <div className="px-5 pb-4 flex gap-5 text-fg-2 text-[length:var(--fs-caption)]">
+          <div className="px-5 pb-4 flex gap-5 caption-secondary">
             <span>
-              <span className="inline-block w-2 h-2 rounded-[var(--radius-pill)] bg-accent mr-1" />
+              <span className="inline-block dot bg-accent mr-1" />
               Regular Usage
             </span>
             <span>
-              <span className="inline-block w-2 h-2 rounded-[var(--radius-pill)] bg-[var(--telesales-chart-slate)] mr-1" />
+              <span className="inline-block dot bg-[var(--telesales-chart-slate)] mr-1" />
               Out of Bundle
             </span>
           </div>
@@ -123,12 +123,12 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
       </div>
       <div className="contents">
         <Card title="Usage Behaviour Insights" icon={ICON.bars} link="View Details">
-          <div className="p-5 grid grid-cols-2 gap-3">
+          <div className="p-5 pair-grid-sm">
             {insights.map((i) => (
-              <div key={i.name} className="rounded-[var(--radius-card)] border border-[var(--field-card-border)] p-4">
+              <div key={i.name} className="card-outline p-4">
                 <Icon path={ICON.bars} className="w-4 h-4 text-muted" />
-                <div className="text-fg font-bold text-[length:var(--fs-body)] mt-3">{i.name.replace('Calls', 'Calls').replace(/^High (Data|Roaming) (User)?$/, (m) => m)}</div>
-                <div className="text-fg-2 text-[length:var(--fs-caption)]">{i.sub}</div>
+                <div className="title-sm mt-3">{i.name.replace('Calls', 'Calls').replace(/^High (Data|Roaming) (User)?$/, (m) => m)}</div>
+                <div className="caption-secondary">{i.sub}</div>
               </div>
             ))}
           </div>
@@ -149,15 +149,15 @@ export function UsageSection({ ctx }: { ctx: Ctx }) {
           <div className="p-5 space-y-4">
             <div>
               <Ring value={String(dataLeft)} unit="GB" sub={`of ${Math.round(dataTotal)} GB`} fraction={dataTotal ? dataLeft / dataTotal : undefined} label="Data" />
-              <div className="text-muted text-[length:var(--fs-caption)] text-right">{used(dataLeft, dataTotal)}</div>
+              <div className="caption-muted text-right">{used(dataLeft, dataTotal)}</div>
             </div>
             <div>
               <Ring value={String(voiceLeft)} sub={`of ${voiceTotal} Mins`} fraction={voiceTotal ? voiceLeft / voiceTotal : undefined} label="Voice" />
-              <div className="text-muted text-[length:var(--fs-caption)] text-right">{used(voiceLeft, voiceTotal)}</div>
+              <div className="caption-muted text-right">{used(voiceLeft, voiceTotal)}</div>
             </div>
             <div>
               <Ring value={String(smsLeft)} sub={`of ${smsTotal} SMS`} fraction={smsTotal ? smsLeft / smsTotal : undefined} label="SMS" />
-              <div className="text-muted text-[length:var(--fs-caption)] text-right">{used(smsLeft, smsTotal)}</div>
+              <div className="caption-muted text-right">{used(smsLeft, smsTotal)}</div>
             </div>
             <Ring value={qar(Number(bal?.mainBalanceQAR ?? 0))} fraction={1} label="Primary Balance" wide />
           </div>

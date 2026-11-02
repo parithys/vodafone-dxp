@@ -40,7 +40,7 @@ export function ToolbarShell({ children }: { children: ReactNode }) {
   const [wide, setWide] = useState<HTMLElement | null>(null);
   return (
     <SlotsContext.Provider value={{ toolbar, wide }}>
-      <div ref={setToolbar} className="flex flex-wrap items-center justify-end gap-x-5 gap-y-3 mb-4 empty:hidden" aria-label="Page actions" />
+      <div ref={setToolbar} className="toolbar-end mb-4" aria-label="Page actions" />
       {children}
       <div ref={setWide} className="space-y-4" />
     </SlotsContext.Provider>
@@ -69,7 +69,7 @@ export function HeaderButton({ children, primary, onClick }: { children: ReactNo
 
 export function HeaderLink({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="order-first text-link underline text-[length:var(--fs-body)] font-medium">
+    <button type="button" onClick={onClick} className="order-first link-underline text-[length:var(--fs-body)] font-medium">
       {children}
     </button>
   );
@@ -79,15 +79,15 @@ export function HeaderLink({ children, onClick }: { children: ReactNode; onClick
 export function StatStrip({ items }: { items: { value: ReactNode; label: string; tone?: 'ok' | 'bad' | 'warn'; icon?: string }[] }) {
   const color = { ok: 'text-success', bad: 'text-danger', warn: 'text-[var(--warn-text)]' };
   return (
-    <section data-mcard className={`rounded-[var(--radius-card)] border ${THIN} bg-bg overflow-hidden self-start w-full min-w-0`}>
+    <section data-mcard className={`card-frame ${THIN} bg-bg overflow-hidden self-start w-full min-w-0`}>
       <div className="grid grid-cols-2">
         {items.map((i, n) => (
-          <div key={i.label} className={`px-4 py-3 border-[var(--field-card-border)] ${n % 2 === 0 ? 'border-r' : ''} ${n < items.length - (items.length % 2 === 0 ? 2 : 1) ? 'border-b' : ''}`}>
-            <div className={`flex items-center gap-2 font-bold text-[length:var(--fs-h4)] ${i.tone ? color[i.tone] : 'text-fg'}`}>
+          <div key={i.label} className={`pad-row border-[var(--field-card-border)] ${n % 2 === 0 ? 'border-r' : ''} ${n < items.length - (items.length % 2 === 0 ? 2 : 1) ? 'border-b' : ''}`}>
+            <div className={`row-tight font-bold text-[length:var(--fs-h4)] ${i.tone ? color[i.tone] : 'text-fg'}`}>
               {i.icon && <Icon path={i.icon} className="w-4 h-4 text-fg" />}
               {i.value}
             </div>
-            <div className="text-fg-2 text-[length:var(--fs-caption)]">{i.label}</div>
+            <div className="caption-secondary">{i.label}</div>
           </div>
         ))}
       </div>
@@ -128,12 +128,12 @@ export function ActionList({ items }: { items: { title: string; sub: string; ico
   return (
     <div className={`divide-y divide-[var(--field-card-border)]`}>
       {items.map((a) => (
-        <button key={a.title} type="button" onClick={a.onClick} className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left hover:bg-surface">
+        <button key={a.title} type="button" onClick={a.onClick} className="list-row justify-between gap-3 pad-panel">
           <span className="min-w-0">
-            <span className="block text-fg font-semibold text-[length:var(--fs-body-lg)]">{a.title}</span>
-            <span className="block text-fg-2 text-[length:var(--fs-caption)]">{a.sub}</span>
+            <span className="block subtitle">{a.title}</span>
+            <span className="block caption-secondary">{a.sub}</span>
           </span>
-          <Icon path={a.icon ?? I.chevron} className="w-4 h-4 text-muted shrink-0" />
+          <Icon path={a.icon ?? I.chevron} className="icon-sm text-muted" />
         </button>
       ))}
     </div>
@@ -149,16 +149,16 @@ export function TileLinks({ items, columns = 5 }: { items: { key: string; title:
           key={t.key}
           type="button"
           onClick={t.onClick}
-          className={`flex items-center gap-3 rounded-[var(--radius-card)] border ${THIN} px-4 py-3 text-left hover:bg-surface ${t.active ? 'border-accent bg-surface' : ''}`}
+          className={`row card-frame ${THIN} pad-row text-left hover:bg-surface ${t.active ? 'border-accent bg-surface' : ''}`}
         >
           <span className="text-accent shrink-0">
             <Icon path={t.icon} className="w-4 h-4" />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-fg font-semibold text-[length:var(--fs-body)] truncate">{t.title}</span>
-            <span className="block text-fg-2 text-[length:var(--fs-caption)]">{t.sub}</span>
+            <span className="block heading-strong truncate">{t.title}</span>
+            <span className="block caption-secondary">{t.sub}</span>
           </span>
-          <Icon path={I.chevron} className="w-4 h-4 text-muted shrink-0" />
+          <Icon path={I.chevron} className="icon-sm text-muted" />
         </button>
       ))}
     </div>
@@ -185,7 +185,7 @@ export function BarChart({ data, unit = '', height = 150 }: { data: { label: str
   const max = Math.max(1, ...data.map((d) => d.value + (d.extra ?? 0)));
   const ticks = [max, Math.round((max * 2) / 3), Math.round(max / 3), 0];
   return (
-    <div className="flex gap-3 px-5 py-4">
+    <div className="flex gap-3 pad-panel">
       <div className="flex flex-col justify-between text-muted text-[length:var(--fs-micro)] text-right" style={{ height }}>
         {ticks.map((t, i) => (
           <span key={i}>
@@ -197,7 +197,7 @@ export function BarChart({ data, unit = '', height = 150 }: { data: { label: str
       <div className="flex-1">
         <div className="flex items-end gap-3" style={{ height }}>
           {data.map((d) => (
-            <div key={d.label} className="flex-1 flex flex-col justify-end h-full" title={`${d.label}: ${d.value}${d.extra ? ` + ${d.extra}` : ''}`}>
+            <div key={d.label} className="fill-column justify-end h-full" title={`${d.label}: ${d.value}${d.extra ? ` + ${d.extra}` : ''}`}>
               {d.extra ? <div className="bg-[var(--telesales-chart-slate)] rounded-t-sm" style={{ height: `${(d.extra / max) * 100}%` }} /> : null}
               <div className={`bg-accent ${d.extra ? '' : 'rounded-t-sm'}`} style={{ height: `${(d.value / max) * 100}%` }} />
             </div>
@@ -218,9 +218,9 @@ export function BarChart({ data, unit = '', height = 150 }: { data: { label: str
 /** Label / value rows with a status pill on the value: used by the compact detail cards. */
 export function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex items-center justify-between gap-4 px-5 py-3 border-b border-[var(--field-card-border)] last:border-0">
-      <span className="text-fg-2 text-[length:var(--fs-body)]">{label}</span>
-      <span className="text-fg text-[length:var(--fs-body)] text-right font-medium break-words">{children}</span>
+    <div className="spread items-center px-5 py-3 row-rule-card">
+      <span className="text-secondary">{label}</span>
+      <span className="value-end text-[length:var(--fs-body)]">{children}</span>
     </div>
   );
 }

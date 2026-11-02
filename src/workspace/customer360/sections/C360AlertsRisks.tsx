@@ -173,9 +173,9 @@ export function C360AlertsRisks({ data, goToTab }: { data: Customer360Data; serv
     <TabPage icon={IC.alert} tone="red" title="Alerts & Risks" subtitle="View customer alerts, risks, notifications and important indicators">
       <div className="space-y-4">
         <section className="card p-4 space-y-4 min-w-0">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">All Alerts &amp; Risks ({alerts.length})</h3>
-            <div className="flex flex-wrap items-stretch gap-3">
+          <div className="split">
+            <h3 className="subtitle">All Alerts &amp; Risks ({alerts.length})</h3>
+            <div className="cards-wrap">
               <FilterSelect
                 label="Severity"
                 value={severity}
@@ -236,7 +236,7 @@ export function C360AlertsRisks({ data, goToTab }: { data: Customer360Data; serv
           <Pagination page={paging.page} total={rows.length} pageSize={PAGE_SIZE} onPage={paging.setPage} />
         </section>
 
-        <div className="grid grid-cols-1 @4xl:grid-cols-2 gap-4 items-start">
+        <div className="fields @4xl:grid-cols-2 items-start">
           <Panel icon={IC.clipboard} title="Risk & Eligibility Indicators">
             <DetailRows
               rows={[
@@ -259,17 +259,17 @@ export function C360AlertsRisks({ data, goToTab }: { data: Customer360Data; serv
             action={notes.length > 3 ? <LinkAction onClick={() => setShowAllNotes((v) => !v)}>{showAllNotes ? 'Show Less' : 'View All'}</LinkAction> : undefined}
           >
             {shownNotes.length === 0 ? (
-              <p className="text-muted text-[length:var(--fs-body)] py-2 text-center">No notifications or notes for this customer.</p>
+              <p className="empty-note-sm">No notifications or notes for this customer.</p>
             ) : (
               <ul>
                 {shownNotes.map((n) => {
                   const d = n.at ? fmtDateTime(new Date(n.at).toISOString()) : {};
                   return (
-                    <li key={n.id} className="flex items-start gap-3 py-2.5 border-b border-border-soft last:border-0">
+                    <li key={n.id} className="row-start py-2.5 row-rule">
                       <IconTile icon={n.kind === 'notification' ? IC.bell : IC.file} tone={n.kind === 'notification' ? 'blue' : 'grey'} size="sm" />
                       <div className="min-w-0 flex-1">
-                        <div className="text-fg font-medium text-[length:var(--fs-body)] break-words">{n.text}</div>
-                        <div className="text-fg-2 text-[length:var(--fs-caption)] break-words">{[n.source, d.date && `${d.date}${d.time ? ` ${d.time}` : ''}`].filter(Boolean).join('  |  ')}</div>
+                        <div className="value-text break-words">{n.text}</div>
+                        <div className="caption-secondary break-words">{[n.source, d.date && `${d.date}${d.time ? ` ${d.time}` : ''}`].filter(Boolean).join('  |  ')}</div>
                       </div>
                     </li>
                   );

@@ -80,3 +80,19 @@ test('the eligibility result names the manager queue for a postpaid Passport, an
   assert.equal(run('GCC ID', { passportApprover: 'Sales Manager' }).label, 'Credit Control Approval Required');
   assert.equal(run('Passport', { passportApprover: 'Sales Manager', journeyType: 'prepaid' }).outcome, 'pass', 'prepaid permits a Passport outright');
 });
+
+test('the ID type\'s Credit Control approval is announced once the product is chosen: not at product-agnostic Customer Verification, never for Prepaid', async () => {
+  const fs = await import('node:fs');
+  const step = fs.readFileSync('src/capabilities/CustomerQualification/step.tsx', 'utf8');
+  assert.match(step, /!\(productAgnostic && \(row\.id === 'hrn' \|\| row\.id === 'id-type-routing'\)\)/);
+  const product = fs.readFileSync('src/modules/new-connection/steps/ProductEligibility.tsx', 'utf8');
+  assert.match(product, /eligibilityJourney\(values\) === 'prepaid' \? undefined : \(row\) =>[^\n]*\(row\.id === 'id-type-routing' && row\.tone === 'approval-routing'\)/);
+  // The engine itself: a Passport routes on a postpaid line and not on a prepaid one, so the product stage has the right answer for each.
+  const run = (journeyType) =>
+    engine.evaluateEligibilityChecks(
+      { customer: { customerId: 'C', idType: 'Passport', dob: '1990-01-01', blacklisted: false }, doc: { documentType: 'Passport', expiryDate: '2099-01-01', visa: { visaNumber: 'V', visaType: 'T', expiryDate: '2099-01-01' } }, deals: [], outstandingQar: 0, lineCapReached: false, activeLinesDetail: '0/5', journeyType },
+      new Date('2026-11-01')
+    ).find((c) => c.id === 'id-type-routing');
+  assert.equal(run('postpaid').outcome, 'approval-routing');
+  assert.equal(run('prepaid').outcome, 'pass');
+});

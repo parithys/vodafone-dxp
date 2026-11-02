@@ -34,7 +34,7 @@ export function NewSimSwapWizard({ msisdn, onDone }: NewSimSwapWizardProps) {
   const [bankStatementAttached, setBankStatementAttached] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="fill-column">
       <p className="text-fg-2 px-8 pt-8 mb-4">
         MSISDN: <span className="text-fg font-medium">{msisdn}</span>
       </p>
@@ -53,8 +53,8 @@ export function NewSimSwapWizard({ msisdn, onDone }: NewSimSwapWizardProps) {
                   value={(values.qidImages as QidImageUploadValue) ?? {}}
                   onChange={(v) => setValue('qidImages', v)}
                 />
-                <div className="card p-4 flex items-center justify-between">
-                  <span className="text-fg-2 text-[length:var(--fs-body)]">Bank Statement</span>
+                <div className="card p-4 row-between">
+                  <span className="text-secondary">Bank Statement</span>
                   {bankStatementAttached ? (
                     <Badge variant="success">Attached</Badge>
                   ) : (
@@ -92,7 +92,7 @@ export function NewSimSwapWizard({ msisdn, onDone }: NewSimSwapWizardProps) {
                     placeholder="Select a reason"
                     options={SWAP_REASONS.map((r) => ({ value: r, label: r }))}
                   />
-                  {charge && <p className="text-[length:var(--fs-caption)] text-fg-2">{charge.message}</p>}
+                  {charge && <p className="caption-secondary">{charge.message}</p>}
                 </div>
               );
             },

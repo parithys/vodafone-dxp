@@ -55,14 +55,14 @@ export function BillLimitEditor({ product, value, onChange, layout = 'default', 
 
   return (
     <div className={bare ? '' : `card ${row ? 'p-4' : 'p-3'}`}>
-      <div className="flex items-center justify-between gap-3">
+      <div className="split-nowrap">
         {row && !editing ? (
           <div>
-            <h4 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Bill Limit</h4>
-            {value !== undefined && <p className="text-fg-2 text-[length:var(--fs-caption)]">Current limit · {formatQarAny(value)}</p>}
+            <h4 className="subtitle">Bill Limit</h4>
+            {value !== undefined && <p className="caption-secondary">Current limit · {formatQarAny(value)}</p>}
           </div>
         ) : (
-          <h4 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Bill Limit</h4>
+          <h4 className="subtitle">Bill Limit</h4>
         )}
         {!editing && (
           <Button variant="secondary" compact onClick={() => setEditing(true)}>

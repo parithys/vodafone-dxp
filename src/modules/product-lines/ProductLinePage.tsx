@@ -37,18 +37,18 @@ function CategorySection({ category, personaId, launch }: { category: JourneyCat
   const availableCount = journeys.filter((j) => j.status === 'available').length;
 
   return (
-    <section className="rounded-[var(--radius-card)] border border-[var(--field-card-border)] overflow-hidden mb-6">
-      <header className="flex items-start gap-3 px-5 py-4 bg-bg border-b border-border-soft rounded-t-[var(--radius-card)]">
-        <span className="shrink-0 w-9 h-9 rounded-[var(--radius-sm)] bg-tone-accent flex items-center justify-center">
+    <section className="card-outline overflow-hidden mb-6">
+      <header className="row-start pad-panel bg-bg divider-bottom rounded-t-[var(--radius-card)]">
+        <span className="nav-icon-tile bg-tone-accent">
           <Icon path={category.icon} className="w-4.5 h-4.5 text-accent" />
         </span>
         <div className="min-w-0">
-          <h2 className="font-bold text-fg text-[length:var(--fs-body-lg)]">{category.heading}</h2>
-          <p className="text-fg-2 text-[length:var(--fs-body)]">{category.description}</p>
+          <h2 className="title-md">{category.heading}</h2>
+          <p className="text-secondary">{category.description}</p>
         </div>
       </header>
 
-      <div className="p-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="p-5 grid-2-up lg:grid-cols-3">
         {journeys.map((journey, i) => {
           const target = resolveJourneyTarget(journey);
           // Opened from a customer (Customer 360): journeys with a customer-aware destination go straight to it.
@@ -57,7 +57,7 @@ function CategorySection({ category, personaId, launch }: { category: JourneyCat
         })}
       </div>
 
-      <footer className="flex items-center justify-between px-5 py-3 border-t border-border-soft text-[length:var(--fs-caption)] text-muted">
+      <footer className="card-footer">
         <span>
           {availableCount} of {journeys.length} available
         </span>
@@ -103,7 +103,7 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
       </>} />
 
       {launch && (
-        <p className="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 card card-surface px-4 py-3 text-fg-2 text-[length:var(--fs-body)]">
+        <p className="mb-6 cluster-tight card card-surface pad-row text-secondary">
           <span>
             Acting for <span className="text-fg font-medium">{launch.customerName ?? launch.customerId}</span>
             {launch.serviceLabel && (
@@ -129,7 +129,7 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
           plainly that an item detail is planned rather than silently showing
           the whole line as if it had honoured the link. */}
       {searchParams.get('id') && (
-        <p className="mb-6 card card-surface px-4 py-3 text-fg-2 text-[length:var(--fs-caption)]">
+        <p className="mb-6 card card-surface pad-row caption-secondary">
           A detail view for <code>{searchParams.get('id')}</code> is planned here. Showing the {line.label} journey
           catalogue in the meantime.
         </p>
@@ -147,7 +147,7 @@ export function ProductLinePage({ lineKey }: { lineKey: ProductLine['key'] }) {
           The chip label follows the secondary button surface (SECONDARY_BUTTON_SURFACE), which keeps it above 4.5:1
           on the hover fill at --fs-caption. */}
       {line.categories.length > 1 && (
-      <div className="flex flex-wrap items-center gap-2 mb-6">
+      <div className="cluster-sm mb-6">
         <Link
           to={line.to}
           state={launch ? { launch } : undefined}

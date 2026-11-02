@@ -29,7 +29,7 @@ export function AddressSection({ ctx }: { ctx: Ctx }) {
       />
       <div className="contents">
         <Card title="National Address (NAS)" icon={ICON.globe}>
-          <div className="flex items-center gap-3 px-5 py-3 border-b border-[var(--field-card-border)]">
+          <div className="row px-5 py-3 border-b border-[var(--field-card-border)]">
             <Pill tone="green">Verified</Pill>
             <Button variant="tertiary" type="button">View in Map →</Button>
           </div>
@@ -53,10 +53,10 @@ export function AddressSection({ ctx }: { ctx: Ctx }) {
         <Card title="Location Map" icon={ICON.globe}>
           <div className="p-5">
             <div className="relative h-44 rounded-[var(--radius-card)] bg-gradient-to-br from-[var(--telesales-map-from)] to-[var(--telesales-map-to)] overflow-hidden">
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-[var(--radius-pill)] bg-accent text-accent-on flex items-center justify-center">
+              <span className="center-absolute pin-marker">
                 <Icon path={ICON.globe} className="w-5 h-5" />
               </span>
-              <div className="absolute right-3 bottom-3 rounded-[var(--radius-button)] bg-bg px-3 py-2 text-[length:var(--fs-caption)]">
+              <div className="absolute right-3 bottom-3 floating-label">
                 <div className="font-bold text-fg">{zone}</div>
                 <div className="text-fg-2">{street}</div>
                 <div className="text-fg-2">{building}</div>
@@ -73,9 +73,9 @@ export function AddressSection({ ctx }: { ctx: Ctx }) {
               <Pill tone="green">{str(serv[k]) || 'Available'}</Pill>
             </Field>
           ))}
-          <div className="flex items-center justify-between px-5 py-3">
+          <div className="panel-header">
             <span className="text-fg-2">Remarks</span>
-            <span className="text-fg font-bold text-[length:var(--fs-body-lg)]">{str(serv.Remarks)}</span>
+            <span className="title-md">{str(serv.Remarks)}</span>
           </div>
         </Card>
         <Card title="Address Type & Usage" icon={ICON.globe} link="Edit">

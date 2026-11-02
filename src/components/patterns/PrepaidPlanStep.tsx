@@ -106,8 +106,8 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
     return (
       <div className="space-y-6">
         <div>
-          {showTitle && <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Prepaid Packs</h3>}
-          <p className="text-muted text-[length:var(--fs-caption)]">Select a starter pack. For a SIM without a bundle, choose New Prepaid Standard SIM.</p>
+          {showTitle && <h3 className="subtitle">Prepaid Packs</h3>}
+          <p className="caption-muted">Select a starter pack. For a SIM without a bundle, choose New Prepaid Standard SIM.</p>
         </div>
         {packGrid}
         <PrepaidPackDetailsDrawer pack={detailPack} onClose={() => setDetailPack(null)} selectedProductId={selectedProductId} onSelectProduct={onSelectProduct} />
@@ -119,16 +119,16 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
     <div className="space-y-6">
       {/* The step's own heading ("Add-ons") is already shown by the wizard above; only the description is added here. */}
       {/* Pulled up under the wizard's heading (its 16px gap is too loose for a one-line description) and closer to the pack below. */}
-      <p className="text-fg-2 text-[length:var(--fs-body)] -mt-3 mb-4">Personalise the pack with optional services and discounts.</p>
+      <p className="text-secondary -mt-3 mb-4">Personalise the pack with optional services and discounts.</p>
       {!selectedPlan ? (
         <p className="text-muted text-[length:var(--fs-body)]">Select a pack first - its discounts and add-ons appear here.</p>
       ) : (
         <>
           <section aria-label="Selected pack" className="space-y-4">
-            <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="split-top-wrap gap-4">
               <div className="min-w-0 space-y-2">
-                <h3 className="text-fg font-bold text-[length:var(--fs-h4)] leading-snug">{selectedPlan.name}</h3>
-                <span className="inline-flex rounded-[var(--radius-pill)] bg-[var(--tint-pink-bg)] px-2.5 py-0.5 text-[var(--tint-pink-fg)] text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide">
+                <h3 className="title-xl leading-snug">{selectedPlan.name}</h3>
+                <span className="tag-promo">
                   Selected Pack
                 </span>
               </div>
@@ -147,8 +147,8 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
                     selectedPlan.minutesAllowance,
                     selectedPlan.packValidityDays ? `Valid for ${selectedPlan.packValidityDays} days` : 'No validity period',
                   ].map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-fg text-[length:var(--fs-body)]">
-                      <Icon path={CHECK} className="w-4 h-4 shrink-0 text-accent mt-1" />
+                    <li key={f} className="flex items-start gap-2.5 body-text">
+                      <Icon path={CHECK} className="icon-sm text-accent mt-1" />
                       {f}
                     </li>
                   ))}
@@ -156,17 +156,17 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
               </div>
               {onSelectAddons && addons.length > 0 && (
             <section aria-labelledby="prepaid-addons" className="space-y-2">
-              <h3 id="prepaid-addons" className="text-fg font-semibold text-[length:var(--fs-body-lg)]">
-                Add-ons <span className="text-muted font-normal text-[length:var(--fs-caption)]">(optional)</span>
+              <h3 id="prepaid-addons" className="subtitle">
+                Add-ons <span className="caption-muted font-normal">(optional)</span>
               </h3>
               {addons.map((a) => {
                 const checked = addonIds.includes(a.addonDiscountId);
                 return (
                   <label
                     key={a.addonDiscountId}
-                    className={`flex items-center justify-between gap-3 rounded-[var(--radius-card)] border p-3 cursor-pointer ${checked ? CARD_SELECTED : CARD_IDLE}`}
+                    className={`split-nowrap card-frame p-3 cursor-pointer ${checked ? CARD_SELECTED : CARD_IDLE}`}
                   >
-                    <span className="flex items-center gap-3">
+                    <span className="row">
                       <Checkbox
                         checked={checked}
                         onChange={(e) =>
@@ -175,7 +175,7 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
                       />
                       <span>
                         <span className="text-fg">{a.name}</span>
-                        <span className="block text-[length:var(--fs-caption)] text-muted">{a.description}</span>
+                        <span className="block caption-muted">{a.description}</span>
                       </span>
                     </span>
                     <span className="text-fg font-medium shrink-0">{formatQarAny(a.price)}</span>
@@ -188,9 +188,9 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
           </section>
 
           <section aria-label="Eligible discounts" className="space-y-3 border-t border-[var(--field-card-border)] pt-6">
-            <h3 className="text-fg font-semibold text-[length:var(--fs-body-lg)]">Eligible Discounts</h3>
+            <h3 className="subtitle">Eligible Discounts</h3>
             {/* One choice, shown as selectable cards with a tick mark (like the number cards), not radio buttons. */}
-            <div role="radiogroup" aria-label="Eligible discounts" className="grid gap-3 sm:grid-cols-2">
+            <div role="radiogroup" aria-label="Eligible discounts" className="grid-2-up-sm">
               {[
                 { id: undefined as string | undefined, title: 'No Discount', detail: 'Continue without a discount', value: <span className="text-muted">-</span> },
                 ...discounts.map((d) => ({
@@ -208,22 +208,22 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
                     role="radio"
                     aria-checked={on}
                     onClick={() => onSelectDiscount(o.id)}
-                    className={`relative isolate flex flex-col gap-1 rounded-[var(--radius-card)] border px-5 py-4 pr-14 text-left cursor-pointer transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] ${
+                    className={`option-card isolate gap-1 pad-panel pr-14 text-left ${
                       on ? CARD_SELECTED : CARD_IDLE
                     }`}
                   >
                     {on && <SelectedCardTexture />}
                     {on && <SelectedTick />}
                     <span className="flex items-baseline gap-2">
-                      <span className="text-fg font-semibold text-[length:var(--fs-body)]">{o.title}</span>
+                      <span className="heading-strong">{o.title}</span>
                       {o.value}
                     </span>
-                    <span className="text-[length:var(--fs-caption)] text-muted">{o.detail}</span>
+                    <span className="caption-muted">{o.detail}</span>
                   </button>
                 );
               })}
             </div>
-            {discounts.length === 0 && <p className="text-muted text-[length:var(--fs-caption)]">No discounts configured for this pack.</p>}
+            {discounts.length === 0 && <p className="caption-muted">No discounts configured for this pack.</p>}
           </section>
         </>
       )}
@@ -231,9 +231,9 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
       {selectedPlan && (
         // The running total, as the postpaid Monthly summary: a dark panel (fixed navy, white text in both themes) with the
         // charges listed at the left and the total at the right. Number and SIM charges join it at checkout.
-        <div className="rounded-[var(--radius-card-lg)] bg-[var(--summary-bg)] text-[var(--summary-fg)] p-6 flex items-start justify-between flex-wrap gap-4">
+        <div className="summary-banner split-top-wrap gap-4">
           <table className="w-[min(32rem,100%)] text-[length:var(--fs-caption)]">
-            <caption className="opacity-70 text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide text-left pb-2">Pack summary</caption>
+            <caption className="opacity-70 text-[length:var(--fs-tag)] caps-strong text-left pb-2">Pack summary</caption>
             <tbody className="divide-y divide-[var(--divider-on-dark)]">
               {[
                 [selectedPlan.name, `${formatQar(selectedPlan.starterPackChargeQAR)}`],
