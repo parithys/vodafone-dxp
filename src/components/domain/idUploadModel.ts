@@ -124,6 +124,13 @@ export function removeIdUpload<T extends UploadValue>(value: T, side: 'front' | 
 }
 
 /**
+ * A Passport on a web device is validated on request: both sides are scanned one at a time, then the agent presses "Initiate scan", which reads
+ * the scanned passport and validates it against MOI (the QID, GCC ID and Diplomatic ID validate as soon as their one scan completes). A
+ * tablet or mobile agent uploads the document and it is validated as before, so upload is offered there only. One definition for every consumer.
+ */
+export const passportVerifiesOnDemand = (documentType: string | undefined, device: 'web' | 'tablet'): boolean => documentType === 'Passport' && device === 'web';
+
+/**
  * Which capture actions an ID step offers, by device: a web/desktop agent uses the reader ("Initiate scan") and a tablet agent uploads
  * the document ("Upload document"); `both` (a step that always needs both) offers each on every device. When the reader is not available (it failed, or the step has none) upload stays on any device, so
  * the agent is never left without a way in. `readerEverywhere` keeps the reader on a tablet too (upload still joins it there).

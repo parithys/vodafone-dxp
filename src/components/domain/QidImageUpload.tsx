@@ -33,6 +33,9 @@ export function QidImageUpload({
   hideUnclearNotice = false,
   variant,
   identity,
+  onVerify,
+  verifying,
+  verified,
 }: QidImageUploadProps) {
   const scanned = Boolean(value.frontScanned && value.backScanned);
   // An upload with only one side in so far.
@@ -146,6 +149,9 @@ export function QidImageUpload({
         hideUnclearNotice={hideUnclearNotice}
         variant={variant}
         identity={identity}
+        onVerify={onVerify}
+        verifying={verifying}
+        verified={verified}
       />
     );
   }

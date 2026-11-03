@@ -137,8 +137,11 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   // The inventory is read on open and again each time Refresh is pressed (every tab shows the same list, re-filtered).
   useEffect(() => {
     let cancelled = false;
-    mockDataEngine.list<MsisdnRecord>('numbers').then((n) => {
+    // A number the system gave a Multi-SIM is not offered again as a primary number.
+    Promise.all([mockDataEngine.list<MsisdnRecord>('numbers'), mockDataEngine.list<{ secondaryMsisdn?: string }>('multi-sim-lines').catch(() => [])]).then(([all, multiSim]) => {
       if (cancelled) return;
+      const givenToMultiSim = new Set(multiSim.map((l) => l.secondaryMsisdn).filter(Boolean));
+      const n = all.filter((x) => !givenToMultiSim.has(x.msisdn));
       setNumbers(n);
       setNumbersLoaded(true);
       setPage(0);

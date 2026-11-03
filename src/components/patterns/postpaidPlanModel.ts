@@ -71,6 +71,8 @@ export interface PostpaidPlan {
    * that skip actually happens; this component only renders a note saying so.
    */
   preBundledOffer?: boolean;
+  /** The Multi-SIMs the plan includes, as stated on its record (see engines/multiSim.ts). Absent: none are stated. */
+  multiSimCount?: number;
   /** Postpaid Voice Plans or Postpaid Broadband Plans, by the plan's primary focus (see PLAN_CLASS_TAG). Absent: the plan has no class on record. */
   planClass?: string;
 }

@@ -6,7 +6,10 @@ import type { DeviceType } from '../../lib/deviceType';
 import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTypes';
 import { SimType } from './SimType';
 import { SimSerial } from './SimSerial';
-import { simTypeSummary } from './summary';
+import { simTypeSummary, multiSimSummary } from './summary';
+import { TrimMultiSims } from './TrimMultiSims';
+import { MultiSimPanel } from '../../components/domain/MultiSimPanel';
+import { allMultiSimsComplete, hasDuplicateSerial, iccidsOfEsims, multiSimsFor } from './multiSimModel';
 import { Checkbox } from '../../components/primitives/Checkbox';
 import { ActualUser } from '../ActualUser/ActualUser';
 import { isActualUserValid } from '../ActualUser/actualUserModel';
@@ -35,6 +38,12 @@ export function simTypeStep(
      * open its identification gates Continue. For a journey that names who will use the line without a step of its own for it.
      */
     withActualUser?: boolean;
+    /**
+     * How many Multi-SIMs this order provisions (0 to 4, decided by the plan and add-ons - see engines/multiSim.ts). Above 0 the page titles the primary SIM
+     * "Primary SIM Selection" and adds a "Multi-SIM Selection" section with one SIM selection per Multi-SIM, kept under `multiSims`. Each takes a Physical SIM
+     * (scanned or typed) or an eSIM exactly as the primary does; the number each is given is assigned by the system at submission and is never shown.
+     */
+    multiSimCount?: (values: Record<string, unknown>) => number;
   } = {}
 ): WizardStep {
   const fromContact = (values: Record<string, unknown>) => {
@@ -49,14 +58,20 @@ export function simTypeStep(
     if (opts.prePaired?.(values)) return s?.prePaired === true && s.simValid === true;
     return (s?.simType === 'Physical' && s.simValid === true) || (s?.simType === 'eSIM' && s.esimIssued === true);
   };
+  const multiCount = (values: Record<string, unknown>) => Math.max(0, opts.multiSimCount?.(values) ?? 0);
   const actualUserOpen = (values: Record<string, unknown>) => Boolean(opts.withActualUser) && (values.actualUser as ActualUserValue | undefined)?.choice === 'other';
   return {
     key: 'simType',
-    summary: opts.withActualUser ? [...simTypeSummary, ...actualUserSummary] : simTypeSummary,
+    summary: [...simTypeSummary, ...(opts.multiSimCount ? multiSimSummary : []), ...(opts.withActualUser ? actualUserSummary : [])],
     label: SIM_TYPE_LABEL,
+    // Once Multi-SIMs apply the existing section is the primary's; with none the title stays "SIM Selection".
+    headingFor: (values) => (multiCount(values) > 0 ? 'Primary SIM Selection' : undefined),
+    headless: opts.multiSimCount ? ({ values, setValue }) => <TrimMultiSims count={multiCount(values)} values={values} setValue={setValue} /> : undefined,
     render: ({ values, setValue }) => (
       <>
       <SimType
+        excludeSerials={multiCount(values) > 0 ? multiSimsFor(values, multiCount(values)).map((x) => x.simSerial).filter((x): x is string => Boolean(x)) : undefined}
+        excludeIccids={multiCount(values) > 0 ? iccidsOfEsims({ multiSims: values.multiSims }, multiCount(values)) : undefined}
         value={(values.simType as SimTypeValue) ?? {}}
         customerEmail={(opts.customerEmail ?? fromContact)(values)}
         device={opts.device}
@@ -68,6 +83,23 @@ export function simTypeStep(
           if (opts.prePaired?.(values)) setValue('msisdn', v.prePairedMsisdn);
         }}
       />
+      {multiCount(values) > 0 && (
+        <section aria-labelledby="multi-sim-title" className="mt-8 pt-6 divider-top stack gap-6">
+          <div>
+            <h3 id="multi-sim-title" className="title title-lg">Multi-SIM Selection</h3>
+            <p className="text-secondary mt-1">Provision {multiCount(values) === 1 ? 'the Multi-SIM' : `the ${multiCount(values)} Multi-SIMs`} included with this order.</p>
+          </div>
+          <MultiSimPanel
+            count={multiCount(values)}
+            value={multiSimsFor(values, multiCount(values))}
+            onChange={(v) => setValue('multiSims', v)}
+            device={opts.device}
+            approvalRequired={opts.approvalRequired?.(values)}
+            otherSerials={[(values.simType as SimTypeValue | undefined)?.simSerial].filter((x): x is string => Boolean(x))}
+            otherIccids={[values.simType as SimTypeValue | undefined].filter((x) => x?.simType === 'eSIM').map((x) => x?.simIccid).filter((x): x is string => Boolean(x))}
+          />
+        </section>
+      )}
       {/* "Add Secondary Contact": ticked once a SIM is chosen (or while the section is open); unticking removes the section and everything entered in it. */}
       {opts.withActualUser && (simSelected(values) || actualUserOpen(values)) && (
         <label className="mt-8 flex w-fit choice-label">
@@ -89,6 +121,8 @@ export function simTypeStep(
       const s = values.simType as SimTypeValue | undefined;
       // Once the Actual User section is open, the person must be identified too (choosing "Same as Primary Customer" in it is complete).
       if (opts.withActualUser && !isActualUserValid(values.actualUser as ActualUserValue | undefined, primaryId(values))) return false;
+      // Every Multi-SIM provisioned, and no SIM serial used twice in the order.
+      if (multiCount(values) > 0 && (!allMultiSimsComplete(values, multiCount(values)) || hasDuplicateSerial(values, multiCount(values)))) return false;
       if (opts.prePaired?.(values)) return s?.prePaired === true && s.simValid === true && Boolean(values.msisdn);
       if (s?.simType === 'Physical') return s.simValid === true;
       if (s?.simType === 'eSIM') return s.esimIssued === true;

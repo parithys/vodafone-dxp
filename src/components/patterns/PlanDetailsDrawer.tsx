@@ -1,3 +1,4 @@
+import { multiSimBenefitText } from '../../engines/multiSim';
 import { OfferDetailsDrawer } from '../../capabilities/CrossSellOffers/OfferDetailsDrawer';
 import type { OfferDetails } from '../../capabilities/CrossSellOffers/OfferDetailsDrawer';
 import type { PostpaidPlan } from './postpaidPlanModel';
@@ -43,7 +44,7 @@ export function PlanDetailsDrawer({ detailPlan, onClose, selectedProductId, onSe
       fixedService={false}
       highlight={p?.benefits?.[0] ? { title: p.benefits[0], subtitle: `Included with ${p.name}` } : null}
       includedNames={[]}
-      planDetails={p && showPlanDetails ? [...(p.features?.length ? p.features : planFeatureRows(p).filter((r) => r.icon !== ICON_GIFT).map((r) => r.text)), `Bill limit: ${formatQar(p.mrcQAR)}`] : undefined}
+      planDetails={p && showPlanDetails ? [...(p.features?.length ? p.features : planFeatureRows(p).filter((r) => r.icon !== ICON_GIFT).map((r) => r.text)), ...(multiSimBenefitText(p) ? [multiSimBenefitText(p)!] : []), `Bill limit: ${formatQar(p.mrcQAR)}`] : undefined}
       showRelatedDocuments={false}
       hideStatusTags
       selected={Boolean(p && selectedProductId === p.productId)}

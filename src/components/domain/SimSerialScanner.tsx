@@ -36,6 +36,10 @@ interface SimSerialScannerProps {
    * Serial Number scan field") - other callers of this same component keep
    * their existing behaviour, since this defaults to false/unset. */
   autoFocus?: boolean;
+  /** Serials already used for another SIM in this order: a scan never picks one, and typing one is refused. */
+  excludeSerials?: readonly string[];
+  /** The field and the scan are unavailable (a panel that has taken all the SIMs it needs). */
+  disabled?: boolean;
   /**
    * Set by SimTypeStep only, true while eSIM is the agent's current choice
    * (2026-09-28: "Require either eSIM selection or SIM Serial Number. If
@@ -94,7 +98,7 @@ export async function checkSimSerial(serial: string, inventory: 'standard' | 'pr
 // stock readout - the step used to say nothing at all when a serial was good,
 // so "available in this store's stock" was indistinguishable from "not checked
 // yet".
-export function SimSerialScanner({ value, onChange, autoFocus, suppressValidation, device, inventory = 'standard', label = 'SIM Serial Number' }: SimSerialScannerProps) {
+export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = [], disabled = false, suppressValidation, device, inventory = 'standard', label = 'SIM Serial Number' }: SimSerialScannerProps) {
   const prePairedStock = inventory === 'pre-paired';
   const touch = device === 'tablet';
   const [error, setError] = useState<string | null>(null);
@@ -140,6 +144,11 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
       onChange(serial, false);
       return;
     }
+    if (excludeSerials.includes(serial)) {
+      setError('This SIM serial number is already used for another SIM in this order.');
+      onChange(serial, false);
+      return;
+    }
     setChecking(true);
     const outcome = await checkSimSerial(serial, inventory);
     setChecking(false);
@@ -164,7 +173,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
     const sims = await mockDataEngine.list<SimRecord>('sims');
     await new Promise((r) => setTimeout(r, 600));
     setScanning(false);
-    const available = sims.find((s) => s.stockStatus !== 'Issued' && s.stockStatus !== SIM_RESERVED && Boolean(s.prePaired) === prePairedStock);
+    const available = sims.find((s) => s.stockStatus !== 'Issued' && s.stockStatus !== SIM_RESERVED && Boolean(s.prePaired) === prePairedStock && !excludeSerials.includes(s.simSerial));
     if (!available) {
       scanIntent.current = false;
       setError(prePairedStock ? "Pre-Paired SIM not found in this store's stock." : "SIM not found in this store's stock.");
@@ -196,6 +205,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
         inputMode="numeric"
         placeholder={touch ? "Scan the SIM barcode, or enter the serial number" : "Enter the SIM serial number, or use the barcode scanner"}
         value={value}
+        disabled={disabled}
         onChange={(e) => onChange(e.target.value, false)}
         onBlur={(e) => {
           if (scanIntent.current) return;
@@ -213,7 +223,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
               if (!scanning) scanIntent.current = false;
             }}
             onClick={scanSim}
-            disabled={scanning || checking}
+            disabled={scanning || checking || disabled}
             aria-label="Scan SIM barcode"
             title={scanning ? 'Scanning…' : 'Scan SIM barcode'}
             className={`icon-button-inline icon-button-quiet ${touch ? 'p-3 -mr-3' : '-mr-1.5'}`}
@@ -231,7 +241,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, suppressValidatio
             scanIntent.current = true;
           }}
           onClick={scanSim}
-          disabled={scanning || checking}
+          disabled={scanning || checking || disabled}
         >
           {scanning ? 'Scanning…' : 'Scan SIM barcode'}
         </Button>

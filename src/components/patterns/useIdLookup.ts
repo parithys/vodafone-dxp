@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { SpecimenIdentity } from '../domain/ScannedIdPreview';
 import { callService, ServiceError, takeDuplicateFault, VALIDATION_TTL_MS, type FailureKind, type ServiceName } from '../../engines/serviceCall';
 import type { QidType } from '../domain/QidInput';
+import { passportVerifiesOnDemand } from '../domain/idUploadModel';
+import { detectDeviceType } from '../../lib/deviceType';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { useActedForCustomer } from './useActedForCustomer';
 import { useEnterToSubmit } from '../../hooks/useEnterToSubmit';
@@ -135,6 +137,7 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     // in the reader, so retaining it across a type switch would let a QID
     // scan satisfy a Passport journey.
     onChange({ ...value, idType: nextType, idNumber: '', moiResult: undefined, qidScans: undefined });
+    setVerifyRequested(false);
     // Attempts belong to the document that was being scanned, so a new type
     // starts from zero. Without this, switching away from an exhausted QID and
     // back would leave manual entry already unlocked for a fresh card.
@@ -556,6 +559,9 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
   // complete. `notFound` is deliberately NOT a dependency - re-running on it
   // would loop a failing lookup forever.
   const autoFetchedNumber = useRef<string | null>(null);
+  // Passport on web: nothing is read or validated until the agent presses "Initiate scan" with both sides scanned (see passportVerifiesOnDemand).
+  const verifyOnDemand = passportVerifiesOnDemand(demoType ?? idType, detectDeviceType());
+  const [verifyRequested, setVerifyRequested] = useState(false);
   // Both flags, even though one operation now sets them together: this is the
   // contract QidImageUpload's other three consumers also read, and checking
   // only one would quietly accept a half-written value.
@@ -743,8 +749,10 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     if (!effectiveScannable || !scanComplete) {
       // Reset so re-scanning after a type switch or a cleared scan fetches again.
       autoFetchedNumber.current = null;
+      setVerifyRequested(false);
       return;
     }
+    if (verifyOnDemand && !verifyRequested) return;
     const number = value.idNumber?.trim();
     // Nothing typed (the field may well be locked), so the scan supplies it.
     // Setting idNumber re-runs this effect, which then fetches.
@@ -799,7 +807,7 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     autoFetchedNumber.current = number;
     void runMoiValidation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idType, effectiveScannable, scanComplete, value.idNumber, value.moiResult, loading, value.qidScans?.clear]);
+  }, [idType, effectiveScannable, scanComplete, value.idNumber, value.moiResult, loading, value.qidScans?.clear, verifyOnDemand, verifyRequested]);
 
   // No registry knows this ID: for the ID types a customer can be created for, and a journey that is not bound to a customer, the agent may create one.
   const canCreateCustomer = notFound && allowNewCustomer && !explicitCustomerId && NEW_CUSTOMER_ID_TYPES.includes(idType);
@@ -856,6 +864,9 @@ export function useIdLookup({ value, onChange, allowedIdTypes, autoDetectIdType,
     expiredNotice,
     runMoiValidation,
     scanComplete,
+    verifyOnDemand,
+    verifyRequested,
+    startVerification: () => setVerifyRequested(true),
     scanAttempts,
     fallbackUnlocked,
     scanBudgetSpent,

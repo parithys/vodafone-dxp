@@ -16,6 +16,8 @@ export interface WizardStep {
   icon?: string;
   /** Heading shown above the step content, when it should differ from the rail label. */
   heading?: string;
+  /** A heading that depends on the journey's answers so far (e.g. "Primary SIM Selection" once Multi-SIMs apply). Returns undefined to use `heading` / the label. */
+  headingFor?: (values: Record<string, unknown>) => string | undefined;
   /** Small uppercase label above the heading (for example "Configure service"). Optional. */
   eyebrow?: string;
   /** One line of explanatory text under the heading. Optional. */

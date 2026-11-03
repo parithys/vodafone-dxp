@@ -15,6 +15,7 @@ import {
 } from '../../capabilities';
 import type { SpecialDiscountsValue } from '../../capabilities';
 import { starEntitlementQar } from '../../engines/postpaidPricing';
+import { multiSimEntitlement } from '../../engines/multiSim';
 import type { Product } from './newConnectionModel';
 import { expectsApproval } from './approvalRouting';
 import { isOffersTabPlan } from '../../components/patterns/postpaidPlanModel';
@@ -44,6 +45,15 @@ const extrasSkip = (products: Product[]) => (values: Record<string, unknown>) =>
   values.selectionSource === 'OFFER' ||
   Boolean(products.find((p) => p.productId === values.productId && isOffersTabPlan(p)));
 
+/** The Multi-SIMs the order provisions: the selected plan's `multiSimCount` plus that of each selected add-on, held between 0 and 4. */
+export const multiSimCountFor = (products: Product[]) => (values: Record<string, unknown>): number => {
+  const addonIds = (values.addonIds as string[] | undefined) ?? [];
+  return multiSimEntitlement(
+    products.find((p) => p.productId === values.productId),
+    products.filter((p) => addonIds.includes(p.productId))
+  ).provisionable;
+};
+
 /**
  * The New Postpaid steps, after Customer Verification and Product Selection: Address, Billing Profile (resolved for the
  * agent), Plan and Add-ons, Number, SIM, Checkout, the full CAF and Payment, which submits.
@@ -66,7 +76,8 @@ export function postpaidSteps({ products, customerBenefits, device }: PostpaidSt
       },
     }),
     // Who will use the line (when it is not the owner) is added on this same page, from "Add Actual User": it is named on the Supplementary Form.
-    simTypeStep({ device, approvalRequired: expectsApproval, withActualUser: true }),
+    // Multi-SIMs come from the plan's and the selected add-ons' own `multiSimCount` (held to 4): a Multi-SIM Selection section follows the primary SIM.
+    simTypeStep({ device, approvalRequired: expectsApproval, withActualUser: true, multiSimCount: multiSimCountFor(products) }),
     checkoutSummaryStep({
       // An accepted offer fixes the plan, so the Plan & Add-ons step is skipped and 'plan' is not a reachable
       // key - jump to Number Selection (the first step still editable) instead of doing nothing.

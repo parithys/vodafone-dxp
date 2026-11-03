@@ -25,7 +25,7 @@
     "type": "Add-on",
     "mrcQAR": 50,
     "description": "50 international minutes bundle",
-    "addonCategory": "International Calls"
+    "addonCategory": "International"
   },
   {
     "productId": "PROD-104",
@@ -173,6 +173,8 @@
   {
     "productId": "PROD-108",
     "name": "Postpaid Extra",
+    "multiSimCount": 1,
+    "_multiSimCountNote": "Multi-SIMs this plan includes (2026-11-03). Demo data so the Multi-SIM Selection can be shown when this plan is chosen; the real counts are the business's to give. The journey reads only this field.",
     "type": "Postpaid Plan",
     "mrcQAR": 145,
     "originalMrcQAR": 180,
@@ -204,6 +206,8 @@
   {
     "productId": "PROD-109",
     "name": "Postpaid Max",
+    "multiSimCount": 2,
+    "_multiSimCountNote": "Multi-SIMs this plan includes (2026-11-03). Demo data so the Multi-SIM Selection can be shown when this plan is chosen; the real counts are the business's to give. The journey reads only this field.",
     "type": "Postpaid Plan",
     "mrcQAR": 180,
     "originalMrcQAR": 230,
@@ -622,6 +626,8 @@
   {
     "productId": "PROD-139",
     "name": "Postpaid Plus Extra Promotion",
+    "multiSimCount": 2,
+    "_multiSimCountNote": "Multi-SIMs this plan includes (2026-11-03). Demo data so the Multi-SIM Selection can be shown when this plan is chosen; the real counts are the business's to give. The journey reads only this field.",
     "type": "Postpaid Plan",
     "mrcQAR": 145,
     "dataAllowanceGB": 40,
@@ -640,6 +646,8 @@
   {
     "productId": "PROD-140",
     "name": "BIA Postpaid Plus Max Promotion",
+    "multiSimCount": 1,
+    "_multiSimCountNote": "Multi-SIMs this plan includes (2026-11-03). Demo data so the Multi-SIM Selection can be shown when this plan is chosen; the real counts are the business's to give. The journey reads only this field.",
     "type": "Postpaid Plan",
     "mrcQAR": 180,
     "dataAllowanceGB": 60,
@@ -771,7 +779,7 @@
     "addonCategory": "Local Data",
     "addonStatus": "Confirmed",
     "pricing": "paid",
-    "_note": "Add-ons catalogue from the business workbook Addons.xlsx (2026-10-25), by category (Local Data, Local Calls, International Calls, Roaming, Combo, Others). mrcQAR is the price in QAR where the workbook gives a fixed QR amount, otherwise 0 with priceLabel carrying the workbook's own wording (TBC, Plan-based, Plan-dependent, QR 10 after promotional period ...); pricing is 'free' only where the workbook says included with an eligible plan. addonStatus is the workbook's, unchanged; the workbook's validity is not carried (a postpaid add-on is monthly, so validity does not apply). A prepaid-only add-on (Local Minutes Booster) is not in this postpaid catalogue. Plan restrictions the workbook words in text (Essential / Extra / Unlimited plans) are not applied: the products carry no plan-family field.",
+    "_note": "Add-ons catalogue from the business workbook Addons.xlsx (2026-10-25), by category (Local Data, Local Minutes, International, Roaming, Combo, Others). mrcQAR is the price in QAR where the workbook gives a fixed QR amount, otherwise 0 with priceLabel carrying the workbook's own wording (TBC, Plan-based, Plan-dependent, QR 10 after promotional period ...); pricing is 'free' only where the workbook says included with an eligible plan. addonStatus is the workbook's, unchanged; the workbook's validity is not carried (a postpaid add-on is monthly, so validity does not apply). A prepaid-only add-on (Local Minutes Booster) is not in this postpaid catalogue. Plan restrictions the workbook words in text (Essential / Extra / Unlimited plans) are not applied: the products carry no plan-family field.",
     "pricingModel": "standard"
   },
   {
@@ -879,7 +887,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "150 local minutes",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Confirmed, Postpaid",
     "pricing": "paid",
     "pricingModel": "standard"
@@ -890,7 +898,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "200 local minutes",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Confirmed",
     "pricing": "paid",
     "pricingModel": "standard"
@@ -901,7 +909,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "300 local minutes",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Confirmed",
     "pricing": "paid",
     "pricingModel": "standard"
@@ -912,7 +920,7 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "500 local minutes",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Demo Only / TBC",
     "pricing": "paid",
     "priceLabel": "TBC"
@@ -923,7 +931,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "40 international minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Confirmed",
     "pricing": "paid"
   },
@@ -933,7 +941,9 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "200 India minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
+    "frequentlyUsedFor": { "nationalities": ["Indian"] },
+    "_frequentlyUsedNote": "Shown under Frequently Used for customers of this nationality (2026-11-03, the business named this pairing as the example). Only this pairing is stated; the other country add-ons and any plan-based entries are added here when the business gives them.",
     "addonStatus": "Confirmed",
     "pricing": "paid"
   },
@@ -943,7 +953,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "50 Pakistan minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Confirmed",
     "pricing": "paid"
   },
@@ -953,7 +963,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "50 Globe Philippines minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Confirmed",
     "pricing": "paid"
   },
@@ -963,7 +973,7 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "80 Bangladesh minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Confirmed",
     "pricing": "paid"
   },
@@ -973,7 +983,7 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "100 Egypt minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Benefit confirmed",
     "pricing": "paid",
     "priceLabel": "Price/validity TBC"
@@ -984,7 +994,7 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "70 Sri Lanka minutes",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Benefit confirmed",
     "pricing": "paid",
     "priceLabel": "Price/validity TBC"
@@ -1185,6 +1195,8 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "One additional local Multi SIM",
+    "multiSimCount": 1,
+    "_multiSimCountNote": "Multi-SIMs this add-on provides (2026-11-03). Seeded from the catalogue's own wording and needs the business's confirmation; the journey reads only this field, never the name or description. PROD-195 (Multi SIM, paid) states no count and so provides none until one is given. No plan states a count yet.",
     "addonCategory": "Others",
     "addonStatus": "Confirmed",
     "pricing": "free",
@@ -1196,6 +1208,8 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "Two additional Multi SIMs",
+    "multiSimCount": 2,
+    "_multiSimCountNote": "Multi-SIMs this add-on provides (2026-11-03). Seeded from the catalogue's own wording and needs the business's confirmation; the journey reads only this field, never the name or description. PROD-195 (Multi SIM, paid) states no count and so provides none until one is given. No plan states a count yet.",
     "addonCategory": "Others",
     "addonStatus": "Confirmed",
     "pricing": "free",
@@ -1211,7 +1225,7 @@
     "addonStatus": "Sample",
     "pricing": "free",
     "pricingModel": "free-all",
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-211",
@@ -1232,7 +1246,7 @@
         "PROD-113"
       ]
     },
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-212",
@@ -1244,7 +1258,7 @@
     "addonStatus": "Sample",
     "pricing": "free",
     "pricingModel": "free-first-3",
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-213",
@@ -1257,7 +1271,7 @@
     "pricing": "paid",
     "pricingModel": "intro-discount",
     "introPriceQAR": 10,
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-214",
@@ -1265,11 +1279,11 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "50 local minutes, for every customer",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Sample",
     "pricing": "free",
     "pricingModel": "free-all",
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-215",
@@ -1277,7 +1291,7 @@
     "type": "Add-on",
     "mrcQAR": 0,
     "description": "300 local minutes, included with this plan",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Sample",
     "pricing": "free",
     "pricingModel": "free-with-plan",
@@ -1290,7 +1304,7 @@
         "PROD-113"
       ]
     },
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-216",
@@ -1298,11 +1312,11 @@
     "type": "Add-on",
     "mrcQAR": 15,
     "description": "500 local minutes",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Sample",
     "pricing": "free",
     "pricingModel": "free-first-3",
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-217",
@@ -1310,12 +1324,12 @@
     "type": "Add-on",
     "mrcQAR": 20,
     "description": "150 local minutes",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Sample",
     "pricing": "paid",
     "pricingModel": "intro-discount",
     "introPriceQAR": 8,
-    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Calls tabs show every case. Replace with the real add-on, its plans and its prices."
+    "_note": "SAMPLE catalogue entry (2026-10-26): one example of each pricing model so the Local Data and Local Minutes tabs show every case. Replace with the real add-on, its plans and its prices."
   },
   {
     "productId": "PROD-250",
@@ -1340,7 +1354,7 @@
     "type": "Add-on",
     "mrcQAR": 8,
     "description": "100 local minutes every week",
-    "addonCategory": "Local Calls",
+    "addonCategory": "Local Minutes",
     "addonStatus": "Demo Only",
     "pricing": "paid",
     "pricingModel": "standard",
@@ -1379,7 +1393,7 @@
     "type": "Add-on",
     "mrcQAR": 25,
     "description": "60 international minutes, added once",
-    "addonCategory": "International Calls",
+    "addonCategory": "International",
     "addonStatus": "Demo Only",
     "pricing": "paid",
     "pricingModel": "standard",

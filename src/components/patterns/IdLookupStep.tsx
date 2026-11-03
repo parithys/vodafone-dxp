@@ -133,6 +133,9 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
     expiredNotice,
     runMoiValidation,
     scanComplete,
+    verifyOnDemand,
+    verifyRequested,
+    startVerification,
     scanBudgetSpent,
     manualEntryUnlocked,
     captureMode,
@@ -205,6 +208,8 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
       handleRetakeDone={handleRetakeDone}
       handleDemoScan={handleDemoScan}
       scanBudgetSpent={scanBudgetSpent}
+      onVerify={verifyOnDemand ? startVerification : undefined}
+      verifying={verifyRequested && !value.moiResult && !notFound && !reconciliation && !linkProblem && !ownerMismatch}
     />
   );
 

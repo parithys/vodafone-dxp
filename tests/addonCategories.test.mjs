@@ -23,17 +23,17 @@ const WORKBOOK = {
   'PROD-164': ["Data Add-on", 'Local Data', 'paid', 20],
   'PROD-165': ["5G Data Booster", 'Local Data', 'paid', 10],
   'PROD-166': ["5G Data Booster", 'Local Data', 'paid', 100],
-  'PROD-167': ["Local Booster", 'Local Calls', 'paid', 20],
-  'PROD-168': ["Local Add-on Essential", 'Local Calls', 'paid', 20],
-  'PROD-169': ["Local Add-on Extra", 'Local Calls', 'paid', 20],
-  'PROD-170': ["Local Minutes Plus", 'Local Calls', 'paid', 0],
-  'PROD-171': ["International Booster", 'International Calls', 'paid', 20],
-  'PROD-172': ["India Booster", 'International Calls', 'paid', 20],
-  'PROD-173': ["Pakistan Booster", 'International Calls', 'paid', 20],
-  'PROD-174': ["Philippines Booster", 'International Calls', 'paid', 20],
-  'PROD-175': ["Bangladesh Booster", 'International Calls', 'paid', 20],
-  'PROD-176': ["Egypt Add-on", 'International Calls', 'paid', 0],
-  'PROD-177': ["Sri Lanka Add-on", 'International Calls', 'paid', 0],
+  'PROD-167': ["Local Booster", 'Local Minutes', 'paid', 20],
+  'PROD-168': ["Local Add-on Essential", 'Local Minutes', 'paid', 20],
+  'PROD-169': ["Local Add-on Extra", 'Local Minutes', 'paid', 20],
+  'PROD-170': ["Local Minutes Plus", 'Local Minutes', 'paid', 0],
+  'PROD-171': ["International Booster", 'International', 'paid', 20],
+  'PROD-172': ["India Booster", 'International', 'paid', 20],
+  'PROD-173': ["Pakistan Booster", 'International', 'paid', 20],
+  'PROD-174': ["Philippines Booster", 'International', 'paid', 20],
+  'PROD-175': ["Bangladesh Booster", 'International', 'paid', 20],
+  'PROD-176': ["Egypt Add-on", 'International', 'paid', 0],
+  'PROD-177': ["Sri Lanka Add-on", 'International', 'paid', 0],
   'PROD-178': ["Daily Passport Pack", 'Roaming', 'paid', 35],
   'PROD-179': ["Weekly Passport Pack", 'Roaming', 'paid', 100],
   'PROD-180': ["Monthly Passport Pack", 'Roaming', 'paid', 320],
@@ -56,24 +56,24 @@ const WORKBOOK = {
   'PROD-197': ["Two Free Multi SIMs", 'Others', 'free', 0],
 };
 // The one add-on that pre-dates the workbook and is referenced by seeded orders.
-const LEGACY = { 'PROD-101': ['International 50 Add-on', 'International Calls', 'paid', 50] };
-// One SAMPLE add-on of each pricing model under Local Data and Local Calls (2026-10-26): not in the workbook, replaced when the real ones are given.
+const LEGACY = { 'PROD-101': ['International 50 Add-on', 'International', 'paid', 50] };
+// One SAMPLE add-on of each pricing model under Local Data and Local Minutes (2026-10-26): not in the workbook, replaced when the real ones are given.
 const SAMPLES = {
   'PROD-210': ['Welcome Data', 'Local Data', 'free', 0],
   'PROD-211': ['Plan Data Bonus', 'Local Data', 'free', 0],
   'PROD-212': ['Data Trial', 'Local Data', 'free', 25],
   'PROD-213': ['Data Booster Intro', 'Local Data', 'paid', 20],
-  'PROD-214': ['Welcome Minutes', 'Local Calls', 'free', 0],
-  'PROD-215': ['Plan Minutes Bonus', 'Local Calls', 'free', 0],
-  'PROD-216': ['Local Calls Trial', 'Local Calls', 'free', 15],
-  'PROD-217': ['Local Booster Intro', 'Local Calls', 'paid', 20],
+  'PROD-214': ['Welcome Minutes', 'Local Minutes', 'free', 0],
+  'PROD-215': ['Plan Minutes Bonus', 'Local Minutes', 'free', 0],
+  'PROD-216': ['Local Calls Trial', 'Local Minutes', 'free', 15],
+  'PROD-217': ['Local Booster Intro', 'Local Minutes', 'paid', 20],
 };
 const EXPECTED = { ...WORKBOOK, ...SAMPLES, ...LEGACY };
 // Not in the postpaid catalogue: the prepaid-only add-on in the workbook.
 const EXCLUDED_NAMES = ['Local Minutes Booster'];
 
 test('the categories and the filter are exactly those asked for, in order, and the page opens on Paid', () => {
-  assert.deepEqual([...m.ADDON_CATEGORIES], ['Local Data', 'Local Calls', 'International Calls', 'Roaming', 'Combo', 'Others']);
+  assert.deepEqual([...m.ADDON_CATEGORIES], ['Local Data', 'Local Minutes', 'International', 'Roaming', 'Combo', 'Others']);
   assert.deepEqual(m.ADDON_PRICING_FILTERS.map((f) => f.label), ['Paid', 'Free']);
   assert.equal(m.DEFAULT_ADDON_PRICING, 'paid');
 });
@@ -107,12 +107,12 @@ test('every add-on is listed under its own category only, and per category Free 
 
 test('category sizes match the workbook, and Free holds only the add-ons included with a plan', () => {
   const size = (c, p) => m.addonsFor(addons, c, p).length;
-  assert.deepEqual(Object.fromEntries(m.ADDON_CATEGORIES.map((c) => [c, size(c, 'free') + size(c, 'paid')])), { 'Local Data': 11, 'Local Calls': 8, 'International Calls': 8, Roaming: 6, Combo: 5, Others: 9 });
+  assert.deepEqual(Object.fromEntries(m.ADDON_CATEGORIES.map((c) => [c, size(c, 'free') + size(c, 'paid')])), { 'Local Data': 11, 'Local Minutes': 8, International: 8, Roaming: 6, Combo: 5, Others: 9 });
   assert.equal(size('Others', 'free'), 2);
-  // Local Data and Local Calls hold one free add-on of each free model; the other categories hold none.
+  // Local Data and Local Minutes hold one free add-on of each free model; the other categories hold none.
   assert.equal(size('Local Data', 'free'), 3);
-  assert.equal(size('Local Calls', 'free'), 3);
-  for (const c of m.ADDON_CATEGORIES.filter((c) => !['Others', 'Local Data', 'Local Calls'].includes(c))) assert.equal(size(c, 'free'), 0, c);
+  assert.equal(size('Local Minutes', 'free'), 3);
+  for (const c of m.ADDON_CATEGORIES.filter((c) => !['Others', 'Local Data', 'Local Minutes'].includes(c))) assert.equal(size(c, 'free'), 0, c);
 });
 
 test('prices the workbook leaves open stay open: wording kept, never turned into a number, never Free', () => {
@@ -137,15 +137,17 @@ test('the chosen add-ons are counted per category, across both filters', () => {
   const ids = Object.entries(EXPECTED);
   const pick = (cat, n) => ids.filter(([, v]) => v[1] === cat).slice(0, n).map(([id]) => id);
   const counts = m.selectedPerCategory(addons, [...pick('Local Data', 2), ...pick('Roaming', 1), ...pick('Others', 3)]);
-  assert.deepEqual(counts, { 'Local Data': 2, 'Local Calls': 0, 'International Calls': 0, Roaming: 1, Combo: 0, Others: 3 });
+  assert.deepEqual(counts, { 'Local Data': 2, 'Local Minutes': 0, 'International': 0, Roaming: 1, Combo: 0, Others: 3 });
 });
 
-test('the Add-ons page mounts the picker with the category tabs, and under them the selected category in two counted columns: Paid Add-Ons, Complimentary', () => {
+test('the Add-ons page mounts the picker with the category tabs, and under them the selected category in two counted columns: Paid Addons, Free Addons', () => {
   const picker = fs.readFileSync('src/capabilities/AddonsSelection/AddonsPicker.tsx', 'utf8');
-  assert.match(picker, /<TabStrip[\s\S]*ADDON_CATEGORIES\.map/);
-  assert.match(picker, /addonsFor\(addons, category, 'paid'\)/);
-  assert.match(picker, /addonsFor\(addons, category, 'free'\)/);
-  assert.ok(picker.indexOf("'PAID ADD-ONS'") < picker.indexOf("'COMPLIMENTARY'"), 'Paid on the left, complimentary on the right');
+  assert.match(picker, /<TabStrip[\s\S]*tabs\.map/);
+  assert.match(picker, /\[\.\.\.ADDON_CATEGORIES, FREQUENTLY_USED_TAB\]/);
+  assert.match(picker, /addonsFor\(addons, activeTab, pricing\)/);
+  assert.match(picker, /inTab\('paid'\)/);
+  assert.match(picker, /inTab\('free'\)/);
+  assert.ok(picker.indexOf("'Paid Addons'") < picker.indexOf("'Free Addons'"), 'Paid on the left, free on the right');
   assert.match(picker, /\{list\.length\}/);
   assert.match(picker, /md:grid-cols-2/);
   assert.match(fs.readFileSync('src/components/patterns/PostpaidAddonsPanel.tsx', 'utf8'), /categorized/);
@@ -186,7 +188,7 @@ test('the five pricing models: free for all, free with the plan, free for 3 mont
   for (const model of ['free-all', 'free-with-plan', 'free-first-3']) assert.equal(m.isFreeAddon({ mrcQAR: 9, pricingModel: model }), true, model);
   for (const model of ['standard', 'intro-discount']) assert.equal(m.isFreeAddon({ mrcQAR: 0, pricingModel: model }), false, model);
   // over the data: every Local Data / Local Calls add-on states a model, except the one with an open price
-  for (const a of addons.filter((x) => ['Local Data', 'Local Calls'].includes(x.addonCategory) && x.productId !== 'PROD-170')) assert.ok(a.pricingModel, a.productId);
+  for (const a of addons.filter((x) => ['Local Data', 'Local Minutes'].includes(x.addonCategory) && x.productId !== 'PROD-170')) assert.ok(a.pricingModel, a.productId);
   for (const a of addons.filter((x) => x.pricingModel === 'intro-discount')) assert.ok(a.introPriceQAR > 0 && a.introPriceQAR < a.mrcQAR, a.productId);
   for (const a of addons.filter((x) => x.pricingModel === 'free-with-plan')) assert.ok(a.eligibility?.plans?.length, a.productId);
 });
@@ -332,4 +334,37 @@ test('the order summary labels each add-on with its effective cadence, not alway
   assert.match(rows.addonSummaryLabel(oneTime), /one-time\)$/);
   const plain = allAddons.find((a) => !a.billingFrequency);
   assert.match(rows.addonSummaryLabel(plain), /\/mo\)$/);
+});
+
+// ---- Frequently Used: a tab across the categories, driven only by a record's own `frequentlyUsedFor` block ----
+test('Frequently Used is the last tab and lists only add-ons whose record says so (nothing is read from a name or description)', () => {
+  assert.equal(m.FREQUENTLY_USED_TAB, 'Frequently Used');
+  assert.ok(!m.ADDON_CATEGORIES.includes(m.FREQUENTLY_USED_TAB), 'it is a view, not a category an add-on is filed under');
+  // The independent expectation: the add-ons the business has named, and who they are frequently used for.
+  const STATED = { 'PROD-172': { nationalities: ['Indian'] } };
+  const withBlock = Object.fromEntries(addons.filter((a) => a.frequentlyUsedFor).map((a) => [a.productId, a.frequentlyUsedFor]));
+  assert.deepEqual(withBlock, STATED);
+  const indian = addons.filter((a) => m.isFrequentlyUsed(a, { nationality: 'Indian', planId: 'PROD-104' })).map((a) => a.productId);
+  assert.deepEqual(indian, ['PROD-172']);
+  // The other country add-ons are NOT assumed to suit their nationalities until the business states it.
+  for (const nat of ['Pakistani', 'Filipino', 'Bangladeshi', 'Egyptian', 'Qatari']) assert.deepEqual(addons.filter((a) => m.isFrequentlyUsed(a, { nationality: nat })).map((a) => a.productId), [], nat);
+  assert.deepEqual(addons.filter((a) => m.isFrequentlyUsed(a, {})).map((a) => a.productId), [], 'an unknown nationality satisfies nothing');
+});
+
+test('every condition present must hold; an empty or absent block never matches', () => {
+  const both = { frequentlyUsedFor: { nationalities: ['Indian'], plans: ['PROD-104'] } };
+  assert.equal(m.isFrequentlyUsed(both, { nationality: 'Indian', planId: 'PROD-104' }), true);
+  assert.equal(m.isFrequentlyUsed(both, { nationality: 'indian ', planId: 'PROD-104' }), true, 'case and spacing');
+  assert.equal(m.isFrequentlyUsed(both, { nationality: 'Indian', planId: 'PROD-105' }), false);
+  assert.equal(m.isFrequentlyUsed(both, { nationality: 'Pakistani', planId: 'PROD-104' }), false);
+  assert.equal(m.isFrequentlyUsed(both, { nationality: 'Indian' }), false, 'no plan chosen yet');
+  assert.equal(m.isFrequentlyUsed({ frequentlyUsedFor: { plans: ['PROD-104'] } }, { planId: 'PROD-104' }), true, 'a plan-only rule');
+  assert.equal(m.isFrequentlyUsed({ frequentlyUsedFor: {} }, { nationality: 'Indian', planId: 'PROD-104' }), false);
+  assert.equal(m.isFrequentlyUsed({}, { nationality: 'Indian', planId: 'PROD-104' }), false);
+});
+
+test('the picker always shows the Frequently Used tab, and says so when nothing matches the customer', () => {
+  const picker = fs.readFileSync('src/capabilities/AddonsSelection/AddonsPicker.tsx', 'utf8');
+  assert.match(picker, /const tabs: AddonTab\[\] = \[\.\.\.ADDON_CATEGORIES, FREQUENTLY_USED_TAB\]/);
+  assert.match(picker, /No frequently used add-ons for this customer/);
 });

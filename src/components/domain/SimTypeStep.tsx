@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '../primitives/Button';
 import { Badge } from '../primitives/Badge';
 import { SimSerialScanner } from './SimSerialScanner';
-import * as mockDataEngine from '../../engines/mockDataEngine';
+import { issueEsimProfile } from './esimProfile';
 import type { DeviceType } from '../../lib/deviceType';
 
 export type SimType = 'Physical' | 'eSIM';
@@ -38,18 +38,12 @@ interface SimTypeStepProps {
   prePaired?: boolean;
   /** The order will be held for approval, so an eSIM's QR code is released on approval rather than on submission. */
   approvalRequired?: boolean;
-}
-
-// Mock GSMA SGP.22-style activation string (LPA:1$smdp-address$matching-id) -
-// not a real SM-DP+ call, see the note below on not fabricating an eSIM
-// provisioning API. Random per issuance so the QR code is distinct each time.
-function generateActivationCode(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let matchingId = '';
-  for (let i = 0; i < 16; i++) {
-    matchingId += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return `LPA:1$smdp.vodafone.qa$${matchingId}`;
+  /** Serials already used for another SIM in this order (the primary's and the other Multi-SIMs'): this SIM cannot take one. */
+  excludeSerials?: readonly string[];
+  /** ICCIDs already taken by another eSIM of this order. */
+  excludeIccids?: readonly string[];
+  /** Whether the serial field takes focus on arrival. Default: the device decides; several SIMs on one page pass false for all but the first. */
+  autoFocus?: boolean;
 }
 
 // "SIM Type" (reference flow step 8). Reworked 2026-09-28 from a Physical/
@@ -67,7 +61,7 @@ function generateActivationCode(): string {
 // kept deliberately lightweight (no fabricated eSIM provisioning API), and
 // still does NOT auto-advance: selecting eSIM is a choice to review, not a
 // validation result to act on immediately.
-export function SimTypeStep({ value, customerEmail, onChange, device, prePaired, approvalRequired = false }: SimTypeStepProps) {
+export function SimTypeStep({ value, customerEmail, onChange, device, prePaired, approvalRequired = false, excludeSerials, excludeIccids, autoFocus }: SimTypeStepProps) {
   const [issuing, setIssuing] = useState(false);
 
   if (prePaired) {
@@ -120,12 +114,9 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
 
   const generateEsim = async () => {
     setIssuing(true);
-    await new Promise((r) => setTimeout(r, 500));
-    // The eSIM profile takes its ICCID from the eSIM stock (a stocked, unassigned "Printed eSIM"); with none in stock it stays unknown, shown as "-".
-    const stock = await mockDataEngine.list<{ iccid: string; type?: string; stockStatus: string; prePaired?: boolean }>('sims').catch(() => []);
-    const profile = stock.find((x) => x.type === 'Printed eSIM' && x.stockStatus === 'Available' && !x.prePaired);
+    const profile = await issueEsimProfile(excludeIccids);
     setIssuing(false);
-    onChange({ ...value, simType: 'eSIM', esimIssued: true, esimActivationCode: generateActivationCode(), simIccid: profile?.iccid, simSerial: undefined, simValid: undefined });
+    onChange({ ...value, simType: 'eSIM', esimIssued: true, esimActivationCode: profile.activationCode, simIccid: profile.iccid, simSerial: undefined, simValid: undefined });
   };
 
   return (
@@ -136,6 +127,8 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
         <SimSerialScanner
           value={value.simSerial ?? ''}
           device={device}
+          excludeSerials={excludeSerials}
+          autoFocus={autoFocus}
           // eSIM is a valid alternative to a Physical serial, not an
           // additional requirement on top of it (2026-09-28 "Require either
           // eSIM selection or SIM Serial Number") - this panel's own blur

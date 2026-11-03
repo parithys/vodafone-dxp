@@ -18,8 +18,8 @@
   "paths": [
    "src/components/primitives/Badge.tsx"
   ],
-  "area": "workspace/customer360 (16), components/patterns (12), modules/trouble-ticketing-complaints (7), workspace/administration (4), components/domain (4), modules/order-management (3) +16 more",
-  "files": 68
+  "area": "workspace/customer360 (16), components/patterns (12), modules/trouble-ticketing-complaints (7), workspace/administration (5), components/domain (4), modules/order-management (3) +16 more",
+  "files": 69
  },
  {
   "name": "Banner",
@@ -382,8 +382,8 @@
   "paths": [
    "src/components/primitives/Button.tsx"
   ],
-  "area": "workspace/customer360 (29), components/patterns (24), components/domain (12), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +25 more",
-  "files": 123
+  "area": "workspace/customer360 (29), components/patterns (24), components/domain (13), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +25 more",
+  "files": 124
  },
  {
   "name": "CloseButton",
@@ -1678,6 +1678,17 @@
   "files": 1
  },
  {
+  "name": "MultiSimPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/MultiSimPanel.tsx"
+  ],
+  "area": "capabilities/SimType (1)",
+  "files": 1
+ },
+ {
   "name": "NumberDevicesStep",
   "category": "Containers, panels and sections",
   "layer": "Journey / module",
@@ -2297,8 +2308,8 @@
   "paths": [
    "src/components/primitives/Input.tsx"
   ],
-  "area": "components/patterns (8), workspace/customer360 (7), workspace/administration (4), components/domain (4), modules/trouble-ticketing-complaints (2), capabilities (1) +11 more",
-  "files": 37
+  "area": "components/patterns (8), workspace/customer360 (7), workspace/administration (5), components/domain (4), modules/trouble-ticketing-complaints (2), capabilities (1) +11 more",
+  "files": 38
  },
  {
   "name": "MsisdnPicker",
@@ -2429,8 +2440,8 @@
   "paths": [
    "src/components/primitives/Select.tsx"
   ],
-  "area": "workspace/customer360 (9), components/patterns (8), modules/trouble-ticketing-complaints (4), workspace/administration (3), components/domain (3), modules/sim-number-management (2) +8 more",
-  "files": 37
+  "area": "workspace/customer360 (9), components/patterns (8), workspace/administration (4), modules/trouble-ticketing-complaints (4), components/domain (3), modules/sim-number-management (2) +8 more",
+  "files": 38
  },
  {
   "name": "ServiceLocationSearchInput",
@@ -2473,8 +2484,8 @@
   "paths": [
    "src/components/domain/SimSerialScanner.tsx"
   ],
-  "area": "capabilities/SimType (1), components/domain (1)",
-  "files": 2
+  "area": "components/domain (2), capabilities/SimType (1)",
+  "files": 3
  },
  {
   "name": "SimSwapFormStep",
@@ -2808,6 +2819,17 @@
   ],
   "area": "(file-local)",
   "files": 0
+ },
+ {
+  "name": "ComponentCatalogue",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/ComponentCatalogue.tsx"
+  ],
+  "area": "workspace/administration (1)",
+  "files": 1
  },
  {
   "name": "Customer360Layout",
@@ -4509,6 +4531,17 @@
   "files": 2
  },
  {
+  "name": "TrimMultiSims",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SimType/TrimMultiSims.tsx"
+  ],
+  "area": "capabilities/SimType (1)",
+  "files": 1
+ },
+ {
   "name": "VodafoneMark",
   "category": "Other reusable UI elements",
   "layer": "Primitive",
@@ -4593,8 +4626,8 @@
   "paths": [
    "src/components/primitives/DataTable.tsx"
   ],
-  "area": "workspace/customer360 (12), workspace/administration (1), components/patterns (1), modules/order-management (1)",
-  "files": 15
+  "area": "workspace/customer360 (12), workspace/administration (2), components/patterns (1), modules/order-management (1)",
+  "files": 16
  },
  {
   "name": "DeepDiveRow",
@@ -4763,8 +4796,8 @@
    "src/workspace/customer360/sections/C360Overview.tsx",
    "src/workspace/customer360/sections/TopicFieldsSection.tsx"
   ],
-  "area": "components/patterns (1)",
-  "files": 1
+  "area": "workspace/administration (1), components/patterns (1)",
+  "files": 2
  },
  {
   "name": "RuleRow",

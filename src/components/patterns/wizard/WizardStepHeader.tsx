@@ -53,7 +53,7 @@ export function WizardStepHeader({
               tabIndex={-1}
               className="title title-xl focus-ring"
             >
-              {currentStep?.heading ?? currentStep?.label}
+              {(values && currentStep?.headingFor?.(values)) ?? currentStep?.heading ?? currentStep?.label}
             </h2>
             {currentStep?.subheading && (
               <p className="text-secondary mt-1">{currentStep.subheading}</p>

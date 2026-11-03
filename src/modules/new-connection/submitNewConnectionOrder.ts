@@ -36,6 +36,8 @@ import { idScanAttachments } from './idScanAttachments';
 import { isB2B2COrder } from './approvalRouting';
 import { addonChargeNowQar, type AddonBillingFrequency } from '../../engines/addonCategories';
 import { isNumberWaiver } from '../../engines/numberWaiver';
+import { assignMultiSimMsisdns, multiSimEntitlement } from '../../engines/multiSim';
+import { multiSimsFor } from '../../capabilities';
 import { approvalMessages, decisionRecord, needsCreditControl } from '../../engines/connectionEligibility';
 
 type EntityStore = ReturnType<typeof useEntityStore.getState>;
@@ -62,7 +64,7 @@ export async function submitNewConnectionOrder(
       const numberDelta = (values.numberPriceQAR as number | undefined) ?? 0;
       const checkoutTotals = values.checkoutTotals as CheckoutTotals | undefined;
       const dueTodayQar = checkoutTotals?.dueTodayQar ?? 0;
-      const products = await mockDataEngine.list<{ productId: string; name: string; mrcQAR: number }>('products');
+      const products = await mockDataEngine.list<{ productId: string; name: string; mrcQAR: number; multiSimCount?: number }>('products');
       const plan = products.find((p) => p.productId === values.productId);
       const addons = products.filter((p) => addonIds.includes(p.productId));
       const discounts = await mockDataEngine.list<{ addonDiscountId: string; price?: number; addonType?: string }>('addons-discounts');
@@ -190,6 +192,19 @@ export async function submitNewConnectionOrder(
                 waived && waiver ? `Waive Off - ${formatQar(waivedAmountQar)} waived off the Star number upfront charge of ${formatQar(checkoutTotals?.numberChargeQar ?? 0)}` : '',
                 discount && SUPPORTING_ID_DISCOUNT_TYPES.has(discount.addonType ?? '') ? `${discount.addonType} - supporting document to be verified` : '',
               ].filter(Boolean).join(' | ') : undefined;
+      // Multi-SIMs: how many the plan and add-ons provide (held to 4), each taking a Free-pool number automatically. Assigned BEFORE the order is
+      // written so an order never exists with a Multi-SIM that has no number; the numbers are kept on the line records only, never shown to the agent.
+      const multiSimCount = multiSimEntitlement(plan, addons).provisionable;
+      const multiSimSlots = multiSimsFor(values, multiSimCount);
+      const multiSimMsisdns =
+        multiSimCount > 0
+          ? assignMultiSimMsisdns(
+              await mockDataEngine.list<{ msisdn: string; category?: string; status?: string }>('numbers'),
+              new Set([String(values.msisdn ?? ''), ...(await mockDataEngine.list<{ secondaryMsisdn?: string }>('multi-sim-lines')).map((l) => l.secondaryMsisdn ?? '')]),
+              multiSimCount
+            )
+          : [];
+      const multiSimLineIds = multiSimSlots.map((_, i) => `MSIM-${orderId.replace('ORD-', '')}-${i + 1}`);
       await createRecord('orders', {
         orderId,
         ...actualUserOrderFields(values.actualUser as ActualUserValue | undefined),
@@ -238,6 +253,7 @@ export async function submitNewConnectionOrder(
         numberPriceQAR: numberDelta,
         simType: simType?.simType,
         simSerial: simType?.simSerial,
+        ...(multiSimCount > 0 ? { multiSimLineIds } : {}),
         billingProfileId,
         // What the customer was quoted and agreed to: the spending limits, how the amount was taken, and where the line is installed.
         billLimitQAR: (values.billLimit as number | undefined) ?? (plan ? defaultBillLimitQar(plan.mrcQAR, effectiveCreditLimitQar(eligibility, billingAccount)) : undefined),
@@ -260,6 +276,24 @@ export async function submitNewConnectionOrder(
         planSource: crossSales?.decision === 'accepted' || values.selectionSource === 'OFFER' ? 'Sales Offer' : 'General Plan',
         crossSalesOfferId: crossSales?.decision === 'accepted' ? crossSales.offerId : undefined,
       });
+      // One line per Multi-SIM, joined to the primary line. No customerId and no reservation: a Multi-SIM line is not in the customer's Active Line
+      // Count (listCustomerServices reads no Multi-SIM line) and its number is not a Reserved number. Its monthly fee is the plan's to set, so none is written.
+      for (const [i, sim] of multiSimSlots.entries()) {
+        await createRecord('multi-sim-lines', {
+          id: multiSimLineIds[i],
+          primaryMsisdn: values.msisdn,
+          secondaryMsisdn: multiSimMsisdns[i],
+          accountId: billingProfileId,
+          lineType: 'Multi-SIM',
+          planName: plan?.name,
+          sequenceNumber: i + 1,
+          simType: sim.simType,
+          simSerial: sim.simSerial,
+          simIccid: sim.simIccid,
+          orderId,
+          status: pendingApproval ? 'Submitted for Approval' : 'Active',
+        });
+      }
 
       // Activities are created automatically (activityEngine): Completed, plus a workflow
       // event when the order is routed for approval.

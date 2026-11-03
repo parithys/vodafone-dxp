@@ -1,6 +1,7 @@
 import { Icon } from '../primitives/Icon';
 import { ConnectionTypeTag } from '../primitives/ConnectionTypeTag';
 import { CARD_IDLE, CARD_SELECTED, SelectedTick, planFeatureRows } from '../primitives/offerCardParts';
+import { multiSimBenefitText } from '../../engines/multiSim';
 import { CHEVRON_RIGHT, ICON_CALL, ICON_CARD, ICON_DATA, ICON_GIFT, STAR } from '../../assets/icons';
 import { PLAN_CLASS_TAG, isPlanClass, type PostpaidPlan } from './postpaidPlanModel';
 import { ServiceTypeTag } from '../primitives/ServiceTypeTag';
@@ -92,7 +93,7 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
         ) : (
           <>
             <ul className="space-y-1.5 order-3">
-              {[...(p.features?.length ? p.features.map((f, i) => ({ icon: i === 0 ? ICON_DATA : /minute|call/i.test(f) ? ICON_CALL : ICON_CARD, text: f })) : planFeatureRows(p)), { icon: ICON_CARD, text: `Bill limit: ${formatQar(shownLimit)}` }].map((f) => (
+              {[...(p.features?.length ? p.features.map((f, i) => ({ icon: i === 0 ? ICON_DATA : /minute|call/i.test(f) ? ICON_CALL : ICON_CARD, text: f })) : planFeatureRows(p)), ...(multiSimBenefitText(p) ? [{ icon: ICON_CARD, text: multiSimBenefitText(p)! }] : []), { icon: ICON_CARD, text: `Bill limit: ${formatQar(shownLimit)}` }].map((f) => (
                 <li key={f.text} className="row gap-2 caption-secondary">
                   <Icon path={f.icon} className="icon-sm text-accent" />
                   {f.text}

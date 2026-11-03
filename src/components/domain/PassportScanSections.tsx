@@ -19,9 +19,9 @@ import { SCAN_CORNERS } from '../../assets/icons';
 // ---------------------------------------------------------------------------------------------------------
 // The four corner brackets of a scan frame.
 
-type PassportProps = Pick<QidImageUploadProps, 'value' | 'onChange' | 'onScan' | 'onRetakeDone' | 'error' | 'canScan' | 'bothCaptureActions' | 'readerEverywhere' | 'demoTypes' | 'onDemoScan' | 'blurFirstScan' | 'hideUnclearNotice' | 'variant' | 'identity'>;
+type PassportProps = Pick<QidImageUploadProps, 'value' | 'onChange' | 'onScan' | 'onRetakeDone' | 'error' | 'canScan' | 'bothCaptureActions' | 'readerEverywhere' | 'demoTypes' | 'onDemoScan' | 'blurFirstScan' | 'hideUnclearNotice' | 'variant' | 'identity' | 'onVerify' | 'verifying' | 'verified'>;
 
-export function PassportScanSections({ value, onChange, onScan, onRetakeDone, error, canScan = true, bothCaptureActions = false, readerEverywhere = false, demoTypes, onDemoScan, blurFirstScan = false, hideUnclearNotice = false, variant, identity }: PassportProps) {
+export function PassportScanSections({ value, onChange, onScan, onRetakeDone, error, canScan = true, bothCaptureActions = false, readerEverywhere = false, demoTypes, onDemoScan, blurFirstScan = false, hideUnclearNotice = false, variant, identity, onVerify, verifying = false, verified = false }: PassportProps) {
   const capture = idCaptureOptions(detectDeviceType(), canScan, bothCaptureActions, readerEverywhere);
   const [scanning, setScanning] = useState<'front' | 'back' | null>(null);
   const [blurred, setBlurred] = useState({ front: false, back: false });
@@ -31,6 +31,7 @@ export function PassportScanSections({ value, onChange, onScan, onRetakeDone, er
   latest.current = value;
   const charged = useRef(false);
   const anyScanned = Boolean(value.frontScanned || value.backScanned);
+  const bothScanned = Boolean(value.frontScanned && value.backScanned);
   useEffect(() => () => clearTimeout(timer.current), []);
   // A fresh document (both sides cleared from outside) starts a new pass.
   useEffect(() => {
@@ -161,12 +162,22 @@ export function PassportScanSections({ value, onChange, onScan, onRetakeDone, er
           <Icon path={SCAN_CORNERS} className="size-6 text-accent shrink-0" />
           <span className="title title-sm uppercase tracking-wide truncate">{SCAN_DOCUMENT_TITLE}</span>
         </div>
-        {/* The whole document in one go: two files, or one (both sides in a single image or PDF, or one side). */}
-        {/* Upload in place of the reader. Scanning is done by each side's own Scan / Retake button below, so the header carries no scan button of its own. */}
+        {/* Web: the header's "Initiate scan" validates the passport against MOI once both sides are scanned (each side is scanned by its own button
+            below); there is no Upload on web. Tablet / mobile: Upload the whole document - two files, or one (both sides in a single image or PDF, or
+            one side) - which is validated as before. Without a reader (it failed) Upload stays on any device. */}
         <IdFileUpload
           align="end"
           bothActions={bothCaptureActions}
-              readerEverywhere={readerEverywhere}
+          readerEverywhere={readerEverywhere}
+          scanner={canScan}
+          leading={
+            onVerify ? (
+              <Button variant="primary" compact className="shrink-0" disabled={!bothScanned || scanning !== null || verifying || verified} onClick={onVerify}>
+                <Icon path={SCAN_CORNERS} className="size-4 " />
+                {verifying ? 'Validating…' : 'Validate with MOI'}
+              </Button>
+            ) : undefined
+          }
           disabled={scanning !== null}
           onUpload={(r) => {
             setBlurred({ front: false, back: false });

@@ -1,11 +1,41 @@
 import { formatQar } from '../lib/format';
-// The Add-ons page's two levels of navigation: the add-on CATEGORY (Local Data, Local Calls, International Calls, Roaming, Combo, Others) and the
+// The Add-ons page's two levels of navigation: the add-on CATEGORY (Local Data, Local Minutes, International, Roaming, Combo, Others) and the
 // Free / Paid FILTER, which applies to the category selected. Both are read from the add-on's own record: `addonCategory` (stated on every add-on in
 // products.json) and its `pricing`: Free is an add-on stated as included with a plan, Paid every other (a QAR price, or a price the catalogue
 // words as TBC / plan-based). An add-on without `pricing` is Free only when priced QAR 0. Nothing is guessed from a name or a description.
 
-export const ADDON_CATEGORIES = ['Local Data', 'Local Calls', 'International Calls', 'Roaming', 'Combo', 'Others'] as const;
+export const ADDON_CATEGORIES = ['Local Data', 'Local Minutes', 'International', 'Roaming', 'Combo', 'Others'] as const;
 export type AddonCategory = (typeof ADDON_CATEGORIES)[number];
+
+/**
+ * The extra tab on the Add-ons page: not a category but a view across them - the add-ons that are frequently taken by customers like this one.
+ * An add-on says so in an optional `frequentlyUsedFor` block on its record in products.json (nothing is inferred from its name or description):
+ *   "frequentlyUsedFor": { "nationalities": ["Indian"], "plans": ["PROD-104"] }
+ * Like `eligibility`, every condition present must hold and one left out places no restriction. A record with no block, or an empty one, is never
+ * listed here, so an add-on only appears under Frequently Used when the business has stated it. It stays in its own category tab too.
+ */
+export const FREQUENTLY_USED_TAB = 'Frequently Used';
+export type AddonTab = AddonCategory | typeof FREQUENTLY_USED_TAB;
+export interface FrequentlyUsedRule {
+  /** The customer's nationality exactly as the customer record states it (e.g. "Indian"). */
+  nationalities?: string[];
+  /** The selected plan's productId. */
+  plans?: string[];
+}
+export interface FrequentlyUsedContext {
+  planId?: string;
+  nationality?: string;
+}
+export function isFrequentlyUsed(addon: { frequentlyUsedFor?: FrequentlyUsedRule }, ctx: FrequentlyUsedContext): boolean {
+  const rule = addon.frequentlyUsedFor;
+  const nationalities = rule?.nationalities ?? [];
+  const plans = rule?.plans ?? [];
+  if (nationalities.length === 0 && plans.length === 0) return false;
+  // An unknown nationality or plan cannot be shown to satisfy a condition that names one.
+  if (nationalities.length > 0 && !(ctx.nationality && nationalities.some((n) => n.toLowerCase() === ctx.nationality!.trim().toLowerCase()))) return false;
+  if (plans.length > 0 && !(ctx.planId && plans.includes(ctx.planId))) return false;
+  return true;
+}
 
 export type AddonPricing = 'free' | 'paid';
 export const ADDON_PRICING_FILTERS: { key: AddonPricing; label: string }[] = [
@@ -42,6 +72,8 @@ export interface CategorisedAddon {
   introPriceQAR?: number;
   mrcQAR: number;
   addonCategory?: string;
+  /** The customers this add-on is frequently taken by; see FREQUENTLY_USED_TAB. */
+  frequentlyUsedFor?: FrequentlyUsedRule;
   /** 'free': included with a plan. 'paid': anything else. Omitted: Free only when priced QAR 0. */
   pricing?: 'free' | 'paid';
 }

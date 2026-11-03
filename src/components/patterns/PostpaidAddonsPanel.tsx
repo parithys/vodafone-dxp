@@ -54,6 +54,7 @@ export function PostpaidAddonsPanel({
             categorized
             emptyMessage="No add-ons available for this plan"
             eligibilityContext={{ planId: selectedProductId, ...customerContext }}
+            multiSimPlan={selectedPlan}
           />
           {/* Bill Limit, re-added 2026-09-28 as an editable add-on
               defaulted from the selected plan's MRC - lives in this

@@ -40,6 +40,8 @@ export interface Product {
   popular?: boolean;
   offer?: boolean;
   commitmentMonths?: number;
+  /** The Multi-SIMs a plan includes / an add-on provides, as stated on its record (see engines/multiSim.ts). */
+  multiSimCount?: number;
 }
 
 export type { ConfirmedOrder } from '../../capabilities';

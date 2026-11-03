@@ -81,6 +81,15 @@ export interface QidImageUploadProps {
    * pressing it. The same reason Retake is absent before the first capture.
    */
   canScan?: boolean;
+  /**
+   * Passport on a web device: the consumer's "Initiate scan" - pressed once both sides are scanned, it reads the passport and validates it against
+   * MOI. Given, the Passport card shows the button in its header (and no Upload on web); absent, the card offers no validation trigger of its own.
+   */
+  onVerify?: () => void;
+  /** The validation started by onVerify is under way. */
+  verifying?: boolean;
+  /** MOI has already validated this capture. */
+  verified?: boolean;
   /** Offer both "Initiate scan" and "Upload document" on every device. Default: the device decides (web scans, tablet uploads). */
   bothCaptureActions?: boolean;
   /** The reader stays offered on a tablet too (upload joins it there). Default: web scans, tablet uploads. */

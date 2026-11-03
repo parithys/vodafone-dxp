@@ -411,7 +411,11 @@
     "summary": "Choose and validate the SIM: Physical (scan or enter the serial) or eSIM (issued, handed over after payment).",
     "parts": [
       "components/domain/SimTypeStep.tsx",
-      "components/domain/SimSerialScanner.tsx"
+      "components/domain/SimSerialScanner.tsx",
+      "components/domain/MultiSimPanel.tsx",
+      "components/domain/esimProfile.ts",
+      "capabilities/SimType/multiSimModel.ts",
+      "capabilities/SimType/TrimMultiSims.tsx"
     ],
     "publicApi": [],
     "previewable": true

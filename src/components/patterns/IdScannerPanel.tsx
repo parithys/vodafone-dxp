@@ -28,6 +28,8 @@ export function IdScannerPanel({
   handleRetakeDone,
   handleDemoScan,
   scanBudgetSpent,
+  onVerify,
+  verifying,
 }: {
   value: IdLookupValue;
   onChange: (v: IdLookupValue) => void;
@@ -47,6 +49,9 @@ export function IdScannerPanel({
   handleDemoScan: (type: QidType) => void;
   /** The scan attempts are used up (not merely that manual entry is open). */
   scanBudgetSpent: boolean;
+  /** Passport on web: "Initiate scan" - read the scanned passport and validate it against MOI (see passportVerifiesOnDemand). */
+  onVerify?: () => void;
+  verifying?: boolean;
 }) {
   return (
     <div className="space-y-2">
@@ -143,6 +148,9 @@ export function IdScannerPanel({
         // is the one way back to scanning - a different document deserves
         // its own attempts.
         canScan={!scanBudgetSpent}
+        onVerify={onVerify}
+        verifying={verifying}
+        verified={Boolean(value.moiResult)}
         // Wording per the 2026-09-27 walkthrough. It names the barcode as
         // well as manual entry because both are real fallbacks at the
         // counter, and says "after the permitted attempts" so the agent
