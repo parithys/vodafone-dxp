@@ -226,7 +226,6 @@ export function GlobalSearch() {
       ref={inputRef}
       wrapperRef={containerRef}
       wrapperClassName="w-full max-w-md min-w-0"
-      className="py-2!"
       value={query}
       onChange={(e) => {
         setQuery(e.target.value);

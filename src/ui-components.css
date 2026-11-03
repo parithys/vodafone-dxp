@@ -291,6 +291,22 @@
   .form-control-search {
     @apply w-full pr-10 min-h-[var(--control-h-md)] placeholder:text-muted disabled:cursor-not-allowed disabled:placeholder:text-[var(--field-label-disabled)];
   }
+  /* One height for every single-line text field and dropdown, set here and nowhere else (--field-height, which follows the device's control scale).
+     !important so a call site's own height or vertical padding cannot make one field taller than its neighbour; a field that needs another size
+     is the wrong component. A Textarea is multi-line and keeps its rows. */
+  .form-control:not(textarea),
+  .field-box,
+  .select-field,
+  .field-wrap,
+  .input-shell {
+    height: var(--field-height) !important;
+    min-height: var(--field-height) !important;
+  }
+  input.form-control,
+  input.field-box,
+  .select-field {
+    padding-block: 0 !important;
+  }
   /* The tick box and the round radio: native control stripped (appearance-none), the fill and border from the tokens, the mark drawn by the sibling
      .checkbox-mark / .radio-mark (the input also carries `peer`). */
   .checkbox {
@@ -1404,6 +1420,10 @@
   }
   .split-7-3 {
     @apply grid gap-4 sm:grid-cols-[7fr_3fr] items-start;
+  }
+  /* The UI Components Library's OverlayPortal specimen: a card pinned to the page's bottom-right corner, to show it is drawn on the body. */
+  .portal-specimen {
+    @apply fixed bottom-4 right-4 z-[var(--z-overlay)] p-4;
   }
   .toast-card {
     @apply pointer-events-auto w-full overflow-hidden rounded-[var(--radius-card)] shadow-raised;

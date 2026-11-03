@@ -303,4 +303,13 @@ for line in __doc__.strip().split('\n'):
     wsm.append([line])
 wsm.column_dimensions['A'].width = 140
 wb.save(OUT)
+
+# The same rows for the app: the UI Components Library's Component Catalogue reads this, so every inventory component is listed there.
+import json
+CATALOGUE = os.path.join(ROOT, 'src', 'workspace', 'administration', 'componentCatalogue.generated.json')
+with open(CATALOGUE, 'w') as fh:
+    json.dump([dict(name=r['name'], category=r['cat'], layer=r['layer'], scope=r['scope'], paths=r['paths'], area=r['area'], files=r['files'])
+               for r in sorted(rows, key=lambda r: (r['cat'], r['name']))], fh, indent=1)
+    fh.write('\n')
+print('wrote', CATALOGUE)
 print('wrote', OUT, '-', len(rows), 'components,', len(dups), 'duplicate findings')

@@ -44,7 +44,6 @@ export function BlockedNumberLookup({
           placeholder="Enter the full mobile number"
           inputMode="numeric"
           value={typed}
-          className="h-[var(--field-height)] py-0!"
           onChange={(e) => setTyped(blockedNumberInput(e.target.value))}
           onClear={() => setTyped('')}
         />

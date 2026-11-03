@@ -53,8 +53,6 @@ export function SpecialDiscountsStep({
               onChange={(e) => onChange({ ...value, idNumber: e.target.value })}
               placeholder="Employee ID number"
               autoComplete="off"
-              // Same height as the company search field beside it (py-3).
-              className="py-3!"
             />
           </div>
           {value.company?.companyName && (

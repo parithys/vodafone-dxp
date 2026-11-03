@@ -284,7 +284,6 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
         <Select
           aria-label="Search by"
           options={SEARCH_MODE_OPTIONS}
-          className="h-[var(--field-height)] py-0!"
           value={searchMode}
           onChange={(e) => {
             setSearchMode(e.target.value as SearchMode);
@@ -332,7 +331,6 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
         value={searchInput}
         maxLength={SEARCH_MAX}
         disabled={showingAllPatterns}
-        className="h-[var(--field-height)] py-0!"
         aria-describedby="msisdn-search-hint"
         onChange={(e) => setSearchInput(e.target.value)}
         onClear={() => {
@@ -399,7 +397,6 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
               aria-label="Sort numbers"
               options={FREE_SORT_OPTIONS}
               placeholder="Sort by"
-              className="h-[var(--field-height)] py-0!"
               value={sortPlaceholder ? '' : freeSort}
               onChange={(e) => {
                 setSortChosen((c) => ({ ...c, Free: true }));

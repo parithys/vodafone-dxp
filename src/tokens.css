@@ -544,7 +544,8 @@
   --control-h-sm: 2rem;
   --control-h-md: 2.625rem;
   --control-h-lg: 3rem;
-  --field-height: var(--control-h-lg);
+  /* THE height of every single-line text field and dropdown (Input, Select, phone, QID, search, price boxes) - see the rule in ui-components.css. */
+  --field-height: var(--control-h-md);
 }
 
 /* Touch devices: a journey that adapts to the device sets data-device="tablet" on its root, and every control inside

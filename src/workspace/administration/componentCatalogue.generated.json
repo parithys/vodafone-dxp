@@ -1,0 +1,5055 @@
+[
+ {
+  "name": "AlertsRisksSection",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/AlertsRisksSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "Badge",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Badge.tsx"
+  ],
+  "area": "workspace/customer360 (16), components/patterns (12), modules/trouble-ticketing-complaints (7), workspace/administration (4), components/domain (4), modules/order-management (3) +16 more",
+  "files": 68
+ },
+ {
+  "name": "Banner",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/queryFlow/QueryFlowCard.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "BellNotificationBanner",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/BellNotificationBanner.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "BellNotificationsSection",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/BellNotificationsSection.tsx"
+  ],
+  "area": "workspace/administration (1)",
+  "files": 1
+ },
+ {
+  "name": "C360AlertsRisks",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360AlertsRisks.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ConnectionTypeTag",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/ConnectionTypeTag.tsx"
+  ],
+  "area": "components/patterns (3), workspace/customer360 (2), workspace/administration (1)",
+  "files": 6
+ },
+ {
+  "name": "CountryMarker",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/CountryMarker.tsx"
+  ],
+  "area": "workspace/administration (1), components/primitives (1)",
+  "files": 2
+ },
+ {
+  "name": "CustomerStatusBanner",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CustomerQualification/JourneyBanners.tsx"
+  ],
+  "area": "capabilities/CustomerQualification (1)",
+  "files": 1
+ },
+ {
+  "name": "HeaderContextChips",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/HeaderContextChips.tsx"
+  ],
+  "area": "navigation (1)",
+  "files": 1
+ },
+ {
+  "name": "IdLookupStatus",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/IdLookupStatus.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "JourneyCustomerBadge",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/JourneyCustomerLock/JourneyCustomerBadge.tsx"
+  ],
+  "area": "modules/mobile-service-changes (1), modules/new-connection (1)",
+  "files": 2
+ },
+ {
+  "name": "LevelBadge",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/AccountHierarchySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "NotificationsSection",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/MiscSections.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Pill",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx",
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (21)",
+  "files": 21
+ },
+ {
+  "name": "PortInStatusScreen",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/mnp-fnp-porting/screens/PortInStatusScreen.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "PrimaryTag",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "RestrictedCustomerNotice",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/RestrictedCustomerNotice.tsx"
+  ],
+  "area": "workspace/customer360 (2), components/patterns (2), modules/trouble-ticketing-complaints (2), workspace/tasks (1), workspace/customer-search (1), modules/order-management (1) +1 more",
+  "files": 10
+ },
+ {
+  "name": "RestrictedRowsNotice",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/RestrictedRowsNotice.tsx"
+  ],
+  "area": "modules/order-management (2), modules/trouble-ticketing-complaints (2), workspace/tickets (1), workspace/tasks (1)",
+  "files": 6
+ },
+ {
+  "name": "ScanFailureNotice",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/ScanFailureNotice.tsx"
+  ],
+  "area": "components/domain (2)",
+  "files": 2
+ },
+ {
+  "name": "SegmentBadge",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/Business360Page.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "ServiceTypeTag",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/ServiceTypeTag.tsx"
+  ],
+  "area": "components/patterns (2), workspace/administration (1), components/primitives (1)",
+  "files": 4
+ },
+ {
+  "name": "SessionReferenceNumbers",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/SessionReferenceNumbers.tsx"
+  ],
+  "area": "navigation (1)",
+  "files": 1
+ },
+ {
+  "name": "SpendFlag",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/PlanSelection/SpendFlag.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "StatusBadge",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/mnp-fnp-porting/screens/PortInStatusScreen.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "StatusPill",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (9)",
+  "files": 9
+ },
+ {
+  "name": "ToastBrandMark",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/Toasts/Toast.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ToastContainer",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/Toasts/Toast.tsx"
+  ],
+  "area": "App.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "ToastDemo",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ValidationStatus",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/ValidationStatus.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "VerifiedBadge",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/GuidedContactStep.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ViewPill",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "ActionButton",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (7)",
+  "files": 7
+ },
+ {
+  "name": "ActionList",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (8)",
+  "files": 8
+ },
+ {
+  "name": "Button",
+  "category": "Buttons and actions",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Button.tsx"
+  ],
+  "area": "workspace/customer360 (29), components/patterns (24), components/domain (12), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +25 more",
+  "files": 123
+ },
+ {
+  "name": "CloseButton",
+  "category": "Buttons and actions",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/CloseButton.tsx"
+  ],
+  "area": "components/primitives (2), workspace/customer360 (1), workspace/administration (1)",
+  "files": 4
+ },
+ {
+  "name": "CustomerViewButton",
+  "category": "Buttons and actions",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/CustomerViewButton.tsx"
+  ],
+  "area": "capabilities/ActivationComplete (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "EditButton",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/BillingAccountPage.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "EligibilityChecksLink",
+  "category": "Buttons and actions",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/EligibilityRows.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "HeaderButton",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (8)",
+  "files": 8
+ },
+ {
+  "name": "HeaderLink",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "IconButton",
+  "category": "Buttons and actions",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/IconButton.tsx"
+  ],
+  "area": "components/domain (2), workspace/customer360 (1), workspace/administration (1), components/patterns (1)",
+  "files": 5
+ },
+ {
+  "name": "InertLink",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360BillingPayments.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "InvoiceActions",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/InvoiceActions.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "NavCollapseButton",
+  "category": "Buttons and actions",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/NavLogoToggle.tsx"
+  ],
+  "area": "navigation (1)",
+  "files": 1
+ },
+ {
+  "name": "NewJourneyButtons",
+  "category": "Buttons and actions",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CrossSellOffers/JourneyActions.tsx"
+  ],
+  "area": "capabilities/CrossSellOffers (1), modules/new-connection (1)",
+  "files": 2
+ },
+ {
+  "name": "ProductActionGroups",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/ProductActionGroups.tsx"
+  ],
+  "area": "workspace/customer360 (3)",
+  "files": 3
+ },
+ {
+  "name": "RefreshNumbersButton",
+  "category": "Buttons and actions",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/NumberSelection/step.tsx"
+  ],
+  "area": "modules/sim-number-management (1)",
+  "files": 1
+ },
+ {
+  "name": "SectionLink",
+  "category": "Buttons and actions",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360OffersLeads.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "AddAddonWizard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mobile-service-changes/wizards.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "AddDiscountAction",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/PlanSelection/AddDiscountAction.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "Addons",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "C360OffersLeads",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360OffersLeads.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360ProductsServices",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360ProductsServices.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Card",
+  "category": "Cards",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/auth/LoginAnnouncements.tsx",
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (11)",
+  "files": 11
+ },
+ {
+  "name": "CardTitle",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360ContactIdentity.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Cards",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ChangePostpaidPlanWizard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mobile-service-changes/wizards.tsx"
+  ],
+  "area": "router.tsx (1), next (1)",
+  "files": 2
+ },
+ {
+  "name": "ChoiceCards",
+  "category": "Cards",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/ChoiceCards.tsx"
+  ],
+  "area": "workspace/customer360 (1), workspace/administration (1)",
+  "files": 2
+ },
+ {
+  "name": "ContactCard",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/BillingAccountStep.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "CreditLimitCard",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CreditLimitCard.tsx"
+  ],
+  "area": "capabilities/Billing (1)",
+  "files": 1
+ },
+ {
+  "name": "CustomiseAddonsAction",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/PlanSelection/CustomiseAddonsAction.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "DiscountCard",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/DiscountCard.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "FixedPlan",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "FixedPlanStep",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/FixedPlanStep.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "IconTile",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (12)",
+  "files": 12
+ },
+ {
+  "name": "IdentityDetailsCard",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CustomerIdentification/IdentityDetailsCard.tsx"
+  ],
+  "area": "components/patterns (2)",
+  "files": 2
+ },
+ {
+  "name": "JourneyCard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/product-lines/JourneyCard.tsx"
+  ],
+  "area": "modules/product-lines (1)",
+  "files": 1
+ },
+ {
+  "name": "KpiTile",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (7)",
+  "files": 7
+ },
+ {
+  "name": "LinkedBusinessCard",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/LinkedBusinessCard.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "MetricCard",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/MetricCard.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "OffersSection",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOffersSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Plan",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PlanGroupPanel",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PlanGroupPanel.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PlanSelection",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/PlanSelection/PlanSelection.tsx"
+  ],
+  "area": "capabilities/PlanSelection (2), capabilities (1)",
+  "files": 3
+ },
+ {
+  "name": "PostpaidAddonsPanel",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PostpaidAddonsPanel.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PostpaidDiscountsPanel",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PostpaidDiscountsPanel.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "PostpaidPlan",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PostpaidPlanAddonsStep",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PostpaidPlanAddonsStep.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "PostpaidPlanCard",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PostpaidPlanCard.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidPlan",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidPlanCard",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PrepaidPlanCard.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidPlanStep",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PrepaidPlanStep.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "ProductEligibility",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/new-connection/steps/ProductEligibility.tsx"
+  ],
+  "area": "modules/new-connection (2)",
+  "files": 2
+ },
+ {
+  "name": "ProductSelection",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/new-connection/steps/ProductSelection.tsx"
+  ],
+  "area": "modules/new-connection (1)",
+  "files": 1
+ },
+ {
+  "name": "ProductsAssetsSection",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/MiscSections.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "QueryFlowCard",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/queryFlow/QueryFlowCard.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "SectionCard",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/queryFlow/QueryPreviewModal.tsx",
+   "src/workspace/customer360/sections/BillingSection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "SelectedAddonsHeader",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/SelectedAddonsHeader.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1)",
+  "files": 1
+ },
+ {
+  "name": "SelectedCardTexture",
+  "category": "Cards",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/offerCardParts.tsx"
+  ],
+  "area": "components/patterns (2), capabilities/AddonsSelection (1), workspace/administration (1), components/domain (1)",
+  "files": 5
+ },
+ {
+  "name": "SelectedPlanFigure",
+  "category": "Cards",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/offerCardParts.tsx"
+  ],
+  "area": "workspace/administration (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "SpecialDiscountsId",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "SpecialDiscountsIdentification",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SpecialDiscountsIdentification/SpecialDiscountsIdentification.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CustomerQualification (1), capabilities/SpecialDiscountsIdentification (1)",
+  "files": 3
+ },
+ {
+  "name": "SpecialDiscountsStep",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SpecialDiscountsIdentification/SpecialDiscountsStep.tsx"
+  ],
+  "area": "capabilities/SpecialDiscountsIdentification (1)",
+  "files": 1
+ },
+ {
+  "name": "StartCards",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/new-connection/steps/StartCards.tsx"
+  ],
+  "area": "modules/new-connection (1)",
+  "files": 1
+ },
+ {
+  "name": "TableCard",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (8)",
+  "files": 8
+ },
+ {
+  "name": "TicketActionsCard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketActionsCard.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketHeaderCard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketHeaderCard.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketNotesCard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketNotesCard.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketOverviewCard",
+  "category": "Cards",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketOverviewCard.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "Tile",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CustomerIdentification/IdentityDetailsCard.tsx",
+   "src/workspace/customer360/sections/TopicFieldsSection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "TileLinks",
+  "category": "Cards",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "AccountHierarchySection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/AccountHierarchySection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "AccountSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesAccountSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ActivitiesPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ActivityCommentsStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/ActivityCommentsStep.tsx"
+  ],
+  "area": "capabilities/ActivityComments (1)",
+  "files": 1
+ },
+ {
+  "name": "AddressSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/AddressSection.tsx",
+   "src/workspace/customer360/telesales/TelesalesAddressSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "AppointmentBookingStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/AppointmentBookingStep.tsx"
+  ],
+  "area": "capabilities/AppointmentBooking (1)",
+  "files": 1
+ },
+ {
+  "name": "ApprovalSummary",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "AssetsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/AssetsSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "AttachmentsPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "AuditSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesAuditSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "AuditTrailSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/AuditTrailSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "BillingAccountStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/BillingAccountStep.tsx"
+  ],
+  "area": "capabilities/Billing (1)",
+  "files": 1
+ },
+ {
+  "name": "BillingSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/BillingSection.tsx",
+   "src/workspace/customer360/telesales/TelesalesBillingSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "Block",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesTabs.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "BulkNotesConfigSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/BulkNotesConfigSection.tsx"
+  ],
+  "area": "workspace/administration (1)",
+  "files": 1
+ },
+ {
+  "name": "BulkNotesSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/BulkNotesSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360Overview",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Overview.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "CapabilityLibrarySection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/CapabilityLibrarySection.tsx"
+  ],
+  "area": "workspace/administration (1)",
+  "files": 1
+ },
+ {
+  "name": "CategorySection",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/product-lines/ProductLinePage.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "CheckoutSummary",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CheckoutSummary/CheckoutSummary.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CheckoutSummary (1)",
+  "files": 2
+ },
+ {
+  "name": "CheckoutSummaryStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CheckoutSummaryStep.tsx"
+  ],
+  "area": "capabilities/CheckoutSummary (1)",
+  "files": 1
+ },
+ {
+  "name": "CommunicationsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/MiscSections.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "ConnectionsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesConnectionsSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ContactSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/ContactSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "ContactsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesContactsSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "CreditCheckPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/CreditCheckPanel.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "CrossSalesStep",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CrossSellOffers/CrossSalesStep.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CrossSellOffers (1), modules/new-connection (1)",
+  "files": 3
+ },
+ {
+  "name": "CustomerMirrorPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/CustomerMirrorPanel.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1)",
+  "files": 1
+ },
+ {
+  "name": "CustomerTypeStep",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CustomerType/CustomerTypeStep.tsx"
+  ],
+  "area": "capabilities (1)",
+  "files": 1
+ },
+ {
+  "name": "DemoFaultPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/DemoFaultPanel.tsx"
+  ],
+  "area": "modules/new-connection (1)",
+  "files": 1
+ },
+ {
+  "name": "Detail",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/administration/CapabilityLibrarySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DetailSection",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DonorAttachmentStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/DonorAttachmentStep.tsx"
+  ],
+  "area": "modules/mnp-fnp-porting (1)",
+  "files": 1
+ },
+ {
+  "name": "DonorDetailsStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/DonorDetailsStep.tsx"
+  ],
+  "area": "modules/mnp-fnp-porting (1)",
+  "files": 1
+ },
+ {
+  "name": "DualPlaySerialCheckStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/DualPlaySerialCheckStep.tsx"
+  ],
+  "area": "modules/fwa-5g-home (1)",
+  "files": 1
+ },
+ {
+  "name": "EnterpriseSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/EnterpriseSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "EsimActivationPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/EsimActivationPanel.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "FibreHomeSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/FibreHomeSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Group",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/administration/UiComponentsLibrarySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "GroupBlock",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/TopicFieldsSection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "GuidedContactStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/GuidedContactStep.tsx"
+  ],
+  "area": "capabilities/CustomerIdentification (1)",
+  "files": 1
+ },
+ {
+  "name": "InstallationAddressStep",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/fixed-line-fibre/fixedActivation/FixedStepViews.tsx"
+  ],
+  "area": "modules/fixed-line-fibre (1)",
+  "files": 1
+ },
+ {
+  "name": "InteractionsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/MiscSections.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "KeyInformationPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/KeyInformationPanel.tsx"
+  ],
+  "area": "capabilities/CafSignature (1)",
+  "files": 1
+ },
+ {
+  "name": "LeadDetailsView",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/lead-management/LeadDetailsView.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "LeadsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesLeadsSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "LineSelectionStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/LineSelectionStep.tsx"
+  ],
+  "area": "capabilities/LineSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "MenuPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/CustomerActionsMenu.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "MobileSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/MobileSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "MoiResultPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/MoiResultPanel.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "NumberDevicesStep",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/fixed-line-fibre/fixedActivation/FixedStepViews.tsx"
+  ],
+  "area": "modules/fixed-line-fibre (1)",
+  "files": 1
+ },
+ {
+  "name": "OrderApprovalDetail",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "OrderDetailsPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "OrdersSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/OrdersSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "OrdersTicketsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOrdersTicketsSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Panel",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (11)",
+  "files": 11
+ },
+ {
+  "name": "PassportScanSections",
+  "category": "Containers, panels and sections",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/PassportScanSections.tsx"
+  ],
+  "area": "components/domain (1)",
+  "files": 1
+ },
+ {
+  "name": "PortInDetail",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/mnp-fnp-porting/screens/PortInStatusScreen.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PrepaidCartBody",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CheckoutSummary/PrepaidCartBody.tsx"
+  ],
+  "area": "capabilities/CheckoutSummary (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidCartStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PrepaidCartStep.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "PrepaidCheckoutStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PrepaidCheckoutStep.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "RecentActivitiesSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/MiscSections.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "RechargeSelectionStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/RechargeSelectionStep.tsx"
+  ],
+  "area": "capabilities/RechargeSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "ReserveSummary",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/sim-number-management/screens/ReserveNumberWizard.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "RoleAccessSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/RoleAccessSection.tsx"
+  ],
+  "area": "workspace/administration (1)",
+  "files": 1
+ },
+ {
+  "name": "Section",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CrossSellOffers/OfferDetailsDrawer.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "SectionTitle",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/AuditTrailSection.tsx",
+   "src/workspace/customer360/sections/MiscSections.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "SimTypeStep",
+  "category": "Containers, panels and sections",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/SimTypeStep.tsx"
+  ],
+  "area": "capabilities/SimType (1)",
+  "files": 1
+ },
+ {
+  "name": "StatStrip",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (7)",
+  "files": 7
+ },
+ {
+  "name": "StepSummaryPanel",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/StepSummaryPanel.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1)",
+  "files": 1
+ },
+ {
+  "name": "StepSummarySection",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/StepSummarySection.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "TaskDetailView",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/tasks/TaskDetailView.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "TelesalesOverview",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketApprovalReview",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketApprovalReview.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketDetail",
+  "category": "Containers, panels and sections",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketDetail.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "TicketsSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/TicketsSection.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "UiComponentsLibrarySection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/UiComponentsLibrarySection.tsx"
+  ],
+  "area": "workspace/administration (1)",
+  "files": 1
+ },
+ {
+  "name": "UsageSection",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesUsageSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "WideBlock",
+  "category": "Containers, panels and sections",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (6)",
+  "files": 6
+ },
+ {
+  "name": "WinCashPaymentStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/WinCashPaymentStep.tsx"
+  ],
+  "area": "capabilities/Payment (1)",
+  "files": 1
+ },
+ {
+  "name": "ZsbAddressStep",
+  "category": "Containers, panels and sections",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/ZsbAddressStep.tsx"
+  ],
+  "area": "capabilities/ServiceAddress (1)",
+  "files": 1
+ },
+ {
+  "name": "AdditionalDocumentsUpload",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/AdditionalDocumentsUpload.tsx"
+  ],
+  "area": "capabilities (1), components/patterns (1), modules/order-management (1)",
+  "files": 3
+ },
+ {
+  "name": "AddonsPicker",
+  "category": "Forms and form controls",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/AddonsSelection/AddonsPicker.tsx"
+  ],
+  "area": "capabilities (1), capabilities/AddonsSelection (1), components/patterns (1)",
+  "files": 3
+ },
+ {
+  "name": "BillFormatterWorkspace",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/bill-formatter/BillFormatterWorkspace.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "BlockedNumberLookup",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/BlockedNumberLookup.tsx"
+  ],
+  "area": "components/domain (1)",
+  "files": 1
+ },
+ {
+  "name": "CafDocumentUpload",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/CafDocumentUpload.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "CafSignature",
+  "category": "Forms and form controls",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CafSignature/CafSignature.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CafSignature (1)",
+  "files": 2
+ },
+ {
+  "name": "CafSignatureCapture",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CafSignatureCapture.tsx"
+  ],
+  "area": "capabilities/CafSignature (1)",
+  "files": 1
+ },
+ {
+  "name": "Checkbox",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Checkbox.tsx"
+  ],
+  "area": "components/patterns (3), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities/SimType (1), capabilities/NumberSelection (1), workspace/administration (1) +2 more",
+  "files": 12
+ },
+ {
+  "name": "CompanySearchInput",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/CompanySearchInput.tsx"
+  ],
+  "area": "capabilities/CustomerType (1), capabilities/SpecialDiscountsIdentification (1)",
+  "files": 2
+ },
+ {
+  "name": "ContactPhoneInput",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/ContactPhoneInput.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "CpeSerialScanner",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/CpeSerialScanner.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "CustomerSearchPage",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer-search/CustomerSearchPage.tsx"
+  ],
+  "area": "router.tsx (1), next (1)",
+  "files": 2
+ },
+ {
+  "name": "CustomerSearchResults",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer-search/CustomerSearchResults.tsx"
+  ],
+  "area": "workspace/customer-search (1)",
+  "files": 1
+ },
+ {
+  "name": "DocumentUploadDemo",
+  "category": "Forms and form controls",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "EligibilityChecksList",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/EligibilityRows.tsx"
+  ],
+  "area": "capabilities/EligibilityGate (2), capabilities/PlanSelection (1)",
+  "files": 3
+ },
+ {
+  "name": "Field",
+  "category": "Forms and form controls",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mnp-fnp-porting/screens/PortInStatusScreen.tsx",
+   "src/workspace/customer360/BillingAccountPage.tsx",
+   "src/workspace/customer360/sections/BillingSection.tsx",
+   "src/workspace/customer360/sections/C360AccountInformation.tsx",
+   "src/workspace/customer360/sections/C360ProductsServices.tsx",
+   "src/workspace/customer360/telesales/TelesalesKit.tsx",
+   "src/workspace/profile/AgentProfileWorkspace.tsx"
+  ],
+  "area": "workspace/customer360 (3)",
+  "files": 3
+ },
+ {
+  "name": "FieldAccessProvider",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/fieldAccess.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "FieldRow",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/queryFlow/QueryPreviewModal.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "FilterSelect",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (11), workspace/orders (1)",
+  "files": 12
+ },
+ {
+  "name": "GlobalSearch",
+  "category": "Forms and form controls",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/GlobalSearch.tsx"
+  ],
+  "area": "navigation (1)",
+  "files": 1
+ },
+ {
+  "name": "GlobalSearchScreen",
+  "category": "Forms and form controls",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/sim-number-management/screens/GlobalSearchScreen.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "IdFileUpload",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/IdFileUpload.tsx"
+  ],
+  "area": "components/domain (2)",
+  "files": 2
+ },
+ {
+  "name": "IdLookupStep",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/IdLookupStep.tsx"
+  ],
+  "area": "capabilities/CustomerIdentification (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "IdScannerPanel",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/IdScannerPanel.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "Input",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Input.tsx"
+  ],
+  "area": "components/patterns (8), workspace/customer360 (7), workspace/administration (4), components/domain (4), modules/trouble-ticketing-complaints (2), capabilities (1) +11 more",
+  "files": 37
+ },
+ {
+  "name": "MsisdnPicker",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/MsisdnPicker.tsx"
+  ],
+  "area": "capabilities/NumberSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "NavLogoToggle",
+  "category": "Forms and form controls",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/NavLogoToggle.tsx"
+  ],
+  "area": "navigation (1)",
+  "files": 1
+ },
+ {
+  "name": "PassportToQidWizard",
+  "category": "Forms and form controls",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/identity-customer-management/screens/PassportToQidWizard.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "PhoneNumberInput",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/PhoneNumberInput.tsx"
+  ],
+  "area": "components/patterns (2), workspace/administration (1), modules/identity-customer-management (1)",
+  "files": 4
+ },
+ {
+  "name": "PlanSearchBox",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PlanSearchBox.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "QidImageUpload",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/QidImageUpload.tsx"
+  ],
+  "area": "capabilities/CustomerType (1), capabilities/SpecialDiscountsIdentification (1), components/patterns (1), modules/sim-number-management (1), modules/identity-customer-management (1)",
+  "files": 5
+ },
+ {
+  "name": "QidNumberField",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/QidInput.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "QidTypeSelector",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/QidInput.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "Radio",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Radio.tsx"
+  ],
+  "area": "workspace/administration (1), modules/new-connection (1)",
+  "files": 2
+ },
+ {
+  "name": "SearchBox",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (5)",
+  "files": 5
+ },
+ {
+  "name": "SearchField",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/SearchField.tsx"
+  ],
+  "area": "workspace/customer360 (7), components/domain (4), workspace/administration (2), modules (2), modules/trouble-ticketing-complaints (2), capabilities/AddonsSelection (1) +4 more",
+  "files": 22
+ },
+ {
+  "name": "Select",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Select.tsx"
+  ],
+  "area": "workspace/customer360 (9), components/patterns (8), modules/trouble-ticketing-complaints (4), workspace/administration (3), components/domain (3), modules/sim-number-management (2) +8 more",
+  "files": 37
+ },
+ {
+  "name": "ServiceLocationSearchInput",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/ServiceLocationSearchInput.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "SignatureCapture",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/SignatureCapture.tsx"
+  ],
+  "area": "components/patterns (3), modules/order-management (1), modules/identity-customer-management (1)",
+  "files": 5
+ },
+ {
+  "name": "SignaturePad",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/SignaturePad.tsx"
+  ],
+  "area": "workspace/administration (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "SimSerialScanner",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/SimSerialScanner.tsx"
+  ],
+  "area": "capabilities/SimType (1), components/domain (1)",
+  "files": 2
+ },
+ {
+  "name": "SimSwapFormStep",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/SimSwapFormStep.tsx"
+  ],
+  "area": "modules/sim-number-management (1)",
+  "files": 1
+ },
+ {
+  "name": "SummaryFieldRow",
+  "category": "Forms and form controls",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/SummaryFieldRow.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "SupportingDocumentField",
+  "category": "Forms and form controls",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/SupportingDocumentField.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "Textarea",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Textarea.tsx"
+  ],
+  "area": "components/patterns (6), workspace/administration (3), modules/trouble-ticketing-complaints (3), modules/order-management (2), workspace/customer360 (1), modules/lead-management (1) +1 more",
+  "files": 17
+ },
+ {
+  "name": "TopicFieldsSection",
+  "category": "Forms and form controls",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/TopicFieldsSection.tsx"
+  ],
+  "area": "workspace/customer360 (5)",
+  "files": 5
+ },
+ {
+  "name": "WaiveOff",
+  "category": "Forms and form controls",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/NumberSelection/WaiveOff.tsx"
+  ],
+  "area": "capabilities/NumberSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "AdditionalInformation",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "AdministrationWorkspace",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/administration/AdministrationWorkspace.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "AgentProfileWorkspace",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/profile/AgentProfileWorkspace.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "App",
+  "category": "Layout components",
+  "layer": "App",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/App.tsx"
+  ],
+  "area": "main.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "AppFrame",
+  "category": "Layout components",
+  "layer": "App",
+  "scope": "Page-specific",
+  "paths": [
+   "src/next/AppFrame.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "AttachmentPreview",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/order-management/AttachmentPreview.tsx"
+  ],
+  "area": "modules/order-management (1)",
+  "files": 1
+ },
+ {
+  "name": "AuthenticatedApp",
+  "category": "Layout components",
+  "layer": "App",
+  "scope": "Page-specific",
+  "paths": [
+   "src/App.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Avatar",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "BarChart",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (3)",
+  "files": 3
+ },
+ {
+  "name": "BaseManagementWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/pre-to-post-migration/screens/BaseManagementWizard.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "BillingAccountPage",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/BillingAccountPage.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "BulkAdjustmentPortal",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/enterprise-iot-b2b/screens/BulkAdjustmentPortal.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "BulkJobsDashboard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/pre-to-post-migration/screens/BulkJobsDashboard.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "Business360Page",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/Business360Page.tsx",
+   "src/workspace/customer360/CustomerOrBusiness360.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "C360AccountInformation",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360AccountInformation.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360Activities",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Activities.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360AddressService",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360AddressService.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360BillingPayments",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360BillingPayments.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360ContactIdentity",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360ContactIdentity.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360Orders",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Orders.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "C360TicketsSupport",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360TicketsSupport.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ChangePrepaidPackWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mobile-service-changes/wizards.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "CheckoutDefaultLayout",
+  "category": "Layout components",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CheckoutDefaultLayout.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "Chevron",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360BillingPayments.tsx",
+   "src/workspace/customer360/sections/C360Overview.tsx",
+   "src/workspace/customer360/sections/TopicFieldsSection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Customer360Layout",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/Customer360Layout.tsx",
+   "src/workspace/customer360/CustomerOrBusiness360.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "CustomerOrBusiness360",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/CustomerOrBusiness360.tsx"
+  ],
+  "area": "router.tsx (1), next (1)",
+  "files": 2
+ },
+ {
+  "name": "Dashboard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/Dashboard.tsx"
+  ],
+  "area": "router.tsx (1), next (1)",
+  "files": 2
+ },
+ {
+  "name": "DashboardZone",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/dashboard/DashboardZone.tsx"
+  ],
+  "area": "modules (1)",
+  "files": 1
+ },
+ {
+  "name": "DemoProvider",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/demoValues.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "DevicePenaltyPolicy",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/penaltyViewResolvers.tsx"
+  ],
+  "area": "workspace/customer360 (3)",
+  "files": 3
+ },
+ {
+  "name": "Dv",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/demoValues.tsx"
+  ],
+  "area": "workspace/customer360 (11)",
+  "files": 11
+ },
+ {
+  "name": "EligibilityGateStep",
+  "category": "Layout components",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/EligibilityGate/EligibilityGateStep.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CustomerQualification (1), components/patterns (1), modules/new-connection (1)",
+  "files": 4
+ },
+ {
+  "name": "EnterpriseAccountCreation",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/enterprise-iot-b2b/screens/EnterpriseAccountCreation.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "Fact",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/CustomerProfileHeader.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "FileIcon",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "GapNote",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/penaltyViewResolvers.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Highlight",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer-search/CustomerSearchResults.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Highlighted",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/queryFlow/QueryFlowCard.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "InertView",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360OffersLeads.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Label",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "LinkAction",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (6)",
+  "files": 6
+ },
+ {
+  "name": "LinkedBusinessLine",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/LinkedBusinessCard.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "LoginPage",
+  "category": "Layout components",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/auth/LoginPage.tsx"
+  ],
+  "area": "App.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "MnpValidationGate",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mnp-fnp-porting/screens/MnpGatePanel.tsx"
+  ],
+  "area": "modules/mnp-fnp-porting (1)",
+  "files": 1
+ },
+ {
+  "name": "MySalesOrders",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/order-management/MySalesOrders.tsx"
+  ],
+  "area": "workspace/orders (1)",
+  "files": 1
+ },
+ {
+  "name": "NewConnectionWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared",
+  "paths": [
+   "src/modules/new-connection/NewConnectionWizard.tsx"
+  ],
+  "area": "router.tsx (1), modules/fwa-5g-home (1), modules/mnp-fnp-porting (1), modules/fixed-line-fibre (1), modules/mobile-postpaid (1), modules/mobile-prepaid (1)",
+  "files": 6
+ },
+ {
+  "name": "NewMnpWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mnp-fnp-porting/screens/NewMnpWizard.tsx"
+  ],
+  "area": "modules/mnp-fnp-porting (1)",
+  "files": 1
+ },
+ {
+  "name": "NewSimSwapWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/sim-number-management/screens/NewSimSwapWizard.tsx"
+  ],
+  "area": "modules/sim-number-management (1)",
+  "files": 1
+ },
+ {
+  "name": "NumberManagementPortal",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/sim-number-management/screens/NumberManagementPortal.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "OrdersWorkspace",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/orders/OrdersWorkspace.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "PageFrame",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesTabs.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PageHeader",
+  "category": "Layout components",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PageHeader.tsx"
+  ],
+  "area": "modules/pre-to-post-migration (3), modules/trouble-ticketing-complaints (3), workspace/tasks (2), workspace/customer360 (2), workspace/administration (2), modules/sim-number-management (2) +13 more",
+  "files": 28
+ },
+ {
+  "name": "PassportOwnerCheck",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/identity-customer-management/screens/PassportOwnerCheck.tsx"
+  ],
+  "area": "modules/identity-customer-management (1)",
+  "files": 1
+ },
+ {
+  "name": "ProductLinePage",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/product-lines/ProductLinePage.tsx"
+  ],
+  "area": "router.tsx (1), next (1)",
+  "files": 2
+ },
+ {
+  "name": "Progress",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ReserveNumberWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/sim-number-management/screens/ReserveNumberWizard.tsx"
+  ],
+  "area": "modules/sim-number-management (1)",
+  "files": 1
+ },
+ {
+  "name": "RevealValue",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/fieldAccess.tsx"
+  ],
+  "area": "workspace/customer360 (5)",
+  "files": 5
+ },
+ {
+  "name": "Ring",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "SalesWorkspace",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/sales/SalesWorkspace.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "ScreenRouteResolver",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/ScreenRouteResolver.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "ServiceChangeWizard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/mobile-service-changes/ServiceChangeWizard.tsx"
+  ],
+  "area": "modules/pre-to-post-migration (1), modules/mobile-service-changes (1)",
+  "files": 2
+ },
+ {
+  "name": "Shell",
+  "category": "Layout components",
+  "layer": "App",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/App.tsx"
+  ],
+  "area": "next (1)",
+  "files": 1
+ },
+ {
+  "name": "Specimen",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/administration/UiComponentsLibrarySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "StandaloneStepPage",
+  "category": "Layout components",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/StandaloneStepPage.tsx"
+  ],
+  "area": "modules/sim-number-management (1)",
+  "files": 1
+ },
+ {
+  "name": "StarNumberPenaltyPolicy",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/penaltyViewResolvers.tsx"
+  ],
+  "area": "workspace/customer360 (3)",
+  "files": 3
+ },
+ {
+  "name": "Stat",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/Business360Page.tsx",
+   "src/workspace/customer360/CustomerProfileHeader.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "SupportWorkspace",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/support/SupportWorkspace.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketsDashboard",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketsDashboard.tsx"
+  ],
+  "area": "workspace/support (1)",
+  "files": 1
+ },
+ {
+  "name": "ToolbarShell",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "UsageBar",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "Value",
+  "category": "Layout components",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "VerificationGate",
+  "category": "Layout components",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/VerificationGate.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "WfmSerialNumberCheck",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/fwa-5g-home/screens/WfmSerialNumberCheck.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "WizardTitleBand",
+  "category": "Layout components",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardTitleBand.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1), components/patterns (1), modules/sim-number-management (1)",
+  "files": 3
+ },
+ {
+  "name": "ActivationComplete",
+  "category": "Loading, empty, error and success states",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ActivationComplete/ActivationComplete.tsx"
+  ],
+  "area": "capabilities (1), modules/mobile-service-changes (1), modules/new-connection (1)",
+  "files": 3
+ },
+ {
+  "name": "ActivationCompleteScreen",
+  "category": "Loading, empty, error and success states",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/ActivationCompleteScreen.tsx"
+  ],
+  "area": "capabilities/ActivationComplete (1)",
+  "files": 1
+ },
+ {
+  "name": "Complete",
+  "category": "Loading, empty, error and success states",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "EligibilityOutcomeLegend",
+  "category": "Loading, empty, error and success states",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/EligibilityRows.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "EligibilityOutcomePanel",
+  "category": "Loading, empty, error and success states",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/EligibilityGate/EligibilityOutcomes.tsx"
+  ],
+  "area": "capabilities/CustomerQualification (1)",
+  "files": 1
+ },
+ {
+  "name": "Empty",
+  "category": "Loading, empty, error and success states",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/C360Overview.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "EmptyState",
+  "category": "Loading, empty, error and success states",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/EmptyState.tsx"
+  ],
+  "area": "workspace/customer360 (5), workspace/administration (4), components/patterns (3), modules/trouble-ticketing-complaints (3), components/domain (2), capabilities (1) +3 more",
+  "files": 21
+ },
+ {
+  "name": "EntityMissing",
+  "category": "Loading, empty, error and success states",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/EntityMissing.tsx"
+  ],
+  "area": "workspace/customer360 (2), modules/trouble-ticketing-complaints (2), workspace/tasks (1), modules/order-management (1), modules/lead-management (1), modules/sim-number-management (1)",
+  "files": 8
+ },
+ {
+  "name": "ErrorBanner",
+  "category": "Loading, empty, error and success states",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/ErrorBanner.tsx"
+  ],
+  "area": "modules/order-management (2), modules/trouble-ticketing-complaints (2), workspace/tickets (1), workspace/tasks (1), workspace/customer360 (1), workspace/administration (1) +5 more",
+  "files": 13
+ },
+ {
+  "name": "MissingInformationPanel",
+  "category": "Loading, empty, error and success states",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/order-management/MissingInformationPanel.tsx"
+  ],
+  "area": "modules/order-management (1)",
+  "files": 1
+ },
+ {
+  "name": "NotFound",
+  "category": "Loading, empty, error and success states",
+  "layer": "Journey / module",
+  "scope": "Shared",
+  "paths": [
+   "src/modules/NotFound.tsx"
+  ],
+  "area": "modules (2), router.tsx (1), modules/product-lines (1)",
+  "files": 4
+ },
+ {
+  "name": "NotYetBuiltPanel",
+  "category": "Loading, empty, error and success states",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/NotYetBuiltPanel.tsx"
+  ],
+  "area": "modules (2), modules/product-lines (1)",
+  "files": 3
+ },
+ {
+  "name": "OrderConfirmationScreen",
+  "category": "Loading, empty, error and success states",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/OrderConfirmationScreen.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "OutcomeActions",
+  "category": "Loading, empty, error and success states",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/EligibilityGate/EligibilityOutcomes.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CustomerQualification (1)",
+  "files": 2
+ },
+ {
+  "name": "ScreenNotYetBuilt",
+  "category": "Loading, empty, error and success states",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/ScreenNotYetBuilt.tsx"
+  ],
+  "area": "modules (1)",
+  "files": 1
+ },
+ {
+  "name": "Spinner",
+  "category": "Loading, empty, error and success states",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Spinner.tsx"
+  ],
+  "area": "components/domain (2), router.tsx (1), next (1), workspace/administration (1), components/patterns (1)",
+  "files": 6
+ },
+ {
+  "name": "WorkspaceNotYetBuilt",
+  "category": "Loading, empty, error and success states",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/WorkspaceNotYetBuilt.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "AbandonDialog",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardDialogs.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1)",
+  "files": 1
+ },
+ {
+  "name": "AccountEditDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/AccountEditDrawer.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "AddressEditDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/BillingAccountPage.tsx",
+   "src/workspace/customer360/sections/AddressSection.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ContactEditDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/BillingAccountPage.tsx",
+   "src/workspace/customer360/sections/ContactSection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DemographicEditDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/DemographicEditDrawer.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Drawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Drawer.tsx"
+  ],
+  "area": "workspace/customer360 (9), components/patterns (3), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities (1), capabilities/CrossSellOffers (1) +5 more",
+  "files": 23
+ },
+ {
+  "name": "DrawerDemo",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ExceptionRequestModal",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/EligibilityGate/ExceptionRequestModal.tsx"
+  ],
+  "area": "capabilities/EligibilityGate (1)",
+  "files": 1
+ },
+ {
+  "name": "LanguageEditDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/BillingAccountPage.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "LeaveJourneyDialog",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardDialogs.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1)",
+  "files": 1
+ },
+ {
+  "name": "Modal",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Modal.tsx"
+  ],
+  "area": "capabilities/EligibilityGate (2), components/patterns (2), capabilities/PlanSelection (1), capabilities/NumberSelection (1), workspace/administration (1), navigation (1) +2 more",
+  "files": 10
+ },
+ {
+  "name": "OfferDetailsDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CrossSellOffers/OfferDetailsDrawer.tsx"
+  ],
+  "area": "capabilities/CrossSellOffers (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "OverlayPortal",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/OverlayPortal.tsx"
+  ],
+  "area": "components/primitives (2), workspace/administration (1)",
+  "files": 3
+ },
+ {
+  "name": "PaymentEditDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/BillingAccountPage.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PlanDetailsDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PlanDetailsDrawer.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidPackDetailsDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PrepaidPackDetailsDrawer.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "PrimaryContactDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/PrimaryContactDrawer.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "QueryPreviewModal",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/queryFlow/QueryPreviewModal.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "SaveExitDialog",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardDialogs.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1)",
+  "files": 1
+ },
+ {
+  "name": "Sheet",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/AttachmentPreview.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "TicketCreationModal",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/TicketCreationModal.tsx"
+  ],
+  "area": "workspace/customer360 (2), modules/trouble-ticketing-complaints (1)",
+  "files": 3
+ },
+ {
+  "name": "TicketDrawers",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketDrawers.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "Breadcrumbs",
+  "category": "Navigation elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/Breadcrumbs.tsx"
+  ],
+  "area": "App.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "CustomerProfileHeader",
+  "category": "Navigation elements",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/CustomerProfileHeader.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "IconRail",
+  "category": "Navigation elements",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Tabs.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PersonaSwitcher",
+  "category": "Navigation elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/PersonaSwitcher.tsx"
+  ],
+  "area": "App.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "SectionHeader",
+  "category": "Navigation elements",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (10)",
+  "files": 10
+ },
+ {
+  "name": "Sidebar",
+  "category": "Navigation elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/Sidebar.tsx"
+  ],
+  "area": "App.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "VodafoneLogo",
+  "category": "Navigation elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/auth/LoginPage.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "WizardStepHeader",
+  "category": "Navigation elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardStepHeader.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "WizardStepPanel",
+  "category": "Navigation elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardStepPanel.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "Activity",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ActivityComments",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ActivityComments/ActivityComments.tsx"
+  ],
+  "area": "capabilities (1), capabilities/ActivityComments (1)",
+  "files": 2
+ },
+ {
+  "name": "ActualUser",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ActualUser/ActualUser.tsx"
+  ],
+  "area": "capabilities (1), capabilities/SimType (1), capabilities/ActualUser (1)",
+  "files": 3
+ },
+ {
+  "name": "ActualUserPreview",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Address",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "AddressPrefill",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ServiceAddress/AddressPrefill.tsx"
+  ],
+  "area": "capabilities/ServiceAddress (1)",
+  "files": 1
+ },
+ {
+  "name": "AppBootstrap",
+  "category": "Other reusable UI elements",
+  "layer": "App",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/App.tsx"
+  ],
+  "area": "next (1)",
+  "files": 1
+ },
+ {
+  "name": "Appointment",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "AppointmentBooking",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/AppointmentBooking/AppointmentBooking.tsx"
+  ],
+  "area": "capabilities (1), capabilities/AppointmentBooking (1)",
+  "files": 2
+ },
+ {
+  "name": "BillLimitEditor",
+  "category": "Other reusable UI elements",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/BillLimitEditor.tsx"
+  ],
+  "area": "components/patterns (2), modules/pre-to-post-migration (1)",
+  "files": 3
+ },
+ {
+  "name": "Billing",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/Billing/Billing.tsx",
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "capabilities/Billing (1)",
+  "files": 1
+ },
+ {
+  "name": "BillingAccountAutoResolver",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/BillingAccountAutoResolver.tsx"
+  ],
+  "area": "capabilities/CustomerQualification (1), capabilities/Billing (1)",
+  "files": 2
+ },
+ {
+  "name": "BulkOperationPortal",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/BulkOperationPortal.tsx"
+  ],
+  "area": "modules/enterprise-iot-b2b (1)",
+  "files": 1
+ },
+ {
+  "name": "Caf",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Checkout",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "CrossSell",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Crumb",
+  "category": "Other reusable UI elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/Breadcrumbs.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "CustomerIdentification",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CustomerIdentification/CustomerIdentification.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CustomerIdentification (1), capabilities/CustomerQualification (1), capabilities/ActualUser (1), components/patterns (1), modules/pre-to-post-migration (1) +1 more",
+  "files": 7
+ },
+ {
+  "name": "CustomerType",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DemoAddressSeed",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ServiceAddress/DemoAddressSeed.tsx"
+  ],
+  "area": "capabilities/ServiceAddress (1)",
+  "files": 1
+ },
+ {
+  "name": "Eligibility",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "EligibilityScenario",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ForgotPasswordFlow",
+  "category": "Other reusable UI elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/auth/ForgotPasswordFlow.tsx"
+  ],
+  "area": "auth (1)",
+  "files": 1
+ },
+ {
+  "name": "FullTerms",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CafTerms.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "GuidedActivationWizard",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/GuidedActivationWizard/GuidedActivationWizard.tsx"
+  ],
+  "area": "modules/sim-number-management (2), capabilities (1), modules/pre-to-post-migration (1), modules/mobile-service-changes (1), modules/new-connection (1), modules/identity-customer-management (1)",
+  "files": 7
+ },
+ {
+  "name": "HandOff",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CrossSellOffers/HandOff.tsx"
+  ],
+  "area": "capabilities/CrossSellOffers (1)",
+  "files": 1
+ },
+ {
+  "name": "Icon",
+  "category": "Other reusable UI elements",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Icon.tsx"
+  ],
+  "area": "workspace/customer360 (34), components/patterns (16), components/domain (13), components/primitives (10), navigation (4), capabilities/CrossSellOffers (2) +18 more",
+  "files": 102
+ },
+ {
+  "name": "IconDisc",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CrossSellOffers/OfferDetailsDrawer.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Identification",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "InProgressDisc",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/StepSummarySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "LineSelection",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/LineSelection/LineSelection.tsx"
+  ],
+  "area": "capabilities (1), capabilities/LineSelection (1)",
+  "files": 2
+ },
+ {
+  "name": "Lines",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "LoginAnnouncements",
+  "category": "Other reusable UI elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/auth/LoginAnnouncements.tsx"
+  ],
+  "area": "auth (1)",
+  "files": 1
+ },
+ {
+  "name": "NewsCarousel",
+  "category": "Other reusable UI elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/auth/LoginAnnouncements.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Number",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "NumberSelection",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/NumberSelection/NumberSelection.tsx"
+  ],
+  "area": "capabilities/NumberSelection (1), modules/sim-number-management (1)",
+  "files": 2
+ },
+ {
+  "name": "OsmEmbed",
+  "category": "Other reusable UI elements",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/OsmEmbed.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "PanelIcon",
+  "category": "Other reusable UI elements",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/PanelIcon.tsx"
+  ],
+  "area": "workspace/administration (1), navigation (1), components/patterns (1), components/primitives (1)",
+  "files": 4
+ },
+ {
+  "name": "Pay",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "Payment",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/Payment/Payment.tsx"
+  ],
+  "area": "capabilities (1), capabilities/Payment (1)",
+  "files": 2
+ },
+ {
+  "name": "PendingDisc",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/StepSummarySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PrepaidCart",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CheckoutSummary/CheckoutSummary.tsx"
+  ],
+  "area": "capabilities/CheckoutSummary (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidCheckout",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CheckoutSummary/CheckoutSummary.tsx"
+  ],
+  "area": "capabilities (1), capabilities/CheckoutSummary (1)",
+  "files": 2
+ },
+ {
+  "name": "Qualification",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "RechargeSelection",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/RechargeSelection/RechargeSelection.tsx"
+  ],
+  "area": "capabilities (1), capabilities/RechargeSelection (1)",
+  "files": 2
+ },
+ {
+  "name": "Recharges",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "RequireFeature",
+  "category": "Other reusable UI elements",
+  "layer": "App shell",
+  "scope": "Shared",
+  "paths": [
+   "src/navigation/RequireFeature.tsx"
+  ],
+  "area": "router.tsx (1), next (1)",
+  "files": 2
+ },
+ {
+  "name": "ScannedIdPreview",
+  "category": "Other reusable UI elements",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/ScannedIdPreview.tsx"
+  ],
+  "area": "components/domain (3), modules/order-management (1)",
+  "files": 4
+ },
+ {
+  "name": "SelectedTick",
+  "category": "Other reusable UI elements",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/offerCardParts.tsx"
+  ],
+  "area": "components/patterns (10), components/domain (2), capabilities (1), capabilities/CustomerType (1), capabilities/CrossSellOffers (1), capabilities/SpecialDiscountsIdentification (1) +6 more",
+  "files": 22
+ },
+ {
+  "name": "ServiceAddress",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ServiceAddress/ServiceAddress.tsx"
+  ],
+  "area": "capabilities (1), capabilities/ServiceAddress (1), modules/fixed-line-fibre (1)",
+  "files": 3
+ },
+ {
+  "name": "Sim",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "SimSerial",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SimType/SimSerial.tsx"
+  ],
+  "area": "capabilities/SimType (1), components/patterns (1), modules/sim-number-management (1)",
+  "files": 3
+ },
+ {
+  "name": "SimType",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SimType/SimType.tsx"
+  ],
+  "area": "capabilities (1), capabilities/SimType (1)",
+  "files": 2
+ },
+ {
+  "name": "StarStat",
+  "category": "Other reusable UI elements",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/StarStat.tsx"
+  ],
+  "area": "components/domain (2), workspace/administration (1)",
+  "files": 3
+ },
+ {
+  "name": "SyntheticValue",
+  "category": "Other reusable UI elements",
+  "layer": "App",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/data/synthetic/SyntheticValue.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "TechnicalFailure",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/ValidationStatus.tsx"
+  ],
+  "area": "capabilities/EligibilityGate (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "VodafoneMark",
+  "category": "Other reusable UI elements",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/VodafoneMark.tsx"
+  ],
+  "area": "navigation (2), capabilities/Toasts (1), auth (1), workspace/administration (1)",
+  "files": 5
+ },
+ {
+  "name": "VodafoneWordmark",
+  "category": "Other reusable UI elements",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/VodafoneWordmark.tsx"
+  ],
+  "area": "auth (1), workspace/administration (1), navigation (1)",
+  "files": 3
+ },
+ {
+  "name": "Wizard",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "WizardFooter",
+  "category": "Other reusable UI elements",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/wizard/WizardFooter.tsx"
+  ],
+  "area": "capabilities/GuidedActivationWizard (1), components/patterns (1)",
+  "files": 2
+ },
+ {
+  "name": "Pager",
+  "category": "Pagination",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Pager.tsx"
+  ],
+  "area": "components/primitives (1)",
+  "files": 1
+ },
+ {
+  "name": "Pagination",
+  "category": "Pagination",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Pagination.tsx"
+  ],
+  "area": "workspace/customer360 (5), capabilities (1), workspace/administration (1), components/primitives (1), components/domain (1)",
+  "files": 9
+ },
+ {
+  "name": "PaginationDemo",
+  "category": "Pagination",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previews.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DataTable",
+  "category": "Tables and lists",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/DataTable.tsx"
+  ],
+  "area": "workspace/customer360 (12), workspace/administration (1), components/patterns (1), modules/order-management (1)",
+  "files": 15
+ },
+ {
+  "name": "DeepDiveRow",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesTabs.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DetailRow",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "DetailRows",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (6)",
+  "files": 6
+ },
+ {
+  "name": "DrillRow",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/TopicFieldsSection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "FactRow",
+  "category": "Tables and lists",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CustomerIdentification/IdentityDetailsCard.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "GridTable",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (7)",
+  "files": 7
+ },
+ {
+  "name": "HistoryPreview",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/order-management/OrderApprovalDetail.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "KpiGrid",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (6)",
+  "files": 6
+ },
+ {
+  "name": "LeadListView",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Shared",
+  "paths": [
+   "src/modules/lead-management/LeadListView.tsx"
+  ],
+  "area": "router.tsx (1), workspace/sales (1), modules/lead-management (1)",
+  "files": 3
+ },
+ {
+  "name": "MasonryGrid",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesOverview.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ModuleScreenList",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/ModuleScreenList.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "OrderApprovalQueue",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/order-management/OrderApprovalQueue.tsx"
+  ],
+  "area": "workspace/orders (1)",
+  "files": 1
+ },
+ {
+  "name": "PathRow",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/administration/CapabilityLibrarySection.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "QnomyTicketHistory",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/tickets/QnomyTicketHistory.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "Row",
+  "category": "Tables and lists",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CheckoutDefaultLayout.tsx",
+   "src/components/patterns/DonorAttachmentStep.tsx",
+   "src/modules/order-management/AttachmentPreview.tsx",
+   "src/workspace/customer360/sections/AccountHierarchySection.tsx",
+   "src/workspace/customer360/sections/C360Overview.tsx",
+   "src/workspace/customer360/sections/TopicFieldsSection.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "RuleRow",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Page-specific",
+  "paths": [
+   "src/workspace/customer360/sections/penaltyViewResolvers.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "ServiceList",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/ServiceList.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "SimSwapQueueScreen",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/sim-number-management/screens/SimSwapQueueScreen.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "SummaryTables",
+  "category": "Tables and lists",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/CheckoutSummaryTables.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "Table",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (4)",
+  "files": 4
+ },
+ {
+  "name": "TaskListView",
+  "category": "Tables and lists",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/tasks/TaskListView.tsx"
+  ],
+  "area": "router.tsx (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketApprovalQueue",
+  "category": "Tables and lists",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketApprovalQueue.tsx"
+  ],
+  "area": "router.tsx (1), workspace/support (1)",
+  "files": 2
+ },
+ {
+  "name": "MigrationOfferTab",
+  "category": "Tabs",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/pre-to-post-migration/screens/MigrationOfferTab.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "NestedTabs",
+  "category": "Tabs",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/TabLevel.tsx"
+  ],
+  "area": "workspace/administration (1), components/primitives (1), modules/order-management (1)",
+  "files": 3
+ },
+ {
+  "name": "PageLevelTabs",
+  "category": "Tabs",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/TabLevel.tsx"
+  ],
+  "area": "workspace/administration (2)",
+  "files": 2
+ },
+ {
+  "name": "PillTabs",
+  "category": "Tabs",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/telesales/TelesalesKit.tsx"
+  ],
+  "area": "workspace/customer360 (2)",
+  "files": 2
+ },
+ {
+  "name": "PlanTabStrip",
+  "category": "Tabs",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PlanTabStrip.tsx"
+  ],
+  "area": "components/patterns (1)",
+  "files": 1
+ },
+ {
+  "name": "SegmentedTabs",
+  "category": "Tabs",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/SegmentedTabs.tsx"
+  ],
+  "area": "workspace/customer360 (4), capabilities (1), capabilities/AddonsSelection (1), workspace/tickets (1), workspace/administration (1), components/patterns (1) +1 more",
+  "files": 10
+ },
+ {
+  "name": "TabPage",
+  "category": "Tabs",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/sections/C360Kit.tsx"
+  ],
+  "area": "workspace/customer360 (10)",
+  "files": 10
+ },
+ {
+  "name": "TabStrip",
+  "category": "Tabs",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/TabStrip.tsx"
+  ],
+  "area": "capabilities/AddonsSelection (1), workspace/customer360 (1), workspace/administration (1), components/patterns (1), components/primitives (1), components/domain (1) +2 more",
+  "files": 8
+ },
+ {
+  "name": "Tabs",
+  "category": "Tabs",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Tabs.tsx"
+  ],
+  "area": "workspace/customer360 (2), workspace/administration (2), workspace/support (1), workspace/orders (1), modules/trouble-ticketing-complaints (1)",
+  "files": 7
+ },
+ {
+  "name": "TicketActivitiesTab",
+  "category": "Tabs",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketActivitiesTab.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketAttachmentsTab",
+  "category": "Tabs",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketAttachmentsTab.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketAuditTab",
+  "category": "Tabs",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketAuditTab.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketCommunicationTab",
+  "category": "Tabs",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketCommunicationTab.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "TicketDetailsTab",
+  "category": "Tabs",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/trouble-ticketing-complaints/screens/TicketDetailsTab.tsx"
+  ],
+  "area": "modules/trouble-ticketing-complaints (1)",
+  "files": 1
+ },
+ {
+  "name": "ConnectionDetailsPopup",
+  "category": "Tooltips and popovers",
+  "layer": "Journey / module",
+  "scope": "Page-specific",
+  "paths": [
+   "src/modules/pre-to-post-migration/screens/ConnectionDetailsPopup.tsx"
+  ],
+  "area": "(unused)",
+  "files": 0
+ },
+ {
+  "name": "CustomerActionsMenu",
+  "category": "Tooltips and popovers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/CustomerActionsMenu.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "ServiceActionsMenu",
+  "category": "Tooltips and popovers",
+  "layer": "Workspace",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/workspace/customer360/CustomerActionsMenu.tsx"
+  ],
+  "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "Tooltip",
+  "category": "Tooltips and popovers",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/Tooltip.tsx"
+  ],
+  "area": "workspace/customer360 (5), navigation (4), components/patterns (2), components/primitives (2), auth (1), workspace/administration (1) +1 more",
+  "files": 16
+ },
+ {
+  "name": "TooltipGroup",
+  "category": "Tooltips and popovers",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/TooltipContext.tsx"
+  ],
+  "area": "workspace/administration (1), navigation (1)",
+  "files": 2
+ }
+]

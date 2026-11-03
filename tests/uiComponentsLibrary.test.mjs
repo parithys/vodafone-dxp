@@ -12,7 +12,9 @@ before(async () => {
   globalThis.addEventListener ??= () => {};
   globalThis.removeEventListener ??= () => {};
   const { UiComponentsLibrarySection } = await load('/src/workspace/administration/UiComponentsLibrarySection.tsx');
-  out = html(React.createElement(UiComponentsLibrarySection));
+  const { UI_LIBRARY_GROUPS } = await load('/src/workspace/administration/uiLibraryCoverage.ts');
+  // One group is shown at a time (left-hand navigation), so render each in turn and join them.
+  out = UI_LIBRARY_GROUPS.map(([id]) => html(React.createElement(UiComponentsLibrarySection, { initialGroup: id }))).join('\n');
 });
 after(close);
 
