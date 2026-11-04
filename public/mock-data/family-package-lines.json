@@ -11,16 +11,6 @@
     "msisdn": "+97455520101"
   },
   {
-    "lineId": "FPL-1001-S1",
-    "packageId": "FPK-CUST-1001",
-    "customerId": "CUST-1001",
-    "role": "Secondary",
-    "sequence": 1,
-    "planId": "PROD-310",
-    "orderId": "ORD-FAM-1002",
-    "msisdn": "+97455520102"
-  },
-  {
     "lineId": "FPL-3084-P1",
     "packageId": "FPK-CUST-3084",
     "customerId": "CUST-3084",

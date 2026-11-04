@@ -1550,24 +1550,6 @@
   },
   {
     "_note": "Family Package demo order (2026-11-04).",
-    "orderId": "ORD-FAM-1002",
-    "orderType": "New Postpaid Activation",
-    "orderSubType": "Consumer",
-    "status": "Complete",
-    "customerId": "CUST-1001",
-    "customerName": "Ahmed Abdulla Hassan Al-Sulaiti",
-    "productIds": [
-      "PROD-310"
-    ],
-    "productId": "PROD-310",
-    "msisdn": "+97455520102",
-    "approvalStatus": "Not Required",
-    "createdBy": "USR-1101",
-    "sourceChannel": "Retail Store",
-    "createdAt": "2026-11-02T10:00:00+03:00"
-  },
-  {
-    "_note": "Family Package demo order (2026-11-04).",
     "orderId": "ORD-FAM-3084",
     "orderType": "New Postpaid Activation",
     "orderSubType": "Consumer",

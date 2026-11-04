@@ -1502,7 +1502,7 @@
     "fup": [
       "500GB @256 Kbps endless internet"
     ],
-    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Which role each plan is for (Ahli Lite as the Kids Plan) is the business's to confirm; the sheet gives no commitment period, so none is recorded.",
+    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Ahli Lite is the Kids Plan (confirmed by the business 2026-11-04). The sheet gives no commitment period, so none is recorded. Kids Plan.",
     "planClass": "Postpaid Secondary Plans"
   },
   {
@@ -1541,7 +1541,7 @@
     "fup": [
       "500GB @256 Kbps endless internet"
     ],
-    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Which role each plan is for (Ahli Lite as the Kids Plan) is the business's to confirm; the sheet gives no commitment period, so none is recorded. Data only: the sheet gives it no calls or SMS.",
+    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Ahli Net is the Data-only Plan. The sheet gives no commitment period, so none is recorded. Data only: the sheet gives it no calls or SMS.",
     "planClass": "Postpaid Secondary Plans"
   }
 ]
