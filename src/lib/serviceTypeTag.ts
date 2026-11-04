@@ -28,6 +28,9 @@ export const SERVICE_TYPE_TAGS = {
   'postpaid-family': { label: 'Family Plan', colour: AMBER },
   'postpaid-supplementary': { label: 'Supplementary Plan', colour: GREEN },
   'postpaid-secondary': { label: 'Secondary Plan', colour: INDIGO },
+  // A Secondary plan's own type (secondaryPlanType in products.json), shown in place of the generic Secondary Plan tag where it is chosen.
+  'postpaid-kids': { label: 'Kids Plan', colour: PINK },
+  'postpaid-data-only': { label: 'Data-Only Plan', colour: TEAL },
   prepaid: { label: 'Prepaid', colour: GREEN },
   'fixed-line': { label: 'Fixed Line', colour: PINK },
 } as const;

@@ -17,6 +17,8 @@ export interface ConfirmationAction {
 
 interface OrderConfirmationScreenProps {
   heading: string;
+  /** A line under the heading naming who the order waits on, e.g. "(Backoffice Fulfillment Team)". */
+  headingNote?: string;
   orderId: string;
   /** The activity this journey created automatically, when there is one. */
   activityId?: string;
@@ -44,6 +46,7 @@ interface OrderConfirmationScreenProps {
 // not something the agent has to catch before it fades.
 export function OrderConfirmationScreen({
   heading,
+  headingNote,
   orderId,
   activityId,
   summaryLines,
@@ -58,7 +61,10 @@ export function OrderConfirmationScreen({
     // every action in one row, with the print actions in a second row. Under lg the two columns stack, receipt first, so the page still prints on one A4 sheet.
     <div className="max-w-6xl mx-auto py-8">
       <div className="centered-stack">
-        <h1 className="title title-2xl mb-6">{heading}</h1>
+        <h1 className="title title-2xl mb-6">
+          {heading}
+          {headingNote && <span className="block title title-lg font-medium mt-1">{headingNote}</span>}
+        </h1>
         <div className="disc-lg bg-success-solid text-on-dark mb-6">
           <Icon path={CHECK} className="size-8 " />
         </div>

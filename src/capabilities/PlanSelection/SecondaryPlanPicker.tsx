@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PlanDetailsDrawer } from '../../components/patterns/PlanDetailsDrawer';
 import { PostpaidPlanCard } from '../../components/patterns/PostpaidPlanCard';
+import { SECONDARY_PLAN_TYPE_TAG } from '../../components/patterns/postpaidPlanModel';
 import type { PostpaidPlan } from '../../components/patterns/postpaidPlanModel';
 
 /**
@@ -14,7 +15,7 @@ export function SecondaryPlanPicker({ plans, selectedProductId, onSelect, onDese
       <h3 className="title title-lg">Secondary Plan</h3>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(max(15rem,calc((100%-2rem)/3)),1fr))] gap-4">
         {plans.map((p) => (
-          <PostpaidPlanCard key={p.productId} p={p} selectedProductId={selectedProductId} billLimit={undefined} onSelectProduct={onSelect} onDeselectProduct={onDeselect} setDetailPlan={setDetail} />
+          <PostpaidPlanCard key={p.productId} p={p} tagType={SECONDARY_PLAN_TYPE_TAG[(p as { secondaryPlanType?: keyof typeof SECONDARY_PLAN_TYPE_TAG }).secondaryPlanType as keyof typeof SECONDARY_PLAN_TYPE_TAG]} selectedProductId={selectedProductId} billLimit={undefined} onSelectProduct={onSelect} onDeselectProduct={onDeselect} setDetailPlan={setDetail} />
         ))}
       </div>
       <PlanDetailsDrawer detailPlan={detail} onClose={() => setDetail(null)} selectedProductId={selectedProductId} onSelectProduct={onSelect} />

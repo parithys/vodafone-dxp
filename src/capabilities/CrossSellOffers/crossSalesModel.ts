@@ -29,8 +29,6 @@ export interface Offer {
   promotionId?: string;
   price?: number;
   addOnMonthly?: number;
-  /** An illustrative offer (data/synthetic/sampleOffers.ts), not a campaign: shown, never selectable. */
-  sample?: boolean;
 }
 
 /** Up to four facts about the plan an offer opens, read from the linked product - never typed in here. */

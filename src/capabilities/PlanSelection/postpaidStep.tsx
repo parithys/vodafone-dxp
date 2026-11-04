@@ -28,6 +28,8 @@ export interface PostpaidPlanContext {
   announceHrn?: boolean;
   /** Content above the plan cards for the plan chosen so far (a Family Plan says what it starts). */
   notice?: (values: Record<string, unknown>) => ReactNode;
+  /** The journey takes no add-ons (a Family Package's are managed from Customer 360): no Customise Add-ons, and the Add-ons step never stops Continue. */
+  addonsHidden?: (values: Record<string, unknown>) => boolean;
   /** A further condition on Continue from the plan page, beyond a plan being chosen. */
   canContinue?: (values: Record<string, unknown>) => boolean;
 }
@@ -43,12 +45,14 @@ export function postpaidPlanStep(ctx: PostpaidPlanContext): WizardStep {
     // Once a plan is chosen on Standard Plans or Special Offers, Customise Add-ons and Edit Discount sit just before Continue.
     primaryAction: ({ values, setValue, goNext, defaultButton }) => (
       <div className="row">
+        {!ctx.addonsHidden?.(values) && (
         <CustomiseAddonsAction
           productId={values.productId as string | undefined}
           preBundled={Boolean(ctx.products.find((p) => p.productId === values.productId)?.preBundledOffer) || values.planTab === 'specials'}
           setCustomise={() => setValue('customiseAddons', true)}
           goNext={goNext}
         />
+        )}
         <AddDiscountAction
           productId={values.productId as string | undefined}
           tab={values.planTab as string | undefined}
@@ -77,7 +81,7 @@ export function postpaidExtrasStep(ctx: PostpaidPlanContext): WizardStep {
     subheading: 'Choose optional services and set the spending limit.',
     // Continue from the plan page passes over this step; "Customise Add-ons" on the plan page is the way here. The flag is spent on arrival, so
     // coming Back and pressing Continue goes straight on again.
-    autoPass: (values) => !values.customiseAddons,
+    autoPass: (values) => !values.customiseAddons || Boolean(ctx.addonsHidden?.(values)),
     render: ({ values, setValue }) => (
       <>
         <SpendFlag active={Boolean(values.customiseAddons)} onSpend={() => setValue('customiseAddons', undefined)} />

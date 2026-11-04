@@ -6,6 +6,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { boot, load, close } from './harness.mjs';
 
+// The journey modules load the capability barrel, which wants a window.
+globalThis.window ??= globalThis;
+globalThis.window.addEventListener ??= () => {};
+globalThis.window.removeEventListener ??= () => {};
+
 let fp;
 before(async () => {
   await boot();
@@ -164,7 +169,7 @@ test('Customer 360 never adds a line itself: an empty package starts the New Pos
   const panel = fs.readFileSync('src/workspace/customer360/sections/FamilyPackagePanel.tsx', 'utf8');
   assert.match(panel, /Start Family Package/);
   assert.match(panel, /AddConnectionModal/);
-  assert.doesNotMatch(panel, /createRecord/, 'no order is written from Customer 360: the journey does it');
+  assert.doesNotMatch(panel, /createRecord\('(orders|family-package-lines)'/, 'no order or line is written from Customer 360: the journey does it');
 });
 
 // ---- Add Another Connection: any eligible type after Primary Line 1, in any order ---------------------------------------------------------------
@@ -222,7 +227,7 @@ test('no mandatory order after Primary Line 1: every sequence of types is allowe
 test('a line added to an existing package is judged by the same rule as the list, on the plan its type is on, and refused when it is not allowed', () => {
   const pkg = [ln('Primary', 1, 'PROD-143')];
   const base = { packageId: 'P', eligibilityCleared: true, packageLines: pkg, orders: [APPROVED], catalogue: CAT() };
-  assert.deepEqual(fp.familyAdditionalCheck({ ...base, role: 'Supplementary' }), { applies: true, ok: true, lineLabel: 'Supplementary Line 1', planId: 'PROD-311', additional: { packageId: 'P', role: 'Supplementary', sequence: 1 } });
+  assert.deepEqual(fp.familyAdditionalCheck({ ...base, role: 'Supplementary' }), { applies: true, ok: true, lineLabel: 'Supplementary Line 1', planId: 'PROD-311', additional: { packageId: 'P', role: 'Supplementary', sequence: 1, tierPlanId: 'PROD-143' } });
   const second = fp.familyAdditionalCheck({ ...base, role: 'Primary' });
   assert.equal(second.additional.sequence, 2);
   assert.equal(second.planId, 'PROD-143', 'Second Primary is on the package plan');
@@ -267,4 +272,196 @@ test('wiring: Add Another Connection reads the package on every opening, recheck
   const submit = fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8');
   assert.match(submit, /family\.additional \? family\.additional\.packageId : `FPK-/, 'a line joins the existing package; only Primary Line 1 makes a new one');
   assert.match(submit, /!family\.planId \|\| values\.productId !== family\.planId\)\) throw/);
+});
+
+// ---- A new customer's first Family Package line creates their Customer 360 record --------------------------------------------------------------------
+test('a newly identified customer: the records built for them carry what Customer Verification captured, and nothing that was not', async () => {
+  const m = await load('/src/modules/new-connection/newCustomerRecords.ts');
+  const moi = { name: 'Farhan Aslam Javed Chaudhry', firstName: 'Farhan', middleName: 'Aslam Javed', lastName: 'Chaudhry', dob: '1993-03-05', nationality: 'Pakistani', gender: 'Male', expiryDate: '2030-10-31', isNewCustomer: true, mobile: '5******1' };
+  const contact = { idType: 'QID', idNumber: '29303051200106', email: 'f@example.qa', personalMobile: '+97455678901', moiResult: moi };
+  const eligibility = { nationality: 'Pakistani', segment: 'Consumer (HRN)' };
+  const r = m.buildNewCustomerRecords('CUST-777001', contact, eligibility, new Date('2026-11-04T10:00:00Z'));
+  assert.equal(r.customer.customerId, 'CUST-777001');
+  assert.equal(r.customer.qid, '29303051200106');
+  assert.equal(r.customer.segment, 'Consumer (HRN)');
+  assert.equal(r.customer.phone, '+97455678901', 'the captured mobile, not the registry\'s masked one');
+  assert.equal(r.customer.moiValidationStatus, 'Verified');
+  assert.equal('segment' in m.buildNewCustomerRecords('CUST-1', contact, undefined).customer, false, 'no segment judged: none recorded');
+  assert.equal('preferredLanguage' in r.customer, false, 'not captured: left off, not defaulted');
+  assert.deepEqual([r.document.customerId, r.document.documentType, r.document.documentNumber, r.document.expiryDate], ['CUST-777001', 'QID', '29303051200106', '2030-10-31']);
+  assert.equal(r.contact.contactRecordId, 'CTC-CUST-777001');
+  assert.equal(r.contact.cellNumber, '+97455678901');
+  // An identity the agent typed is not claimed as registry-verified.
+  const typed = m.buildNewCustomerRecords('CUST-2', { ...contact, moiResult: { ...moi, createdByAgent: true } }, eligibility);
+  assert.equal('moiValidationStatus' in typed.customer, false);
+  assert.equal(typed.document.status, 'Captured');
+  // Only a customer with no record is newly identified.
+  assert.equal(m.isNewlyIdentifiedCustomer(contact, eligibility), true);
+  assert.equal(m.isNewlyIdentifiedCustomer(contact, { ...eligibility, customerId: 'CUST-1' }), false);
+  assert.equal(m.isNewlyIdentifiedCustomer({ ...contact, moiResult: { ...moi, isNewCustomer: false } }, eligibility), false);
+  assert.match(m.newCustomerId(new Date(1700000123456)), /^CUST-\d{6}$/);
+});
+
+test('wiring: only a Family Package\'s first line creates the customer, before anything that belongs to them is written, and the new id is the order\'s, the line\'s and the confirmation\'s', () => {
+  const submit = fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8');
+  assert.match(submit, /family\.applies && family\.ok && isNewlyIdentifiedCustomer\(contact, eligibility\) \? newCustomerId\(\)/);
+  assert.ok(submit.indexOf("createRecord('customers'") < submit.indexOf('persistBillingAccount(billingAccount'), 'the customer exists before their billing account');
+  assert.equal(submit.match(/eligibility\?\.customerId,/g).length, 1, 'every customer id the order writes is the resolved one (the salutation, for an existing customer only, is the one left)');
+  assert.match(submit, /const customerId = eligibility\?\.customerId \?\? createdCustomerId/);
+});
+
+test('a Family Package order held for approval names its team under the confirmation heading; an order that is not held, or not a Family Package order, names none', () => {
+  const submit = fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8');
+  assert.match(submit, /family\.applies && family\.ok && pendingApproval \? \{ approvalTeam: FAMILY_APPROVAL_TEAM \}/);
+  assert.equal(fp.FAMILY_APPROVAL_TEAM, 'Backoffice Fulfillment Team');
+  const screen = fs.readFileSync('src/components/patterns/ActivationCompleteScreen.tsx', 'utf8');
+  assert.match(screen, /order\.pendingApproval && order\.approvalTeam \? `\(\$\{order\.approvalTeam\}\)` : undefined/);
+});
+
+// ---- Family Owner, billing ------------------------------------------------------------------------------------------------------------------------
+test('Family Owner: a connection is added only after the owner\'s ID is validated: another person\'s ID, or a customer the package is not under, is refused with the owner reason', async () => {
+  const { familyStartFor } = await load('/src/modules/new-connection/familyStart.ts');
+  const catalogue = products.map((p) => ({ productId: p.productId, name: p.name, mrcQAR: p.mrcQAR, planClass: p.planClass }));
+  const pkg = { ...ln('Primary', 1, 'PROD-143'), packageId: 'FPK-X', customerId: 'CUST-9', idNumber: '555' };
+  const values = (who) => ({ familyLine: { packageId: 'FPK-X', role: 'Supplementary' }, eligibility: { customerId: who.customerId }, contact: { idNumber: who.idNumber } });
+  assert.equal(familyStartFor(values({ customerId: 'CUST-9' }), catalogue, [pkg], [APPROVED]).ok, true, 'the owner by record');
+  assert.equal(familyStartFor(values({ idNumber: '555' }), catalogue, [pkg], [APPROVED]).ok, true, 'the owner by ID, with no record');
+  const other = familyStartFor(values({ customerId: 'CUST-8', idNumber: '999' }), catalogue, [pkg], [APPROVED]);
+  assert.equal(other.ok, false);
+  assert.equal(other.kind, 'owner');
+  assert.match(other.reason, /Family Owner/);
+  assert.equal(familyStartFor(values({}), catalogue, [pkg], [APPROVED]).kind, 'owner', 'nobody identified is nobody\'s package');
+  assert.equal(familyStartFor({ ...values({ customerId: 'CUST-9' }), familyLine: { packageId: 'FPK-NONE', role: 'Supplementary' } }, catalogue, [pkg], [APPROVED]).kind, 'package', 'no such package');
+});
+
+test('billing: every line of a package is billed under Primary Line 1\'s billing account; unknown stays unknown', () => {
+  const lines = [ln('Primary', 1, 'PROD-143', 'O1'), ln('Supplementary', 1, 'PROD-311', 'O2')];
+  const orders = [{ orderId: 'O1', billingProfileId: 'BILL-1' }, { orderId: 'O2', billingProfileId: 'BILL-OTHER' }];
+  assert.equal(fp.packageBillingProfileId(lines, orders), 'BILL-1', 'the first line\'s, whatever a later order says');
+  assert.equal(fp.packageBillingProfileId(lines, [{ orderId: 'O1' }]), undefined);
+  assert.equal(fp.packageBillingProfileId(lines, [{ orderId: 'O1', billingProfileId: '' }]), undefined);
+  assert.equal(fp.packageBillingProfileId([], orders), undefined);
+  assert.equal(fp.packageBillingProfileId([ln('Secondary', 1)], orders), undefined, 'no Primary Line 1');
+  // Seeded packages: Primary Line 1 records the customer's own postpaid billing account.
+  const accounts = read('accounts');
+  for (const l of read('family-package-lines').filter((x) => x.role === 'Primary' && x.sequence === 1)) {
+    const profile = fp.packageBillingProfileId([l], read('orders'));
+    assert.ok(profile, l.lineId);
+    assert.ok(accounts.some((a) => a.customerId === l.customerId && a.billingProfileId === profile && /Postpaid/.test(a.accountType)), `${l.lineId} is billed on its customer's postpaid account`);
+  }
+});
+
+test('wiring: the billing step holds the package\'s account for an added line, and submission uses it whatever the draft says; the SIM page offers the optional Secondary Contact', () => {
+  const steps = fs.readFileSync('src/modules/new-connection/connectionSteps.tsx', 'utf8');
+  assert.match(steps, /FamilyBillingApplier/);
+  assert.match(steps, /selectedProfileId === target/);
+  const submit = fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8');
+  assert.match(submit, /const billingProfileId = packageBilling \?\? await persistBillingAccount/);
+  assert.match(submit, /!packageBilling && billingAccount\?\.creatingNew/);
+  const sim = fs.readFileSync('src/capabilities/SimType/step.tsx', 'utf8');
+  assert.match(sim, /Add Secondary Contact/);
+  assert.match(fs.readFileSync('src/capabilities/ActualUser/actualUserModel.ts', 'utf8'), /a Secondary Contact must be 18 or over/);
+});
+
+test('Recommended Offers > New Postpaid: every customer\'s three offers are one Voice, one Broadband and one Family plan, whole population', () => {
+  const offers = read('cross-sales-offers').filter((o) => o.serviceJourney === 'new-postpaid');
+  const cls = new Map(products.map((p) => [p.productId, p.planClass]));
+  const by = new Map();
+  for (const o of offers) {
+    assert.equal(o.linkedProductIds.length, 1, o.offerId);
+    assert.ok(cls.has(o.linkedProductIds[0]), `${o.offerId} links a catalogue plan`);
+    by.set(o.contactId, [...(by.get(o.contactId) ?? []), cls.get(o.linkedProductIds[0])]);
+  }
+  assert.ok(by.size >= 60);
+  for (const [contact, list] of by) assert.deepEqual([...list].sort(), ['Postpaid Broadband Plans', 'Postpaid Family Plans', 'Postpaid Voice Plans'], contact);
+});
+
+// ---- Add-ons are managed at the package level, from Customer 360 -----------------------------------------------------------------------------------
+test('package add-ons: the options are the catalogue add-ons that are available, eligible for the package plan and owner, and not already held - whole catalogue, both ways', async () => {
+  const fa = await load('/src/engines/familyPackageAddons.ts');
+  const addons = products.filter((p) => p.type === 'Add-on');
+  assert.ok(addons.length > 20);
+  const ctx = { planId: 'PROD-143', nationality: 'Qatari', idType: 'QID' };
+  const opts = fa.packageAddonOptions(products, [], ctx);
+  const ids = new Set(opts.map((o) => o.productId));
+  // Independent expectation, written from the rules rather than the engine: not discontinued, priced or free, and every stated restriction satisfied.
+  const satisfies = (a) => {
+    const r = a.eligibility ?? {};
+    if (r.plans?.length && !r.plans.includes(ctx.planId)) return false;
+    if (r.nationalityGroups?.length && !r.nationalityGroups.includes('Qatari')) return false;
+    if (r.customerTypes?.length && !r.customerTypes.includes('none')) return false;
+    if (r.idTypes?.length && !r.idTypes.includes('QID')) return false;
+    return true;
+  };
+  const usable = (a) => !/discontinued/i.test(a.addonStatus ?? '') && (a.mrcQAR > 0 || a.pricing === 'free' || a.pricingModel?.startsWith('free') || a.billingOptions?.some((o) => o.priceQAR > 0) || /QR\s*\d/i.test(a.priceLabel ?? ''));
+  for (const a of addons) assert.equal(ids.has(a.productId), satisfies(a) && usable(a), a.productId);
+  assert.ok(opts.length > 0);
+  // Held ones are not offered again; conservation: offered + held = what was offered before.
+  const held = [{ addonId: opts[0].productId }];
+  const after = fa.packageAddonOptions(products, held, ctx);
+  assert.equal(after.length, opts.length - 1);
+  assert.equal(after.some((o) => o.productId === opts[0].productId), false);
+  // No plan, no options (an unknown plan satisfies no plan restriction); a plan the add-on is limited away from does not get it.
+  assert.deepEqual(fa.packageAddonOptions(products, [], { planId: undefined }), []);
+  const limited = addons.find((a) => a.eligibility?.plans?.length && !a.eligibility.plans.includes('PROD-143'));
+  if (limited) assert.equal(ids.has(limited.productId), false);
+  assert.equal(opts.every((o) => o.type === 'Add-on'), true, 'only add-ons');
+});
+
+test('package add-ons are charged per line: each line pays the add-on\'s own charge, and the package total is that times its lines', async () => {
+  const fa = await load('/src/engines/familyPackageAddons.ts');
+  const paid = { productId: 'A', name: 'A', mrcQAR: 20, type: 'Add-on' };
+  assert.equal(fa.addonChargePerLineQar(paid), 20);
+  assert.equal(fa.addonChargeForLinesQar(paid, 3), 60);
+  assert.equal(fa.addonChargeForLinesQar(paid, 0), 0);
+  assert.equal(fa.addonChargeForLinesQar({ ...paid, mrcQAR: 0, pricing: 'free' }, 4), 0, 'a free add-on stays free on every line');
+  assert.equal(fa.addonChargeForLinesQar({ ...paid, billingFrequency: 'weekly', mrcQAR: 10 }, 2), 86.66, 'the same weekly-to-monthly rule as any line');
+});
+
+test('wiring: no Family journey takes add-ons (the action is hidden, the step never stops, submission refuses them); Customer 360 holds and removes the package\'s', async () => {
+  const steps = fs.readFileSync('src/modules/new-connection/postpaidSteps.tsx', 'utf8');
+  assert.match(steps, /addonsHidden: \(values: Record<string, unknown>\) => family\(values\)\.applies/);
+  const plan = fs.readFileSync('src/capabilities/PlanSelection/postpaidStep.tsx', 'utf8');
+  assert.match(plan, /!ctx\.addonsHidden\?\.\(values\) && \(/);
+  assert.match(plan, /autoPass: \(values\) => !values\.customiseAddons \|\| Boolean\(ctx\.addonsHidden\?\.\(values\)\)/);
+  assert.match(fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8'), /family\.applies && family\.ok && addonIds\.length > 0\) throw/);
+  const panel = fs.readFileSync('src/workspace/customer360/sections/FamilyPackagePanel.tsx', 'utf8');
+  assert.match(panel, /createRecord\('family-package-addons'/);
+  assert.match(panel, /removeRecord\('family-package-addons', 'addonRecordId'/);
+  assert.match(panel, /packageAddonOptions\(/);
+  assert.equal(JSON.parse(fs.readFileSync('public/mock-data/family-package-addons.json', 'utf8')).length, 0);
+  // Non-Family orders are unchanged: the hide rule is the Family check and nothing else.
+  const ps = await load('/src/modules/new-connection/postpaidSteps.tsx');
+  const catalogue = products.map((p) => ({ productId: p.productId, name: p.name, mrcQAR: p.mrcQAR, planClass: p.planClass, offer: p.offer, popular: p.popular, commitmentMonths: p.commitmentMonths }));
+  const list = ps.postpaidSteps({ products: catalogue, customerBenefits: [], familyLines: [], familyOrders: [] });
+  const extras = list.find((x) => x.key === 'planExtras');
+  assert.equal(Boolean(extras.autoPass({ productId: 'PROD-108', customiseAddons: true })), false, 'an ordinary plan: Customise Add-ons still reaches the step');
+  assert.equal(Boolean(extras.autoPass({ productId: 'PROD-143', customiseAddons: true })), true, 'a Family Plan: the step never stops');
+});
+
+test('Supplementary follows the package\'s Family Plan tier; Secondary plans are named Kids Plan and Data-only Plan', async () => {
+  const pkg = [ln('Primary', 1, 'PROD-144')];
+  const r = fp.familyAdditionalCheck({ packageId: 'P', eligibilityCleared: true, packageLines: pkg, orders: [APPROVED], catalogue: CAT(), role: 'Supplementary' });
+  assert.equal(r.additional.tierPlanId, 'PROD-144', 'the tier is the package\'s, whatever the Supplementary plan is');
+  assert.equal(r.planId, 'PROD-311');
+  for (const role of ['Primary', 'Secondary']) assert.equal(fp.familyAdditionalCheck({ packageId: 'P', eligibilityCleared: true, packageLines: pkg, orders: [APPROVED], catalogue: CAT(), role }).additional.tierPlanId, 'PROD-144', role);
+  const by = Object.fromEntries(products.filter((p) => p.planClass === 'Postpaid Secondary Plans').map((p) => [p.productId, p.secondaryPlanType]));
+  assert.deepEqual(by, { 'PROD-310': 'Kids Plan', 'PROD-312': 'Data-only Plan' });
+  const model = await load('/src/components/patterns/postpaidPlanModel.ts');
+  const tags = await load('/src/lib/serviceTypeTag.ts');
+  for (const t of Object.values(by)) assert.equal(tags.SERVICE_TYPE_TAGS[model.SECONDARY_PLAN_TYPE_TAG[t]].label.toLowerCase(), t.toLowerCase());
+  const submit = fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8');
+  assert.match(submit, /tierPlanId: family\.additional\.tierPlanId/);
+  assert.match(fs.readFileSync('src/modules/new-connection/postpaidSteps.tsx', 'utf8'), /label: 'Family Plan', value: tier/);
+});
+
+test('the customer Actions menu offers Add Another Connection for a customer with a Family Package: first, dimmed with the reason when nothing can be added, and through the same dialog', () => {
+  const menu = fs.readFileSync('src/workspace/customer360/CustomerActionsMenu.tsx', 'utf8');
+  assert.match(menu, /family\.hasPackage && canStart/, 'only a package holder, and only a role that may start a connection');
+  assert.match(menu, /disabled: family\.options\.length === 0/);
+  assert.match(menu, /hint: family\.activated \? 'Nothing to add' : 'Awaiting approval'/);
+  assert.match(menu, /groups=\{\[\.\.\.familyGroup, /, 'the Family Package group comes first');
+  assert.match(menu, /<AddConnectionModal /);
+  const hook = fs.readFileSync('src/workspace/customer360/useFamilyConnections.ts', 'utf8');
+  assert.match(hook, /connectionOptions\(lines, orders, lineCatalogueOf\(products\)\)/, 'the same rule as the dialog');
 });

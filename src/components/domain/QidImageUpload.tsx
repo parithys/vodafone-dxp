@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { DemoScanVariantContext } from './demoScanVariant';
 import { SCAN_DOCUMENT_TITLE } from './scanDocumentLabels';
 import { Button } from '../primitives/Button';
 import { Icon } from '../primitives/Icon';
 import { Spinner } from '../primitives/Spinner';
 import { ScannedIdPreview, capturedFromCard } from './ScannedIdPreview';
-import { SYNTHETIC_CLASS } from '../../data/synthetic/syntheticMarker';
+import { SHOW_DEMO_CONTENT, SYNTHETIC_CLASS } from '../../data/synthetic/syntheticMarker';
 import { SCAN_DURATION_MS } from './qidImageUploadModel';
 import type { QidImageUploadProps } from './qidImageUploadModel';
 import { PassportScanSections } from './PassportScanSections';
@@ -64,6 +65,12 @@ export function QidImageUpload({
   // from the other.
   const [retakes, setRetakes] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  // A demo-only variant of the reader pass (see demoScanVariant.ts). Choosing it, or going back to the ordinary pass, changes which card the simulation presents, and that
+  // reaches this card a moment later: so the pass starts from the latest render, not the one that was clicked.
+  const demoVariant = useContext(DemoScanVariantContext);
+  const runScanRef = useRef<() => void>(() => {});
+  // The card the reader presents can change while a pass is running (a demo variant was just chosen): what the pass reads is the card at the END of it.
+  const identityRef = useRef(identity);
 
   // The reader is mid-pass when the step unmounts - an ID Type switch, or the
   // agent leaving the journey. Without this the timer still fires and writes a
@@ -121,7 +128,7 @@ export function QidImageUpload({
       // owns rather than this card.
       if (onScan?.() === false) return;
       if (isRetake) setRetakes((n) => n + 1);
-      const printed = capturedFromCard(documentType, identity);
+      const printed = capturedFromCard(documentType, identityRef.current);
       // Blurred only on a first pass, and only when the caller asked for the
       // simulation. Every retake is clear - once the agent has re-seated the
       // card, the demo has made its point, and a card that stays unreadable
@@ -130,6 +137,20 @@ export function QidImageUpload({
       onChange({ ...value, frontScanned: true, backScanned: true, frontImage: undefined, backImage: undefined, frontFile: undefined, backFile: undefined, combined: undefined, sidesSet: undefined, source: 'scan', captured: printed, clear });
       if (isRetake) onRetakeDone?.(retakes, printed);
     }, SCAN_DURATION_MS);
+  };
+
+  useEffect(() => {
+    runScanRef.current = runScan;
+    identityRef.current = identity;
+  });
+  const startWithVariant = (select: boolean) => {
+    if (!demoVariant) return runScan();
+    if (select) {
+      if (demoVariant.onSelect() === false) return;
+    } else {
+      demoVariant.onStandard();
+    }
+    setTimeout(() => runScanRef.current(), 0);
   };
 
   if (documentType === 'Passport') {
@@ -173,17 +194,24 @@ export function QidImageUpload({
               disabled={scanning}
               leading={
                 canScan ? (
+                  <>
+                  {demoVariant && SHOW_DEMO_CONTENT && (
+                    <button type="button" className={`link-action ${SYNTHETIC_CLASS}`} disabled={scanning} onClick={() => startWithVariant(true)}>
+                      {demoVariant.label}
+                    </button>
+                  )}
                   <Button
                     variant="primary"
                     compact
                     className="shrink-0"
                     disabled={scanning}
-                    onClick={runScan}
+                    onClick={() => startWithVariant(false)}
                     aria-label={scanned && value.source !== 'upload' && retakes > 0 ? `Retake scan, ${retakes} so far` : undefined}
                   >
                     <Icon path={SCAN_CORNERS} className="size-4 " />
                     {scanned && value.source !== 'upload' ? `Retake scan${retakes > 0 ? ` (${retakes})` : ''}` : 'Initiate scan'}
                   </Button>
+                  </>
                 ) : undefined
               }
               onUpload={(r) => onChange(applyIdUpload(value, r))}

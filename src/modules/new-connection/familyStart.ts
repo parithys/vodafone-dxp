@@ -29,8 +29,9 @@ export function familyStartFor(values: Record<string, unknown>, products: readon
   const customerLines = linesOfCustomer(familyLines, { customerId: eligibility?.customerId, idNumber: contact?.idNumber });
   const context = familyLineContextOf(values);
   if (context) {
-    // The package must be this customer's: a package id from elsewhere finds no lines here.
-    return familyAdditionalCheck({ role: context.role, packageId: context.packageId, eligibilityCleared, packageLines: customerLines.filter((l) => l.packageId === context.packageId), orders, catalogue: lineCatalogueOf(products), chosenPlanId: typeof values.productId === 'string' ? values.productId : undefined });
+    // Every connection of a package is registered to its Family Owner: the ID validated must be theirs (the package's own customer), or there is no line to add.
+    const packageLines = familyLines.filter((l) => l.packageId === context.packageId);
+    return familyAdditionalCheck({ role: context.role, packageId: context.packageId, eligibilityCleared, packageLines, isOwner: customerLines.some((l) => l.packageId === context.packageId), orders, catalogue: lineCatalogueOf(products), chosenPlanId: typeof values.productId === 'string' ? values.productId : undefined });
   }
   return familyStartCheck({ plan: products.find((p) => p.productId === values.productId), eligibilityCleared, customerLines });
 }

@@ -107,9 +107,9 @@
   {
     "offerId": "OFR-4006",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455512001",
@@ -117,10 +117,10 @@
     "treatmentCode": "TRT-06",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9006",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-4001",
     "serviceJourney": "new-postpaid",
@@ -240,9 +240,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-1004-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455512004",
@@ -250,10 +250,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-1004",
     "serviceJourney": "new-postpaid"
@@ -284,9 +284,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-2001-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455512005",
@@ -294,10 +294,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-2001",
     "serviceJourney": "new-postpaid"
@@ -328,9 +328,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-1005-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455512006",
@@ -338,10 +338,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-1005",
     "serviceJourney": "new-postpaid"
@@ -372,9 +372,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-1006-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455512007",
@@ -382,10 +382,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-1006",
     "serviceJourney": "new-postpaid"
@@ -416,9 +416,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-9001-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97450009001",
@@ -426,10 +426,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-9001",
     "serviceJourney": "new-postpaid"
@@ -460,9 +460,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-1007-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455512008",
@@ -470,10 +470,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-1007",
     "serviceJourney": "new-postpaid"
@@ -504,9 +504,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3001-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513001",
@@ -514,10 +514,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3001",
     "serviceJourney": "new-postpaid"
@@ -548,9 +548,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3002-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513002",
@@ -558,10 +558,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3002",
     "serviceJourney": "new-postpaid"
@@ -592,9 +592,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3004-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513003",
@@ -602,10 +602,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3004",
     "serviceJourney": "new-postpaid"
@@ -636,9 +636,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3003-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513004",
@@ -646,10 +646,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3003",
     "serviceJourney": "new-postpaid"
@@ -680,9 +680,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3011-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513005",
@@ -690,10 +690,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3011",
     "serviceJourney": "new-postpaid"
@@ -724,9 +724,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3012-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513006",
@@ -734,10 +734,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3012",
     "serviceJourney": "new-postpaid"
@@ -768,9 +768,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3013-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513007",
@@ -778,10 +778,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3013",
     "serviceJourney": "new-postpaid"
@@ -812,9 +812,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3014-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513008",
@@ -822,10 +822,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3014",
     "serviceJourney": "new-postpaid"
@@ -856,9 +856,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3015-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513009",
@@ -866,10 +866,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3015",
     "serviceJourney": "new-postpaid"
@@ -900,9 +900,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3016-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513010",
@@ -910,10 +910,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3016",
     "serviceJourney": "new-postpaid"
@@ -944,9 +944,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3017-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513011",
@@ -954,10 +954,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3017",
     "serviceJourney": "new-postpaid"
@@ -988,9 +988,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3021-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513012",
@@ -998,10 +998,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3021",
     "serviceJourney": "new-postpaid"
@@ -1032,9 +1032,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3022-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513013",
@@ -1042,10 +1042,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3022",
     "serviceJourney": "new-postpaid"
@@ -1076,9 +1076,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3023-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513014",
@@ -1086,10 +1086,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3023",
     "serviceJourney": "new-postpaid"
@@ -1120,9 +1120,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3024-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513015",
@@ -1130,10 +1130,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3024",
     "serviceJourney": "new-postpaid"
@@ -1164,9 +1164,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3025-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513016",
@@ -1174,10 +1174,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3025",
     "serviceJourney": "new-postpaid"
@@ -1208,9 +1208,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3026-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513017",
@@ -1218,10 +1218,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3026",
     "serviceJourney": "new-postpaid"
@@ -1252,9 +1252,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3027-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513018",
@@ -1262,10 +1262,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3027",
     "serviceJourney": "new-postpaid"
@@ -1296,9 +1296,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3028-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513019",
@@ -1306,10 +1306,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3028",
     "serviceJourney": "new-postpaid"
@@ -1340,9 +1340,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3029-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513020",
@@ -1350,10 +1350,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3029",
     "serviceJourney": "new-postpaid"
@@ -1384,9 +1384,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3031-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513024",
@@ -1394,10 +1394,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3031",
     "serviceJourney": "new-postpaid"
@@ -1428,9 +1428,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3032-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513025",
@@ -1438,10 +1438,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3032",
     "serviceJourney": "new-postpaid"
@@ -1472,9 +1472,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3033-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513026",
@@ -1482,10 +1482,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3033",
     "serviceJourney": "new-postpaid"
@@ -1516,9 +1516,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3041-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513027",
@@ -1526,10 +1526,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3041",
     "serviceJourney": "new-postpaid"
@@ -1560,9 +1560,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3042-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513028",
@@ -1570,10 +1570,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3042",
     "serviceJourney": "new-postpaid"
@@ -1604,9 +1604,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3043-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513029",
@@ -1614,10 +1614,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3043",
     "serviceJourney": "new-postpaid"
@@ -1648,9 +1648,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3044-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513030",
@@ -1658,10 +1658,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3044",
     "serviceJourney": "new-postpaid"
@@ -1692,9 +1692,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3045-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513031",
@@ -1702,10 +1702,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3045",
     "serviceJourney": "new-postpaid"
@@ -1736,9 +1736,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3046-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513032",
@@ -1746,10 +1746,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3046",
     "serviceJourney": "new-postpaid"
@@ -1780,9 +1780,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3051-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513033",
@@ -1790,10 +1790,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3051",
     "serviceJourney": "new-postpaid"
@@ -1824,9 +1824,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3052-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513034",
@@ -1834,10 +1834,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3052",
     "serviceJourney": "new-postpaid"
@@ -1868,9 +1868,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3053-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513035",
@@ -1878,10 +1878,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3053",
     "serviceJourney": "new-postpaid"
@@ -1912,9 +1912,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3054-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513036",
@@ -1922,10 +1922,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3054",
     "serviceJourney": "new-postpaid"
@@ -1956,9 +1956,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3061-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513037",
@@ -1966,10 +1966,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3061",
     "serviceJourney": "new-postpaid"
@@ -2000,9 +2000,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3062-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513038",
@@ -2010,10 +2010,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3062",
     "serviceJourney": "new-postpaid"
@@ -2044,9 +2044,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3063-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513039",
@@ -2054,10 +2054,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3063",
     "serviceJourney": "new-postpaid"
@@ -2088,9 +2088,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3064-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513040",
@@ -2098,10 +2098,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3064",
     "serviceJourney": "new-postpaid"
@@ -2132,9 +2132,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3065-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513041",
@@ -2142,10 +2142,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3065",
     "serviceJourney": "new-postpaid"
@@ -2176,9 +2176,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3066-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513042",
@@ -2186,10 +2186,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3066",
     "serviceJourney": "new-postpaid"
@@ -2220,9 +2220,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3067-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513043",
@@ -2230,10 +2230,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3067",
     "serviceJourney": "new-postpaid"
@@ -2264,9 +2264,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3068-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513044",
@@ -2274,10 +2274,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3068",
     "serviceJourney": "new-postpaid"
@@ -2308,9 +2308,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3069-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513045",
@@ -2318,10 +2318,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3069",
     "serviceJourney": "new-postpaid"
@@ -2352,9 +2352,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3070-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513046",
@@ -2362,10 +2362,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3070",
     "serviceJourney": "new-postpaid"
@@ -2396,9 +2396,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3071-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513047",
@@ -2406,10 +2406,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3071",
     "serviceJourney": "new-postpaid"
@@ -2440,9 +2440,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3072-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513048",
@@ -2450,10 +2450,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3072",
     "serviceJourney": "new-postpaid"
@@ -2484,9 +2484,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3073-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513049",
@@ -2494,10 +2494,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3073",
     "serviceJourney": "new-postpaid"
@@ -2589,28 +2589,6 @@
     ],
     "contactId": "CTC-CUST-3021",
     "serviceJourney": "post-to-post"
-  },
-  {
-    "_note": "App-level demo addition (2026-10-09) so every offer-type section of the Offers step shows three examples for CUST-3021; serviceJourney names the journey an accepted offer continues in. Name, price and description are illustrative.",
-    "offerId": "OFR-CUST-3021-7",
-    "offerType": "Cross Sell",
-    "offerName": "Postpaid Extra Welcome Offer",
-    "monthlyRental": 200,
-    "offerDescription": "Open a new Postpaid Extra line with a welcome bundle",
-    "campaignCode": "CMP-NEW-1009",
-    "priorityCode": "P8",
-    "serviceIdentifier": "+97455513012",
-    "status": "Offered",
-    "treatmentCode": "TRT-16",
-    "channel": "Guided Journey",
-    "promotionId": "PROMO-9035",
-    "price": 200,
-    "addOnMonthly": 0,
-    "linkedProductIds": [
-      "PROD-108"
-    ],
-    "contactId": "CTC-CUST-3021",
-    "serviceJourney": "new-postpaid"
   },
   {
     "_note": "App-level demo addition (2026-10-09) so every offer-type section of the Offers step shows three examples for CUST-3021; serviceJourney names the journey an accepted offer continues in. Name, price and description are illustrative.",
@@ -2814,9 +2792,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3081-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513050",
@@ -2824,10 +2802,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3081",
     "serviceJourney": "new-postpaid"
@@ -2858,9 +2836,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3082-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513051",
@@ -2868,10 +2846,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3082",
     "serviceJourney": "new-postpaid"
@@ -2902,9 +2880,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3083-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513052",
@@ -2912,10 +2890,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3083",
     "serviceJourney": "new-postpaid"
@@ -2946,9 +2924,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3084-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513053",
@@ -2956,10 +2934,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3084",
     "serviceJourney": "new-postpaid"
@@ -2990,9 +2968,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3085-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513054",
@@ -3000,10 +2978,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3085",
     "serviceJourney": "new-postpaid"
@@ -3077,9 +3055,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3090-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513055",
@@ -3087,10 +3065,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3090",
     "serviceJourney": "new-postpaid"
@@ -3121,9 +3099,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3101-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513056",
@@ -3131,10 +3109,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3101",
     "serviceJourney": "new-postpaid"
@@ -3165,9 +3143,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3102-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513057",
@@ -3175,10 +3153,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3102",
     "serviceJourney": "new-postpaid"
@@ -3209,9 +3187,9 @@
     "_note": "Customer-Inventory seed (2026-10-02)",
     "offerId": "OFR-CUST-3103-2",
     "offerType": "Cross Sell",
-    "offerName": "Postpaid Red 350 Switch-On Offer",
-    "monthlyRental": 350,
-    "offerDescription": "Open a new Postpaid Red 350 line with a free first-month add-on",
+    "offerName": "Postpaid Max Switch-On Offer",
+    "monthlyRental": 180,
+    "offerDescription": "Open a new Postpaid Max line with a free first-month add-on",
     "campaignCode": "CMP-NEW-0930",
     "priorityCode": "P2",
     "serviceIdentifier": "+97455513058",
@@ -3219,10 +3197,10 @@
     "treatmentCode": "TRT-02",
     "channel": "Guided Journey",
     "promotionId": "PROMO-9025",
-    "price": 350,
+    "price": 180,
     "addOnMonthly": 0,
     "linkedProductIds": [
-      "PROD-104"
+      "PROD-109"
     ],
     "contactId": "CTC-CUST-3103",
     "serviceJourney": "new-postpaid"

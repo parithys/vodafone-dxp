@@ -44,6 +44,8 @@ export interface Product {
   multiSimCount?: number;
   /** Voice, Broadband or Family (see PLAN_CLASS_TAG); a Family Plan starts a Family Package. */
   planClass?: string;
+  /** A Secondary plan's own type: Kids Plan or Data-only Plan. */
+  secondaryPlanType?: string;
 }
 
 export type { ConfirmedOrder } from '../../capabilities';

@@ -5,7 +5,7 @@ import { scanFileName, specialDiscountDocumentLabel } from '../../engines/journe
 import { saveLinkedIdDocument } from './saveLinkedIdDocument';
 import { contactIdentityOrderFields } from './contactIdentityOrderFields';
 import { saveCustomerSalutation } from './saveCustomerSalutation';
-import { actualUserOrderFields, saveActualUserContact } from '../../capabilities/ActualUser';
+import { actualUserOrderFields, minorExceptionHolds, saveActualUserContact } from '../../capabilities/ActualUser';
 import type { ActualUserValue } from '../../capabilities/ActualUser';
 import { hrnAdvanceQar } from '../../engines/hrnConfiguration';
 import { usePersonaStore } from '../../stores/personaStore';
@@ -39,8 +39,11 @@ import { isNumberWaiver } from '../../engines/numberWaiver';
 import { assignMultiSimMsisdns, multiSimEntitlement } from '../../engines/multiSim';
 import { multiSimsFor } from '../../capabilities';
 import { approvalMessages, decisionRecord, needsCreditControl } from '../../engines/connectionEligibility';
+import { FAMILY_APPROVAL_TEAM } from '../../engines/familyPackage';
+import { packageBillingProfileId } from '../../engines/familyPackage';
 import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
 import { familyStartFor } from './familyStart';
+import { buildNewCustomerRecords, isNewlyIdentifiedCustomer, newCustomerId } from './newCustomerRecords';
 
 type EntityStore = ReturnType<typeof useEntityStore.getState>;
 
@@ -72,9 +75,22 @@ export async function submitNewConnectionOrder(
       // A Family Plan makes this order Primary Line 1 of a new Family Package; a connection type chosen after that makes it a line of the existing package, on the
       // package's plan. Judged again here, on the lines and orders on record now: a stale draft, a package that changed meanwhile, or a type whose limit was
       // reached must not produce the line.
-      const family = familyStartFor(values, products, await mockDataEngine.list<FamilyLine>('family-package-lines'), await mockDataEngine.list<FamilyOrder>('orders'));
+      const familyLinesNow = await mockDataEngine.list<FamilyLine>('family-package-lines');
+      const familyOrdersNow = await mockDataEngine.list<FamilyOrder>('orders');
+      const family = familyStartFor(values, products, familyLinesNow, familyOrdersNow);
       if (family.applies && !family.ok) throw new Error(family.reason);
+      if (family.applies && family.ok && addonIds.length > 0) throw new Error("A Family Package's add-ons are managed from Customer 360, not on the order.");
       if (family.applies && family.ok && family.additional && (!family.planId || values.productId !== family.planId)) throw new Error('A connection added to a Family Package needs the plan its type is on.');
+      // A customer first identified in this journey has no record, so a Family Package would have no Customer 360 to add its other connections from: the first
+      // line of a Family Package creates it (customer, identity document, contact), before anything that belongs to the customer is written.
+      const createdCustomerId = family.applies && family.ok && isNewlyIdentifiedCustomer(contact, eligibility) ? newCustomerId() : undefined;
+      if (createdCustomerId) {
+        const records = buildNewCustomerRecords(createdCustomerId, contact, eligibility);
+        await createRecord('customers', records.customer);
+        await createRecord('identity-documents', records.document);
+        await createRecord('customer-contacts', records.contact);
+      }
+      const customerId = eligibility?.customerId ?? createdCustomerId;
       const discounts = await mockDataEngine.list<{ addonDiscountId: string; price?: number; addonType?: string }>('addons-discounts');
       const discount = discounts.find((d) => d.addonDiscountId === values.discountId);
       // The same itemisation the two display surfaces render, so what the
@@ -117,11 +133,14 @@ export async function submitNewConnectionOrder(
       const idTypeRouting = eligibility?.checks.some((c) => c.id === 'id-type-routing' && c.outcome === 'approval-routing') ?? false;
       // A postpaid Passport is approved by the submitting agent's manager (data/approvalRouting.ts); a persona with no manager route keeps Credit Control.
       const passportManagerRole = idTypeRouting && contact.idType === 'Passport' ? managerRoleOfSubmitter(usePersonaStore.getState().activePersonaId) : undefined;
+      // A Secondary Contact under 18 was added through the Exception Request: the order is held for the same approver as an under-18 customer's.
+      const minorContactException = minorExceptionHolds(values.actualUser as ActualUserValue | undefined);
       const waiver = isNumberWaiver(values.numberWaiver) ? values.numberWaiver : undefined;
       const waivedAmountQar = checkoutTotals?.numberWaivedQar ?? 0;
       const waived = Boolean(waiver) && waivedAmountQar > 0;
       const pendingApproval =
         manualIdEntry ||
+        minorContactException ||
         isB2B2COrder(contact, customerType) ||
         Boolean(eligibility?.requiresHrnAdvance) ||
         Boolean(eligibility?.checks.some((c) => c.outcome === 'approval-routing')) ||
@@ -151,6 +170,7 @@ export async function submitNewConnectionOrder(
           : []),
         ...(caf?.signatureDataUrl ? [{ label: 'Signed CAF', detail: `${caf.cafType ?? 'Digital'} signature`, previewUrl: caf.signatureDataUrl }] : []),
         ...(caf?.additionalDocuments ?? []).map((d) => ({ label: d.label, detail: d.fileName })),
+        ...(minorContactException ? [{ label: (values.actualUser as ActualUserValue).exception!.document.label, detail: `${(values.actualUser as ActualUserValue).exception!.document.fileName} - Secondary Contact under 18` }] : []),
       ];
 
       // Billing Profile (2026-09-28) - whichever of the two mutually
@@ -158,14 +178,16 @@ export async function submitNewConnectionOrder(
       // above is: only the fact that applies, nothing invented for the
       // other branch.
       const billingAccount = values.billingAccount as BillingAccountValue | undefined;
-      const newBillingAccount = billingAccount?.creatingNew ? billingAccount.newAccount : undefined;
+      // Every line of a Family Package is billed under the package's one billing account (Primary Line 1's): a line added to a package never picks or creates another.
+      const packageBilling = family.applies && family.ok && family.additional ? packageBillingProfileId(familyLinesNow.filter((l) => l.packageId === family.additional!.packageId), familyOrdersNow) : undefined;
+      const newBillingAccount = !packageBilling && billingAccount?.creatingNew ? billingAccount.newAccount : undefined;
       // A customer with no billing account gets the one the journey built, created and set as their default.
       const address = values.address as ConfirmedOrder['address'];
-      const billingProfileId = await persistBillingAccount(billingAccount, {
+      const billingProfileId = packageBilling ?? await persistBillingAccount(billingAccount, {
         createRecord,
         updateRecord,
         kind: accountTypeForJourney('postpaid'),
-        customerId: eligibility?.customerId,
+        customerId,
         idNumber: contact.idNumber,
         contactName: contact.moiResult?.name,
         contactEmail: contact.email,
@@ -178,8 +200,8 @@ export async function submitNewConnectionOrder(
       });
 
       // The cycle of an existing billing account the order is billed on (a new one is read off what the agent entered).
-      const billingProfile = billingAccount?.selectedProfileId
-        ? (await mockDataEngine.list<{ billingProfileId: string; billingCycle?: string }>('billing-profiles')).find((b) => b.billingProfileId === billingAccount.selectedProfileId)
+      const billingProfile = (packageBilling ?? billingAccount?.selectedProfileId)
+        ? (await mockDataEngine.list<{ billingProfileId: string; billingCycle?: string }>('billing-profiles')).find((b) => b.billingProfileId === (packageBilling ?? billingAccount?.selectedProfileId))
         : undefined;
       const orderId = `ORD-${Date.now().toString().slice(-6)}`;
       const familyPackageId = family.applies && family.ok && family.additional ? family.additional.packageId : `FPK-${orderId.replace('ORD-', '')}`;
@@ -197,6 +219,7 @@ export async function submitNewConnectionOrder(
                 idTypeRouting ? (passportManagerRole ? `Passport requires ${passportManagerRole} approval - routed to ${passportManagerRole}` : 'ID type requires Credit Control approval - routed to Credit Control') : '',
                 eligibility?.checks.some((c) => c.id === 'id-validity' && c.outcome === 'approval-routing') ? 'ID expiry date not on file - routed for approval' : '',
                 eligibility?.requiresHrnAdvance ? `HRN customer - ${formatQar(hrnAdvanceQar({ nationality: eligibility?.nationality, personaId: usePersonaStore.getState().activePersonaId }))} advance payment applies` : '',
+                minorContactException ? `Under-18 Secondary Contact exception - Court Order attached; ${under18ApproverRole(usePersonaStore.getState().activePersonaId)} approval required` : '',
                 isB2B2COrder(contact, customerType) ? 'B2B2C employee - Proof of Employment to be verified' : '',
                 waived && waiver ? `Waive Off - ${formatQar(waivedAmountQar)} waived off the Star number upfront charge of ${formatQar(checkoutTotals?.numberChargeQar ?? 0)}` : '',
                 discount && SUPPORTING_ID_DISCOUNT_TYPES.has(discount.addonType ?? '') ? `${discount.addonType} - supporting document to be verified` : '',
@@ -248,11 +271,11 @@ export async function submitNewConnectionOrder(
               approvalReason,
               // Line-limit cases go to the Collection Team (Credit Control), a manual-entry order to the Store Manager, and an order
               // routed for its ID type to Credit Control as well.
-              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : eligibility?.under18Exception ? under18ApproverRole(usePersonaStore.getState().activePersonaId) : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined,
+              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : eligibility?.under18Exception || minorContactException ? under18ApproverRole(usePersonaStore.getState().activePersonaId) : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined,
             }
           : {}),
         customerName: contact.moiResult?.name,
-        customerId: eligibility?.customerId,
+        customerId,
         idNumber: contact.idNumber,
         // Identity evidence: what the scanned ID carried against what MOI returned, per attribute (absent when the journey took no scan).
         idReconciliation: contact.moiResult ? contact.idReconciliation : undefined,
@@ -293,11 +316,12 @@ export async function submitNewConnectionOrder(
         await createRecord('family-package-lines', {
           lineId: `FPL-${orderId.replace('ORD-', '')}-${family.additional ? family.additional.role[0] + family.additional.sequence : 'P1'}`,
           packageId: familyPackageId,
-          customerId: eligibility?.customerId,
+          customerId,
           idNumber: contact.idNumber,
           role: family.additional?.role ?? 'Primary',
           sequence: family.additional?.sequence ?? 1,
           planId: family.planId,
+          ...(family.additional?.tierPlanId ? { tierPlanId: family.additional.tierPlanId } : {}),
           orderId,
           msisdn: values.msisdn,
         });
@@ -327,7 +351,7 @@ export async function submitNewConnectionOrder(
       const activityCtx = {
         journey: journeyTitle,
         orderId,
-        customerId: eligibility?.customerId,
+        customerId,
         customerName: contact.moiResult?.name,
         idNumber: contact.idNumber,
       };
@@ -368,7 +392,7 @@ export async function submitNewConnectionOrder(
         completionActivity,
         pendingApproval,
         customerName: contact.moiResult?.name ?? '-',
-        customerId: eligibility?.customerId,
+        customerId,
         address: values.address as ConfirmedOrder['address'],
         msisdn: (values.msisdn as string) ?? '-',
         planName: plan?.name ?? '-',
@@ -385,6 +409,7 @@ export async function submitNewConnectionOrder(
         customerEmailDisplay: contact.moiResult?.isNewCustomer && !contact.moiResult?.createdByAgent && contact.email ? maskEmail(contact.email) : contact.email,
         customerEmailVerified: emailVerified,
         terms: orderTerms(values, 'postpaid'),
+        ...(family.applies && family.ok && pendingApproval ? { approvalTeam: FAMILY_APPROVAL_TEAM } : {}),
         ...(family.applies && family.ok ? { familyPackage: { packageId: familyPackageId, lineLabel: family.lineLabel, planName: plan?.name ?? '-' } } : {}),
       };
 

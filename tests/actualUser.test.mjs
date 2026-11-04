@@ -47,7 +47,7 @@ test('the actual user must be 18 or over: a minor cannot be added; unknown age b
   // The primary stays accountable: none of the primary's eligibility checks is wired into this capability.
   const fs = await import('node:fs');
   for (const f of fs.readdirSync('src/capabilities/ActualUser').filter((n) => /\.tsx?$/.test(n))) {
-    assert.ok(!/EligibilityGate|blacklist|isHrn|connectionLimit|checkEligibility/i.test(fs.readFileSync(`src/capabilities/ActualUser/${f}`, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')), `${f} must not run eligibility checks`);
+    assert.ok(!/EligibilityGate|blacklist|isHrn|connectionLimit|checkEligibility/i.test(fs.readFileSync(`src/capabilities/ActualUser/${f}`, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace("import { ExceptionRequestModal } from '../EligibilityGate';", '') /* the Exception Request is a document upload for a minor, not an eligibility check */), `${f} must not run eligibility checks`);
   }
 });
 

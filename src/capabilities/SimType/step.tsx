@@ -52,6 +52,7 @@ export function simTypeStep(
   };
   const primaryId = (values: Record<string, unknown>) => (values.contact as GuidedContactValue | undefined)?.idNumber;
   const primaryCustomerId = (values: Record<string, unknown>) => (values.eligibility as { customerId?: string } | undefined)?.customerId;
+  const primaryNationality = (values: Record<string, unknown>) => (values.eligibility as { nationality?: string } | undefined)?.nationality ?? (values.contact as GuidedContactValue | undefined)?.moiResult?.nationality;
   // The SIM is selected once its type is chosen and it is valid (a Physical SIM's serial, an eSIM issued, or a Pre-Paired SIM).
   const simSelected = (values: Record<string, unknown>) => {
     const s = values.simType as SimTypeValue | undefined;
@@ -112,7 +113,7 @@ export function simTypeStep(
       )}
       {actualUserOpen(values) && (
         <section aria-label="Secondary Contact" className="mt-4 pt-6 divider-top space-y-4">
-          <ActualUser hideChoice value={(values.actualUser as ActualUserValue) ?? {}} onChange={(v) => setValue('actualUser', v)} primaryIdNumber={primaryId(values)} primaryCustomerId={primaryCustomerId(values)} />
+          <ActualUser hideChoice value={(values.actualUser as ActualUserValue) ?? {}} onChange={(v) => setValue('actualUser', v)} primaryIdNumber={primaryId(values)} primaryCustomerId={primaryCustomerId(values)} primaryNationality={primaryNationality(values)} />
         </section>
       )}
       </>

@@ -9,6 +9,11 @@ import { prepaidSteps } from '../mobile-prepaid/screens/prepaidSteps';
 import { postpaidSteps } from './postpaidSteps';
 import type { PostpaidStepContext } from './postpaidSteps';
 import { billingStepActive, forProduct } from './products';
+import { packageBillingProfileId } from '../../engines/familyPackage';
+import { FamilyBillingApplier } from '../../components/patterns/FamilyPackageNotice';
+import { familyLineContextOf } from './familyStart';
+import type { BillingAccountValue } from '../../components/patterns/billingAccountModel';
+import type { EligibilityResult } from '../../components/domain/eligibilityTypes';
 
 /** Step keys New Connection collects once, before Recommended Offers. */
 const SHARED_KEYS = ['address', 'billingAccount'];
@@ -41,7 +46,31 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
   // New Postpaid takes its Billing right after SIM Selection (before the Order Summary), so the early copy is out of the way while the product is
   // undecided or Postpaid; every other product keeps Billing where it was, after Address.
   const otherBilling: WizardStep = { ...billingStep({ journey: billingJourney }), skip: (values) => !billingStepActive(values) || values.product === undefined || values.product === 'postpaid' };
-  const postpaidBilling: WizardStep = { ...billingStep({ journey: () => 'postpaid' }), skip: (values) => values.product !== 'postpaid' };
+  // A line added to a Family Package is billed under the package's one billing account: it is the selection, and the step holds it.
+  const familyBilling = (values: Record<string, unknown>): string | undefined => {
+    const context = familyLineContextOf(values);
+    return context ? packageBillingProfileId(ctx.familyLines.filter((l) => l.packageId === context.packageId), ctx.familyOrders) : undefined;
+  };
+  const baseBilling = billingStep({ journey: () => 'postpaid' });
+  const postpaidBilling: WizardStep = {
+    ...baseBilling,
+    skip: (values) => values.product !== 'postpaid',
+    headless: (c) => (
+      <>
+        {baseBilling.headless?.(c)}
+        <FamilyBillingApplier
+          target={familyBilling(c.values)}
+          selectedProfileId={(c.values.billingAccount as BillingAccountValue | undefined)?.selectedProfileId}
+          resolvedFor={(c.values.eligibility as EligibilityResult | undefined)?.customerId ?? 'new'}
+          setValue={c.setValue}
+        />
+      </>
+    ),
+    isValid: (values) => {
+      const target = familyBilling(values);
+      return (baseBilling.isValid?.(values) ?? true) && (!target || (values.billingAccount as BillingAccountValue | undefined)?.selectedProfileId === target);
+    },
+  };
   const postpaid = shared(postpaidSteps(ctx));
   const billingIndex = postpaid.findIndex((s) => s.key === 'checkout');
   const postpaidInOrder = billingIndex === -1 ? postpaid : [...postpaid.slice(0, billingIndex), postpaidBilling, ...postpaid.slice(billingIndex)];

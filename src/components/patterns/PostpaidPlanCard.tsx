@@ -5,6 +5,7 @@ import { multiSimBenefitText } from '../../engines/multiSim';
 import { CHEVRON_RIGHT, ICON_CALL, ICON_CARD, ICON_DATA, ICON_GIFT, STAR } from '../../assets/icons';
 import { PLAN_CLASS_TAG, isPlanClass, type PostpaidPlan } from './postpaidPlanModel';
 import { ServiceTypeTag } from '../primitives/ServiceTypeTag';
+import type { ServiceTypeTagKey } from '../../lib/serviceTypeTag';
 import { formatQar, formatAmount } from '../../lib/format';
 
 interface PostpaidPlanCardProps {
@@ -20,9 +21,11 @@ interface PostpaidPlanCardProps {
   compact?: boolean;
   /** A discount applied to this plan as a fraction (0.25 = 25%): the monthly price shown is the discounted one, the plan's own price struck through above it. */
   discountPct?: number;
+  /** A plan-type tag to show in place of the plan class's (a Secondary plan's own type: Kids Plan, Data-only Plan). */
+  tagType?: ServiceTypeTagKey;
 }
 
-export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProduct, onDeselectProduct, setDetailPlan, displayName, compact = false, discountPct = 0 }: PostpaidPlanCardProps) {
+export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProduct, onDeselectProduct, setDetailPlan, displayName, compact = false, discountPct = 0, tagType }: PostpaidPlanCardProps) {
       const selected = selectedProductId === p.productId;
       // Card per plan: name, price, bill limit, no button: the whole card selects.
       // The full allowance table, benefits and contract term live in
@@ -59,8 +62,8 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
       }`}
     >
       {selected && <SelectedTick />}
-      {/* The plan-type tag leads every card; the Popular badge (and its reserved space) is for the full cards only. */}
-      <div className="split-nowrap">
+      {/* The same top row on every tab: the Popular badge (full cards only) at the left, the plan-type tag always in the top-right corner. */}
+      <div className="card-tag-row">
         {!compact && (
           <span
             className={`tag-accent px-2.5 ${p.popular ? '' : 'invisible'}`}
@@ -70,7 +73,9 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
             Popular
           </span>
         )}
-        {isPlanClass(p.planClass) ? <ServiceTypeTag type={PLAN_CLASS_TAG[p.planClass]} /> : <ConnectionTypeTag category="Postpaid" />}
+        <span className="card-plan-tag">
+          {tagType ? <ServiceTypeTag type={tagType} /> : isPlanClass(p.planClass) ? <ServiceTypeTag type={PLAN_CLASS_TAG[p.planClass]} /> : <ConnectionTypeTag category="Postpaid" />}
+        </span>
       </div>
       <div className="fill-column gap-2">
         <p className="title title-lg leading-snug">{displayName ?? p.name}</p>

@@ -27,6 +27,8 @@ export const lineCatalogueOf = (products: readonly { productId: string; planClas
   supplementaryPlanId: products.find((p) => p.planClass === SUPPLEMENTARY_PLAN_CLASS)?.productId,
   secondaryPlanIds: products.filter((p) => p.planClass === SECONDARY_PLAN_CLASS).map((p) => p.productId),
 });
+/** The team a Family Package order held for approval waits on, as the confirmation page names it. */
+export const FAMILY_APPROVAL_TEAM = 'Backoffice Fulfillment Team';
 export const isFamilyPlan = (plan: { planClass?: unknown } | undefined): boolean => plan?.planClass === FAMILY_PLAN_CLASS;
 
 export interface FamilyLine {
@@ -43,10 +45,14 @@ export interface FamilyLine {
   orderId: string;
   /** The line's number, once the order has chosen one. */
   msisdn?: string;
+  /** The package's Family Plan (Primary Line 1's) a line added to the package is on the tier of: its own plan (Supplementary, Secondary) can differ. */
+  tierPlanId?: string;
 }
 
 export interface FamilyOrder {
   orderId: string;
+  /** The billing account the order is billed on. */
+  billingProfileId?: unknown;
   status?: unknown;
   approvalStatus?: unknown;
 }
@@ -64,6 +70,13 @@ export const primaryLine1 = (lines: readonly FamilyLine[]): FamilyLine | undefin
 
 /** The plan every line of the package is on: Primary Line 1's. Undefined until the package has begun. */
 export const packagePlanId = (lines: readonly FamilyLine[]): string | undefined => primaryLine1(lines)?.planId;
+
+/** The one billing account every line of the package is billed under: the one Primary Line 1's order was billed on. Undefined when the package's first order records none (never guessed). */
+export function packageBillingProfileId(lines: readonly FamilyLine[], orders: readonly FamilyOrder[]): string | undefined {
+  const first = primaryLine1(lines);
+  const id = first ? orders.find((o) => o.orderId === first.orderId)?.billingProfileId : undefined;
+  return typeof id === 'string' && id !== '' ? id : undefined;
+}
 
 /** Primary Line 1 exists and its order is approved: the lines after it are open. */
 export function primaryLine1Activated(lines: readonly FamilyLine[], orders: readonly FamilyOrder[]): boolean {
@@ -120,8 +133,8 @@ export function linesOfCustomer(lines: readonly FamilyLine[], who: { customerId?
 /** What starting a Family Package with the selected plan means for this order. */
 export type FamilyStartCheck =
   | { applies: false }
-  | { applies: true; ok: true; /** The first line of a new package is always Primary Line 1. */ lineLabel: string; /** Undefined while a Secondary plan is still to be chosen. */ planId: string | undefined; /** Present for a line added to an existing package. */ additional?: { packageId: string; role: FamilyRole; sequence: number } }
-  | { applies: true; ok: false; kind: 'eligibility' | 'package'; reason: string };
+  | { applies: true; ok: true; /** The first line of a new package is always Primary Line 1. */ lineLabel: string; /** Undefined while a Secondary plan is still to be chosen. */ planId: string | undefined; /** Present for a line added to an existing package. */ additional?: { packageId: string; role: FamilyRole; sequence: number; /** The package's Family Plan: the tier the line follows. */ tierPlanId?: string } }
+  | { applies: true; ok: false; kind: 'eligibility' | 'package' | 'owner'; reason: string };
 
 /**
  * New Postpaid with a Family Plan selected starts a Family Package, so the order is Primary Line 1 and the plan is the package's. It can only start
@@ -164,12 +177,14 @@ export function connectionOptions(lines: readonly FamilyLine[], orders: readonly
  * the journey's eligibility result and the type chosen decide it, through the same canAddLine the choice list used. The line takes the package's plan; it
  * can never choose another. No package, or a package whose Primary Line 1 is not approved, is a refusal like any other.
  */
-export function familyAdditionalCheck({ role, packageId, eligibilityCleared, packageLines, orders, catalogue, chosenPlanId }: { role: FamilyRole; packageId: string; eligibilityCleared: boolean; packageLines: readonly FamilyLine[]; orders: readonly FamilyOrder[]; catalogue: LineCatalogue; /** The plan selected so far (a Secondary line's is the agent's choice). */ chosenPlanId?: string }): FamilyStartCheck {
+export function familyAdditionalCheck({ role, packageId, eligibilityCleared, packageLines, isOwner = true, orders, catalogue, chosenPlanId }: { role: FamilyRole; packageId: string; eligibilityCleared: boolean; /** Every line of the package. */ packageLines: readonly FamilyLine[]; /** The ID validated is the Family Owner's (the customer of the package). */ isOwner?: boolean; orders: readonly FamilyOrder[]; catalogue: LineCatalogue; /** The plan selected so far (a Secondary line's is the agent's choice). */ chosenPlanId?: string }): FamilyStartCheck {
   if (!eligibilityCleared) return { applies: true, ok: false, kind: 'eligibility', reason: 'This customer has not cleared eligibility, so a connection cannot be added to the Family Package.' };
   if (packageLines.length === 0) return { applies: true, ok: false, kind: 'package', reason: 'This Family Package could not be found.' };
+  // Every connection is registered to the Family Owner, so the ID validated for it must be theirs.
+  if (!isOwner) return { applies: true, ok: false, kind: 'owner', reason: "This ID is not the Family Owner's. Every connection in a Family Package is registered to the Family Owner, so their ID must be validated." };
   const c = canAddLine(packageLines, orders, role, catalogue);
   if (!c.ok) return { applies: true, ok: false, kind: 'package', reason: c.reason };
   // A Secondary line is on a Secondary plan the agent picked, and only one of the catalogue's; until then there is none.
   const planId = role === 'Secondary' ? (chosenPlanId && catalogue.secondaryPlanIds?.includes(chosenPlanId) ? chosenPlanId : undefined) : c.planId;
-  return { applies: true, ok: true, lineLabel: lineLabel({ role, sequence: c.sequence }), planId, additional: { packageId, role, sequence: c.sequence } };
+  return { applies: true, ok: true, lineLabel: lineLabel({ role, sequence: c.sequence }), planId, additional: { packageId, role, sequence: c.sequence, tierPlanId: packagePlanId(packageLines) } };
 }

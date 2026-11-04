@@ -78,6 +78,8 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
     // An accepted offer fixes the plan, so the plan page is passed over - except for a Family Plan, whose page says it starts a Family Package (Primary Line 1) and holds the order if it cannot.
     skipWhen: (values: Record<string, unknown>) => offerAccepted(values) && !family(values).applies,
     announceHrn: true,
+    // A Family Package's add-ons are managed from Customer 360 (engines/familyPackageAddons.ts): its journeys have no Add-ons step.
+    addonsHidden: (values: Record<string, unknown>) => family(values).applies,
     notice: (values: Record<string, unknown>) => <FamilyPackageNotice check={family(values)} planName={planName(values)} />,
     // A line added to a package also needs its plan (a Secondary line's is chosen on this page).
     canContinue: (values: Record<string, unknown>) => {
@@ -139,7 +141,15 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
       // The Order Summary and the CAF say the order is Primary Line 1 of a new Family Package.
       familyRows: (values) => {
         const c = family(values);
-        return c.applies && c.ok ? [{ label: 'Family Package', value: c.additional ? `${c.lineLabel} of the existing Family Package` : `${c.lineLabel} of a new Family Package` }] : [];
+        if (!c.applies || !c.ok) return [];
+        if (!c.additional) return [{ label: 'Family Package', value: `${c.lineLabel} of a new Family Package` }];
+        const tier = planName(values, c.additional.tierPlanId);
+        const secondaryType = c.additional.role === 'Secondary' ? products.find((p) => p.productId === c.planId)?.secondaryPlanType : undefined;
+        return [
+          { label: 'Family Package', value: `${c.lineLabel} of the existing Family Package` },
+          ...(tier ? [{ label: 'Family Plan', value: tier }] : []),
+          ...(secondaryType ? [{ label: 'Secondary Plan Type', value: secondaryType }] : []),
+        ];
       },
     }),
     cafSignatureStep({ variant: 'full' }),

@@ -209,6 +209,8 @@ export const PLAN_CLASS_TAG = {
   'Postpaid Secondary Plans': 'postpaid-secondary',
 } as const;
 export type PlanClass = keyof typeof PLAN_CLASS_TAG;
+/** The tag of a Secondary plan's own type (`secondaryPlanType` in products.json); a type the catalogue does not name has none. */
+export const SECONDARY_PLAN_TYPE_TAG = { 'Kids Plan': 'postpaid-kids', 'Data-only Plan': 'postpaid-data-only' } as const;
 export const isPlanClass = (v: unknown): v is PlanClass => typeof v === 'string' && v in PLAN_CLASS_TAG;
 
 /** The plan-type filter under the Offers / Plans tabs: All Plans, or one class (the plan's `planClass`). A plan with no class shows under All Plans only. */

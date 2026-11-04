@@ -79,6 +79,8 @@ export interface ActivationCompleteOrder {
   terms?: OrderTerms;
   /** The Family Package the order started (its Primary Line 1 and the package's plan): shown as a row, and once the line is activated it offers Add Another Connection. */
   familyPackage?: { packageId: string; lineLabel: string; planName: string };
+  /** Who the order waits on, named under the heading while it is held for approval. */
+  approvalTeam?: string;
 }
 
 /** Cross-sell into the Fixed Line/Fibre wizard for the same counter visit (SCR-043). */
@@ -221,6 +223,7 @@ export function ActivationCompleteScreen({
     <div className="p-8">
       <OrderConfirmationScreen
         heading={heading}
+        headingNote={order.pendingApproval && order.approvalTeam ? `(${order.approvalTeam})` : undefined}
         orderId={order.orderId}
         activityId={order.activityId}
         // Two columns only while the QR code is shown (the handover panel); otherwise one column. An eSIM held for approval shows its notice in the

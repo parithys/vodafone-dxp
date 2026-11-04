@@ -1,5 +1,5 @@
 import type { EntityKind } from '../../engines/mockDataEngine';
-import { actualUserIdentity, contactUpdateFor, supplementaryRows } from './actualUserModel';
+import { actualUserIdentity, contactUpdateFor, minorExceptionHolds, supplementaryRows } from './actualUserModel';
 import type { ActualUserValue } from './actualUserModel';
 
 type UpdateRecord = (kind: EntityKind, idField: string, id: string, patch: Record<string, unknown>) => Promise<void>;
@@ -19,6 +19,8 @@ export function actualUserOrderFields(v: ActualUserValue | undefined): Record<st
       dob: i.moiResult?.dob,
       email: i.email,
       alternatePhone: i.altPhone,
+      // A Secondary Contact under 18 is on the order only through the Exception Request: the Court Order attached for them.
+      ...(minorExceptionHolds(v) ? { underEighteenException: { documentLabel: v!.exception!.document.label, fileName: v!.exception!.document.fileName, submittedAt: v!.exception!.submittedAt } } : {}),
     },
     supplementaryForm: { signedWithCaf: true, rows: supplementaryRows(v) },
   };

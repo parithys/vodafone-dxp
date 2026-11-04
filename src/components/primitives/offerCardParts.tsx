@@ -50,6 +50,8 @@ export interface OfferProduct {
   iptvIncluded?: boolean;
   benefits?: string[];
   features?: string[];
+  /** Voice, Broadband or Family (the plan's own `planClass`): the plan-type tag an offer for it carries. */
+  planClass?: string;
 }
 
 /** Up to four facts about a plan, read from its product record - never typed in per card. */

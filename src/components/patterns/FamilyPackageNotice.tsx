@@ -38,3 +38,14 @@ export function FamilyPlanApplier({ check, productId, setValue }: { check: Famil
   }, [additional, planId, productId, setValue]);
   return null;
 }
+
+/**
+ * Invisible: a line added to a Family Package is billed under the package's one billing account, so that account is the selection and stays it (the automatic
+ * account resolution that runs beside it cannot replace it). Renders nothing; does nothing when the package's account is not known.
+ */
+export function FamilyBillingApplier({ target, selectedProfileId, resolvedFor, setValue }: { target: string | undefined; selectedProfileId: string | undefined; resolvedFor: string | undefined; setValue: (field: string, value: unknown) => void }) {
+  useEffect(() => {
+    if (target && selectedProfileId !== target) setValue('billingAccount', { selectedProfileId: target, autoResolvedFor: resolvedFor });
+  }, [target, selectedProfileId, resolvedFor, setValue]);
+  return null;
+}

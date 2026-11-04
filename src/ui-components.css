@@ -42,13 +42,14 @@
     @apply border-[var(--signal-blue)] bg-[var(--tone-blue-bg-soft)] hover:bg-[var(--tone-blue-bg-hover)];
   }
   /* The selected mark on a selectable card (SelectedTick): a red circle with a tick on the card's top-right corner. The card must be `relative`; the
-     tick is only rendered while the card is selected. */
+     tick is only rendered while the card is selected. Hidden everywhere by CSS alone (display: none, below): the markup and class names stay, so the mark
+     is brought back by removing that one line. */
   .card-tick {
+    display: none;
     position: absolute;
     top: -0.625rem;
     right: -0.625rem;
     z-index: var(--z-raised);
-    display: flex;
     align-items: center;
     justify-content: center;
     width: 1.75rem;
@@ -485,6 +486,13 @@
   .split-nowrap {
     @apply flex items-center justify-between gap-3;
   }
+  /* The top row of every plan / offer card: the Popular or Recommended flag at the left, the plan-type tag always in the top-right corner. */
+  .card-tag-row {
+    @apply flex items-center gap-1.5 min-h-[25px];
+  }
+  .card-plan-tag {
+    @apply ml-auto shrink-0;
+  }
   .cluster {
     @apply flex flex-wrap items-center gap-3;
   }
@@ -697,9 +705,6 @@
   }
   .tag-warm {
     @apply inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-surface-warm px-2.5 py-0.5 text-[var(--accent-text)] text-[length:var(--fs-tag)] font-medium;
-  }
-  .tag-outline {
-    @apply rounded-[var(--radius-pill)] border border-border-soft py-0.5 text-muted text-[length:var(--fs-tag)];
   }
   .tag-promo {
     @apply inline-flex rounded-[var(--radius-pill)] bg-[var(--tint-pink-bg)] px-2.5 py-0.5 text-[var(--tint-pink-fg)] text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide;

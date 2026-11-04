@@ -11,8 +11,10 @@ import type { OfferJourneys } from './serviceJourneys';
 import { HandOff } from './HandOff';
 import { offerHighlight } from './crossSalesModel';
 import type { CrossSalesValue, Offer } from './crossSalesModel';
-import { OFFERS_PER_TYPE, SAMPLE_OFFERS } from '../../data/synthetic/sampleOffers';
+import { OFFERS_PER_TYPE, STANDARD_OFFERS } from '../../data/standardOffers';
 import { CHEVRON_RIGHT } from '../../assets/icons';
+import { ServiceTypeTag } from '../../components/primitives/ServiceTypeTag';
+import { PLAN_CLASS_TAG, isPlanClass } from '../../components/patterns/postpaidPlanModel';
 
 export function CrossSalesStep({
   customerId,
@@ -36,8 +38,8 @@ export function CrossSalesStep({
   /** The journey (or journeys) this step belongs to: their offers continue here, every other journey's hand off. */
   journey?: OfferJourneys;
   /**
-   * Shows every offer type, none hidden, each topped up with illustrative sample offers to three cards whether or not the customer has real ones
-   * (existing customers). Sample offers can be looked at but not selected. Off: only the types the customer has offers for.
+   * Shows every offer type, none hidden, each topped up with the standard offers to three cards whether or not the customer has campaign offers of it
+   * (existing customers). Standard offers are selected like any other. Off: only the types the customer has offers for.
    */
   showAllOfferTypes?: boolean;
 }) {
@@ -117,8 +119,8 @@ export function CrossSalesStep({
   const sections = offerTypes
     .map((type) => {
       const real = offers.filter((o) => offerTypeOf(o.serviceJourney) === type.key).sort((a, b) => Number(b.offerId === recommendedId) - Number(a.offerId === recommendedId) || a.monthlyRental - b.monthlyRental);
-      // Every type shown, topped up to three cards with samples (after the real ones).
-      return { type, items: showAllOfferTypes ? [...real, ...SAMPLE_OFFERS[type.key].slice(0, Math.max(0, OFFERS_PER_TYPE - real.length))] : real };
+      // Every type shown, topped up to three cards with the standard offers (after the customer's own).
+      return { type, items: showAllOfferTypes ? [...real, ...STANDARD_OFFERS[type.key].slice(0, Math.max(0, OFFERS_PER_TYPE - real.length))] : real };
     })
     .filter(({ items }) => items.length > 0);
   return (
@@ -134,13 +136,13 @@ export function CrossSalesStep({
         {items.map((o) => {
           const selected = value.decision === 'accepted' && value.offerId === o.offerId;
           const recommended = o.offerId === recommendedId;
+          // The plan the offer opens, read from its linked product: its class is the plan-type tag, in the same corner as on the plan cards.
+          const planClass = o.linkedProductIds.map((id) => products[id]?.planClass).find(isPlanClass);
           const perMonth = !(o.serviceJourney === 'new-prepaid' || o.serviceJourney === 'mnp-prepaid');
           // The whole card is the control: click (or Enter/Space) selects it,
           // and clicking the selected one again clears it.
           const toggle = () =>
-            o.sample
-              ? undefined
-              : onChange(
+            onChange(
               selected
                 ? {}
                 : { decision: 'accepted', offerId: o.offerId, offerName: o.offerName, journey: o.serviceJourney, linkedProductIds: o.linkedProductIds }
@@ -150,7 +152,6 @@ export function CrossSalesStep({
               key={o.offerId}
               role="radio"
               aria-checked={selected}
-              aria-disabled={o.sample || undefined}
               tabIndex={0}
               onClick={toggle}
               onKeyDown={(e) => {
@@ -159,21 +160,24 @@ export function CrossSalesStep({
                   toggle();
                 }
               }}
-              className={`relative card-option p-5 stack ${o.sample ? 'cursor-default' : 'cursor-pointer'} ${
+              className={`relative card-option p-5 stack cursor-pointer ${
                 selected ? CARD_SELECTED : recommended ? CARD_HIGHLIGHT : CARD_IDLE
               }`}
             >
               {selected && <SelectedTick />}
-              {/* Top row: the Recommended flag on the left, the journey tag pinned right. */}
-              <div className="row gap-1.5 min-h-[25px]">
+              {/* Top row, as on every plan card: the Recommended flag on the left, the plan-type tag pinned top-right. */}
+              <div className="card-tag-row">
                 {recommended && (
                   <span className="tag-accent shrink-0 whitespace-nowrap px-2">
                     <Icon path={STAR} className="size-3 " />
                     Recommended
                   </span>
                 )}
-                {/* Every card carries its journey tag, pinned right. */}
-                {o.sample && <span className="shrink-0 tag-outline px-2">Sample</span>}
+                {planClass && (
+                  <span className="card-plan-tag">
+                    <ServiceTypeTag type={PLAN_CLASS_TAG[planClass]} />
+                  </span>
+                )}
               </div>
               <div className="flex-1 space-y-2">
                 <p className="title title-lg leading-snug">{o.offerName}</p>
@@ -205,8 +209,7 @@ export function CrossSalesStep({
                     <Button
                       variant="secondary"
                       compact
-                      disabled={leadBusy === o.offerId || o.sample}
-                      title={o.sample ? 'A sample offer - not available to select' : undefined}
+                      disabled={leadBusy === o.offerId}
                       onClick={async (e) => {
                         e.stopPropagation();
                         setLeadBusy(o.offerId);
@@ -223,15 +226,13 @@ export function CrossSalesStep({
                     <Button
                       variant="primary"
                       compact
-                      disabled={o.sample || !hasDestination(o.serviceJourney, journey)}
+                      disabled={!hasDestination(o.serviceJourney, journey)}
                       title={
-                        o.sample
-                          ? 'A sample offer - not available to select'
-                          : hasDestination(o.serviceJourney, journey)
-                            ? undefined
-                            : o.serviceJourney
-                              ? 'This offer\'s journey is not available yet'
-                              : 'This offer does not name a journey to continue in'
+                        hasDestination(o.serviceJourney, journey)
+                          ? undefined
+                          : o.serviceJourney
+                            ? 'This offer\'s journey is not available yet'
+                            : 'This offer does not name a journey to continue in'
                       }
                       onClick={(e) => {
                         e.stopPropagation();
@@ -285,7 +286,6 @@ export function CrossSalesStep({
         selected={Boolean(detailOffer && value.decision === 'accepted' && value.offerId === detailOffer.offerId)}
         onSelect={() =>
           detailOffer &&
-          !detailOffer.sample &&
           onChange({
             decision: 'accepted',
             offerId: detailOffer.offerId,

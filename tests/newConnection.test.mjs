@@ -278,19 +278,32 @@ test('Product Selection\'s position follows the steps before it: after Address a
   }
 });
 
-test('Recommended Offers for an existing customer: every offer type has three sample offers to fill it, and a sample is never selectable data', async () => {
-  const { SAMPLE_OFFERS, OFFERS_PER_TYPE } = await load('/src/data/synthetic/sampleOffers.ts');
+test('Recommended Offers for an existing customer: every offer type has standard offers to fill it, each an ordinary selectable offer for a real catalogue plan, named and priced as that plan is', async () => {
+  const { STANDARD_OFFERS, OFFERS_PER_TYPE } = await load('/src/data/standardOffers.ts');
   const sj = await load('/src/capabilities/CrossSellOffers/serviceJourneys.ts');
+  const fs = await import('node:fs');
+  const products = new Map(JSON.parse(fs.readFileSync('public/mock-data/products.json', 'utf8')).map((p) => [p.productId, p]));
   assert.equal(OFFERS_PER_TYPE, 3);
-  assert.deepEqual(Object.keys(SAMPLE_OFFERS).sort(), sj.OFFER_TYPES.map((t) => t.key).sort(), 'no offer type is left out');
+  assert.deepEqual(Object.keys(STANDARD_OFFERS).sort(), sj.OFFER_TYPES.map((t) => t.key).sort(), 'no offer type is left out');
+  const ids = new Set();
   for (const type of sj.OFFER_TYPES) {
-    const offers = SAMPLE_OFFERS[type.key];
-    assert.equal(offers.length, 3, type.key);
-    assert.equal(new Set(offers.map((o) => o.offerId)).size, 3, `${type.key}: unique ids`);
+    const offers = STANDARD_OFFERS[type.key];
+    // Three, except New Home: the catalogue holds two home plans, and none is invented to make a third.
+    assert.equal(offers.length, type.key === 'new-home' ? 2 : 3, type.key);
     for (const o of offers) {
+      assert.ok(!ids.has(o.offerId), `${o.offerId} is unique`);
+      ids.add(o.offerId);
       assert.equal(sj.offerTypeOf(o.serviceJourney), type.key, `${o.offerId} belongs to its own type`);
-      assert.equal(o.sample, true);
-      assert.deepEqual(o.linkedProductIds, [], 'a sample links to no plan');
+      assert.equal('sample' in o, false, 'not a sample: nothing marks it as one');
+      assert.equal(sj.hasDestination(o.serviceJourney, ['new-postpaid', 'new-prepaid', 'new-fixed-line', 'new-fwa', 'mnp-postpaid', 'mnp-prepaid']) || Boolean(sj.SERVICE_JOURNEYS.find((j) => j.key === o.serviceJourney)?.route), true, `${o.offerId} leads somewhere, so Select Offer is open`);
+      // Over the whole set: it links a plan that exists, of the kind its journey sells, at the price that plan has.
+      assert.equal(o.linkedProductIds.length, 1, o.offerId);
+      const p = products.get(o.linkedProductIds[0]);
+      assert.ok(p, `${o.offerId} links a catalogue product`);
+      const kind = { 'new-prepaid': 'Prepaid Plan', 'mnp-prepaid': 'Prepaid Plan', 'new-fixed-line': 'Fixed Line Plan', 'new-fwa': 'FWA 5G Home Plan' }[o.serviceJourney] ?? 'Postpaid Plan';
+      assert.equal(p.type, kind, `${o.offerId} links a ${kind}`);
+      assert.equal(o.monthlyRental, p.mrcQAR ?? p.starterPackChargeQAR, `${o.offerId} is priced as ${p.name}`);
+      if (p.type === 'Postpaid Plan') assert.notEqual(p.listed, false, 'a plan that is sold');
     }
   }
 });

@@ -2,6 +2,7 @@ import type { GuidedContactValue } from '../../components/patterns/guidedContact
 import { isValidEmail, isValidAltPhone } from '../../components/patterns/guidedContactModel';
 import { ageOn, isIdExpired, MINIMUM_AGE } from '../../engines/eligibilityEngine';
 import { toLocalMsisdn } from '../../components/domain/msisdnPickerModel';
+import type { AdditionalDocument } from '../DocumentUpload';
 
 /**
  * ACTUAL USER - who will really use the line when it is not the customer who owns it (a parent buys, the daughter uses the SIM).
@@ -16,8 +17,18 @@ import { toLocalMsisdn } from '../../components/domain/msisdnPickerModel';
  * Associating the actual user with the service does NOT count it as an active line against the actual user's ID: the line stays on the primary
  * customer's ID (the order carries the primary's customerId; the actual user is only named on it).
  */
+/** The Exception Request for a Secondary Contact under 18: the Court Order, made for the person it was attached for. */
+export interface ActualUserException {
+  document: AdditionalDocument;
+  /** The ID number of the minor it was made for: a different person means it no longer stands. */
+  idNumber: string;
+  submittedAt: string;
+}
+
 export interface ActualUserValue {
   choice?: 'primary' | 'other';
+  /** Set when the Secondary Contact is under 18 and the agent applied for the exception with the supporting document (the Court Order). */
+  exception?: ActualUserException;
   /** The actual user's identification and contact details - the same value Customer Verification produces for the primary. */
   identity?: GuidedContactValue;
 }
@@ -45,12 +56,26 @@ export function actualUserAgeProblem(identity: GuidedContactValue | undefined, a
   return age < MINIMUM_AGE ? `An actual user must be ${MINIMUM_AGE} or over; a minor cannot be added. This customer is ${age}.` : undefined;
 }
 
+/** The person is a minor: their date of birth is on record and they are under 18 (a date of birth that is not on record is not a minor, it is unknown). */
+export function actualUserIsMinor(identity: GuidedContactValue | undefined, asOf: Date = new Date()): boolean {
+  const age = ageOn(identity?.moiResult?.dob, asOf);
+  return age !== undefined && age < MINIMUM_AGE;
+}
+
+/** The exception stands: the person is under 18, and the Court Order was attached for THIS person (a different ID, or a removed document, means it does not). */
+export function minorExceptionHolds(v: ActualUserValue | undefined, asOf: Date = new Date()): boolean {
+  if (!isOtherUser(v) || !v?.exception?.document) return false;
+  const i = v.identity;
+  return actualUserIsMinor(i, asOf) && sameId(v.exception.idNumber, i?.idNumber);
+}
+
 /** The step may continue when the primary customer uses the line, or the actual user is fully identified and is not the primary themself. */
 export function isActualUserValid(v: ActualUserValue | undefined, primaryIdNumber?: string): boolean {
   if (!isOtherUser(v)) return true;
   const i = actualUserIdentity(v);
   if (!i) return false;
-  if (actualUserAgeProblem(i)) return false;
+  // A minor cannot be added through the standard flow; only with the Exception Request (Court Order) for them.
+  if (actualUserAgeProblem(i) && !minorExceptionHolds(v)) return false;
   return !sameId(i.idNumber, primaryIdNumber);
 }
 
@@ -114,6 +139,31 @@ export function pickDemoReaderCustomer(
     if (c.customerId === primaryCustomerId) return false;
     const age = ageOn(c.dob, asOf);
     if (age === undefined || age < MINIMUM_AGE) return false;
+    return docs.some(
+      (d) => d.customerId === c.customerId && d.documentType === 'QID' && /^\d{11,14}$/.test(d.documentNumber) && (!d.expiryDate || !isIdExpired(d.expiryDate, asOf))
+    );
+  })?.customerId;
+}
+
+/**
+ * Which customer the simulated card reader presents for "Scan Below 18": the first customer under 18, other than the primary, of the SAME nationality as the
+ * primary contact, holding an unexpired QID with a real QID number (11-14 digits). By rule, not by name; undefined when nobody qualifies (the demo data has no
+ * such person for that nationality) - never someone of another nationality.
+ */
+export function pickDemoUnderEighteenCustomer(
+  customers: { customerId: string; dob?: string; nationality?: string }[],
+  docs: { customerId: string; documentType: string; documentNumber: string; expiryDate?: string }[],
+  primaryCustomerId: string | undefined,
+  primaryNationality: string | undefined,
+  asOf: Date = new Date()
+): string | undefined {
+  const nat = primaryNationality?.trim().toLowerCase();
+  if (!nat) return undefined;
+  return customers.find((c) => {
+    if (c.customerId === primaryCustomerId) return false;
+    if (c.nationality?.trim().toLowerCase() !== nat) return false;
+    const age = ageOn(c.dob, asOf);
+    if (age === undefined || age >= MINIMUM_AGE) return false;
     return docs.some(
       (d) => d.customerId === c.customerId && d.documentType === 'QID' && /^\d{11,14}$/.test(d.documentNumber) && (!d.expiryDate || !isIdExpired(d.expiryDate, asOf))
     );

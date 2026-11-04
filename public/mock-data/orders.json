@@ -1546,7 +1546,8 @@
     "approvalStatus": "Approved",
     "createdBy": "USR-1101",
     "sourceChannel": "Retail Store",
-    "createdAt": "2026-11-02T10:00:00+03:00"
+    "createdAt": "2026-11-02T10:00:00+03:00",
+    "billingProfileId": "BILL-7001"
   },
   {
     "_note": "Family Package demo order (2026-11-04).",
@@ -1564,6 +1565,7 @@
     "approvalStatus": "Pending Approval",
     "createdBy": "USR-1101",
     "sourceChannel": "Retail Store",
-    "createdAt": "2026-11-02T10:00:00+03:00"
+    "createdAt": "2026-11-02T10:00:00+03:00",
+    "billingProfileId": "BILL-7150"
   }
 ]

@@ -1017,7 +1017,7 @@ def seed():
                              "preferredLanguage": c.get("preferredLanguage", "English"), "cellNumber": c.get("phone", ""), "workPhone": None, "employerEmail": None})
         for n, (name, prod, rent, desc) in enumerate([
             ("Postpaid Red 500 Welcome Offer", "PROD-105", 500, "Open a new Postpaid Red 500 line with the welcome bundle"),
-            ("Postpaid Red 350 Switch-On Offer", "PROD-104", 350, "Open a new Postpaid Red 350 line with a free first-month add-on"),
+            ("Postpaid Max Switch-On Offer", "PROD-109", 180, "Open a new Postpaid Max line with a free first-month add-on"),
             # The one Ahli Family Plan offer shown under Recommended Offers > New Postpaid (2026-11-04); its offerId ends -AHLI in the data.
             ("Postpaid Ahli Family Offer", "PROD-142", 375, "Open a new Ahli Family Plan with 50GB full speed local data and unlimited local minutes & SMS"),
         ], 1):
