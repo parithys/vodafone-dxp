@@ -31,6 +31,8 @@ export function checkoutSummaryStep(
     before?: (ctx: { values: Record<string, unknown>; goToStepKey: (key: string) => void }) => ReactNode;
     /** A further condition on continuing (the gate holds); the read-back itself never blocks. */
     isValid?: (values: Record<string, unknown>) => boolean;
+    /** Rows the order adds to the read-back and the CAF's key information, after the plan (a Family Plan's package and line). */
+    familyRows?: (values: Record<string, unknown>) => { label: string; value: string }[];
   } = {}
 ): WizardStep {
   return {
@@ -67,6 +69,7 @@ export function checkoutSummaryStep(
           onTotalsComputed={(totals) => setValue('checkoutTotals', totals)}
           onSummaryComputed={(rows) => setValue('cafSummary', rows)}
           onLegalFactsComputed={(facts) => setValue('legalFacts', facts)}
+          familyRows={opts.familyRows?.(values)}
           onEdit={() => goToStepKey(opts.editStepKey?.(values) ?? 'plan')}
         />
       );

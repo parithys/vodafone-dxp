@@ -39,6 +39,8 @@ import { isNumberWaiver } from '../../engines/numberWaiver';
 import { assignMultiSimMsisdns, multiSimEntitlement } from '../../engines/multiSim';
 import { multiSimsFor } from '../../capabilities';
 import { approvalMessages, decisionRecord, needsCreditControl } from '../../engines/connectionEligibility';
+import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
+import { familyStartFor } from './familyStart';
 
 type EntityStore = ReturnType<typeof useEntityStore.getState>;
 
@@ -64,9 +66,15 @@ export async function submitNewConnectionOrder(
       const numberDelta = (values.numberPriceQAR as number | undefined) ?? 0;
       const checkoutTotals = values.checkoutTotals as CheckoutTotals | undefined;
       const dueTodayQar = checkoutTotals?.dueTodayQar ?? 0;
-      const products = await mockDataEngine.list<{ productId: string; name: string; mrcQAR: number; multiSimCount?: number }>('products');
+      const products = await mockDataEngine.list<{ productId: string; name: string; mrcQAR: number; multiSimCount?: number; planClass?: string }>('products');
       const plan = products.find((p) => p.productId === values.productId);
       const addons = products.filter((p) => addonIds.includes(p.productId));
+      // A Family Plan makes this order Primary Line 1 of a new Family Package; a connection type chosen after that makes it a line of the existing package, on the
+      // package's plan. Judged again here, on the lines and orders on record now: a stale draft, a package that changed meanwhile, or a type whose limit was
+      // reached must not produce the line.
+      const family = familyStartFor(values, products, await mockDataEngine.list<FamilyLine>('family-package-lines'), await mockDataEngine.list<FamilyOrder>('orders'));
+      if (family.applies && !family.ok) throw new Error(family.reason);
+      if (family.applies && family.ok && family.additional && (!family.planId || values.productId !== family.planId)) throw new Error('A connection added to a Family Package needs the plan its type is on.');
       const discounts = await mockDataEngine.list<{ addonDiscountId: string; price?: number; addonType?: string }>('addons-discounts');
       const discount = discounts.find((d) => d.addonDiscountId === values.discountId);
       // The same itemisation the two display surfaces render, so what the
@@ -174,6 +182,7 @@ export async function submitNewConnectionOrder(
         ? (await mockDataEngine.list<{ billingProfileId: string; billingCycle?: string }>('billing-profiles')).find((b) => b.billingProfileId === billingAccount.selectedProfileId)
         : undefined;
       const orderId = `ORD-${Date.now().toString().slice(-6)}`;
+      const familyPackageId = family.applies && family.ok && family.additional ? family.additional.packageId : `FPK-${orderId.replace('ORD-', '')}`;
       // The salutation the agent entered is saved to the customer's profile (shown in Customer 360).
       await saveCustomerSalutation(eligibility?.customerId, contact.salutation, updateRecord);
       // A QID linked to an existing customer through their Passport is added to that customer's documents (no duplicate customer).
@@ -228,6 +237,8 @@ export async function submitNewConnectionOrder(
           ? 'HRN'
           : 'Consumer',
         status: pendingApproval ? 'Submitted for Approval' : 'Complete',
+        // The Family Package this order starts (the package's line is written below). Family Package lines open on this order's approval status.
+        ...(family.applies && family.ok ? { approvalStatus: pendingApproval ? 'Pending Approval' : 'Not Required', familyPackageId, familyLine: family.lineLabel } : {}),
         ...(pendingApproval
           ? {
               manualIdEntry: manualIdEntry || undefined,
@@ -276,6 +287,21 @@ export async function submitNewConnectionOrder(
         planSource: crossSales?.decision === 'accepted' || values.selectionSource === 'OFFER' ? 'Sales Offer' : 'General Plan',
         crossSalesOfferId: crossSales?.decision === 'accepted' ? crossSales.offerId : undefined,
       });
+      // The Family Package line: Primary Line 1 of a new package on the plan the agent selected, or the line added to the existing package on its plan, tied to this order and to the line's number. The customer's
+      // record when they have one (a customer first identified in this journey is named by the ID they were identified with).
+      if (family.applies && family.ok) {
+        await createRecord('family-package-lines', {
+          lineId: `FPL-${orderId.replace('ORD-', '')}-${family.additional ? family.additional.role[0] + family.additional.sequence : 'P1'}`,
+          packageId: familyPackageId,
+          customerId: eligibility?.customerId,
+          idNumber: contact.idNumber,
+          role: family.additional?.role ?? 'Primary',
+          sequence: family.additional?.sequence ?? 1,
+          planId: family.planId,
+          orderId,
+          msisdn: values.msisdn,
+        });
+      }
       // One line per Multi-SIM, joined to the primary line. No customerId and no reservation: a Multi-SIM line is not in the customer's Active Line
       // Count (listCustomerServices reads no Multi-SIM line) and its number is not a Reserved number. Its monthly fee is the plan's to set, so none is written.
       for (const [i, sim] of multiSimSlots.entries()) {
@@ -359,6 +385,7 @@ export async function submitNewConnectionOrder(
         customerEmailDisplay: contact.moiResult?.isNewCustomer && !contact.moiResult?.createdByAgent && contact.email ? maskEmail(contact.email) : contact.email,
         customerEmailVerified: emailVerified,
         terms: orderTerms(values, 'postpaid'),
+        ...(family.applies && family.ok ? { familyPackage: { packageId: familyPackageId, lineLabel: family.lineLabel, planName: plan?.name ?? '-' } } : {}),
       };
 
   return confirmed;

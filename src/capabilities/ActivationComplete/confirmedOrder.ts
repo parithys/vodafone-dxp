@@ -36,6 +36,8 @@ export interface ConfirmedOrder {
   simType?: string;
   /** The Terms & Conditions the customer signed (and the actual user's Supplementary Form, when there is one): drives Print T&C and Print Supplement T&C. Absent when the journey signs no CAF. */
   terms?: OrderTerms;
+  /** Set when the order started a Family Package: its first line (Primary Line 1) and the package's plan. */
+  familyPackage?: { packageId: string; lineLabel: string; planName: string };
   /** Set only for eSIM orders - drives the QR handover panel below. */
   esimActivationCode?: string;
   /**

@@ -103,7 +103,8 @@ export function ProductSelection({
       {/* Recommended offers belong to New Connection; New Home Connection goes straight to the home products. */}
       {launch && <StartCards values={values} setValue={setValue} goNext={goNext} ctx={ctx} choose={chooseProduct} />}
 
-      {!homeJourney && !launch && (
+      {/* A connection added to a Family Package is on the package's plan: there is no offer to choose, only the product's eligibility to judge. */}
+      {!homeJourney && !launch && !values.familyLine && (
         <CrossSalesStep
           customerId={eligibility?.customerId}
           value={crossSales ?? {}}

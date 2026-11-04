@@ -5,6 +5,7 @@ import type { CheckoutTotals, TncLegalFacts } from './checkoutSummaryModel';
 import { SummaryTables } from './CheckoutSummaryTables';
 import { CheckoutDefaultLayout } from './CheckoutDefaultLayout';
 import { buildDetailedTables } from './checkoutDetailedTables';
+import { insertRowsAfter } from './checkoutSummaryRows';
 import { useCheckoutSummary } from './useCheckoutSummary';
 import type { AddonBillingFrequency } from '../../engines/addonCategories';
 
@@ -77,6 +78,8 @@ interface CheckoutSummaryStepProps {
   layout?: 'default' | 'detailed';
   /** See TncLegalFacts - powers the CAF step's dynamic bullet summary. */
   onLegalFactsComputed?: (facts: TncLegalFacts) => void;
+  /** Rows the order adds after the plan, in the read-back and the CAF's key information (a Family Plan's package and line). */
+  familyRows?: { label: string; value: string }[];
 }
 
 // "Checkout" (reference flow step 9, evidenced as SCR "checkout-screen-retail-
@@ -103,6 +106,7 @@ export function CheckoutSummaryStep({
   onSummaryComputed,
   onEdit,
   onLegalFactsComputed,
+  familyRows,
   layout = 'default',
 }: CheckoutSummaryStepProps) {
   const derived = useCheckoutSummary({
@@ -120,6 +124,7 @@ export function CheckoutSummaryStep({
     onTotalsComputed,
     onSummaryComputed,
     onLegalFactsComputed,
+    extraRows: familyRows,
   });
 
   if (layout === 'detailed') {
@@ -129,7 +134,7 @@ export function CheckoutSummaryStep({
       msisdn,
       billLimit,
       simType,
-    });
+    }).map((t) => (t.title === 'Order Summary' ? { ...t, rows: insertRowsAfter(t.rows, 'Plan Name', familyRows) } : t));
     return (
       <div className="space-y-6">
         <SummaryTables tables={tables} />

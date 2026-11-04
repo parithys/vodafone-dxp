@@ -54,7 +54,9 @@ export function productStep(ctx: ProductStepContext): WizardStep {
     render: ({ values, setValue, goNext }) => <ProductSelection values={values} setValue={setValue} goNext={goNext} ctx={ctx} variant="buttons" />,
     isValid: (values) => Boolean(values.product) && productEligibilityClear(values),
     // The footer is the product choice: one button per product, New Postpaid the primary. Each continues in this wizard.
-    primaryAction: ({ values, setValue, goNext }) => {
+    primaryAction: ({ values, setValue, goNext, defaultButton }) => {
+      // A connection added to a Family Package is a postpaid line: no other product to switch to.
+      if (values.familyLine) return defaultButton;
       const personaId = usePersonaStore.getState().activePersonaId;
       const choose = (product: ConnectionProduct) => {
         // The same product again, with its eligibility already judged: go on (the agent has seen what the step reported).

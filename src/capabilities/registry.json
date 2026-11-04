@@ -127,6 +127,7 @@
     "stepLabel": "PLAN_SELECTION_LABEL",
     "summary": "Choose the plan: postpaid plan cards then Add-ons (discounts, bill limit), prepaid packs then Add-ons, or the fixed-line / fibre plan cards with the credit check. The line's current plan or pack can be left out of the choices when a journey changes it.",
     "parts": [
+      "capabilities/PlanSelection/SecondaryPlanPicker.tsx",
       "components/patterns/PostpaidPlanAddonsStep.tsx",
       "components/patterns/PrepaidPlanStep.tsx",
       "components/patterns/FixedPlanStep.tsx",
@@ -247,7 +248,8 @@
     "summary": "The confirmation page for a submitted activation (facts, status, follow-on actions, eSIM handover, email) and the confirmed-order shape journeys hand it.",
     "parts": [
       "components/patterns/ActivationCompleteScreen.tsx",
-      "components/patterns/OrderConfirmationScreen.tsx"
+      "components/patterns/OrderConfirmationScreen.tsx",
+      "capabilities/ActivationComplete/AddConnectionModal.tsx"
     ],
     "previewable": true,
     "publicApi": []

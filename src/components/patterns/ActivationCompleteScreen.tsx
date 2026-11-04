@@ -7,7 +7,8 @@ import { OrderConfirmationScreen } from './OrderConfirmationScreen';
 import { EsimActivationPanel } from '../domain/EsimActivationPanel';
 import { useEntityStore } from '../../stores/entityStore';
 import { useAuthStore } from '../../stores/authStore';
-import { closeOrderActivities, logActivity } from '../../engines/activityEngine';
+import { logActivity } from '../../engines/activityEngine';
+import { recordOrderCompletion } from '../../engines/orderCompletion';
 import type { ActivityInput } from '../../engines/activityEngine';
 import { useCustomerContext } from '../../stores/customerContextStore';
 import { Badge } from '../primitives/Badge';
@@ -76,6 +77,8 @@ export interface ActivationCompleteOrder {
   customerEmailVerified?: boolean;
   /** The terms the customer signed, when the journey signs a CAF: Print T&C, and Print Supplement T&C with an actual user. */
   terms?: OrderTerms;
+  /** The Family Package the order started (its Primary Line 1 and the package's plan): shown as a row, and once the line is activated it offers Add Another Connection. */
+  familyPackage?: { packageId: string; lineLabel: string; planName: string };
 }
 
 /** Cross-sell into the Fixed Line/Fibre wizard for the same counter visit (SCR-043). */
@@ -89,8 +92,6 @@ const MY_ORDERS_ROUTE = '/orders';
 // Orders whose confirmation email has already been sent this session, so re-rendering (or React's
 // double-invoked effects) can never send it twice.
 const emailedOrders = new Set<string>();
-// Orders whose automatic activity has been recorded, so a second Done & Exit can never record it twice.
-const completionLogged = new Set<string>();
 
 // `numberLabel` and `hideSimType` let a journey without a SIM (Fixed Activation) name its number and drop the SIM row;
 // both default to the Postpaid wording, so existing callers render exactly as before.
@@ -98,10 +99,13 @@ export function ActivationCompleteScreen({
   order,
   numberLabel = 'MSISDN',
   hideSimType = false,
+  onAddConnection,
 }: {
   order: ActivationCompleteOrder;
   numberLabel?: string;
   hideSimType?: boolean;
+  /** Offered, once a Family Package line is activated, as Add Another Connection (the page that mounts this owns the choice of type). */
+  onAddConnection?: () => void;
 }) {
   const navigate = useNavigate();
   const createRecord = useEntityStore((s) => s.createRecord);
@@ -165,11 +169,7 @@ export function ActivationCompleteScreen({
     if (closing) return;
     setClosing(true);
     // The automatic activity (no comments) is recorded here, independent of any manual activity created below.
-    if (order.completionActivity && !completionLogged.has(order.orderId)) {
-      completionLogged.add(order.orderId);
-      await logActivity(order.completionActivity);
-    }
-    await closeOrderActivities(order.orderId);
+    await recordOrderCompletion(order);
     // Done & Exit closes the Qnomy ticket held for this customer, so the agent can call the next one.
     await closeHeldQnomyTicket();
     // The journey is over: the customer context is released.
@@ -251,6 +251,7 @@ export function ActivationCompleteScreen({
           { label: 'Plan', value: order.planName },
           ...(order.activeAddons ? [{ label: 'Active Add-Ons', value: order.activeAddons.length ? order.activeAddons.join(', ') : 'None' }] : []),
           ...(order.billingCycle ? [{ label: 'Billing Cycle', value: order.billingCycle }] : []),
+          ...(order.familyPackage ? [{ label: 'Family Package', value: `${order.familyPackage.lineLabel} - ${order.pendingApproval ? 'awaiting approval; other connections open once it is approved' : 'activated'}` }] : []),
                     ...(hideSimType ? [] : [{ label: 'SIM Type', value: order.simType ?? '-' }]),
           // A port-in request's own references (NPAS reference, form number, response deadline).
           ...(order.extraLines ?? []),
@@ -258,6 +259,8 @@ export function ActivationCompleteScreen({
         actions={[
           // Done & Exit closes the activity and is the primary action; View My Orders and the rest follow.
           { label: 'Done & Exit', variant: 'primary', onClick: () => void closeActivity() },
+          // Once Primary Line 1 is activated (not while it waits for approval), the package's other connections are added from Customer 360, which needs the customer's record.
+          ...(order.familyPackage && !order.pendingApproval && order.customerId && onAddConnection ? [{ label: 'Add Another Connection', onClick: onAddConnection }] : []),
           { label: 'View My Orders', onClick: () => navigate(MY_ORDERS_ROUTE) },
           ...(order.trackAction ? [{ label: order.trackAction.label, onClick: () => navigate(order.trackAction!.to) }] : []),
           // A location that is ready for service can go on to fibre activation. Create Lead (always offered once the

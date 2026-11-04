@@ -156,3 +156,11 @@ export function buildCafSummaryRows({
     { label: 'Approximate Subsequent Bill', value: `${formatQar(monthlyRecurringQar)}/mo` },
   ];
 }
+
+/** `extra` rows placed after the row labelled `after` (at the end when there is none): how an order adds its own facts (a Family Plan's package and line) to a read-back. */
+export function insertRowsAfter<T extends { label?: string }>(rows: T[], after: string, extra: readonly { label: string; value: string }[] | undefined): T[] {
+  if (!extra || extra.length === 0) return rows;
+  const at = rows.findIndex((r) => r.label === after);
+  const added = extra as unknown as T[];
+  return at === -1 ? [...rows, ...added] : [...rows.slice(0, at + 1), ...added, ...rows.slice(at + 1)];
+}

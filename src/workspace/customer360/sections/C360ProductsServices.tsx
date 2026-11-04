@@ -11,6 +11,7 @@ import { buildAssetsFieldResolver } from './assetsResolvers';
 import { ActionButton, FilterSelect, fmtDate, fmtDateTime, GridTable, IC, IconTile, KpiTile, Panel, PrimaryTag, qar, SearchBox, StatusPill, TabPage } from './C360Kit';
 import type { GridCol, Tone } from './C360Kit';
 import { ServiceActionsMenu } from '../CustomerActionsMenu';
+import { FamilyPackagePanel } from './FamilyPackagePanel';
 import { Dv } from '../demoValues';
 import { ConnectionTypeTag } from '../../../components/primitives/ConnectionTypeTag';
 import { connectionTag } from '../../../lib/connectionType';
@@ -294,6 +295,7 @@ export function C360ProductsServices({ data, services }: { data: Customer360Data
               empty={services.length === 0 ? 'No connections on file for this customer.' : 'No services match the current search or filters.'}
             />
           </Panel>
+          <FamilyPackagePanel customerId={data.customer.customerId} />
         </div>
 
         {panelOpen && (

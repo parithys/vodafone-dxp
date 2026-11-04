@@ -59,8 +59,9 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
       }`}
     >
       {selected && <SelectedTick />}
-      {!compact && (
-        <div className="split-nowrap">
+      {/* The plan-type tag leads every card; the Popular badge (and its reserved space) is for the full cards only. */}
+      <div className="split-nowrap">
+        {!compact && (
           <span
             className={`tag-accent px-2.5 ${p.popular ? '' : 'invisible'}`}
             aria-hidden={!p.popular}
@@ -68,9 +69,9 @@ export function PostpaidPlanCard({ p, selectedProductId, billLimit, onSelectProd
             <Icon path={STAR} className="size-3 " />
             Popular
           </span>
-          {isPlanClass(p.planClass) ? <ServiceTypeTag type={PLAN_CLASS_TAG[p.planClass]} /> : <ConnectionTypeTag category="Postpaid" />}
-        </div>
-      )}
+        )}
+        {isPlanClass(p.planClass) ? <ServiceTypeTag type={PLAN_CLASS_TAG[p.planClass]} /> : <ConnectionTypeTag category="Postpaid" />}
+      </div>
       <div className="fill-column gap-2">
         <p className="title title-lg leading-snug">{displayName ?? p.name}</p>
         {/* Same price block on every tab: the struck-through price on its own small line, then "QAR n /month for N months" on one line. */}

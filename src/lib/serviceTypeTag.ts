@@ -26,6 +26,8 @@ export const SERVICE_TYPE_TAGS = {
   'postpaid-voice': { label: 'Voice Plan', colour: BLUE },
   'postpaid-broadband': { label: 'Broadband Plan', colour: TEAL },
   'postpaid-family': { label: 'Family Plan', colour: AMBER },
+  'postpaid-supplementary': { label: 'Supplementary Plan', colour: GREEN },
+  'postpaid-secondary': { label: 'Secondary Plan', colour: INDIGO },
   prepaid: { label: 'Prepaid', colour: GREEN },
   'fixed-line': { label: 'Fixed Line', colour: PINK },
 } as const;

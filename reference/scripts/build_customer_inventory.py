@@ -997,7 +997,7 @@ def seed():
                               {"_note": SEED_TAG, "simSerial": "8974412009900130002", "iccid": "8974412009900130002", "type": "Printed eSIM", "stockStatus": "Issued", "swapStatus": "Original"}])
     # Every customer needs a contact record (Customer 360 Contact Information, billing contact
     # picker) and cross-sales offers keyed to it, or the New Connection Offers step shows
-    # "No cross-sales offer available". Two postpaid offers each; existing records untouched.
+    # "No cross-sales offer available". Three postpaid offers each; existing records untouched.
     all_c = rd("customers")
     docs_by = {}
     for d in rd("identity-documents"):
@@ -1018,8 +1018,10 @@ def seed():
         for n, (name, prod, rent, desc) in enumerate([
             ("Postpaid Red 500 Welcome Offer", "PROD-105", 500, "Open a new Postpaid Red 500 line with the welcome bundle"),
             ("Postpaid Red 350 Switch-On Offer", "PROD-104", 350, "Open a new Postpaid Red 350 line with a free first-month add-on"),
+            # The one Ahli Family Plan offer shown under Recommended Offers > New Postpaid (2026-11-04); its offerId ends -AHLI in the data.
+            ("Postpaid Ahli Family Offer", "PROD-142", 375, "Open a new Ahli Family Plan with 50GB full speed local data and unlimited local minutes & SMS"),
         ], 1):
-            new_offers.append({"_note": SEED_TAG, "offerId": f"OFR-{cid}-{n}", "offerType": "Cross Sell", "offerName": name, "monthlyRental": rent, "offerDescription": desc,
+            new_offers.append({"_note": SEED_TAG, "offerId": f"OFR-{cid}-{n}" if n < 3 else f"OFR-{cid}-AHLI", "offerType": "Cross Sell", "offerName": name, "monthlyRental": rent, "offerDescription": desc,
                                "campaignCode": "CMP-NEW-0930", "priorityCode": f"P{n}", "serviceIdentifier": c.get("phone", ""), "status": "Offered", "treatmentCode": f"TRT-0{n}",
                                "channel": "Guided Journey", "promotionId": f"PROMO-90{n}5", "price": rent, "addOnMonthly": 0, "linkedProductIds": [prod], "contactId": ctc,
                                "serviceJourney": "new-postpaid"})

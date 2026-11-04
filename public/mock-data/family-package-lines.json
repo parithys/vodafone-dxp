@@ -1,0 +1,33 @@
+[
+  {
+    "_note": "Family Package demo data (2026-11-04): CUST-1001's package is open (Primary Line 1 approved); CUST-3084's Primary Line 1 is still awaiting approval, so its other lines are locked. Any other customer has no package.",
+    "lineId": "FPL-1001-P1",
+    "packageId": "FPK-CUST-1001",
+    "customerId": "CUST-1001",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-143",
+    "orderId": "ORD-FAM-1001",
+    "msisdn": "+97455520101"
+  },
+  {
+    "lineId": "FPL-1001-S1",
+    "packageId": "FPK-CUST-1001",
+    "customerId": "CUST-1001",
+    "role": "Secondary",
+    "sequence": 1,
+    "planId": "PROD-310",
+    "orderId": "ORD-FAM-1002",
+    "msisdn": "+97455520102"
+  },
+  {
+    "lineId": "FPL-3084-P1",
+    "packageId": "FPK-CUST-3084",
+    "customerId": "CUST-3084",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-142",
+    "orderId": "ORD-FAM-3084",
+    "msisdn": "+97455520201"
+  }
+]

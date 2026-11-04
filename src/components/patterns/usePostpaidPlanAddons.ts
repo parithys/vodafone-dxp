@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { discountsForCustomer, type CustomerBenefit } from '../../engines/customerBenefitEngine';
 import { monthlyCharges } from '../../engines/postpaidPricing';
-import { closestPlans, PLAN_GROUPS, SPECIAL_DISCOUNT_TYPE, discountsForSpecialType, specialDiscountToPreselect, isPlanOfferedTo, SPECIAL_OFFERS_TAB_LABEL, OFFERS_TAB_LIMIT, planGroupOf, matchesPlanType, midPricedPlan } from './postpaidPlanModel';
+import { searchPlans, planMatchesSearch, PLAN_GROUPS, SPECIAL_DISCOUNT_TYPE, discountsForSpecialType, specialDiscountToPreselect, isPlanOfferedTo, SPECIAL_OFFERS_TAB_LABEL, offersTabPlans, planGroupOf, matchesPlanType, midPricedPlan } from './postpaidPlanModel';
 import type { PostpaidPlan, Discount, AddonProduct, PlanGroupKey, TabKey, PlanTypeFilter } from './postpaidPlanModel';
 
 interface UsePostpaidPlanAddonsArgs {
@@ -71,14 +71,12 @@ export function usePostpaidPlanAddons({
   // catalogue happens to be flagged popular.
   const defaultTabSet = useRef(false);
 
-  // Name OR price. The price side matches the raw number anywhere in the
-  // figure, so "35" finds 350 - narrowing as the agent types rather than
-  // requiring the exact charge.
+  // Every word typed must appear somewhere in what the plan shows. The price side still matches the raw number anywhere in the figure, so "35"
+  // finds 350 - narrowing as the agent types rather than requiring the exact charge.
   const visiblePlans = plans.filter((p) => {
     if (!matchesPlanType(p, planTypeFilter)) return false;
-    const q = planSearch.trim().toLowerCase();
-    if (!q) return true;
-    return p.name.toLowerCase().includes(q) || String(p.mrcQAR).includes(q);
+    // Everything the plan shows - its name, price, allowances, benefits and so on - not only its name (see planSearchText).
+    return planMatchesSearch(p, planSearch);
   });
   // Tabs themselves are stable while the agent types a search - built from
   // the FULL catalogue, not the filtered one, so a query that empties the
@@ -127,7 +125,7 @@ export function usePostpaidPlanAddons({
       const marked = list.map((p) => ({ ...p, popular: p.productId === mid?.productId }));
       return [...marked.filter((p) => p.popular), ...marked.filter((p) => !p.popular)];
     }
-    return key === 'specials' ? list.slice(0, OFFERS_TAB_LIMIT) : list;
+    return key === 'specials' ? offersTabPlans(list) : list;
   };
   // The selection was withdrawn while its tab was open: fall back to Offers.
   useEffect(() => {
@@ -149,8 +147,9 @@ export function usePostpaidPlanAddons({
   }, [plans, special, specialRowsLoaded, hasSpecialTab]);
 
   // The search belongs to the tab being shown: its suggestions come from that tab's plans only, never the other tabs'.
-  const tabPlans = plans.filter((p) => matchesPlanType(p, planTypeFilter)).filter((p) => (activeTab === 'special' ? specialPlanIds.has(p.productId) : planGroupOf(p) === activeTab)).slice(0, activeTab === 'specials' ? OFFERS_TAB_LIMIT : undefined);
-  const suggestions = closestPlans(planSearch, tabPlans);
+  const tabCandidates = plans.filter((p) => matchesPlanType(p, planTypeFilter)).filter((p) => (activeTab === 'special' ? specialPlanIds.has(p.productId) : planGroupOf(p) === activeTab));
+  const tabPlans = activeTab === 'specials' ? offersTabPlans(tabCandidates) : tabCandidates;
+  const suggestions = searchPlans(planSearch, tabPlans);
 
   useEffect(() => {
     if (!searchOpen) return;

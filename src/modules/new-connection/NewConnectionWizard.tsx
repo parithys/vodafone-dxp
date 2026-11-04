@@ -6,6 +6,9 @@ import { usePersonaStore } from '../../stores/personaStore';
 import { reachMilestoneOnEvent } from '../../components/patterns/wizard/useJourneyMilestones';
 import type { JourneyMilestones } from '../../engines/milestoneEngine';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { familyLineContextOf } from './familyStart';
+import { existingCustomerPath } from '../../navigation/journeyPaths';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { useCustomerContext } from '../../stores/customerContextStore';
 import { useEntityStore } from '../../stores/entityStore';
@@ -43,8 +46,8 @@ const POSTPAID_MILESTONE_CONFIG: JourneyMilestones = { defs: POSTPAID_MILESTONES
 export function NewConnectionWizard({
   flow = 'new',
   journey = 'connection',
-  initialProduct,
-  initialValues,
+  initialProduct: initialProductProp,
+  initialValues: initialValuesProp,
   title,
   fixedFooter,
 }: {
@@ -72,15 +75,38 @@ export function NewConnectionWizard({
     guardedContactChange,
     customerBenefits,
     products,
+    familyLines,
+    familyOrders,
     applyCrossSales,
   } = useNewConnectionJourney(flow, journey);
   const updateRecord = useEntityStore((s) => s.updateRecord);
+  // Add Another Connection starts this journey with the connection type chosen and the package it joins (router state, as the other entry points carry theirs):
+  // it is a postpaid line, begun from Customer Verification like any other, and the type and package stay in the draft for every step after. The router state
+  // is consumed (and the draft cleared) as the journey opens, so it is held here, and written to the draft again if the clearing took it.
+  const location = useLocation();
+  const [familyLine, setFamilyLine] = useState(() => familyLineContextOf({ familyLine: (location.state as { familyLine?: unknown } | null)?.familyLine }));
+  const initialProduct = initialProductProp ?? (familyLine ? 'postpaid' : undefined);
+  const initialValues = familyLine ? { ...initialValuesProp, familyLine } : initialValuesProp;
   // Fixed for the life of the journey, so steps never change under the agent.
   const [device] = useState(detectDeviceType);
   const product = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values?.product) as ConnectionProduct | undefined;
   const homeProduct = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values?.homeProduct) as HomeProduct | undefined;
   const productPreselected = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values?.productPreselected) as boolean | undefined;
   const draftValues = useWorkflowStore((s) => s.drafts[WIZARD_ID]?.values);
+  // The same route is opened again to add a connection (or to start a new journey) while this page still shows the last confirmation: a fresh start leaves the
+  // confirmation and takes its own connection type (or none).
+  useEffect(() => {
+    const st = location.state as { startFresh?: boolean; familyLine?: unknown } | null;
+    if (!st?.startFresh) return;
+    setFamilyLine(familyLineContextOf({ familyLine: st.familyLine }));
+    setConfirmedOrder(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key]);
+  const familyLineInDraft = Boolean(draftValues?.familyLine);
+  useEffect(() => {
+    if (!familyLine || familyLineInDraft || confirmedOrder || isMirrorWindow) return;
+    useWorkflowStore.getState().patchDraft(WIZARD_ID, { set: { familyLine, product: 'postpaid', productPreselected: true } });
+  }, [familyLine, familyLineInDraft, confirmedOrder, isMirrorWindow, WIZARD_ID]);
 
   // Existing Customer: the route names the customer, so their name sits under the title from the start.
   const [routeCustomerName, setRouteCustomerName] = useState<string | undefined>();
@@ -121,7 +147,16 @@ export function NewConnectionWizard({
   if (heldByAnotherJourney && !isMirrorWindow) return null; // redirecting to the journey that holds the customer
 
   if (confirmedOrder) {
-    return <ActivationComplete order={confirmedOrder} service={confirmedOrder.service} showActivityId={!isMirrorWindow} allowCustomerView={device === 'web'} />;
+    return (
+      <ActivationComplete
+        order={confirmedOrder}
+        service={confirmedOrder.service}
+        showActivityId={!isMirrorWindow}
+        allowCustomerView={device === 'web'}
+        // Add Another Connection: the chosen type and its package start the New Postpaid journey again for this customer, from Customer Verification.
+        onAddConnection={(familyLine) => confirmedOrder.customerId && navigate(existingCustomerPath(confirmedOrder.customerId), { state: { startFresh: true, familyLine } })}
+      />
+    );
   }
 
   const confirm = async (values: Record<string, unknown>): Promise<ConfirmedOrder> => {
@@ -188,6 +223,8 @@ export function NewConnectionWizard({
           navigate,
           createRecord,
           products,
+          familyLines,
+          familyOrders,
           customerBenefits,
           device,
         })}

@@ -12,6 +12,7 @@ import {
   serviceAddressStep,
   simTypeStep,
   isSpecialDiscountsValid,
+  SecondaryPlanPicker,
 } from '../../capabilities';
 import type { SpecialDiscountsValue } from '../../capabilities';
 import { starEntitlementQar } from '../../engines/postpaidPricing';
@@ -20,11 +21,21 @@ import type { Product } from './newConnectionModel';
 import { expectsApproval } from './approvalRouting';
 import { isOffersTabPlan } from '../../components/patterns/postpaidPlanModel';
 import type { DeviceType } from '../../lib/deviceType';
+import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
+import { FamilyPackageNotice } from '../../components/patterns/FamilyPackageNotice';
+import { familyLineContextOf, familyStartFor } from './familyStart';
+import { FamilyPlanApplier } from '../../components/patterns/FamilyPackageNotice';
+import type { PostpaidPlan } from '../../components/patterns/postpaidPlanModel';
+import { SECONDARY_PLAN_CLASS } from '../../engines/familyPackage';
 
 /** What the postpaid steps need from the journey: the plan catalogue and the customer's benefits. */
 export interface PostpaidStepContext {
   products: Product[];
   customerBenefits: CustomerBenefit[] | undefined;
+  /** Every Family Package line on record: a Family Plan starts a package only for a customer who holds none. */
+  familyLines: FamilyLine[];
+  /** The orders of those lines (a package opens to further connections once Primary Line 1's order is approved). */
+  familyOrders: FamilyOrder[];
   /** The device in use: makes the SIM serial scan-led on a tablet and type-led on the web (as the prepaid journey does). */
   device?: DeviceType;
 }
@@ -58,12 +69,55 @@ export const multiSimCountFor = (products: Product[]) => (values: Record<string,
  * The New Postpaid steps, after Customer Verification and Product Selection: Address, Billing Profile (resolved for the
  * agent), Plan and Add-ons, Number, SIM, Checkout, the full CAF and Payment, which submits.
  */
-export function postpaidSteps({ products, customerBenefits, device }: PostpaidStepContext): WizardStep[] {
-  const planContext = { products, customerBenefits, skipWhen: offerAccepted, announceHrn: true };
+export function postpaidSteps({ products, customerBenefits, device, familyLines = [], familyOrders = [] }: PostpaidStepContext): WizardStep[] {
+  const family = (values: Record<string, unknown>) => familyStartFor(values, products, familyLines, familyOrders);
+  const planName = (values: Record<string, unknown>, id?: string) => products.find((p) => p.productId === (id ?? values.productId))?.name;
+  const planContext = {
+    products,
+    customerBenefits,
+    // An accepted offer fixes the plan, so the plan page is passed over - except for a Family Plan, whose page says it starts a Family Package (Primary Line 1) and holds the order if it cannot.
+    skipWhen: (values: Record<string, unknown>) => offerAccepted(values) && !family(values).applies,
+    announceHrn: true,
+    notice: (values: Record<string, unknown>) => <FamilyPackageNotice check={family(values)} planName={planName(values)} />,
+    // A line added to a package also needs its plan (a Secondary line's is chosen on this page).
+    canContinue: (values: Record<string, unknown>) => {
+      const c = family(values);
+      return !c.applies || (c.ok && (!c.additional || Boolean(c.planId)));
+    },
+  };
+  const planBase = postpaidPlanStep(planContext);
+  // A connection added to an existing package is on the package's plan and cannot choose another: the plan page is passed over once the check is clear
+  // (and shows why, with no way on, when it is not); the plan itself is put in the order by the headless applier, from the package.
+  const planStep: WizardStep = {
+    ...planBase,
+    // Passed over once the check is clear and the plan is settled by the package; a Secondary line stops here for the agent to choose its plan.
+    autoPass: (values) => {
+      const c = family(values);
+      return Boolean(familyLineContextOf(values)) && c.applies && c.ok && Boolean(c.planId);
+    },
+    headless: ({ values, setValue }) => <FamilyPlanApplier check={family(values)} productId={values.productId as string | undefined} setValue={setValue} />,
+    render: (c) => {
+      if (!familyLineContextOf(c.values)) return planBase.render(c);
+      const k = family(c.values);
+      return (
+        <>
+          <FamilyPackageNotice check={k} planName={k.applies && k.ok && k.planId ? planName(c.values, k.planId) : undefined} />
+          {k.applies && k.ok && k.additional?.role === 'Secondary' && (
+            <SecondaryPlanPicker
+              plans={products.filter((p) => p.planClass === SECONDARY_PLAN_CLASS) as unknown as PostpaidPlan[]}
+              selectedProductId={c.values.productId as string | undefined}
+              onSelect={(id) => c.setValue('productId', id)}
+              onDeselect={() => c.setValue('productId', undefined)}
+            />
+          )}
+        </>
+      );
+    },
+  };
   return [
     serviceAddressStep({ mode: 'structured', autoPass: true, serviceIds: false }),
     billingStep(),
-    postpaidPlanStep(planContext),
+    planStep,
     postpaidExtrasStep({ ...planContext, skipWhen: extrasSkip(products) }),
     numberSelectionStep({
       priceField: 'numberPriceQAR',
@@ -81,7 +135,12 @@ export function postpaidSteps({ products, customerBenefits, device }: PostpaidSt
     checkoutSummaryStep({
       // An accepted offer fixes the plan, so the Plan & Add-ons step is skipped and 'plan' is not a reachable
       // key - jump to Number Selection (the first step still editable) instead of doing nothing.
-      editStepKey: (values) => (offerAccepted(values) ? 'number' : 'plan'),
+      editStepKey: (values) => (offerAccepted(values) && !family(values).applies ? 'number' : 'plan'),
+      // The Order Summary and the CAF say the order is Primary Line 1 of a new Family Package.
+      familyRows: (values) => {
+        const c = family(values);
+        return c.applies && c.ok ? [{ label: 'Family Package', value: c.additional ? `${c.lineLabel} of the existing Family Package` : `${c.lineLabel} of a new Family Package` }] : [];
+      },
     }),
     cafSignatureStep({ variant: 'full' }),
     // "On successful WinCash confirmation, return to DXP, submit the order, and create the interaction activity"

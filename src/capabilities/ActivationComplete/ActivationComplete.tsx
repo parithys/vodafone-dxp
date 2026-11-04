@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { recordOrderCompletion } from '../../engines/orderCompletion';
 import { ActivationCompleteScreen } from '../../components/patterns/ActivationCompleteScreen';
 import type { ActivationCompleteOrder } from '../../components/patterns/ActivationCompleteScreen';
 import { CustomerViewButton } from '../../components/patterns/wizard/CustomerViewButton';
 import { ORDER_SUBMITTED_KEY } from '../../components/patterns/wizard/customerViewPolicy';
 import { useCustomerViewShare } from '../../components/patterns/wizard/useCustomerViewShare';
+import { useCustomerContext } from '../../stores/customerContextStore';
+import { AddConnectionModal } from './AddConnectionModal';
 
 /**
  * ACTIVATION COMPLETE - the one application-wide capability for the page that confirms a submitted activation:
@@ -22,10 +26,13 @@ export interface ActivationCompleteProps {
   service?: 'mobile' | 'fixed';
   showActivityId?: boolean;
   allowCustomerView?: boolean;
+  /** Starts the journey for a connection added to the order's Family Package (the journey that mounts this owns the route). Without it, no Add Another Connection is offered. */
+  onAddConnection?: (familyLine: { packageId: string; role: import('../../engines/familyPackage').FamilyRole }) => void;
 }
 
-export function ActivationComplete({ order, service = 'mobile', showActivityId = true, allowCustomerView = false }: ActivationCompleteProps) {
+export function ActivationComplete({ order, service = 'mobile', showActivityId = true, allowCustomerView = false, onAddConnection }: ActivationCompleteProps) {
   const { popupBlocked, viewOpen, shareAnnouncement, toggleCustomerView } = useCustomerViewShare(ORDER_SUBMITTED_KEY);
+  const [addOpen, setAddOpen] = useState(false);
   return (
     <>
       {allowCustomerView && showActivityId && (
@@ -44,7 +51,21 @@ export function ActivationComplete({ order, service = 'mobile', showActivityId =
       numberLabel={service === 'fixed' ? 'Fixed Line Number' : undefined}
       // A journey with no SIM of its own (Fixed Activation; a change to an existing line) has no SIM row to show.
       hideSimType={service === 'fixed' || order.simType === undefined}
+      onAddConnection={showActivityId && onAddConnection ? () => setAddOpen(true) : undefined}
     />
+    {order.customerId && onAddConnection && (
+      <AddConnectionModal
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        customerId={order.customerId}
+        onStart={onAddConnection}
+        // The journey ends here and a new one begins for the same customer: record this order's activity and release the customer first.
+        onBeforeStart={async () => {
+          await recordOrderCompletion(order);
+          useCustomerContext.getState().endJourney();
+        }}
+      />
+    )}
     </>
   );
 }

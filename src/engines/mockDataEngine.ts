@@ -11,7 +11,7 @@ const SEED_FILES = [
   'commitment-penalties', 'consumer-deposits', 'contacts-b2b2c', 'cpe-devices', 'credit-limits',
   'cross-sales-offers', 'customer-activities', 'customer-communications', 'customer-contacts',
   'customers', 'deposit-bundles', 'digital-engagement', 'customer-overview-extras', 'customer-overview-demo', 'telesales-demo-catalog', 'device-installments',
-  'donor-details', 'enterprise-accounts', 'enterprise-form-types', 'enterprise-invoices',
+  'donor-details', 'enterprise-accounts', 'enterprise-form-types', 'enterprise-invoices', 'family-package-lines',
   'fnp-portin-orders', 'future-dated-orders', 'gigahome-acceptance-forms', 'gigahome-osntv-subscriptions',
   'home-move-cases', 'identity-documents', 'ims-site-zsb', 'in-platform-balances', 'installation-checklists',
   'installed-assets',

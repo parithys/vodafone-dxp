@@ -58,12 +58,12 @@ export function PlanSearchBox({
       <SearchField
         ref={inputRef}
         {...nav.inputProps}
-        aria-label={`Search ${scopeLabel ?? 'plans'} by name or price`}
+        aria-label={`Search ${scopeLabel ?? 'plans'} by name, price or benefits`}
         role="combobox"
         aria-expanded={Boolean(searchOpen && planSearch.trim())}
         aria-controls={searchOpen && planSearch.trim() ? 'plan-search-listbox' : undefined}
         autoComplete="off"
-        placeholder={`Search ${scopeLabel ?? 'plans'} by name or price`}
+        placeholder={`Search ${scopeLabel ?? 'plans'} by name, price or benefits`}
         value={planSearch}
         onChange={(e) => {
           setPlanSearch(e.target.value);

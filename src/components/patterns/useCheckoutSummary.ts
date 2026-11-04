@@ -8,7 +8,7 @@ import { monthlyCharges, firstBillCharges, FREE_NUMBER_PRICE_CEILING_QAR, starNu
 import type { EligibilityResult } from '../domain/eligibilityTypes';
 import type { SimTypeValue } from '../domain/SimTypeStep';
 import type { Product, StarNumberTier, CheckoutTotals, TncLegalFacts } from './checkoutSummaryModel';
-import { buildCafSummaryRows } from './checkoutSummaryRows';
+import { buildCafSummaryRows, insertRowsAfter } from './checkoutSummaryRows';
 
 interface UseCheckoutSummaryArgs {
   customerName: string | undefined;
@@ -27,6 +27,8 @@ interface UseCheckoutSummaryArgs {
   onTotalsComputed: (totals: CheckoutTotals) => void;
   onSummaryComputed?: (rows: { label: string; value: string }[]) => void;
   onLegalFactsComputed?: (facts: TncLegalFacts) => void;
+  /** Rows the order adds to the CAF's key information, after the plan (see insertRowsAfter). */
+  extraRows?: { label: string; value: string }[];
 }
 
 export type CheckoutSummaryDerived = ReturnType<typeof useCheckoutSummary>;
@@ -48,6 +50,7 @@ export function useCheckoutSummary({
   numberWaiver,
   onTotalsComputed,
   onSummaryComputed,
+  extraRows,
   onLegalFactsComputed,
 }: UseCheckoutSummaryArgs) {
   const [products, setProducts] = useState<Product[]>([]);
@@ -148,10 +151,11 @@ export function useCheckoutSummary({
   // agent-only <dl> below. Only published once the catalogue reads have
   // landed, so that panel never shows a summary with "-" where a plan name
   // belongs. (Row content: see buildCafSummaryRows.)
+  const extraRowsKey = extraRows?.map((r) => `${r.label}=${r.value}`).join('|');
   useEffect(() => {
     if (!onSummaryComputed || !plan) return;
     onSummaryComputed(
-      buildCafSummaryRows({
+      insertRowsAfter(buildCafSummaryRows({
         plan,
         customerName,
         msisdn,
@@ -170,7 +174,7 @@ export function useCheckoutSummary({
         firstBill,
         monthlyRecurringQar,
         charges,
-      })
+      }), 'Plan Price', extraRows)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -188,6 +192,7 @@ export function useCheckoutSummary({
     simType?.simType,
     simType?.simSerial,
     simType?.simIccid,
+    extraRowsKey,
   ]);
 
   return {

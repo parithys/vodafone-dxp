@@ -72,6 +72,8 @@ import { formatQarAny, formatAmountAny } from '../../lib/format';
 // Linked Services panel) only ever name one of these three ServiceTab
 // values - see AssetsSection's own note on why 'assets' lands on Overview.
 const SERVICE_TABS = new Set<string>(['mobile', 'fibre', 'assets']);
+/** The Products & Services tab, which a link can open directly (Add Another Connection after Primary Line 1 opens its Family Package). */
+const PRODUCTS_TAB = 'products-services';
 function toAssetsSubView(tab: string | undefined): AssetsSubView {
   return tab === 'mobile' || tab === 'fibre' ? tab : 'overview';
 }
@@ -134,7 +136,7 @@ export function Customer360Layout() {
   // half-restored selection.
   const location = useLocation();
   const linked = (location.state ?? {}) as { tab?: string; serviceRef?: string; newTicket?: boolean };
-  const [activeTab, setActiveTab] = useState(linked.tab && SERVICE_TABS.has(linked.tab) ? 'assets' : '');
+  const [activeTab, setActiveTab] = useState(linked.tab === PRODUCTS_TAB ? PRODUCTS_TAB : linked.tab && SERVICE_TABS.has(linked.tab) ? 'assets' : '');
   const [assetsSubView, setAssetsSubView] = useState<AssetsSubView>(toAssetsSubView(linked.tab));
   const [selectedServiceRef, setSelectedServiceRef] = useState(linked.serviceRef);
   // "New Ticket" from anywhere starts the Overview's "How can we help today?" search: each bump moves focus to it.
@@ -147,6 +149,7 @@ export function Customer360Layout() {
   }, [location.key]);
 
   useEffect(() => {
+    if (linked.tab === PRODUCTS_TAB) setActiveTab(PRODUCTS_TAB);
     if (!linked.tab || !SERVICE_TABS.has(linked.tab)) return;
     setActiveTab('assets');
     setAssetsSubView(toAssetsSubView(linked.tab));

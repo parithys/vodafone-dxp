@@ -1,3 +1,6 @@
+import { planFeatureRows } from '../primitives/offerCardParts';
+import { multiSimBenefitText } from '../../engines/multiSim';
+import { formatQarAny } from '../../lib/format';
 
 // Small Levenshtein distance for typo-tolerant ranking - the app has no fuzzy-
 // search dependency, and plan names are short enough that a plain O(n*m) DP
@@ -20,6 +23,67 @@ function levenshtein(a: string, b: string): number {
 // filter below it; anything else ranks by edit distance so a mistyped plan
 // name ("Postpaid Re 550") still surfaces its nearest neighbour instead of an
 // empty dropdown.
+
+/**
+ * Everything a plan shows, as one lower-case string for the plan search: its name, price(s), type, data / minutes / speed allowances, the facts and
+ * benefits listed on its card, its Fair Usage lines, commitment and the Multi-SIMs it includes. Built from the plan's own fields (the same ones the
+ * card and its details draw), so what the agent can read on a card is what the search finds.
+ */
+export function planSearchText(p: PostpaidPlan): string {
+  const planType = PLAN_TYPE_FILTERS.find((f) => f.key === p.planClass)?.label;
+  return [
+    p.name,
+    String(p.mrcQAR),
+    formatQarAny(p.mrcQAR),
+    p.originalMrcQAR !== undefined ? String(p.originalMrcQAR) : undefined,
+    p.originalMrcQAR !== undefined ? formatQarAny(p.originalMrcQAR) : undefined,
+    p.promoMonths ? `${p.promoMonths} months` : undefined,
+    p.planClass,
+    planType,
+    p.dataAllowanceGB === null ? 'unlimited data' : `${p.dataAllowanceGB} GB data`,
+    p.minutesAllowance,
+    p.speedTier,
+    p.commitmentMonths ? `${p.commitmentMonths} months contract commitment` : undefined,
+    p.popular ? 'popular' : undefined,
+    p.preBundledOffer ? 'pre-bundled offer' : undefined,
+    ...planFeatureRows(p).map((r) => r.text),
+    ...(p.features ?? []),
+    ...(p.benefits ?? []),
+    ...(p.fup ?? []),
+    multiSimBenefitText(p),
+  ]
+    .filter((x): x is string => Boolean(x))
+    .join(' | ')
+    .toLowerCase();
+}
+
+/** A plan matches when every word the agent typed appears somewhere in what the plan shows ("unlimited minutes 40gb", "pakistan", "35" for QAR 350). */
+export function planMatchesSearch(p: PostpaidPlan, query: string): boolean {
+  const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return true;
+  const text = planSearchText(p);
+  return words.every((w) => text.includes(w));
+}
+
+/**
+ * The type-ahead's suggestions: the plans that match what was typed anywhere in their details, a name hit first (prefix, then contained), then a
+ * hit in another attribute. With none, the closest names by edit distance, so a mistyped name still finds its neighbour (as before).
+ */
+export function searchPlans(query: string, plans: PostpaidPlan[], limit = 5): PostpaidPlan[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const hits = plans
+    .filter((p) => planMatchesSearch(p, q))
+    .map((p) => {
+      const name = p.name.toLowerCase();
+      return { p, score: name.startsWith(q) ? 0 : name.includes(q) ? 1 : 2 };
+    })
+    .sort((a, b) => a.score - b.score)
+    .slice(0, limit)
+    .map((r) => r.p);
+  return hits.length > 0 ? hits : closestPlans(q, plans, limit);
+}
+
 export function closestPlans<T extends { name: string }>(query: string, plans: T[], limit = 5): T[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
@@ -140,6 +204,9 @@ export const PLAN_CLASS_TAG = {
   'Postpaid Voice Plans': 'postpaid-voice',
   'Postpaid Broadband Plans': 'postpaid-broadband',
   'Postpaid Family Plans': 'postpaid-family',
+  // The extra-line plans (listed: false): chosen only when a line is added to a Family Package, so they are not in the plan-type filter below.
+  'Postpaid Supplementary Plans': 'postpaid-supplementary',
+  'Postpaid Secondary Plans': 'postpaid-secondary',
 } as const;
 export type PlanClass = keyof typeof PLAN_CLASS_TAG;
 export const isPlanClass = (v: unknown): v is PlanClass => typeof v === 'string' && v in PLAN_CLASS_TAG;
@@ -156,8 +223,19 @@ export const matchesPlanType = (p: { planClass?: string }, filter: PlanTypeFilte
 
 export const SPECIAL_OFFERS_TAB_LABEL = 'Special Offers';
 
-/** The Offers tab lists at most this many offers (the demo catalogue holds exactly this many, so it always shows six). */
-export const OFFERS_TAB_LIMIT = 6;
+/** What the Offers tab shows, by plan class: three Voice, two Broadband and one Family plan (2026-11-04). The tab never shows more of a class than this. */
+export const OFFERS_TAB_MIX: readonly { planClass: PlanClass; count: number }[] = [
+  { planClass: 'Postpaid Voice Plans', count: 3 },
+  { planClass: 'Postpaid Broadband Plans', count: 2 },
+  { planClass: 'Postpaid Family Plans', count: 1 },
+];
+/** The Offers tab lists exactly this many offers when the catalogue holds enough of each class. */
+export const OFFERS_TAB_LIMIT = OFFERS_TAB_MIX.reduce((n, m) => n + m.count, 0);
+
+/** The plans the Offers tab shows from the Offers-group plans given (cheapest first within a class): each class up to its count, classes in OFFERS_TAB_MIX order. */
+export function offersTabPlans<T extends { planClass?: string; mrcQAR: number }>(offers: readonly T[]): T[] {
+  return OFFERS_TAB_MIX.flatMap(({ planClass, count }) => offers.filter((p) => p.planClass === planClass).sort((a, b) => a.mrcQAR - b.mrcQAR).slice(0, count));
+}
 
 export const SPECIAL_DISCOUNT_TYPE: Record<'mada' | 'b2b2c' | 'retired', { addonType: string; /** How the discount is named to the agent (the Customer Verification card label). */ label: string }> = {
   mada: { addonType: 'MADA Discount', label: 'MADA' },

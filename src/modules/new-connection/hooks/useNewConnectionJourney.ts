@@ -5,6 +5,7 @@ import type { CrossSalesValue } from '../../../capabilities';
 import * as mockDataEngine from '../../../engines/mockDataEngine';
 import { HOME_WIZARD_ID_BY_FLOW, WIZARD_ID_BY_FLOW } from '../newConnectionModel';
 import type { ConnectionJourney, NewConnectionFlow, Product, ConfirmedOrder } from '../newConnectionModel';
+import type { FamilyLine, FamilyOrder } from '../../../engines/familyPackage';
 import { isPlanOfferedTo } from '../../../components/patterns/postpaidPlanModel';
 
 // New Connection's journey state: the shared journey session (customer lock, draft, confirmed order) under its own
@@ -27,9 +28,17 @@ export function useNewConnectionJourney(flow: NewConnectionFlow, journey: Connec
   useEffect(() => {
     mockDataEngine.list<Product>('products').then(setProducts);
   }, []);
+  // Every Family Package line on record: a Family Plan can only start a package for a customer who holds none (engines/familyPackage.familyStartCheck).
+  const [familyLines, setFamilyLines] = useState<FamilyLine[]>([]);
+  // The orders those lines were placed on: a connection can be added to a package only once Primary Line 1's order is approved.
+  const [familyOrders, setFamilyOrders] = useState<FamilyOrder[]>([]);
+  useEffect(() => {
+    mockDataEngine.list<FamilyLine>('family-package-lines').then(setFamilyLines);
+    mockDataEngine.list<FamilyOrder>('orders').then(setFamilyOrders);
+  }, []);
   // An accepted offer's plan is the first linked one that is a postpaid plan this customer may have (a nationality promotion is theirs only): a linked
   // prepaid, fixed-line or add-on product, or a plan of another nationality, is never taken as the order's plan.
   const applyCrossSales = (setValue: (field: string, value: unknown) => void, v: CrossSalesValue) =>
     applyCrossSalesDecision(setValue, v, products.filter((p) => p.type === 'Postpaid Plan' && isPlanOfferedTo(p, session.draftNationality)));
-  return { ...session, existingCustomerId, WIZARD_ID, customerBenefits, products, applyCrossSales };
+  return { ...session, existingCustomerId, WIZARD_ID, customerBenefits, products, familyLines, familyOrders, applyCrossSales };
 }

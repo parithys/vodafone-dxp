@@ -35,8 +35,9 @@ test('nationality promotion plans are offered to their nationality only (and to 
   assert.ok(plans.some((p) => !p.eligibleNationalities), 'unrestricted plans exist');
 });
 
-test('the Unlimited range sits on the Plans tab (not the pre-bundled Offers tab), so its add-ons and discounts can be reached; Offers plans are not on the Special Offers tab', () => {
-  for (const id of ['PROD-110', 'PROD-111', 'PROD-112', 'PROD-113']) {
+test('the Unlimited range (bar Postpaid Unlimited) sits on the Plans tab (not the pre-bundled Offers tab), so its add-ons and discounts can be reached; Offers plans are not on the Special Offers tab', () => {
+  // PROD-111 (Postpaid Unlimited) is the exception since 2026-11-04: the Offers tab must show two Broadband plans and it is the only listed one besides BIA Max.
+  for (const id of ['PROD-110', 'PROD-112', 'PROD-113']) {
     const p = plans.find((x) => x.productId === id);
     assert.equal(model.planGroupOf(p), 'for-you', id);
   }
@@ -74,7 +75,7 @@ test('changing the Special Discount type retires the old discount, and a discoun
 
 test('an accepted offer skips Plan and Addons & Discounts whatever the customer type; a plan chosen on the Offers tab also skips Addons & Discounts; the offer\'s plan is a postpaid plan open to the customer', async () => {
   const ps = await load('/src/modules/new-connection/postpaidSteps.tsx');
-  const list = ps.postpaidSteps({ products: [], customerBenefits: [] });
+  const list = ps.postpaidSteps({ products: [], customerBenefits: [], familyLines: [] });
   const plan = list.find((s) => s.key === 'plan'), extras = list.find((s) => s.key === 'planExtras');
   const accepted = { crossSales: { decision: 'accepted' } };
   const doc = { frontScanned: true, backScanned: true };
@@ -97,7 +98,7 @@ test('an accepted offer skips Plan and Addons & Discounts whatever the customer 
 
 test('a plan chosen on the Offers tab of Offers & Plans goes straight to Number Selection; one chosen on Plans keeps Addons & Discounts', async () => {
   const ps = await load('/src/modules/new-connection/postpaidSteps.tsx');
-  const extras = ps.postpaidSteps({ products: [], customerBenefits: [] }).find((s) => s.key === 'planExtras');
+  const extras = ps.postpaidSteps({ products: [], customerBenefits: [], familyLines: [] }).find((s) => s.key === 'planExtras');
   assert.equal(Boolean(extras.skip({ selectionSource: 'OFFER', productId: 'PROD-107' })), true);
   assert.equal(Boolean(extras.skip({ selectionSource: 'PLAN', productId: 'PROD-107' })), false);
   assert.equal(Boolean(extras.skip({ productId: 'PROD-107' })), false);
@@ -107,7 +108,7 @@ test('Offers → Number Selection is a standing rule: every plan on the Offers t
   const ps = await load('/src/modules/new-connection/postpaidSteps.tsx');
   const pm = await load('/src/components/patterns/postpaidPlanModel.ts');
   const all = products.filter((p) => p.type === 'Postpaid Plan');
-  const extras = ps.postpaidSteps({ products: all, customerBenefits: [] }).find((s) => s.key === 'planExtras');
+  const extras = ps.postpaidSteps({ products: all, customerBenefits: [], familyLines: [] }).find((s) => s.key === 'planExtras');
   const offers = all.filter((p) => pm.planGroupOf(p) === 'specials');
   assert.ok(offers.length > 0);
   for (const p of all) {
@@ -125,7 +126,7 @@ test('Offers → Number Selection is a standing rule: every plan on the Offers t
 
 test('a plan chosen under Special Offers keeps the Addons & Discounts step; the tab is still recorded when the plan is chosen and reset with the product', async () => {
   const ps = await load('/src/modules/new-connection/postpaidSteps.tsx');
-  const extras = ps.postpaidSteps({ products: [], customerBenefits: [] }).find((s) => s.key === 'planExtras');
+  const extras = ps.postpaidSteps({ products: [], customerBenefits: [], familyLines: [] }).find((s) => s.key === 'planExtras');
   assert.equal(Boolean(extras.skip({ productId: 'PROD-131', planTab: 'special' })), false, 'Special Offers plans get Addons & Discounts');
   assert.equal(Boolean(extras.skip({ productId: 'PROD-131', planTab: 'for-you' })), false, 'the same plan chosen under Standard Plans keeps the step');
   assert.equal(Boolean(extras.skip({ planTab: 'special' })), false, 'no plan chosen: nothing to skip');

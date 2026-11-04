@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { PLAN_SELECTION_LABEL, ADDONS_DISCOUNTS_LABEL } from '../../data/stepLabels';
 import type { GuidedContactValue } from '../../components/patterns/guidedContactModel';
 import { planChoiceSummary, planExtrasSummary } from './summary';
@@ -25,6 +26,10 @@ export interface PostpaidPlanContext {
   hiddenProductId?: (values: Record<string, unknown>) => string | undefined;
   /** The journey identifies the customer before it knows the product, so Customer Verification does not announce the upfront payment (HRN): say it here, once the plan is being chosen. */
   announceHrn?: boolean;
+  /** Content above the plan cards for the plan chosen so far (a Family Plan says what it starts). */
+  notice?: (values: Record<string, unknown>) => ReactNode;
+  /** A further condition on Continue from the plan page, beyond a plan being chosen. */
+  canContinue?: (values: Record<string, unknown>) => boolean;
 }
 
 export function postpaidPlanStep(ctx: PostpaidPlanContext): WizardStep {
@@ -34,7 +39,7 @@ export function postpaidPlanStep(ctx: PostpaidPlanContext): WizardStep {
     skip: ctx.skipWhen,
     label: PLAN_SELECTION_LABEL,
     render: ({ values, setValue }) => renderPlanStep('plan', ctx, values, setValue),
-    isValid: (values) => Boolean(values.productId),
+    isValid: (values) => Boolean(values.productId) && (ctx.canContinue?.(values) ?? true),
     // Once a plan is chosen on Standard Plans or Special Offers, Customise Add-ons and Edit Discount sit just before Continue.
     primaryAction: ({ values, setValue, goNext, defaultButton }) => (
       <div className="row">
@@ -98,7 +103,7 @@ const benefitOf = (values: Record<string, unknown>) => {
 
 function renderPlanStep(
   mode: 'plan' | 'extras',
-  { customerBenefits, hiddenProductId, announceHrn }: PostpaidPlanContext,
+  { customerBenefits, hiddenProductId, announceHrn, notice }: PostpaidPlanContext,
   values: Record<string, unknown>,
   setValue: (field: string, value: unknown) => void
 ) {
@@ -109,6 +114,7 @@ function renderPlanStep(
       return (
         <>
         {hrnRows.length > 0 && <div className="mb-6"><EligibilityChecksList rows={hrnRows} /></div>}
+        {mode === 'plan' && notice?.(values)}
         <PlanSelection
           kind="postpaid"
           mode={mode}

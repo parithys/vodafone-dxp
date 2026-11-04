@@ -247,7 +247,6 @@
     "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
     "commitmentMonths": 3,
-    "offer": true,
     "fup": [
       "First 100 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
       "QR 60 Discount on plan fee will be applicable for first 4 months",
@@ -265,7 +264,8 @@
       "Free Vodafone My Book"
     ],
     "_note": "Offers-tab plan added 2026-10-27 so the Offers tab always lists exactly six offers for the demo. Name, prices, data and benefit values are DEMO values following the Max offer's pattern - no such offer is evidenced in the corpus; needs VFQ Business confirmation.",
-    "planClass": "Postpaid Voice Plans"
+    "planClass": "Postpaid Voice Plans",
+    "_offerNote": "Moved off the Offers tab (2026-11-04): the tab shows 3 Voice, 2 Broadband and 1 Family plan; it stays on Standard Plans."
   },
   {
     "productId": "PROD-147",
@@ -278,7 +278,6 @@
     "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
     "commitmentMonths": 3,
-    "offer": true,
     "fup": [
       "First 150 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
       "QR 80 Discount on plan fee will be applicable for first 4 months",
@@ -296,7 +295,8 @@
       "Free Vodafone My Book"
     ],
     "_note": "Offers-tab plan added 2026-10-27 so the Offers tab always lists exactly six offers for the demo. Name, prices, data and benefit values are DEMO values following the Max offer's pattern - no such offer is evidenced in the corpus; needs VFQ Business confirmation.",
-    "planClass": "Postpaid Voice Plans"
+    "planClass": "Postpaid Voice Plans",
+    "_offerNote": "Moved off the Offers tab (2026-11-04): the tab shows 3 Voice, 2 Broadband and 1 Family plan; it stays on Standard Plans."
   },
   {
     "productId": "PROD-148",
@@ -309,7 +309,6 @@
     "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
     "commitmentMonths": 3,
-    "offer": true,
     "fup": [
       "First 200 GB at full 5G speed and then unlimited data at the speed of 1Mbps",
       "QR 100 Discount on plan fee will be applicable for first 4 months",
@@ -327,7 +326,8 @@
       "Free Vodafone My Book"
     ],
     "_note": "Offers-tab plan added 2026-10-27 so the Offers tab always lists exactly six offers for the demo. Name, prices, data and benefit values are DEMO values following the Max offer's pattern - no such offer is evidenced in the corpus; needs VFQ Business confirmation.",
-    "planClass": "Postpaid Voice Plans"
+    "planClass": "Postpaid Voice Plans",
+    "_offerNote": "Moved off the Offers tab (2026-11-04) to make room for the Ahli Family plan (PROD-142); it stays on Standard Plans."
   },
   {
     "productId": "PROD-110",
@@ -378,7 +378,9 @@
       "Vodafone World worth up to QAR 30"
     ],
     "_note": "Plans-tab plan (2026-10-06 design: Unlimited range). The offer flag was removed (2026-10-25): it put these Plans-tab plans on the Offers tab, where a plan is pre-bundled and its add-ons and discounts are locked.",
-    "planClass": "Postpaid Broadband Plans"
+    "planClass": "Postpaid Broadband Plans",
+    "offer": true,
+    "_offerNote": "On the Offers tab (2026-11-04) as one of its two Broadband plans."
   },
   {
     "productId": "PROD-112",
@@ -661,7 +663,9 @@
       "50 international minutes"
     ],
     "_note": "Plans-tab plan (2026-10-06). Only the name was supplied: price, data and minutes follow the Max tier and international minutes follow the nationality table - demo values, need VFQ Business confirmation.",
-    "planClass": "Postpaid Broadband Plans"
+    "planClass": "Postpaid Broadband Plans",
+    "offer": true,
+    "_offerNote": "On the Offers tab (2026-11-04) as one of its two Broadband plans."
   },
   {
     "productId": "PROD-141",
@@ -687,74 +691,128 @@
   },
   {
     "productId": "PROD-142",
-    "name": "Postpaid Family Share 150",
+    "name": "Postpaid Ahli Member Promotion",
     "type": "Postpaid Plan",
-    "mrcQAR": 150,
-    "dataAllowanceGB": 40,
-    "minutesAllowance": "500 local minutes",
+    "mrcQAR": 375,
+    "dataAllowanceGB": 50,
+    "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
+    "starNumberEntitlementQar": 3500,
     "commitmentMonths": 3,
+    "originalMrcQAR": 399,
+    "promoMonths": 3,
     "features": [
-      "40GB full speed local data, shared across the family",
-      "500 local minutes",
-      "300 SMS",
-      "100 international minutes"
+      "50GB full speed local data",
+      "Unlimited local minutes & SMS",
+      "Up to 300 international minutes"
     ],
-    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
-    "planClass": "Postpaid Family Plans"
+    "benefits": [
+      "Star Number worth QAR 3,500",
+      "Free Vodafone My Book",
+      "1000 Welcome iPoints",
+      "Vodafone World worth up to QAR 10 every month per line"
+    ],
+    "fup": [
+      "1 Mbps endless internet after 50GB"
+    ],
+    "_note": "Ahli Family Plan (2026-11-04), from the BIA New Postpaid Ahli Plans sheet supplied by the business; replaces the demo 'Family Share' plans on these ids. Price is the sheet's Sales-channels price struck against its list price; '(3/month)' on the sheet is read as a 3-month promotion - needs VFQ Business confirmation. The sheet's 'Main Line: 2' and its employee / Vodafone For All discount exclusion are not modelled.",
+    "planClass": "Postpaid Family Plans",
+    "offer": true,
+    "_offerNote": "On the Offers tab (2026-11-04) as the one Family Plan offer, in place of Postpaid Max Elite."
   },
   {
     "productId": "PROD-143",
-    "name": "Postpaid Family Share 250",
+    "name": "Postpaid Ahli Pro Member Promotion",
     "type": "Postpaid Plan",
-    "mrcQAR": 250,
-    "dataAllowanceGB": 100,
+    "mrcQAR": 450,
+    "dataAllowanceGB": 125,
     "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
+    "starNumberEntitlementQar": 5000,
     "commitmentMonths": 3,
+    "originalMrcQAR": 499,
+    "promoMonths": 3,
     "features": [
-      "100GB full speed local data, shared across the family",
-      "Unlimited local minutes",
-      "500 SMS",
-      "200 international minutes"
+      "125GB full speed local data",
+      "Unlimited local minutes & SMS",
+      "150 international minutes",
+      "Roaming: 10GB data",
+      "Calls+ included (FUP 1000 mins)"
     ],
-    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "benefits": [
+      "Star Number worth QAR 5,000",
+      "Free Vodafone My Book",
+      "3000 Welcome iPoints",
+      "Vodafone World worth up to QAR 20 every month per line"
+    ],
+    "fup": [
+      "10 Mbps endless internet after 125GB (500GB)"
+    ],
+    "_note": "Ahli Family Plan (2026-11-04), from the BIA New Postpaid Ahli Plans sheet supplied by the business; replaces the demo 'Family Share' plans on these ids. Price is the sheet's Sales-channels price struck against its list price; '(3/month)' on the sheet is read as a 3-month promotion - needs VFQ Business confirmation. The sheet's 'Main Line: 2' and its employee / Vodafone For All discount exclusion are not modelled.",
     "planClass": "Postpaid Family Plans"
   },
   {
     "productId": "PROD-144",
-    "name": "Postpaid Family Share 400",
+    "name": "Postpaid Ahli Premium Member Promotion",
     "type": "Postpaid Plan",
-    "mrcQAR": 400,
-    "dataAllowanceGB": 200,
+    "mrcQAR": 650,
+    "dataAllowanceGB": 250,
     "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
+    "starNumberEntitlementQar": 10000,
     "commitmentMonths": 3,
+    "originalMrcQAR": 699,
+    "promoMonths": 3,
     "features": [
-      "200GB full speed local data, shared across the family",
-      "Unlimited local minutes",
-      "Unlimited SMS",
-      "300 international minutes"
+      "250GB full speed local data",
+      "Unlimited local minutes & SMS",
+      "300 international minutes",
+      "Roaming: 50GB GCC data, 1000 GCC minutes, 15GB data and 100 minutes",
+      "Calls+ included (FUP 1000 mins)"
     ],
-    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "benefits": [
+      "Star Number worth QAR 10,000",
+      "Free Vodafone My Book",
+      "5000 Welcome iPoints",
+      "Vodafone World worth up to QAR 40 every month per line",
+      "Standard Valet parking"
+    ],
+    "fup": [
+      "15 Mbps endless internet after 250GB (500GB)"
+    ],
+    "_note": "Ahli Family Plan (2026-11-04), from the BIA New Postpaid Ahli Plans sheet supplied by the business; replaces the demo 'Family Share' plans on these ids. Price is the sheet's Sales-channels price struck against its list price; '(3/month)' on the sheet is read as a 3-month promotion - needs VFQ Business confirmation. The sheet's 'Main Line: 2' and its employee / Vodafone For All discount exclusion are not modelled.",
     "planClass": "Postpaid Family Plans"
   },
   {
     "productId": "PROD-145",
-    "name": "Postpaid Family Share 600",
+    "name": "Postpaid Ahli Platinum Member Promotion",
     "type": "Postpaid Plan",
-    "mrcQAR": 600,
-    "dataAllowanceGB": null,
-    "minutesAllowance": "Unlimited local",
+    "mrcQAR": 1050,
+    "dataAllowanceGB": 500,
+    "minutesAllowance": "Unlimited local minutes",
     "speedTier": "5G Ready",
+    "starNumberEntitlementQar": 20000,
     "commitmentMonths": 3,
+    "originalMrcQAR": 1199,
+    "promoMonths": 3,
     "features": [
-      "Unlimited local data, shared across the family",
+      "500GB full speed local data",
       "Unlimited local minutes & SMS",
       "400 international minutes",
-      "Roaming: 300 minutes & SMS and 50GB data"
+      "Roam Like Home included, roaming 30GB data and 150 minutes",
+      "Calls+ included (FUP 1000 mins)"
     ],
-    "_note": "Family Plan category (2026-10-27), added on request for the Special Offers tab. Names, prices, data and minutes are DEMO values following the Essential/Max/Unlimited tiers - no Family plan is evidenced in the corpus; needs VFQ Business confirmation.",
+    "benefits": [
+      "Star Number worth QAR 20,000",
+      "Free Vodafone My Book",
+      "10,000 Welcome iPoints",
+      "Vodafone World worth up to QAR 80 every month per line",
+      "VIP Valet parking"
+    ],
+    "fup": [
+      "15 Mbps endless internet after 500GB"
+    ],
+    "_note": "Ahli Family Plan (2026-11-04), from the BIA New Postpaid Ahli Plans sheet supplied by the business; replaces the demo 'Family Share' plans on these ids. Price is the sheet's Sales-channels price struck against its list price; '(3/month)' on the sheet is read as a 3-month promotion - needs VFQ Business confirmation. The sheet's 'Main Line: 2' and its employee / Vodafone For All discount exclusion are not modelled.",
     "planClass": "Postpaid Family Plans"
   },
   {
@@ -942,7 +1000,11 @@
     "mrcQAR": 20,
     "description": "200 India minutes",
     "addonCategory": "International",
-    "frequentlyUsedFor": { "nationalities": ["Indian"] },
+    "frequentlyUsedFor": {
+      "nationalities": [
+        "Indian"
+      ]
+    },
     "_frequentlyUsedNote": "Shown under Frequently Used for customers of this nationality (2026-11-03, the business named this pairing as the example). Only this pairing is stated; the other country add-ons and any plan-based entries are added here when the business gives them.",
     "addonStatus": "Confirmed",
     "pricing": "paid"
@@ -1343,8 +1405,14 @@
     "pricingModel": "standard",
     "billingFrequency": "weekly",
     "billingOptions": [
-      { "frequency": "monthly", "priceQAR": 20 },
-      { "frequency": "weekly", "priceQAR": 5 }
+      {
+        "frequency": "monthly",
+        "priceQAR": 20
+      },
+      {
+        "frequency": "weekly",
+        "priceQAR": 5
+      }
     ],
     "_note": "Demo add-on matching the supplied weekly/monthly selector reference. billingFrequency is the default; billingOptions are the choices offered to the agent."
   },
@@ -1412,5 +1480,68 @@
     "pricingModel": "standard",
     "billingFrequency": "one-time",
     "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  },
+  {
+    "productId": "PROD-310",
+    "name": "Postpaid Ahli Lite Member Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 65,
+    "dataAllowanceGB": 10,
+    "minutesAllowance": "Unlimited CUG + 200 minutes",
+    "starNumberEntitlementQar": 1500,
+    "features": [
+      "10GB full speed local data",
+      "Unlimited CUG + 200 minutes",
+      "10,000 Family Calls minutes",
+      "300 local SMS"
+    ],
+    "benefits": [
+      "Star Number worth QAR 1,500"
+    ],
+    "fup": [
+      "500GB @256 Kbps endless internet"
+    ],
+    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Which role each plan is for (Ahli Lite as the Kids Plan) is the business's to confirm; the sheet gives no commitment period, so none is recorded.",
+    "planClass": "Postpaid Secondary Plans"
+  },
+  {
+    "productId": "PROD-311",
+    "name": "Postpaid Ahli Plus / Pro / Premium / Platinum Member Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 199,
+    "minutesAllowance": "Unlimited local minutes (maximum 2 allowed)",
+    "starNumberEntitlementQar": 3500,
+    "features": [
+      "Same benefits as the Ahli plan, excluding Valet and Vodafone World",
+      "Unlimited local minutes (maximum 2 allowed)",
+      "Free Family Calls",
+      "Unlimited local SMS",
+      "Up to 300 international minutes"
+    ],
+    "benefits": [
+      "Star Number worth QAR 3,500",
+      "Free Vodafone My Book",
+      "1000 Welcome iPoints"
+    ],
+    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Which role each plan is for (Ahli Lite as the Kids Plan) is the business's to confirm; the sheet gives no commitment period, so none is recorded. The sheet prices one extra line at QAR 199 per line for all four Ahli tiers.",
+    "planClass": "Postpaid Supplementary Plans"
+  },
+  {
+    "productId": "PROD-312",
+    "name": "Postpaid Ahli Net Member Promotion",
+    "type": "Postpaid Plan",
+    "listed": false,
+    "mrcQAR": 99,
+    "dataAllowanceGB": 75,
+    "features": [
+      "75GB full speed local data"
+    ],
+    "fup": [
+      "500GB @256 Kbps endless internet"
+    ],
+    "_note": "Ahli extra-line plan (2026-11-04), from the 'AHLI Packages | Extra Lines' sheet supplied by the business. Not sold on its own (listed: false): it is chosen only when a line is added to a Family Package. Which role each plan is for (Ahli Lite as the Kids Plan) is the business's to confirm; the sheet gives no commitment period, so none is recorded. Data only: the sheet gives it no calls or SMS.",
+    "planClass": "Postpaid Secondary Plans"
   }
 ]

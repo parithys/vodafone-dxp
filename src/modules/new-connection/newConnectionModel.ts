@@ -42,6 +42,8 @@ export interface Product {
   commitmentMonths?: number;
   /** The Multi-SIMs a plan includes / an add-on provides, as stated on its record (see engines/multiSim.ts). */
   multiSimCount?: number;
+  /** Voice, Broadband or Family (see PLAN_CLASS_TAG); a Family Plan starts a Family Package. */
+  planClass?: string;
 }
 
 export type { ConfirmedOrder } from '../../capabilities';
