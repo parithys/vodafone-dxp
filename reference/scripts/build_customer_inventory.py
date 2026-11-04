@@ -37,6 +37,10 @@ docs = load("identity-documents")
 nas = load("nas-records")
 accounts = {a["customerId"]: a for a in load("accounts")}
 personas = json.loads((APP / "public/config/personas.json").read_text())
+_routing_src = (APP / "src/data/approvalRouting.ts").read_text()
+SALES_MANAGER = re.search(r"SALES_MANAGER_ROLE\s*=\s*'([^']+)'", _routing_src).group(1)
+ALL_TO_MANAGER = set(re.findall(r"'(ROLE-\d+)'", re.search(r"ALL_POSTPAID_APPROVALS_TO_MANAGER[^=]*=\s*new Set\(\[([^\]]*)\]", _routing_src).group(1)))
+MANAGER_OF = set(re.findall(r"'(ROLE-\d+)': SALES_MANAGER_ROLE", _routing_src))
 password = re.search(r"DEMO_LOGIN_PASSWORD\s*=\s*'([^']+)'", (APP / "src/auth/staffIdRoleMap.ts").read_text()).group(1)
 retiree_ids = set(load("govt-retiree-registry")["retiredIdNumbers"])
 
@@ -1390,6 +1394,13 @@ def sheet(wb, title, header, data, widths=None, first=False, wrap_cols=()):
 
 wb = Workbook()
 
+# Rows whose expected outcome ends in an approval: say who approves when the order is raised by Retail Sales (every Mobile Postpaid order of theirs that needs approval goes to the manager).
+_ei = HDR.index("Expected outcome")
+for _r in rows:
+    _e = str(_r[_ei] or "")
+    if re.search(r"approval|approve|approver|routed", _e, re.I) and SALES_MANAGER not in _e:
+        _r[_ei] = _e.rstrip() + f" Raised by Retail Sales, the approval goes to the {SALES_MANAGER} (Manager/Approver); the confirmation page names the team."
+
 # README
 n_seed = sum(r[2].startswith(ORIG) for r in rows)
 n_prop = len(rows) - n_seed
@@ -1617,6 +1628,9 @@ COV += [
     ("12 Billing Profile", "No postpaid billing account: a new account is created (prepaid-only, home-only, new customer)", _ids(lambda r: (_live(r) and r["Customer / NAS ID"] not in _postpaid_accts and r["Customer / NAS ID"].startswith("CUST")) or _new(r))[:12], "A new billing account is created with the segment's default credit limit and bill cycle."),
     ("13 Checkout, CAF and Payment", "Upfront payment due today (HRN advance QAR 100)", _ids(lambda r: _hrn(r) and _live(r) and _num(r["Age"]) >= 18)[:8], "Payment step takes the advance (WinCash or Proceed Without WinCash); order held for approval."),
     ("13 Checkout, CAF and Payment", "Nothing due today (zero-value receipt)", ["CUST-3001", "CUST-3029"], "Generate zero-value receipt, then Save & Finish."),
+    ("14 Approval and order history", "Order raised by Retail Sales (VFQ12341) that needs approval, whatever held it (line cap, HRN advance, Passport / GCC / Other ID, discount proof, under-18 exception)", _ids(lambda r: _live(r) and _adult(r) and (_hrn(r) or r["ID type"] in ("Passport", "GCC ID", "Other ID") or (_qat(r) and _num(r["Postpaid lines"]) >= 5) or (not _qat(r) and _num(r["Postpaid lines"]) >= 2)))[:14], f"Routed to the {SALES_MANAGER}, i.e. the Manager/Approver persona; the confirmation page reads 'Order Submitted for Approval (Backoffice Fulfillment Team)' only for orders routed to Back Office Fulfilment, otherwise it names the routed role. Also applies to a postpaid Port-In, a postpaid plan change and a prepaid-to-postpaid migration."),
+    ("14 Approval and order history", "Manager/Approver (VFQ12363): review and decide the order", [], "Sign in as VFQ12363 > Orders > Approval Requested > open the order: Order Details, Activities, Attachments; Approve (reason required), Reject (reason required) or Missing Information. A role other than the routed one, and the agent who raised the order, cannot decide it."),
+    ("14 Approval and order history", "Postpaid order raised by a persona NOT routed to the manager keeps the reason's own route (Credit Control, Back Office Fulfilment, Sales Manager for a Passport)", _ids(lambda r: _live(r) and _adult(r) and r["ID type"] in ("Passport", "GCC ID", "Other ID"))[:6], "Raise it as another sales persona (for example Telesales); the approving team on the confirmation page is the routed role, else the approval matrix's."),
     ("14 Approval and order history", "Orders in the approval queue (Submitted for Approval)", sorted(_by_status.get("Submitted for Approval", [])), "Open in Order Management > approvals; approver role by order."),
     ("14 Approval and order history", "Order Rejected - Correction (Missing Information flow)", sorted(_by_status.get("Rejected - Correction", [])), "Creator reopens, adds the documents and resubmits."),
     ("14 Approval and order history", "Draft postpaid order (Save as Draft / resume)", sorted(_by_status.get("Draft", [])), "Resume the draft from the customer's tasks."),
@@ -1634,10 +1648,10 @@ COV.append(("16 Family Plan", "Expat / HRN owner (line-count and HRN rules apply
 
 _cov_rows, _gaps = [], []
 for _step, _cond, _cs, _how in COV:
-    if not _cs and "no registry" not in _cond.lower() and "known to no registry" not in _cond.lower():
+    if not _cs and "no registry" not in _cond.lower() and "known to no registry" not in _cond.lower() and "manager/approver (vfq12363)" not in _cond.lower():
         _gaps.append(_cond)
     _lk = {r_["Customer / NAS ID"]: str(r_["ID number (use for lookup)"]) for r_ in R}
-    _show = "\n".join(f"{_lk[c]} ({c})" if c in _lk else c for c in dict.fromkeys(_cs)) if _cs else "(use an ID not in this workbook)" if "known to no registry" in _cond else "NO CUSTOMER - GAP"
+    _show = "\n".join(f"{_lk[c]} ({c})" if c in _lk else c for c in dict.fromkeys(_cs)) if _cs else "(use an ID not in this workbook)" if "known to no registry" in _cond else "(no customer needed: sign in as the approver)" if "manager/approver (vfq12363)" in _cond.lower() else "NO CUSTOMER - GAP"
     _cov_rows.append([_step, _cond, len(_cs), _show, _how])
 if _gaps:
     print("COVERAGE GAPS:", _gaps)
@@ -1870,9 +1884,19 @@ for _k, _t in enumerate(CONC, 1):
 wb.move_sheet("Eligibility Coverage", offset=-(wb.sheetnames.index("Eligibility Coverage") - wb.sheetnames.index("Postpaid Journey Coverage") - 1))
 
 # Roles & Login
-rl = [[r["staffId"], r["name"], r["group"], r["businessUnitLabel"], r["approach"], r["channel"], password] for r in personas]
-sheet(wb, "Roles & Login", ["Staff ID", "Role", "Persona group", "Business unit", "Approach", "Channel", "Demo password"], rl,
-      {"Staff ID": 11, "Role": 36, "Persona group": 38, "Business unit": 20, "Approach": 14, "Channel": 24, "Demo password": 16})
+def _route(r):
+    if r["id"] in ALL_TO_MANAGER:
+        return f"All Mobile Postpaid orders that need approval go to the {SALES_MANAGER} (Manager/Approver)"
+    if r["id"] in MANAGER_OF:
+        return f"A Passport order goes to the {SALES_MANAGER}; other reasons keep their own route (Credit Control, Back Office Fulfilment)"
+    if any(f["key"] == "orders.approval-detail" and f["level"] == "Approve" for f in r["features"]):
+        return f"Can decide orders routed to their role (job title {SALES_MANAGER if r['name'].startswith('Manager/Approver') else 'by user'})"
+    return "-"
+
+
+rl = [[r["staffId"], r["name"], r["group"], r["businessUnitLabel"], r["approach"], r["channel"], password, _route(r)] for r in personas]
+sheet(wb, "Roles & Login", ["Staff ID", "Role", "Persona group", "Business unit", "Approach", "Channel", "Demo password", "Mobile Postpaid approval route"], rl,
+      {"Staff ID": 11, "Role": 36, "Persona group": 38, "Business unit": 20, "Approach": 14, "Channel": 24, "Demo password": 16, "Mobile Postpaid approval route": 70}, wrap_cols=("Mobile Postpaid approval route",))
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 wb.save(OUT)

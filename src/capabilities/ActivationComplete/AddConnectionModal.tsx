@@ -1,11 +1,30 @@
 import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { Modal } from '../../components/primitives/Modal';
-import { Radio } from '../../components/primitives/Radio';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { connectionOptions, lineCatalogueOf, primaryLine1 } from '../../engines/familyPackage';
 import type { ConnectionOption, FamilyLine, FamilyOrder, FamilyRole } from '../../engines/familyPackage';
-import { CARD_IDLE, CARD_SELECTED, SelectedTick } from '../SelectableCard';
+
+/**
+ * The option cards are styled inline, from design tokens only, on purpose: this modal must look the same on hosts that do not build the app's
+ * `@layer components` / `@apply` classes (the Figma Make site), so it depends on no project class for its layout, border or radio.
+ */
+function optionStyle(selected: boolean): CSSProperties {
+  return {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '0.75rem',
+    padding: '1rem',
+    cursor: 'pointer',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 'var(--radius-card)',
+    borderColor: selected ? 'var(--field-card-selected)' : 'var(--field-card-border)',
+    background: selected ? 'linear-gradient(135deg, var(--surface-warm), var(--bg) 90%)' : 'var(--bg)',
+    boxShadow: selected ? 'var(--shadow-selected-ring)' : 'none',
+  };
+}
 
 /** The customer's package as it is on record right now: its lines and the connection types that can be added to it. */
 async function readPackage(customerId: string): Promise<{ packageId: string; options: ConnectionOption[] } | undefined> {
@@ -126,14 +145,19 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: Ad
           ) : (
             <>
               <p className="text-secondary">Select the connection type required by the customer.</p>
-              <div role="radiogroup" aria-label="Connection type" className="stack gap-3">
+              <div role="radiogroup" aria-label="Connection type" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {options.map((o) => (
-                  <label key={o.role} className={`row-start card-frame p-4 cursor-pointer ${chosen === o.role ? CARD_SELECTED : CARD_IDLE}`}>
-                    {chosen === o.role && <SelectedTick />}
-                    <Radio name="family-connection-type" className="mt-1" checked={chosen === o.role} onChange={() => setChosen(o.role)} />
+                  <label key={o.role} style={optionStyle(chosen === o.role)}>
+                    <input
+                      type="radio"
+                      name="family-connection-type"
+                      checked={chosen === o.role}
+                      onChange={() => setChosen(o.role)}
+                      style={{ marginTop: '0.25rem', width: '1.125rem', height: '1.125rem', accentColor: 'var(--accent)', flexShrink: 0 }}
+                    />
                     <span>
-                      <span className="block text-fg font-medium">{o.label}</span>
-                      <span className="block caption-secondary">{o.lineLabel}</span>
+                      <span style={{ display: 'block', fontWeight: 500, color: 'var(--fg)' }}>{o.label}</span>
+                      <span style={{ display: 'block', fontSize: 'var(--fs-caption)', color: 'var(--fg-2)' }}>{o.lineLabel}</span>
                     </span>
                   </label>
                 ))}
