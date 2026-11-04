@@ -310,12 +310,17 @@ test('wiring: only a Family Package\'s first line creates the customer, before a
   assert.match(submit, /const customerId = eligibility\?\.customerId \?\? createdCustomerId/);
 });
 
-test('a Family Package order held for approval names its team under the confirmation heading; an order that is not held, or not a Family Package order, names none', () => {
-  const submit = fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8');
-  assert.match(submit, /family\.applies && family\.ok && pendingApproval \? \{ approvalTeam: FAMILY_APPROVAL_TEAM \}/);
-  assert.equal(fp.FAMILY_APPROVAL_TEAM, 'Backoffice Fulfillment Team');
+test('every order held for approval names the team it waits on under the confirmation heading, for every journey: the role it was routed to, else the approval matrix\'s', async () => {
+  const aa = await load('/src/engines/approvalAuthority.ts');
+  const matrix = JSON.parse(fs.readFileSync('public/config/approval-matrix.json', 'utf8'));
+  assert.equal(aa.approvalTeamOf({ approverRole: 'Credit Control' }), 'Credit Control', 'a routed role is named as it is');
+  assert.equal(aa.approvalTeamOf({ approverRole: 'Back Office Fulfilment', orderType: 'MNP Postpaid Port-In' }), 'Backoffice Fulfillment Team', 'the role it was routed to wins over the matrix');
+  assert.equal(aa.approvalTeamOf(undefined), undefined);
+  assert.equal(aa.approvalTeamOf({}), undefined, 'nothing known, nothing named');
   const screen = fs.readFileSync('src/components/patterns/ActivationCompleteScreen.tsx', 'utf8');
-  assert.match(screen, /order\.pendingApproval && order\.approvalTeam \? `\(\$\{order\.approvalTeam\}\)` : undefined/);
+  assert.match(screen, /headingNote=\{order\.pendingApproval && approvalTeam \? `\(\$\{approvalTeam\}\)` : undefined\}/);
+  assert.match(screen, /approvalTeamOf\(all\.find\(\(o\) => o\.orderId === order\.orderId\)\)/, 'read from the order as placed, so no journey has to supply it');
+  assert.ok(matrix.some((m) => m.category === 'New Postpaid Activation'));
 });
 
 // ---- Family Owner, billing ------------------------------------------------------------------------------------------------------------------------

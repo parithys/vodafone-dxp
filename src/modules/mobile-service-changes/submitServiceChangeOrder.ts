@@ -13,6 +13,8 @@ import type { EligibilityResult } from '../../components/domain/eligibilityTypes
 import type { useEntityStore } from '../../stores/entityStore';
 import { applyLineChange } from './applyServiceChange';
 import { routesToApproval } from '../new-connection/approvalRouting';
+import { postpaidManagerRoute } from '../../data/approvalRouting';
+import { usePersonaStore } from '../../stores/personaStore';
 
 type EntityStore = ReturnType<typeof useEntityStore.getState>;
 
@@ -87,6 +89,7 @@ export async function submitServiceChangeOrder(
     orderId,
     orderType: kind === 'change-postpaid-plan' ? 'Plan Change' : kind === 'change-prepaid-pack' ? 'Prepaid Pack Change' : 'Add-On',
     orderSubType: kind === 'change-postpaid-plan' ? 'Post2Post' : kind === 'change-prepaid-pack' ? 'Prepaid2Prepaid' : prepaid ? 'Prepaid Add-On' : 'Postpaid Add-On',
+    ...(pendingApproval && kind === 'change-postpaid-plan' && postpaidManagerRoute(usePersonaStore.getState().activePersonaId) ? { approverRole: postpaidManagerRoute(usePersonaStore.getState().activePersonaId) } : {}),
     status: pendingApproval ? 'Submitted for Approval' : 'Complete',
     createdAt: new Date().toISOString(),
     customerName: contact.moiResult?.name,

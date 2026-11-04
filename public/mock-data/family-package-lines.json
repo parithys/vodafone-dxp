@@ -8,7 +8,7 @@
     "sequence": 1,
     "planId": "PROD-143",
     "orderId": "ORD-FAM-1001",
-    "msisdn": "+97455520101"
+    "msisdn": "+97455512001"
   },
   {
     "lineId": "FPL-3084-P1",
@@ -18,6 +18,287 @@
     "sequence": 1,
     "planId": "PROD-142",
     "orderId": "ORD-FAM-3084",
-    "msisdn": "+97455520201"
+    "msisdn": "+97455513053"
+  },
+  {
+    "lineId": "FPL-3201-Pri1",
+    "packageId": "FPK-CUST-3201",
+    "customerId": "CUST-3201",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-142",
+    "orderId": "ORD-FAM-3201-1",
+    "msisdn": "+97455513060"
+  },
+  {
+    "lineId": "FPL-3202-Pri1",
+    "packageId": "FPK-CUST-3202",
+    "customerId": "CUST-3202",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-144",
+    "orderId": "ORD-FAM-3202-1",
+    "msisdn": "+97455513061"
+  },
+  {
+    "lineId": "FPL-3202-Pri2",
+    "packageId": "FPK-CUST-3202",
+    "customerId": "CUST-3202",
+    "role": "Primary",
+    "sequence": 2,
+    "planId": "PROD-144",
+    "orderId": "ORD-FAM-3202-2",
+    "msisdn": "+97455520129"
+  },
+  {
+    "lineId": "FPL-3203-Pri1",
+    "packageId": "FPK-CUST-3203",
+    "customerId": "CUST-3203",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-143",
+    "orderId": "ORD-FAM-3203-1",
+    "msisdn": "+97455513062"
+  },
+  {
+    "lineId": "FPL-3203-Sup1",
+    "packageId": "FPK-CUST-3203",
+    "customerId": "CUST-3203",
+    "role": "Supplementary",
+    "sequence": 1,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3203-2",
+    "msisdn": "+97455520130",
+    "tierPlanId": "PROD-143"
+  },
+  {
+    "lineId": "FPL-3204-Pri1",
+    "packageId": "FPK-CUST-3204",
+    "customerId": "CUST-3204",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-143",
+    "orderId": "ORD-FAM-3204-1",
+    "msisdn": "+97455513063"
+  },
+  {
+    "lineId": "FPL-3204-Sec1",
+    "packageId": "FPK-CUST-3204",
+    "customerId": "CUST-3204",
+    "role": "Secondary",
+    "sequence": 1,
+    "planId": "PROD-310",
+    "orderId": "ORD-FAM-3204-2",
+    "msisdn": "+97455520131",
+    "tierPlanId": "PROD-143"
+  },
+  {
+    "lineId": "FPL-3205-Pri1",
+    "packageId": "FPK-CUST-3205",
+    "customerId": "CUST-3205",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-145",
+    "orderId": "ORD-FAM-3205-1",
+    "msisdn": "+97455513064"
+  },
+  {
+    "lineId": "FPL-3205-Sec1",
+    "packageId": "FPK-CUST-3205",
+    "customerId": "CUST-3205",
+    "role": "Secondary",
+    "sequence": 1,
+    "planId": "PROD-310",
+    "orderId": "ORD-FAM-3205-2",
+    "msisdn": "+97455520132",
+    "tierPlanId": "PROD-145"
+  },
+  {
+    "lineId": "FPL-3205-Sec2",
+    "packageId": "FPK-CUST-3205",
+    "customerId": "CUST-3205",
+    "role": "Secondary",
+    "sequence": 2,
+    "planId": "PROD-312",
+    "orderId": "ORD-FAM-3205-3",
+    "msisdn": "+97455520133",
+    "tierPlanId": "PROD-145"
+  },
+  {
+    "lineId": "FPL-3206-Pri1",
+    "packageId": "FPK-CUST-3206",
+    "customerId": "CUST-3206",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-142",
+    "orderId": "ORD-FAM-3206-1",
+    "msisdn": "+97455513065"
+  },
+  {
+    "lineId": "FPL-3206-Sup1",
+    "packageId": "FPK-CUST-3206",
+    "customerId": "CUST-3206",
+    "role": "Supplementary",
+    "sequence": 1,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3206-2",
+    "msisdn": "+97455520134",
+    "tierPlanId": "PROD-142"
+  },
+  {
+    "lineId": "FPL-3206-Sup2",
+    "packageId": "FPK-CUST-3206",
+    "customerId": "CUST-3206",
+    "role": "Supplementary",
+    "sequence": 2,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3206-3",
+    "msisdn": "+97455520135",
+    "tierPlanId": "PROD-142"
+  },
+  {
+    "lineId": "FPL-3207-Pri1",
+    "packageId": "FPK-CUST-3207",
+    "customerId": "CUST-3207",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-144",
+    "orderId": "ORD-FAM-3207-1",
+    "msisdn": "+97455513066"
+  },
+  {
+    "lineId": "FPL-3207-Pri2",
+    "packageId": "FPK-CUST-3207",
+    "customerId": "CUST-3207",
+    "role": "Primary",
+    "sequence": 2,
+    "planId": "PROD-144",
+    "orderId": "ORD-FAM-3207-2",
+    "msisdn": "+97455520136"
+  },
+  {
+    "lineId": "FPL-3207-Sup1",
+    "packageId": "FPK-CUST-3207",
+    "customerId": "CUST-3207",
+    "role": "Supplementary",
+    "sequence": 1,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3207-3",
+    "msisdn": "+97455520137",
+    "tierPlanId": "PROD-144"
+  },
+  {
+    "lineId": "FPL-3208-Pri1",
+    "packageId": "FPK-CUST-3208",
+    "customerId": "CUST-3208",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-145",
+    "orderId": "ORD-FAM-3208-1",
+    "msisdn": "+97455513067"
+  },
+  {
+    "lineId": "FPL-3208-Pri2",
+    "packageId": "FPK-CUST-3208",
+    "customerId": "CUST-3208",
+    "role": "Primary",
+    "sequence": 2,
+    "planId": "PROD-145",
+    "orderId": "ORD-FAM-3208-2",
+    "msisdn": "+97455520138"
+  },
+  {
+    "lineId": "FPL-3208-Sup1",
+    "packageId": "FPK-CUST-3208",
+    "customerId": "CUST-3208",
+    "role": "Supplementary",
+    "sequence": 1,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3208-3",
+    "msisdn": "+97455520139",
+    "tierPlanId": "PROD-145"
+  },
+  {
+    "lineId": "FPL-3208-Sup2",
+    "packageId": "FPK-CUST-3208",
+    "customerId": "CUST-3208",
+    "role": "Supplementary",
+    "sequence": 2,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3208-4",
+    "msisdn": "+97455520140",
+    "tierPlanId": "PROD-145"
+  },
+  {
+    "lineId": "FPL-3208-Sec1",
+    "packageId": "FPK-CUST-3208",
+    "customerId": "CUST-3208",
+    "role": "Secondary",
+    "sequence": 1,
+    "planId": "PROD-312",
+    "orderId": "ORD-FAM-3208-5",
+    "msisdn": "+97455520141",
+    "tierPlanId": "PROD-145"
+  },
+  {
+    "lineId": "FPL-3209-Pri1",
+    "packageId": "FPK-CUST-3209",
+    "customerId": "CUST-3209",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-143",
+    "orderId": "ORD-FAM-3209-1",
+    "msisdn": "+97455513068"
+  },
+  {
+    "lineId": "FPL-3210-Pri1",
+    "packageId": "FPK-CUST-3210",
+    "customerId": "CUST-3210",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-144",
+    "orderId": "ORD-FAM-3210-1",
+    "msisdn": "+97455513069"
+  },
+  {
+    "lineId": "FPL-3210-Sup1",
+    "packageId": "FPK-CUST-3210",
+    "customerId": "CUST-3210",
+    "role": "Supplementary",
+    "sequence": 1,
+    "planId": "PROD-311",
+    "orderId": "ORD-FAM-3210-2",
+    "msisdn": "+97455520142",
+    "tierPlanId": "PROD-144"
+  },
+  {
+    "lineId": "FPL-3211-Pri1",
+    "packageId": "FPK-CUST-3211",
+    "customerId": "CUST-3211",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-143",
+    "orderId": "ORD-FAM-3211-1",
+    "msisdn": "+97455513070"
+  },
+  {
+    "lineId": "FPL-3211-Pri2",
+    "packageId": "FPK-CUST-3211",
+    "customerId": "CUST-3211",
+    "role": "Primary",
+    "sequence": 2,
+    "planId": "PROD-143",
+    "orderId": "ORD-FAM-3211-2",
+    "msisdn": "+97455520143"
+  },
+  {
+    "lineId": "FPL-3212-Pri1",
+    "packageId": "FPK-CUST-3212",
+    "customerId": "CUST-3212",
+    "role": "Primary",
+    "sequence": 1,
+    "planId": "PROD-142",
+    "orderId": "ORD-FAM-3212-1",
+    "msisdn": "+97455513071"
   }
 ]

@@ -1,4 +1,6 @@
 import { currentAgentId } from '../../../stores/authStore';
+import { postpaidManagerRoute } from '../../../data/approvalRouting';
+import { usePersonaStore } from '../../../stores/personaStore';
 import { storedAddressLine } from '../../../components/patterns/addressFromBilling';
 import { accountTypeForJourney } from '../../../engines/creditLimit';
 import { saveLinkedIdDocument } from '../../new-connection/saveLinkedIdDocument';
@@ -107,6 +109,8 @@ export async function submitMnpOrder(
     orderSubType: isB2B2C ? 'B2B2C' : 'Port-In',
     ...decisionRecord(lineDecision),
     ...(needsApproval && lineDecision?.outcome === 'ALLOW_WITH_APPROVAL' ? { approvalReason: `Line approval required - ${approvalMessages(lineDecision)}`, ...(needsCreditControl(lineDecision) ? { approverRole: COLLECTION_TEAM_ROLE } : {}) } : {}),
+    // A postpaid Port-In that needs approval, raised by a persona whose postpaid orders all go to their manager (Retail Sales), goes to that manager.
+    ...(needsApproval && !isPrepaid && postpaidManagerRoute(usePersonaStore.getState().activePersonaId) ? { approverRole: postpaidManagerRoute(usePersonaStore.getState().activePersonaId) } : {}),
     // The order shows its Port-In status: Pending NPAS Approval until NPAS answers (Annex_02). B2B2C waits for the manager first.
     status: needsApproval ? 'Submitted for Approval' : 'Pending NPAS Approval',
     createdAt: new Date().toISOString(),

@@ -22,3 +22,17 @@ export const SUBMITTER_MANAGER_ROLE: Readonly<Record<string, string>> = {
 
 /** The approval queue (job title) of the submitting persona's manager, or undefined when the persona has none. */
 export const managerRoleOfSubmitter = (personaId: string | undefined): string | undefined => (personaId ? SUBMITTER_MANAGER_ROLE[personaId] : undefined);
+
+/**
+ * Personas whose Mobile Postpaid orders ALL go to their manager when they need approval, whatever the reason that held them (a line cap, an ID type,
+ * a discount's proof, an advance payment ...): the Retail Sales persona's postpaid orders are decided by the Manager/Approver (job title Sales Manager).
+ * Keyed by persona id (personas.json); a persona not listed keeps the routing the reason gives it.
+ */
+export const ALL_POSTPAID_APPROVALS_TO_MANAGER: ReadonlySet<string> = new Set(['ROLE-01']);
+
+/**
+ * The queue a Mobile Postpaid order that needs approval is routed to because of WHO raised it (New Postpaid Activation, a postpaid Port-In, a postpaid plan
+ * change, a prepaid-to-postpaid migration): the submitting persona's manager, for the personas above; undefined for any other, so the reason's own route stands.
+ */
+export const postpaidManagerRoute = (personaId: string | undefined): string | undefined =>
+  personaId && ALL_POSTPAID_APPROVALS_TO_MANAGER.has(personaId) ? managerRoleOfSubmitter(personaId) : undefined;

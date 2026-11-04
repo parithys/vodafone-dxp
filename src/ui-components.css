@@ -483,6 +483,10 @@
   .split-wide {
     @apply flex flex-wrap items-center justify-between gap-x-4 gap-y-2;
   }
+  /* A short list of plain points under a heading or lead-in: disc bullets, indented, secondary text. */
+  .bullet-list {
+    @apply list-disc pl-5 space-y-1 text-fg-2 text-[length:var(--fs-body)];
+  }
   .split-nowrap {
     @apply flex items-center justify-between gap-3;
   }

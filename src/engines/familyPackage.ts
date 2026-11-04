@@ -27,8 +27,6 @@ export const lineCatalogueOf = (products: readonly { productId: string; planClas
   supplementaryPlanId: products.find((p) => p.planClass === SUPPLEMENTARY_PLAN_CLASS)?.productId,
   secondaryPlanIds: products.filter((p) => p.planClass === SECONDARY_PLAN_CLASS).map((p) => p.productId),
 });
-/** The team a Family Package order held for approval waits on, as the confirmation page names it. */
-export const FAMILY_APPROVAL_TEAM = 'Backoffice Fulfillment Team';
 export const isFamilyPlan = (plan: { planClass?: unknown } | undefined): boolean => plan?.planClass === FAMILY_PLAN_CLASS;
 
 export interface FamilyLine {

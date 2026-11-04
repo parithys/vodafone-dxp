@@ -9,6 +9,8 @@ import { useEntityStore } from '../../stores/entityStore';
 import { useAuthStore } from '../../stores/authStore';
 import { logActivity } from '../../engines/activityEngine';
 import { recordOrderCompletion } from '../../engines/orderCompletion';
+import { approvalTeamOf } from '../../engines/approvalAuthority';
+import * as mockDataEngine from '../../engines/mockDataEngine';
 import type { ActivityInput } from '../../engines/activityEngine';
 import { useCustomerContext } from '../../stores/customerContextStore';
 import { Badge } from '../primitives/Badge';
@@ -79,8 +81,6 @@ export interface ActivationCompleteOrder {
   terms?: OrderTerms;
   /** The Family Package the order started (its Primary Line 1 and the package's plan): shown as a row, and once the line is activated it offers Add Another Connection. */
   familyPackage?: { packageId: string; lineLabel: string; planName: string };
-  /** Who the order waits on, named under the heading while it is held for approval. */
-  approvalTeam?: string;
 }
 
 /** Cross-sell into the Fixed Line/Fibre wizard for the same counter visit (SCR-043). */
@@ -113,6 +113,18 @@ export function ActivationCompleteScreen({
   const createRecord = useEntityStore((s) => s.createRecord);
   // 'sent' | 'blocked' (address missing or not verified) - never assumed sent.
   const [leadId, setLeadId] = useState<string | undefined>();
+  // Who an order held for approval waits on, for every journey: read from the order as placed (the role it was routed to, else the approval matrix's for its kind of order).
+  const [approvalTeam, setApprovalTeam] = useState<string | undefined>();
+  useEffect(() => {
+    if (!order.pendingApproval) return;
+    let cancelled = false;
+    void mockDataEngine.list<{ orderId: string; orderType?: string; approverRole?: string }>('orders').then((all) => {
+      if (!cancelled) setApprovalTeam(approvalTeamOf(all.find((o) => o.orderId === order.orderId)));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [order.orderId, order.pendingApproval]);
   const [closing, setClosing] = useState(false);
   // Fibre serviceability of the customer's location: undefined while it is being read.
   const [fibre, setFibre] = useState<FibreServiceability | undefined>();
@@ -223,7 +235,7 @@ export function ActivationCompleteScreen({
     <div className="p-8">
       <OrderConfirmationScreen
         heading={heading}
-        headingNote={order.pendingApproval && order.approvalTeam ? `(${order.approvalTeam})` : undefined}
+        headingNote={order.pendingApproval && approvalTeam ? `(${approvalTeam})` : undefined}
         orderId={order.orderId}
         activityId={order.activityId}
         // Two columns only while the QR code is shown (the handover panel); otherwise one column. An eSIM held for approval shows its notice in the

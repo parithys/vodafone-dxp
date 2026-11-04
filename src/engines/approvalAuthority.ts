@@ -207,3 +207,12 @@ export function applyMissingInformation(attachments: AttachmentRecord[], request
   if (request.supportingDocuments) for (const d of answer.supporting) out.push({ label: d.label, detail: d.fileName });
   return out;
 }
+
+/** How the confirmation page names the team an approval waits on, where it differs from the role's own name in the approval matrix. */
+const APPROVER_TEAM_NAME: Record<string, string> = { 'Back Office Fulfilment': 'Backoffice Fulfillment Team' };
+
+/** The team an order held for approval waits on: the role the order was routed to, else the one the approval matrix requires for its kind of order (what the approval queue shows as "Requires"). Undefined when neither is known. */
+export function approvalTeamOf(order: { approverRole?: string; orderType?: string } | undefined): string | undefined {
+  const role = order?.approverRole ?? (order?.orderType ? getRequiredApproverRole(order.orderType) : undefined);
+  return role ? (APPROVER_TEAM_NAME[role] ?? role) : undefined;
+}

@@ -6,6 +6,7 @@ import { contactIdentityOrderFields } from '../../new-connection/contactIdentity
 import { saveCustomerSalutation } from '../../new-connection/saveCustomerSalutation';
 import { hrnAdvanceQar } from '../../../engines/hrnConfiguration';
 import { usePersonaStore } from '../../../stores/personaStore';
+import { postpaidManagerRoute } from '../../../data/approvalRouting';
 import { idScanAttachments } from '../../new-connection/idScanAttachments';
 import * as mockDataEngine from '../../../engines/mockDataEngine';
 import { newActivityId } from '../../../engines/activityEngine';
@@ -90,6 +91,7 @@ export async function submitPreToPostOrder(
     orderSubType: 'Pre2Post',
     ...decisionRecord(eligibility?.connectionDecision),
     ...(pendingApproval && needsCreditControl(eligibility?.connectionDecision) ? { approverRole: COLLECTION_TEAM_ROLE } : {}),
+    ...(pendingApproval && postpaidManagerRoute(usePersonaStore.getState().activePersonaId) ? { approverRole: postpaidManagerRoute(usePersonaStore.getState().activePersonaId) } : {}),
     status: pendingApproval ? 'Submitted for Approval' : 'Complete',
     createdAt: new Date().toISOString(),
     customerName: contact.moiResult?.name,

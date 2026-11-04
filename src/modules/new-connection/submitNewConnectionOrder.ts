@@ -9,7 +9,7 @@ import { actualUserOrderFields, minorExceptionHolds, saveActualUserContact } fro
 import type { ActualUserValue } from '../../capabilities/ActualUser';
 import { hrnAdvanceQar } from '../../engines/hrnConfiguration';
 import { usePersonaStore } from '../../stores/personaStore';
-import { managerRoleOfSubmitter } from '../../data/approvalRouting';
+import { managerRoleOfSubmitter, postpaidManagerRoute } from '../../data/approvalRouting';
 import { under18ApproverRole } from '../../data/under18Exception';
 import { defaultBillLimitQar, formatQar, monthlyCharges } from '../../engines/postpaidPricing';
 import { effectiveCreditLimitQar, emailVerification, maskEmail, persistBillingAccount } from '../../capabilities';
@@ -39,7 +39,6 @@ import { isNumberWaiver } from '../../engines/numberWaiver';
 import { assignMultiSimMsisdns, multiSimEntitlement } from '../../engines/multiSim';
 import { multiSimsFor } from '../../capabilities';
 import { approvalMessages, decisionRecord, needsCreditControl } from '../../engines/connectionEligibility';
-import { FAMILY_APPROVAL_TEAM } from '../../engines/familyPackage';
 import { packageBillingProfileId } from '../../engines/familyPackage';
 import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
 import { familyStartFor } from './familyStart';
@@ -220,6 +219,7 @@ export async function submitNewConnectionOrder(
                 eligibility?.checks.some((c) => c.id === 'id-validity' && c.outcome === 'approval-routing') ? 'ID expiry date not on file - routed for approval' : '',
                 eligibility?.requiresHrnAdvance ? `HRN customer - ${formatQar(hrnAdvanceQar({ nationality: eligibility?.nationality, personaId: usePersonaStore.getState().activePersonaId }))} advance payment applies` : '',
                 minorContactException ? `Under-18 Secondary Contact exception - Court Order attached; ${under18ApproverRole(usePersonaStore.getState().activePersonaId)} approval required` : '',
+                postpaidManagerRoute(usePersonaStore.getState().activePersonaId) ? `Routed to the ${postpaidManagerRoute(usePersonaStore.getState().activePersonaId)} (Manager/Approver): every Mobile Postpaid order raised by Retail Sales that needs approval is decided by them` : '',
                 isB2B2COrder(contact, customerType) ? 'B2B2C employee - Proof of Employment to be verified' : '',
                 waived && waiver ? `Waive Off - ${formatQar(waivedAmountQar)} waived off the Star number upfront charge of ${formatQar(checkoutTotals?.numberChargeQar ?? 0)}` : '',
                 discount && SUPPORTING_ID_DISCOUNT_TYPES.has(discount.addonType ?? '') ? `${discount.addonType} - supporting document to be verified` : '',
@@ -271,7 +271,8 @@ export async function submitNewConnectionOrder(
               approvalReason,
               // Line-limit cases go to the Collection Team (Credit Control), a manual-entry order to the Store Manager, and an order
               // routed for its ID type to Credit Control as well.
-              approverRole: creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : eligibility?.under18Exception || minorContactException ? under18ApproverRole(usePersonaStore.getState().activePersonaId) : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined,
+              // Every Mobile Postpaid order a Retail Sales agent raises that needs approval goes to their manager, whatever held it; other personas keep the reason's own route.
+              approverRole: postpaidManagerRoute(usePersonaStore.getState().activePersonaId) ?? (creditControl ? COLLECTION_TEAM_ROLE : manualIdEntry ? STORE_MANAGER_ROLE : eligibility?.under18Exception || minorContactException ? under18ApproverRole(usePersonaStore.getState().activePersonaId) : idTypeRouting ? passportManagerRole ?? COLLECTION_TEAM_ROLE : undefined),
             }
           : {}),
         customerName: contact.moiResult?.name,
@@ -409,7 +410,6 @@ export async function submitNewConnectionOrder(
         customerEmailDisplay: contact.moiResult?.isNewCustomer && !contact.moiResult?.createdByAgent && contact.email ? maskEmail(contact.email) : contact.email,
         customerEmailVerified: emailVerified,
         terms: orderTerms(values, 'postpaid'),
-        ...(family.applies && family.ok && pendingApproval ? { approvalTeam: FAMILY_APPROVAL_TEAM } : {}),
         ...(family.applies && family.ok ? { familyPackage: { packageId: familyPackageId, lineLabel: family.lineLabel, planName: plan?.name ?? '-' } } : {}),
       };
 

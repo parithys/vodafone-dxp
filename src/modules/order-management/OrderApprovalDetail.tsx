@@ -609,7 +609,6 @@ export function OrderApprovalDetail() {
   const [reasons, setReasons] = useState<RejectReason[]>([]);
   const [modal, setModal] = useState<'approve' | 'reject' | 'missing-information' | 'resubmit' | null>(null);
   const [resubmitComment, setResubmitComment] = useState('');
-  const [ackApprove, setAckApprove] = useState(false);
   const [approveComment, setApproveComment] = useState('');
   const [rejectComment, setRejectComment] = useState('');
   const [missingComment, setMissingComment] = useState('');
@@ -913,22 +912,21 @@ export function OrderApprovalDetail() {
       <Drawer open={modal === 'approve'} onClose={() => setModal(null)} title="Approve Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <label className="row-start gap-2 body-text">
-            <Checkbox className="mt-1" checked={ackApprove} onChange={(e) => setAckApprove(e.target.checked)} />
-            By clicking submit, I agree that I have verified all the documents and details to proceed with submission.
-          </label>
           <Textarea label="Reason / Comments (Required)" required value={approveComment} onChange={(e) => setApproveComment(e.target.value)} />
         </div>
         <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
-          <Button variant="primary" onClick={approve} disabled={!ackApprove || !approveComment.trim() || submitting}>Submit Approval</Button>
+          <Button variant="primary" onClick={approve} disabled={!approveComment.trim() || submitting}>Submit Approval</Button>
         </div>
       </Drawer>
 
       <Drawer open={modal === 'reject'} onClose={() => setModal(null)} title="Reject Order">
         <div className="space-y-3">
           <HistoryPreview history={history} />
-          <p className="text-secondary">Rejecting ends this order. The agent who submitted it is notified with your reason.</p>
+          <ul className="bullet-list">
+            <li>Rejecting ends this order.</li>
+            <li>The agent who submitted it is notified with your reason.</li>
+          </ul>
           <Textarea label="Reason / Comments (Required)" required value={rejectComment} onChange={(e) => setRejectComment(e.target.value)} />
         </div>
         <div className="actions-end mt-6">

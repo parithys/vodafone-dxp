@@ -197,7 +197,9 @@ test('the approval screen offers exactly Approve, Reject and Missing Information
   for (const [fn, field] of [['approve', 'approveComment'], ['reject', 'rejectComment'], ['requestMissingInformation', 'missingComment']]) {
     assert.match(src, new RegExp(`const ${fn} = async \\(\\) => \\{[\\s\\S]{0,200}?if \\([^\\n]*!${field}\\.trim\\(\\)[^\\n]*\\) return;`), `${fn} refuses a blank reason`);
   }
-  assert.match(src, /disabled=\{!ackApprove \|\| !approveComment\.trim\(\)/);
+  assert.match(src, /onClick=\{approve\} disabled=\{!approveComment\.trim\(\) \|\| submitting\}/, 'Approve needs only the reason: no acknowledgement checkbox');
+  assert.doesNotMatch(src, /ackApprove|By clicking submit, I agree/);
+  assert.match(src, /<li>Rejecting ends this order\.<\/li>\s*<li>The agent who submitted it is notified with your reason\.<\/li>/);
   assert.match(src, /onClick=\{reject\} disabled=\{!rejectComment\.trim\(\)/);
   assert.match(src, /onClick=\{requestMissingInformation\} disabled=\{!missingComment\.trim\(\)/);
 });

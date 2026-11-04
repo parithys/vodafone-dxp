@@ -90,3 +90,14 @@ test('wiring: the link is before Initiate scan, runs the same scan, is demo-only
   assert.match(submit, /Under-18 Secondary Contact exception - Court Order attached/);
   assert.match(fs.readFileSync('src/capabilities/ActualUser/submit.ts', 'utf8'), /underEighteenException/);
 });
+
+test('"Scan Below 18" can present someone for a primary contact of EVERY nationality the customer data holds', () => {
+  const customers = read('customers');
+  const docs = read('identity-documents');
+  const asOf = new Date('2026-11-04T00:00:00Z');
+  for (const nat of [...new Set(customers.map((c) => c.nationality))]) {
+    const id = m.pickDemoUnderEighteenCustomer(customers, docs, undefined, nat, asOf);
+    assert.ok(id, `${nat}: an under-18 of the same nationality is on file`);
+    assert.equal(customers.find((c) => c.customerId === id).nationality, nat);
+  }
+});

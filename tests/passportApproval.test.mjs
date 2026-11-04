@@ -46,9 +46,13 @@ test('a persona with no manager route keeps Credit Control for a Passport; no ot
   const noRoute = await submit('ROLE-15', 'Passport');
   assert.equal(noRoute.approverRole, 'Credit Control');
   assert.match(noRoute.approvalReason, /ID type requires Credit Control approval/);
-  const gcc = await submit('ROLE-01', 'GCC ID');
+  const gcc = await submit('ROLE-02', 'GCC ID');
   assert.equal(gcc.approverRole, 'Credit Control', 'GCC ID is not a Passport');
   assert.match(gcc.approvalReason, /ID type requires Credit Control approval/);
+  // Retail Sales is the exception: every Mobile Postpaid order of theirs that needs approval goes to the Manager/Approver, the reason (still named) aside.
+  const retailGcc = await submit('ROLE-01', 'GCC ID');
+  assert.equal(retailGcc.approverRole, 'Sales Manager');
+  assert.match(retailGcc.approvalReason, /ID type requires Credit Control approval/);
 });
 
 test('the mapping covers exactly the sales personas and their supervisor; every route is to the one manager title', () => {

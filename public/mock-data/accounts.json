@@ -813,5 +813,159 @@
     "barringStatus": "Not Barred",
     "barringType": null,
     "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5801",
+    "customerId": "CUST-3201",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7301",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5802",
+    "customerId": "CUST-3202",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7302",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5803",
+    "customerId": "CUST-3203",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7303",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5804",
+    "customerId": "CUST-3204",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7304",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5805",
+    "customerId": "CUST-3205",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7305",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5806",
+    "customerId": "CUST-3206",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7306",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5807",
+    "customerId": "CUST-3207",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7307",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5808",
+    "customerId": "CUST-3208",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7308",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5809",
+    "customerId": "CUST-3209",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7309",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5810",
+    "customerId": "CUST-3210",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7310",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5811",
+    "customerId": "CUST-3211",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7311",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5812",
+    "customerId": "CUST-3212",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7312",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5813",
+    "customerId": "CUST-3401",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7313",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
+  },
+  {
+    "_note": "Customer-Inventory seed (2026-10-02)",
+    "accountId": "ACC-5890",
+    "customerId": "CUST-3401",
+    "accountType": "Consumer Mobile Postpaid",
+    "status": "Active",
+    "billingProfileId": "BILL-7390",
+    "barringStatus": "Not Barred",
+    "barringType": null,
+    "barringReason": null
   }
 ]

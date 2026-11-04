@@ -78,7 +78,7 @@ SEED = {
         disc="None", mnp="-", journeys="Any new connection", expected="ID Validity hard-stop (expired) AND Security Check hard-stop. No agent override.",
         jk=["workspace.customer-search", "postpaid.new-postpaid-wizard"]),
     "CUST-9001": dict(cat="6 Eligibility gates", scen="QA test user, Qatari, age 16 (under 18). Holds both a QID and a Passport document.",
-        disc="None", mnp="-", journeys="Any new connection", expected="Age Check = HARD STOP for an under-18 applicant (2026-10-02): the connection cannot proceed.",
+        disc="None", mnp="-", journeys="Any new connection", expected="Age Check = HARD STOP for an under-18 applicant (2026-10-02): the connection cannot proceed without Apply for Exception (Court Type Order). As a Secondary Contact, the first under-18 Qatari the demo scan presents ('Scan Below 18').",
         jk=["workspace.customer-search", "postpaid.new-postpaid-wizard"]),
     "CUST-1007": dict(cat="6 Eligibility gates", scen="Swedish resident whose customers.json idType is QID but whose only document is a valid Diplomatic ID (to 2030-04-30).",
         disc="None", mnp="-", journeys="New Postpaid", expected="Document type governs: Diplomatic ID is exception-routed to Back Office Fulfilment approval.",
@@ -264,7 +264,7 @@ PROPOSED = [
       "Expat employee sponsored by Gulf Logistics W.L.L. (B2B2C), 1 postpaid line, no pre-existing Special Management flag.", "B2B2C (-25% on Red 500, ADO-7113)", "-", "New Postpaid; FWA; Fixed Line",
       "BR-264: B2B2C on an account WITHOUT Special Management completes automatically. Proof of Employment + CAF mandatory.", emp="Gulf Logistics W.L.L.", jk=PP, req="B2B2C type discount"),
     P("CUST-3026", "Imran Qureshi", "Pakistani", "Expat (QID)", "QID", "28707058600026", "2029-12-31", "1987-07-07", "Male", "Consumer", "English", 1, 0, "3 Discounts & eligibility",
-      "B2B2C employee whose account ALREADY carries a Special Management value.", "B2B2C", "-", "New Postpaid; FWA", "Account carries Special Management (stored on the account). INTENDED per BR-265: prompt 'The Account has already Special Management field value. Do you still want to continue the journey without B2B2C?'. The app has no such prompt yet (Open Questions Q7); BR-266: Pending approval.",
+      "B2B2C employee whose account ALREADY carries a Special Management value.", "B2B2C", "-", "New Postpaid; FWA", "Account carries Special Management (stored on the account). INTENDED per BR-265: prompt 'The Account has already Special Management field value. Do you still want to continue the journey without B2B2C?'. The app has no such prompt yet; BR-266: Pending approval.",
       emp="Doha Contracting Co.", jk=PP, req="B2B2C + Special Management"),
     P("CUST-3027", "Fahad Al-Ansari", "Qatari", "Qatari", "QID", "26904063400027", "2031-01-31", "1969-04-25", "Male", "Consumer", "Arabic", 1, 0, "3 Discounts & eligibility",
       "Retired Qatari who also holds a MADA card (registry-listed).", "Retired AND MADA - pick one customer type per journey", "-", "New Connection (Retired path, then MADA path)",
@@ -272,7 +272,7 @@ PROPOSED = [
       extra="Add ID 26904063400027 to govt-retiree-registry.json"),
     P("CUST-3028", "Karim Haddad", "Lebanese", "Expat (QID)", "QID", "28404042200028", "2029-07-31", "1984-11-12", "Male", "Consumer", "English", 1, 1, "3 Discounts & eligibility",
       "Existing expat customer, long tenure, eligible for 6-month retention/loyalty discount; also holds a prepaid line.", "Loyalty (-15%) on Red 350/500/Unlimited/Extra; Prepaid Welcome", "-", "New Postpaid; Retention journey",
-      "Loyalty applies to existing Vodafone customers (ADO-7105..7108). NOTE: the app does not gate Loyalty on customer history - it is offered on the plan (Open Questions Q4).", jk=PP, req="Existing customer further discount"),
+      "Loyalty applies to existing Vodafone customers (ADO-7105..7108). NOTE: the app does not gate Loyalty on customer history - it is offered on the plan.", jk=PP, req="Existing customer further discount"),
     P("CUST-3029", "Reem Al-Obaidly", "Qatari", "Qatari", "QID", "29506063400029", "2030-10-31", "1995-06-01", "Female", "Consumer", "Arabic", 0, 0, "3 Discounts & eligibility",
       "Control: Qatari existing-customer record with NO discount entitlement, no lines.", "None", "-", "New Postpaid", "Standard price, no discount offered as eligible. Baseline for pricing assertions.", jk=PP, req="No-discount control"),
     # ---- 4. New customer / MNP
@@ -336,7 +336,7 @@ PROPOSED = [
       "Two independent gates: expat cap of 2 -> approval task, AND HRN QAR 100 advance. Both must clear.", hrn=True, jk=PP, req="HRN at expat line cap"),
     P("CUST-3065", "Abdulrahman Al-Kubaisi", "Qatari", "Qatari (Sawfa)", "QID", "28402063400065", "2030-05-31", "1984-02-17", "Male", "Consumer", "Arabic", 1, 2, "8 HRN & ID classes",
       "Qatari in the Sawfa category (BR-347: no prepaid restriction). 1 postpaid + 2 prepaid.", "Loyalty (existing)", "-", "New Prepaid; New Postpaid",
-      "No prepaid cap; postpaid 1/5. DATA ONLY: the app stores customerSubType but does not branch on Sawfa - Qatari rules already apply (Open Questions Q9).", jk=PRE, req="Sawfa", sub="Sawfa"),
+      "No prepaid cap; postpaid 1/5. DATA ONLY: the app stores customerSubType but does not branch on Sawfa - Qatari rules already apply.", jk=PRE, req="Sawfa", sub="Sawfa"),
     P("CUST-3066", "Maha Al-Ghanim", "Qatari", "Qatari (Sawfa Plus)", "QID", "28704063400066", "2030-07-31", "1987-04-26", "Female", "Consumer", "Arabic", 0, 7, "8 HRN & ID classes",
       "Qatari in the Sawfa Plus category with 7 prepaid lines - well past any expat cap.", "Prepaid Welcome (-10%)", "-", "New Prepaid",
       "Qatari: prepaid cap not applied (BR-347), so an 8th prepaid line passes. DATA ONLY for the Sawfa Plus label (Q9).", jk=PRE, req="Sawfa Plus", sub="Sawfa Plus"),
@@ -378,7 +378,7 @@ PROPOSED += [
       "Expat flagged on the collections blacklist but owing QAR 0 (no unpaid bill on file) - the flag alone is not a block.", "None", "-", "New Postpaid",
       "Collections Check PASSES ('No collections block on this account'): a collections block needs an outstanding balance above QAR 0 (VFQ business, 2026-10-02). Contrast CUST-3046, same flag with an unpaid bill -> soft-stop.",
       bl="collections", jk=PP, req="Collections flag, zero balance"),
-    # ---- 10. High line counts (no-cap / approval-only paths). Home internet has no cap in any source (see Open Questions).
+    # ---- 10. High line counts (no-cap / approval-only paths). Home internet has no cap in any source.
     P("CUST-3081", "Khalifa Al-Naimi", "Qatari", "Qatari", "QID", "27807063400081", "2031-01-31", "1978-07-14", "Male", "Consumer", "Arabic", 12, 15, "10 High line counts",
       "Qatari family account holder with 12 postpaid + 15 prepaid mobile lines and 4 GigaHome fibre lines (31 lines in total).", "Loyalty (existing)", "-", "Customer 360; New Postpaid; New Prepaid",
       "Postpaid is past the Qatari limit of 5, so a further postpaid line routes for approval with no maximum (BR-288); prepaid has no cap (BR-347). Home internet has no rule.", jk=C360, req="High line counts (12 / 15 / 4)", hi=4),
@@ -397,7 +397,7 @@ PROPOSED += [
     # ---- 6. Eligibility gates: the actual user (secondary contact) of a postpaid line
     P("CUST-3090", "Maryam Al-Sulaiti", "Qatari", "Qatari", "QID", "31403153400090", "2030-03-31", "2014-03-15", "Female", "Consumer", "Arabic", 0, 0, "6 Eligibility gates",
       "Qatari aged 12 (under 18), no lines: a family member who can be added as the ACTUAL USER of a parent's postpaid line.", "None", "-", "New Postpaid (Actual User step)",
-      "Under 18, so the Actual User step accepts her; the age rule is the only check (Number of Connections, HRN and the Collections / Grey List / Security blacklists are not run for an actual user). Anyone 18 or older is refused there.",
+      "Under 18, so she CANNOT be added as the Secondary Contact through the standard flow (a Secondary Contact must be 18 or over; no other check is run for them). With a Qatari primary contact, 'Scan Below 18' on SIM Selection presents an under-18 Qatari (CUST-9001 or her); 'Apply for Exception' with the Court Type Order lets the order go on, held for manager approval.",
       jk=PP, req="Actual user (minor)"),
     # ---- 11. Restricted segments (Safwa, Safwa+, Royal): visible only to a role holding that segment's own grant
     P("CUST-3101", "Hessa Al-Thani", "Qatari", "Qatari", "QID", "27801013400101", "2031-03-31", "1978-01-10", "Female", "Safwa", "Arabic", 0, 0, "11 Restricted segments",
@@ -411,7 +411,102 @@ PROPOSED += [
       "Premium (granted Royal) sees the customer and continues; every other role is blocked with the access-restriction message and sees no customer information.", jk=C360, req="Restricted segment: Royal"),
     P("NAS-7006", "Farhan Chaudhry", "Pakistani", "Expat (QID)", "QID", "29303051200106", "2030-10-31", "1993-03-05", "Male", "Consumer", "English", 0, 0, "4 New customer / MNP",
       "NEW HRN customer (NAS only, Pakistani). The New Customer journey's demo scan always returns this person, so a demo New Customer is HRN-category.", "None", "-", "New Postpaid; New Prepaid",
-      "Resolves via NAS, no customerId. HRN: QAR 100 advance, QAR 50 default credit limit, no limit choice (hrnConfiguration). The scanned card, the number read and the MOI result are this one person, so ID reconciliation passes.", status="New (NAS record only)", jk=PP, req="New HRN customer (demo scan)"),
+      "Resolves via NAS, no customerId. HRN: QAR 100 advance, QAR 50 default credit limit, no limit choice (hrnConfiguration). The scanned card, the number read and the MOI result are this one person, so ID reconciliation passes. A Family Plan (Ahli) order for them is held for approval and, on submission, creates their Customer 360 record (customer, ID document, contact) so Add Another Connection is available there.", status="New (NAS record only)", jk=PP, req="New HRN customer (demo scan)"),
+]
+
+# --------------------------------------------------------------------------
+# Family Plan scenarios (2026-11-04): one dedicated Qatari customer per Family Package composition. The lines, orders and package are written by --seed
+# (seed_family_packages); the 'Family Plan Scenarios' sheet is read back from that data. Lines: (role, sequence, plan or None for the package plan, order approval).
+# Plans: PROD-142..145 = Ahli / Ahli Pro / Ahli Premium / Ahli Platinum; PROD-311 = the Supplementary plan; PROD-310 = Ahli Lite (Kids Plan); PROD-312 = Ahli Net (Data-only Plan).
+# --------------------------------------------------------------------------
+APPROVED, PENDING = "Approved", "Pending Approval"
+FAMILY_SCENARIOS = [
+    dict(n=1, label="Primary Line only", cid="CUST-3201", name=("Hamda", "Saeed Khalid", "Al-Dosari"), dob="1988-03-14", sex="Female", plan="PROD-142",
+         lines=[("Primary", 1, None, APPROVED)], note="Package with Primary Line 1 only, approved: every other connection type is open."),
+    dict(n=2, label="Primary Line and Second Primary Line", cid="CUST-3202", name=("Nasser", "Hamad Jassim", "Al-Attiyah"), dob="1984-07-22", sex="Male", plan="PROD-144",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED)], note="Second Primary exists, so Second Primary is gone from Add Another Connection (Primary limit 2)."),
+    dict(n=3, label="Primary Line and Supplementary Line", cid="CUST-3203", name=("Moza", "Rashid Ali", "Al-Kaabi"), dob="1991-11-05", sex="Female", plan="PROD-143",
+         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Supplementary added without a Second Primary: no order is imposed. One more Supplementary is still open."),
+    dict(n=4, label="Primary Line and Secondary Line (Kids Plan)", cid="CUST-3204", name=("Yousef", "Mansoor Saeed", "Al-Ghanim"), dob="1987-02-18", sex="Male", plan="PROD-143",
+         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED)], note="Secondary on Ahli Lite (Kids Plan), added without Second Primary or Supplementary."),
+    dict(n=5, label="Primary Line and two Secondary Lines (Kids and Data-only)", cid="CUST-3205", name=("Latifa", "Khalifa Nasser", "Al-Suwaidi"), dob="1990-09-09", sex="Female", plan="PROD-145",
+         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED), ("Secondary", 2, "PROD-312", APPROVED)], note="Secondary has no limit: Kids Plan and Data-only Plan lines side by side; Secondary stays on offer."),
+    dict(n=6, label="Primary Line and two Supplementary Lines (Supplementary limit reached)", cid="CUST-3206", name=("Abdulrahman", "Salem Hamad", "Al-Ali"), dob="1983-12-01", sex="Male", plan="PROD-142",
+         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED)], note="Two Supplementary lines: Supplementary is removed from Add Another Connection; Second Primary and Secondary remain."),
+    dict(n=7, label="Primary, Second Primary and Supplementary Line", cid="CUST-3207", name=("Shaikha", "Jassim Rashid", "Al-Mohannadi"), dob="1986-06-27", sex="Female", plan="PROD-144",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Mixed package: Second Primary gone, Supplementary (1 of 2) and Secondary still offered."),
+    dict(n=8, label="All limits reached except Secondary (Primary x2, Supplementary x2, Secondary)", cid="CUST-3208", name=("Hamad", "Khalid Saeed", "Al-Bakri"), dob="1979-04-30", sex="Male", plan="PROD-145",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED), ("Secondary", 1, "PROD-312", APPROVED)],
+         note="Only Secondary can still be added. Five mobile lines: the owner is at the Qatari postpaid cap, so a further line also meets the line-count eligibility check."),
+    dict(n=9, label="Primary Line awaiting approval (package locked)", cid="CUST-3209", name=("Reem", "Abdulla Nasser", "Al-Jaber"), dob="1993-08-16", sex="Female", plan="PROD-143",
+         lines=[("Primary", 1, None, PENDING)], note="Primary Line 1's order is not approved yet: Add Another Connection is dimmed ('Awaiting approval') everywhere."),
+    dict(n=10, label="Primary Line and a Supplementary Line awaiting approval", cid="CUST-3210", name=("Ghanim", "Ali Mubarak", "Al-Sulaiti"), dob="1981-01-19", sex="Male", plan="PROD-144",
+         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", PENDING)], note="A line awaiting approval still counts toward its limit and numbering: the next Supplementary is Supplementary Line 2."),
+]
+FAMILY_PLAN_NAMES = {"PROD-142": "Ahli", "PROD-143": "Ahli Pro", "PROD-144": "Ahli Premium", "PROD-145": "Ahli Platinum", "PROD-311": "Supplementary plan", "PROD-310": "Ahli Lite (Kids Plan)", "PROD-312": "Ahli Net (Data-only Plan)"}
+for _i, _sc in enumerate(FAMILY_SCENARIOS):
+    NAMES[_sc["cid"]] = _sc["name"]
+    _yy, _mm, _dd = _sc["dob"][2:4], _sc["dob"][5:7], _sc["dob"][8:10]
+    _sc["idn"] = f"2{_yy}{_mm}{_dd}3400{201 + _i:03d}"
+    PROPOSED.append(P(_sc["cid"], full(_sc["name"]), "Qatari", "Qatari", "QID", _sc["idn"], "2031-03-31", _sc["dob"], _sc["sex"], "Consumer", "English", len(_sc["lines"]), 0, "12 Family Plan",
+        f"Family Plan scenario {_sc['n']}: {_sc['label']}. Package on {FAMILY_PLAN_NAMES[_sc['plan']]}; lines: " + ", ".join(f"{r} Line {q}" + (" (awaiting approval)" if a == PENDING else "") for r, q, _p, a in _sc["lines"]) + ".",
+        "None", "-", "Customer 360 (Family Package panel, Actions menu); Add Another Connection; New Postpaid (Family Plan)",
+        _sc["note"] + " The Family Owner's ID must be validated for every line; all lines share one billing account.",
+        jk=["workspace.customer-search", "workspace.customer360-view", "postpaid.new-postpaid-wizard"], req=f"Family Plan: {_sc['label']}"))
+
+# --------------------------------------------------------------------------
+# Mobile Postpaid Activation coverage additions (2026-11-04)
+# --------------------------------------------------------------------------
+# Family Plan scenarios for an expat owner (the Family Owner's own line-count limit applies to the package's lines).
+FAMILY_SCENARIOS += [
+    dict(n=11, label="Expat owner at the expat line cap (Primary and Second Primary)", cid="CUST-3211", name=("Vikram", "Anand Rao", "Iyengar"), dob="1985-05-12", sex="Male", nat="Indian", plan="PROD-143",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED)], note="Indian expat with 2 postpaid lines = AT the expat cap of 2 (BR-288): any further Family connection meets the owner's line-count check and is routed for approval."),
+    dict(n=12, label="HRN owner, Primary Line only", cid="CUST-3212", name=("Naveed", "Iqbal Ahmed", "Chaudhry"), dob="1989-10-03", sex="Male", nat="Pakistani", plan="PROD-142",
+         lines=[("Primary", 1, None, APPROVED)], note="Pakistani (HRN) owner: every added line carries the HRN rules (QAR 100 advance, credit limit 50) and the owner's line-count check."),
+]
+for _i, _sc in enumerate(FAMILY_SCENARIOS):
+    if _sc["cid"] in NAMES:
+        continue
+    NAMES[_sc["cid"]] = _sc["name"]
+    _yy, _mm, _dd = _sc["dob"][2:4], _sc["dob"][5:7], _sc["dob"][8:10]
+    _sc["idn"] = f"2{_yy}{_mm}{_dd}3400{201 + _i:03d}"
+    _nat = _sc.get("nat", "Qatari")
+    PROPOSED.append(P(_sc["cid"], full(_sc["name"]), _nat, "Qatari" if _nat == "Qatari" else "Expat (QID)", "QID", _sc["idn"], "2031-03-31", _sc["dob"], _sc["sex"], "Consumer", "English", len(_sc["lines"]), 0, "12 Family Plan",
+        f"Family Plan scenario {_sc['n']}: {_sc['label']}. Package on {FAMILY_PLAN_NAMES[_sc['plan']]}; lines: " + ", ".join(f"{r} Line {q}" + (" (awaiting approval)" if a == PENDING else "") for r, q, _p, a in _sc["lines"]) + ".",
+        "None", "-", "Customer 360 (Family Package panel, Actions menu); Add Another Connection; New Postpaid (Family Plan)",
+        _sc["note"] + " The Family Owner's ID must be validated for every line; all lines share one billing account.",
+        jk=["workspace.customer-search", "workspace.customer360-view", "postpaid.new-postpaid-wizard"], req=f"Family Plan: {_sc['label']}"))
+
+# Minors (under 18): one per nationality, so "Scan Below 18" on SIM Selection presents an under-18 of the primary contact's nationality whatever that is.
+MINORS = [  # nationality, first, middle, last, dob, sex
+    ("Indian", "Aarav", "Suresh", "Menon", "2011-04-09", "Male"), ("Egyptian", "Youssef", "Ahmed Hassan", "Mahmoud", "2010-08-21", "Male"),
+    ("Pakistani", "Ayaan", "Ali Raza", "Khan", "2012-01-15", "Male"), ("Jordanian", "Zaid", "Khalil Omar", "Haddad", "2009-11-30", "Male"),
+    ("Nepalese", "Anish", "Bahadur", "Gurung", "2011-06-18", "Male"), ("Emirati", "Saeed", "Rashid Ali", "Al-Nuaimi", "2010-03-07", "Male"),
+    ("French", "Lucas", "Henri", "Dubois", "2012-09-12", "Male"), ("Swedish", "Elias", "Erik", "Johansson", "2011-12-02", "Male"),
+    ("Filipino", "Mateo", "Santos", "Cruz", "2010-05-25", "Male"), ("Sri Lankan", "Dinuka", "Chaminda", "Silva", "2012-07-19", "Male"),
+    ("Chinese", "Wei", "Jun", "Zhang", "2011-10-08", "Male"), ("Kenyan", "Brian", "Otieno", "Kamau", "2010-02-14", "Male"),
+    ("Lebanese", "Karim", "Georges", "Khoury", "2009-09-23", "Male"), ("Syrian", "Omar", "Bassam", "Al-Jabri", "2012-04-27", "Male"),
+    ("German", "Jonas", "Peter", "Weber", "2011-01-31", "Male"), ("Bangladeshi", "Rahim", "Abdul Karim", "Hossain", "2010-12-16", "Male"),
+    ("Ugandan", "Joshua", "Moses", "Ssemakula", "2012-06-05", "Male"), ("Myanmar", "Aung", "Zaw", "Win", "2011-03-22", "Male"),
+    ("Cambodian", "Dara", "Vichea", "Sok", "2010-10-11", "Male"), ("Laotian", "Somsak", "Khamphou", "Phommachanh", "2012-02-28", "Male"),
+    ("Swazi", "Lwazi", "Sipho", "Nkosi", "2011-08-14", "Male"),
+]
+for _i, (_nat, _f, _m, _l, _dob, _sex) in enumerate(MINORS):
+    _cid = f"CUST-{3301 + _i}"
+    NAMES[_cid] = (_f, _m, _l)
+    PROPOSED.append(P(_cid, f"{_f} {_l}", _nat, "Expat (QID)", "QID", f"3{_dob[2:4]}{_dob[5:7]}{_dob[8:10]}3400{301 + _i:03d}", "2031-03-31", _dob, _sex, "Consumer", "English", 0, 0, "13 Minors (Secondary Contact)",
+        f"{_nat} aged {age(_dob)} (under 18), no lines: the under-18 person 'Scan Below 18' presents when the primary contact is {_nat}.", "None", "-", "New Postpaid (Secondary Contact on SIM Selection); any new connection as the applicant",
+        "As the applicant: Age Check = HARD STOP unless Apply for Exception (Court Type Order). As a Secondary Contact: refused through the standard flow (must be 18 or over); Apply for Exception with the Court Type Order lets the order go on, held for manager approval. The Family Plan lines of a primary contact of this nationality use this person for the demo.",
+        jk=PP, req="Minor (Secondary Contact)"))
+
+NAMES.update({"CUST-3047": ("Hesham", "Mahmoud", "Fouad"), "CUST-3401": ("Dana", "Khalid", "Al-Thani")})
+PROPOSED += [
+    P("CUST-3047", "Hesham Mahmoud Fouad", "Egyptian", "Expat (QID)", "QID", "29107013400047", "2030-07-31", "1991-07-01", "Male", "Consumer", "English", 0, 0, "6 Eligibility gates",
+      "Expat on a valid QID who is blacklisted with NO category recorded (neither collections nor security).", "None", "-", "New Postpaid; New Prepaid",
+      "Blacklist Check (unclassified) = HARD STOP: the blacklist cannot be classed as collections or security, so no postpaid or prepaid connection can proceed.", bl="unclassified", req="Unclassified blacklist"),
+    P("CUST-3401", "Dana Khalid Al-Thani", "Qatari", "Qatari", "QID", "28806013400401", "2031-03-31", "1988-06-01", "Female", "Consumer", "Arabic", 2, 0, "14 Billing variations",
+      "Qatari with 2 postpaid lines and TWO postpaid billing accounts (a personal one and a second one), so the journey has to choose between them.", "Loyalty (existing)", "-", "New Postpaid (Billing Profile)",
+      "The Billing Profile step selects an existing postpaid billing account automatically (the first on file) and never asks; the agent can go back and pick the other. A Family Package line is always billed on the package's own account.", req="Two postpaid billing accounts"),
 ]
 
 # Scenario rewrites forced by the nationality rule (the nationalities originally
@@ -885,6 +980,72 @@ def seed_home_internet(rd, wr):
     print(f"home internet: +{len(new_i)} lines, +{len(new_a)} accounts")
 
 
+def seed_extra_billing_account(rd, wr):
+    """CUST-3401 gets a SECOND postpaid billing account (account + billing profile), so the Billing Profile step has two to choose between. Idempotent."""
+    accts, bps = rd("accounts"), rd("billing-profiles")
+    cid = "CUST-3401"
+    mine = [a for a in accts if a["customerId"] == cid and "Postpaid" in a["accountType"]]
+    if len(mine) != 1:
+        return
+    src_b = next(b for b in bps if b["billingProfileId"] == mine[0]["billingProfileId"])
+    aid, bid = "ACC-5890", "BILL-7390"
+    if any(a["accountId"] == aid for a in accts):
+        return
+    accts.append({"_note": SEED_TAG, "accountId": aid, "customerId": cid, "accountType": "Consumer Mobile Postpaid", "status": "Active", "billingProfileId": bid, "barringStatus": "Not Barred", "barringType": None, "barringReason": None})
+    nb = {k: v for k, v in src_b.items() if not k.startswith("_")}
+    nb.update({"_note": SEED_TAG, "billingProfileId": bid, "accountId": aid, "name": "Dana Al-Thani - Second account", "isDefault": False})
+    bps.append(nb)
+    wr("accounts", accts); wr("billing-profiles", bps)
+    print("extra billing account: +1 for CUST-3401")
+
+
+def seed_family_packages(rd, wr):
+    """Family Package data for the Family Plan scenario customers (FAMILY_SCENARIOS): each line's order (Complete + Approved, or Submitted for Approval +
+    Pending Approval) billed on the customer's postpaid billing account, and the package's lines. A line's number is the customer's own number for the first
+    line and the customer's extra postpaid lines (seed_mobile_lines) for the rest. Also puts the two original customers' Primary Line 1 on their own numbers.
+    Idempotent: ids are derived from the customer id; existing records are skipped."""
+    custs = {c["customerId"]: c for c in rd("customers")}
+    accts, assets = rd("accounts"), rd("installed-assets")
+    owner = {a["accountId"]: a["customerId"] for a in accts}
+    new_orders, new_lines = [], []
+    for sc in FAMILY_SCENARIOS:
+        cid = sc["cid"]
+        c = custs[cid]
+        acct = next(a for a in accts if a["customerId"] == cid and "Postpaid" in a["accountType"])
+        extras = sorted(a["serviceId"] for a in assets if owner.get(a["accountId"]) == cid and a["serviceId"] != c.get("phone") and a["status"] == "Active")
+        numbers = [c["phone"]] + extras
+        if len(numbers) < len(sc["lines"]):
+            print(f"WARNING {cid}: {len(numbers)} numbers for {len(sc['lines'])} family lines")
+        for i, (role, seq, plan, approval) in enumerate(sc["lines"]):
+            plan_id = plan or sc["plan"]
+            oid = f"ORD-FAM-{cid[5:]}-{i + 1}"
+            done = approval == APPROVED
+            new_orders.append({"_note": "Family Plan scenario seed (2026-11-04).", "orderId": oid, "orderType": "New Postpaid Activation", "orderSubType": "Consumer",
+                               "status": "Complete" if done else "Submitted for Approval", "customerId": cid, "customerName": c["name"], "accountId": acct["accountId"],
+                               "billingProfileId": acct["billingProfileId"], "productId": plan_id, "productIds": [plan_id], "msisdn": numbers[i] if i < len(numbers) else None,
+                               "approvalStatus": approval, "createdBy": "USR-1101", "sourceChannel": "Retail Store", "createdAt": f"2026-11-0{1 + (i % 3)}T10:00:00+03:00"})
+            line = {"lineId": f"FPL-{cid[5:]}-{role[:3]}{seq}", "packageId": f"FPK-{cid}", "customerId": cid, "role": role, "sequence": seq, "planId": plan_id,
+                    "orderId": oid, "msisdn": numbers[i] if i < len(numbers) else None}
+            if role != "Primary":
+                line["tierPlanId"] = sc["plan"]
+            new_lines.append({k: v for k, v in line.items() if v is not None})
+    o, l = rd("orders"), rd("family-package-lines")
+    have_o, have_l = {x["orderId"] for x in o}, {x["lineId"] for x in l}
+    o += [x for x in new_orders if x["orderId"] not in have_o]
+    l += [x for x in new_lines if x["lineId"] not in have_l]
+    # The two original customers' Primary Line 1 sits on their own number (so it is also one of their listed services).
+    own = {"FPL-1001-P1": ("ORD-FAM-1001", custs["CUST-1001"]["phone"]), "FPL-3084-P1": ("ORD-FAM-3084", custs["CUST-3084"]["phone"])}
+    for x in l:
+        if x["lineId"] in own:
+            x["msisdn"] = own[x["lineId"]][1]
+    for x in o:
+        for _lid, (oid, phone) in own.items():
+            if x["orderId"] == oid:
+                x["msisdn"] = phone
+    wr("orders", o); wr("family-package-lines", l)
+    print(f"family packages: +{len([x for x in new_lines if x['lineId'] not in have_l])} lines, +{len([x for x in new_orders if x['orderId'] not in have_o])} orders")
+
+
 def seed():
     def rd(n): return json.loads((MOCK / f"{n}.json").read_text())
     def wr(n, d): (MOCK / f"{n}.json").write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
@@ -901,6 +1062,9 @@ def seed():
     custs, ndocs, nrecs, accts, bills, orders, aprs, conts, retire = [], [], [], [], [], [], [], [], []
     employers = {}
     n_doc, n_acc, n_bill, n_ord, n_cont, n_apr = 5601, 5601, 7101, 91001, 3101, 3401
+    # The Family Plan customers (2026-11-04) take ids from their own ranges: the main counters run into ids the later seed steps give to other customers' lines.
+    fam_cids = {sc['cid'] for sc in FAMILY_SCENARIOS} | {p_['cid'] for p_ in PROPOSED if p_['cat'] in ('13 Minors (Secondary Contact)', '14 Billing variations') or p_['cid'] == 'CUST-3047'}
+    n_fdoc, n_facc, n_fbill = 5801, 5801, 7301
     tpl = rd("billing-profiles")[0]
     for i, p in enumerate(PROPOSED):
         email = f"{p['name'].lower().replace(' ', '.').replace('-', '')}@example.qa"
@@ -915,7 +1079,7 @@ def seed():
              "moiValidationStatus": "Verified", "activePostpaidLines": p["pp"], "activePrepaidLines": p["pre"], "age": age(p["dob"]), "gender": p["sex"]}
         if p["pp"] or p["pre"]:
             c["lineType"] = "Postpaid" if p["pp"] else "Prepaid"
-        if p["bl"]:
+        if p["bl"] and p["bl"] != "unclassified":
             c["blacklistCategory"] = p["bl"]
             c["blacklistReason"] = "Outstanding dues > threshold" if p["bl"] == "collections" else "Security restriction on new connections"
         if p.get("sub"):
@@ -926,19 +1090,27 @@ def seed():
             c["companyName"] = p["emp"]
             employers.setdefault(p["emp"], None)
         custs.append(c)
-        d = {"_note": SEED_TAG, "identityDocumentId": f"IDD-{n_doc}", "customerId": p["cid"], "documentType": p["idt"], "documentNumber": p["idn"]}
+        if p["cid"] in fam_cids:
+            doc_id, n_fdoc = f"IDD-{n_fdoc}", n_fdoc + 1
+        else:
+            doc_id, n_doc = f"IDD-{n_doc}", n_doc + 1
+        d = {"_note": SEED_TAG, "identityDocumentId": doc_id, "customerId": p["cid"], "documentType": p["idt"], "documentNumber": p["idn"]}
         if p["exp"]:
             d["expiryDate"] = p["exp"]
         d.update({"validationPath": "MOI Validation" if p["idt"] in ("QID", "Diplomatic ID") else "Capture/Validate Details", "status": "Validated", "scanCompleted": True,
                   "scannedAt": "2026-09-30T10:00:00+03:00", "docStatus": "Active", "uploadDateTime": "2026-09-30T10:00:00+03:00", "serviceReference": p["cid"]})
         if p["idt"] == "Passport":
             d["issuingCountry"] = p["nat"]
-        ndocs.append(d); n_doc += 1
+        ndocs.append(d)
         if "Retired" in p["disc"] and "FAILS" not in p["disc"]:
             retire.append(p["idn"])
         if p["pp"] or p["pre"]:
-            aid, bid = f"ACC-{n_acc}", f"BILL-{n_bill}"
-            n_acc += 1; n_bill += 1
+            if p["cid"] in fam_cids:
+                aid, bid = f"ACC-{n_facc}", f"BILL-{n_fbill}"
+                n_facc += 1; n_fbill += 1
+            else:
+                aid, bid = f"ACC-{n_acc}", f"BILL-{n_bill}"
+                n_acc += 1; n_bill += 1
             acct = {"_note": SEED_TAG, "accountId": aid, "customerId": p["cid"], "accountType": "Consumer Mobile Postpaid" if p["pp"] else "Consumer Mobile Prepaid",
                     "status": "Active", "billingProfileId": bid, "barringStatus": "Not Barred", "barringType": None, "barringReason": None}
             if p["cid"] == "CUST-3026":
@@ -1046,6 +1218,8 @@ def seed():
     seed_mobile_lines(rd, wr)
     seed_home_internet(rd, wr)
     seed_primary_line_plans(rd, wr)
+    seed_extra_billing_account(rd, wr)
+    seed_family_packages(rd, wr)
     backfill_postpaid_activation(rd, wr)
     seed_leads(rd, wr)
     seed_overview_details(rd, wr)
@@ -1089,7 +1263,7 @@ for cid, c in customers.items():
     exp = " / ".join(d.get("expiryDate", "") for d in ds)
     nat = c["nationality"]
     grp = "Qatari" if nat == "Qatari" else ("GCC" if c.get("idType") == "GCC ID" else "Expat")
-    bl = (c.get("blacklistCategory") or "") if c.get("blacklisted") else ""
+    bl = (c.get("blacklistCategory") or "uncategorised") if c.get("blacklisted") else ""
     note = []
     if c.get("qid") and c["qid"] not in idn:
         note.append(f"customers.json qid {c['qid']} differs from the identity-document number(s); the app looks up by the document number.")
@@ -1198,7 +1372,7 @@ def sheet(wb, title, header, data, widths=None, first=False, wrap_cols=()):
     ws.title = title
     ws.append(header)
     for r in data:
-        ws.append(r if title == "Seeded Records" else [dmy(x) for x in r])
+        ws.append([dmy(x) for x in r])
     for c in ws[1]:
         c.font, c.fill, c.border = hfont, hfill, border
         c.alignment = Alignment(wrap_text=True, vertical="center")
@@ -1219,43 +1393,12 @@ wb = Workbook()
 # README
 n_seed = sum(r[2].startswith(ORIG) for r in rows)
 n_prop = len(rows) - n_seed
-readme = [
-    ["Vodafone Qatar DXP - Customer Inventory (test data)"],
-    [f"Generated {AS_OF.isoformat()} by reference/scripts/build_customer_inventory.py. Do not hand-edit; change the script and re-run."],
-    [""],
-    [f"{len(rows)} test customers, ALL loaded in the running app: {n_seed} original demo records and {n_prop} added on 2026-10-02 by this script's --seed step (see 'Seeded Records')."],
-    ["Original rows are parsed from public/mock-data. Added rows have synthetic IDs, phones and QIDs, checked not to collide with any existing record before seeding."],
-    [""],
-    ["How to use"],
-    ["1. Sign in with any Staff ID on the 'Roles & Login' sheet (one shared demo password)."],
-    ["2. Look the customer up by the value in 'ID number (use for lookup)' or by the Mobile number (Customer Search / ID Lookup step)."],
-    ["3. Run the 'Journeys to run' and compare against 'Expected outcome'. 'Roles that can run the primary journey' lists the Staff IDs granted the feature."],
-    ["4. 'Scenario Coverage' maps each requested scenario to its test customers."],
-    [""],
-    ["Colour key (Customers sheet)"],
-    ["Green row = original demo data.   Amber row = added by the 2026-10-02 seed."],
-    [""],
-    ["Basis of the 'Expected outcome' column"],
-    ["Rules implemented in src/engines/ruleEngine.ts (BR-113, BR-288, BR-347), src/engines/eligibilityEngine.ts (7 checks), and the BRSD rules in public/config/business-rules.json (BR-108/110/111/169/187/264/265/266). Where the app and the requirement disagree, the row says so and the item is on 'Open Questions'."],
-    ["Discount eligibility is mostly AGENT-VALIDATED in the app, not computed from customer data: MADA and B2B2C need a supporting ID + proof document; Retired is checked against a DEMO government registry; Loyalty is offered on the plan. See 'Open Questions'."],
-]
-ws = wb.active; ws.title = "README"
-for r in readme:
-    ws.append([dmy(x) for x in r])
-ws.column_dimensions["A"].width = 150
-ws["A1"].font = Font(bold=True, size=16, color=RED)
-for r in (7, 13, 16):
-    ws.cell(r, 1).font = Font(bold=True)
-for row in ws.iter_rows():
-    for c in row:
-        c.alignment = Alignment(wrap_text=True, vertical="top")
-
 # Customers
 W = {"Test ID": 9, "Customer / NAS ID": 13, "Status in app": 16, "Category": 22, "Full name": 34, "First name": 13, "Middle name(s)": 24, "Last name": 14, "Nationality": 12, "Nationality group": 14, "ID type": 14,
      "ID number (use for lookup)": 24, "ID expiry": 12, "Date of birth": 12, "Age": 6, "Gender": 8, "Segment": 14, "Language": 10, "Mobile": 14,
      "Total lines": 9, "Postpaid lines": 9, "Prepaid lines": 9, "Home internet": 9, "Other services": 10, "Blacklist": 11, "Risk class": 11, "Employer (B2B2C)": 20, "Discount eligibility": 34, "MNP / porting": 30,
      "Scenario": 50, "Journeys to run": 32, "Expected outcome": 60, "Roles that can run the primary journey": 34, "Seed notes / evidence": 40}
-ws = sheet(wb, "Customers", HDR, rows, W)
+ws = sheet(wb, "Customers", HDR, rows, W, first=True)
 for row in ws.iter_rows(min_row=2):
     f = FILL_SEEDED if str(row[2].value).startswith(ORIG) else FILL_PROP
     for c in row[:4]:
@@ -1300,6 +1443,10 @@ cov = [
     ("Expat 5-line absolute maximum (Active Lines hard stop)", "Added", reqmap["Expat line-cap hard stop (5/5)"]),
     ("Collections flag with QAR 0 balance (not a block)", "Added", reqmap["Collections flag, zero balance"]),
     ("Exception-routed ID types (Passport / GCC / Diplomatic / Other)", "Added", ["CUST-1002", "CUST-1005", "CUST-1007", "CUST-2001"] + reqmap["Diplomatic ID (valid)"]),
+    ("Family Plan - every package composition (Primary only, +Second Primary, +Supplementary, +Secondary, mixed, limits reached, awaiting approval)", "Added", [p["cid"] for p in PROPOSED if p["cat"] == "12 Family Plan"] + ["CUST-1001 (Family overlay: Primary Line 1 only, approved)", "CUST-3084 (Family overlay: Primary Line 1 awaiting approval)"]),
+    ("Under-18 people for the Secondary Contact (one per nationality)", "Added", reqmap["Minor (Secondary Contact)"] + ["CUST-3090", "CUST-9001"]),
+    ("Blacklisted with no category (unclassified)", "Added", reqmap["Unclassified blacklist"]),
+    ("Two postpaid billing accounts", "Added", reqmap["Two postpaid billing accounts"]),
     ("Prepaid-only customer / pre-to-post migration", "Added", reqmap["Qatari prepaid-only"]),
     ("SIM swap / lock-in penalty / device instalment / FWA / premium", "Added", reqmap["SIM swap"] + reqmap["Lock-in penalty / device installment"] + reqmap["FWA / multi-product"] + reqmap["Premium / retention"]),
 ]
@@ -1312,36 +1459,190 @@ for s, origin, ids_ in cov:
     covrows.append([s, origin, len(ids_), "; ".join(refs)])
 sheet(wb, "Scenario Coverage", ["Scenario", "Requested / Added", "# customers", "Test customers"], covrows, {"Scenario": 55, "Requested / Added": 14, "# customers": 11, "Test customers": 110})
 
-# Eligibility coverage: one row per outcome each of the eligibility checks can produce
-# (src/engines/eligibilityEngine.ts), with the customers that actually trigger it. The customer lists were
-# produced by running the real evaluateEligibilityChecks + BR-288/BR-347 over every customers.json record
-# against its identity document (as the Eligibility step does) on 2026-10-04 - not inferred from scenario
-# text. Re-derive them after changing eligibility rules or customer data. Postpaid journey unless noted.
-ELIG = [
-    ("ID Validity", "Hard stop", "ID expired", ["CUST-1006", "CUST-3041"]),
-    ("ID Validity", "Approval routing", "No expiry date on file", ["CUST-3042"]),
-    ("Age Check", "Hard stop", "Under 18", ["CUST-9001"]),
-    ("ID Type", "Approval routing", "Passport / GCC ID / Other ID", ["CUST-1002", "CUST-1005", "CUST-2001", "CUST-3016", "CUST-3032", "CUST-3061", "CUST-3063", "CUST-3067"]),
-    ("Collections Check", "Soft stop", "Collections flag AND unpaid balance above QAR 0", ["CUST-1004", "CUST-3046"]),
-    ("Collections Check", "Pass (flag, QAR 0 owed)", "Collections flag but nothing owed - not a block", ["CUST-3073"]),
-    ("Security Check", "Hard stop", "Security blacklist", ["CUST-1006", "CUST-3043"]),
-    ("Blacklist Check (unclassified)", "Hard stop", "Blacklisted with no category - NO CUSTOMER (see Open Questions Q10)", []),
-    ("Deals Check", "Hard stop", "Penalty with blocksNewConnection", ["CUST-2001"]),
-    ("Active Lines", "Approval routing", "Qatari at 5 / expat at 2-4 postpaid lines", ["CUST-3002", "CUST-3004", "CUST-3012", "CUST-3013", "CUST-3014", "CUST-1005", "CUST-3064"]),
-    ("Active Lines", "Hard stop", "Expat at the 5-line maximum", ["CUST-3072"]),
-    ("Active Lines (prepaid journey)", "Approval routing", "Passport/GCC at 2 prepaid, or expat QID at 5 combined", ["CUST-1005", "CUST-3014", "CUST-3016", "CUST-3032", "CUST-3061", "CUST-3072"]),
-    ("HRN upfront payment", "Advisory (QAR 100 advance)", "HRN nationality", ["CUST-3017", "CUST-3026", "CUST-3033", "CUST-3046", "CUST-3061", "CUST-3062", "CUST-3063", "CUST-3064", "CUST-3068", "CUST-3069", "CUST-3070"]),
-    ("All checks pass", "Pass", "Clean run, no approval", ["CUST-1001", "CUST-1003", "CUST-3001", "CUST-3011"]),
+
+# Family Plan Scenarios: read back from the seeded data (family-package-lines.json, orders.json), not from the definitions above, so the sheet is what the app holds.
+def _family_options(lines, orders):
+    """What Add Another Connection should offer, from the rules (written here independently of the app's engine): none until Primary Line 1's order is approved
+    ('Approved', or 'Not Required' on a Complete order); then Second Primary below 2 Primary lines, Supplementary below 2, Secondary always (a Secondary plan exists)."""
+    p1 = next((l for l in lines if l["role"] == "Primary" and l["sequence"] == 1), None)
+    o1 = next((o for o in orders if p1 and o["orderId"] == p1["orderId"]), None)
+    if not o1 or not (o1.get("approvalStatus") == "Approved" or (o1.get("approvalStatus") == "Not Required" and o1.get("status") == "Complete")):
+        return "None - Primary Line 1 awaiting approval" if p1 else "None - no package"
+    n = {r: sum(1 for l in lines if l["role"] == r) for r in ("Primary", "Supplementary", "Secondary")}
+    out = []
+    if n["Primary"] < 2: out.append(f"Second Primary (Primary Line {n['Primary'] + 1})")
+    if n["Supplementary"] < 2: out.append(f"Supplementary (Supplementary Line {n['Supplementary'] + 1})")
+    out.append(f"Secondary (Secondary Line {n['Secondary'] + 1}; Kids Plan or Data-only Plan)")
+    return "; ".join(out)
+
+
+_flines, _forders = load("family-package-lines"), {o["orderId"]: o for o in load("orders")}
+_fprod = {p["productId"]: p["name"] for p in load("products")}
+_fcust = {c["customerId"]: c for c in load("customers")}
+_fscen = {sc["cid"]: sc for sc in FAMILY_SCENARIOS}
+fam_rows = []
+for cid in sorted({l["customerId"] for l in _flines if l.get("customerId")}):
+    mine = sorted([l for l in _flines if l.get("customerId") == cid], key=lambda l: (["Primary", "Supplementary", "Secondary"].index(l["role"]), l["sequence"]))
+    sc = _fscen.get(cid)
+    p1 = next((l for l in mine if l["role"] == "Primary" and l["sequence"] == 1), None)
+    orders_ = [_forders[l["orderId"]] for l in mine if l["orderId"] in _forders]
+    p1o = _forders.get(p1["orderId"]) if p1 else None
+    desc = "; ".join(f"{l['role']} Line {l['sequence']} - {_fprod.get(l['planId'], l['planId'])} - {l.get('msisdn', '-')} - " + ("approved" if _forders.get(l["orderId"], {}).get("approvalStatus") in ("Approved", "Not Required") else "awaiting approval") for l in mine)
+    fam_rows.append([sc["n"] if sc else "-", sc["label"] if sc else ("Family overlay on an original customer: Primary Line 1 only" if len(mine) == 1 else "Family overlay on an original customer"), tc.get(cid, ""), cid, _fcust[cid]["name"], _fcust[cid].get("qid", ""),
+                     _fprod.get(p1["planId"], "") if p1 else "", mine[0]["packageId"], desc, "Yes" if p1o and p1o.get("approvalStatus") in ("Approved", "Not Required") else "No (awaiting approval)", _family_options(mine, orders_),
+                     (sc["note"] if sc else "Original customer given a Family Package so the package can be seen on a customer with other services.") + " The Family Owner's ID must be validated for every added line; all lines are billed on one billing account.",
+                     "Customer 360 > Products & Services > Family Package, or Actions > Family Package > Add Another Connection"])
+fam_rows.sort(key=lambda r: (r[0] == "-", r[0] if r[0] != "-" else 0, r[3]))
+sheet(wb, "Family Plan Scenarios", ["Scenario #", "Scenario", "Test ID", "Customer ID", "Customer", "ID number (use for lookup)", "Family Plan (package)", "Package ID", "Lines (type - plan - number - order)",
+      "Primary Line 1 approved", "Add Another Connection should offer", "Notes", "Where to test"], fam_rows,
+      {"Scenario #": 10, "Scenario": 46, "Test ID": 9, "Customer ID": 12, "Customer": 30, "ID number (use for lookup)": 20, "Family Plan (package)": 30, "Package ID": 18, "Lines (type - plan - number - order)": 90,
+       "Primary Line 1 approved": 16, "Add Another Connection should offer": 70, "Notes": 80, "Where to test": 50}, wrap_cols=("Scenario", "Lines (type - plan - number - order)", "Add Another Connection should offer", "Notes", "Where to test"))
+
+
+# Postpaid Journey Coverage: every condition of the Mobile Postpaid Activation journey, step by step, with the customers that exercise it. The customer lists are COMPUTED from the
+# same rows as the Customers sheet and from mock-data (never typed twice); a condition no customer can exercise says so on its row, so a gap cannot hide.
+R = [dict(zip(HDR, r)) for r in rows]
+_nm = {r["Customer / NAS ID"]: r["Full name"] for r in R}
+
+
+def _ids(pred):
+    return [r["Customer / NAS ID"] for r in R if pred(r)]
+
+
+def _num(v):
+    return v if isinstance(v, (int, float)) else 0
+
+
+_today = AS_OF
+_orders = load("orders")
+_by_status = {}
+for _o in _orders:
+    if _o.get("orderType") == "New Postpaid Activation" and _o.get("customerId"):
+        _by_status.setdefault(_o["status"], set()).add(_o["customerId"])
+_nat_promos = {}
+for _p_ in load("products"):
+    for _n in _p_.get("eligibleNationalities", []):
+        _nat_promos.setdefault(_n, []).append(_p_["productId"])
+_flines2 = load("family-package-lines")
+_forders2 = {o["orderId"]: o for o in _orders}
+_acc = load("accounts")
+_postpaid_accts = {}
+for _a in _acc:
+    if "Postpaid" in _a["accountType"]:
+        _postpaid_accts[_a["customerId"]] = _postpaid_accts.get(_a["customerId"], 0) + 1
+
+
+def _family_comp(cid):
+    ls = [l for l in _flines2 if l.get("customerId") == cid]
+    n = {r: sum(1 for l in ls if l["role"] == r) for r in ("Primary", "Supplementary", "Secondary")}
+    p1 = next((l for l in ls if l["role"] == "Primary" and l["sequence"] == 1), None)
+    o1 = _forders2.get(p1["orderId"]) if p1 else None
+    return n, bool(o1 and o1.get("approvalStatus") in ("Approved", "Not Required"))
+
+
+_fam_ids = sorted({l["customerId"] for l in _flines2 if l.get("customerId")})
+_fam = {c: _family_comp(c) for c in _fam_ids}
+_isexp = lambda r: bool(r["ID expiry"]) and str(r["ID expiry"]) < _today.isoformat()
+_qat = lambda r: r["Nationality"] == "Qatari"
+_new = lambda r: str(r["Customer / NAS ID"]).startswith("NAS")
+_live = lambda r: not _new(r)
+_bl = lambda r: r["Blacklist"] not in ("No", "", None)
+_hrn = lambda r: is_hrn(r["Nationality"])
+_adult = lambda r: _num(r["Age"]) >= 18
+
+COV = [
+    # (step, condition, customers, how to test / expected)
+    ("1 Customer Verification - ID", "Qatari QID", _ids(lambda r: _qat(r) and r["ID type"] == "QID" and _live(r) and not _bl(r) and _num(r["Age"]) >= 18)[:14], "Scan or type the QID; MOI validates; the customer is an existing Qatari. Eligibility passes unless the row says otherwise."),
+    ("1 Customer Verification - ID", "Expat QID", _ids(lambda r: not _qat(r) and r["ID type"] == "QID" and _live(r) and _num(r["Age"]) >= 18)[:14], "Expat on a QID: validated; expat line cap (2) and HRN rules apply."),
+    ("1 Customer Verification - ID", "Passport (exception-routed ID type)", _ids(lambda r: r["ID type"] in ("Passport", "QID / Passport")), "Passport is routed for approval on postpaid (the submitting agent's manager); a QID linked to the Passport can update the record."),
+    ("1 Customer Verification - ID", "GCC ID (exception-routed)", _ids(lambda r: r["ID type"] == "GCC ID"), "GCC ID is exception-routed (Credit Control approval) on postpaid."),
+    ("1 Customer Verification - ID", "Diplomatic ID", _ids(lambda r: r["ID type"] == "Diplomatic ID"), "Diplomatic ID is exception-routed; valid, expired and customer-type-mismatch cases are all present."),
+    ("1 Customer Verification - ID", "Other ID (resident permit; not in the ID selector)", _ids(lambda r: r["ID type"] == "Other ID"), "Find via Customer Search by mobile or name; exception-routed."),
+    ("1 Customer Verification - ID", "Customer record says QID but the only document is a Diplomatic ID", ["CUST-1007"], "Document type governs: Diplomatic ID rules apply."),
+    ("1 Customer Verification - ID", "Not a Vodafone customer yet (registry / NAS only): Qatari, expat, HRN", _ids(_new), "ID lookup resolves with no customer id: new-customer journey (start cards instead of Recommended Offers); NAS email and mobile are masked."),
+    ("1 Customer Verification - ID", "ID known to no registry (manual entry / create the customer)", [], "Use an ID that is in no row of this workbook (e.g. a QID 29999999999999): the agent types the identity; Store Manager approval is required for a manually entered identity."),
+    ("2 Identity validity and age", "ID expired", _ids(_isexp), "ID Validity = HARD STOP."),
+    ("2 Identity validity and age", "No expiry date on file", _ids(lambda r: _live(r) and not r["ID expiry"]), "ID Validity = approval routing."),
+    ("2 Identity validity and age", "Under 18 (applicant): hard stop, Apply for Exception (Court Type Order)", _ids(lambda r: _live(r) and 0 < _num(r["Age"]) < 18), "Age Check = HARD STOP; Apply for Exception attaches the Court Type Order and the order is held for manager approval."),
+    ("2 Identity validity and age", "Exactly 18 (boundary)", _ids(lambda r: _live(r) and _num(r["Age"]) == 18), "Passes the age check."),
+    ("3 Blacklist and deals", "Collections blacklist with an unpaid balance (soft stop)", _ids(lambda r: r["Blacklist"] == "collections" and sum((b.get("totalAmount") or 0) for b in load("bills") if b.get("customerId") == r["Customer / NAS ID"] and b.get("status") != "Paid") > 0), "Postpaid cannot be issued; prepaid is offered (Proceed to Payment / switch to prepaid)."),
+    ("3 Blacklist and deals", "Collections flag but QAR 0 owed (not a block)", _ids(lambda r: r["Blacklist"] == "collections" and sum((b.get("totalAmount") or 0) for b in load("bills") if b.get("customerId") == r["Customer / NAS ID"] and b.get("status") != "Paid") == 0), "Passes: the flag alone never blocks."),
+    ("3 Blacklist and deals", "Security blacklist (hard stop)", _ids(lambda r: r["Blacklist"] == "security"), "Security Check = HARD STOP, no override."),
+    ("3 Blacklist and deals", "Blacklisted with no category (hard stop)", _ids(lambda r: r["Blacklist"] in ("uncategorised", "unclassified")), "Blacklist Check (unclassified) = HARD STOP."),
+    ("3 Blacklist and deals", "A pending deal / penalty blocks new connections", ["CUST-2001"], "Deals Check = HARD STOP on new connections."),
+    ("4 Line count (Active Lines)", "Qatari, 0 postpaid lines", _ids(lambda r: _qat(r) and _num(r["Postpaid lines"]) == 0 and _live(r) and _num(r["Age"]) >= 18 and not _bl(r))[:10], "No postpaid lines: a first line; passes."),
+    ("4 Line count (Active Lines)", "Qatari, 1-4 postpaid lines (below the cap of 5)", _ids(lambda r: _qat(r) and 1 <= _num(r["Postpaid lines"]) <= 4 and r["Category"] != "12 Family Plan")[:14], "Passes."),
+    ("4 Line count (Active Lines)", "Qatari at the cap of 5", _ids(lambda r: _qat(r) and _num(r["Postpaid lines"]) == 5 and r["Category"] != "12 Family Plan"), "Approval routing for a 6th line (Credit Control)."),
+    ("4 Line count (Active Lines)", "Qatari above the cap (6, 12, 20 lines)", _ids(lambda r: _qat(r) and _num(r["Postpaid lines"]) >= 6), "Approval routing, never a hard stop for a Qatari."),
+    ("4 Line count (Active Lines)", "Expat, 0-1 postpaid lines (below the cap of 2)", _ids(lambda r: not _qat(r) and _live(r) and _num(r["Postpaid lines"]) <= 1 and _num(r["Age"]) >= 18 and not _bl(r) and r["ID type"] == "QID")[:12], "Passes (HRN rules aside)."),
+    ("4 Line count (Active Lines)", "Expat at the cap of 2", _ids(lambda r: not _qat(r) and _num(r["Postpaid lines"]) == 2 and _live(r)), "Approval routing for a 3rd line."),
+    ("4 Line count (Active Lines)", "Expat with 3-4 postpaid lines (approved earlier)", _ids(lambda r: not _qat(r) and 3 <= _num(r["Postpaid lines"]) <= 4 and _live(r)), "Approval routing; the earlier line's approval is in order history."),
+    ("4 Line count (Active Lines)", "Expat at the absolute maximum of 5", _ids(lambda r: not _qat(r) and _num(r["Postpaid lines"]) >= 5 and _live(r)), "Active Lines = HARD STOP."),
+    ("4 Line count (Active Lines)", "Prepaid-only customer (no postpaid line)", _ids(lambda r: _num(r["Postpaid lines"]) == 0 and _num(r["Prepaid lines"]) > 0 and _live(r)), "A first postpaid line; the prepaid lines do not count against the postpaid cap but count toward expat combined caps."),
+    ("4 Line count (Active Lines)", "Home-internet-only / no mobile line", _ids(lambda r: _num(r["Postpaid lines"]) == 0 and _num(r["Prepaid lines"]) == 0 and _num(r["Home internet"]) > 0 and _live(r)), "Home internet is never capped; postpaid is a first line."),
+    ("4 Line count (Active Lines)", "Mixed lines: postpaid + prepaid + home internet", _ids(lambda r: _num(r["Postpaid lines"]) > 0 and _num(r["Prepaid lines"]) > 0 and _num(r["Home internet"]) > 0), "Each line type is counted where its rule says."),
+    ("4 Line count (Active Lines)", "Expat combined mobile cap (postpaid + prepaid)", _ids(lambda r: not _qat(r) and _num(r["Postpaid lines"]) > 0 and _num(r["Prepaid lines"]) >= 2 and _live(r)), "Combined mobile lines against the expat cap."),
+    ("5 Nationality and risk class", "Qatari", _ids(lambda r: _qat(r))[:10], "Qatari rules (cap 5, no prepaid cap)."),
+    ("5 Nationality and risk class", "GCC national (GCC ID)", _ids(lambda r: r["Nationality"] == "Emirati" and _adult(r)), "GCC rules (cap 2 prepaid)."),
+    ("5 Nationality and risk class", "Expat, not HRN", _ids(lambda r: not _qat(r) and not _hrn(r) and r["Nationality"] != "Emirati" and _live(r) and _adult(r))[:14], "Expat rules; no advance payment."),
+    ("5 Nationality and risk class", "HRN nationality (QAR 100 advance, credit limit 50, no limit choice)", _ids(lambda r: _hrn(r) and _live(r) and _num(r["Age"]) >= 18), "HRN advisory on the plan page; the advance is due today and the order is held for approval."),
+    ("5 Nationality and risk class", "New HRN customer from the registry", _ids(lambda r: _hrn(r) and _new(r)), "The demo New Customer scan always returns this person."),
+    ("6 Customer type and discounts", "Standard customer, no discount (control)", ["CUST-3029"], "No Special Discount; plain plan price."),
+    ("6 Customer type and discounts", "Loyalty (existing customer)", _ids(lambda r: "Loyalty" in str(r["Discount eligibility"]) and _live(r))[:14], "Loyalty -15% is offered on the plan."),
+    ("6 Customer type and discounts", "MADA card", _ids(lambda r: "MADA" in str(r["Discount eligibility"]) and "Retired" not in str(r["Discount eligibility"]) and "B2B2C" not in str(r["Discount eligibility"])), "Agent selects MADA, supplies the card and proof; Special Offers tab; order held for approval."),
+    ("6 Customer type and discounts", "Retired person (registry-validated)", ["CUST-3022"], "ID is in the demo retiree registry: validation passes."),
+    ("6 Customer type and discounts", "Retired claim that FAILS registry validation", ["CUST-3023"], "Negative case: validation fails."),
+    ("6 Customer type and discounts", "B2B2C employee (Proof of Employment)", _ids(lambda r: "B2B2C" in str(r["Discount eligibility"]) and "MADA" not in str(r["Discount eligibility"])), "B2B2C routes to manager approval with Proof of Employment."),
+    ("6 Customer type and discounts", "B2B2C on an account with Special Management", ["CUST-3026"], "Account already carries a Special Management value."),
+    ("6 Customer type and discounts", "Eligible for two discount types (pick one per order)", ["CUST-3024", "CUST-3027"], "One Special Discount per order; changing plan retires the other."),
+    ("7 Segments", "Consumer / Consumer (HRN)", _ids(lambda r: r["Segment"] in ("Consumer", "Consumer (HRN)") and _live(r))[:8], "Default credit limits by segment."),
+    ("7 Segments", "Enterprise (EBU) contact", _ids(lambda r: str(r["Segment"]).startswith("Enterprise")), "Enterprise rules; Other ID."),
+    ("7 Segments", "Protected segments: Safwa, Safwa+, Royal", _ids(lambda r: r["Segment"] in ("Safwa", "Safwa+", "Royal")), "Visible only to a role holding that segment's grant; everyone else is blocked with the access-restriction message."),
+    ("8 Offers and plans", "Existing customer: Recommended Offers (New Postpaid: one Voice, one Broadband, one Family offer) plus standard offers for every type", _ids(lambda r: _live(r) and r["Category"] not in ("11 Restricted segments",))[:8], "Offers page shows each offer with its plan-type tag top-right; Select Offer / Interested work on every card."),
+    ("8 Offers and plans", "New customer: the five start cards instead of Recommended Offers", _ids(_new), "New Postpaid first; no cross-sales offers."),
 ]
-_hx = {h: i for i, h in enumerate(HDR)}
-_rowby = {r[_hx["Customer / NAS ID"]]: r for r in rows}
-def _lookup_id(cid):
-    return _rowby[cid][_hx["ID number (use for lookup)"]]
-erows = []
-for chk, outc, trig, ids_ in ELIG:
-    # The ID to type into Customer Search (the "ID number (use for lookup)" column), not the TC-### label.
-    erows.append([chk, outc, trig, len(ids_), "; ".join(f"{_lookup_id(i)} ({i})" for i in ids_) or "-"])
-sheet(wb, "Eligibility Coverage", ["Eligibility check", "Outcome", "Triggered by", "# customers", "Test customers"], erows, {"Eligibility check": 30, "Outcome": 26, "Triggered by": 52, "# customers": 11, "Test customers": 110})
+for _n, _pl in sorted(_nat_promos.items()):
+    COV.append(("8 Offers and plans", f"Nationality promotion: {_n} ({', '.join(_pl)})", _ids(lambda r, n=_n: r["Nationality"] == n and _live(r) and _adult(r)), f"Plans {', '.join(_pl)} are offered only to {_n} customers; other nationalities never see them."))
+COV += [
+    ("8 Offers and plans", "No nationality promotion (control)", _ids(lambda r: r["Nationality"] not in _nat_promos and _live(r) and _adult(r))[:8], "Standard catalogue only."),
+    ("8 Offers and plans", "Plans page tabs: Offers (3 Voice, 2 Broadband, 1 Family), Standard Plans, Special Offers (any Special Discount holder)", ["CUST-3021", "CUST-3022", "CUST-3025"], "Special Offers appears once a Special Discount is validated."),
+    ("9 Add-ons", "Add-ons managed per plan (Customise Add-ons; plans on the Offers tab are pre-bundled)", ["CUST-3001", "CUST-3011"], "Any customer can open Customise Add-ons on a Standard plan; add-ons are limited to their plan family."),
+    ("10 Number Selection", "Customer with numbers already reserved for them", ["CUST-3071"], "Two reservations, newest selected by default."),
+    ("10 Number Selection", "Star numbers, Free numbers, Waive Off", ["CUST-3001"], "Star entitlement by plan; Waive Off holds the order for approval. Any customer reaches Number Selection."),
+    ("11 SIM and Secondary Contact", "Adult Secondary Contact (any adult other than the primary customer)", ["CUST-3029", "CUST-3001"], "Tick Add Secondary Contact on SIM Selection: scan a different adult QID / Diplomatic ID."),
+    ("11 SIM and Secondary Contact", "Under-18 Secondary Contact: one per nationality (Scan Below 18; Apply for Exception with the Court Type Order)", _ids(lambda r: r["Category"] == "13 Minors (Secondary Contact)") + ["CUST-3090", "CUST-9001"], "Refused through the standard flow; Apply for Exception lets the order go on, held for manager approval. Primary contact nationality decides which minor is presented."),
+    ("11 SIM and Secondary Contact", "Secondary Contact who is the primary customer's own ID (refused)", ["CUST-3001"], "Scan the same ID on the Secondary Contact: refused as the primary's own ID."),
+    ("12 Billing Profile", "Existing postpaid billing account (selected automatically)", _ids(lambda r: _live(r) and r["Customer / NAS ID"] in {c for c, n in _postpaid_accts.items() if n == 1})[:10], "The account is selected without asking; credit limit and bill limit read from it."),
+    ("12 Billing Profile", "Two postpaid billing accounts", [c for c, n in _postpaid_accts.items() if n >= 2], "The first account is selected automatically; the agent can choose the other."),
+    ("12 Billing Profile", "No postpaid billing account: a new account is created (prepaid-only, home-only, new customer)", _ids(lambda r: (_live(r) and r["Customer / NAS ID"] not in _postpaid_accts and r["Customer / NAS ID"].startswith("CUST")) or _new(r))[:12], "A new billing account is created with the segment's default credit limit and bill cycle."),
+    ("13 Checkout, CAF and Payment", "Upfront payment due today (HRN advance QAR 100)", _ids(lambda r: _hrn(r) and _live(r) and _num(r["Age"]) >= 18)[:8], "Payment step takes the advance (WinCash or Proceed Without WinCash); order held for approval."),
+    ("13 Checkout, CAF and Payment", "Nothing due today (zero-value receipt)", ["CUST-3001", "CUST-3029"], "Generate zero-value receipt, then Save & Finish."),
+    ("14 Approval and order history", "Orders in the approval queue (Submitted for Approval)", sorted(_by_status.get("Submitted for Approval", [])), "Open in Order Management > approvals; approver role by order."),
+    ("14 Approval and order history", "Order Rejected - Correction (Missing Information flow)", sorted(_by_status.get("Rejected - Correction", [])), "Creator reopens, adds the documents and resubmits."),
+    ("14 Approval and order history", "Draft postpaid order (Save as Draft / resume)", sorted(_by_status.get("Draft", [])), "Resume the draft from the customer's tasks."),
+    ("14 Approval and order history", "Completed / cancelled / pending postpaid orders (history)", sorted(_by_status.get("Complete", []) | _by_status.get("Cancelled", []) | _by_status.get("Pending", [])), "Order history on Customer 360."),
+    ("15 Mobile Postpaid entry points", "Existing Customer flow (from Customer 360, ID locked to the customer) and New flow (from the dashboard)", ["CUST-3001", "NAS-7001"], "Start from Customer 360 > Actions > Start a New Connection, or from the dashboard."),
+]
+_comp_label = lambda n, ok: ", ".join(x for x in [f"Primary x{n['Primary']}" if n["Primary"] else "", f"Supplementary x{n['Supplementary']}" if n["Supplementary"] else "", f"Secondary x{n['Secondary']}" if n["Secondary"] else ""] if x) + ("" if ok else " (Primary Line 1 awaiting approval)")
+_groups = {}
+for _c, (_n, _ok) in _fam.items():
+    _groups.setdefault(_comp_label(_n, _ok), []).append(_c)
+for _lab, _cs in sorted(_groups.items()):
+    COV.append(("16 Family Plan", f"Family Package: {_lab}", _cs, "Customer 360 > Products & Services > Family Package, or Actions > Family Package; see 'Family Plan Scenarios'."))
+COV.append(("16 Family Plan", "Family Owner rules: every added line needs the owner's ID; one common billing account; add-ons managed from Customer 360", _fam_ids[:4], "Add Another Connection > Continue; scan the owner's ID; the plan and billing account are fixed by the package."))
+COV.append(("16 Family Plan", "Expat / HRN owner (line-count and HRN rules apply to added lines)", [c for c in _fam_ids if next((r for r in R if r["Customer / NAS ID"] == c), {}).get("Nationality") not in ("Qatari", None)], "A further line meets the owner's line-count check and HRN advance."))
+
+_cov_rows, _gaps = [], []
+for _step, _cond, _cs, _how in COV:
+    if not _cs and "no registry" not in _cond.lower() and "known to no registry" not in _cond.lower():
+        _gaps.append(_cond)
+    _lk = {r_["Customer / NAS ID"]: str(r_["ID number (use for lookup)"]) for r_ in R}
+    _show = "\n".join(f"{_lk[c]} ({c})" if c in _lk else c for c in dict.fromkeys(_cs)) if _cs else "(use an ID not in this workbook)" if "known to no registry" in _cond else "NO CUSTOMER - GAP"
+    _cov_rows.append([_step, _cond, len(_cs), _show, _how])
+if _gaps:
+    print("COVERAGE GAPS:", _gaps)
+sheet(wb, "Postpaid Journey Coverage", ["Journey step", "Condition / variation", "# customers", "Test customers", "How to test / expected result"], _cov_rows,
+      {"Journey step": 28, "Condition / variation": 70, "# customers": 11, "Test customers": 80, "How to test / expected result": 90}, wrap_cols=("Condition / variation", "Test customers", "How to test / expected result"))
 
 # Retired / MADA quick reference: the QID to look up for each customer-type discount case, read from the
 # Customers rows above so it can never drift from them.
@@ -1436,66 +1737,142 @@ for _chk, _out in _cov_order:
         _r = _by_id.get(_cid)
         if _r:
             cov_rows.append([_chk, _out, _r[_ix["Test ID"]], _cid, _r[_ix["Full name"]], _r[_ix["ID type"]], str(_r[_ix["ID number (use for lookup)"]]), _why])
-sheet(wb, "Eligibility Coverage", ["Eligibility check", "Outcome", "Test ID", "Customer ID", "Customer", "ID type", "ID number (use for lookup)", "Why it lands here"], cov_rows,
+sheet(wb, "Eligibility by Customer", ["Eligibility check", "Outcome", "Test ID", "Customer ID", "Customer", "ID type", "ID number (use for lookup)", "Why it lands here"], cov_rows,
       {"Eligibility check": 30, "Outcome": 18, "Test ID": 9, "Customer ID": 12, "Customer": 38, "ID type": 16, "ID number (use for lookup)": 26, "Why it lands here": 80})
 
-# Seed spec
-spec = []
-for p in PROPOSED:
-    t = tc[p["cid"]]
-    if p["status"].startswith("New"):
-        spec.append([t, p["cid"], "nas-records.json", f"Add NAS record: documentType QID, documentNumber {p['idn']}, expiryDate {p['exp']}, name '{p['name']}', dob {p['dob']}, nationality {p['nat']}, gender {p['sex']}, email."])
-        continue
-    spec.append([t, p["cid"], "customers.json", f"Add customer {p['cid']}: name '{p['name']}', idType {'QID' if p['idt']=='QID' else p['idt']}, nationality {p['nat']}, dob {p['dob']}, activePostpaidLines {p['pp']}, activePrepaidLines {p['pre']}"
-                 + (f", blacklisted true + blacklistCategory '{p['bl']}' + blacklistReason" if p["bl"] else "") + (", hrnAdvancePaymentRequired true" if p["hrn"] else "") + (f", companyName '{p['emp']}'" if p["emp"] else "") + "."])
-    spec.append([t, p["cid"], "identity-documents.json", f"Add {p['idt']} {p['idn']} " + (f"expiring {p['exp']}" if p["exp"] else "with NO expiryDate field (to trigger the no-expiry check)") + ", docStatus Active, status Validated."])
-    if "Retired" in p["disc"] and "FAILS" not in p["disc"]:
-        spec.append([t, p["cid"], "govt-retiree-registry.json", f"Add {p['idn']} to retiredIdNumbers."])
-    if p["emp"]:
-        spec.append([t, p["cid"], "contacts-b2b2c.json", f"Add contact linking employee to employer '{p['emp']}' (b2b2cEligible true); add employer to enterprise-accounts.json if absent."])
-    if "Special Management" in p["scen"]:
-        spec.append([t, p["cid"], "accounts.json", "Set the account's Special Management value so BR-265 fires."])
-    if p["pp"] >= 3 and "approval" in p["scen"]:
-        spec.append([t, p["cid"], "orders.json / order-approvals.json", "Add the approved order (and approval row) that granted the earlier line, so Order history shows the workflow approval."])
-    if "MNP" in p["cat"]:
-        spec.append([t, p["cid"], "mnp-portin-orders.json", "Add a port-in order shaped as the scenario describes (donor, status, conditionalAcceptanceTriggered / rejectionReasonCode)."])
-    if p["cid"] in ("CUST-3052",):
-        spec.append([t, p["cid"], "device-installments.json / commitment-penalties.json", "Add a 12-month Galaxy S24 instalment and a lock-in with 8 months completed."])
-    if p["cid"] == "CUST-3051":
-        spec.append([t, p["cid"], "sims.json", "Add the customer's issued physical SIM and an eSIM."])
-sheet(wb, "Seeded Records", ["Test ID", "Customer ID", "File (public/mock-data/)", "Records to add"], spec, {"Test ID": 9, "Customer ID": 12, "File (public/mock-data/)": 32, "Records to add": 130})
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------
+# Eligibility Coverage (2026-11-04): where each eligibility check runs in the Mobile Postpaid journey, page by page, whether it is a distinct check or the same check
+# repeated, and the customers that reach each outcome. Read from the code (src/engines/eligibilityEngine.ts and where it is called: CustomerQualification,
+# ProductEligibility, plan / add-ons / SIM steps, submitNewConnectionOrder); the customer lists are computed from the same data the app reads.
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------
+_lookup = {r[_ix["Customer / NAS ID"]]: str(r[_ix["ID number (use for lookup)"]]) for r in rows}
+
+
+def _cust_lines(ids_):
+    """One customer per line inside the cell: 'ID to look up (customer id)'."""
+    seen, out = set(), []
+    for i in ids_:
+        if i in seen or i not in _lookup:
+            continue
+        seen.add(i)
+        out.append(f"{_lookup[i]} ({i})")
+    return "\n".join(out) if out else "-"
+
+
+def _hits(check, outcome):
+    return [c for c, _w in _cov.get((check, outcome), [])]
+
+
+_pass_visa, _fail_visa = [], []
+for _cid, _c in customers.items():
+    _d = (doc_by_cust.get(_cid) or [{}])[0]
+    if (_d.get("documentType") or _c.get("idType")) == "Passport":
+        _v = _d.get("visa")
+        (_pass_visa if _v and str(_v.get("expiryDate", "")) >= AS_OF.isoformat() else _fail_visa).append(_cid)
+_with_pkg = sorted({l["customerId"] for l in load("family-package-lines") if l.get("customerId")})
+_adult_live = [r["Customer / NAS ID"] for r in R if _live(r) and _adult(r)]
+_nat_cust = {n: [r["Customer / NAS ID"] for r in R if r["Nationality"] == n and _live(r) and _adult(r)] for n in _nat_promos}
+
+P_CONTACT = "Contact (Customer Verification)"
+P_PRODUCT = "Recommended Offers (a new customer: the Offers & Plans start cards)"
+P_PLAN = "Offers & Plans"
+P_ADDONS = "Addons"
+P_SIM = "SIM Selection"
+P_SUBMIT = "Payment > Save & Finish (order submission)"
+HIDDEN = "evaluated again, shown only if it stops the order"
+
+EC = [
+    # (check, kind, purpose, outcome, trigger, first page, later pages, repeated?, effect, customers)
+    ("ID Validity", "Eligibility engine", "The identity document must be unexpired, and have an expiry on record.", "Hard stop", "The ID has expired.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice (Contact, then Recommended Offers); shown once, on the page where it stops.", "Journey cannot continue (no override).", _hits("ID Validity", "Hard stop")),
+    ("ID Validity", "Eligibility engine", "As above.", "Approval routing", "No expiry date on the document record.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; shown once.", "Journey continues; the order is held for approval.", _hits("ID Validity", "Approval routing")),
+    ("ID Validity", "Eligibility engine", "As above.", "Pass", "Valid, unexpired ID (including the 18th-birthday and expiry-date boundaries).", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; passes are not shown.", "None.", _ids(lambda r: _live(r) and _adult(r) and not _isexp(r) and bool(r["ID expiry"]))[:6]),
+    ("Visa Validity (Passport only)", "Eligibility engine", "A Passport needs a valid visa returned by MOI; it is the proof of residence.", "Hard stop", "No valid visa for the Passport (none on record, or expired).", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; shown once.", "Journey cannot continue.", _fail_visa),
+    ("Visa Validity (Passport only)", "Eligibility engine", "As above.", "Pass", "A Passport with an unexpired visa.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; passes are not shown.", "None.", _pass_visa),
+    ("Age Check", "Eligibility engine", "The applicant must be 18 or over.", "Hard stop", "Under 18. The agent may Apply for Exception (Court Type Order) from the footer.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}; the exception chosen at Contact is carried, so it is not asked again.", "SAME check run twice; the exception is requested once.", "Journey cannot continue unless an Exception Request is submitted; then the order is held for the manager.", _hits("Age Check", "Hard stop")),
+    ("Age Check", "Eligibility engine", "As above.", "Pass", "18 or over (the boundary: exactly 18 passes).", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; passes are not shown.", "None.", _hits("Age Check", "Pass")),
+    ("ID Type (exception routing)", "Eligibility engine", "Passport, GCC ID and Other ID are not sold directly: they are diverted to an approver.", "Approval routing", "ID type is Passport, GCC ID or Other ID.", f"{P_CONTACT}: evaluated but not announced (the product, so the approver, is not known yet)", f"{P_PRODUCT}: announced here; submission routes the order (a Passport to the submitter's manager, GCC / Other ID to Credit Control; Retail Sales orders all go to the Sales Manager).", "DISTINCT in what the agent sees: announced once, on the product page. (Evaluated on both pages.)", "Journey continues; the order is held for approval.", _hits("ID Type", "Approval routing")),
+    ("Collections Check", "Eligibility engine", "A customer owing money cannot be issued a new postpaid line.", "Soft stop", "Collections blacklist AND an unpaid balance above QAR 0.", f"{P_CONTACT}: shown, Continue stays open (prepaid is still possible)", f"{P_PRODUCT}: blocks Continue for postpaid; Switch to Prepaid is offered.", "SAME check run twice; shown on both pages, blocks on the product page.", "Postpaid is blocked; prepaid is offered.", _hits("Collections Check", "Soft stop")),
+    ("Collections Check", "Eligibility engine", "As above.", "Pass (flag, QAR 0 owed)", "Collections flag but nothing owed: the flag alone never blocks.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice.", "None.", _hits("Collections Check", "Pass")),
+    ("Security Check", "Eligibility engine", "A customer on the corporate security blacklist is restricted from new connections.", "Hard stop", "Security blacklist.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; shown once.", "Journey cannot continue; no override.", _hits("Security Check", "Hard stop")),
+    ("Blacklist Check (unclassified)", "Eligibility engine", "A blacklisted customer whose category is neither collections nor security is withheld rather than guessed.", "Hard stop", "Blacklisted with no category recorded.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; shown once.", "Journey cannot continue.", _hits("Blacklist Check (unclassified)", "Hard stop")),
+    ("Deals Check", "Eligibility engine", "An existing deal / penalty on the account can forbid a new connection.", "Hard stop", "A penalty with blocksNewConnection.", P_CONTACT, f"{P_PRODUCT}: {HIDDEN}.", "SAME check run twice; shown once.", "Journey cannot continue.", _hits("Deals Check", "Hard stop")),
+    ("Active Lines (line count)", "Eligibility engine + rule engine (BR-288)", "Caps the mobile lines a customer may hold: Qatari 5, expat 2, absolute expat maximum 5; combined mobile caps.", "Approval routing", "Qatari at or above 5, expat at 2 to 4 postpaid lines (and combined mobile caps).", f"{P_CONTACT}: NOT judged (the connection type is not chosen yet)", f"{P_PRODUCT}: the only page where it runs; the Family Plan owner's lines count the same way.", "DISTINCT: runs once, on the product page.", "Journey continues; the order is held for approval (Credit Control).", _hits("Active Lines", "Approval routing")),
+    ("Active Lines (line count)", "Eligibility engine + rule engine (BR-288)", "As above.", "Hard stop", "Expat at the absolute maximum of 5 lines.", f"{P_CONTACT}: NOT judged", f"{P_PRODUCT}: the only page where it runs.", "DISTINCT: runs once.", "Journey cannot continue.", _hits("Active Lines", "Hard stop")),
+    ("Active Lines (line count)", "Eligibility engine + rule engine (BR-288)", "As above.", "Pass", "Below the cap (zero lines, or under the cap).", f"{P_CONTACT}: NOT judged", f"{P_PRODUCT}: the only page where it runs.", "DISTINCT: runs once.", "None.", _ids(lambda r: _live(r) and _adult(r) and not _bl(r) and ((_qat(r) and _num(r["Postpaid lines"]) <= 4) or (not _qat(r) and _num(r["Postpaid lines"]) <= 1)) and r["ID type"] == "QID")[:8]),
+    ("HRN upfront payment", "Eligibility engine (advisory)", "Customers of listed nationalities pay a QAR 100 advance and get a QAR 50 credit limit.", "Advisory (QAR 100 advance); the order is held for approval", "Nationality is on the HRN list.", f"{P_CONTACT}: evaluated but not announced (journey not chosen yet)", f"{P_PLAN}: announced once. Order Summary: advance shown in Upfront Charges. Payment: the amount due. Submission: holds the order for approval.", "REPEATED display: announced on the plan page, then carried as an amount on Order Summary and Payment. One rule, one result.", "Journey continues; QAR 100 taken today; order held for approval.", [c for c in _hits("HRN advance payment", "Advisory only") if c in _adult_live]),
+    ("Special Discount validation (MADA, Retired, B2B2C)", "Journey validation", "A Special Discount counts only once its proof is validated (card and document; retiree registry; employer).", "Validated / Rejected", "The agent selects a Special Discount type for the customer.", f"{P_CONTACT}: right under the eligibility panel, once eligibility clears", f"{P_PLAN}: Special Offers tab appears once validated. Submission: a MADA / B2B2C discount holds the order for approval (proof to verify).", "DISTINCT: validated once; its result is read by later pages.", "Eligible discounts and the Special Offers tab follow; the order is held for approval for MADA / B2B2C.", _ids(lambda r: _live(r) and any(k in str(r["Discount eligibility"]) for k in ("MADA", "Retired", "B2B2C")))),
+    ("Family Plan start check", "Journey validation", "A Family Plan (Ahli) starts a Family Package: the customer must have cleared eligibility and hold no package yet.", "Blocked: already has a Family Package", "An Ahli plan is selected by a customer who already holds a Family Package.", P_PLAN, "Recommended Offers (accepted Family offer shows the plan page with the reason). Submission re-checks on the lines on record now.", "SAME rule evaluated on the plan page and again at submission (a stale draft cannot create a second Primary Line 1).", "Continue is disabled with the reason; submission refuses.", _with_pkg),
+    ("Family Plan start check", "Journey validation", "As above.", "Allowed: Primary Line 1 of a new package", "An Ahli plan is selected by a customer with no package, eligibility cleared.", P_PLAN, "Order Summary and CAF show the Family Package row; submission creates the package line.", "SAME rule evaluated on the plan page and again at submission.", "The order is Primary Line 1.", _ids(lambda r: _live(r) and _adult(r) and not _bl(r) and r["Customer / NAS ID"] not in _with_pkg)[:6]),
+    ("Family Owner / package check (Add Another Connection)", "Journey validation", "A line added to a package needs the Family Owner's ID, an approved Primary Line 1, room under the type's limit, and a plan for the type.", "Allowed / Refused", "Add Another Connection from Customer 360 or the confirmation page; then the journey from Contact.", "Add Another Connection dialog (read on every opening and again on Continue)", f"{P_CONTACT} (the ID must be the owner's); {P_PLAN} (plan fixed by the type); Submission re-checks.", "SAME rule evaluated four times (dialog, dialog Continue, plan step, submission) so none can disagree.", "Only available types are offered; the journey is refused with the reason when one is not.", _with_pkg),
+    ("Plan eligibility by nationality", "Journey validation", "A nationality promotion plan is offered only to customers of that nationality.", "Offered / Not offered", "The customer's nationality matches the plan's list (Indian, Pakistani, Filipino, Bangladeshi).", P_PLAN, "-", "DISTINCT: one page.", "The promotion plans appear (or not) in the plan lists.", sum(_nat_cust.values(), [])),
+    ("Add-on eligibility", "Journey validation", "An add-on is offered only on the plan families it is limited to (and to the customer types and ID types it names).", "Offered / Not offered", "The selected plan is in the add-on's plan list.", P_ADDONS, "Customer 360 Family Package add-ons (same rule, package plan).", "DISTINCT: one page in the journey.", "Ineligible add-ons are not listed.", _ids(lambda r: r["Customer / NAS ID"] in ("CUST-3001", "CUST-3011", "CUST-3029"))),
+    ("Bill limit against the credit limit", "Journey validation", "The bill limit must meet the agent minimum and not exceed the customer's credit limit.", "Blocks Continue", "Limit below the minimum, or above the credit limit.", P_ADDONS, "Order Summary and Billing show the limits (not re-judged).", "DISTINCT: one page.", "Continue is disabled until the limit is valid.", _ids(lambda r: _hrn(r) and _live(r) and _adult(r))[:6] + ["CUST-3001"]),
+    ("Secondary Contact eligibility (age and identity)", "Journey validation", "A Secondary Contact must be 18 or over and not the primary customer; a minor is allowed only through the Exception Request (Court Order).", "Refused / Exception route / Pass", "An under-18 person, or the primary's own ID, is identified as the Secondary Contact.", P_SIM, f"Submission: the order is held for manager approval when an exception was used.", "DISTINCT rule (a second age check, on a different person).", "Refused, or held for approval with the Court Order attached.", _ids(lambda r: r["Category"] == "13 Minors (Secondary Contact)") + ["CUST-3090", "CUST-9001", "CUST-3029"]),
+    ("Eligibility present at submission", "Journey guard", "An order must carry the eligibility result of the customer it is for; the approval routing is built from it.", "Refused / Routed", "A resumed draft that skipped Contact has no result; any approval-routing result holds the order.", P_SUBMIT, "-", "A final, single guard: it does not re-run the checks, it reads the result they produced.", "Submission refuses with 'return to Customer Verification'; otherwise the approval reasons are listed and the order goes to the approver.", _ids(lambda r: r["Customer / NAS ID"] in ("CUST-1001", "CUST-3002", "CUST-3012"))),
+]
+
+ec_rows = []
+for _n, (chk, kind, purpose, outcome, trig, first, later, rep, effect, ids_) in enumerate(EC, 1):
+    ec_rows.append([_n, chk, kind, purpose, outcome, trig, first, later, rep, effect, len({i for i in ids_ if i in _lookup}), _cust_lines(ids_)])
+ec_header = ["#", "Eligibility check", "Kind", "Purpose", "Outcome", "Triggering condition", "Page where it first runs", "Other pages where it runs", "Distinct or repeated across pages?", "Effect on the journey", "# customers", "Test customers"]
+ec_widths = {"#": 5, "Eligibility check": 30, "Kind": 20, "Purpose": 48, "Outcome": 26, "Triggering condition": 44, "Page where it first runs": 38, "Other pages where it runs": 58, "Distinct or repeated across pages?": 46, "Effect on the journey": 44, "# customers": 11, "Test customers": 40}
+ws = sheet(wb, "Eligibility Coverage", ec_header, ec_rows, ec_widths, wrap_cols=("Purpose", "Triggering condition", "Test customers"))
+
+# ---- page-by-page map
+_r0 = ws.max_row + 2
+ws.cell(_r0, 2, "WHERE EACH CHECK RUNS - PAGE BY PAGE (Mobile Postpaid Activation journey)").font = Font(bold=True, size=14, color=RED)
+_hdr = ["Page (journey step)", "Checks evaluated on this page", "Shown to the agent / blocks Continue when", "Routes the order to approval when"]
+PM = [
+    ("1. Contact (Customer Verification)", "ID Validity, Visa Validity (Passport), Age Check, ID Type (evaluated, not announced), Collections, Security, Blacklist (unclassified), Deals, HRN (evaluated, not announced). Active Lines is NOT judged here. Also: MOI validation freshness and ID reconciliation (scan against MOI), and Special Discount validation.", "Hard stops block Continue (expired ID, no visa, under 18 without an exception, security / unclassified blacklist, blocking deal). A collections soft stop is shown but Continue stays open. Under 18: Apply for Exception in the footer.", "No expiry date; an Exception Request for an under-18 applicant."),
+    ("2. Address", "None.", "-", "-"),
+    ("3. Recommended Offers (a new customer: Offers & Plans start cards)", "The same engine run AGAIN for the chosen product (postpaid): ID Validity, Visa, Age, Collections, Security, Unclassified, Deals are re-evaluated; ID Type and ACTIVE LINES (line count, BR-288) are judged here for the first time.", "Shown only when they matter: hard stops, the collections soft stop (Continue blocked; Switch to Prepaid), the Active Lines approval and the ID type's approval. Product eligibility must be clear before Continue.", "Active Lines at the cap; ID type Passport / GCC / Other ID."),
+    ("4. Offers & Plans", "HRN advisory (announced once); plan eligibility by nationality; Special Offers tab (validated discount); Family Plan start check for an Ahli plan (cleared eligibility, no existing package); for an added line: the owner, type and plan check.", "A Family Plan check that fails disables Continue with the reason.", "-"),
+    ("5. Addons", "Add-on eligibility by plan family; bill limit against the agent minimum and the credit limit.", "An invalid bill limit disables Continue.", "-"),
+    ("6. Number Selection", "None (reservations and Star entitlement are not eligibility checks).", "-", "A Waive Off on a Star number holds the order."),
+    ("7. SIM Selection", "Secondary Contact: age 18 or over, not the primary's own ID; Exception Request for a minor.", "Continue is disabled for an ineligible Secondary Contact.", "A Secondary Contact exception (Court Order)."),
+    ("8. Billing / 9. Order Summary / 10. CAF & Signature", "None re-run. The HRN advance and the Family Package row are shown from earlier results.", "-", "-"),
+    ("11. Payment > Save & Finish (submission)", "Guard: the order must carry an eligibility result; the Family Plan start / owner check is re-judged on the lines and orders on record now.", "Submission refuses with the reason.", "All routing reasons are gathered here: manual ID entry, B2B2C, HRN advance, any approval-routing check, Waive Off, MADA / B2B2C proof, an under-18 exception. Retail Sales orders all go to the Sales Manager."),
+]
+_h = _r0 + 1
+for _j, _t in zip((2, 4, 6, 9), _hdr):
+    _c = ws.cell(_h, _j, _t)
+    _c.font, _c.fill, _c.border = hfont, hfill, border
+    _c.alignment = Alignment(wrap_text=True, vertical="center")
+for _k, (_pg, _ev, _sh, _rt) in enumerate(PM, 1):
+    _row = _h + _k
+    for _col, _val in zip((2, 4, 6, 9), (_pg, _ev, _sh, _rt)):
+        _c = ws.cell(_row, _col, _val)
+        _c.alignment = Alignment(wrap_text=True, vertical="top")
+        _c.border = border
+    ws.merge_cells(start_row=_row, start_column=4, end_row=_row, end_column=5)
+    ws.merge_cells(start_row=_row, start_column=6, end_row=_row, end_column=8)
+    ws.merge_cells(start_row=_row, start_column=9, end_row=_row, end_column=10)
+ws.merge_cells(start_row=_h, start_column=4, end_row=_h, end_column=5)
+ws.merge_cells(start_row=_h, start_column=6, end_row=_h, end_column=8)
+ws.merge_cells(start_row=_h, start_column=9, end_row=_h, end_column=10)
+
+_c0 = _h + len(PM) + 2
+ws.cell(_c0, 2, "CONCLUSION - distinct checks or the same check repeated?").font = Font(bold=True, size=14, color=RED)
+CONC = [
+    "Both. The journey performs several DISTINCT checks (identity, age, blacklist, deals, ID type, line count, HRN, Special Discounts, Family Plan, add-ons, bill limit, Secondary Contact), and ONE set of them is genuinely repeated.",
+    "REPEATED: the identity-level checks (ID Validity, Visa Validity, Age, Collections, Security, unclassified Blacklist, Deals) are evaluated on the Contact page and evaluated again, by the same engine, on the Recommended Offers page (or the start cards). The result of the first is not reused there because the second also judges the product (the line-count decision depends on it). The agent still sees each outcome once: a stop is shown on whichever page it stops.",
+    "DISTINCT, run once, on the product page: Active Lines (line count) and the ID Type's approval, which the Contact page cannot judge because the connection type is not chosen yet (it is evaluated there but deliberately not announced).",
+    "ONE RESULT, PRESENTED SEVERAL TIMES: HRN is a single rule whose result is announced on Offers & Plans and then carried as an amount on Order Summary and Payment; the Family Plan start / owner check is the same rule evaluated on the plan page and again at submission.",
+    "NOT re-run after the plan page: Number Selection, Billing, Order Summary and CAF run no eligibility check. Submission only guards that a result exists and gathers the approval reasons.",
+]
+for _k, _t in enumerate(CONC, 1):
+    _c = ws.cell(_c0 + _k, 2, _t)
+    _c.alignment = Alignment(wrap_text=True, vertical="top")
+    ws.merge_cells(start_row=_c0 + _k, start_column=2, end_row=_c0 + _k, end_column=10)
+    ws.row_dimensions[_c0 + _k].height = 48
+
+# the sheet sits right after the Postpaid Journey Coverage sheet
+wb.move_sheet("Eligibility Coverage", offset=-(wb.sheetnames.index("Eligibility Coverage") - wb.sheetnames.index("Postpaid Journey Coverage") - 1))
 
 # Roles & Login
 rl = [[r["staffId"], r["name"], r["group"], r["businessUnitLabel"], r["approach"], r["channel"], password] for r in personas]
 sheet(wb, "Roles & Login", ["Staff ID", "Role", "Persona group", "Business unit", "Approach", "Channel", "Demo password"], rl,
       {"Staff ID": 11, "Role": 36, "Persona group": 38, "Business unit": 20, "Approach": 14, "Channel": 24, "Demo password": 16})
-
-# Journey access
-JK = [("workspace.customer-search", "Customer Search"), ("workspace.customer360-view", "Customer 360"), ("postpaid.new-postpaid-wizard", "New Postpaid"),
-      ("prepaid.new-prepaid-wizard", "New Prepaid"), ("mnp.process-choice", "MNP process choice"), ("mnp.port-in-wizard", "MNP / FNP port-in"),
-      ("numbers.sim-swap-queue", "SIM swap queue"), ("migration.pre-to-post-wizard", "Pre-to-post migration"), ("fwa.new-fwa-wizard", "New FWA"),
-      ("fixedline.new-fixed-line-wizard", "New Fixed Line"), ("orders.approval-queue", "Order approval queue"), ("orders.my-sales-orders", "My sales orders")]
-ja = []
-for r in personas:
-    lv = {f["key"]: f["level"] for f in r["features"]}
-    ja.append([r["staffId"], r["name"]] + [lv.get(k, "") for k, _ in JK])
-ws = sheet(wb, "Journey Access by Role", ["Staff ID", "Role"] + [l for _, l in JK], ja, {"Staff ID": 11, "Role": 36})
-ws.cell(len(ja) + 3, 1, "Source: public/config/personas.json feature grants. A level means the role is GRANTED the feature - whether the screen is built is tracked in Persona_Feature_Applicability_Matrix_Reference.xlsx. Blank = deliberately not granted.")
-
-# Open questions
-oq = [
-    ["Q1", "Qatari line cap of 5", "DECIDED and IMPLEMENTED 2026-10-02: Qatari max 5 active postpaid lines, expat max 2; exceeding either routes to approval. ruleEngine.ts BR-288 now enforces both. business-rules.json BR-110 (source-corpus text, 'unlimited for nationals') was left as recorded evidence and is superseded for postpaid.", "None for the app. Reconcile the BR-110 text if the rule catalogue should match.", "CUST-3001, 3002, 3004"],
-    ["Q2", "Expat 3-line customer", "Expat cap of 2 means the 3rd line already needed approval. CUST-3012 (2 lines) tests the trigger; CUST-3013 (3 lines) models the post-approval state and re-triggers approval for a 4th.", "None - consistent with the decided rule.", "CUST-3012, CUST-3013"],
-    ["Q3", "MADA eligibility source", "DECIDED: MADA stays agent-validated. The agent selects MADA and supplies a card/reference number plus proof document; no registry lookup. The MADA reference number in this inventory is invented.", "None.", "CUST-3021, 3024, 3027"],
-    ["Q4", "Loyalty / 'eligible for further discounts'", "Loyalty -15% (ADO-7105..7108) is offered on the plan regardless of customer history; no eligibility check against tenure or line count exists.", "Define the eligibility criterion; then add a flag so 'eligible' vs 'not eligible' customers differ (CUST-3029 is the control).", "CUST-1001, 3028, 3029"],
-    ["Q5", "Retired-person registry is a DEMO stand-in", "govt-retiree-registry.json is explicitly an assumption, not in the source corpus.", "Replace with the real service contract when known.", "CUST-3022, 3023, 3027"],
-    ["Q6", "CUST-1001 has two different QIDs", "customers.json qid 28512345678 vs identity-documents 28456701234 (both are in the retiree registry). The app resolves by the document number.", "Reconcile in the seed data; also note a 41-year-old being a registered retiree.", "CUST-1001"],
-    ["Q7", "Seed gaps - what was NOT modelled", "Seeding added customers, ID documents, accounts, billing profiles, employers, B2B2C links, retiree registry IDs, approval-history orders, one device instalment/penalty and SIMs. NOT seeded: port-in orders (MNP rows are journey-driven), FWA/multi-SIM assets. The Special Management flag is stored on the account but the app has no BR-265 prompt that reads it.", "Build the BR-265 prompt, or seed the missing assets, if those journeys need data on first open.", "CUST-3026, 3053, 3054"],
-    ["Q9", "HRN list and Sawfa behaviour", "DECIDED 2026-10-02: HRN = nationality is Pakistan, Bangladesh, Cambodia, Myanmar, Laos, Kenya, Uganda or Eswatini; every other nationality is not HRN. Implemented in ruleEngine.ts (isHrnNationality), read by the eligibility gate and Customer 360 billing; this workbook parses the same list. CUST-1002 (Nepalese) therefore stopped being HRN; his historical order ORD-90002 still carries the HRN sub-type/hold. Sawfa / Sawfa Plus are stored as customerSubType but the app has no logic for them (Qatari rules already give them no cap).", "Provide any Sawfa-specific rule (BR-347 names them). Decide whether ORD-90002's HRN history should be cleared.", "CUST-1002, 3017, 3026, 3033, 3046, 3061-3064, 3068-3070, 3065, 3066"],
-    ["Q10", "Unclassified blacklist has no test customer", "eligibilityEngine.ts hard-stops a blacklisted customer whose blacklistCategory is neither 'collections' nor 'security' (check id blacklist-unclassified). Every blacklisted customer in the data carries a category, so no inventory customer can reach that row. Left unseeded: whether this state can occur in real data is not evidenced.", "Confirm whether real records can be blacklisted without a category; if so, seed one.", "-"],
-    ["Q8", "MADA and B2B2C are one-per-order", "ADO-7112 (MADA) is bound to PROD-104 and ADO-7113 (B2B2C) to PROD-105; the UI allows ONE discount per order and a plan change retires it. A customer 'eligible for both' can use only one at a time.", "Confirm that stacking is not required.", "CUST-3024"],
-]
-sheet(wb, "Open Questions", ["#", "Topic", "Finding", "Needs", "Affected customers"], oq, {"#": 5, "Topic": 38, "Finding": 80, "Needs": 60, "Affected customers": 24})
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 wb.save(OUT)

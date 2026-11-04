@@ -38,8 +38,6 @@ export interface ConfirmedOrder {
   terms?: OrderTerms;
   /** Set when the order started a Family Package: its first line (Primary Line 1) and the package's plan. */
   familyPackage?: { packageId: string; lineLabel: string; planName: string };
-  /** Who the order waits on while it is held for approval (named under the confirmation heading). */
-  approvalTeam?: string;
   /** Set only for eSIM orders - drives the QR handover panel below. */
   esimActivationCode?: string;
   /**

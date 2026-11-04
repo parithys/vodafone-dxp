@@ -1542,7 +1542,7 @@
       "PROD-143"
     ],
     "productId": "PROD-143",
-    "msisdn": "+97455520101",
+    "msisdn": "+97455512001",
     "approvalStatus": "Approved",
     "createdBy": "USR-1101",
     "sourceChannel": "Retail Store",
@@ -1561,11 +1561,551 @@
       "PROD-142"
     ],
     "productId": "PROD-142",
-    "msisdn": "+97455520201",
+    "msisdn": "+97455513053",
     "approvalStatus": "Pending Approval",
     "createdBy": "USR-1101",
     "sourceChannel": "Retail Store",
     "createdAt": "2026-11-02T10:00:00+03:00",
     "billingProfileId": "BILL-7150"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3201-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3201",
+    "customerName": "Hamda Saeed Khalid Al-Dosari",
+    "accountId": "ACC-5801",
+    "billingProfileId": "BILL-7301",
+    "productId": "PROD-142",
+    "productIds": [
+      "PROD-142"
+    ],
+    "msisdn": "+97455513060",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3202-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3202",
+    "customerName": "Nasser Hamad Jassim Al-Attiyah",
+    "accountId": "ACC-5802",
+    "billingProfileId": "BILL-7302",
+    "productId": "PROD-144",
+    "productIds": [
+      "PROD-144"
+    ],
+    "msisdn": "+97455513061",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3202-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3202",
+    "customerName": "Nasser Hamad Jassim Al-Attiyah",
+    "accountId": "ACC-5802",
+    "billingProfileId": "BILL-7302",
+    "productId": "PROD-144",
+    "productIds": [
+      "PROD-144"
+    ],
+    "msisdn": "+97455520129",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3203-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3203",
+    "customerName": "Moza Rashid Ali Al-Kaabi",
+    "accountId": "ACC-5803",
+    "billingProfileId": "BILL-7303",
+    "productId": "PROD-143",
+    "productIds": [
+      "PROD-143"
+    ],
+    "msisdn": "+97455513062",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3203-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3203",
+    "customerName": "Moza Rashid Ali Al-Kaabi",
+    "accountId": "ACC-5803",
+    "billingProfileId": "BILL-7303",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520130",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3204-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3204",
+    "customerName": "Yousef Mansoor Saeed Al-Ghanim",
+    "accountId": "ACC-5804",
+    "billingProfileId": "BILL-7304",
+    "productId": "PROD-143",
+    "productIds": [
+      "PROD-143"
+    ],
+    "msisdn": "+97455513063",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3204-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3204",
+    "customerName": "Yousef Mansoor Saeed Al-Ghanim",
+    "accountId": "ACC-5804",
+    "billingProfileId": "BILL-7304",
+    "productId": "PROD-310",
+    "productIds": [
+      "PROD-310"
+    ],
+    "msisdn": "+97455520131",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3205-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3205",
+    "customerName": "Latifa Khalifa Nasser Al-Suwaidi",
+    "accountId": "ACC-5805",
+    "billingProfileId": "BILL-7305",
+    "productId": "PROD-145",
+    "productIds": [
+      "PROD-145"
+    ],
+    "msisdn": "+97455513064",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3205-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3205",
+    "customerName": "Latifa Khalifa Nasser Al-Suwaidi",
+    "accountId": "ACC-5805",
+    "billingProfileId": "BILL-7305",
+    "productId": "PROD-310",
+    "productIds": [
+      "PROD-310"
+    ],
+    "msisdn": "+97455520132",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3205-3",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3205",
+    "customerName": "Latifa Khalifa Nasser Al-Suwaidi",
+    "accountId": "ACC-5805",
+    "billingProfileId": "BILL-7305",
+    "productId": "PROD-312",
+    "productIds": [
+      "PROD-312"
+    ],
+    "msisdn": "+97455520133",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-03T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3206-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3206",
+    "customerName": "Abdulrahman Salem Hamad Al-Ali",
+    "accountId": "ACC-5806",
+    "billingProfileId": "BILL-7306",
+    "productId": "PROD-142",
+    "productIds": [
+      "PROD-142"
+    ],
+    "msisdn": "+97455513065",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3206-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3206",
+    "customerName": "Abdulrahman Salem Hamad Al-Ali",
+    "accountId": "ACC-5806",
+    "billingProfileId": "BILL-7306",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520134",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3206-3",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3206",
+    "customerName": "Abdulrahman Salem Hamad Al-Ali",
+    "accountId": "ACC-5806",
+    "billingProfileId": "BILL-7306",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520135",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-03T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3207-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3207",
+    "customerName": "Shaikha Jassim Rashid Al-Mohannadi",
+    "accountId": "ACC-5807",
+    "billingProfileId": "BILL-7307",
+    "productId": "PROD-144",
+    "productIds": [
+      "PROD-144"
+    ],
+    "msisdn": "+97455513066",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3207-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3207",
+    "customerName": "Shaikha Jassim Rashid Al-Mohannadi",
+    "accountId": "ACC-5807",
+    "billingProfileId": "BILL-7307",
+    "productId": "PROD-144",
+    "productIds": [
+      "PROD-144"
+    ],
+    "msisdn": "+97455520136",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3207-3",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3207",
+    "customerName": "Shaikha Jassim Rashid Al-Mohannadi",
+    "accountId": "ACC-5807",
+    "billingProfileId": "BILL-7307",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520137",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-03T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3208-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3208",
+    "customerName": "Hamad Khalid Saeed Al-Bakri",
+    "accountId": "ACC-5808",
+    "billingProfileId": "BILL-7308",
+    "productId": "PROD-145",
+    "productIds": [
+      "PROD-145"
+    ],
+    "msisdn": "+97455513067",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3208-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3208",
+    "customerName": "Hamad Khalid Saeed Al-Bakri",
+    "accountId": "ACC-5808",
+    "billingProfileId": "BILL-7308",
+    "productId": "PROD-145",
+    "productIds": [
+      "PROD-145"
+    ],
+    "msisdn": "+97455520138",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3208-3",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3208",
+    "customerName": "Hamad Khalid Saeed Al-Bakri",
+    "accountId": "ACC-5808",
+    "billingProfileId": "BILL-7308",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520139",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-03T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3208-4",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3208",
+    "customerName": "Hamad Khalid Saeed Al-Bakri",
+    "accountId": "ACC-5808",
+    "billingProfileId": "BILL-7308",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520140",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3208-5",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3208",
+    "customerName": "Hamad Khalid Saeed Al-Bakri",
+    "accountId": "ACC-5808",
+    "billingProfileId": "BILL-7308",
+    "productId": "PROD-312",
+    "productIds": [
+      "PROD-312"
+    ],
+    "msisdn": "+97455520141",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3209-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerId": "CUST-3209",
+    "customerName": "Reem Abdulla Nasser Al-Jaber",
+    "accountId": "ACC-5809",
+    "billingProfileId": "BILL-7309",
+    "productId": "PROD-143",
+    "productIds": [
+      "PROD-143"
+    ],
+    "msisdn": "+97455513068",
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3210-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3210",
+    "customerName": "Ghanim Ali Mubarak Al-Sulaiti",
+    "accountId": "ACC-5810",
+    "billingProfileId": "BILL-7310",
+    "productId": "PROD-144",
+    "productIds": [
+      "PROD-144"
+    ],
+    "msisdn": "+97455513069",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3210-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Submitted for Approval",
+    "customerId": "CUST-3210",
+    "customerName": "Ghanim Ali Mubarak Al-Sulaiti",
+    "accountId": "ACC-5810",
+    "billingProfileId": "BILL-7310",
+    "productId": "PROD-311",
+    "productIds": [
+      "PROD-311"
+    ],
+    "msisdn": "+97455520142",
+    "approvalStatus": "Pending Approval",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3211-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3211",
+    "customerName": "Vikram Anand Rao Iyengar",
+    "accountId": "ACC-5811",
+    "billingProfileId": "BILL-7311",
+    "productId": "PROD-143",
+    "productIds": [
+      "PROD-143"
+    ],
+    "msisdn": "+97455513070",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3211-2",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3211",
+    "customerName": "Vikram Anand Rao Iyengar",
+    "accountId": "ACC-5811",
+    "billingProfileId": "BILL-7311",
+    "productId": "PROD-143",
+    "productIds": [
+      "PROD-143"
+    ],
+    "msisdn": "+97455520143",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-02T10:00:00+03:00"
+  },
+  {
+    "_note": "Family Plan scenario seed (2026-11-04).",
+    "orderId": "ORD-FAM-3212-1",
+    "orderType": "New Postpaid Activation",
+    "orderSubType": "Consumer",
+    "status": "Complete",
+    "customerId": "CUST-3212",
+    "customerName": "Naveed Iqbal Ahmed Chaudhry",
+    "accountId": "ACC-5812",
+    "billingProfileId": "BILL-7312",
+    "productId": "PROD-142",
+    "productIds": [
+      "PROD-142"
+    ],
+    "msisdn": "+97455513071",
+    "approvalStatus": "Approved",
+    "createdBy": "USR-1101",
+    "sourceChannel": "Retail Store",
+    "createdAt": "2026-11-01T10:00:00+03:00"
   }
 ]
