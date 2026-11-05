@@ -3,8 +3,8 @@ import type { CSSProperties } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { Modal } from '../../components/primitives/Modal';
 import * as mockDataEngine from '../../engines/mockDataEngine';
-import { connectionOptions, lineCatalogueOf, primaryLine1 } from '../../engines/familyPackage';
-import type { ConnectionOption, FamilyLine, FamilyOrder, FamilyRole } from '../../engines/familyPackage';
+import { connectionOptions, lineCatalogueOf, packageSummary, primaryLine1 } from '../../engines/familyPackage';
+import type { ConnectionOption, FamilyLine, FamilyOrder, FamilyRole, PackageSummary } from '../../engines/familyPackage';
 
 /**
  * The option cards are styled inline, from design tokens only, on purpose: this modal must look the same on hosts that do not build the app's
@@ -26,16 +26,27 @@ function optionStyle(selected: boolean): CSSProperties {
   };
 }
 
-/** The customer's package as it is on record right now: its lines and the connection types that can be added to it. */
-async function readPackage(customerId: string): Promise<{ packageId: string; options: ConnectionOption[] } | undefined> {
+interface PackageOnRecord {
+  packageId: string;
+  options: ConnectionOption[];
+  summary: PackageSummary;
+  planName: string | undefined;
+}
+
+/** The customer's package as it is on record right now: its lines, what is on it and left, and the connection types that can be added to it. */
+async function readPackage(customerId: string): Promise<PackageOnRecord | undefined> {
   const [lines, orders, products] = await Promise.all([
     mockDataEngine.list<FamilyLine>('family-package-lines'),
     mockDataEngine.list<FamilyOrder>('orders'),
-    mockDataEngine.list<{ productId: string; planClass?: string }>('products'),
+    mockDataEngine.list<{ productId: string; name?: string; planClass?: string }>('products'),
   ]);
   const own = lines.filter((l) => l.customerId === customerId);
   const first = primaryLine1(own);
-  return first ? { packageId: first.packageId, options: connectionOptions(own.filter((l) => l.packageId === first.packageId), orders, lineCatalogueOf(products)) } : undefined;
+  if (!first) return undefined;
+  const inPackage = own.filter((l) => l.packageId === first.packageId);
+  const catalogue = lineCatalogueOf(products);
+  const summary = packageSummary(inPackage, orders, catalogue);
+  return { packageId: first.packageId, options: connectionOptions(inPackage, orders, catalogue), summary, planName: products.find((p) => p.productId === summary.planId)?.name };
 }
 
 /**
@@ -57,11 +68,13 @@ interface AddConnectionModalProps {
   onStart: (familyLine: { packageId: string; role: FamilyRole }) => void;
   /** Runs before the journey starts (the confirmation page records its activity and releases the customer there). */
   onBeforeStart?: () => Promise<void> | void;
+  /** Opened because the customer asked for another Family Package while already holding one: the package is shown first and a connection is added to it instead. */
+  alreadyActive?: boolean;
 }
 
-function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: AddConnectionModalProps) {
+function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart, alreadyActive }: AddConnectionModalProps) {
   const [state, setState] = useState<'loading' | 'error' | 'ready'>('loading');
-  const [pkg, setPkg] = useState<{ packageId: string; options: ConnectionOption[] } | undefined>();
+  const [pkg, setPkg] = useState<PackageOnRecord | undefined>();
   const [chosen, setChosen] = useState<FamilyRole | undefined>();
   const [staleNote, setStaleNote] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -74,6 +87,8 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: Ad
       .then((p) => {
         if (cancelled) return;
         setPkg(p);
+        // The free line is offered first (it is the only option while it is open): it is already the choice.
+        if (p?.options.length === 1) setChosen(p.options[0].role);
         setState('ready');
       })
       .catch(() => !cancelled && setState('error'));
@@ -114,14 +129,14 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: Ad
     <Modal
       open
       onClose={onClose}
-      title="Add Another Connection"
+      title={alreadyActive ? 'Family Package Already Active' : 'Add Another Connection'}
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
           <Button variant="primary" disabled={!chosen || state !== 'ready' || starting} onClick={() => void start()}>
-            {starting ? 'Starting…' : 'Continue'}
+            {starting ? 'Starting…' : alreadyActive ? 'Add To This Package' : 'Continue'}
           </Button>
         </>
       }
@@ -144,7 +159,8 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: Ad
             <p className="text-secondary">{pkg ? 'No further connection types can be added to this Family Package.' : 'This customer has no Family Package.'}</p>
           ) : (
             <>
-              <p className="text-secondary">Select the connection type required by the customer.</p>
+              {alreadyActive && pkg && <PackageDetails pkg={pkg} />}
+              <p className="text-secondary">{pkg && pkg.summary.free.length > 0 ? 'The free line is offered first. Paid lines open once it has been activated.' : 'Select the connection type required by the customer.'}</p>
               <div role="radiogroup" aria-label="Connection type" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {options.map((o) => (
                   <label key={o.role} style={optionStyle(chosen === o.role)}>
@@ -157,7 +173,7 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: Ad
                     />
                     <span>
                       <span style={{ display: 'block', fontWeight: 500, color: 'var(--fg)' }}>{o.label}</span>
-                      <span style={{ display: 'block', fontSize: 'var(--fs-caption)', color: 'var(--fg-2)' }}>{o.lineLabel}</span>
+                      <span style={{ display: 'block', fontSize: 'var(--fs-caption)', color: 'var(--fg-2)' }}>{o.lineLabel} · {o.charge === 'Free' ? 'Free line' : 'Paid line'}</span>
                     </span>
                   </label>
                 ))}
@@ -167,5 +183,31 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart }: Ad
         </div>
       )}
     </Modal>
+  );
+}
+
+const heading: CSSProperties = { margin: 0, fontWeight: 600, color: 'var(--fg)' };
+const muted: CSSProperties = { margin: 0, fontSize: 'var(--fs-caption)', color: 'var(--fg-2)' };
+
+/** What the customer's existing Family Package holds, and which of what is left is free or paid. Plain elements and tokens only (see optionStyle). */
+function PackageDetails({ pkg }: { pkg: PackageOnRecord }) {
+  const { summary } = pkg;
+  const row = (label: string, value: string) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+      <span style={muted}>{label}</span>
+      <span style={{ color: 'var(--fg)', textAlign: 'right' }}>{value}</span>
+    </div>
+  );
+  const types = (list: { label: string }[]) => (list.length ? list.map((t) => t.label).join(', ') : 'None');
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: '1px solid var(--field-card-border)', borderRadius: 'var(--radius-card)', background: 'var(--surface-subtle)' }}>
+      <p style={heading}>This customer already has an active Family Package</p>
+      <p style={muted}>A second package cannot be started. Add the connection to the existing one instead.</p>
+      {row('Family Package', pkg.planName ?? 'Family Plan')}
+      {row('Lines activated', summary.activated.map((a) => `${a.count} ${a.label}`).join(', ') || 'None')}
+      {row('Lines still available', summary.available.map((a) => (a.remaining === null ? `${a.label} (no limit)` : `${a.remaining} ${a.label}`)).join(', ') || 'None')}
+      {row('Free lines available', summary.free.length ? summary.free.map((f) => `${f.label} (${f.lineLabel})`).join(', ') : 'None')}
+      {row('Paid lines available', summary.paidOpen ? types(summary.paid) : summary.free.length ? `${types(summary.paidTypes)} (open after the free line)` : 'None')}
+    </div>
   );
 }

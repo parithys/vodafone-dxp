@@ -21,9 +21,23 @@ let detected: DeviceType | undefined;
 export function detectDeviceType(): DeviceType {
   if (detected) return detected;
   if (typeof window === 'undefined' || typeof navigator === 'undefined') return 'web';
+  // Review aid: `?device=tablet` (or `web`) forces the experience on any browser, and is remembered for the tab so navigation keeps it.
+  const forced = forcedDevice();
+  if (forced) return (detected = forced);
   detected = deviceTypeFrom({
     maxTouchPoints: navigator.maxTouchPoints,
     coarsePointer: window.matchMedia?.('(pointer: coarse)').matches ?? false,
   });
   return detected;
+}
+
+function forcedDevice(): DeviceType | undefined {
+  try {
+    const asked = new URLSearchParams(window.location.search).get('device');
+    if (asked === 'tablet' || asked === 'web') window.sessionStorage.setItem('dxp-device', asked);
+    const kept = window.sessionStorage.getItem('dxp-device');
+    return kept === 'tablet' || kept === 'web' ? kept : undefined;
+  } catch {
+    return undefined;
+  }
 }

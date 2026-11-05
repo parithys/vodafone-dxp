@@ -1,3 +1,5 @@
+import { DEFAULT_SERVICE_OPTIONS } from '../../components/patterns/serviceOptions';
+import type { ServiceOptions } from '../../components/patterns/serviceOptions';
 import { currentAgentId } from '../../stores/authStore';
 import { storedAddressLine } from '../../components/patterns/addressFromBilling';
 import { accountTypeForJourney } from '../../engines/creditLimit';
@@ -5,7 +7,7 @@ import { scanFileName, specialDiscountDocumentLabel } from '../../engines/journe
 import { saveLinkedIdDocument } from './saveLinkedIdDocument';
 import { contactIdentityOrderFields } from './contactIdentityOrderFields';
 import { saveCustomerSalutation } from './saveCustomerSalutation';
-import { actualUserOrderFields, minorExceptionHolds, saveActualUserContact } from '../../capabilities/ActualUser';
+import { actualUserOrderFields, isOtherUser, minorExceptionHolds, saveActualUserContact } from '../../capabilities/ActualUser';
 import type { ActualUserValue } from '../../capabilities/ActualUser';
 import { hrnAdvanceQar } from '../../engines/hrnConfiguration';
 import { usePersonaStore } from '../../stores/personaStore';
@@ -169,6 +171,8 @@ export async function submitNewConnectionOrder(
           : []),
         ...(caf?.signatureDataUrl ? [{ label: 'Signed CAF', detail: `${caf.cafType ?? 'Digital'} signature`, previewUrl: caf.signatureDataUrl }] : []),
         ...(caf?.additionalDocuments ?? []).map((d) => ({ label: d.label, detail: d.fileName })),
+        // The Secondary Contact's own identity document, when they are someone other than the customer and it was scanned or uploaded.
+        ...((v) => (isOtherUser(v) && v?.identity ? idScanAttachments(v.identity.idType, v.identity.qidScans, { idNumber: v.identity.idNumber }).map((a) => ({ ...a, label: `Secondary Contact: ${a.label}` })) : []))(values.actualUser as ActualUserValue | undefined),
         ...(minorContactException ? [{ label: (values.actualUser as ActualUserValue).exception!.document.label, detail: `${(values.actualUser as ActualUserValue).exception!.document.fileName} - Secondary Contact under 18` }] : []),
       ];
 
@@ -293,6 +297,7 @@ export async function submitNewConnectionOrder(
         // What the customer was quoted and agreed to: the spending limits, how the amount was taken, and where the line is installed.
         billLimitQAR: (values.billLimit as number | undefined) ?? (plan ? defaultBillLimitQar(plan.mrcQAR, effectiveCreditLimitQar(eligibility, billingAccount)) : undefined),
         creditLimitQAR: effectiveCreditLimitQar(eligibility, billingAccount),
+        serviceOptions: (values.serviceOptions as ServiceOptions | undefined) ?? DEFAULT_SERVICE_OPTIONS,
         paymentMethod: (values.payment as WinCashPaymentValue | undefined)?.method,
         paymentReference: (values.payment as WinCashPaymentValue | undefined)?.reference,
         address: values.address,

@@ -544,6 +544,8 @@
   --control-h-sm: 2rem;
   --control-h-md: 2.625rem;
   --control-h-lg: 3rem;
+  /* The smallest hit area for anything a finger must tap; only tablet.css reads it. */
+  --touch-target: 2.75rem;
   /* THE height of every single-line text field and dropdown (Input, Select, phone, QID, search, price boxes) - see the rule in ui-components.css. */
   --field-height: var(--control-h-md);
 }

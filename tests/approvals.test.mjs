@@ -250,7 +250,9 @@ test('Missing Information: only the requested activities are asked for and appli
 test('Missing Information: the order is reassigned to its creator, only they get the work panel, and resubmitting returns it to the queue', () => {
   const src = fs.readFileSync(path.join(ROOT, 'src/modules/order-management/OrderApprovalDetail.tsx'), 'utf8');
   assert.match(src, /missingInfoRequest: missingRequest,[\s\S]{0,200}assignedApproverId: order\.createdBy \?\? null/, 'reassigned to the submitter');
-  assert.match(src, /disabled=\{!missingComment\.trim\(\) \|\| !isMissingInformationRequestMade\(missingRequest\)/, 'the request must name something');
+  // Naming documents is optional: the comment is what is required.
+  assert.match(src, /disabled=\{!missingComment\.trim\(\) \|\| submitting\}/, 'the comment is required');
+  assert.doesNotMatch(src, /disabled=\{[^}]*isMissingInformationRequestMade\(missingRequest\)/, 'no document has to be selected');
   assert.match(src, /const resubmitMissingInformation[\s\S]{0,300}!mayResubmit\) return;/, 'only the submitter resubmits');
   assert.match(src, /status: ORDER_AWAITING_DECISION,[\s\S]{0,120}assignedApproverId: null/, 'back to the Approval Queue, unclaimed');
   assert.match(src, /applyMissingInformation\(order\.attachments \?\? \[\], order\.missingInfoRequest, answer\)/);

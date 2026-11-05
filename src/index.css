@@ -1,6 +1,7 @@
 @import "tailwindcss" source(".");
 @import "./tokens.css";
 @import "./ui-components.css";
+@import "./tablet.css";
 @import "./components/primitives/tooltip-tokens.css";
 @import "./components/primitives/tooltip.css";
 

@@ -46,15 +46,17 @@ test('nothing opens until Primary Line 1\'s order is approved: pending, returned
   for (const o of closed) for (const role of fp.FAMILY_ROLES) assert.equal(fp.canAddLine(lines, [o], role, CAT()).ok, false, `${o.approvalStatus}/${o.status} ${role}`);
   for (const role of fp.FAMILY_ROLES) assert.equal(fp.canAddLine(lines, [], role, CAT()).ok, false, `no order ${role}`);
   assert.equal(fp.canAddLine([ln('Primary', 1), ln('Secondary', 1)], [ord('ORD-Secondary-1', 'Approved')], 'Secondary', CAT()).ok, false, 'another line\'s approval does not open it');
-  assert.equal(fp.canAddLine(lines, [APPROVED], 'Supplementary', CAT()).ok, true);
-  assert.equal(fp.canAddLine(lines, [ord('ORD-Primary-1', 'Not Required', 'Complete')], 'Supplementary', CAT()).ok, true);
+  const withFree = [...lines, ln('Primary', 2)];
+  assert.equal(fp.canAddLine(withFree, [APPROVED], 'Supplementary', CAT()).ok, true);
+  assert.equal(fp.canAddLine(withFree, [ord('ORD-Primary-1', 'Not Required', 'Complete')], 'Supplementary', CAT()).ok, true);
 });
 
 test('each added line is on the plan its type is on: Second Primary the package\'s, Supplementary the Supplementary plan, Secondary the agent\'s choice', () => {
   const lines = [ln('Primary', 1, 'PROD-144')];
   assert.equal(fp.canAddLine(lines, [APPROVED], 'Primary', CAT()).planId, 'PROD-144');
-  assert.equal(fp.canAddLine(lines, [APPROVED], 'Supplementary', CAT()).planId, 'PROD-311');
-  assert.equal(fp.canAddLine(lines, [APPROVED], 'Secondary', CAT()).planId, undefined);
+  const paidOpen = [...lines, ln('Primary', 2, 'PROD-144')];
+  assert.equal(fp.canAddLine(paidOpen, [APPROVED], 'Supplementary', CAT()).planId, 'PROD-311');
+  assert.equal(fp.canAddLine(paidOpen, [APPROVED], 'Secondary', CAT()).planId, undefined);
   assert.equal(fp.packagePlanId(lines), 'PROD-144');
   assert.equal(fp.packagePlanId([ln('Primary', 2)]), undefined, 'Primary Line 2 alone does not set the plan');
 });
@@ -64,8 +66,8 @@ test('limits: Primary 2, Supplementary 2, Secondary unlimited; numbering continu
   const base = [ln('Primary', 1)];
   assert.equal(fp.canAddLine(base, [APPROVED], 'Primary', CAT()).sequence, 2);
   assert.equal(fp.canAddLine([...base, ln('Primary', 2)], [APPROVED], 'Primary', CAT()).ok, false);
-  assert.equal(fp.canAddLine([...base, ln('Supplementary', 1), ln('Supplementary', 2)], [APPROVED], 'Supplementary', CAT()).ok, false);
-  const many = [...base, ...Array.from({ length: 25 }, (_, i) => ln('Secondary', i + 1))];
+  assert.equal(fp.canAddLine([...base, ln('Primary', 2), ln('Supplementary', 1), ln('Supplementary', 2)], [APPROVED], 'Supplementary', CAT()).ok, false);
+  const many = [...base, ln('Primary', 2), ...Array.from({ length: 25 }, (_, i) => ln('Secondary', i + 1))];
   const next = fp.canAddLine(many, [APPROVED], 'Secondary', CAT());
   assert.ok(next.ok);
   assert.equal(next.sequence, 26);
@@ -180,39 +182,43 @@ test('connectionOptions: none before Primary Line 1 is approved; then every type
   assert.deepEqual(fp.connectionOptions([], [], CAT()), []);
   assert.deepEqual(fp.connectionOptions([ln('Primary', 1)], [ord('ORD-Primary-1', 'Pending Approval')], CAT()), []);
   const lines = [ln('Primary', 1)];
-  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], CAT()).map((o) => [o.label, o.lineLabel]), [['Second Primary', 'Primary Line 2'], ['Supplementary', 'Supplementary Line 1'], ['Secondary', 'Secondary Line 1']]);
-  assert.deepEqual(fp.connectionOptions([...lines, ln('Primary', 2)], [APPROVED], CAT()).map((o) => o.role), ['Supplementary', 'Secondary'], 'Second Primary goes once Primary Line 2 exists');
-  assert.deepEqual(fp.connectionOptions([...lines, ln('Supplementary', 1)], [APPROVED], CAT()).map((o) => o.role), ['Primary', 'Supplementary', 'Secondary']);
-  assert.deepEqual(fp.connectionOptions([...lines, ln('Supplementary', 1), ln('Supplementary', 2)], [APPROVED], CAT()).map((o) => o.role), ['Primary', 'Secondary'], 'Supplementary goes at 2');
-  assert.deepEqual(fp.connectionOptions([...lines, ln('Primary', 2), ln('Supplementary', 1), ln('Supplementary', 2)], [APPROVED], CAT()).map((o) => o.role), ['Secondary'], 'a limit on one type leaves the others');
+  // The free Second Primary is offered first, and alone, until it has been activated.
+  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], CAT()).map((o) => [o.label, o.lineLabel, o.charge]), [['Second Primary', 'Primary Line 2', 'Free']]);
+  assert.deepEqual(fp.connectionOptions([...lines, ln('Supplementary', 1)], [APPROVED], CAT()).map((o) => o.role), ['Primary'], 'a paid line already on record does not open the others while the free line is open');
+  const free = [...lines, ln('Primary', 2)];
+  assert.deepEqual(fp.connectionOptions(free, [APPROVED], CAT()).map((o) => [o.label, o.lineLabel, o.charge]), [['Supplementary', 'Supplementary Line 1', 'Paid'], ['Secondary', 'Secondary Line 1', 'Paid']], 'paid lines open once the free one is taken');
+  assert.deepEqual(fp.connectionOptions([...free, ln('Supplementary', 1)], [APPROVED], CAT()).map((o) => o.role), ['Supplementary', 'Secondary']);
+  assert.deepEqual(fp.connectionOptions([...free, ln('Supplementary', 1), ln('Supplementary', 2)], [APPROVED], CAT()).map((o) => o.role), ['Secondary'], 'Supplementary goes at 2');
+  assert.deepEqual(fp.connectionOptions([...free, ln('Supplementary', 1), ln('Supplementary', 2), ln('Secondary', 1)], [APPROVED], CAT()).map((o) => o.role), ['Secondary'], 'a limit on one type leaves the others');
 });
 
 test('Supplementary and Secondary are offered only while the catalogue has a plan to put them on: never assumed, never invented', () => {
-  const lines = [ln('Primary', 1)];
-  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], NO_EXTRA).map((o) => o.role), ['Primary']);
-  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], { supplementaryPlanId: 'PROD-311' }).map((o) => o.role), ['Primary', 'Supplementary']);
-  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], { secondaryPlanIds: ['PROD-310'] }).map((o) => o.role), ['Primary', 'Secondary']);
+  const lines = [ln('Primary', 1), ln('Primary', 2)];
+  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], NO_EXTRA).map((o) => o.role), []);
+  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], { supplementaryPlanId: 'PROD-311' }).map((o) => o.role), ['Supplementary']);
+  assert.deepEqual(fp.connectionOptions(lines, [APPROVED], { secondaryPlanIds: ['PROD-310'] }).map((o) => o.role), ['Secondary']);
   assert.equal(fp.canAddLine(lines, [APPROVED], 'Secondary', { secondaryPlanIds: [] }).ok, false, 'the business rule refuses it too, not only the list');
   assert.equal(fp.canAddLine(lines, [APPROVED], 'Supplementary', NO_EXTRA).ok, false);
 });
 
-test('no mandatory order after Primary Line 1: every sequence of types is allowed exactly when the counts allow it (the eight scenarios and all the rest)', () => {
+test('free line first, then no mandatory order: every sequence of types is allowed exactly when the counts allow it and, for a paid type, the free Second Primary is taken', () => {
   const TYPES = ['Primary', 'Supplementary', 'Secondary'];
   let sequences = 0;
   const walk = (lines, counts, depth) => {
     for (const type of TYPES) {
       const check = fp.canAddLine(lines, [APPROVED], type, CAT());
-      assert.equal(check.ok, allowedByCounts(counts, type), `${lines.map(fp.lineLabel).join(' > ')} then ${type}`);
+      const expected = allowedByCounts(counts, type) && (type === 'Primary' || counts.Primary >= 2);
+      assert.equal(check.ok, expected, `${lines.map(fp.lineLabel).join(' > ')} then ${type}`);
+      assert.equal(fp.connectionOptions(lines, [APPROVED], CAT()).some((o) => o.role === type), expected);
       if (!check.ok) continue;
-      assert.equal(fp.connectionOptions(lines, [APPROVED], CAT()).some((o) => o.role === type), true);
       assert.equal(check.sequence, counts[type] + 1);
       sequences += 1;
       if (depth < 5) walk([...lines, ln(type, check.sequence)], { ...counts, [type]: counts[type] + 1 }, depth + 1);
     }
   };
   walk([ln('Primary', 1)], { Primary: 1, Supplementary: 0, Secondary: 0 }, 0);
-  assert.ok(sequences > 100);
-  const scenarios = [['Primary'], ['Supplementary'], ['Secondary'], ['Supplementary', 'Primary'], ['Secondary', 'Primary'], ['Supplementary', 'Supplementary'], ['Supplementary', 'Secondary', 'Primary'], ['Primary', 'Supplementary', 'Supplementary', 'Secondary']];
+  assert.ok(sequences > 30);
+  const scenarios = [['Primary'], ['Primary', 'Supplementary'], ['Primary', 'Secondary'], ['Primary', 'Supplementary', 'Supplementary'], ['Primary', 'Supplementary', 'Secondary'], ['Primary', 'Supplementary', 'Supplementary', 'Secondary', 'Secondary']];
   for (const seq of scenarios) {
     let lines = [ln('Primary', 1)];
     for (const type of seq) {
@@ -227,36 +233,40 @@ test('no mandatory order after Primary Line 1: every sequence of types is allowe
 test('a line added to an existing package is judged by the same rule as the list, on the plan its type is on, and refused when it is not allowed', () => {
   const pkg = [ln('Primary', 1, 'PROD-143')];
   const base = { packageId: 'P', eligibilityCleared: true, packageLines: pkg, orders: [APPROVED], catalogue: CAT() };
-  assert.deepEqual(fp.familyAdditionalCheck({ ...base, role: 'Supplementary' }), { applies: true, ok: true, lineLabel: 'Supplementary Line 1', planId: 'PROD-311', additional: { packageId: 'P', role: 'Supplementary', sequence: 1, tierPlanId: 'PROD-143' } });
+  const afterFree = { ...base, packageLines: [...pkg, ln('Primary', 2, 'PROD-143')] };
+  assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Supplementary' }).ok, false, 'a paid line waits for the free Second Primary');
+  assert.match(fp.familyAdditionalCheck({ ...base, role: 'Secondary' }).reason, /free Second Primary/);
+  assert.deepEqual(fp.familyAdditionalCheck({ ...afterFree, role: 'Supplementary' }), { applies: true, ok: true, lineLabel: 'Supplementary Line 1', planId: 'PROD-311', additional: { packageId: 'P', role: 'Supplementary', sequence: 1, tierPlanId: 'PROD-143' } });
   const second = fp.familyAdditionalCheck({ ...base, role: 'Primary' });
   assert.equal(second.additional.sequence, 2);
   assert.equal(second.planId, 'PROD-143', 'Second Primary is on the package plan');
   // Secondary: no plan until the agent picks one of the Secondary plans; any other plan is no plan.
-  assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Secondary' }).planId, undefined);
-  assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Secondary', chosenPlanId: 'PROD-312' }).planId, 'PROD-312');
-  assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Secondary', chosenPlanId: 'PROD-143' }).planId, undefined, 'an Ahli plan is not a Secondary plan');
-  assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Supplementary', eligibilityCleared: false }).kind, 'eligibility');
+  assert.equal(fp.familyAdditionalCheck({ ...afterFree, role: 'Secondary' }).planId, undefined);
+  assert.equal(fp.familyAdditionalCheck({ ...afterFree, role: 'Secondary', chosenPlanId: 'PROD-312' }).planId, 'PROD-312');
+  assert.equal(fp.familyAdditionalCheck({ ...afterFree, role: 'Secondary', chosenPlanId: 'PROD-143' }).planId, undefined, 'an Ahli plan is not a Secondary plan');
+  assert.equal(fp.familyAdditionalCheck({ ...afterFree, role: 'Supplementary', eligibilityCleared: false }).kind, 'eligibility');
   assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Supplementary', packageLines: [] }).kind, 'package');
   assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Supplementary', orders: [ord('ORD-Primary-1', 'Pending Approval')] }).ok, false, 'Primary Line 1 not approved');
   assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Primary', packageLines: [...pkg, ln('Primary', 2)] }).ok, false, 'Second Primary once Primary Line 2 exists');
   assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Supplementary', packageLines: [...pkg, ln('Supplementary', 1), ln('Supplementary', 2)] }).ok, false);
-  assert.equal(fp.familyAdditionalCheck({ ...base, role: 'Secondary', catalogue: NO_EXTRA }).ok, false);
+  assert.equal(fp.familyAdditionalCheck({ ...afterFree, role: 'Secondary', catalogue: NO_EXTRA }).ok, false);
 });
 
 test('the journey takes the connection type from its draft: the line joins the customer\'s own package on its type\'s plan, whatever plan is selected', async () => {
   const { familyStartFor, familyLineContextOf } = await load('/src/modules/new-connection/familyStart.ts');
   const catalogue = products.map((p) => ({ productId: p.productId, name: p.name, mrcQAR: p.mrcQAR, planClass: p.planClass }));
   const pkg = { ...ln('Primary', 1, 'PROD-143'), packageId: 'FPK-X', customerId: 'CUST-9' };
+  const free = { ...ln('Primary', 2, 'PROD-143'), packageId: 'FPK-X', customerId: 'CUST-9' };
   const values = (over = {}) => ({ familyLine: { packageId: 'FPK-X', role: 'Supplementary' }, productId: 'PROD-108', eligibility: { customerId: 'CUST-9' }, contact: { idNumber: '1' }, ...over });
-  const r = familyStartFor(values(), catalogue, [pkg], [APPROVED]);
+  const r = familyStartFor(values(), catalogue, [pkg, free], [APPROVED]);
   assert.equal(r.ok, true);
   assert.equal(r.planId, 'PROD-311', 'the Supplementary plan, not the one selected');
   assert.equal(r.lineLabel, 'Supplementary Line 1');
   assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-X', role: 'Primary' } }), catalogue, [pkg], [APPROVED]).planId, 'PROD-143');
-  assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-X', role: 'Secondary' }, productId: 'PROD-310' }), catalogue, [pkg], [APPROVED]).planId, 'PROD-310');
-  assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-X', role: 'Secondary' } }), catalogue, [pkg], [APPROVED]).planId, undefined, 'a Secondary plan has to be chosen');
-  assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-OTHER', role: 'Supplementary' } }), catalogue, [pkg], [APPROVED]).ok, false, 'a package that is not this customer\'s');
-  assert.equal(familyStartFor(values({ eligibility: { customerId: 'CUST-8' } }), catalogue, [pkg], [APPROVED]).ok, false, 'another customer\'s lines are not this one\'s');
+  assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-X', role: 'Secondary' }, productId: 'PROD-310' }), catalogue, [pkg, free], [APPROVED]).planId, 'PROD-310');
+  assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-X', role: 'Secondary' } }), catalogue, [pkg, free], [APPROVED]).planId, undefined, 'a Secondary plan has to be chosen');
+  assert.equal(familyStartFor(values({ familyLine: { packageId: 'FPK-OTHER', role: 'Supplementary' } }), catalogue, [pkg, free], [APPROVED]).ok, false, 'a package that is not this customer\'s');
+  assert.equal(familyStartFor(values({ eligibility: { customerId: 'CUST-8' } }), catalogue, [pkg, free], [APPROVED]).ok, false, 'another customer\'s lines are not this one\'s');
   assert.equal(familyLineContextOf({}), undefined);
   assert.equal(familyLineContextOf({ familyLine: { packageId: 'P', role: 'Primary' } }).role, 'Primary');
 });
@@ -328,15 +338,16 @@ test('Family Owner: a connection is added only after the owner\'s ID is validate
   const { familyStartFor } = await load('/src/modules/new-connection/familyStart.ts');
   const catalogue = products.map((p) => ({ productId: p.productId, name: p.name, mrcQAR: p.mrcQAR, planClass: p.planClass }));
   const pkg = { ...ln('Primary', 1, 'PROD-143'), packageId: 'FPK-X', customerId: 'CUST-9', idNumber: '555' };
+  const free = { ...ln('Primary', 2, 'PROD-143'), packageId: 'FPK-X', customerId: 'CUST-9', idNumber: '555' };
   const values = (who) => ({ familyLine: { packageId: 'FPK-X', role: 'Supplementary' }, eligibility: { customerId: who.customerId }, contact: { idNumber: who.idNumber } });
-  assert.equal(familyStartFor(values({ customerId: 'CUST-9' }), catalogue, [pkg], [APPROVED]).ok, true, 'the owner by record');
-  assert.equal(familyStartFor(values({ idNumber: '555' }), catalogue, [pkg], [APPROVED]).ok, true, 'the owner by ID, with no record');
-  const other = familyStartFor(values({ customerId: 'CUST-8', idNumber: '999' }), catalogue, [pkg], [APPROVED]);
+  assert.equal(familyStartFor(values({ customerId: 'CUST-9' }), catalogue, [pkg, free], [APPROVED]).ok, true, 'the owner by record');
+  assert.equal(familyStartFor(values({ idNumber: '555' }), catalogue, [pkg, free], [APPROVED]).ok, true, 'the owner by ID, with no record');
+  const other = familyStartFor(values({ customerId: 'CUST-8', idNumber: '999' }), catalogue, [pkg, free], [APPROVED]);
   assert.equal(other.ok, false);
   assert.equal(other.kind, 'owner');
   assert.match(other.reason, /Family Owner/);
-  assert.equal(familyStartFor(values({}), catalogue, [pkg], [APPROVED]).kind, 'owner', 'nobody identified is nobody\'s package');
-  assert.equal(familyStartFor({ ...values({ customerId: 'CUST-9' }), familyLine: { packageId: 'FPK-NONE', role: 'Supplementary' } }, catalogue, [pkg], [APPROVED]).kind, 'package', 'no such package');
+  assert.equal(familyStartFor(values({}), catalogue, [pkg, free], [APPROVED]).kind, 'owner', 'nobody identified is nobody\'s package');
+  assert.equal(familyStartFor({ ...values({ customerId: 'CUST-9' }), familyLine: { packageId: 'FPK-NONE', role: 'Supplementary' } }, catalogue, [pkg, free], [APPROVED]).kind, 'package', 'no such package');
 });
 
 test('billing: every line of a package is billed under Primary Line 1\'s billing account; unknown stays unknown', () => {
@@ -446,10 +457,11 @@ test('wiring: no Family journey takes add-ons (the action is hidden, the step ne
 
 test('Supplementary follows the package\'s Family Plan tier; Secondary plans are named Kids Plan and Data-only Plan', async () => {
   const pkg = [ln('Primary', 1, 'PROD-144')];
-  const r = fp.familyAdditionalCheck({ packageId: 'P', eligibilityCleared: true, packageLines: pkg, orders: [APPROVED], catalogue: CAT(), role: 'Supplementary' });
+  const afterFree = [...pkg, ln('Primary', 2, 'PROD-144')];
+  const r = fp.familyAdditionalCheck({ packageId: 'P', eligibilityCleared: true, packageLines: afterFree, orders: [APPROVED], catalogue: CAT(), role: 'Supplementary' });
   assert.equal(r.additional.tierPlanId, 'PROD-144', 'the tier is the package\'s, whatever the Supplementary plan is');
   assert.equal(r.planId, 'PROD-311');
-  for (const role of ['Primary', 'Secondary']) assert.equal(fp.familyAdditionalCheck({ packageId: 'P', eligibilityCleared: true, packageLines: pkg, orders: [APPROVED], catalogue: CAT(), role }).additional.tierPlanId, 'PROD-144', role);
+  for (const role of ['Primary', 'Secondary']) assert.equal(fp.familyAdditionalCheck({ packageId: 'P', eligibilityCleared: true, packageLines: role === 'Primary' ? pkg : afterFree, orders: [APPROVED], catalogue: CAT(), role }).additional.tierPlanId, 'PROD-144', role);
   const by = Object.fromEntries(products.filter((p) => p.planClass === 'Postpaid Secondary Plans').map((p) => [p.productId, p.secondaryPlanType]));
   assert.deepEqual(by, { 'PROD-310': 'Kids Plan', 'PROD-312': 'Data-only Plan' });
   const model = await load('/src/components/patterns/postpaidPlanModel.ts');
@@ -460,13 +472,75 @@ test('Supplementary follows the package\'s Family Plan tier; Secondary plans are
   assert.match(fs.readFileSync('src/modules/new-connection/postpaidSteps.tsx', 'utf8'), /label: 'Family Plan', value: tier/);
 });
 
-test('the customer Actions menu offers Add Another Connection for a customer with a Family Package: first, dimmed with the reason when nothing can be added, and through the same dialog', () => {
+test('the customer Actions menu has no Family Package group: Add Another Connection is not offered there', () => {
   const menu = fs.readFileSync('src/workspace/customer360/CustomerActionsMenu.tsx', 'utf8');
-  assert.match(menu, /family\.hasPackage && canStart/, 'only a package holder, and only a role that may start a connection');
-  assert.match(menu, /disabled: family\.options\.length === 0/);
-  assert.match(menu, /hint: family\.activated \? 'Nothing to add' : 'Awaiting approval'/);
-  assert.match(menu, /groups=\{\[\.\.\.familyGroup, /, 'the Family Package group comes first');
-  assert.match(menu, /<AddConnectionModal /);
-  const hook = fs.readFileSync('src/workspace/customer360/useFamilyConnections.ts', 'utf8');
-  assert.match(hook, /connectionOptions\(lines, orders, lineCatalogueOf\(products\)\)/, 'the same rule as the dialog');
+  assert.doesNotMatch(menu, /Family Package|AddConnectionModal|useFamilyConnections/);
+});
+
+test('new customers start with no Family Package: none of the "not a customer yet" profiles has a line, an order or a package, so Primary Line 1 of a new package is allowed', () => {
+  const lines = read('family-package-lines');
+  const orders = read('orders');
+  const nas = read('nas-records').filter((n) => n.nasRecordId);
+  const docs = read('identity-documents');
+  const customers = new Map(read('customers').map((c) => [c.customerId, c]));
+  assert.ok(nas.length > 0, 'there are new-customer profiles to check');
+  const packageHolders = new Set(lines.map((l) => l.customerId));
+  for (const n of nas) {
+    // A new customer is on the national address register only: no customer id, and no customer record that carries the same identity document.
+    const sameDocument = docs.filter((d) => d.documentNumber === n.documentNumber).map((d) => d.customerId);
+    assert.deepEqual(sameDocument, [], `${n.nasRecordId} must not already be a customer`);
+    assert.ok(!customers.has(n.nasRecordId));
+    assert.ok(!lines.some((l) => l.customerId === n.nasRecordId) && !orders.some((o) => o.customerId === n.nasRecordId && /^ORD-FAM/.test(o.orderId)), `${n.nasRecordId} has no package`);
+    assert.ok(!packageHolders.has(n.nasRecordId));
+  }
+  // The Family Plan start check lets a customer with no lines begin a package, and blocks one who has a package.
+  const ahli = products.find((p) => p.productId === 'PROD-142');
+  assert.equal(fp.familyStartCheck({ plan: ahli, eligibilityCleared: true, customerLines: [] }).ok, true);
+  assert.equal(fp.familyStartCheck({ plan: ahli, eligibilityCleared: true, customerLines: [ln('Primary', 1)] }).ok, false);
+});
+
+test('only customers that exist to demonstrate a package hold one: the Family Plan scenarios plus the two original demo packages', () => {
+  const holders = new Set(read('family-package-lines').map((l) => l.customerId));
+  const allowed = new Set(['CUST-1001', 'CUST-3084', ...Array.from({ length: 12 }, (_, i) => `CUST-${3201 + i}`)]);
+  for (const id of holders) assert.ok(allowed.has(id), `${id} holds a Family Package but is not a package demonstration customer`);
+});
+
+test('the free line is Second Primary and nothing else: every other line is paid, and a paid line is refused while the free line is open', () => {
+  assert.deepEqual(fp.FREE_LINE, { role: 'Primary', sequence: 2 });
+  assert.equal(fp.isFreeLine({ role: 'Primary', sequence: 2 }), true);
+  for (const l of [{ role: 'Primary', sequence: 1 }, { role: 'Supplementary', sequence: 1 }, { role: 'Supplementary', sequence: 2 }, { role: 'Secondary', sequence: 1 }]) assert.equal(fp.isFreeLine(l), false, fp.lineLabel(l));
+  const p1 = [ln('Primary', 1)];
+  for (const role of ['Supplementary', 'Secondary']) assert.match(fp.canAddLine(p1, [APPROVED], role, CAT()).reason, /free Second Primary/, role);
+  assert.equal(fp.canAddLine(p1, [APPROVED], 'Primary', CAT()).ok, true);
+  assert.equal(fp.freeLineOpen(p1), true);
+  assert.equal(fp.freeLineOpen([...p1, ln('Primary', 2)]), false, 'a Second Primary on record (even awaiting approval) is the free line taken');
+});
+
+test('packageSummary: what the active package holds, what is left, and which of it is free or paid', () => {
+  const none = fp.packageSummary([ln('Primary', 1, 'PROD-144')], [APPROVED], CAT());
+  assert.equal(none.planId, 'PROD-144');
+  assert.deepEqual(none.activated.map((a) => [a.label, a.count, a.lines]), [['Primary', 1, ['Primary Line 1']]]);
+  assert.deepEqual(none.available.map((a) => [a.role, a.remaining]), [['Primary', 1], ['Supplementary', 2], ['Secondary', null]]);
+  assert.deepEqual(none.free.map((o) => o.lineLabel), ['Primary Line 2']);
+  assert.deepEqual(none.paid, [], 'no paid option while a free line is left');
+  assert.equal(none.paidOpen, false);
+  assert.deepEqual(none.paidTypes.map((t) => t.role), ['Supplementary', 'Secondary'], 'the paid types are named, to say they open later');
+  const used = fp.packageSummary([ln('Primary', 1), ln('Primary', 2), ln('Supplementary', 1)], [APPROVED], CAT());
+  assert.deepEqual(used.free, []);
+  assert.deepEqual(used.paid.map((o) => [o.lineLabel, o.charge]), [['Supplementary Line 2', 'Paid'], ['Secondary Line 1', 'Paid']]);
+  assert.equal(used.paidOpen, true);
+  assert.deepEqual(used.available.map((a) => a.role), ['Supplementary', 'Secondary'], 'Primary is full');
+  const pending = fp.packageSummary([ln('Primary', 1)], [ord('ORD-Primary-1', 'Pending Approval')], CAT());
+  assert.deepEqual([pending.free, pending.paid, pending.paidOpen], [[], [], false], 'nothing is open before Primary Line 1 is approved');
+});
+
+test('wiring: a Family Plan chosen by a customer who already has a package opens the package dialog on the plan page, and adding to it puts the connection in the draft', () => {
+  const steps = fs.readFileSync('src/modules/new-connection/postpaidSteps.tsx', 'utf8');
+  assert.match(steps, /held\.kind === 'package'/);
+  assert.match(steps, /<FamilyPackageActiveGate/);
+  assert.match(steps, /c\.setValue\('familyLine', familyLine\)/);
+  const gate = fs.readFileSync('src/modules/new-connection/FamilyPackageActiveGate.tsx', 'utf8');
+  assert.match(gate, /<AddConnectionModal open=\{open\} alreadyActive/);
+  const modal = fs.readFileSync('src/capabilities/ActivationComplete/AddConnectionModal.tsx', 'utf8');
+  for (const text of ['Family Package Already Active', 'Lines activated', 'Lines still available', 'Free lines available', 'Paid lines available', 'Add To This Package']) assert.ok(modal.includes(text), text);
 });

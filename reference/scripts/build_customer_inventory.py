@@ -430,15 +430,15 @@ FAMILY_SCENARIOS = [
     dict(n=2, label="Primary Line and Second Primary Line", cid="CUST-3202", name=("Nasser", "Hamad Jassim", "Al-Attiyah"), dob="1984-07-22", sex="Male", plan="PROD-144",
          lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED)], note="Second Primary exists, so Second Primary is gone from Add Another Connection (Primary limit 2)."),
     dict(n=3, label="Primary Line and Supplementary Line", cid="CUST-3203", name=("Moza", "Rashid Ali", "Al-Kaabi"), dob="1991-11-05", sex="Female", plan="PROD-143",
-         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Supplementary added without a Second Primary: no order is imposed. One more Supplementary is still open."),
+         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Supplementary on record while the free Second Primary is still open: Add Another Connection offers only the free Second Primary until it is activated; the paid Supplementary and Secondary lines follow."),
     dict(n=4, label="Primary Line and Secondary Line (Kids Plan)", cid="CUST-3204", name=("Yousef", "Mansoor Saeed", "Al-Ghanim"), dob="1987-02-18", sex="Male", plan="PROD-143",
-         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED)], note="Secondary on Ahli Lite (Kids Plan), added without Second Primary or Supplementary."),
+         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED)], note="Secondary on Ahli Lite (Kids Plan) on record while the free Second Primary is open: only the free Second Primary is offered until it is activated."),
     dict(n=5, label="Primary Line and two Secondary Lines (Kids and Data-only)", cid="CUST-3205", name=("Latifa", "Khalifa Nasser", "Al-Suwaidi"), dob="1990-09-09", sex="Female", plan="PROD-145",
-         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED), ("Secondary", 2, "PROD-312", APPROVED)], note="Secondary has no limit: Kids Plan and Data-only Plan lines side by side; Secondary stays on offer."),
+         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED), ("Secondary", 2, "PROD-312", APPROVED)], note="Secondary has no limit: Kids Plan and Data-only Plan lines side by side. The free Second Primary is still open, so it is the only option offered until activated."),
     dict(n=6, label="Primary Line and two Supplementary Lines (Supplementary limit reached)", cid="CUST-3206", name=("Abdulrahman", "Salem Hamad", "Al-Ali"), dob="1983-12-01", sex="Male", plan="PROD-142",
-         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED)], note="Two Supplementary lines: Supplementary is removed from Add Another Connection; Second Primary and Secondary remain."),
+         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED)], note="Two Supplementary lines (Supplementary limit reached). The free Second Primary is still open, so it alone is offered; after it, Secondary."),
     dict(n=7, label="Primary, Second Primary and Supplementary Line", cid="CUST-3207", name=("Shaikha", "Jassim Rashid", "Al-Mohannadi"), dob="1986-06-27", sex="Female", plan="PROD-144",
-         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Mixed package: Second Primary gone, Supplementary (1 of 2) and Secondary still offered."),
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Mixed package: the free Second Primary is taken, so the paid Supplementary (1 of 2) and Secondary are offered."),
     dict(n=8, label="All limits reached except Secondary (Primary x2, Supplementary x2, Secondary)", cid="CUST-3208", name=("Hamad", "Khalid Saeed", "Al-Bakri"), dob="1979-04-30", sex="Male", plan="PROD-145",
          lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED), ("Secondary", 1, "PROD-312", APPROVED)],
          note="Only Secondary can still be added. Five mobile lines: the owner is at the Qatari postpaid cap, so a further line also meets the line-count eligibility check."),
@@ -1474,16 +1474,18 @@ sheet(wb, "Scenario Coverage", ["Scenario", "Requested / Added", "# customers", 
 # Family Plan Scenarios: read back from the seeded data (family-package-lines.json, orders.json), not from the definitions above, so the sheet is what the app holds.
 def _family_options(lines, orders):
     """What Add Another Connection should offer, from the rules (written here independently of the app's engine): none until Primary Line 1's order is approved
-    ('Approved', or 'Not Required' on a Complete order); then Second Primary below 2 Primary lines, Supplementary below 2, Secondary always (a Secondary plan exists)."""
+    ('Approved', or 'Not Required' on a Complete order); then the free Second Primary alone while it is open (Primary below 2); after it Supplementary below 2 and Secondary always (a Secondary plan exists), both paid."""
     p1 = next((l for l in lines if l["role"] == "Primary" and l["sequence"] == 1), None)
     o1 = next((o for o in orders if p1 and o["orderId"] == p1["orderId"]), None)
     if not o1 or not (o1.get("approvalStatus") == "Approved" or (o1.get("approvalStatus") == "Not Required" and o1.get("status") == "Complete")):
         return "None - Primary Line 1 awaiting approval" if p1 else "None - no package"
     n = {r: sum(1 for l in lines if l["role"] == r) for r in ("Primary", "Supplementary", "Secondary")}
     out = []
-    if n["Primary"] < 2: out.append(f"Second Primary (Primary Line {n['Primary'] + 1})")
-    if n["Supplementary"] < 2: out.append(f"Supplementary (Supplementary Line {n['Supplementary'] + 1})")
-    out.append(f"Secondary (Secondary Line {n['Secondary'] + 1}; Kids Plan or Data-only Plan)")
+    # The free line (Second Primary) is offered first and alone; Supplementary and Secondary (paid) open once it is taken.
+    if n["Primary"] < 2:
+        return f"Second Primary (Primary Line {n['Primary'] + 1}; free line - paid lines open after it)"
+    if n["Supplementary"] < 2: out.append(f"Supplementary (Supplementary Line {n['Supplementary'] + 1}; paid)")
+    out.append(f"Secondary (Secondary Line {n['Secondary'] + 1}; paid; Kids Plan or Data-only Plan)")
     return "; ".join(out)
 
 

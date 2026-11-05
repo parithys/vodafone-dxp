@@ -1,0 +1,81 @@
+/*
+ * Tablet / touch experience. Everything here is scoped to [data-device='tablet'], which main.tsx sets on <html> only when the device has a
+ * touch screen (see lib/deviceType.ts), so a pointer device (web / desktop) never matches a rule in this file and renders exactly as before.
+ * The shared controls already grow through the tokens in tokens.css; this file covers what those tokens do not reach: finger-sized hit areas
+ * (44px, the touch-target minimum) for the small controls, and layouts that were sized for a pointer on a wide screen.
+ * It is unlayered on purpose: it must beat the utilities a call site puts on the same element (size-10, h-6 ...).
+ */
+
+/* ---- Touch targets: nothing a finger has to hit is smaller than 44px ---- */
+/* Header and navigation */
+[data-device='tablet'] .header-icon-btn,
+[data-device='tablet'] .header-count-pill,
+[data-device='tablet'] .nav-icon-tile {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+}
+[data-device='tablet'] .nav-search-input {
+  min-height: var(--touch-target);
+}
+[data-device='tablet'] a[aria-label='Vodafone - home'],
+[data-device='tablet'] .breadcrumb-back,
+[data-device='tablet'] nav[aria-label='Breadcrumb'] a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+}
+
+/* Table and list controls */
+[data-device='tablet'] .sort-button,
+[data-device='tablet'] .pager-button,
+[data-device='tablet'] .tab-segment,
+[data-device='tablet'] .pill-link,
+[data-device='tablet'] .on-dark-pill-btn,
+[data-device='tablet'] .btn-tertiary {
+  min-height: var(--touch-target);
+}
+[data-device='tablet'] .pager-button {
+  min-width: var(--touch-target);
+}
+[data-device='tablet'] .link-truncate {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+}
+[data-device='tablet'] .select-chevron-btn {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+}
+
+/* Small icon-only buttons (copy, clear ...) keep their look and get a finger-sized hit area around it. */
+[data-device='tablet'] button[aria-label^='Copy'] {
+  padding: 0.75rem;
+  margin: -0.75rem;
+}
+
+/* ---- Layout ---- */
+
+/* Dashboard tile grids were laid out on a six-column pointer grid whose spans leave uneven, orphaned cards on a tablet's narrower page.
+   On touch every card is the same width and the row wraps by the space available. */
+[data-device='tablet'] .tile-grid {
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+}
+[data-device='tablet'] .tile-grid > * {
+  grid-column: auto;
+}
+
+/* Side panels (approval, details): half the screen is fine on a wide display but leaves a portrait tablet's panel too narrow for its forms. */
+[data-device='tablet'] .drawer-panel {
+  width: max(50vw, min(36rem, 100vw));
+}
+
+/* Dialogs follow the visible viewport, so a docked on-screen keyboard or the browser toolbar never cuts the footer buttons off. */
+[data-device='tablet'] .modal-dialog {
+  max-height: 90dvh;
+}
+
+/* Touch behaviour: no double-tap zoom delay on controls, and no grey flash over a tapped element. */
+[data-device='tablet'] :is(button, a, label, select, input, textarea, summary, [role='button'], [role='tab']) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}

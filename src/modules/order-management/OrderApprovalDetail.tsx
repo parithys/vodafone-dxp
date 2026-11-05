@@ -735,7 +735,7 @@ export function OrderApprovalDetail() {
 
   // Missing Information sends the order back to its creator, who reopens it, adds what was asked for and resubmits. The comment says what is missing and is mandatory.
   const requestMissingInformation = async () => {
-    if (!authority.mayDecide || submittingRef.current || !missingComment.trim() || !isMissingInformationRequestMade(missingRequest)) return;
+    if (!authority.mayDecide || submittingRef.current || !missingComment.trim()) return;
     submittingRef.current = true;
     setSubmitting(true);
     try {
@@ -747,7 +747,8 @@ export function OrderApprovalDetail() {
         // Back to the agent who submitted it: they contact the customer and provide what was asked for.
         assignedApproverId: order.createdBy ?? null,
       });
-      await logActivity('Missing Information', `${missingComment.trim()} (Requested: ${requestSummary(missingRequest, order.attachments ?? [])})`);
+      const requested = requestSummary(missingRequest, order.attachments ?? []);
+      await logActivity('Missing Information', requested ? `${missingComment.trim()} (Requested: ${requested})` : missingComment.trim());
       pushToast('warning', `Order ${order.orderId} marked Missing Information.`, { detail: 'The agent who submitted it is notified and can add the documents and resubmit.' });
       setModal(null);
       setMissingRequest(emptyMissingInformationRequest());
@@ -944,7 +945,7 @@ export function OrderApprovalDetail() {
             The order goes back to the agent who submitted it, who can reopen it, add the documents you ask for and resubmit it for approval.
           </p>
           <fieldset className="space-y-2">
-            <legend className="title title-sm font-semibold">What Is Needed From The Agent (Select At Least One)</legend>
+            <legend className="title title-sm font-semibold">What Is Needed From The Agent (Optional)</legend>
             {(order.attachments ?? []).map((a, i) => (
               <label key={`${a.label}-${i}`} className="row-start gap-2 body-text">
                 <Checkbox
@@ -967,7 +968,7 @@ export function OrderApprovalDetail() {
         </div>
         <div className="actions-end mt-6">
           <Button variant="secondary" onClick={() => setModal(null)}>Cancel</Button>
-          <Button variant="primary" onClick={requestMissingInformation} disabled={!missingComment.trim() || !isMissingInformationRequestMade(missingRequest) || submitting}>
+          <Button variant="primary" onClick={requestMissingInformation} disabled={!missingComment.trim() || submitting}>
             Request Missing Information
           </Button>
         </div>

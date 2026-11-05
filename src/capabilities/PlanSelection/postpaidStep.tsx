@@ -1,3 +1,5 @@
+import { DEFAULT_SERVICE_OPTIONS } from '../../components/patterns/serviceOptions';
+import type { ServiceOptions } from '../../components/patterns/serviceOptions';
 import type { ReactNode } from 'react';
 import { PLAN_SELECTION_LABEL, ADDONS_DISCOUNTS_LABEL } from '../../data/stepLabels';
 import type { GuidedContactValue } from '../../components/patterns/guidedContactModel';
@@ -149,6 +151,8 @@ function renderPlanStep(
           }}
           billLimit={values.billLimit as number | undefined}
           billLimitMax={eligibility?.defaultCreditLimitQar}
+          serviceOptions={(values.serviceOptions as ServiceOptions | undefined) ?? DEFAULT_SERVICE_OPTIONS}
+          onServiceOptionsChange={(options) => setValue('serviceOptions', options)}
           onBillLimitChange={(amount, pass) => {
             setValue('billLimit', amount);
             setValue('billLimitPass', pass);

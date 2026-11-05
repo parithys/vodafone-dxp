@@ -339,18 +339,13 @@ export function CafSignatureCapture({
             </div>
           ) : (
             <>
-              {/* Full variant: marketing consent (ticked by default), then the terms, then the supplementary terms. */}
+              {/* Full variant: the marketing statement (text only, no checkbox), then the terms, then the supplementary terms. */}
               {fullTerms && (
                 <p className="body-text">
                   I understand that a copy of the Terms and Conditions will be delivered to the email I provided and verified.
                 </p>
               )}
-              {fullTerms && (
-                <label className="mt-3 row gap-2 cursor-pointer">
-                  <Checkbox checked={value.marketingConsent !== false} onChange={(e) => onChange({ ...value, marketingConsent: e.target.checked })} />
-                  <span className="body-text">I agree to receive marketing communications and special offers (Campaigns).</span>
-                </label>
-              )}
+              {fullTerms && <p className="body-text mt-5">I agree to receive marketing communications and special offers (Campaigns).</p>}
               {requireTermsAgreement && (
                 <label className="mt-3 row gap-2 cursor-pointer">
                   <Checkbox

@@ -55,6 +55,14 @@ export interface FamilyOrder {
   approvalStatus?: unknown;
 }
 
+/**
+ * Which lines a package includes at no charge: the Second Primary (Primary Line 2). Every other added line (Supplementary, Secondary) is paid, at its plan's price.
+ * (Business rule 2026-11-04: the free line is always offered first; paid lines open only once it is activated.)
+ */
+export const FREE_LINE = { role: 'Primary' as FamilyRole, sequence: 2 } as const;
+export const isFreeLine = (l: Pick<FamilyLine, 'role' | 'sequence'>): boolean => l.role === FREE_LINE.role && l.sequence === FREE_LINE.sequence;
+export type LineCharge = 'Free' | 'Paid';
+
 export const lineLabel = (l: Pick<FamilyLine, 'role' | 'sequence'>): string => `${l.role} Line ${l.sequence}`;
 
 /**
@@ -82,6 +90,9 @@ export function primaryLine1Activated(lines: readonly FamilyLine[], orders: read
   return Boolean(first) && isOrderApproved(orders.find((o) => o.orderId === first!.orderId));
 }
 
+/** The package's free line has not been taken yet (a line awaiting approval counts as taken). */
+export const freeLineOpen = (lines: readonly FamilyLine[]): boolean => !lines.some(isFreeLine);
+
 export type AddLineCheck =
   | { ok: true; role: FamilyRole; sequence: number; /** The plan the new line takes: Primary Line 1's for Second Primary, the Supplementary plan for Supplementary. Undefined where the agent chooses it (Primary Line 1, Secondary). */ planId: string | undefined }
   | { ok: false; reason: string };
@@ -102,6 +113,8 @@ export function canAddLine(lines: readonly FamilyLine[], orders: readonly Family
   const inRole = lines.filter((l) => l.role === role);
   const limit = FAMILY_ROLE_LIMITS[role];
   if (limit !== null && inRole.length >= limit) return { ok: false, reason: `This package already has its ${limit} ${role} lines.` };
+  // The free line comes first: a paid line is offered only once the package's free line has been activated.
+  if (role !== FREE_LINE.role && freeLineOpen(lines)) return { ok: false, reason: 'A free Second Primary Line is still available in this package. Activate it before any paid line.' };
   const planId = role === 'Primary' ? first.planId : role === 'Supplementary' ? catalogue.supplementaryPlanId : undefined;
   return { ok: true, role, sequence: inRole.reduce((n, l) => Math.max(n, l.sequence), 0) + 1, planId };
 }
@@ -155,6 +168,8 @@ export interface ConnectionOption {
   /** What the line will be called: "Primary Line 2", "Supplementary Line 1". */
   lineLabel: string;
   sequence: number;
+  /** Free (the package's included line) or Paid (the line's plan price). */
+  charge: LineCharge;
 }
 
 /**
@@ -166,8 +181,44 @@ export function connectionOptions(lines: readonly FamilyLine[], orders: readonly
   if (!primaryLine1Activated(lines, orders)) return [];
   return FAMILY_ROLES.flatMap((role) => {
     const c = canAddLine(lines, orders, role, catalogue);
-    return c.ok ? [{ role, label: CONNECTION_TYPE_LABEL[role], lineLabel: lineLabel({ role, sequence: c.sequence }), sequence: c.sequence }] : [];
+    return c.ok ? [{ role, label: CONNECTION_TYPE_LABEL[role], lineLabel: lineLabel({ role, sequence: c.sequence }), sequence: c.sequence, charge: isFreeLine({ role, sequence: c.sequence }) ? 'Free' as const : 'Paid' as const }] : [];
   });
+}
+
+export interface PackageSummary {
+  /** The package's Family Plan (Primary Line 1's). */
+  planId: string | undefined;
+  /** The lines on record, by type, each with its names ("Primary Line 1"). */
+  activated: { role: FamilyRole; label: string; count: number; lines: string[] }[];
+  /** What each type can still take: `remaining` is null where there is no limit. */
+  available: { role: FamilyRole; label: string; remaining: number | null }[];
+  /** The free lines still to be activated, and the paid types that open once they are (`paidOpen`). */
+  free: ConnectionOption[];
+  paid: ConnectionOption[];
+  /** The paid types the package could take, whether or not they are open yet (they open when no free line is left). */
+  paidTypes: { role: FamilyRole; label: string }[];
+  paidOpen: boolean;
+}
+
+/** The package as the agent is shown it when a customer who has one asks for another: what is on it, what is left, and which of that is free or paid. */
+export function packageSummary(lines: readonly FamilyLine[], orders: readonly FamilyOrder[], catalogue: LineCatalogue = {}): PackageSummary {
+  const open = connectionOptions(lines, orders, catalogue);
+  return {
+    planId: packagePlanId(lines),
+    activated: FAMILY_ROLES.flatMap((role) => {
+      const inRole = lines.filter((l) => l.role === role).sort((a, b) => a.sequence - b.sequence);
+      return inRole.length ? [{ role, label: role, count: inRole.length, lines: inRole.map(lineLabel) }] : [];
+    }),
+    available: FAMILY_ROLES.flatMap((role) => {
+      const limit = FAMILY_ROLE_LIMITS[role];
+      const used = lines.filter((l) => l.role === role).length;
+      return limit !== null && used >= limit ? [] : [{ role, label: CONNECTION_TYPE_LABEL[role], remaining: limit === null ? null : limit - used }];
+    }),
+    free: open.filter((o) => o.charge === 'Free'),
+    paid: open.filter((o) => o.charge === 'Paid'),
+    paidTypes: FAMILY_ROLES.filter((r) => r !== FREE_LINE.role && (FAMILY_ROLE_LIMITS[r] === null || lines.filter((l) => l.role === r).length < FAMILY_ROLE_LIMITS[r]!)).map((role) => ({ role, label: CONNECTION_TYPE_LABEL[role] })),
+    paidOpen: primaryLine1Activated(lines, orders) && !freeLineOpen(lines),
+  };
 }
 
 /**

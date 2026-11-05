@@ -24,9 +24,11 @@ import type { DeviceType } from '../../lib/deviceType';
 import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
 import { FamilyPackageNotice } from '../../components/patterns/FamilyPackageNotice';
 import { familyLineContextOf, familyStartFor } from './familyStart';
+import { FamilyCustomerRepair } from './FamilyCustomerRepair';
 import { FamilyPlanApplier } from '../../components/patterns/FamilyPackageNotice';
 import type { PostpaidPlan } from '../../components/patterns/postpaidPlanModel';
-import { SECONDARY_PLAN_CLASS } from '../../engines/familyPackage';
+import { SECONDARY_PLAN_CLASS, linesOfCustomer } from '../../engines/familyPackage';
+import { FamilyPackageActiveGate } from './FamilyPackageActiveGate';
 
 /** What the postpaid steps need from the journey: the plan catalogue and the customer's benefits. */
 export interface PostpaidStepContext {
@@ -97,9 +99,33 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
       const c = family(values);
       return Boolean(familyLineContextOf(values)) && c.applies && c.ok && Boolean(c.planId);
     },
-    headless: ({ values, setValue }) => <FamilyPlanApplier check={family(values)} productId={values.productId as string | undefined} setValue={setValue} />,
+    headless: ({ values, setValue }) => (
+      <>
+        <FamilyPlanApplier check={family(values)} productId={values.productId as string | undefined} setValue={setValue} />
+        {/* A package held by the customer's ID alone gets its customer record, so "add connections from Customer 360" has a customer to open. */}
+        <FamilyCustomerRepair lines={familyLines} values={values} setValue={setValue} />
+      </>
+    ),
     render: (c) => {
-      if (!familyLineContextOf(c.values)) return planBase.render(c);
+      if (!familyLineContextOf(c.values)) {
+        // A Family Plan for a customer who already has a package: show that package and carry on by adding a connection to it.
+        const held = family(c.values);
+        const owner = held.applies && !held.ok && held.kind === 'package' ? linesOfCustomer(familyLines, { customerId: (c.values.eligibility as { customerId?: string } | undefined)?.customerId, idNumber: (c.values.contact as { idNumber?: string } | undefined)?.idNumber })[0] : undefined;
+        return (
+          <>
+            {(owner?.customerId ?? (c.values.eligibility as { customerId?: string } | undefined)?.customerId) && (
+              <FamilyPackageActiveGate
+                customerId={(owner?.customerId ?? (c.values.eligibility as { customerId?: string } | undefined)?.customerId)!}
+                onAdd={(familyLine) => {
+                  c.setValue('familyLine', familyLine);
+                  c.setValue('productId', undefined);
+                }}
+              />
+            )}
+            {planBase.render(c)}
+          </>
+        );
+      }
       const k = family(c.values);
       return (
         <>

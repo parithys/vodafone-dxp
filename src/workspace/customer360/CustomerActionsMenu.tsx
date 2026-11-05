@@ -15,16 +15,11 @@ import { journeyIcon } from '../../assets/icons/journeyIcons';
 import { serviceActionsFor, type ServiceFacts } from '../../navigation/serviceActions';
 import { reachableCategories, type Journey } from '../../navigation/journeyCatalogue';
 import { usePersonaStore } from '../../stores/personaStore';
-import { AddConnectionModal } from '../../capabilities';
-import { existingCustomerPath } from '../../navigation/journeyPaths';
-import { useFamilyConnections } from './useFamilyConnections';
-import { useCanStartNewConnection } from './useStartNewConnection';
 import { appliesToCustomer, launchFor, launchJourney, resolveAction, serviceKind, type LaunchContext } from '../../navigation/customerLaunch';
 import { CHEVRON_DOWN, PLUS_ICON } from '../../assets/icons';
 
 const PRODUCT_LINES = new Set(['mobile', 'fibre-home']);
 const HUB_KEY = 'new-connections';
-const FAMILY_ADD_KEY = 'family-add-connection';
 
 /** Closes the menu on an outside click or Escape. */
 function useDismiss(open: boolean, close: () => void, onEscape?: () => void) {
@@ -205,9 +200,6 @@ function MenuPanel({
  * sees here what it sees in the side navigation. Items that act on a kind of service (mobile line, fibre / home
  * service) appear only when the customer holds one; New Connections and Support always do.
  *
- * A customer with a Family Package also gets a Family Package group first: Add Another Connection opens the dialog that starts the chosen type for the
- * package (listed for a role that may start a postpaid connection; dimmed while Primary Line 1 awaits approval or nothing more can be added).
- *
  * New Connections opens the hub, whose cards start each journey for this customer (the Existing Customer flow); Support
  * & Requests opens the Tickets & Support tab (when the layout has one); the others open their product-line page for
  * this customer.
@@ -233,31 +225,8 @@ export function CustomerActionsMenu({
     triggerOf(ref).current?.focus();
   };
   const run = useActionRunner(onSupport);
-  const navigate = useNavigate();
   const groups = useGroups((c) => appliesToCustomer(c.key, services));
-  // A customer with a Family Package can have another connection added to it from here: Second Primary, Supplementary or Secondary, as the dialog offers them.
-  const family = useFamilyConnections(customerId);
-  const canStart = useCanStartNewConnection();
-  const [addOpen, setAddOpen] = useState(false);
-  const familyGroup: MenuGroup[] =
-    family.hasPackage && canStart
-      ? [
-          {
-            key: 'family-package',
-            label: 'Family Package',
-            children: [
-              {
-                key: FAMILY_ADD_KEY,
-                label: 'Add Another Connection',
-                icon: PLUS_ICON,
-                disabled: family.options.length === 0,
-                hint: family.activated ? 'Nothing to add' : 'Awaiting approval',
-              },
-            ],
-          },
-        ]
-      : [];
-  if ((groups.length === 0 && familyGroup.length === 0) || !customerId) return null;
+  if (groups.length === 0 || !customerId) return null;
   const primaryMobile = services?.find((s) => serviceKind(s) === 'mobile');
   const launch = launchFor(customerId, customerName, undefined, primaryMobile?.identifier);
   return (
@@ -272,18 +241,13 @@ export function CustomerActionsMenu({
           id={menuId}
           onClose={closeAndRefocus}
           label="Customer Actions"
-          groups={[...familyGroup, ...groups.map((g) => ({ key: g.line.key, label: g.line.label, children: g.children }))]}
+          groups={groups.map((g) => ({ key: g.line.key, label: g.line.label, children: g.children }))}
           onPick={(child) => {
             setOpen(false);
-            if (child.key === FAMILY_ADD_KEY) {
-              setAddOpen(true);
-              return;
-            }
             run(groups.flatMap((g) => g.children).find((c) => c.key === child.key)!, launch);
           }}
         />
       )}
-      <AddConnectionModal open={addOpen} onClose={() => setAddOpen(false)} customerId={customerId} onStart={(familyLine) => navigate(existingCustomerPath(customerId), { state: { startFresh: true, familyLine } })} />
     </div>
   );
 }

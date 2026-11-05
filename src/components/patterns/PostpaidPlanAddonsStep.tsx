@@ -1,3 +1,5 @@
+import { Checkbox } from '../primitives/Checkbox';
+import type { ServiceOptions } from './serviceOptions';
 import { EmptyState } from '../primitives/EmptyState';
 import { defaultBillLimitQar } from '../../engines/postpaidPricing';
 import { type CustomerBenefit } from '../../engines/customerBenefitEngine';
@@ -13,6 +15,12 @@ import { PlanDetailsDrawer } from './PlanDetailsDrawer';
 import { usePostpaidPlanAddons } from './usePostpaidPlanAddons';
 import type { AddonBillingFrequency } from '../../engines/addonCategories';
 
+
+const SERVICE_OPTIONS: { key: keyof ServiceOptions; label: string }[] = [
+  { key: 'dnd', label: 'Enable Do Not Disturb (DND)' },
+  { key: 'dob', label: 'Allow Direct Operator Billing (DOB)' },
+  { key: 'vas', label: 'Enable Value-Added Services (VAS)' },
+];
 
 interface PostpaidPlanAddonsStepProps {
   /** 'plan': choose the plan only. 'extras': the chosen plan's add-ons, bill limit, discounts and monthly summary. Default 'all' (both together). */
@@ -35,6 +43,9 @@ interface PostpaidPlanAddonsStepProps {
   onBillLimitChange: (value: number, pass: boolean) => void;
   /** The credit limit the bill limit may not exceed. */
   billLimitMax?: number;
+  /** The line's service options (DND, DOB, VAS), all on unless the agent unticks one. Omit to hide them. */
+  serviceOptions?: ServiceOptions;
+  onServiceOptionsChange?: (options: ServiceOptions) => void;
   /** The Paid / Free add-on filter, owned by the step's header (see postpaidExtrasStep). */
   /** Agent 360... no - Agent 360 doesn't apply here; this is BR-076's
    * eligibility-derived default (EligibilityGateStep), shown read-only so
@@ -78,6 +89,8 @@ export function PostpaidPlanAddonsStep({
   billLimit,
   onBillLimitChange,
   billLimitMax,
+  serviceOptions,
+  onServiceOptionsChange,
   customerBenefit,
   specialDiscountType,
   customerBenefits,
@@ -254,6 +267,18 @@ export function PostpaidPlanAddonsStep({
             {mode === 'extras' && selectedPlan && selectionSource === 'PLAN' && !preBundled && (
               <div className="border-t border-[var(--field-card-border)] pt-6">
                 <BillLimitEditor product="Mobile" layout="row" bare value={billLimit ?? defaultBillLimitQar(selectedPlan.mrcQAR, billLimitMax)} onChange={onBillLimitChange} maxLimit={billLimitMax} />
+              </div>
+            )}
+            {mode === 'extras' && selectedPlan && selectionSource === 'PLAN' && !preBundled && serviceOptions && onServiceOptionsChange && (
+              <div className="border-t border-[var(--field-card-border)] pt-6">
+                <div className="stack gap-3">
+                {SERVICE_OPTIONS.map((o) => (
+                  <label key={o.key} className="row-start cursor-pointer">
+                    <Checkbox checked={serviceOptions[o.key]} onChange={(e) => onServiceOptionsChange({ ...serviceOptions, [o.key]: e.target.checked })} />
+                    <span className="text-fg">{o.label}</span>
+                  </label>
+                ))}
+                </div>
               </div>
             )}
           </>
