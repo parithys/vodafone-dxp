@@ -18,8 +18,24 @@ import type { EligibilityResult } from '../../components/domain/eligibilityTypes
 /** Step keys New Connection collects once, before Recommended Offers. */
 const SHARED_KEYS = ['address', 'billingAccount'];
 import { productCardsStep, productStep } from './steps/productStep';
+import { IdTypeApprovalNotice } from './steps/IdTypeApprovalNotice';
 import { homeKindStep } from './steps/HomeKindStep';
 import type { ProductStepContext } from './steps/ProductSelection';
+
+/**
+ * Lets the page after a Recommended Offer carry the ID type's approval notice (see IdTypeApprovalNotice): every product step can be that page, and only the first to
+ * render shows it.
+ */
+const withIdTypeNotice = (steps: WizardStep[]): WizardStep[] =>
+  steps.map((s) => ({
+    ...s,
+    render: (c) => (
+      <>
+        <IdTypeApprovalNotice stepKey={s.key} values={c.values} setValue={c.setValue} />
+        {s.render(c)}
+      </>
+    ),
+  }));
 
 /** Everything the steps of a New Connection journey need from it (`journey`: New Connection or New Home Connection). */
 export interface ConnectionStepContext extends QualificationContext, ProductStepContext, PostpaidStepContext {
@@ -35,7 +51,7 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
   // New Home Connection is the same journey with only the home products: Identification, Product Selection (Fibre, Fixed-Line,
   // FWA, 5G Home), then the home steps.
   if (ctx.journey === 'home') {
-    return [customerQualificationStep({ ...ctx, productAgnostic: true }), productStep(ctx), ...forProduct('fixed-line', fixedLineSteps())];
+    return [customerQualificationStep({ ...ctx, productAgnostic: true, journeyChosenLater: true }), productStep(ctx), ...forProduct('fixed-line', withIdTypeNotice(fixedLineSteps()))];
   }
   // The Address and the Billing Profile are collected once, after Customer Verification and BEFORE Recommended Offers, for every product:
   // each product's own list drops its copy (a product that has no billing profile skips the shared one, see otherBilling below).
@@ -76,7 +92,7 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
   const postpaidInOrder = billingIndex === -1 ? postpaid : [...postpaid.slice(0, billingIndex), postpaidBilling, ...postpaid.slice(billingIndex)];
   return [
     // Identification is the same for every product: scan, MOI, the eligibility checks common to all, special discounts.
-    customerQualificationStep({ ...ctx, productAgnostic: true }),
+    customerQualificationStep({ ...ctx, productAgnostic: true, journeyChosenLater: true }),
     serviceAddressStep({
       mode: 'structured',
       autoPass: true,
@@ -93,9 +109,9 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
     otherBilling,
     productStep(ctx),
     productCardsStep(ctx),
-    ...forProduct('postpaid', postpaidInOrder),
-    ...forProduct('prepaid', shared(prepaidSteps(ctx))),
-    ...forProduct('fixed-line', [homeKindStep(ctx), ...installation]),
-    ...forProduct('mnp', shared(mnpSteps(ctx))),
+    ...forProduct('postpaid', withIdTypeNotice(postpaidInOrder)),
+    ...forProduct('prepaid', withIdTypeNotice(shared(prepaidSteps(ctx)))),
+    ...forProduct('fixed-line', withIdTypeNotice([homeKindStep(ctx), ...installation])),
+    ...forProduct('mnp', withIdTypeNotice(shared(mnpSteps(ctx)))),
   ];
 }

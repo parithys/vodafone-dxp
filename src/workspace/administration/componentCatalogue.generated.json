@@ -132,6 +132,17 @@
   "files": 1
  },
  {
+  "name": "IdTypeApprovalNotice",
+  "category": "Alerts, notifications, badges and tags",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/new-connection/steps/IdTypeApprovalNotice.tsx"
+  ],
+  "area": "modules/new-connection (1)",
+  "files": 1
+ },
+ {
   "name": "JourneyCustomerBadge",
   "category": "Alerts, notifications, badges and tags",
   "layer": "Capability",
@@ -2313,8 +2324,8 @@
   "paths": [
    "src/components/domain/EligibilityRows.tsx"
   ],
-  "area": "capabilities/EligibilityGate (2), capabilities/PlanSelection (1)",
-  "files": 3
+  "area": "capabilities/EligibilityGate (2), capabilities/PlanSelection (1), modules/new-connection (1)",
+  "files": 4
  },
  {
   "name": "Field",

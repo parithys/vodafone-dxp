@@ -109,6 +109,12 @@ export interface EligibilityContext {
    * differ by product and are only meaningful once one is chosen.
    */
   scope?: 'common' | 'product';
+  /**
+   * The journey is not known yet (the shared Contact page of New Connection, which serves Postpaid, Prepaid, Home, Fixed Line and MNP): whether the ID type needs approval
+   * depends on the journey (a Passport is approved on postpaid and free on prepaid), so the ID-type check is NOT judged here at all - there is no row for it. The product
+   * stage judges it once the journey is identified.
+   */
+  deferIdTypeRouting?: boolean;
   /** An MNP port-in: adds the outstanding-dues threshold check (BR-MNP-024), which no other product has. */
   portIn?: boolean;
   /** The port-in dues threshold in QAR; defaults to the configured one (none is defined yet, see data/portInRules). */
@@ -252,7 +258,7 @@ export function evaluateEligibilityChecks(ctx: EligibilityContext, asOf: Date): 
   const routed = prepaid ? presentedIdType === 'Other ID' : EXCEPTION_ROUTED_ID_TYPES.has(presentedIdType);
   // A postpaid Passport goes to the submitter's manager rather than Credit Control, when the journey names that manager.
   const passportToManager = routed && !prepaid && presentedIdType === 'Passport' && Boolean(ctx.passportApprover);
-  checks.push({
+  if (!ctx.deferIdTypeRouting) checks.push({
     id: 'id-type-routing',
     // One result for the ID type's approval (2026-10-22): Credit Control. The passport BAU approval the line rules also derive is the same
     // requirement, so the Active Lines check below does not repeat it.

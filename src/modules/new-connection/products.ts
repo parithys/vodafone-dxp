@@ -88,7 +88,7 @@ export const PRODUCT_OWNED_KEYS = [
   'installation', 'devices', 'appointment',
   'donorDetails', 'donorAttachment', 'comments',
   'checkoutTotals', 'cafSummary', 'legalFacts', 'caf', 'payment',
-  'homeProduct', 'actualUser',
+  'homeProduct', 'actualUser', 'idTypeNotice',
 ] as const;
 
 /** Wraps a product's steps so they are active only while that product is chosen (and, for each, its own `skip` as well). */

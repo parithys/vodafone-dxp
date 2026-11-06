@@ -54,6 +54,8 @@ export interface EligibilityResult {
   connectionType?: ConnectionType;
   /** The line-count rules were not judged (Customer Verification before a product is chosen); Product Selection judges them. Such a result is never reused as the product's. */
   lineLimitSkipped?: boolean;
+  /** The ID type was not judged (Customer Verification before the journey is known); the product stage judges it. Such a result is never reused as the product's. */
+  idTypeDeferred?: boolean;
   requestKind?: RequestKind;
   /**
    * The Connection Eligibility & Approval Rule Engine's decision for this customer and connection (line counts against the limits, the approvals

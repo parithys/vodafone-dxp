@@ -91,6 +91,8 @@ interface EligibilityGateStepProps {
    * 'product' (default): the full set for `journeyType`, once the agent has chosen the product.
    */
   scope?: 'common' | 'product';
+  /** The journey is not known yet, so the ID type's approval (which depends on it) is not judged here: see EligibilityContext.deferIdTypeRouting. */
+  deferIdTypeRouting?: boolean;
   /** An MNP port-in: adds the outstanding-dues check (BR-MNP-024). */
   portIn?: boolean;
   /**
@@ -134,6 +136,7 @@ export function EligibilityGateStep({
   exceptionRequested = false,
   passportApprover,
   scope = 'product',
+  deferIdTypeRouting = false,
   portIn = false,
   showRow,
   onProceedToApproval,
@@ -170,7 +173,7 @@ export function EligibilityGateStep({
   // A cached result for THIS identity. Computed during render rather than in
   // an effect so the first paint on re-entry already shows the rows.
   const cached =
-    result && idNumber && result.idNumber === idNumber && (result.scope ?? 'product') === scope && (result.journeyType ?? 'postpaid') === journeyType && Boolean(result.portIn) === portIn && Boolean(result.lineLimitSkipped) === skipLineLimit && Boolean(result.under18Exception) === exceptionChosen && (result.connectionType ?? (journeyType === 'prepaid' ? 'MOBILE_PREPAID' : 'MOBILE_POSTPAID')) === requestedType && (result.requestKind ?? 'NEW_ACTIVATION') === requestKind
+    result && idNumber && result.idNumber === idNumber && (result.scope ?? 'product') === scope && (result.journeyType ?? 'postpaid') === journeyType && Boolean(result.portIn) === portIn && Boolean(result.lineLimitSkipped) === skipLineLimit && Boolean(result.idTypeDeferred) === deferIdTypeRouting && Boolean(result.under18Exception) === exceptionChosen && (result.connectionType ?? (journeyType === 'prepaid' ? 'MOBILE_PREPAID' : 'MOBILE_POSTPAID')) === requestedType && (result.requestKind ?? 'NEW_ACTIVATION') === requestKind
       ? result
       : undefined;
 
@@ -357,6 +360,7 @@ export function EligibilityGateStep({
           activeLinesDetail: lineCap.message ?? '',
           journeyType,
           scope,
+          deferIdTypeRouting,
           portIn,
           passportApprover,
           under18Exception: under18ExceptionOffered({ journey: exceptionJourney ?? journeyType, personaId, idType: doc.documentType ?? match.idType }) ? (exceptionChosen ? 'chosen' : 'available') : undefined,
@@ -401,6 +405,7 @@ export function EligibilityGateStep({
         lineCapExceeded: decision ? decision.outcome !== 'ALLOW' : !lineCap.pass,
         connectionType: requestedType,
         lineLimitSkipped: skipLineLimit,
+        idTypeDeferred: deferIdTypeRouting,
         requestKind,
         connectionDecision: decision ?? undefined,
         requiresHrnAdvance: hrnFlag,

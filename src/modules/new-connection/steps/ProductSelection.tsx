@@ -12,6 +12,7 @@ import { HOME_PRODUCT_ICON } from './homeProductIcon';
 import { clearAndQuiet, handOverToJourney, productEligibilityClear, selectProduct } from './productChoice';
 import { ProductEligibility } from './ProductEligibility';
 import { StartCards } from './StartCards';
+import { ID_TYPE_NOTICE, idTypeApprovalOf } from './idTypeNotice';
 import { HOME_PRODUCTS, IN_JOURNEY_OFFERS, PRODUCTS, PRODUCT_OF_OFFER_JOURNEY, homeProductOfOffer, mnpTypeOfOffer } from '../products';
 import type { HomeProduct, MnpType, ConnectionProduct } from '../products';
 import type { ConnectionJourney } from '../newConnectionModel';
@@ -70,6 +71,8 @@ export function ProductSelection({
   const advance = values.productPreselected === true && Boolean(product) && (values.advanceOnApproval === true ? productEligibilityClear(values, { requireHomeKind: homeJourney }) : clearAndQuiet(values, { requireHomeKind: homeJourney }));
   useEffect(() => {
     if (!advance || new URLSearchParams(window.location.search).get('mirror') === '1') return;
+    // A Recommended Offer moves on at once, so the ID type's approval (judged now the journey is known) cannot be read on this page: the page it lands on says it.
+    if (values.advanceOnApproval === true && idTypeApprovalOf(eligibility)) setValue(ID_TYPE_NOTICE, true);
     setValue('productPreselected', false);
     setValue('advanceOnApproval', false);
     goNext();

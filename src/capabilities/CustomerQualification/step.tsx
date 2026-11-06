@@ -47,6 +47,11 @@ export interface QualificationContext {
    */
   productAgnostic?: boolean;
   /**
+   * This Contact page is common to several journeys and the journey is identified only AFTER it (New Connection: Postpaid, Prepaid, MNP, Fixed Line, Home): the ID type's
+   * approval depends on the journey, so it is not judged here at all. The product stage judges it once the agent has chosen a Recommended Offer or a journey.
+   */
+  journeyChosenLater?: boolean;
+  /**
    * The journey acts on a customer the business already has (Change Postpaid Plan, Change Prepaid Pack, Add Add-On, Prepaid to Postpaid): whoever
    * the scanned ID belongs to is looked up as the existing customer, not handled as a new one. The default (a New Customer journey) handles them as new.
    */
@@ -74,7 +79,7 @@ export function under18RequestHolds(values: Record<string, unknown>): boolean {
   return docs.some((d) => d.id === req.documentId);
 }
 
-export function customerQualificationStep({ flow, existingCustomerId, guardedContactChange, journeyType = 'postpaid', manualEntry, productAgnostic = false, knownCustomer = false, knownCustomerId, skipLineLimit = false, requestKind }: QualificationContext): WizardStep {
+export function customerQualificationStep({ flow, existingCustomerId, guardedContactChange, journeyType = 'postpaid', manualEntry, productAgnostic = false, journeyChosenLater = false, knownCustomer = false, knownCustomerId, skipLineLimit = false, requestKind }: QualificationContext): WizardStep {
   const prepaid = journeyType === 'prepaid';
   return {
     key: 'contact',
@@ -136,6 +141,8 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
             // approval, the active-line limit, collections and the rest. (Prepaid and MNP judge a few of them differently once the product
             // is chosen; Product Selection re-judges those.)
             scope="product"
+            // The journey is not known yet: the ID type's approval depends on it, so it is judged at the product stage, not here.
+            deferIdTypeRouting={journeyChosenLater}
             // Only once MOI has validated the ID (after Fetch) - an unfetched or
             // OCR-misread number must not be run through eligibility.
             idNumber={contact?.moiResult ? contact.idNumber : undefined}
