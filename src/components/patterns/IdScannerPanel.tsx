@@ -31,6 +31,7 @@ export function IdScannerPanel({
   scanBudgetSpent,
   onVerify,
   verifying,
+  manualEntryNotice,
 }: {
   value: IdLookupValue;
   onChange: (v: IdLookupValue) => void;
@@ -53,6 +54,8 @@ export function IdScannerPanel({
   /** Passport on web: "Initiate scan" - read the scanned passport and validate it against MOI (see passportVerifiesOnDemand). */
   onVerify?: () => void;
   verifying?: boolean;
+  /** What typing the ID by hand means in THIS journey (e.g. that it needs approval). The shared panel states no journey rule of its own: absent, it says nothing about it. */
+  manualEntryNotice?: string;
 }) {
   return (
     <div className="space-y-2">
@@ -161,7 +164,7 @@ export function IdScannerPanel({
             ? [
                 'We could not read the document after the permitted attempts.',
                 'Select the ID type and enter the number manually to continue.',
-                "Manual entry requires Store Manager's approval for activation.",
+                ...(manualEntryNotice ? [manualEntryNotice] : []),
               ]
             : undefined
         }

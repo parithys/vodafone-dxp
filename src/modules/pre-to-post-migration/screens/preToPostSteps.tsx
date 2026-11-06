@@ -6,7 +6,7 @@ import {
   customerQualificationStep,
   lineSelectionStep,
   paymentStep,
-  postpaidExtrasStep,
+  postpaidAddonsStep,
   postpaidPlanStep,
 } from '../../../capabilities';
 import type { QualificationContext } from '../../../capabilities';
@@ -35,7 +35,7 @@ export function preToPostSteps(
     }),
     billingStep(),
     postpaidPlanStep(planContext),
-    postpaidExtrasStep(planContext),
+    postpaidAddonsStep(),
     checkoutSummaryStep(),
     cafSignatureStep({ variant: 'full' }),
     paymentStep({ zeroValueReceipt: true, submitOnPaid: true }),

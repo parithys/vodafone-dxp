@@ -59,7 +59,7 @@ test('the type-ahead lists matches by name first, then by other details; with no
 });
 
 test('the search is the same on every tab: the list filter and the type-ahead both use it', () => {
-  const hook = fs.readFileSync('src/components/patterns/usePostpaidPlanAddons.ts', 'utf8');
+  const hook = fs.readFileSync('src/components/patterns/usePostpaidPlans.ts', 'utf8');
   assert.match(hook, /return planMatchesSearch\(p, planSearch\);/);
   assert.match(hook, /searchPlans\(planSearch, tabPlans\)/);
   // tabPlans is the active tab's plans, so Standard Plans, Special Offers and Offers all search their own.

@@ -33,7 +33,7 @@ export interface Product {
   /** A nationality promotion: offered only to these nationalities (see isPlanOfferedTo). */
   eligibleNationalities?: string[];
   starNumberEntitlementQar?: number;
-  /** See PostpaidPlanAddonsStep's PostpaidPlan.preBundledOffer for what this
+  /** See postpaidPlanModel's PostpaidPlan.preBundledOffer for what this
    * drives - the 'plan' step's autoAdvanceWhen below is the other half. */
   preBundledOffer?: boolean;
   /** What puts a plan on the Offers tab of Offers & Plans (see isOffersTabPlan). */

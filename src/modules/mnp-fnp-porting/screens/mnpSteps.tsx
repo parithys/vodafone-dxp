@@ -1,7 +1,7 @@
 import type { WizardStep } from '../../../components/patterns/wizard/guidedWizardTypes';
 import * as sums from '../../../components/patterns/wizard/commonSummaries';
 import { attachSummaries } from '../../../components/patterns/wizard/stepSummary';
-import { billingStep, cafSignatureStep, checkoutSummaryStep, paymentStep, prepaidCheckoutStep, planSelectionStep, postpaidExtrasStep, postpaidPlanStep, prepaidExtrasStep, serviceAddressStep, simSerialStep } from '../../../capabilities';
+import { billingStep, cafSignatureStep, checkoutSummaryStep, paymentStep, prepaidCheckoutStep, planSelectionStep, postpaidAddonsStep, postpaidPlanStep, prepaidAddonsStep, serviceAddressStep, simSerialStep } from '../../../capabilities';
 import type { PostpaidStepContext } from '../../new-connection/postpaidSteps';
 import { mnpPlanTypeStep } from '../../new-connection/steps/MnpPlanTypeStep';
 import type { ProductStepContext } from '../../new-connection/steps/ProductSelection';
@@ -71,10 +71,10 @@ export function mnpSteps(ctx: ProductStepContext & Partial<Pick<PostpaidStepCont
     simSerialStep(),
     // The same Plan and Add-ons steps as New Mobile Postpaid: plan cards, add-ons, eligible discounts, bill limit.
     postpaidOnly(postpaidPlanStep(planContext)),
-    postpaidOnly(postpaidExtrasStep(planContext)),
+    postpaidOnly(postpaidAddonsStep()),
     { ...prepaidOnly(planSelectionStep({ kind: 'prepaid', label: 'Prepaid Packs', segment: (values) => (values.eligibility as EligibilityResult | undefined)?.segment })), summary: sums.planSummary() },
     {
-      ...prepaidOnly(prepaidExtrasStep({ segment: (values) => (values.eligibility as EligibilityResult | undefined)?.segment })),
+      ...prepaidOnly(prepaidAddonsStep()),
       summary: [
         { key: 'discount', label: 'Discount', type: 'select', optional: true, labelFrom: { kind: 'addons-discounts', idField: 'addonDiscountId', labelField: 'name' }, value: (v) => v.discountId },
         { key: 'addons', label: 'Add-Ons', type: 'multi', optional: true, labelFrom: { kind: 'addons-discounts', idField: 'addonDiscountId', labelField: 'name' }, value: (v) => v.addonIds },

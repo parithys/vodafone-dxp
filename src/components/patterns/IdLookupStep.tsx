@@ -62,6 +62,8 @@ interface IdLookupStepProps {
   manualEntry?: boolean;
   /** Offer to create a new customer when no registry knows the ID (QID, Passport, Diplomatic ID). Default true; a journey bound to a customer never offers it. */
   allowNewCustomer?: boolean;
+  /** What typing the ID by hand means in the journey (its own rule, e.g. needing approval), said under the scanner once the scan attempts are used up. Absent: not said. */
+  manualEntryNotice?: string;
   /**
    * Scan -> verify -> Fetch (2026-09-30), OPT-IN for the same reason as
    * autoDetectIdType. What the agent does depends on the pass over the reader
@@ -105,7 +107,7 @@ interface IdLookupStepProps {
 // restriction carried over from the 66-persona model's PERSONA-001 ("cannot
 // manually enter ID details, only re-scan/search") - only the lookup ID
 // number itself is directly editable.
-export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allowedIdTypes, unavailableIdTypes, unavailableIdTypesHint, autoDetectIdType = false, manualEntry = false, allowNewCustomer = true, verifyThenFetch = false, asNewCustomer = false, asCustomerId, unbound = false, scanAsCustomerId, hideMoiBadge = false }: IdLookupStepProps) {
+export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allowedIdTypes, unavailableIdTypes, unavailableIdTypesHint, autoDetectIdType = false, manualEntry = false, allowNewCustomer = true, verifyThenFetch = false, asNewCustomer = false, asCustomerId, unbound = false, scanAsCustomerId, hideMoiBadge = false, manualEntryNotice }: IdLookupStepProps) {
   const {
     loading,
     notFound,
@@ -208,6 +210,7 @@ export function IdLookupStep({ value = {}, onChange, showMoiDetails = true, allo
       handleRetakeDone={handleRetakeDone}
       handleDemoScan={handleDemoScan}
       scanBudgetSpent={scanBudgetSpent}
+      manualEntryNotice={manualEntryNotice}
       onVerify={verifyOnDemand ? startVerification : undefined}
       verifying={verifyRequested && !value.moiResult && !notFound && !reconciliation && !linkProblem && !ownerMismatch}
     />

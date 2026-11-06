@@ -12,9 +12,12 @@ export function CustomiseAddonsAction({
   preBundled,
   setCustomise,
   goNext,
+  available = true,
 }: {
   productId: string | undefined;
   preBundled: boolean;
+  /** False when the chosen plan or pack has nothing to customise: no button (the Addons page would be empty). Default true. */
+  available?: boolean;
   setCustomise: () => void;
   goNext: () => void;
 }) {
@@ -26,7 +29,7 @@ export function CustomiseAddonsAction({
     // goNext is recreated each render; `going` is what bounds this.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [going]);
-  if (!productId || preBundled) return null;
+  if (!productId || preBundled || !available) return null;
   return (
     <Button
       variant="secondary"

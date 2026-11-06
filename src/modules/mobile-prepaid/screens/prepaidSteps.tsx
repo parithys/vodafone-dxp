@@ -8,7 +8,7 @@ import {
   numberSelectionStep,
   paymentStep,
   planSelectionStep,
-  prepaidExtrasStep,
+  prepaidAddonsStep,
   prepaidCartStep,
   prepaidCheckoutStep,
   rechargeSelectionStep,
@@ -56,7 +56,7 @@ export function prepaidSteps({ device }: { device: DeviceType }): WizardStep[] {
         skip: offerAccepted,
       },
       {
-        ...prepaidExtrasStep({ segment: (values) => (values.eligibility as EligibilityResult | undefined)?.segment }),
+        ...prepaidAddonsStep(),
         skip: offerAccepted,
       },
       // BRSD V0.3 Prepaid Recharge Selection. Whether a recharge is mandatory is a persona rule the BRSD leaves open, so it is optional here.

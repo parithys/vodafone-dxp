@@ -119,20 +119,21 @@
     "entry": "PlanSelection",
     "stepBuilders": [
       "planSelectionStep",
-      "prepaidExtrasStep",
       "postpaidPlanStep",
-      "postpaidExtrasStep",
       "fixedPlanSelectionStep"
     ],
     "stepLabel": "PLAN_SELECTION_LABEL",
-    "summary": "Choose the plan: postpaid plan cards then Add-ons (discounts, bill limit), prepaid packs then Add-ons, or the fixed-line / fibre plan cards with the credit check. The line's current plan or pack can be left out of the choices when a journey changes it.",
+    "summary": "Choose the plan: postpaid plan cards under the Offers / Standard Plans / Special Offers tabs (Special Offers when a Special Discount is validated) with search, the plan-type filter and plan details, and Edit Discount; prepaid packs with Customise Add-ons and Edit Discount; or the fixed-line / fibre plan cards with the credit check. The line's current plan or pack can be left out of the choices when a journey changes it. Recommended Offers is its own capability, the step before this one; the plan's add-ons are the Add-Ons capability's own page.",
     "parts": [
       "capabilities/PlanSelection/AdditionalPlanPicker.tsx",
-      "components/patterns/PostpaidPlanAddonsStep.tsx",
+      "components/patterns/PostpaidPlanStep.tsx",
+      "components/patterns/usePostpaidPlans.ts",
       "components/patterns/PrepaidPlanStep.tsx",
       "components/patterns/FixedPlanStep.tsx",
       "components/patterns/PostpaidPlanCard.tsx",
-      "components/patterns/PlanGroupPanel.tsx"
+      "components/patterns/PlanGroupPanel.tsx",
+      "capabilities/PlanSelection/AddDiscountAction.tsx",
+      "capabilities/PlanSelection/PrepaidPackActions.tsx"
     ],
     "previewable": true,
     "publicApi": []
@@ -323,16 +324,24 @@
   },
   {
     "id": "addons-selection",
-    "name": "Add-ons selection",
+    "name": "Add-Ons",
     "status": "consolidated",
     "home": "capabilities/AddonsSelection",
-    "entry": "AddonsPicker",
+    "entry": "AddonsSelection",
     "stepBuilders": [
+      "postpaidAddonsStep",
+      "prepaidAddonsStep",
       "addonsSelectionStep"
     ],
-    "stepLabel": null,
-    "summary": "Add-on rows for a plan or prepaid pack, with included-benefit handling; on its own (Add Add-On) as a step that needs at least one add-on.",
-    "parts": [],
+    "stepLabel": "ADDONS_DISCOUNTS_LABEL",
+    "summary": "The Addons page, its own capability beside Plan Selection and built the same way for postpaid and prepaid: a postpaid plan's add-ons under category tabs (Local Data, Local Minutes, International, Roaming, Combo, Others, Frequently Used) with Paid and Free side by side, billing frequency, the Multi-SIM maximum and, where the journey sets them, the Bill Limit and service options; a prepaid pack's add-ons (one list - prepaid add-ons carry no category); or on its own (Add Add-On) as a step that needs at least one add-on.",
+    "parts": [
+      "capabilities/AddonsSelection/AddonsPicker.tsx",
+      "capabilities/AddonsSelection/PostpaidAddonsStep.tsx",
+      "capabilities/AddonsSelection/PrepaidAddonsStep.tsx",
+      "capabilities/AddonsSelection/useSelectedPostpaidPlan.ts",
+      "capabilities/AddonsSelection/usePackHasAddons.ts"
+    ],
     "previewable": true,
     "publicApi": []
   },
@@ -386,7 +395,7 @@
   },
   {
     "id": "cross-sell-offers",
-    "name": "Cross-Sell Offers",
+    "name": "Recommended Offers",
     "status": "consolidated",
     "home": "capabilities/CrossSellOffers",
     "entry": "CrossSalesStep",

@@ -7,7 +7,7 @@ import {
   checkoutSummaryStep,
   numberSelectionStep,
   paymentStep,
-  postpaidExtrasStep,
+  postpaidAddonsStep,
   postpaidPlanStep,
   serviceAddressStep,
   simTypeStep,
@@ -156,7 +156,7 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
     serviceAddressStep({ mode: 'structured', autoPass: true, serviceIds: false }),
     billingStep(),
     planStep,
-    postpaidExtrasStep({ ...planContext, skipWhen: extrasSkip(products) }),
+    postpaidAddonsStep({ ...planContext, skipWhen: extrasSkip(products) }),
     numberSelectionStep({
       priceField: 'numberPriceQAR',
       // Refresh sits at the right of the title row and reloads the number inventory on every tab.

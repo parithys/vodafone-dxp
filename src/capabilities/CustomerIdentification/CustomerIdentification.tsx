@@ -30,6 +30,8 @@ interface CommonProps {
   manualEntry?: boolean;
   /** Offer to create a new customer when no registry knows the ID (QID, Passport, Diplomatic ID). Default true; off for a journey that acts on a known customer. */
   allowNewCustomer?: boolean;
+  /** What typing the ID by hand means in THIS journey (its own rule, e.g. that it needs approval). The capability states no journey rule itself: absent, nothing is said. */
+  manualEntryNotice?: string;
   /** Scan, then the agent verifies number and expiry against the document, then Fetch (MOI). */
   verifyThenFetch?: boolean;
   /** Handle whoever the scanned ID belongs to as a genuine new customer. */

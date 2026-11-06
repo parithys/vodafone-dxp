@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ActivityComments } from './ActivityComments';
 import { ActivationComplete } from './ActivationComplete';
-import { AddonsPicker } from './AddonsSelection';
+import { AddonsSelection } from './AddonsSelection';
 import { CrossSalesStep } from './CrossSellOffers';
 import { CustomerTypeStep } from './CustomerType';
 import { EligibilityGateStep, OutcomeActions } from './EligibilityGate';
@@ -13,12 +13,14 @@ import { EmptyState } from './EmptyState';
 import type { AdditionalDocument } from './DocumentUpload';
 import * as mockDataEngine from '../engines/mockDataEngine';
 import { starEntitlementQar } from '../engines/postpaidPricing';
+import type { AddonBillingFrequency } from '../engines/addonCategories';
 import { useNotificationStore } from '../stores/notificationStore';
 import { useWorkflowStore } from '../stores/workflowStore';
 import { GuidedActivationWizard } from './GuidedActivationWizard';
-import { customerQualificationStep } from './CustomerQualification';
+import { contactIdentificationProps, customerQualificationStep } from './CustomerQualification';
 import { Input } from '../components/primitives/Input';
 import type { WizardStep } from '../components/patterns/wizard/guidedWizardTypes';
+import type { GuidedContactValue } from '../components/patterns/guidedContactModel';
 import { Button } from '../components/primitives/Button';
 import { SegmentedTabs } from '../components/primitives/SegmentedTabs';
 import { AppointmentBooking } from './AppointmentBooking';
@@ -42,9 +44,11 @@ import { Pagination, usePagination } from './Pagination';
 // the library shows is exactly what every journey renders - a change to the capability shows here and there.
 
 export function Identification() {
-  const [v, setV] = useState({});
+  const [v, setV] = useState<GuidedContactValue>({});
+  // Exactly as the New Connection journey (/mobile/start-connection) mounts it for a walk-in customer: the same props, from the one function the journey's Contact step
+  // uses, so the contact details, ID types and new-customer handling match. (The journey adds only its customer-lock handler, which a preview has no journey for.)
   // As the journeys use it: the first scan comes back unclear, and Retake gives the clear capture.
-  return <CustomerIdentification value={v} onChange={setV} verifyThenFetch />;
+  return <CustomerIdentification {...contactIdentificationProps({ flow: 'new' })} value={v} onChange={setV} />;
 }
 export function SpecialDiscountsId() {
   const [v, setV] = useState({});
@@ -124,34 +128,44 @@ function Variants<K extends string>({ items, render }: { items: { key: K; label:
     </div>
   );
 }
-function PostpaidPlan({ mode }: { mode: 'plan' | 'extras' }) {
-  const [p, setP] = useState<string | undefined>('PROD-107');
+// What Customer Verification validated, as the journey passes it: the tabs are Offers and Standard Plans, plus Special Offers for a customer whose Special Discount
+// (Consumer B2B2C, Retiree or MADA) is validated - so the preview lets you hold one. (Recommended Offers is its own capability, the step before this one.)
+const SPECIAL_HELD = [
+  { key: 'none', label: 'No Special Discount' },
+  { key: 'b2b2c', label: 'Consumer B2B2C' },
+  { key: 'retired', label: 'Retiree' },
+  { key: 'mada', label: 'MADA' },
+] as const;
+function PostpaidPlan() {
+  const [held, setHeld] = useState<(typeof SPECIAL_HELD)[number]['key']>('none');
+  return (
+    <div className="space-y-4">
+      <SegmentedTabs items={[...SPECIAL_HELD]} active={held} onChange={setHeld} label="Customer Holds" />
+      {/* Remounted per choice: the plan page opens on Special Offers when a Special Discount applies, as it does at the start of the journey's plan step. */}
+      <PostpaidPlanDemo key={held} held={held} />
+    </div>
+  );
+}
+function PostpaidPlanDemo({ held }: { held: (typeof SPECIAL_HELD)[number]['key'] }) {
+  const [p, setP] = useState<string | undefined>();
   const [d, setD] = useState<string | undefined>();
-  const [a, setA] = useState<string[]>([]);
-  const [limit, setLimit] = useState<number | undefined>();
   return (
     <PlanSelection
       kind="postpaid"
-      mode={mode}
-      customerContext={{}}
       customerBenefits={undefined}
+      specialDiscountType={held}
+      customerBenefit={held === 'none' ? undefined : held}
       selectedProductId={p}
       onSelectProduct={setP}
       onDeselectProduct={() => setP(undefined)}
       discountId={d}
       onSelectDiscount={setD}
-      addonIds={a}
-      onAddonsChange={setA}
-      billLimit={limit}
-      onBillLimitChange={(amount) => setLimit(amount)}
     />
   );
 }
-function PrepaidPlan({ mode }: { mode: 'plan' | 'extras' }) {
+function PrepaidPlan() {
   const [p, setP] = useState<string | undefined>();
-  const [d, setD] = useState<string | undefined>();
-  const [a, setA] = useState<string[]>([]);
-  return <PlanSelection kind="prepaid" mode={mode} selectedProductId={p} onSelectProduct={setP} onDeselectProduct={() => setP(undefined)} discountId={d} onSelectDiscount={setD} addonIds={a} onSelectAddons={setA} />;
+  return <PlanSelection kind="prepaid" selectedProductId={p} onSelectProduct={setP} onDeselectProduct={() => setP(undefined)} />;
 }
 function FixedPlan() {
   const [values, setValues] = useState<Record<string, unknown>>({});
@@ -162,14 +176,10 @@ export function Plan() {
     <Variants
       items={[
         { key: 'postpaid', label: 'Postpaid Plan' },
-        { key: 'postpaid-extras', label: 'Postpaid Add-Ons' },
         { key: 'prepaid', label: 'Prepaid Pack' },
-        { key: 'prepaid-extras', label: 'Prepaid Add-Ons' },
         { key: 'fixed', label: 'Fixed / Fibre' },
       ]}
-      render={(k) =>
-        k === 'postpaid' ? <PostpaidPlan mode="plan" /> : k === 'postpaid-extras' ? <PostpaidPlan mode="extras" /> : k === 'prepaid' ? <PrepaidPlan mode="plan" /> : k === 'prepaid-extras' ? <PrepaidPlan mode="extras" /> : <FixedPlan />
-      }
+      render={(k) => (k === 'postpaid' ? <PostpaidPlan /> : k === 'prepaid' ? <PrepaidPlan /> : <FixedPlan />)}
     />
   );
 }
@@ -278,9 +288,51 @@ export function Sim() {
 
 // Samples for the capabilities that were "needs a live order": each mounts the REAL capability with throwaway local state
 // and test data (CUST-1001, PROD-107 ...), so a change to the capability shows here and in every journey.
-export function Addons() {
+// The plan the previews carry over from the plan page: the only thing the Addons page takes from it. A Standard Plans plan, because a plan on the Offers tab is pre-bundled and the
+// activation journey then lists no add-ons for it.
+const PREVIEW_PLAN = 'PROD-110';
+function PostpaidAddons() {
   const [ids, setIds] = useState<string[]>([]);
-  return <AddonsPicker selectedIds={ids} onChange={setIds} layout="rows" eligibilityContext={{ planId: 'PROD-107' }} emptyMessage="No add-ons available for this plan" />;
+  const [billing, setBilling] = useState<Record<string, AddonBillingFrequency>>({});
+  const [limit, setLimit] = useState<number | undefined>();
+  const [options, setOptions] = useState({ dnd: true, dob: true, vas: true });
+  // As the Mobile Postpaid Activation journey mounts it: the activation journey's pre-bundled rule, the billing frequency, the bill limit and the service options.
+  return (
+    <AddonsSelection
+      kind="postpaid"
+      planId={PREVIEW_PLAN}
+      addonIds={ids}
+      onAddonsChange={setIds}
+      addonBilling={billing}
+      onAddonBillingChange={setBilling}
+      customerContext={{}}
+      bundledPlansTakeNoAddons
+      billLimit={{ value: limit, onChange: (amount) => setLimit(amount) }}
+      serviceOptions={{ value: options, onChange: setOptions }}
+    />
+  );
+}
+function PrepaidAddons() {
+  const [a, setA] = useState<string[]>([]);
+  // Prepaid Red 25, the pack that has an add-on: the page lists the pack's add-ons and nothing else (its discount is the pack page's Edit Discount).
+  return <AddonsSelection kind="prepaid" selectedProductId="PROD-301" addonIds={a} onSelectAddons={setA} />;
+}
+function AddOnOnly() {
+  const [ids, setIds] = useState<string[]>([]);
+  // As Add Add-On mounts it: the line's own plan, no bill limit or service options, and the billing frequency is not recorded.
+  return <AddonsSelection kind="postpaid" planId={PREVIEW_PLAN} addonIds={ids} onAddonsChange={setIds} customerContext={{}} emptyMessage="No add-ons available for this plan" />;
+}
+export function Addons() {
+  return (
+    <Variants
+      items={[
+        { key: 'postpaid', label: 'Postpaid Add-Ons' },
+        { key: 'prepaid', label: 'Prepaid Add-Ons' },
+        { key: 'add-on', label: 'Add Add-On' },
+      ]}
+      render={(k) => (k === 'postpaid' ? <PostpaidAddons /> : k === 'prepaid' ? <PrepaidAddons /> : <AddOnOnly />)}
+    />
+  );
 }
 export function CustomerType() {
   const [v, setV] = useState<Parameters<typeof CustomerTypeStep>[0]['value']>({});

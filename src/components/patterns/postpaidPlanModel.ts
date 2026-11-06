@@ -321,6 +321,16 @@ export function isPlanOfferedTo(plan: { eligibleNationalities?: string[] }, nati
 export const isOffersTabPlan = (p: { popular?: boolean; offer?: boolean; commitmentMonths?: number; preBundledOffer?: boolean }): boolean =>
   Boolean(p.preBundledOffer) || planGroupOf(p) === 'specials';
 
+/**
+ * Where the chosen plan came from, which both the plan page and the Addons page need and neither owns: an OFFER (the whole Offers tab is pre-bundled, so its
+ * add-ons and discounts are bundled and read-only) or a standalone PLAN (optional extras). Undefined while no plan is chosen.
+ */
+export function planSelectionOf(plan: (Parameters<typeof isOffersTabPlan>[0] & { benefits?: string[] }) | undefined): { preBundled: boolean; source: 'OFFER' | 'PLAN' | undefined; bundled: string[] } {
+  if (!plan) return { preBundled: false, source: undefined, bundled: [] };
+  const preBundled = isOffersTabPlan(plan);
+  return { preBundled, source: preBundled ? 'OFFER' : 'PLAN', bundled: preBundled ? plan.benefits ?? [] : [] };
+}
+
 export function planGroupOf(p: { popular?: boolean; offer?: boolean; commitmentMonths?: number }): PlanGroupKey {
   if (p.popular || p.offer) return 'specials';
   if (p.commitmentMonths) return 'for-you';

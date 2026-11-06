@@ -136,5 +136,5 @@ test('add-ons a Multi-SIM maximum blocks cannot be selected (picker and panel)',
   const picker = read('src/capabilities/AddonsSelection/AddonsPicker.tsx');
   assert.match(picker, /exceedsMultiSimMax\(multiSimPlan,/);
   assert.match(picker, /if \(!removing && candidate && multiSimBlocked\(candidate\)\) return;/);
-  assert.match(read('src/components/patterns/PostpaidAddonsPanel.tsx'), /multiSimPlan=\{selectedPlan\}/);
+  assert.match(read('src/capabilities/AddonsSelection/PostpaidAddonsStep.tsx'), /multiSimPlan=\{selectedPlan\}/);
 });

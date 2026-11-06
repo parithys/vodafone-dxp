@@ -270,9 +270,9 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/PlanSelection/SpendFlag.tsx"
+   "src/capabilities/AddonsSelection/SpendFlag.tsx"
   ],
-  "area": "capabilities/PlanSelection (1)",
+  "area": "capabilities/AddonsSelection (1)",
   "files": 1
  },
  {
@@ -325,10 +325,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "ValidationStatus",
@@ -518,6 +518,17 @@
   "files": 2
  },
  {
+  "name": "PrepaidPackActions",
+  "category": "Buttons and actions",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/PlanSelection/PrepaidPackActions.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
   "name": "ProductActionGroups",
   "category": "Buttons and actions",
   "layer": "Workspace",
@@ -534,10 +545,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/NumberSelection/step.tsx"
+   "src/capabilities/NumberSelection/RefreshNumbersButton.tsx"
   ],
-  "area": "modules/sim-number-management (1)",
-  "files": 1
+  "area": "capabilities/NumberSelection (1), modules/sim-number-management (1)",
+  "files": 2
  },
  {
   "name": "SectionLink",
@@ -569,8 +580,8 @@
   "paths": [
    "src/capabilities/PlanSelection/AddDiscountAction.tsx"
   ],
-  "area": "capabilities/PlanSelection (1)",
-  "files": 1
+  "area": "capabilities/PlanSelection (2)",
+  "files": 2
  },
  {
   "name": "Addons",
@@ -578,10 +589,21 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
+ },
+ {
+  "name": "AddonsSelection",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/AddonsSelection/AddonsSelection.tsx"
+  ],
+  "area": "capabilities (1), capabilities/AddonsSelection (1)",
+  "files": 2
  },
  {
   "name": "C360OffersLeads",
@@ -634,10 +656,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "ChangePostpaidPlanWizard",
@@ -691,8 +713,8 @@
   "paths": [
    "src/capabilities/PlanSelection/CustomiseAddonsAction.tsx"
   ],
-  "area": "capabilities/PlanSelection (1)",
-  "files": 1
+  "area": "capabilities/PlanSelection (2)",
+  "files": 2
  },
  {
   "name": "DiscountCard",
@@ -722,7 +744,7 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
   "area": "components/patterns (1)",
   "files": 1
@@ -821,10 +843,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "PlanGroupPanel",
@@ -849,14 +871,25 @@
   "files": 3
  },
  {
-  "name": "PostpaidAddonsPanel",
+  "name": "PostpaidAddons",
   "category": "Cards",
-  "layer": "Pattern",
+  "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/components/patterns/PostpaidAddonsPanel.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "components/patterns (1)",
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PostpaidAddonsStep",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/AddonsSelection/PostpaidAddonsStep.tsx"
+  ],
+  "area": "capabilities/AddonsSelection (1)",
   "files": 1
  },
  {
@@ -876,18 +909,7 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
-  ],
-  "area": "capabilities/PlanSelection (1)",
-  "files": 1
- },
- {
-  "name": "PostpaidPlanAddonsStep",
-  "category": "Cards",
-  "layer": "Pattern",
-  "scope": "Shared",
-  "paths": [
-   "src/components/patterns/PostpaidPlanAddonsStep.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
   "area": "capabilities/PlanSelection (1)",
   "files": 1
@@ -904,12 +926,56 @@
   "files": 2
  },
  {
+  "name": "PostpaidPlanDemo",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previewDemos.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PostpaidPlanStep",
+  "category": "Cards",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/PostpaidPlanStep.tsx"
+  ],
+  "area": "capabilities/PlanSelection (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidAddons",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previewDemos.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
+  "name": "PrepaidAddonsStep",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/AddonsSelection/PrepaidAddonsStep.tsx"
+  ],
+  "area": "capabilities/AddonsSelection (1)",
+  "files": 1
+ },
+ {
   "name": "PrepaidPlan",
   "category": "Cards",
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
   "area": "components/patterns (1)",
   "files": 1
@@ -1011,8 +1077,8 @@
   "paths": [
    "src/components/primitives/offerCardParts.tsx"
   ],
-  "area": "components/patterns (2), capabilities/AddonsSelection (1), workspace/administration (1), components/domain (1)",
-  "files": 5
+  "area": "capabilities/AddonsSelection (1), workspace/administration (1), components/patterns (1), components/domain (1)",
+  "files": 4
  },
  {
   "name": "SelectedPlanFigure",
@@ -1022,8 +1088,8 @@
   "paths": [
    "src/components/primitives/offerCardParts.tsx"
   ],
-  "area": "workspace/administration (1), components/patterns (1)",
-  "files": 2
+  "area": "workspace/administration (1)",
+  "files": 1
  },
  {
   "name": "SpecialDiscountsId",
@@ -1031,10 +1097,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "SpecialDiscountsIdentification",
@@ -1296,12 +1362,12 @@
   "name": "Block",
   "category": "Containers, panels and sections",
   "layer": "Workspace",
-  "scope": "Page-specific",
+  "scope": "Shared (limited)",
   "paths": [
-   "src/workspace/customer360/telesales/TelesalesTabs.tsx"
+   "src/workspace/customer360/telesales/TelesalesTabParts.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "workspace/customer360 (1)",
+  "files": 1
  },
  {
   "name": "BulkNotesConfigSection",
@@ -2104,7 +2170,7 @@
   "paths": [
    "src/capabilities/AddonsSelection/AddonsPicker.tsx"
   ],
-  "area": "capabilities (1), capabilities/AddonsSelection (1), components/patterns (1)",
+  "area": "capabilities/AddonsSelection (3)",
   "files": 3
  },
  {
@@ -2170,8 +2236,8 @@
   "paths": [
    "src/components/primitives/Checkbox.tsx"
   ],
-  "area": "components/patterns (4), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities/SimType (1), capabilities/NumberSelection (1), workspace/administration (1) +2 more",
-  "files": 13
+  "area": "components/patterns (2), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities/SimType (1), capabilities/AddonsSelection (1), capabilities/NumberSelection (1) +3 more",
+  "files": 12
  },
  {
   "name": "CompanySearchInput",
@@ -2234,10 +2300,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "EligibilityChecksList",
@@ -2594,8 +2660,8 @@
   "paths": [
    "src/workspace/customer360/sections/TopicFieldsSection.tsx"
   ],
-  "area": "workspace/customer360 (5)",
-  "files": 5
+  "area": "workspace/customer360 (6)",
+  "files": 6
  },
  {
   "name": "WaiveOff",
@@ -3188,12 +3254,12 @@
   "name": "PageFrame",
   "category": "Layout components",
   "layer": "Workspace",
-  "scope": "Page-specific",
+  "scope": "Shared (limited)",
   "paths": [
-   "src/workspace/customer360/telesales/TelesalesTabs.tsx"
+   "src/workspace/customer360/telesales/TelesalesTabParts.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "workspace/customer360 (1)",
+  "files": 1
  },
  {
   "name": "PageHeader",
@@ -3424,8 +3490,8 @@
   "paths": [
    "src/components/patterns/VerificationGate.tsx"
   ],
-  "area": "(unused)",
-  "files": 0
+  "area": "components/patterns (1)",
+  "files": 1
  },
  {
   "name": "WfmSerialNumberCheck",
@@ -3477,10 +3543,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "EligibilityOutcomeLegend",
@@ -3525,6 +3591,17 @@
   ],
   "area": "workspace/customer360 (5), workspace/administration (4), components/patterns (3), modules/trouble-ticketing-complaints (3), components/domain (2), capabilities (1) +3 more",
   "files": 21
+ },
+ {
+  "name": "EmptyStateDemo",
+  "category": "Loading, empty, error and success states",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previewDemos.tsx"
+  ],
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "EntityMissing",
@@ -3732,10 +3809,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "ExceptionRequestModal",
@@ -4007,10 +4084,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "ActivityComments",
@@ -4040,7 +4117,18 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
+  ],
+  "area": "capabilities (1)",
+  "files": 1
+ },
+ {
+  "name": "AddOnOnly",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/previewDemos.tsx"
   ],
   "area": "(file-local)",
   "files": 0
@@ -4051,10 +4139,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "AddressPrefill",
@@ -4084,10 +4172,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "workspace/customer360 (1)",
-  "files": 1
+  "area": "capabilities (1), workspace/customer360 (1)",
+  "files": 2
  },
  {
   "name": "AppointmentBooking",
@@ -4108,8 +4196,8 @@
   "paths": [
    "src/components/domain/BillLimitEditor.tsx"
   ],
-  "area": "components/patterns (2), modules/pre-to-post-migration (1)",
-  "files": 3
+  "area": "capabilities/AddonsSelection (1), modules/pre-to-post-migration (1)",
+  "files": 2
  },
  {
   "name": "Billing",
@@ -4118,10 +4206,10 @@
   "scope": "Shared",
   "paths": [
    "src/capabilities/Billing/Billing.tsx",
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "capabilities/Billing (1)",
-  "files": 1
+  "area": "capabilities (1), capabilities/Billing (1)",
+  "files": 2
  },
  {
   "name": "BillingAccountAutoResolver",
@@ -4151,10 +4239,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "Checkout",
@@ -4162,10 +4250,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "CrossSell",
@@ -4173,10 +4261,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "Crumb",
@@ -4206,10 +4294,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "DemoAddressSeed",
@@ -4228,10 +4316,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "EligibilityScenario",
@@ -4239,7 +4327,7 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
   "area": "(file-local)",
   "files": 0
@@ -4307,8 +4395,8 @@
   "paths": [
    "src/components/primitives/Icon.tsx"
   ],
-  "area": "workspace/customer360 (34), components/patterns (16), components/domain (13), components/primitives (10), navigation (4), capabilities/CrossSellOffers (2) +18 more",
-  "files": 102
+  "area": "workspace/customer360 (34), components/patterns (15), components/domain (13), components/primitives (10), navigation (4), capabilities/CrossSellOffers (2) +18 more",
+  "files": 101
  },
  {
   "name": "IconDisc",
@@ -4327,10 +4415,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "InProgressDisc",
@@ -4360,10 +4448,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "LoginAnnouncements",
@@ -4393,10 +4481,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "NumberSelection",
@@ -4437,10 +4525,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "Payment",
@@ -4492,10 +4580,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "RechargeSelection",
@@ -4514,10 +4602,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "RequireFeature",
@@ -4549,8 +4637,8 @@
   "paths": [
    "src/components/primitives/offerCardParts.tsx"
   ],
-  "area": "components/patterns (10), components/domain (2), capabilities (1), capabilities/CustomerType (1), capabilities/CrossSellOffers (1), capabilities/SpecialDiscountsIdentification (1) +7 more",
-  "files": 23
+  "area": "components/patterns (9), components/domain (2), capabilities (1), capabilities/CustomerType (1), capabilities/CrossSellOffers (1), capabilities/SpecialDiscountsIdentification (1) +7 more",
+  "files": 22
  },
  {
   "name": "ServiceAddress",
@@ -4569,10 +4657,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "SimSerial",
@@ -4668,10 +4756,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "WizardFooter",
@@ -4712,10 +4800,10 @@
   "layer": "Capability",
   "scope": "Shared",
   "paths": [
-   "src/capabilities/previews.tsx"
+   "src/capabilities/previewDemos.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "capabilities (1)",
+  "files": 1
  },
  {
   "name": "DataTable",
@@ -4732,12 +4820,12 @@
   "name": "DeepDiveRow",
   "category": "Tables and lists",
   "layer": "Workspace",
-  "scope": "Page-specific",
+  "scope": "Shared (limited)",
   "paths": [
-   "src/workspace/customer360/telesales/TelesalesTabs.tsx"
+   "src/workspace/customer360/telesales/TelesalesTabParts.tsx"
   ],
-  "area": "(file-local)",
-  "files": 0
+  "area": "workspace/customer360 (1)",
+  "files": 1
  },
  {
   "name": "DetailRow",

@@ -18,14 +18,16 @@ const TYPE_OF = { mada: 'MADA Discount', b2b2c: 'B2B2C Discount', retired: 'Reti
 
 test('the page is named "Addons" from one shared label, in the postpaid and prepaid extras steps', () => {
   assert.equal(labels.ADDONS_DISCOUNTS_LABEL, 'Addons');
-  for (const f of ['src/capabilities/PlanSelection/postpaidStep.tsx', 'src/capabilities/PlanSelection/step.tsx']) {
-    assert.match(fs.readFileSync(f, 'utf8'), /label: ADDONS_DISCOUNTS_LABEL/, f);
-  }
+  // Both Addons steps are the Add-Ons capability's, and neither builder of Plan Selection carries the label any more.
+  const addons = fs.readFileSync('src/capabilities/AddonsSelection/step.tsx', 'utf8');
+  assert.equal((addons.match(/label: ADDONS_DISCOUNTS_LABEL/g) ?? []).length, 2, 'postpaid and prepaid');
+  for (const f of ['src/capabilities/PlanSelection/postpaidStep.tsx', 'src/capabilities/PlanSelection/step.tsx']) assert.doesNotMatch(fs.readFileSync(f, 'utf8'), /ADDONS_DISCOUNTS_LABEL/, f);
 });
 
 test('the Add-ons page no longer carries its own "Add-ons (optional)" heading above the category tabs', () => {
-  const src = fs.readFileSync('src/components/patterns/PostpaidPlanAddonsStep.tsx', 'utf8');
-  assert.doesNotMatch(src, /Add-ons <span[^>]*>\(optional\)/);
+  for (const f of ['src/capabilities/AddonsSelection/PostpaidAddonsStep.tsx', 'src/components/patterns/PostpaidPlanStep.tsx']) {
+    assert.doesNotMatch(fs.readFileSync(f, 'utf8'), /Add-ons <span[^>]*>\(optional\)/, f);
+  }
 });
 
 test('the Special Discount to preselect is the plan\'s discount of the held type, over every plan; none for Standard or no benefit (both directions)', () => {
@@ -50,6 +52,6 @@ test('Eligible Discounts always has one selection: No Discount when none is chos
   assert.match(panel, /onToggle=\{\(\) => onSelectDiscount\(undefined\)\}/);                // ... and is a choice
   assert.match(panel, /onToggle=\{\(\) => onSelectDiscount\(d\.addonDiscountId\)\}/);       // a discount card selects it; it never clears itself
   assert.doesNotMatch(panel, /discountId === d\.addonDiscountId \? undefined/);
-  const hook = fs.readFileSync('src/components/patterns/usePostpaidPlanAddons.ts', 'utf8');
+  const hook = fs.readFileSync('src/components/patterns/usePostpaidPlans.ts', 'utf8');
   assert.match(hook, /specialDiscountToPreselect\(discounts\.filter\(\(d\) => d\.planId === selectedProductId\), customerBenefit\)/);           // the Special Discount selects itself
 });

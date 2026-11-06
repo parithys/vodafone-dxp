@@ -1,6 +1,7 @@
 import { CustomerIdentification } from '../CustomerIdentification/CustomerIdentification';
 import { contactSummary } from './summary';
-import { idTypesFor, isIdTypeSupported } from '../../data/idTypes';
+import { contactIdentificationProps } from './contactIdentity';
+import { isIdTypeSupported } from '../../data/idTypes';
 import { under18ApproverRole } from '../../data/under18Exception';
 import { usePersonaStore } from '../../stores/personaStore';
 import { useNotificationStore } from '../../stores/notificationStore';
@@ -88,34 +89,19 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
     // Passing checks render nothing at all (EligibilityGateStep
     // returns null); only what needs the agent's attention appears.
     render: ({ values, setValue }) => {
-      // The customer the journey was opened for (kept in the draft by the wizard), unless the shell names one.
-      // A journey opened FOR a customer (from their Customer 360, e.g. MNP Port-In) is bound to them whatever its flow: it is never a
-      // New Customer journey, and a scanned ID is read and checked against them. Only a journey nobody opened it for is a walk-in.
+      // Who the journey identifies and how: one definition, shared with the Capability Library preview (contactIdentity.ts), and the eligibility check below judges the same customer.
       const launchedFor = values[LAUNCH_CUSTOMER_KEY] as string | undefined;
-      const actedForId = knownCustomer ? (knownCustomerId ?? launchedFor) : launchedFor;
-      const asNewCustomer = flow === 'new' && !knownCustomer && !launchedFor;
+      const identity = contactIdentificationProps({ flow, existingCustomerId, launchedFor, knownCustomer, knownCustomerId, journeyType, manualEntry });
+      const { asNewCustomer, asCustomerId } = identity;
       const contact = values.contact as GuidedContactValue | undefined;
       const eligibility = values.eligibility as EligibilityResult | undefined;
       return (
         <>
         <CustomerIdentification
-          collectContact
-          // New Customer journey: whoever the scanned ID belongs to is handled as a genuine new customer.
-          asNewCustomer={asNewCustomer}
-          // Customer 360 entry: the customer is the one the journey was opened for.
-          asCustomerId={flow === 'existing' ? existingCustomerId : actedForId}
-          // A journey that acts on a known customer never creates one; the others offer it when no registry knows the ID.
-          allowNewCustomer={!knownCustomer}
-          // All four ID types are offered (2026-10-04). Passport, GCC ID and Diplomatic ID are exception
-          // identification: the eligibility engine routes them to approval rather than blocking them here.
-          allowedIdTypes={idTypesFor(prepaid ? 'prepaid' : 'new-connection')}
-          manualEntry={manualEntry}
-          unavailableIdTypes={[]}
-          // ID type chosen first, then scan -> agent verifies number + expiry against the card -> Fetch (MOI).
-          verifyThenFetch
+          // The props Customer Verification takes in this journey: shared with the Capability Library preview (contactIdentity.ts).
+          {...identity}
           value={(values.contact as GuidedContactValue) ?? {}}
           onChange={(v) => guardedContactChange(v, setValue)}
-          showIptvToggle={false}
         />
         {(
         <div className="mt-6 pt-6 divider-top space-y-4">
@@ -125,7 +111,7 @@ export function customerQualificationStep({ flow, existingCustomerId, guardedCon
             // Linked to an existing customer through their Passport: judged as that customer, on the QID presented.
             asNewCustomer={asNewCustomer && !contact?.moiResult?.linkedIdUpdate}
             linkedIdDocument={contact?.moiResult?.linkedIdUpdate}
-            asCustomerId={flow === 'existing' ? existingCustomerId : actedForId}
+            asCustomerId={asCustomerId}
             announcePass={false}
             // A customer created here (no registry knows the ID) is judged on what the agent entered.
             newIdentity={newIdentityOf(contact)}

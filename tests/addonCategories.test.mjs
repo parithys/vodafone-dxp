@@ -150,7 +150,8 @@ test('the Add-ons page mounts the picker with the category tabs, and under them 
   assert.ok(picker.indexOf("'Paid Addons'") < picker.indexOf("'Free Addons'"), 'Paid on the left, free on the right');
   assert.match(picker, /\{list\.length\}/);
   assert.match(picker, /md:grid-cols-2/);
-  assert.match(fs.readFileSync('src/components/patterns/PostpaidAddonsPanel.tsx', 'utf8'), /categorized/);
+  // The Addons page of the Add-Ons capability asks for it (the same page Add Add-On shows).
+  assert.match(fs.readFileSync('src/capabilities/AddonsSelection/PostpaidAddonsStep.tsx', 'utf8'), /categorized/);
 });
 
 test('the catalogue status (Demo Only / TBC ...) is kept with the data and never displayed on the Add-ons page', () => {
@@ -213,9 +214,9 @@ test('the first months\' charge of an add-on (what the monthly summary, checkout
 });
 
 test('Addons reads in this order: Add-ons, Bill Limit - no Eligible Discounts (they are added from Add Discount on the plan page) and no Monthly Summary', () => {
-  const s = fs.readFileSync('src/components/patterns/PostpaidPlanAddonsStep.tsx', 'utf8');
+  const s = fs.readFileSync('src/capabilities/AddonsSelection/PostpaidAddonsStep.tsx', 'utf8');
   const at = (needle) => s.indexOf(needle);
-  const order = [at('<PostpaidAddonsPanel'), at('<BillLimitEditor')];
+  const order = [at('<AddonsPicker'), at('<BillLimitEditor')];
   assert.ok(order.every((i) => i > 0), 'both are on the step');
   assert.equal(at('<PostpaidDiscountsPanel'), -1, 'no Eligible Discounts section on this page');
   assert.equal(at('PostpaidMonthlySummary'), -1, 'the Monthly Summary is not on this page');
@@ -307,7 +308,7 @@ test('postpaid New Connection has no separate Add-On Review page: the add-ons ar
   assert.ok(!fs.existsSync('src/modules/new-connection/steps/AddonReviewStep.tsx'));
   assert.ok(!fs.existsSync('src/modules/new-connection/steps/AddonReview.tsx'));
   // The Addons page is still in the flow, and Order Summary follows SIM Selection and Billing directly.
-  assert.match(steps, /postpaidExtrasStep\(/);
+  assert.match(steps, /postpaidAddonsStep\(/);
   assert.ok(steps.indexOf('simTypeStep(') < steps.indexOf('checkoutSummaryStep('));
 });
 

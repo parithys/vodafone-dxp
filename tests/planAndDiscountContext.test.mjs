@@ -42,7 +42,7 @@ test('the Unlimited range (bar Postpaid Unlimited) sits on the Plans tab (not th
     assert.equal(model.planGroupOf(p), 'for-you', id);
   }
   assert.equal(model.planGroupOf(plans.find((x) => x.productId === 'PROD-107')), 'specials', 'a real offer stays an offer');
-  assert.match(read('src/components/patterns/usePostpaidPlanAddons.ts'), /planGroupOf\(plan\) !== 'specials'/);
+  assert.match(read('src/components/patterns/usePostpaidPlans.ts'), /planGroupOf\(plan\) !== 'specials'/);
 });
 
 test('plan-family add-ons are offered on that family\'s plans only; the unrestricted add-ons on every plan', () => {
@@ -70,7 +70,7 @@ test('a new customer holds no benefit: Loyalty (an existing-customer discount) i
 test('changing the Special Discount type retires the old discount, and a discount no longer offered is dropped', () => {
   const step = read('src/capabilities/CustomerQualification/step.tsx');
   assert.match(step, /before\.type !== v\.type \|\| Boolean\(before\.rejected\) !== Boolean\(v\.rejected\)\)\)\s*setValue\('discountId', undefined\)/);
-  assert.match(read('src/components/patterns/usePostpaidPlanAddons.ts'), /if \(!discounts\.some\(\(d\) => d\.addonDiscountId === discountId\)\) onSelectDiscount\(undefined\)/);
+  assert.match(read('src/components/patterns/usePostpaidPlans.ts'), /if \(!discounts\.some\(\(d\) => d\.addonDiscountId === discountId\)\) onSelectDiscount\(undefined\)/);
 });
 
 test('an accepted offer skips Plan and Addons & Discounts whatever the customer type; a plan chosen on the Offers tab also skips Addons & Discounts; the offer\'s plan is a postpaid plan open to the customer', async () => {
@@ -130,7 +130,7 @@ test('a plan chosen under Special Offers keeps the Addons & Discounts step; the 
   assert.equal(Boolean(extras.skip({ productId: 'PROD-131', planTab: 'special' })), false, 'Special Offers plans get Addons & Discounts');
   assert.equal(Boolean(extras.skip({ productId: 'PROD-131', planTab: 'for-you' })), false, 'the same plan chosen under Standard Plans keeps the step');
   assert.equal(Boolean(extras.skip({ planTab: 'special' })), false, 'no plan chosen: nothing to skip');
-  assert.match(read('src/components/patterns/PostpaidPlanAddonsStep.tsx'), /onPlanTabChange\?\.\(activeTab\)/);
+  assert.match(read('src/components/patterns/PostpaidPlanStep.tsx'), /onPlanTabChange\?\.\(activeTab\)/);
   assert.match(read('src/capabilities/PlanSelection/postpaidStep.tsx'), /setValue\('planTab', tab\)/);
   assert.ok((await load('/src/modules/new-connection/products.ts')).PRODUCT_OWNED_KEYS.includes('planTab'));
 });

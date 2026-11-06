@@ -149,7 +149,7 @@ test('guard: every hand-written <button> declares a type (so it never submits a 
 const NON_DATA_TABLES = [
   'capabilities/CrossSellOffers/OfferDetailsDrawer.tsx',
   'components/patterns/CheckoutSummaryTables.tsx',
-  'components/patterns/PrepaidPlanStep.tsx',
+  'capabilities/AddonsSelection/PrepaidAddonsStep.tsx',
 ];
 test('guard: data tables use DataTable - a raw <table> is only for the allow-listed key-value / legal tables', () => {
   const bad = files

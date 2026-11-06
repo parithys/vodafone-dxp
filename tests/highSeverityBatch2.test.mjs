@@ -68,8 +68,9 @@ test('Bill limit cannot exceed the credit limit', () => {
   const e = read('src/components/domain/BillLimitEditor.tsx');
   assert.match(e, /amount > maxLimit/);
   assert.match(e, /r\.pass && !overCredit\(amount\)/);
-  const s = read('src/capabilities/PlanSelection/postpaidStep.tsx');
-  assert.match(s, /billLimitMax=\{eligibility\?\.defaultCreditLimitQar\}/);
+  // The Addons step (Add-Ons capability) hands the editor the credit limit as its maximum and refuses Continue above it.
+  const s = read('src/capabilities/AddonsSelection/step.tsx');
+  assert.match(s, /max: \(values\.eligibility as EligibilityResult \| undefined\)\?\.defaultCreditLimitQar/);
   assert.match(s, /limit > cap/);
 });
 

@@ -31,6 +31,8 @@ interface GuidedContactStepProps {
   manualEntry?: boolean;
   /** Offer to create a new customer when no registry knows the ID (see IdLookupStep). */
   allowNewCustomer?: boolean;
+  /** What typing the ID by hand means in the journey - see IdLookupStep. */
+  manualEntryNotice?: string;
   /** Scan -> verify -> Fetch, with mobile number shown - see IdLookupStep. */
   verifyThenFetch?: boolean;
   /** Handle whoever the scanned ID belongs to as a genuine new customer (New Connection - New Customer). */
@@ -104,7 +106,7 @@ function VerifiedBadge({ label }: { label: string }) {
 // agent always performs (or at least sees) an explicit Fetch rather than
 // silently trusting cached active-customer state. The number field shows
 // a format-example placeholder instead (see QidInput.tsx).
-export function GuidedContactStep({ value, onChange, showIptvToggle = true, allowedIdTypes, unavailableIdTypes, unavailableIdTypesHint, autoDetectIdType, manualEntry, verifyThenFetch, asNewCustomer, asCustomerId, unbound, scanAsCustomerId, allowNewCustomer }: GuidedContactStepProps) {
+export function GuidedContactStep({ value, onChange, showIptvToggle = true, allowedIdTypes, unavailableIdTypes, unavailableIdTypesHint, autoDetectIdType, manualEntry, verifyThenFetch, asNewCustomer, asCustomerId, unbound, scanAsCustomerId, allowNewCustomer , manualEntryNotice}: GuidedContactStepProps) {
   // The configured salutations (public/config/lookup-lists.json); one already on the record stays selectable even if it has since been taken off the list.
   const configured = getLookupList('salutations');
   const salutationOptions = (value.salutation && !configured.includes(value.salutation) ? [...configured, value.salutation] : configured).map((x) => ({ value: x, label: x }));
@@ -121,6 +123,7 @@ export function GuidedContactStep({ value, onChange, showIptvToggle = true, allo
         unavailableIdTypesHint={unavailableIdTypesHint}
         autoDetectIdType={autoDetectIdType}
         manualEntry={manualEntry}
+        manualEntryNotice={manualEntryNotice}
         allowNewCustomer={allowNewCustomer}
         verifyThenFetch={verifyThenFetch}
         asNewCustomer={asNewCustomer}

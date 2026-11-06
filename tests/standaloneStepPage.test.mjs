@@ -73,5 +73,24 @@ test('PrepaidPlanCard: the card itself selects like a postpaid plan card - no Se
   assert.doesNotMatch(card, /<Button/);
   assert.doesNotMatch(card, /CARD_HIGHLIGHT/, 'Popular does not tint the card');
   assert.match(card, /selected \? CARD_SELECTED : CARD_IDLE/);
-  assert.match(read('src/components/patterns/PrepaidPlanStep.tsx'), /Popular pack is listed first/);
+});
+
+test('prepaid packs: the cheapest first with the Popular pack before the rest, for every segment - one function for the pack page and the Addons page', async () => {
+  const model = await load('/src/components/patterns/prepaidPlanModel.ts');
+  const products = JSON.parse(read('public/mock-data/products.json'));
+  const packs = products.filter((p) => p.type === 'Prepaid Plan');
+  assert.ok(packs.length > 3);
+  for (const segment of [undefined, 'Consumer', 'Business', 'Youth']) {
+    const got = model.offeredPrepaidPacks(products, { segment });
+    // Independent expectation: the packs the segment may take, Popular first, then by starter-pack charge.
+    const expected = packs
+      .filter((p) => !p.eligibleSegments || p.eligibleSegments.includes(segment ?? 'Consumer'))
+      .sort((a, b) => Number(Boolean(b.popular)) - Number(Boolean(a.popular)) || a.starterPackChargeQAR - b.starterPackChargeQAR)
+      .map((p) => p.productId);
+    assert.deepEqual(got.map((p) => p.productId), expected, String(segment));
+  }
+  // The current pack is left out when a journey changes it; only bundled packs when the line already has its SIM.
+  const first = model.offeredPrepaidPacks(products)[0];
+  assert.ok(!model.offeredPrepaidPacks(products, { hiddenProductId: first.productId }).some((p) => p.productId === first.productId));
+  assert.ok(model.offeredPrepaidPacks(products, { packsOnly: true }).every((p) => p.dataAllowanceGB != null || p.packValidityDays != null));
 });

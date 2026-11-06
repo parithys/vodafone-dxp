@@ -92,10 +92,10 @@ test('the plan-type filter: All Plans, Voice Plan, Broadband Plan, Family Plan -
   assert.equal(voice.length + broadband.length + family.length, plans.filter((p) => p.planClass).length, 'a class-less plan is under All Plans only; no plan is in two classes');
   assert.ok(voice.length > 0 && broadband.length > 0 && family.length > 0);
   assert.equal(m.matchesPlanType({}, 'Postpaid Voice Plans'), false, 'unknown stays unknown');
-  const hook = read('src/components/patterns/usePostpaidPlanAddons.ts');
+  const hook = read('src/components/patterns/usePostpaidPlans.ts');
   assert.match(hook, /setActiveTabState\(tab\);\s*setPlanTypeFilter\('all'\)/, 'each tab starts at All Plans');
   assert.match(hook, /matchesPlanType\(p, planTypeFilter\)/);
-  assert.match(read('src/components/patterns/PostpaidPlanAddonsStep.tsx'), /<Select\s+aria-label="Plan Type"\s+options=\{PLAN_TYPE_FILTERS/);
+  assert.match(read('src/components/patterns/PostpaidPlanStep.tsx'), /<Select\s+aria-label="Plan Type"\s+options=\{PLAN_TYPE_FILTERS/);
 });
 
 test('every selectable card in the app marks its selected state with the shared corner tick, and has no Select button of its own', () => {

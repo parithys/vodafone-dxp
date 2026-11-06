@@ -1,12 +1,13 @@
-import { PLAN_SELECTION_LABEL, ADDONS_DISCOUNTS_LABEL } from '../../data/stepLabels';
+import { PLAN_SELECTION_LABEL } from '../../data/stepLabels';
 import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTypes';
 import { PlanSelection } from './PlanSelection';
+import { PrepaidPackActions } from './PrepaidPackActions';
 import { planSummary } from './summary';
 
 /**
  * The prepaid pack step (prepaid activation and prepaid port-in): the packs, stored under `productId`. A different pack
- * drops the previous pack's discount and add-ons. Postpaid has its own builders (postpaidPlanStep / postpaidExtrasStep,
- * which read the offer, eligibility and customer type); fixed-line has fixedPlanSelectionStep.
+ * drops the previous pack's discount and add-ons. Postpaid has its own builder (postpaidPlanStep, which reads the offer,
+ * eligibility and customer type); fixed-line has fixedPlanSelectionStep. The step after the plan or pack - its add-ons - is the Add-Ons capability's.
  */
 export function planSelectionStep(opts: {
   kind: 'prepaid';
@@ -39,8 +40,6 @@ export function planSelectionStep(opts: {
           setValue('discountId', undefined);
           setValue('addonIds', []);
         }}
-        discountId={values.discountId as string | undefined}
-        onSelectDiscount={(id) => setValue('discountId', id)}
         segment={opts.segment?.(values)}
         hiddenProductId={opts.hiddenProductId?.(values)}
         packsOnly={opts.packsOnly}
@@ -48,32 +47,19 @@ export function planSelectionStep(opts: {
       />
     ),
     isValid: (values) => Boolean(values.productId),
-  };
-}
-
-/**
- * The step after the prepaid pack: the chosen pack, its eligible discounts and optional add-ons, and the starter pack charge
- * (the prepaid counterpart of the postpaid Add-ons step). Both choices are optional, so it is always valid; it is left out
- * of the journey with the pack step.
- */
-export function prepaidExtrasStep(opts: { segment?: (values: Record<string, unknown>) => string | undefined }): WizardStep {
-  return {
-    key: 'planExtras',
-    label: ADDONS_DISCOUNTS_LABEL,
-    render: ({ values, setValue }) => (
-      <PlanSelection
-        kind="prepaid"
-        mode="extras"
-        selectedProductId={values.productId as string | undefined}
-        onSelectProduct={(id) => setValue('productId', id)}
-        discountId={values.discountId as string | undefined}
-        onSelectDiscount={(id) => setValue('discountId', id)}
-        segment={opts.segment?.(values)}
-        addonIds={(values.addonIds as string[] | undefined) ?? []}
-        onSelectAddons={(ids) => setValue('addonIds', ids)}
-      />
+    // Once a pack is chosen, Customise Add-ons and Edit Discount sit just before Continue - as on the postpaid plan page.
+    primaryAction: ({ values, setValue, goNext, defaultButton }) => (
+      <div className="row">
+        <PrepaidPackActions
+          productId={values.productId as string | undefined}
+          discountId={values.discountId as string | undefined}
+          onSelectDiscount={(id) => setValue('discountId', id)}
+          setCustomise={() => setValue('customiseAddons', true)}
+          goNext={goNext}
+        />
+        {defaultButton}
+      </div>
     ),
-    isValid: () => true,
   };
 }
 

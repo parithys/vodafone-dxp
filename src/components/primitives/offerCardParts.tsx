@@ -3,7 +3,7 @@ import { Icon } from './Icon';
 import { CHECK } from '../../assets/icons';
 
 // Pieces shared by the two card grids that present a plan: the Recommended-offers cards (new-connection
-// steps) and the Plan & Add-ons plan cards (PostpaidPlanAddonsStep). One definition, so the two stay alike.
+// steps) and the Plan & Add-ons plan cards (PostpaidPlanStep). One definition, so the two stay alike.
 
 /** The selectable-card states, one definition for every card grid that uses them (offers, plans, numbers). */
 export const CARD_SELECTED = 'card-selected';

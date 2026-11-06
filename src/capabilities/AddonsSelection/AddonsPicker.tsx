@@ -46,13 +46,8 @@ interface AddonsPickerProps {
   selectedBilling?: Record<string, AddonBillingFrequency>;
   onBillingChange?: (billing: Record<string, AddonBillingFrequency>) => void;
   /**
-   * Set by PostpaidPlanAddonsStep's own "Add-ons (optional)" TAB (2026-09-28
-   * tabbed redesign) - the tab bar itself now names and counts this section,
-   * so repeating "Add-ons (optional)" as a second, collapsible heading
-   * directly under it was a redundant control doing the tab's job a second
-   * time. The one other caller (none currently - this is still this
-   * component's only call site) keeps the original collapsible heading by
-   * simply omitting this prop.
+   * Set by the Addons page (PostpaidAddonsStep, and so Add Add-On too): the page and its tab bar already name and count this section, so repeating "Add-ons
+   * (optional)" as a second, collapsible heading under it would be a redundant control doing the same job. Omitted, the picker keeps its own collapsible heading.
    */
   hideHeader?: boolean;
   /** Who the add-ons are for. Only add-ons this customer is eligible for are shown. */

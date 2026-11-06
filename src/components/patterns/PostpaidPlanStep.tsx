@@ -1,30 +1,16 @@
-import { Checkbox } from '../primitives/Checkbox';
-import type { ServiceOptions } from './serviceOptions';
 import { EmptyState } from '../primitives/EmptyState';
-import { defaultBillLimitQar } from '../../engines/postpaidPricing';
 import { type CustomerBenefit } from '../../engines/customerBenefitEngine';
-import { BillLimitEditor } from '../domain/BillLimitEditor';
 import { PlanSearchBox } from './PlanSearchBox';
 import { PlanTabStrip } from './PlanTabStrip';
 import { Select } from '../primitives/Select';
 import { PLAN_TYPE_FILTERS } from './postpaidPlanModel';
 import type { PlanTypeFilter } from './postpaidPlanModel';
 import { PlanGroupPanel } from './PlanGroupPanel';
-import { PostpaidAddonsPanel } from './PostpaidAddonsPanel';
 import { PlanDetailsDrawer } from './PlanDetailsDrawer';
-import { usePostpaidPlanAddons } from './usePostpaidPlanAddons';
-import type { AddonBillingFrequency } from '../../engines/addonCategories';
+import { usePostpaidPlans } from './usePostpaidPlans';
 
 
-const SERVICE_OPTIONS: { key: keyof ServiceOptions; label: string }[] = [
-  { key: 'dnd', label: 'Enable Do Not Disturb (DND)' },
-  { key: 'dob', label: 'Allow Direct Operator Billing (DOB)' },
-  { key: 'vas', label: 'Enable Value-Added Services (VAS)' },
-];
-
-interface PostpaidPlanAddonsStepProps {
-  /** 'plan': choose the plan only. 'extras': the chosen plan's add-ons, bill limit, discounts and monthly summary. Default 'all' (both together). */
-  mode?: 'all' | 'plan' | 'extras';
+interface PostpaidPlanStepProps {
   selectedProductId: string | undefined;
   onSelectProduct: (productId: string) => void;
   /** Told which tab a plan was chosen from (Offers, Plans, Special Offers ...), so the journey can route by it. */
@@ -33,20 +19,10 @@ interface PostpaidPlanAddonsStepProps {
   onDeselectProduct?: () => void;
   discountId: string | undefined;
   onSelectDiscount: (discountId: string | undefined) => void;
-  addonIds: string[];
-  onAddonsChange: (ids: string[]) => void;
-  addonBilling?: Record<string, AddonBillingFrequency>;
-  onAddonBillingChange?: (billing: Record<string, AddonBillingFrequency>) => void;
   /** Told where the selected plan came from (OFFER / PLAN) and what an offer bundles. */
   onSelectionChange?: (sel: { source: 'OFFER' | 'PLAN' | undefined; bundled: string[] }) => void;
-  billLimit: number | undefined;
-  onBillLimitChange: (value: number, pass: boolean) => void;
-  /** The credit limit the bill limit may not exceed. */
-  billLimitMax?: number;
-  /** The line's service options (DND, DOB, VAS), all on unless the agent unticks one. Omit to hide them. */
-  serviceOptions?: ServiceOptions;
-  onServiceOptionsChange?: (options: ServiceOptions) => void;
-  /** The Paid / Free add-on filter, owned by the step's header (see postpaidExtrasStep). */
+  /** The bill limit chosen on the Addons page, shown on the selected plan's card (read-only here: it is set on the Addons page). */
+  billLimit?: number;
   /** Agent 360... no - Agent 360 doesn't apply here; this is BR-076's
    * eligibility-derived default (EligibilityGateStep), shown read-only so
    * the agent sees what limit this activation was pre-qualified against. */
@@ -56,8 +32,8 @@ interface PostpaidPlanAddonsStepProps {
   specialDiscountType?: 'mada' | 'b2b2c' | 'retired' | 'none';
   /** Benefits the customer's record lists (see customerBenefitEngine). Only discounts they unlock are offered; undefined = customer not known, nothing is filtered. */
   customerBenefits?: CustomerBenefit[];
-  /** Who the customer is, for deciding which add-ons they are eligible for. */
-  customerContext?: { nationality?: string; customerType?: string; idType?: string };
+  /** The customer's nationality: a nationality promotion plan is offered only to its nationality. */
+  customerNationality?: string;
   /** A plan not offered: the line's current plan, when the journey changes it. */
   hiddenProductId?: string;
 }
@@ -73,30 +49,21 @@ interface PostpaidPlanAddonsStepProps {
 // addons-discounts.json, reusing the same Loyalty Discount concept/rate
 // already evidenced there (ADO-7103) rather than inventing new discount
 // types this app has no evidence for.
-export function PostpaidPlanAddonsStep({
-  mode = 'all',
+export function PostpaidPlanStep({
   selectedProductId,
   onSelectProduct,
   onPlanTabChange,
   onDeselectProduct,
   discountId,
   onSelectDiscount,
-  addonIds,
-  onAddonsChange,
-  addonBilling = {},
-  onAddonBillingChange = () => undefined,
   onSelectionChange,
   billLimit,
-  onBillLimitChange,
-  billLimitMax,
-  serviceOptions,
-  onServiceOptionsChange,
   customerBenefit,
   specialDiscountType,
   customerBenefits,
-  customerContext,
+  customerNationality,
   hiddenProductId,
-}: PostpaidPlanAddonsStepProps) {
+}: PostpaidPlanStepProps) {
   const {
     plans,
     discounts,
@@ -115,20 +82,15 @@ export function PostpaidPlanAddonsStep({
     planGroupTabs,
     groupPlans,
     suggestions,
-    selectedPlan,
-    preBundled,
-    selectionSource,
-  } = usePostpaidPlanAddons({
+  } = usePostpaidPlans({
     selectedProductId,
     discountId,
     onSelectDiscount,
-    addonIds,
-    onAddonsChange,
     onSelectionChange,
     customerBenefit,
     specialDiscountType,
     customerBenefits,
-    customerNationality: customerContext?.nationality,
+    customerNationality,
     hiddenProductId,
   });
 
@@ -140,26 +102,18 @@ export function PostpaidPlanAddonsStep({
   return (
     <div className="space-y-6">
       {/* The HRN advance ("Please collect QAR ... from the customer") is shown once, on Customer Verification, and not repeated here. */}
-      {/* Tabbed (2026-09-28 mockup, replacing the stacked layout the
-          2026-09-26 asset had asked for): plan groups, Add-ons and Eligible
-          Discounts are all panels of ONE tab strip now, rather than three-
-          then-more sections stacked one under another. The agent still
-          decides in the same order - which plan, then what to add, then what
-          comes off the price - but reaches each as a tab instead of a scroll
-          position. Switching tabs never changes which plan/add-ons/discount
-          is actually selected; it only changes which panel is showing. */}
+      {/* Tabbed (2026-09-28 mockup): the plan groups (Offers, Standard Plans and, for a validated Special Discount, Special Offers) are the panels of ONE tab strip.
+          Switching tabs never changes which plan is selected; it only changes which panel is showing. What is added to the plan is the Add-Ons capability's own
+          page, the step after this one. */}
       <div className="space-y-4">
-        {mode !== 'extras' && plans.length === 0 ? (
+        {plans.length === 0 ? (
           plansLoaded ? <EmptyState compact message="No postpaid plans are available right now." /> : <p className="text-muted" role="status">Loading plans…</p>
         ) : (
           <>
             {/* Tab strip - same active-tab treatment (red text + underline)
                 MsisdnPicker's Free/Star/Reserved tabs already use, so the one
                 tabbed control pattern in this app looks the same everywhere
-                it appears. Count badges are plan-group tabs only: Add-ons and
-                Eligible Discounts are single choices, not a list with a size. */}
-            {mode !== 'extras' && (
-              <>
+                it appears. Count badges show how many plans each group holds. */}
             <PlanTabStrip
               planGroupTabs={planGroupTabs}
               activeTab={activeTab}
@@ -222,65 +176,6 @@ export function PostpaidPlanAddonsStep({
               />
             )}
 
-            {/* An offer bundles its extras: shown read-only, never selectable. */}
-
-              </>
-            )}
-
-            {/* The selected plan's own add-ons and discounts, directly below the plans: only this plan's, optional,
-                and reset when another plan is chosen. Every other plan stays a plain card. */}
-            {/* The plan carried over from the previous step, for context while choosing extras. */}
-            {mode === 'extras' && selectedPlan && (
-              <section aria-label="Add-ons" className="space-y-4">
-                {/* The Add-ons page shows the add-ons and the bill limit only: the plan chosen (its name, "Selected Plan", monthly price,
-                    benefits and what an offer includes) is not repeated here - it is on the plan step and in the Summary. */}
-                {selectionSource === 'PLAN' && (
-                  <div className="space-y-3 min-w-0">
-                    <PostpaidAddonsPanel
-                      preBundled={preBundled}
-                      addonIds={addonIds}
-                      onAddonsChange={onAddonsChange}
-                      addonBilling={addonBilling}
-                      onAddonBillingChange={onAddonBillingChange}
-                      selectedProductId={selectedProductId}
-                      customerContext={customerContext}
-                      selectedPlan={selectedPlan}
-                      billLimit={billLimit}
-                      onBillLimitChange={onBillLimitChange}
-                      billLimitMax={billLimitMax}
-                      hideBillLimit
-                    />
-                  </div>
-                )}
-              </section>
-            )}
-            {mode === 'extras' && !selectedPlan && (
-              <p className="muted-body">Select a plan first - its add-ons, bill limit and discounts appear here.</p>
-            )}
-            {mode === 'extras' && selectionSource === 'OFFER' && (
-              <p className="notice-neutral pad-row text-secondary">
-                This plan is an offer: its add-ons and discounts are bundled, so there is nothing to choose here. Continue to review the monthly summary.
-              </p>
-            )}
-            {/* The bill limit, after the add-ons, full width under a separator and without a box: it is a spending control for the
-                whole plan, not one of the add-ons. */}
-            {mode === 'extras' && selectedPlan && selectionSource === 'PLAN' && !preBundled && (
-              <div className="border-t border-[var(--field-card-border)] pt-6">
-                <BillLimitEditor product="Mobile" layout="row" bare value={billLimit ?? defaultBillLimitQar(selectedPlan.mrcQAR, billLimitMax)} onChange={onBillLimitChange} maxLimit={billLimitMax} />
-              </div>
-            )}
-            {mode === 'extras' && selectedPlan && selectionSource === 'PLAN' && !preBundled && serviceOptions && onServiceOptionsChange && (
-              <div className="border-t border-[var(--field-card-border)] pt-6">
-                <div className="stack gap-3">
-                {SERVICE_OPTIONS.map((o) => (
-                  <label key={o.key} className="row-start cursor-pointer">
-                    <Checkbox checked={serviceOptions[o.key]} onChange={(e) => onServiceOptionsChange({ ...serviceOptions, [o.key]: e.target.checked })} />
-                    <span className="text-fg">{o.label}</span>
-                  </label>
-                ))}
-                </div>
-              </div>
-            )}
           </>
         )}
       </div>

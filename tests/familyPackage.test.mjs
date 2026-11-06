@@ -135,7 +135,7 @@ test('the extra-line plans never reach the normal plan lists: unlisted, so Offer
   const listed = products.filter((p) => p.type === 'Postpaid Plan' && p.listed !== false).map((p) => p.planClass);
   assert.equal(listed.includes('Postpaid Supplementary Plans'), false);
   assert.equal(listed.includes('Postpaid Secondary Plans'), false);
-  assert.match(fs.readFileSync('src/components/patterns/usePostpaidPlanAddons.ts', 'utf8'), /p\.listed !== false/);
+  assert.match(fs.readFileSync('src/components/patterns/usePostpaidPlans.ts', 'utf8'), /p\.listed !== false/);
 });
 
 test('a customer\'s lines are found by their record or, with none, by the ID they were identified with; nobody known finds nothing', () => {
@@ -353,7 +353,8 @@ test('wiring: no Family journey takes add-ons (the action is hidden, the step ne
   assert.match(steps, /addonsHidden: \(values: Record<string, unknown>\) => family\(values\)\.applies/);
   const plan = fs.readFileSync('src/capabilities/PlanSelection/postpaidStep.tsx', 'utf8');
   assert.match(plan, /!ctx\.addonsHidden\?\.\(values\) && \(/);
-  assert.match(plan, /autoPass: \(values\) => !values\.customiseAddons \|\| Boolean\(ctx\.addonsHidden\?\.\(values\)\)/);
+  // The Addons step is the Add-Ons capability's builder; the journey's rule (the Family check) is what it is handed.
+  assert.match(fs.readFileSync('src/capabilities/AddonsSelection/step.tsx', 'utf8'), /autoPass: \(values\) => !values\.customiseAddons \|\| Boolean\(ctx\.addonsHidden\?\.\(values\)\)/);
   assert.match(fs.readFileSync('src/modules/new-connection/submitNewConnectionOrder.ts', 'utf8'), /family\.applies && family\.ok && addonIds\.length > 0\) throw/);
   const panel = fs.readFileSync('src/workspace/customer360/sections/FamilyPackagePanel.tsx', 'utf8');
   assert.match(panel, /createRecord\('family-package-addons'/);

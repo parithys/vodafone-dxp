@@ -1,17 +1,13 @@
-import { addonChargeNowQar } from '../../engines/addonCategories';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { discountsForCustomer, type CustomerBenefit } from '../../engines/customerBenefitEngine';
-import { monthlyCharges } from '../../engines/postpaidPricing';
-import { searchPlans, planMatchesSearch, PLAN_GROUPS, SPECIAL_DISCOUNT_TYPE, discountsForSpecialType, specialDiscountToPreselect, isPlanOfferedTo, SPECIAL_OFFERS_TAB_LABEL, offersTabPlans, planGroupOf, matchesPlanType, midPricedPlan } from './postpaidPlanModel';
-import type { PostpaidPlan, Discount, AddonProduct, PlanGroupKey, TabKey, PlanTypeFilter } from './postpaidPlanModel';
+import { planSelectionOf, searchPlans, planMatchesSearch, PLAN_GROUPS, SPECIAL_DISCOUNT_TYPE, discountsForSpecialType, specialDiscountToPreselect, isPlanOfferedTo, SPECIAL_OFFERS_TAB_LABEL, offersTabPlans, planGroupOf, matchesPlanType, midPricedPlan } from './postpaidPlanModel';
+import type { PostpaidPlan, Discount, PlanGroupKey, TabKey, PlanTypeFilter } from './postpaidPlanModel';
 
-interface UsePostpaidPlanAddonsArgs {
+interface UsePostpaidPlansArgs {
   selectedProductId: string | undefined;
   discountId: string | undefined;
   onSelectDiscount: (discountId: string | undefined) => void;
-  addonIds: string[];
-  onAddonsChange: (ids: string[]) => void;
   /** Told which source the selected plan came from (OFFER / PLAN) and what an offer bundles, for the next step. */
   onSelectionChange?: (sel: { source: 'OFFER' | 'PLAN' | undefined; bundled: string[] }) => void;
   customerBenefit?: 'mada' | 'b2b2c' | 'retired' | 'none';
@@ -24,23 +20,20 @@ interface UsePostpaidPlanAddonsArgs {
   hiddenProductId?: string;
 }
 
-export function usePostpaidPlanAddons({
+export function usePostpaidPlans({
   selectedProductId,
   discountId,
   onSelectDiscount,
-  addonIds,
-  onAddonsChange,
   onSelectionChange,
   customerBenefit,
   specialDiscountType,
   customerBenefits,
   customerNationality,
   hiddenProductId,
-}: UsePostpaidPlanAddonsArgs) {
+}: UsePostpaidPlansArgs) {
   const [plans, setPlans] = useState<PostpaidPlan[]>([]);
   // Whether the catalogue has been read: an empty list before that is loading, not "no plans".
   const [plansLoaded, setPlansLoaded] = useState(false);
-  const [addonProducts, setAddonProducts] = useState<AddonProduct[]>([]);
   const [planDiscounts, setPlanDiscounts] = useState<Discount[]>([]);
   // Of the three special types only the one chosen at Customer Verification is offered (a customer holds one).
   const discounts = useMemo(
@@ -161,9 +154,8 @@ export function usePostpaidPlanAddons({
   }, [searchOpen]);
 
   useEffect(() => {
-    mockDataEngine.list<PostpaidPlan & AddonProduct>('products').then((all) => {
+    mockDataEngine.list<PostpaidPlan>('products').then((all) => {
       setPlans(all.filter((p) => p.type === 'Postpaid Plan' && p.listed !== false && p.productId !== hiddenProductId && isPlanOfferedTo(p, customerNationality)).sort((a, b) => a.mrcQAR - b.mrcQAR));
-      setAddonProducts(all.filter((p) => p.type === 'Add-on'));
       setPlansLoaded(true);
     });
   }, [hiddenProductId, customerNationality]);
@@ -204,18 +196,9 @@ export function usePostpaidPlanAddons({
   }, [discountId, discounts, discountsState, planDiscounts]);
 
   const selectedPlan = plans.find((p) => p.productId === selectedProductId);
-  // "Offers" is the specials group (2026-09-30 rule): every plan there is
-  // pre-bundled, so it gets the same add-ons/discounts lockout a plan
-  // individually flagged `preBundledOffer` already got - see the two panels
-  // below. Derived from the group rather than a second per-plan flag: the
-  // business rule is "this WHOLE TAB is pre-bundled", not "some plans in it
-  // are", and planGroupOf is already the one place that decides tab
-  // membership.
-  const isOffersPlan = selectedPlan ? planGroupOf(selectedPlan) === 'specials' : false;
-  const preBundled = Boolean(selectedPlan?.preBundledOffer) || isOffersPlan;
-  // Where the plan was chosen from: an Offer (add-ons and discounts bundled, read-only) or a standalone Plan (optional extras).
-  const selectionSource: 'OFFER' | 'PLAN' | undefined = selectedPlan ? (preBundled ? 'OFFER' : 'PLAN') : undefined;
-  const bundledItems = useMemo(() => (selectionSource === 'OFFER' ? selectedPlan?.benefits ?? [] : []), [selectionSource, selectedPlan]);
+  // Where the plan came from (an Offer is pre-bundled: its add-ons and discounts are bundled and read-only; a plan takes optional extras). One definition, shared with
+  // the Addons page, which needs the same answer for the plan carried over to it: see planSelectionOf.
+  const { preBundled, source: selectionSource, bundled: bundledItems } = useMemo(() => planSelectionOf(selectedPlan), [selectedPlan]);
   const bundledKey = bundledItems.join('|');
   useEffect(() => {
     onSelectionChange?.({ source: selectionSource, bundled: bundledItems });
@@ -256,27 +239,12 @@ export function usePostpaidPlanAddons({
   useEffect(() => {
     if (prevProductId.current !== selectedProductId) {
       prevProductId.current = selectedProductId;
-      // Selections belong to the plan they were made on: a new plan starts clean (silently - no message is shown).
+      // A discount belongs to the plan it was made on: a new plan starts clean (silently - no message is shown). The add-ons chosen for the old plan are cleared by
+      // the journey's plan step (postpaidPlanStep), not here: add-ons are the Add-Ons capability's.
       if (discountId) onSelectDiscount(undefined);
-      if (addonIds.length > 0) onAddonsChange([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProductId]);
-
-  const selectedAddons = addonProducts.filter((a) => addonIds.includes(a.productId));
-  const addonsMonthlyQar = selectedAddons.reduce((sum, a) => sum + addonChargeNowQar(a), 0);
-  // One itemisation, shared with Checkout and with the order payload - see
-  // engines/postpaidPricing.ts for why that is a module and not three copies.
-  // No device instalment here: this step has not reached Device & DOI yet, so
-  // the figure it shows is the service subtotal, and Checkout adds the
-  // instalment once there is one.
-  const charges = selectedPlan
-    ? monthlyCharges({
-        planQar: selectedPlan.mrcQAR,
-        discountRate: selectedDiscount?.price,
-        addonsQar: addonsMonthlyQar,
-      })
-    : undefined;
 
   return {
     plansLoaded,
@@ -300,10 +268,8 @@ export function usePostpaidPlanAddons({
     preBundled,
     selectionSource,
     bundledItems,
-    selectedAddons,
     discountsState,
     retryDiscounts,
     selectedDiscount,
-    charges,
   };
 }

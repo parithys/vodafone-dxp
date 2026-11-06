@@ -18,7 +18,12 @@ test('scan candidates are the acted-for customer\'s own documents, QID first', a
 
 test('known-customer journeys hand the customer to the scan, eligibility and barcode simulator', () => {
   const step = fs.readFileSync('src/capabilities/CustomerQualification/step.tsx', 'utf8');
-  assert.equal((step.match(/existingCustomerId : actedForId/g) ?? []).length, 2);
+  // The rule is written once (contactIdentity.ts); the step hands the same value to the scan and to eligibility.
+  const rule = fs.readFileSync('src/capabilities/CustomerQualification/contactIdentity.ts', 'utf8');
+  assert.equal((rule.match(/existingCustomerId : actedForId/g) ?? []).length, 1);
+  assert.match(step, /const \{ asNewCustomer, asCustomerId \} = identity;/);
+  assert.match(step, /\.\.\.identity/, 'the scan gets it');
+  assert.match(step, /asCustomerId=\{asCustomerId\}/, 'eligibility gets it');
   assert.match(fs.readFileSync('src/components/patterns/wizard/useJourneyStartResume.ts', 'utf8'), /LAUNCH_CUSTOMER_KEY\]: launchCustomerId/);
   assert.match(step, /values\[LAUNCH_CUSTOMER_KEY\]/);
   assert.match(fs.readFileSync('src/components/domain/QidInput.tsx', 'utf8'), /barcodeNumber \?\? BARCODE_DEMO_NUMBERS/);
@@ -79,9 +84,9 @@ test('the presented ID decides who is identified; the selected customer only ste
   assert.match(elig, /docs\.find\(\(d\) => d\.documentNumber === idNumber\) \?\?[\s\S]*?\(asCustomerId/);
 });
 test('a journey opened for a customer is never a New Customer journey, whatever its flow', () => {
-  const step = fs.readFileSync('src/capabilities/CustomerQualification/step.tsx', 'utf8');
-  assert.match(step, /const asNewCustomer = flow === 'new' && !knownCustomer && !launchedFor;/);
-  assert.match(step, /const actedForId = knownCustomer \? \(knownCustomerId \?\? launchedFor\) : launchedFor;/);
+  const rule = fs.readFileSync('src/capabilities/CustomerQualification/contactIdentity.ts', 'utf8');
+  assert.match(rule, /const asNewCustomer = flow === 'new' && !knownCustomer && !launchedFor;/);
+  assert.match(rule, /const actedForId = knownCustomer \? \(knownCustomerId \?\? launchedFor\) : launchedFor;/);
   const product = fs.readFileSync('src/modules/new-connection/steps/ProductEligibility.tsx', 'utf8');
   assert.match(product, /asNewCustomer=\{flow === 'new' && !values\[LAUNCH_CUSTOMER_KEY\] && !contact\.moiResult\?\.linkedIdUpdate\}/);
 });

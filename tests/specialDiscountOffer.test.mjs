@@ -51,7 +51,7 @@ test('nothing chosen / unknown: the list is returned as it is', () => {
 test('plan step: the special card is titled "Special Discount" and the hook applies the choice', () => {
   assert.equal(model.SPECIAL_DISCOUNT_CARD_TITLE, 'Special Discount 25%');
   assert.match(fs.readFileSync('src/components/patterns/PostpaidDiscountsPanel.tsx', 'utf8'), /SPECIAL_DISCOUNT_ADDON_TYPES\.has\(d\.addonType\) \? SPECIAL_DISCOUNT_CARD_TITLE/);
-  assert.match(fs.readFileSync('src/components/patterns/usePostpaidPlanAddons.ts', 'utf8'), /discountsForSpecialType\(discountsForCustomer\(/);
+  assert.match(fs.readFileSync('src/components/patterns/usePostpaidPlans.ts', 'utf8'), /discountsForSpecialType\(discountsForCustomer\(/);
 });
 
 test('rule: every Special Discount (MADA, B2B2C, Retired) is a higher discount than every Loyalty Discount, on every plan', () => {

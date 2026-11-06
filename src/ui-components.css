@@ -584,9 +584,6 @@
   .consent-panel {
     @apply rounded-[var(--radius-card)] border border-[var(--field-card-border)] border-x-4 border-x-accent bg-surface-warm;
   }
-  .summary-banner {
-    @apply rounded-[var(--radius-card-lg)] bg-[var(--summary-bg)] text-[var(--summary-fg)] p-6;
-  }
   .promo-banner {
     @apply rounded-[var(--radius-card-lg)] border border-[var(--border-soft)] bg-[linear-gradient(135deg,var(--bg),var(--surface-subtle))];
   }
@@ -709,9 +706,6 @@
   }
   .tag-warm {
     @apply inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-surface-warm px-2.5 py-0.5 text-[var(--accent-text)] text-[length:var(--fs-tag)] font-medium;
-  }
-  .tag-promo {
-    @apply inline-flex rounded-[var(--radius-pill)] bg-[var(--tint-pink-bg)] px-2.5 py-0.5 text-[var(--tint-pink-fg)] text-[length:var(--fs-tag)] font-semibold uppercase tracking-wide;
   }
   .tile-pill {
     @apply inline-block whitespace-nowrap rounded-[var(--radius-sm)] px-2.5 py-1 text-[length:var(--fs-2xs)] font-bold uppercase tracking-wide;
@@ -1613,15 +1607,6 @@
   .caps-label {
     @apply font-bold text-[length:var(--fs-caption)] uppercase tracking-wide;
   }
-  .section-rule {
-    @apply space-y-3 border-t border-[var(--field-card-border)] pt-6;
-  }
-  .table-head-faint {
-    @apply opacity-70 text-[length:var(--fs-tag)] font-semibold tracking-wide uppercase text-left pb-2;
-  }
-  .table-cell-faint {
-    @apply opacity-80 font-normal text-left py-1.5 pr-4;
-  }
   .grid-3-end {
     @apply grid grid-cols-3 items-end gap-4;
   }
@@ -1849,9 +1834,6 @@
   .pad-card-lg {
     @apply px-6 py-5;
   }
-  .option-card-tight {
-    @apply isolate gap-1 pr-14 text-left;
-  }
   .inline-action {
     @apply inline-flex items-center gap-1.5 font-medium text-[length:var(--fs-body)];
   }
@@ -1953,9 +1935,6 @@
   }
   .pick-row-active {
     @apply bg-surface ring-2 ring-inset ring-[var(--field-focus-border)];
-  }
-  .grid-roomy {
-    @apply grid gap-x-8 gap-y-5;
   }
   .inert-region {
     @apply [&_button]:pointer-events-none [&_input]:pointer-events-none [&_select]:pointer-events-none [&_textarea]:pointer-events-none [&_a]:pointer-events-none select-none;

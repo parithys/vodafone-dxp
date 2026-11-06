@@ -74,7 +74,7 @@ test('the Offers tab shows 3 Voice, 2 Broadband and 1 Family plan: the catalogue
   const extra = [...listed, { ...listed.find((p) => p.planClass === 'Postpaid Voice Plans'), productId: 'X', mrcQAR: 9999 }];
   assert.equal(count(model.offersTabPlans(extra), 'Postpaid Voice Plans'), 3);
   assert.equal(model.offersTabPlans(listed.filter((p) => p.planClass !== 'Postpaid Family Plans')).length, 5);
-  const hook = fs.readFileSync('src/components/patterns/usePostpaidPlanAddons.ts', 'utf8');
+  const hook = fs.readFileSync('src/components/patterns/usePostpaidPlans.ts', 'utf8');
   assert.match(hook, /key === 'specials' \? offersTabPlans\(list\)/);
   assert.match(hook, /activeTab === 'specials' \? offersTabPlans\(tabCandidates\)/);
 });

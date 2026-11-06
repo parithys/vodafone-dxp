@@ -11,12 +11,11 @@ test('the chosen plan or pack figure uses the shared selected highlight, not a w
   const html = renderToStaticMarkup(React.createElement(SelectedPlanFigure, { label: 'Monthly plan' }, 'QAR 145'));
   assert.ok(html.includes(CARD_SELECTED.split(' ')[0]) && html.includes('Monthly plan'));
   // The Add-ons page no longer repeats the selected plan (name, tag, price, benefits); the pack step still shows its figure.
-  assert.doesNotMatch(fs.readFileSync('src/components/patterns/PostpaidPlanAddonsStep.tsx', 'utf8'), /SelectedPlanFigure|Selected Plan</);
-  for (const f of ['src/components/patterns/PrepaidPlanStep.tsx']) {
-    const src = fs.readFileSync(f, 'utf8');
-    assert.match(src, /<SelectedPlanFigure label=/, f);
-    assert.doesNotMatch(src, /card px-4 py-2\.5 text-right/, `${f}: no hand-made white figure card`);
-  }
+  assert.doesNotMatch(fs.readFileSync('src/components/patterns/PostpaidPlanStep.tsx', 'utf8'), /SelectedPlanFigure|Selected Plan</);
+  // The prepaid Addons page, like the postpaid one, no longer repeats the selected pack (name, tag, starter pack figure, benefits, summary): it is on the pack page and in the Summary.
+  const addons = fs.readFileSync('src/capabilities/AddonsSelection/PrepaidAddonsStep.tsx', 'utf8');
+  assert.doesNotMatch(addons, /SelectedPlanFigure|Selected Pack|Starter Pack|Pack summary|Pack Total/);
+  assert.doesNotMatch(addons, /card px-4 py-2\.5 text-right/, 'no hand-made white figure card');
 });
 
 test('Port-in Number is the standard phone field pinned to Qatar, and its stored value is a valid port-in number', async () => {

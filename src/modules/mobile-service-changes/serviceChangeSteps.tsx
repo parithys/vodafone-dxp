@@ -9,9 +9,9 @@ import {
   lineSelectionStep,
   paymentStep,
   planSelectionStep,
-  postpaidExtrasStep,
+  postpaidAddonsStep,
   postpaidPlanStep,
-  prepaidExtrasStep,
+  prepaidAddonsStep,
   prepaidCheckoutStep,
 } from '../../capabilities';
 import type { CustomerLine, PrepaidCheckoutTotals, QualificationContext } from '../../capabilities';
@@ -87,7 +87,7 @@ export function changePostpaidPlanSteps(ctx: ServiceChangeContext): WizardStep[]
     customerQualificationStep({ ...ctx, productAgnostic: true, knownCustomer: true, skipLineLimit: true }),
     lineSelectionStep({ lineType: 'postpaid', onSelect: selectLineForPlanChange }),
     postpaidPlanStep(planContext),
-    postpaidExtrasStep(planContext),
+    postpaidAddonsStep(),
     checkoutSummaryStep({ msisdn: (values) => lineOf(values)?.identifier, editStepKey: () => 'plan' }),
     cafSignatureStep({ variant: 'full', customerName: nameOf }),
     paymentStep({ zeroValueReceipt: true, submitOnPaid: true }),
@@ -105,7 +105,7 @@ export function changePrepaidPackSteps(ctx: ServiceChangeContext): WizardStep[] 
       customerQualificationStep({ ...ctx, journeyType: 'prepaid', productAgnostic: true, knownCustomer: true, skipLineLimit: true }),
       lineSelectionStep({ lineType: 'prepaid', onSelect: (_line, setValue) => resetChoices(setValue) }),
       planSelectionStep({ kind: 'prepaid', segment: segmentOf, hiddenProductId: (values) => lineOf(values)?.productId, packsOnly: true }),
-      prepaidExtrasStep({ segment: segmentOf }),
+      prepaidAddonsStep(),
       prepaidCheckoutStep({
         idType: (values) => contactOf(values)?.idType,
         customerName: nameOf,
