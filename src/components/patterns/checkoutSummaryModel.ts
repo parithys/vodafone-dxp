@@ -4,6 +4,11 @@ export interface Product {
   mrcQAR: number;
   /** The plan's own Star Number entitlement limit, where it defines one - see starEntitlementQar. */
   starNumberEntitlementQar?: number;
+  /**
+   * The plan's rental is part of a Family Package the customer already pays for (Primary Line 2): it is read back as included and adds nothing to the monthly total.
+   * The catalogue price is left as it is: the Star Number entitlement and the bill limit still follow it.
+   */
+  rentalIncludedInPackage?: boolean;
   /** Plan lock-in, straight off the catalogue row. */
   commitmentMonths?: number;
   /** Add-on data allowance, where the catalogue carries one (2026-09-28) -

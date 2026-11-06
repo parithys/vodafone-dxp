@@ -426,26 +426,26 @@ PROPOSED += [
 APPROVED, PENDING = "Approved", "Pending Approval"
 FAMILY_SCENARIOS = [
     dict(n=1, label="Primary Line only", cid="CUST-3201", name=("Hamda", "Saeed Khalid", "Al-Dosari"), dob="1988-03-14", sex="Female", plan="PROD-142",
-         lines=[("Primary", 1, None, APPROVED)], note="Package with Primary Line 1 only, approved: every other connection type is open."),
-    dict(n=2, label="Primary Line and Second Primary Line", cid="CUST-3202", name=("Nasser", "Hamad Jassim", "Al-Attiyah"), dob="1984-07-22", sex="Male", plan="PROD-144",
-         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED)], note="Second Primary exists, so Second Primary is gone from Add Another Connection (Primary limit 2)."),
-    dict(n=3, label="Primary Line and Supplementary Line", cid="CUST-3203", name=("Moza", "Rashid Ali", "Al-Kaabi"), dob="1991-11-05", sex="Female", plan="PROD-143",
-         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Supplementary on record while the free Second Primary is still open: Add Another Connection offers only the free Second Primary until it is activated; the paid Supplementary and Secondary lines follow."),
-    dict(n=4, label="Primary Line and Secondary Line (Kids Plan)", cid="CUST-3204", name=("Yousef", "Mansoor Saeed", "Al-Ghanim"), dob="1987-02-18", sex="Male", plan="PROD-143",
-         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED)], note="Secondary on Ahli Lite (Kids Plan) on record while the free Second Primary is open: only the free Second Primary is offered until it is activated."),
-    dict(n=5, label="Primary Line and two Secondary Lines (Kids and Data-only)", cid="CUST-3205", name=("Latifa", "Khalifa Nasser", "Al-Suwaidi"), dob="1990-09-09", sex="Female", plan="PROD-145",
-         lines=[("Primary", 1, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED), ("Secondary", 2, "PROD-312", APPROVED)], note="Secondary has no limit: Kids Plan and Data-only Plan lines side by side. The free Second Primary is still open, so it is the only option offered until activated."),
-    dict(n=6, label="Primary Line and two Supplementary Lines (Supplementary limit reached)", cid="CUST-3206", name=("Abdulrahman", "Salem Hamad", "Al-Ali"), dob="1983-12-01", sex="Male", plan="PROD-142",
-         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED)], note="Two Supplementary lines (Supplementary limit reached). The free Second Primary is still open, so it alone is offered; after it, Secondary."),
-    dict(n=7, label="Primary, Second Primary and Supplementary Line", cid="CUST-3207", name=("Shaikha", "Jassim Rashid", "Al-Mohannadi"), dob="1986-06-27", sex="Female", plan="PROD-144",
-         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Mixed package: the free Second Primary is taken, so the paid Supplementary (1 of 2) and Secondary are offered."),
+         lines=[("Primary", 1, None, APPROVED)], note="Package with Primary Line 1 only, approved: Primary Line 2 is the next connection (same package and plan, included)."),
+    dict(n=2, label="Both Primary Lines (Primary Line 1 and 2)", cid="CUST-3202", name=("Nasser", "Hamad Jassim", "Al-Attiyah"), dob="1984-07-22", sex="Male", plan="PROD-144",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED)], note="Both Primary Lines are active (2 of 2 used): the next connection is an additional one, by the plan the agent selects."),
+    dict(n=3, label="Primary Line 1 active, Primary Line 2 awaiting approval", cid="CUST-3203", name=("Moza", "Rashid Ali", "Al-Kaabi"), dob="1991-11-05", sex="Female", plan="PROD-143",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, PENDING)], note="Primary Line 2 is on record but not active: it cannot be added again and no additional connection opens until it is approved (Add Another Connection says so)."),
+    dict(n=4, label="Both Primary Lines and a Secondary Line (Kids Plan)", cid="CUST-3204", name=("Yousef", "Mansoor Saeed", "Al-Ghanim"), dob="1987-02-18", sex="Male", plan="PROD-143",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED)], note="Both Primary Lines are active; the Secondary line is on Ahli Lite (Kids Plan). Supplementary (2 of 2 left) and both Secondary plans are still offered."),
+    dict(n=5, label="Both Primary Lines and two Secondary Lines (Kids and Data-only)", cid="CUST-3205", name=("Latifa", "Khalifa Nasser", "Al-Suwaidi"), dob="1990-09-09", sex="Female", plan="PROD-145",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Secondary", 1, "PROD-310", APPROVED), ("Secondary", 2, "PROD-312", APPROVED)], note="Secondary has no limit: Kids Plan and Data-only Plan lines side by side. The Supplementary plan is still offered (0 of 2 used)."),
+    dict(n=6, label="Both Primary Lines and two Supplementary Lines (Supplementary limit reached)", cid="CUST-3206", name=("Abdulrahman", "Salem Hamad", "Al-Ali"), dob="1983-12-01", sex="Male", plan="PROD-142",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED)], note="Two Supplementary lines (Supplementary limit reached): the Family-equivalent plan is no longer offered, only the Secondary plans (Ahli Lite and Ahli Net)."),
+    dict(n=7, label="Both Primary Lines and a Supplementary Line", cid="CUST-3207", name=("Shaikha", "Jassim Rashid", "Al-Mohannadi"), dob="1986-06-27", sex="Female", plan="PROD-144",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED)], note="Mixed package: both Primary Lines are active, so the Family-equivalent plan (1 of 2 Supplementary left) and the Secondary plans are offered."),
     dict(n=8, label="All limits reached except Secondary (Primary x2, Supplementary x2, Secondary)", cid="CUST-3208", name=("Hamad", "Khalid Saeed", "Al-Bakri"), dob="1979-04-30", sex="Male", plan="PROD-145",
          lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", APPROVED), ("Supplementary", 2, "PROD-311", APPROVED), ("Secondary", 1, "PROD-312", APPROVED)],
          note="Only Secondary can still be added. Five mobile lines: the owner is at the Qatari postpaid cap, so a further line also meets the line-count eligibility check."),
     dict(n=9, label="Primary Line awaiting approval (package locked)", cid="CUST-3209", name=("Reem", "Abdulla Nasser", "Al-Jaber"), dob="1993-08-16", sex="Female", plan="PROD-143",
-         lines=[("Primary", 1, None, PENDING)], note="Primary Line 1's order is not approved yet: Add Another Connection is dimmed ('Awaiting approval') everywhere."),
-    dict(n=10, label="Primary Line and a Supplementary Line awaiting approval", cid="CUST-3210", name=("Ghanim", "Ali Mubarak", "Al-Sulaiti"), dob="1981-01-19", sex="Male", plan="PROD-144",
-         lines=[("Primary", 1, None, APPROVED), ("Supplementary", 1, "PROD-311", PENDING)], note="A line awaiting approval still counts toward its limit and numbering: the next Supplementary is Supplementary Line 2."),
+         lines=[("Primary", 1, None, PENDING)], note="Primary Line 1's order is not approved yet: nothing else opens and Add Another Connection says so."),
+    dict(n=10, label="Both Primary Lines and a Supplementary Line awaiting approval", cid="CUST-3210", name=("Ghanim", "Ali Mubarak", "Al-Sulaiti"), dob="1981-01-19", sex="Male", plan="PROD-144",
+         lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED), ("Supplementary", 1, "PROD-311", PENDING)], note="A line awaiting approval still counts toward its limit and numbering: the next Supplementary is Supplementary Line 2."),
 ]
 FAMILY_PLAN_NAMES = {"PROD-142": "Ahli", "PROD-143": "Ahli Pro", "PROD-144": "Ahli Premium", "PROD-145": "Ahli Platinum", "PROD-311": "Supplementary plan", "PROD-310": "Ahli Lite (Kids Plan)", "PROD-312": "Ahli Net (Data-only Plan)"}
 for _i, _sc in enumerate(FAMILY_SCENARIOS):
@@ -463,7 +463,7 @@ for _i, _sc in enumerate(FAMILY_SCENARIOS):
 # --------------------------------------------------------------------------
 # Family Plan scenarios for an expat owner (the Family Owner's own line-count limit applies to the package's lines).
 FAMILY_SCENARIOS += [
-    dict(n=11, label="Expat owner at the expat line cap (Primary and Second Primary)", cid="CUST-3211", name=("Vikram", "Anand Rao", "Iyengar"), dob="1985-05-12", sex="Male", nat="Indian", plan="PROD-143",
+    dict(n=11, label="Expat owner at the expat line cap (Primary Line 1 and 2)", cid="CUST-3211", name=("Vikram", "Anand Rao", "Iyengar"), dob="1985-05-12", sex="Male", nat="Indian", plan="PROD-143",
          lines=[("Primary", 1, None, APPROVED), ("Primary", 2, None, APPROVED)], note="Indian expat with 2 postpaid lines = AT the expat cap of 2 (BR-288): any further Family connection meets the owner's line-count check and is routed for approval."),
     dict(n=12, label="HRN owner, Primary Line only", cid="CUST-3212", name=("Naveed", "Iqbal Ahmed", "Chaudhry"), dob="1989-10-03", sex="Male", nat="Pakistani", plan="PROD-142",
          lines=[("Primary", 1, None, APPROVED)], note="Pakistani (HRN) owner: every added line carries the HRN rules (QAR 100 advance, credit limit 50) and the owner's line-count check."),
@@ -1454,7 +1454,7 @@ cov = [
     ("Expat 5-line absolute maximum (Active Lines hard stop)", "Added", reqmap["Expat line-cap hard stop (5/5)"]),
     ("Collections flag with QAR 0 balance (not a block)", "Added", reqmap["Collections flag, zero balance"]),
     ("Exception-routed ID types (Passport / GCC / Diplomatic / Other)", "Added", ["CUST-1002", "CUST-1005", "CUST-1007", "CUST-2001"] + reqmap["Diplomatic ID (valid)"]),
-    ("Family Plan - every package composition (Primary only, +Second Primary, +Supplementary, +Secondary, mixed, limits reached, awaiting approval)", "Added", [p["cid"] for p in PROPOSED if p["cat"] == "12 Family Plan"] + ["CUST-1001 (Family overlay: Primary Line 1 only, approved)", "CUST-3084 (Family overlay: Primary Line 1 awaiting approval)"]),
+    ("Family Plan - every package composition (Primary Line 1 only, + Primary Line 2, + Supplementary, + Secondary, mixed, Supplementary limit reached, awaiting approval at Primary Line 1 / Primary Line 2 / an additional line)", "Added", [p["cid"] for p in PROPOSED if p["cat"] == "12 Family Plan"] + ["CUST-1001 (Family overlay: Primary Line 1 only, approved)", "CUST-3084 (Family overlay: Primary Line 1 awaiting approval)"]),
     ("Under-18 people for the Secondary Contact (one per nationality)", "Added", reqmap["Minor (Secondary Contact)"] + ["CUST-3090", "CUST-9001"]),
     ("Blacklisted with no category (unclassified)", "Added", reqmap["Unclassified blacklist"]),
     ("Two postpaid billing accounts", "Added", reqmap["Two postpaid billing accounts"]),
@@ -1473,24 +1473,35 @@ sheet(wb, "Scenario Coverage", ["Scenario", "Requested / Added", "# customers", 
 
 # Family Plan Scenarios: read back from the seeded data (family-package-lines.json, orders.json), not from the definitions above, so the sheet is what the app holds.
 def _family_options(lines, orders):
-    """What Add Another Connection should offer, from the rules (written here independently of the app's engine): none until Primary Line 1's order is approved
-    ('Approved', or 'Not Required' on a Complete order); then the free Second Primary alone while it is open (Primary below 2); after it Supplementary below 2 and Secondary always (a Secondary plan exists), both paid."""
-    p1 = next((l for l in lines if l["role"] == "Primary" and l["sequence"] == 1), None)
-    o1 = next((o for o in orders if p1 and o["orderId"] == p1["orderId"]), None)
-    if not o1 or not (o1.get("approvalStatus") == "Approved" or (o1.get("approvalStatus") == "Not Required" and o1.get("status") == "Complete")):
-        return "None - Primary Line 1 awaiting approval" if p1 else "None - no package"
-    n = {r: sum(1 for l in lines if l["role"] == r) for r in ("Primary", "Supplementary", "Secondary")}
+    """What Add Another Connection should do next, from the package's state (written here independently of the app's engine): the agent is never asked for a connection type.
+    Nothing until Primary Line 1's order is approved ('Approved', or 'Not Required' on a Complete order); then Primary Line 2 alone (the same package and plan, included - no charge)
+    while it is not on record; Primary Line 2 on record but not approved: nothing yet; both Primary Lines active: the agent SELECTS A PLAN - the Family-equivalent plan (while
+    Supplementary is below its limit of 2) makes a Supplementary line, either Secondary plan (no limit) makes a Secondary line. Prices are the catalogue's."""
+    def approved(o): return bool(o) and (o.get("approvalStatus") == "Approved" or (o.get("approvalStatus") == "Not Required" and o.get("status") == "Complete"))
+    find = lambda role, seq: next((l for l in lines if l["role"] == role and l["sequence"] == seq), None)
+    order_of = lambda l: next((o for o in orders if l and o["orderId"] == l["orderId"]), None)
+    p1, p2 = find("Primary", 1), find("Primary", 2)
+    if not p1:
+        return "None - no package"
+    if not approved(order_of(p1)):
+        return "Nothing yet - Primary Line 1 awaiting approval"
+    if not p2:
+        return "Primary Line 2 (same package and plan; included, no charge) - no connection type is asked for"
+    if not approved(order_of(p2)):
+        return "Nothing yet - Primary Line 2 awaiting approval (it cannot be added again)"
+    n = {r: sum(1 for l in lines if l["role"] == r) for r in ("Supplementary", "Secondary")}
+    price = lambda pid: f"QAR {_fmrc.get(pid, 0):g}/mo"
     out = []
-    # The free line (Second Primary) is offered first and alone; Supplementary and Secondary (paid) open once it is taken.
-    if n["Primary"] < 2:
-        return f"Second Primary (Primary Line {n['Primary'] + 1}; free line - paid lines open after it)"
-    if n["Supplementary"] < 2: out.append(f"Supplementary (Supplementary Line {n['Supplementary'] + 1}; paid)")
-    out.append(f"Secondary (Secondary Line {n['Secondary'] + 1}; paid; Kids Plan or Data-only Plan)")
-    return "; ".join(out)
+    if n["Supplementary"] < 2: out.append(f"{_fprod_name('PROD-311')} ({price('PROD-311')}) -> Supplementary Line {n['Supplementary'] + 1}")
+    for pid in ("PROD-310", "PROD-312"):
+        out.append(f"{_fprod_name(pid)} ({price(pid)}) -> Secondary Line {n['Secondary'] + 1}")
+    return "Select a plan: " + "; ".join(out) + ("" if n["Supplementary"] < 2 else " (Supplementary limit reached: the Family-equivalent plan is not offered)")
 
 
 _flines, _forders = load("family-package-lines"), {o["orderId"]: o for o in load("orders")}
 _fprod = {p["productId"]: p["name"] for p in load("products")}
+_fmrc = {p["productId"]: p.get("mrcQAR", 0) for p in load("products")}
+_fprod_name = lambda pid: _fprod.get(pid, pid)
 _fcust = {c["customerId"]: c for c in load("customers")}
 _fscen = {sc["cid"]: sc for sc in FAMILY_SCENARIOS}
 fam_rows = []
@@ -1504,12 +1515,12 @@ for cid in sorted({l["customerId"] for l in _flines if l.get("customerId")}):
     fam_rows.append([sc["n"] if sc else "-", sc["label"] if sc else ("Family overlay on an original customer: Primary Line 1 only" if len(mine) == 1 else "Family overlay on an original customer"), tc.get(cid, ""), cid, _fcust[cid]["name"], _fcust[cid].get("qid", ""),
                      _fprod.get(p1["planId"], "") if p1 else "", mine[0]["packageId"], desc, "Yes" if p1o and p1o.get("approvalStatus") in ("Approved", "Not Required") else "No (awaiting approval)", _family_options(mine, orders_),
                      (sc["note"] if sc else "Original customer given a Family Package so the package can be seen on a customer with other services.") + " The Family Owner's ID must be validated for every added line; all lines are billed on one billing account.",
-                     "Customer 360 > Products & Services > Family Package, or Actions > Family Package > Add Another Connection"])
+                     "Add Another Connection (from the New Connection confirmation page, or by selecting a Family Plan for this customer in New Postpaid): the dialog shows the next connection; the plan, never a type, is what the agent selects"])
 fam_rows.sort(key=lambda r: (r[0] == "-", r[0] if r[0] != "-" else 0, r[3]))
 sheet(wb, "Family Plan Scenarios", ["Scenario #", "Scenario", "Test ID", "Customer ID", "Customer", "ID number (use for lookup)", "Family Plan (package)", "Package ID", "Lines (type - plan - number - order)",
-      "Primary Line 1 approved", "Add Another Connection should offer", "Notes", "Where to test"], fam_rows,
+      "Primary Line 1 approved", "Next connection (derived from the package state)", "Notes", "Where to test"], fam_rows,
       {"Scenario #": 10, "Scenario": 46, "Test ID": 9, "Customer ID": 12, "Customer": 30, "ID number (use for lookup)": 20, "Family Plan (package)": 30, "Package ID": 18, "Lines (type - plan - number - order)": 90,
-       "Primary Line 1 approved": 16, "Add Another Connection should offer": 70, "Notes": 80, "Where to test": 50}, wrap_cols=("Scenario", "Lines (type - plan - number - order)", "Add Another Connection should offer", "Notes", "Where to test"))
+       "Primary Line 1 approved": 16, "Next connection (derived from the package state)": 90, "Notes": 80, "Where to test": 50}, wrap_cols=("Scenario", "Lines (type - plan - number - order)", "Next connection (derived from the package state)", "Notes", "Where to test"))
 
 
 # Postpaid Journey Coverage: every condition of the Mobile Postpaid Activation journey, step by step, with the customers that exercise it. The customer lists are COMPUTED from the
@@ -1644,8 +1655,8 @@ _groups = {}
 for _c, (_n, _ok) in _fam.items():
     _groups.setdefault(_comp_label(_n, _ok), []).append(_c)
 for _lab, _cs in sorted(_groups.items()):
-    COV.append(("16 Family Plan", f"Family Package: {_lab}", _cs, "Customer 360 > Products & Services > Family Package, or Actions > Family Package; see 'Family Plan Scenarios'."))
-COV.append(("16 Family Plan", "Family Owner rules: every added line needs the owner's ID; one common billing account; add-ons managed from Customer 360", _fam_ids[:4], "Add Another Connection > Continue; scan the owner's ID; the plan and billing account are fixed by the package."))
+    COV.append(("16 Family Plan", f"Family Package: {_lab}", _cs, "Add Another Connection (confirmation page, or selecting a Family Plan for the customer); see 'Family Plan Scenarios'."))
+COV.append(("16 Family Plan", "Family Owner rules: every added line needs the owner's ID; one common billing account; add-ons managed from Customer 360", _fam_ids[:4], "Add Another Connection > Continue; scan the owner's ID; the billing account is the package's, and Primary Line 2's plan is the package's."))
 COV.append(("16 Family Plan", "Expat / HRN owner (line-count and HRN rules apply to added lines)", [c for c in _fam_ids if next((r for r in R if r["Customer / NAS ID"] == c), {}).get("Nationality") not in ("Qatari", None)], "A further line meets the owner's line-count check and HRN advance."))
 
 _cov_rows, _gaps = [], []
@@ -1819,7 +1830,7 @@ EC = [
     ("Special Discount validation (MADA, Retired, B2B2C)", "Journey validation", "A Special Discount counts only once its proof is validated (card and document; retiree registry; employer).", "Validated / Rejected", "The agent selects a Special Discount type for the customer.", f"{P_CONTACT}: right under the eligibility panel, once eligibility clears", f"{P_PLAN}: Special Offers tab appears once validated. Submission: a MADA / B2B2C discount holds the order for approval (proof to verify).", "DISTINCT: validated once; its result is read by later pages.", "Eligible discounts and the Special Offers tab follow; the order is held for approval for MADA / B2B2C.", _ids(lambda r: _live(r) and any(k in str(r["Discount eligibility"]) for k in ("MADA", "Retired", "B2B2C")))),
     ("Family Plan start check", "Journey validation", "A Family Plan (Ahli) starts a Family Package: the customer must have cleared eligibility and hold no package yet.", "Blocked: already has a Family Package", "An Ahli plan is selected by a customer who already holds a Family Package.", P_PLAN, "Recommended Offers (accepted Family offer shows the plan page with the reason). Submission re-checks on the lines on record now.", "SAME rule evaluated on the plan page and again at submission (a stale draft cannot create a second Primary Line 1).", "Continue is disabled with the reason; submission refuses.", _with_pkg),
     ("Family Plan start check", "Journey validation", "As above.", "Allowed: Primary Line 1 of a new package", "An Ahli plan is selected by a customer with no package, eligibility cleared.", P_PLAN, "Order Summary and CAF show the Family Package row; submission creates the package line.", "SAME rule evaluated on the plan page and again at submission.", "The order is Primary Line 1.", _ids(lambda r: _live(r) and _adult(r) and not _bl(r) and r["Customer / NAS ID"] not in _with_pkg)[:6]),
-    ("Family Owner / package check (Add Another Connection)", "Journey validation", "A line added to a package needs the Family Owner's ID, an approved Primary Line 1, room under the type's limit, and a plan for the type.", "Allowed / Refused", "Add Another Connection from Customer 360 or the confirmation page; then the journey from Contact.", "Add Another Connection dialog (read on every opening and again on Continue)", f"{P_CONTACT} (the ID must be the owner's); {P_PLAN} (plan fixed by the type); Submission re-checks.", "SAME rule evaluated four times (dialog, dialog Continue, plan step, submission) so none can disagree.", "Only available types are offered; the journey is refused with the reason when one is not.", _with_pkg),
+    ("Family Owner / package check (Add Another Connection)", "Journey validation", "A line added to a package needs the Family Owner's ID and an approved Primary Line 1; then Primary Line 2 (the package's plan, included); only once both Primary Lines are active an additional line, on the plan the agent selects (the Family-equivalent plan -> Supplementary, Ahli Lite or Ahli Net -> Secondary) with room under that line type's limit.", "Allowed / Refused", "Add Another Connection from Customer 360 or the confirmation page; then the journey from Contact.", "Add Another Connection dialog (read on every opening and again on Continue)", f"{P_CONTACT} (the ID must be the owner's); {P_PLAN} (Primary Line 2's plan is the package's; an additional line's is the agent's selection from the eligible plans); Submission re-checks.", "SAME rule evaluated four times (dialog, dialog Continue, plan step, submission) so none can disagree.", "Only eligible plans are offered; the journey is refused with the reason when one is not.", _with_pkg),
     ("Plan eligibility by nationality", "Journey validation", "A nationality promotion plan is offered only to customers of that nationality.", "Offered / Not offered", "The customer's nationality matches the plan's list (Indian, Pakistani, Filipino, Bangladeshi).", P_PLAN, "-", "DISTINCT: one page.", "The promotion plans appear (or not) in the plan lists.", sum(_nat_cust.values(), [])),
     ("Add-on eligibility", "Journey validation", "An add-on is offered only on the plan families it is limited to (and to the customer types and ID types it names).", "Offered / Not offered", "The selected plan is in the add-on's plan list.", P_ADDONS, "Customer 360 Family Package add-ons (same rule, package plan).", "DISTINCT: one page in the journey.", "Ineligible add-ons are not listed.", _ids(lambda r: r["Customer / NAS ID"] in ("CUST-3001", "CUST-3011", "CUST-3029"))),
     ("Bill limit against the credit limit", "Journey validation", "The bill limit must meet the agent minimum and not exceed the customer's credit limit.", "Blocks Continue", "Limit below the minimum, or above the credit limit.", P_ADDONS, "Order Summary and Billing show the limits (not re-judged).", "DISTINCT: one page.", "Continue is disabled until the limit is valid.", _ids(lambda r: _hrn(r) and _live(r) and _adult(r))[:6] + ["CUST-3001"]),

@@ -33,6 +33,8 @@ export function checkoutSummaryStep(
     isValid?: (values: Record<string, unknown>) => boolean;
     /** Rows the order adds to the read-back and the CAF's key information, after the plan (a Family Plan's package and line). */
     familyRows?: (values: Record<string, unknown>) => { label: string; value: string }[];
+    /** The plan's rental is included in a Family Package the customer already pays for (Primary Line 2): read back as included, nothing added to the monthly total. */
+    planRentalIncluded?: (values: Record<string, unknown>) => boolean;
   } = {}
 ): WizardStep {
   return {
@@ -70,6 +72,7 @@ export function checkoutSummaryStep(
           onSummaryComputed={(rows) => setValue('cafSummary', rows)}
           onLegalFactsComputed={(facts) => setValue('legalFacts', facts)}
           familyRows={opts.familyRows?.(values)}
+          planRentalIncluded={opts.planRentalIncluded?.(values)}
           onEdit={() => goToStepKey(opts.editStepKey?.(values) ?? 'plan')}
         />
       );

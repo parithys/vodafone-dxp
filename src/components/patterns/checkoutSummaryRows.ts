@@ -81,7 +81,7 @@ export function buildCafSummaryRows({
       value: msisdn ? (isStarNumber ? `${formatQar(numberDelta)} one-time` : `${formatQar(numberDelta)} (no charge to customer)`) : '-',
     },
     { label: 'Plan', value: plan.name },
-    { label: 'Plan Price', value: `${formatQar(plan.mrcQAR)}/mo` },
+    { label: 'Plan Price', value: plan.rentalIncludedInPackage ? 'Included in the Family Package' : `${formatQar(plan.mrcQAR)}/mo` },
     {
       label: 'Discount',
       value: discount

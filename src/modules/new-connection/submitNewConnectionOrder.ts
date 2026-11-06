@@ -44,7 +44,7 @@ import { approvalMessages, decisionRecord, needsCreditControl } from '../../engi
 import { packageBillingProfileId } from '../../engines/familyPackage';
 import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
 import { familyStartFor } from './familyStart';
-import { buildNewCustomerRecords, isNewlyIdentifiedCustomer, newCustomerId } from './newCustomerRecords';
+import { buildNewCustomerRecords, existingCustomerIdFor, isNewlyIdentifiedCustomer, newCustomerId } from './newCustomerRecords';
 
 type EntityStore = ReturnType<typeof useEntityStore.getState>;
 
@@ -80,25 +80,33 @@ export async function submitNewConnectionOrder(
       const familyOrdersNow = await mockDataEngine.list<FamilyOrder>('orders');
       const family = familyStartFor(values, products, familyLinesNow, familyOrdersNow);
       if (family.applies && !family.ok) throw new Error(family.reason);
+      // The line this order is, as derived: nothing is submitted for a connection whose plan has not been selected.
+      const familyDerived = family.applies && family.ok && family.additional && !family.additional.pending ? family.additional : undefined;
+      if (family.applies && family.ok && family.additional?.pending) throw new Error('Select the plan for the connection added to the Family Package.');
+      const familyLineTag = familyDerived ? `${familyDerived.role[0]}${familyDerived.sequence}` : 'P1';
       if (family.applies && family.ok && addonIds.length > 0) throw new Error("A Family Package's add-ons are managed from Customer 360, not on the order.");
-      if (family.applies && family.ok && family.additional && (!family.planId || values.productId !== family.planId)) throw new Error('A connection added to a Family Package needs the plan its type is on.');
+      if (family.applies && family.ok && family.additional && (!family.planId || values.productId !== family.planId)) throw new Error('A connection added to a Family Package needs the plan selected for it.');
       // A customer first identified in this journey has no record, so a Family Package would have no Customer 360 to add its other connections from: the first
       // line of a Family Package creates it (customer, identity document, contact), before anything that belongs to the customer is written.
-      const createdCustomerId = family.applies && family.ok && isNewlyIdentifiedCustomer(contact, eligibility) ? newCustomerId() : undefined;
+      const needsRecord = family.applies && family.ok && isNewlyIdentifiedCustomer(contact, eligibility);
+      // The person may already have the record an earlier order created: that one is used, never a second record for the same ID.
+      const knownCustomerId = needsRecord ? await existingCustomerIdFor(contact.idNumber) : undefined;
+      const createdCustomerId = needsRecord && !knownCustomerId ? newCustomerId() : undefined;
       if (createdCustomerId) {
         const records = buildNewCustomerRecords(createdCustomerId, contact, eligibility);
         await createRecord('customers', records.customer);
         await createRecord('identity-documents', records.document);
         await createRecord('customer-contacts', records.contact);
       }
-      const customerId = eligibility?.customerId ?? createdCustomerId;
+      const customerId = eligibility?.customerId ?? knownCustomerId ?? createdCustomerId;
       const discounts = await mockDataEngine.list<{ addonDiscountId: string; price?: number; addonType?: string }>('addons-discounts');
       const discount = discounts.find((d) => d.addonDiscountId === values.discountId);
       // The same itemisation the two display surfaces render, so what the
       // order records is by construction what the agent quoted. See
       // engines/postpaidPricing.ts.
       const charges = monthlyCharges({
-        planQar: plan?.mrcQAR ?? 0,
+        // Primary Line 2 is included in the package the customer already pays for: its plan's rental is not charged again.
+        planQar: family.applies && family.ok && family.additional && !family.additional.pending && family.additional.charge === 'Free' ? 0 : plan?.mrcQAR ?? 0,
         discountRate: discount?.price,
         addonsQar: addons.reduce((sum, a) => sum + addonChargeNowQar(a, addonBilling[a.productId]), 0),
       });
@@ -320,12 +328,15 @@ export async function submitNewConnectionOrder(
       // record when they have one (a customer first identified in this journey is named by the ID they were identified with).
       if (family.applies && family.ok) {
         await createRecord('family-package-lines', {
-          lineId: `FPL-${orderId.replace('ORD-', '')}-${family.additional ? family.additional.role[0] + family.additional.sequence : 'P1'}`,
+          lineId: `FPL-${orderId.replace('ORD-', '')}-${familyLineTag}`,
           packageId: familyPackageId,
           customerId,
           idNumber: contact.idNumber,
-          role: family.additional?.role ?? 'Primary',
-          sequence: family.additional?.sequence ?? 1,
+          role: familyDerived?.role ?? 'Primary',
+          sequence: familyDerived?.sequence ?? 1,
+          // What the line is, as derived from the package's state and the plan selected (the engine's classification, kept so it is never re-guessed).
+          lineType: familyDerived?.type ?? 'PRIMARY_LINE_1',
+          charge: familyDerived?.charge ?? 'Paid',
           planId: family.planId,
           ...(family.additional?.tierPlanId ? { tierPlanId: family.additional.tierPlanId } : {}),
           orderId,

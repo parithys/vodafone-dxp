@@ -127,7 +127,7 @@
     "stepLabel": "PLAN_SELECTION_LABEL",
     "summary": "Choose the plan: postpaid plan cards then Add-ons (discounts, bill limit), prepaid packs then Add-ons, or the fixed-line / fibre plan cards with the credit check. The line's current plan or pack can be left out of the choices when a journey changes it.",
     "parts": [
-      "capabilities/PlanSelection/SecondaryPlanPicker.tsx",
+      "capabilities/PlanSelection/AdditionalPlanPicker.tsx",
       "components/patterns/PostpaidPlanAddonsStep.tsx",
       "components/patterns/PrepaidPlanStep.tsx",
       "components/patterns/FixedPlanStep.tsx",

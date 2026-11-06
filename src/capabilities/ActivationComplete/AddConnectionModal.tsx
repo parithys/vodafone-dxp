@@ -1,59 +1,50 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { Modal } from '../../components/primitives/Modal';
 import * as mockDataEngine from '../../engines/mockDataEngine';
-import { connectionOptions, lineCatalogueOf, packageSummary, primaryLine1 } from '../../engines/familyPackage';
-import type { ConnectionOption, FamilyLine, FamilyOrder, FamilyRole, PackageSummary } from '../../engines/familyPackage';
-
-/**
- * The option cards are styled inline, from design tokens only, on purpose: this modal must look the same on hosts that do not build the app's
- * `@layer components` / `@apply` classes (the Figma Make site), so it depends on no project class for its layout, border or radio.
- */
-function optionStyle(selected: boolean): CSSProperties {
-  return {
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: '0.75rem',
-    padding: '1rem',
-    cursor: 'pointer',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderRadius: 'var(--radius-card)',
-    borderColor: selected ? 'var(--field-card-selected)' : 'var(--field-card-border)',
-    background: selected ? 'linear-gradient(135deg, var(--surface-warm), var(--bg) 90%)' : 'var(--bg)',
-    boxShadow: selected ? 'var(--shadow-selected-ring)' : 'none',
-  };
-}
+import { connectionUnavailable, eligibleAdditionalPlans, lineCatalogueOf, packageSummary, primaryLine1, resolvePackageState } from '../../engines/familyPackage';
+import type { ConnectionUnavailable, EligiblePlan, FamilyLine, FamilyNextAction, FamilyOrder, FamilyRole, PackageSummary } from '../../engines/familyPackage';
+import { formatQar } from '../../lib/format';
 
 interface PackageOnRecord {
   packageId: string;
-  options: ConnectionOption[];
+  /** What the package needs next, from its state: the connection type is never asked for. */
+  nextAction: FamilyNextAction;
+  /** The plans an additional connection can be on now (both Primary Lines active), with what the catalogue says of each. */
+  eligiblePlans: (EligiblePlan & { name: string; mrcQAR: number })[];
   summary: PackageSummary;
   planName: string | undefined;
+  /** Why nothing can be added, when nothing can. */
+  unavailable: ConnectionUnavailable | undefined;
 }
 
-/** The customer's package as it is on record right now: its lines, what is on it and left, and the connection types that can be added to it. */
+/** The customer's package as it is on record right now: its lines, its state, what is on it, and the next connection it can take. */
 async function readPackage(customerId: string): Promise<PackageOnRecord | undefined> {
   const [lines, orders, products] = await Promise.all([
     mockDataEngine.list<FamilyLine>('family-package-lines'),
     mockDataEngine.list<FamilyOrder>('orders'),
-    mockDataEngine.list<{ productId: string; name?: string; planClass?: string }>('products'),
+    mockDataEngine.list<{ productId: string; name?: string; mrcQAR?: number; planClass?: string; secondaryPlanType?: string }>('products'),
   ]);
   const own = lines.filter((l) => l.customerId === customerId);
   const first = primaryLine1(own);
   if (!first) return undefined;
   const inPackage = own.filter((l) => l.packageId === first.packageId);
   const catalogue = lineCatalogueOf(products);
+  const state = resolvePackageState(inPackage, orders);
   const summary = packageSummary(inPackage, orders, catalogue);
-  return { packageId: first.packageId, options: connectionOptions(inPackage, orders, catalogue), summary, planName: products.find((p) => p.productId === summary.planId)?.name };
+  const eligiblePlans = eligibleAdditionalPlans(state, catalogue).flatMap((e) => {
+    const p = products.find((x) => x.productId === e.planId);
+    return p ? [{ ...e, name: p.name ?? e.planId, mrcQAR: p.mrcQAR ?? 0 }] : [];
+  });
+  return { packageId: first.packageId, nextAction: state.nextAction, eligiblePlans, summary, planName: products.find((p) => p.productId === summary.planId)?.name, unavailable: connectionUnavailable(inPackage, orders, catalogue) };
 }
 
 /**
- * ADD ANOTHER CONNECTION: the choice of connection type for a customer's Family Package. Which types are offered is read from the package every time the
- * modal opens (and again when the agent continues), so a limit reached by the line just added, or a package that changed meanwhile, is never stale: only
- * what can be added now is listed, in no activation order - any listed type can be chosen first. Continue hands the type and the package to `onStart`, which starts the
- * New Postpaid journey for that type from Customer Verification, joined to the same package (the journey judges them again at submission).
+ * ADD ANOTHER CONNECTION: what a customer's Family Package needs next, from its state - the agent is never asked for a connection type. The package is read every time the modal
+ * opens (and again when the agent continues), so a package that changed meanwhile is never stale. Primary Line 2 available: it is the next connection, on the package's plan, at no
+ * additional charge. Both Primary Lines active: the agent selects the plan on the next page and the line's type follows from it. Continue hands the package to `onStart`, which
+ * starts the New Postpaid journey from Customer Verification, joined to the same package (the journey judges it again at submission).
  */
 export function AddConnectionModal(props: AddConnectionModalProps) {
   // Mounted only while open: every opening starts from loading and reads the package afresh.
@@ -65,7 +56,7 @@ interface AddConnectionModalProps {
   onClose: () => void;
   customerId: string;
   /** Starts the journey for the type chosen, joined to the package (the caller owns the route). */
-  onStart: (familyLine: { packageId: string; role: FamilyRole }) => void;
+  onStart: (familyLine: { packageId: string; role?: FamilyRole }) => void;
   /** Runs before the journey starts (the confirmation page records its activity and releases the customer there). */
   onBeforeStart?: () => Promise<void> | void;
   /** Opened because the customer asked for another Family Package while already holding one: the package is shown first and a connection is added to it instead. */
@@ -75,9 +66,10 @@ interface AddConnectionModalProps {
 function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart, alreadyActive }: AddConnectionModalProps) {
   const [state, setState] = useState<'loading' | 'error' | 'ready'>('loading');
   const [pkg, setPkg] = useState<PackageOnRecord | undefined>();
-  const [chosen, setChosen] = useState<FamilyRole | undefined>();
   const [staleNote, setStaleNote] = useState(false);
   const [starting, setStarting] = useState(false);
+  // One start per opening: a repeated click or press cannot start the journey twice.
+  const startedRef = useRef(false);
 
   // Read afresh on every mount (the dialog is mounted per opening) and on retry.
   const [attempt, setAttempt] = useState(0);
@@ -87,8 +79,6 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart, alre
       .then((p) => {
         if (cancelled) return;
         setPkg(p);
-        // The free line is offered first (it is the only option while it is open): it is already the choice.
-        if (p?.options.length === 1) setChosen(p.options[0].role);
         setState('ready');
       })
       .catch(() => !cancelled && setState('error'));
@@ -102,41 +92,47 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart, alre
     setAttempt((n) => n + 1);
   };
 
+  // What the package needs next that the agent can act on: Primary Line 2, or an additional connection on the plan they will select.
+  const actionable = pkg?.nextAction === 'PRIMARY_LINE_2' || (pkg?.nextAction === 'ADDITIONAL_PLAN' && pkg.eligiblePlans.length > 0);
   const start = async () => {
-    if (!chosen || starting) return;
+    if (!pkg || !actionable || starting || startedRef.current) return;
+    startedRef.current = true;
     setStarting(true);
     try {
-      // Read again: the choice is only good if it is still available.
+      // Read again: what was shown is only good if it is still what the package needs.
       const fresh = await readPackage(customerId);
       setPkg(fresh);
-      if (!fresh || !fresh.options.some((o) => o.role === chosen)) {
-        setChosen(undefined);
+      if (!fresh || fresh.nextAction !== pkg.nextAction) {
         setStaleNote(true);
+        startedRef.current = false;
         return;
       }
       await onBeforeStart?.();
       onClose();
-      onStart({ packageId: fresh.packageId, role: chosen });
+      onStart({ packageId: fresh.packageId });
     } catch {
       setState('error');
+      startedRef.current = false;
     } finally {
       setStarting(false);
     }
   };
 
-  const options = pkg?.options ?? [];
+  const startLabel = pkg?.nextAction === 'PRIMARY_LINE_2' ? 'Add Primary Line 2' : 'Select A Plan';
   return (
     <Modal
       open
       onClose={onClose}
-      title={alreadyActive ? 'Family Package Already Active' : 'Add Another Connection'}
+      // Named for what is actually the case: a package that has nothing to add says why (e.g. Primary Line 1 awaiting approval), not that it is "active".
+      title={pkg?.unavailable?.title ?? (alreadyActive ? 'Family Package Already Active' : 'Add Another Connection')}
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
-            Cancel
+            {/* Opened because the customer already has a package: not adding to it is skipping the dialog, and the order stays held on the plan page. */}
+            {alreadyActive ? 'Skip' : 'Cancel'}
           </Button>
-          <Button variant="primary" disabled={!chosen || state !== 'ready' || starting} onClick={() => void start()}>
-            {starting ? 'Starting…' : alreadyActive ? 'Add To This Package' : 'Continue'}
+          <Button variant="primary" disabled={!actionable || state !== 'ready' || starting} onClick={() => void start()}>
+            {starting ? 'Starting…' : startLabel}
           </Button>
         </>
       }
@@ -154,30 +150,35 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart, alre
       )}
       {state === 'ready' && (
         <div className="stack gap-4">
-          {staleNote && <p role="alert" className="notice-warning pad-row">That connection type is no longer available. The list has been updated.</p>}
-          {options.length === 0 ? (
-            <p className="text-secondary">{pkg ? 'No further connection types can be added to this Family Package.' : 'This customer has no Family Package.'}</p>
-          ) : (
+          {staleNote && <p role="alert" className="notice-warning pad-row">The Family Package has changed. What it needs next has been updated.</p>}
+          {!pkg ? (
+            <p className="text-secondary">This customer has no Family Package.</p>
+          ) : !actionable ? (
             <>
-              {alreadyActive && pkg && <PackageDetails pkg={pkg} />}
-              <p className="text-secondary">{pkg && pkg.summary.free.length > 0 ? 'The free line is offered first. Paid lines open once it has been activated.' : 'Select the connection type required by the customer.'}</p>
-              <div role="radiogroup" aria-label="Connection type" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {options.map((o) => (
-                  <label key={o.role} style={optionStyle(chosen === o.role)}>
-                    <input
-                      type="radio"
-                      name="family-connection-type"
-                      checked={chosen === o.role}
-                      onChange={() => setChosen(o.role)}
-                      style={{ marginTop: '0.25rem', width: '1.125rem', height: '1.125rem', accentColor: 'var(--accent)', flexShrink: 0 }}
-                    />
-                    <span>
-                      <span style={{ display: 'block', fontWeight: 500, color: 'var(--fg)' }}>{o.label}</span>
-                      <span style={{ display: 'block', fontSize: 'var(--fs-caption)', color: 'var(--fg-2)' }}>{o.lineLabel} · {o.charge === 'Free' ? 'Free line' : 'Paid line'}</span>
-                    </span>
-                  </label>
+              {alreadyActive && <PackageDetails pkg={pkg} />}
+              <div role="status" className="stack gap-2">
+                {(pkg.unavailable?.reasons ?? ['No further connection can be added to this Family Package.']).map((r) => (
+                  <p key={r} className="text-secondary">{r}</p>
                 ))}
               </div>
+            </>
+          ) : (
+            <>
+              {alreadyActive && <PackageDetails pkg={pkg} />}
+              {pkg.nextAction === 'PRIMARY_LINE_2' ? (
+                <p className="text-secondary">Primary Line 2 is the next connection. It is included in this Family Package on {pkg.planName ?? 'its plan'}, at no additional charge.</p>
+              ) : (
+                <>
+                  <p className="text-secondary">Both included Primary Lines are active. Select the plan for the additional connection on the next page. These plans are available:</p>
+                  <ul className="stack gap-1" aria-label="Available plans">
+                    {pkg.eligiblePlans.map((e) => (
+                      <li key={e.planId} className="text-secondary">
+                        {e.name} - {formatQar(e.mrcQAR)}/mo
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </>
           )}
         </div>
@@ -189,7 +190,7 @@ function AddConnectionDialog({ onClose, customerId, onStart, onBeforeStart, alre
 const heading: CSSProperties = { margin: 0, fontWeight: 600, color: 'var(--fg)' };
 const muted: CSSProperties = { margin: 0, fontSize: 'var(--fs-caption)', color: 'var(--fg-2)' };
 
-/** What the customer's existing Family Package holds, and which of what is left is free or paid. Plain elements and tokens only (see optionStyle). */
+/** What the customer's existing Family Package holds, and which of what is left is free or paid. Plain elements and tokens only, so it looks the same on hosts that do not build the app's component classes (the Figma Make site). */
 function PackageDetails({ pkg }: { pkg: PackageOnRecord }) {
   const { summary } = pkg;
   const row = (label: string, value: string) => (
@@ -198,16 +199,12 @@ function PackageDetails({ pkg }: { pkg: PackageOnRecord }) {
       <span style={{ color: 'var(--fg)', textAlign: 'right' }}>{value}</span>
     </div>
   );
-  const types = (list: { label: string }[]) => (list.length ? list.map((t) => t.label).join(', ') : 'None');
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem', border: '1px solid var(--field-card-border)', borderRadius: 'var(--radius-card)', background: 'var(--surface-subtle)' }}>
       <p style={heading}>This customer already has an active Family Package</p>
-      <p style={muted}>A second package cannot be started. Add the connection to the existing one instead.</p>
       {row('Family Package', pkg.planName ?? 'Family Plan')}
       {row('Lines activated', summary.activated.map((a) => `${a.count} ${a.label}`).join(', ') || 'None')}
-      {row('Lines still available', summary.available.map((a) => (a.remaining === null ? `${a.label} (no limit)` : `${a.remaining} ${a.label}`)).join(', ') || 'None')}
       {row('Free lines available', summary.free.length ? summary.free.map((f) => `${f.label} (${f.lineLabel})`).join(', ') : 'None')}
-      {row('Paid lines available', summary.paidOpen ? types(summary.paid) : summary.free.length ? `${types(summary.paidTypes)} (open after the free line)` : 'None')}
     </div>
   );
 }

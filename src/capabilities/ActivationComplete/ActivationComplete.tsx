@@ -27,7 +27,7 @@ export interface ActivationCompleteProps {
   showActivityId?: boolean;
   allowCustomerView?: boolean;
   /** Starts the journey for a connection added to the order's Family Package (the journey that mounts this owns the route). Without it, no Add Another Connection is offered. */
-  onAddConnection?: (familyLine: { packageId: string; role: import('../../engines/familyPackage').FamilyRole }) => void;
+  onAddConnection?: (familyLine: { packageId: string; role?: import('../../engines/familyPackage').FamilyRole }) => void;
 }
 
 export function ActivationComplete({ order, service = 'mobile', showActivityId = true, allowCustomerView = false, onAddConnection }: ActivationCompleteProps) {

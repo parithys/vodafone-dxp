@@ -393,8 +393,8 @@
   "paths": [
    "src/components/primitives/Button.tsx"
   ],
-  "area": "workspace/customer360 (29), components/patterns (24), components/domain (13), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +26 more",
-  "files": 125
+  "area": "workspace/customer360 (30), components/patterns (24), components/domain (13), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +26 more",
+  "files": 126
  },
  {
   "name": "CloseButton",
@@ -1777,6 +1777,17 @@
   "files": 1
  },
  {
+  "name": "PackageDetails",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/ActivationComplete/AddConnectionModal.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
   "name": "Panel",
   "category": "Containers, panels and sections",
   "layer": "Workspace",
@@ -2075,6 +2086,17 @@
   "files": 3
  },
  {
+  "name": "AdditionalPlanPicker",
+  "category": "Forms and form controls",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/PlanSelection/AdditionalPlanPicker.tsx"
+  ],
+  "area": "modules/new-connection (1)",
+  "files": 1
+ },
+ {
   "name": "AddonsPicker",
   "category": "Forms and form controls",
   "layer": "Capability",
@@ -2148,8 +2170,8 @@
   "paths": [
    "src/components/primitives/Checkbox.tsx"
   ],
-  "area": "components/patterns (3), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities/SimType (1), capabilities/NumberSelection (1), workspace/administration (1) +2 more",
-  "files": 12
+  "area": "components/patterns (4), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities/SimType (1), capabilities/NumberSelection (1), workspace/administration (1) +2 more",
+  "files": 13
  },
  {
   "name": "CompanySearchInput",
@@ -2440,7 +2462,7 @@
   "paths": [
    "src/components/primitives/Radio.tsx"
   ],
-  "area": "capabilities/ActivationComplete (1), workspace/administration (1), modules/new-connection (1)",
+  "area": "workspace/customer360 (1), workspace/administration (1), modules/new-connection (1)",
   "files": 3
  },
  {
@@ -2464,17 +2486,6 @@
   ],
   "area": "workspace/customer360 (7), components/domain (4), workspace/administration (2), modules (2), modules/trouble-ticketing-complaints (2), capabilities/AddonsSelection (1) +4 more",
   "files": 22
- },
- {
-  "name": "SecondaryPlanPicker",
-  "category": "Forms and form controls",
-  "layer": "Capability",
-  "scope": "Shared",
-  "paths": [
-   "src/capabilities/PlanSelection/SecondaryPlanPicker.tsx"
-  ],
-  "area": "modules/new-connection (1)",
-  "files": 1
  },
  {
   "name": "Select",
@@ -2985,6 +2996,17 @@
   ],
   "area": "(file-local)",
   "files": 0
+ },
+ {
+  "name": "FamilyPackageActiveGate",
+  "category": "Layout components",
+  "layer": "Journey / module",
+  "scope": "Shared (limited)",
+  "paths": [
+   "src/modules/new-connection/FamilyPackageActiveGate.tsx"
+  ],
+  "area": "modules/new-connection (1)",
+  "files": 1
  },
  {
   "name": "FileIcon",
@@ -3655,8 +3677,8 @@
   "paths": [
    "src/capabilities/ActivationComplete/AddConnectionModal.tsx"
   ],
-  "area": "capabilities/ActivationComplete (1), workspace/customer360 (1)",
-  "files": 2
+  "area": "capabilities/ActivationComplete (1), workspace/customer360 (1), modules/new-connection (1)",
+  "files": 3
  },
  {
   "name": "AddressEditDrawer",
@@ -3756,8 +3778,8 @@
   "paths": [
    "src/components/primitives/Modal.tsx"
   ],
-  "area": "capabilities/EligibilityGate (2), components/patterns (2), capabilities/PlanSelection (1), capabilities/ActivationComplete (1), capabilities/NumberSelection (1), workspace/administration (1) +3 more",
-  "files": 11
+  "area": "capabilities/EligibilityGate (2), components/patterns (2), capabilities/PlanSelection (1), capabilities/ActivationComplete (1), capabilities/NumberSelection (1), workspace/customer360 (1) +4 more",
+  "files": 12
  },
  {
   "name": "OfferDetailsDrawer",

@@ -80,6 +80,8 @@ interface CheckoutSummaryStepProps {
   onLegalFactsComputed?: (facts: TncLegalFacts) => void;
   /** Rows the order adds after the plan, in the read-back and the CAF's key information (a Family Plan's package and line). */
   familyRows?: { label: string; value: string }[];
+  /** The plan's rental is included in a Family Package the customer already pays for (Primary Line 2): read back as included, nothing added to the monthly total. */
+  planRentalIncluded?: boolean;
 }
 
 // "Checkout" (reference flow step 9, evidenced as SCR "checkout-screen-retail-
@@ -107,6 +109,7 @@ export function CheckoutSummaryStep({
   onEdit,
   onLegalFactsComputed,
   familyRows,
+  planRentalIncluded,
   layout = 'default',
 }: CheckoutSummaryStepProps) {
   const derived = useCheckoutSummary({
@@ -125,6 +128,7 @@ export function CheckoutSummaryStep({
     onSummaryComputed,
     onLegalFactsComputed,
     extraRows: familyRows,
+    planRentalIncluded,
   });
 
   if (layout === 'detailed') {

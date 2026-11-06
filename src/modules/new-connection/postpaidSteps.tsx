@@ -12,7 +12,7 @@ import {
   serviceAddressStep,
   simTypeStep,
   isSpecialDiscountsValid,
-  SecondaryPlanPicker,
+  AdditionalPlanPicker,
 } from '../../capabilities';
 import type { SpecialDiscountsValue } from '../../capabilities';
 import { starEntitlementQar } from '../../engines/postpaidPricing';
@@ -24,10 +24,9 @@ import type { DeviceType } from '../../lib/deviceType';
 import type { FamilyLine, FamilyOrder } from '../../engines/familyPackage';
 import { FamilyPackageNotice } from '../../components/patterns/FamilyPackageNotice';
 import { familyLineContextOf, familyStartFor } from './familyStart';
-import { FamilyCustomerRepair } from './FamilyCustomerRepair';
 import { FamilyPlanApplier } from '../../components/patterns/FamilyPackageNotice';
 import type { PostpaidPlan } from '../../components/patterns/postpaidPlanModel';
-import { SECONDARY_PLAN_CLASS, linesOfCustomer } from '../../engines/familyPackage';
+import { linesOfCustomer } from '../../engines/familyPackage';
 import { FamilyPackageActiveGate } from './FamilyPackageActiveGate';
 
 /** What the postpaid steps need from the journey: the plan catalogue and the customer's benefits. */
@@ -99,13 +98,12 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
       const c = family(values);
       return Boolean(familyLineContextOf(values)) && c.applies && c.ok && Boolean(c.planId);
     },
-    headless: ({ values, setValue }) => (
-      <>
-        <FamilyPlanApplier check={family(values)} productId={values.productId as string | undefined} setValue={setValue} />
-        {/* A package held by the customer's ID alone gets its customer record, so "add connections from Customer 360" has a customer to open. */}
-        <FamilyCustomerRepair lines={familyLines} values={values} setValue={setValue} />
-      </>
-    ),
+    // Arriving here anyway (the page can be the one a journey opens on, with nothing before it to pass over it) moves straight on to Number Selection: there is nothing to choose.
+    autoAdvanceWhen: (values) => {
+      const c = family(values);
+      return Boolean(familyLineContextOf(values)) && c.applies && c.ok && Boolean(c.planId);
+    },
+    headless: ({ values, setValue }) => <FamilyPlanApplier check={family(values)} productId={values.productId as string | undefined} additionalContext={Boolean(familyLineContextOf(values))} setValue={setValue} />,
     render: (c) => {
       if (!familyLineContextOf(c.values)) {
         // A Family Plan for a customer who already has a package: show that package and carry on by adding a connection to it.
@@ -113,9 +111,15 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
         const owner = held.applies && !held.ok && held.kind === 'package' ? linesOfCustomer(familyLines, { customerId: (c.values.eligibility as { customerId?: string } | undefined)?.customerId, idNumber: (c.values.contact as { idNumber?: string } | undefined)?.idNumber })[0] : undefined;
         return (
           <>
-            {(owner?.customerId ?? (c.values.eligibility as { customerId?: string } | undefined)?.customerId) && (
+            {/* A package with no customer record to open (nothing for the dialog to read) is explained in place. */}
+            {owner && !owner.customerId && held.applies && !held.ok && (
+              <p role="alert" className="notice-danger pad-row mb-6">
+                {held.reason}
+              </p>
+            )}
+            {owner?.customerId && (
               <FamilyPackageActiveGate
-                customerId={(owner?.customerId ?? (c.values.eligibility as { customerId?: string } | undefined)?.customerId)!}
+                customerId={owner.customerId}
                 onAdd={(familyLine) => {
                   c.setValue('familyLine', familyLine);
                   c.setValue('productId', undefined);
@@ -130,9 +134,15 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
       return (
         <>
           <FamilyPackageNotice check={k} planName={k.applies && k.ok && k.planId ? planName(c.values, k.planId) : undefined} />
-          {k.applies && k.ok && k.additional?.role === 'Secondary' && (
-            <SecondaryPlanPicker
-              plans={products.filter((p) => p.planClass === SECONDARY_PLAN_CLASS) as unknown as PostpaidPlan[]}
+          {/* What stops a connection being added to this package (its Primary Lines not both active, a plan that is no longer eligible, the wrong ID) is said here, on this page. */}
+          {k.applies && !k.ok && (
+            <p role="alert" className="notice-danger pad-row mb-6">
+              {k.reason}
+            </p>
+          )}
+          {k.applies && k.ok && k.additional?.pending && (
+            <AdditionalPlanPicker
+              plans={k.additional.eligiblePlans.flatMap((e) => products.filter((p) => p.productId === e.planId)) as unknown as PostpaidPlan[]}
               selectedProductId={c.values.productId as string | undefined}
               onSelect={(id) => c.setValue('productId', id)}
               onDeselect={() => c.setValue('productId', undefined)}
@@ -164,13 +174,18 @@ export function postpaidSteps({ products, customerBenefits, device, familyLines 
       // An accepted offer fixes the plan, so the Plan & Add-ons step is skipped and 'plan' is not a reachable
       // key - jump to Number Selection (the first step still editable) instead of doing nothing.
       editStepKey: (values) => (offerAccepted(values) && !family(values).applies ? 'number' : 'plan'),
+      // Primary Line 2 is included in the package the customer already pays for: its plan rental is not charged again (an additional line is charged at its own plan).
+      planRentalIncluded: (values) => {
+        const c = family(values);
+        return c.applies && c.ok && Boolean(c.additional) && !c.additional?.pending && c.additional?.type === 'PRIMARY_LINE_2';
+      },
       // The Order Summary and the CAF say the order is Primary Line 1 of a new Family Package.
       familyRows: (values) => {
         const c = family(values);
         if (!c.applies || !c.ok) return [];
         if (!c.additional) return [{ label: 'Family Package', value: `${c.lineLabel} of a new Family Package` }];
         const tier = planName(values, c.additional.tierPlanId);
-        const secondaryType = c.additional.role === 'Secondary' ? products.find((p) => p.productId === c.planId)?.secondaryPlanType : undefined;
+        const secondaryType = !c.additional.pending && c.additional.role === 'Secondary' ? products.find((p) => p.productId === c.planId)?.secondaryPlanType : undefined;
         return [
           { label: 'Family Package', value: `${c.lineLabel} of the existing Family Package` },
           ...(tier ? [{ label: 'Family Plan', value: tier }] : []),

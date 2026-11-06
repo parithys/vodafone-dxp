@@ -112,7 +112,7 @@ export function CheckoutDefaultLayout({
             leaving lock-in/duration to a separate recap box. */}
         <Row
           label="Plan"
-          value={plan ? `${plan.name} - ${formatQar(plan.mrcQAR)}/mo` : '-'}
+          value={plan ? `${plan.name} - ${plan.rentalIncludedInPackage ? 'included in the Family Package' : `${formatQar(plan.mrcQAR)}/mo`}` : '-'}
           detail={plan ? (plan.commitmentMonths ? `${plan.commitmentMonths}-month lock-in` : 'No lock-in') : undefined}
         />
         {/* Shown so the monthly figure below can be arrived at from the rows

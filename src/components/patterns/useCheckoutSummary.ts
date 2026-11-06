@@ -29,6 +29,8 @@ interface UseCheckoutSummaryArgs {
   onLegalFactsComputed?: (facts: TncLegalFacts) => void;
   /** Rows the order adds to the CAF's key information, after the plan (see insertRowsAfter). */
   extraRows?: { label: string; value: string }[];
+  /** The plan's rental is included in a Family Package the customer already pays for (Primary Line 2): nothing is added to the monthly total for it. */
+  planRentalIncluded?: boolean;
 }
 
 export type CheckoutSummaryDerived = ReturnType<typeof useCheckoutSummary>;
@@ -52,6 +54,7 @@ export function useCheckoutSummary({
   onSummaryComputed,
   extraRows,
   onLegalFactsComputed,
+  planRentalIncluded = false,
 }: UseCheckoutSummaryArgs) {
   const [products, setProducts] = useState<Product[]>([]);
   const [discounts, setDiscounts] = useState<
@@ -69,7 +72,8 @@ export function useCheckoutSummary({
     mockDataEngine.list<StarNumberTier>('star-number-tiers').then(setStarTiers);
   }, []);
 
-  const plan = products.find((p) => p.productId === productId);
+  const listedPlan = products.find((p) => p.productId === productId);
+  const plan = listedPlan && planRentalIncluded ? { ...listedPlan, rentalIncludedInPackage: true } : listedPlan;
   const addons = products
     .filter((p) => addonIds.includes(p.productId))
     .map((addon) => addonWithBillingChoice(addon, addonBilling[addon.productId]));
@@ -116,7 +120,7 @@ export function useCheckoutSummary({
   // what they are billed, and the two diverging is exactly the bug this
   // module was extracted to end.
   const charges = monthlyCharges({
-    planQar: plan?.mrcQAR ?? 0,
+    planQar: plan?.rentalIncludedInPackage ? 0 : plan?.mrcQAR ?? 0,
     discountRate: discount?.price,
     addonsQar: addons.reduce((sum, a) => sum + addonChargeNowQar(a, addonBilling[a.productId]), 0),
   });

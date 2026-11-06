@@ -1,4 +1,5 @@
 import { primaryContactMobile } from '../../capabilities';
+import * as mockDataEngine from '../../engines/mockDataEngine';
 import type { GuidedContactValue } from '../../capabilities';
 import type { EligibilityResult } from '../../components/domain/eligibilityTypes';
 
@@ -73,6 +74,20 @@ export function buildNewCustomerRecords(customerId: string, contact: GuidedConta
     cellNumber: phone,
   });
   return { customer, document, contact: contactRecord };
+}
+
+/**
+ * The customer who already has this ID on record (the customer's own `qid`, or an identity document carrying the number), if any. The New Customer journey
+ * takes an ID that already has a record through as a new customer on purpose, so a second order for the same person must be given their record, never a
+ * second one: two records for one ID leave the next identity lookup asking the agent which one to use.
+ */
+export async function existingCustomerIdFor(idNumber: string | undefined): Promise<string | undefined> {
+  if (!idNumber) return undefined;
+  const [customers, documents] = await Promise.all([
+    mockDataEngine.list<{ customerId: string; qid?: string }>('customers'),
+    mockDataEngine.list<{ customerId: string; documentNumber?: string }>('identity-documents'),
+  ]);
+  return customers.find((c) => c.qid === idNumber)?.customerId ?? documents.find((d) => d.documentNumber === idNumber)?.customerId;
 }
 
 /** A fresh customer id, in the shape of the existing ones. */
