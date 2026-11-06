@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useEntityStore } from '../../../stores/entityStore';
 import { useNotificationStore } from '../../../stores/notificationStore';
@@ -12,7 +12,8 @@ import type { Ticket, AuditRecord, OsbNotification } from './ticketDetailModel';
 export function useTicketDetailState() {
   const [params] = useSearchParams();
   const ticketId = params.get('id');
-  const tickets = (useEntityStore((s) => s.records['trouble-tickets']) ?? []) as unknown as Ticket[];
+  const rawTickets = useEntityStore((s) => s.records['trouble-tickets']);
+  const tickets = useMemo(() => (rawTickets ?? []) as unknown as Ticket[], [rawTickets]);
   const loadKind = useEntityStore((s) => s.loadKind);
   const updateRecord = useEntityStore((s) => s.updateRecord);
   const createRecord = useEntityStore((s) => s.createRecord);

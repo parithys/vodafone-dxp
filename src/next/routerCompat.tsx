@@ -76,7 +76,9 @@ export type NavigateFunction = (to: string | number, options?: { replace?: boole
 export function useNavigate(): NavigateFunction {
   const router = useRouter();
   const routerRef = useRef(router);
-  routerRef.current = router;
+  useEffect(() => {
+    routerRef.current = router;
+  });
   return useCallback<NavigateFunction>((to, options) => {
     if (typeof to === 'number') {
       window.history.go(to);
@@ -134,7 +136,9 @@ export function useParams<T extends Record<string, string | undefined> = Record<
 export function useBlocker(fn: BlockerFn) {
   const [pending, setPending] = useState<(() => void) | null>(null);
   const fnRef = useRef(fn);
-  fnRef.current = fn;
+  useEffect(() => {
+    fnRef.current = fn;
+  });
   useEffect(() => {
     const entry = { fn: ((a) => fnRef.current(a)) as BlockerFn, block: (proceed: () => void) => setPending(() => proceed) };
     blockers.add(entry);

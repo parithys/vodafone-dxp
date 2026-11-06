@@ -1,17 +1,8 @@
 import { useState } from 'react';
 import { SPECIMENS, type Specimen } from '../../data/synthetic/idScanSamples';
 import { SYNTHETIC_CLASS } from '../../data/synthetic/syntheticMarker';
+import type { SpecimenIdentity } from './scannedIdModel';
 import { SPECIMEN_PALETTE as P } from '../../data/synthetic/idSpecimenPalette';
-
-export interface SpecimenIdentity {
-  name: string;
-  idNo: string;
-  nationality: string;
-  /** dd/mm/yyyy */
-  dob: string;
-  /** dd/mm/yyyy */
-  expiry: string;
-}
 
 const yymmdd = (dmy: string) => {
   const [d, m, y] = dmy.split('/');
@@ -19,12 +10,6 @@ const yymmdd = (dmy: string) => {
 };
 
 export type IdVariant = 'qid' | 'passport' | 'gcc' | 'diplomatic' | 'b2b2c' | 'retired' | 'mada';
-
-/** The identity printed on the card the reader is shown: the customer's own when the journey is bound to one, else the document type's specimen. */
-export function capturedFromCard(documentType: string | undefined, identity?: SpecimenIdentity): { name: string; dob: string; nationality: string } {
-  const s = identity ?? SPECIMENS[documentType ?? 'QID'] ?? SPECIMENS.QID;
-  return { name: s.name, dob: s.dob, nationality: s.nationality };
-}
 
 interface ScannedIdPreviewProps {
   side: 'front' | 'back';

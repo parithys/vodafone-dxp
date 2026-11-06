@@ -1,27 +1,15 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { SegmentedTabs } from '../../../components/primitives/SegmentedTabs';
-import { GridTable, toneFor } from '../sections/C360Kit';
+import { GridTable } from '../sections/C360Kit';
 import { Button } from '../../../components/primitives/Button';
 import { Icon } from '../../../components/primitives/Icon';
-import { Card, I, Pill } from './TelesalesOverview';
-import { CHECK, CHEVRON_DOWN, CHEVRON_UP, DOTS, DOWNLOAD, PLUS_ICON, SHIELD } from '../../../assets/icons';
+import { Card } from './TelesalesOverview';
+import { I } from './telesalesOverviewModel';
 
 
 // Building blocks shared by the Telesales Overview page sections (Account, Contacts, Connections,
 // Billing, Offers, Usage, Address, Leads, Orders & Tickets, Audit Trail), in the supplied design.
-
-export const ICON = {
-  ...I,
-  down: CHEVRON_DOWN,
-  up: CHEVRON_UP,
-  shield: SHIELD,
-  plus: PLUS_ICON,
-  check: CHECK,
-  dots: DOTS,
-  download: DOWNLOAD,
-};
-
 
 interface Slots {
   toolbar: HTMLElement | null;
@@ -223,14 +211,3 @@ export function Field({ label, children }: { label: string; children: ReactNode 
     </div>
   );
 }
-
-export const yesNo = (v: boolean | string | undefined | null) => {
-  const yes = v === true || v === 'Yes';
-  return <Pill tone={yes ? 'green' : 'red'}>{yes ? 'Yes' : 'No'}</Pill>;
-};
-
-// One status-to-colour map for Customer 360 and Telesales alike: toneFor in C360Kit.
-export const pillFor = (status: string) => {
-  const t = toneFor(status);
-  return (t === 'grey' || t === 'purple' ? 'neutral' : t) as 'neutral' | 'green' | 'blue' | 'red' | 'amber';
-};

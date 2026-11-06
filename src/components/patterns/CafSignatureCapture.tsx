@@ -281,6 +281,8 @@ export function CafSignatureCapture({
           signed={signed}
           scrollMode={termsScrollMode}
           journey={journey}
+          // Only with a Secondary Contact on the line (the Supplementary Form exists only then): the supplementary terms beside the general ones.
+          supplementaryTerms={supplementaryForm ? { terms: SECONDARY_CONTACT_TERMS, primaryContactName: customerName, secondaryContactName: supplementaryForm.actualUserName } : undefined}
           closingHeader={
             signed ? (
               // Signed: the same heading row as the secondary contact's form (the name is on the Signed by line below).
@@ -345,7 +347,8 @@ export function CafSignatureCapture({
                   I understand that a copy of the Terms and Conditions will be delivered to the email I provided and verified.
                 </p>
               )}
-              {fullTerms && <p className="body-text mt-5">I agree to receive marketing communications and special offers (Campaigns).</p>}
+              {/* With a Secondary Contact the checkboxes follow on the same full-width panel, so the marketing line gets room before them. */}
+              {fullTerms && <p className={`body-text mt-5 ${supplementaryForm ? 'mb-5' : ''}`}>I agree to receive marketing communications and special offers (Campaigns).</p>}
               {requireTermsAgreement && (
                 <label className="mt-3 row gap-2 cursor-pointer">
                   <Checkbox

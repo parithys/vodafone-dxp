@@ -80,6 +80,7 @@ export function TicketDetail() {
   // placeholder pending VFQ confirmation), with a mandatory reason, returning
   // status to "Not Solved" (not a separate "Reopened" state) and incrementing
   // reopenCount.
+  // oxlint-disable-next-line react/purity -- the reopen window is a wall-clock check that must be re-evaluated on every render; freezing it would let a stale window stay open
   const withinReopenWindow = ticket.closedAt ? Date.now() - new Date(ticket.closedAt).getTime() <= REOPEN_WINDOW_DAYS * 24 * 60 * 60 * 1000 : false;
 
   const {

@@ -48,7 +48,7 @@ test('every Passport in the inventory: a valid visa passes, an expired or missin
     const valid = visa.isVisaValid(d.visa, NOW);
     assert.equal(c.outcome, valid ? 'pass' : 'hard-stop', `${d.documentNumber}`);
     assert.equal(c.passed, valid);
-    valid ? passed++ : stopped++;
+    if (valid) passed++; else stopped++;
   }
   assert.ok(passed > 0 && stopped > 0, 'the data exercises both outcomes');
   assert.ok(passports.some((d) => !d.visa), 'one Passport has no visa at all');

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CustomerSearchResults, useCustomerSearch, MIN_QUERY_LENGTH } from './CustomerSearchResults';
+import { CustomerSearchResults, MIN_QUERY_LENGTH } from './CustomerSearchResults';
+import { useCustomerSearch } from './useCustomerSearch';
 import { SearchField } from '../../components/primitives/SearchField';
 import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';

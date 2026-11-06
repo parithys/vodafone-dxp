@@ -1,5 +1,6 @@
 import { EmptyState } from './EmptyState';
-import { Pagination, pageWindow } from './Pagination';
+import { Pagination } from './Pagination';
+import { pageWindow } from './paginationModel';
 import { useState, type KeyboardEvent, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from './Icon';

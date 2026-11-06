@@ -1,9 +1,10 @@
 import { getLookupList } from '../../engines/configEngine';
 import { formatDateTime } from '../../lib/format';
 import { IdLookupStep } from './IdLookupStep';
-import { idTypeLabel } from '../domain/QidInput';
+import { idTypeLabel } from '../../data/idTypes';
 import type { QidType } from '../domain/QidInput';
-import { IdentityDetailsCard, identityFacts } from '../../capabilities/CustomerIdentification/IdentityDetailsCard';
+import { IdentityDetailsCard } from '../../capabilities/CustomerIdentification/IdentityDetailsCard';
+import { identityFacts } from '../../capabilities/CustomerIdentification/identityFacts';
 import { Input } from '../primitives/Input';
 import { PhoneNumberInput } from '../primitives/PhoneNumberInput';
 import { Select } from '../primitives/Select';

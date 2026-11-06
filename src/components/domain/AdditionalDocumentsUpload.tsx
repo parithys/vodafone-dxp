@@ -84,17 +84,24 @@ export function AdditionalDocumentsUpload({
   const [staged, setStaged] = useState<File | null>(null);
   // The document opened from Journey Documents, shown in the side drawer.
   const documentsRef = useRef(documents);
-  documentsRef.current = documents;
+  useEffect(() => {
+    documentsRef.current = documents;
+  });
+  const onPendingChangeRef = useRef(onPendingChange);
+  const onMissingRequiredChangeRef = useRef(onMissingRequiredChange);
+  useEffect(() => {
+    onPendingChangeRef.current = onPendingChange;
+    onMissingRequiredChangeRef.current = onMissingRequiredChange;
+  });
   const [journeyOpen, setJourneyOpen] = useState(false);
   // 0-100 while a document is being uploaded; undefined when none is.
   const [progress, setProgress] = useState<number | undefined>();
   const [viewing, setViewing] = useState<{ title: string; dataUrl?: string; scan?: JourneyDocument['scan'] } | undefined>();
   // A type picked with no file yet is an unfinished upload: the caller blocks Continue until it is uploaded.
   useEffect(() => {
-    onPendingChange?.(Boolean(label.trim() || staged));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    onPendingChangeRef.current?.(Boolean(label.trim() || staged));
   }, [label, staged]);
-  useEffect(() => () => onPendingChange?.(false), []);
+  useEffect(() => () => onPendingChangeRef.current?.(false), []);
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const requiredFileRef = useRef<HTMLInputElement>(null);
@@ -106,10 +113,9 @@ export function AdditionalDocumentsUpload({
   const uploadedFor = (requirementId: string) => documents.find((d) => d.requirementId === requirementId);
   const missing = requirements.filter((r) => !uploadedFor(r.id));
   useEffect(() => {
-    onMissingRequiredChange?.(missing.length);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    onMissingRequiredChangeRef.current?.(missing.length);
   }, [missing.length]);
-  useEffect(() => () => onMissingRequiredChange?.(0), []);
+  useEffect(() => () => onMissingRequiredChangeRef.current?.(0), []);
 
   const add = async (file: File, doc: { label: string; requirementId?: string }) => {
     const problem = uploadFileProblem(file, RULES);
@@ -118,6 +124,7 @@ export function AdditionalDocumentsUpload({
       return false;
     }
     setError(null);
+    // oxlint-disable-next-line react/purity -- runs in the upload handler, not during render
     const id = `${Date.now()}-${file.name}`;
     // The content is kept in memory for viewing and download; only the name, size and label go with the draft.
     try {

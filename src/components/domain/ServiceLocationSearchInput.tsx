@@ -35,7 +35,11 @@ export function ServiceLocationSearchInput({ label, id, placeholder, value, opti
   const inputRef = useRef<HTMLInputElement>(null);
 
   // The other ID (or a lookup) can change this one from outside.
-  useEffect(() => setQuery(value), [value]);
+  const [seenValue, setSeenValue] = useState(value);
+  if (seenValue !== value) {
+    setSeenValue(value);
+    setQuery(value);
+  }
 
   useEffect(() => {
     if (!open) return;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Input } from '../primitives/Input';
 import { Button } from '../primitives/Button';
 import { evaluateRule } from '../../engines/ruleEngine';
@@ -38,9 +38,12 @@ export function BillLimitEditor({ product, value, onChange, layout = 'default', 
   // the agent opens the editor. Without this, draft stayed pinned to
   // whatever `value` was on first mount, so switching plans before ever
   // clicking "Edit Bill Limit" would open the editor on a stale figure.
-  useEffect(() => {
+  // State adjusted while rendering (compared with the value / editing flag it last saw), not in an effect.
+  const [seen, setSeen] = useState({ value, editing });
+  if (seen.value !== value || seen.editing !== editing) {
+    setSeen({ value, editing });
     if (!editing) setDraft(String(value ?? ''));
-  }, [value, editing]);
+  }
   const agentMinimum = AGENT_MINIMUMS[product];
   const overCredit = (amount: number | undefined) => amount !== undefined && maxLimit !== undefined && amount > maxLimit;
   const result = value !== undefined ? evaluateRule('BR-AGENT-MIN-THRESHOLD', { limitAmount: value, agentMinimum }) : null;

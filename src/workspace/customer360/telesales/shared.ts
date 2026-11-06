@@ -1,4 +1,5 @@
-import { dateTime, type Ctx } from './TelesalesOverview';
+import { type Ctx } from './TelesalesOverview';
+import { dateTime } from './telesalesOverviewModel';
 import { strOrEmpty as str } from '../../../lib/values';
 import { formatQarAny } from '../../../lib/format';
 

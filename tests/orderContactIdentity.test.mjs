@@ -54,7 +54,7 @@ test('every journey\'s order records them the same way, through the shared helpe
 });
 
 test('Sponsor and Occupation are captured but not shown in a journey: the Identity Details card lists neither, Customer 360 does', async () => {
-  const { identityFacts } = await load('/src/capabilities/CustomerIdentification/IdentityDetailsCard.tsx');
+  const { identityFacts } = await load('/src/capabilities/CustomerIdentification/identityFacts.ts');
   const labels = identityFacts({ firstName: 'A', companyName: 'Qatar Gas', occupation: 'Engineer' }).map((f) => f.label);
   assert.ok(!labels.includes('Sponsor') && !labels.includes('Occupation'));
   const c360 = fs.readFileSync('src/workspace/customer360/sections/C360ContactIdentity.tsx', 'utf8');

@@ -1,7 +1,8 @@
 import { formatDateTime, formatQar } from '../../lib/format';
 import { EmptyState } from '../primitives/EmptyState';
 import { TabStrip } from '../primitives/TabStrip';
-import { Pagination, pageWindow } from '../primitives/Pagination';
+import { Pagination } from '../primitives/Pagination';
+import { pageWindow } from '../primitives/paginationModel';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from '../primitives/Button';
 import { Badge } from '../primitives/Badge';
@@ -173,7 +174,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
     // everyone else keeps the Free default.
     if (heldReservations > 0) setTab('Reserved');
     else if (isRetailSales) setTab('Star');
-  }, [numbersLoaded, heldReservations, isRetailSales]);
+  }, [numbersLoaded, heldReservations, isRetailSales, portalMode]);
 
   // The Reserved tab is always shown: first when the customer has reservations, last (with its empty state) when not. Before the numbers have
   // loaded no tab is shown for Retail Sales, so the strip never flashes a tab that then moves.

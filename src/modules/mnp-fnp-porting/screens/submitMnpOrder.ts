@@ -14,8 +14,8 @@ import { COLLECTION_TEAM_ROLE, emailVerification, maskEmail, persistBillingAccou
 import { orderTerms, primaryContactMobile } from '../../../capabilities';
 import { approvalMessages, decisionRecord, needsCreditControl } from '../../../engines/connectionEligibility';
 import type { BillingAccountValue, ConfirmedOrder, GuidedContactValue } from '../../../capabilities';
-import type { DonorDetailsValue } from '../../../components/patterns/DonorDetailsStep';
-import type { DonorAttachmentValue } from '../../../components/patterns/DonorAttachmentStep';
+import type { DonorDetailsValue } from '../../../components/patterns/donorModel';
+import type { DonorAttachmentValue } from '../../../components/patterns/donorModel';
 import { buildPortInRecord } from '../../../engines/portInEngine';
 import { normalizePortInNumber } from '../../../data/portInRules';
 import { PORT_IN_STATUS_PATH } from './portInStatusPath';

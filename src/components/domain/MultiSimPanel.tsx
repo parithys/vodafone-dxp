@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../primitives/Button';
 import { SimSerialScanner } from './SimSerialScanner';
 import { issueEsimProfile } from './esimProfile';
@@ -31,7 +31,9 @@ export function MultiSimPanel({ count, value, onChange, device, approvalRequired
   const [issuing, setIssuing] = useState(false);
   // The list as of now: the scanner's validation can finish after a re-render, so additions read the latest rather than the closure.
   const latest = useRef(value);
-  latest.current = value;
+  useEffect(() => {
+    latest.current = value;
+  });
   const full = value.length >= count;
   const serials = [...otherSerials, ...value.map((s) => s.simSerial).filter((x): x is string => Boolean(x))];
   const iccids = [...otherIccids, ...value.map((s) => s.simIccid).filter((x): x is string => Boolean(x))];

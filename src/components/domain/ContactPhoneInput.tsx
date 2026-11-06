@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Icon } from '../primitives/Icon';
 import * as mockDataEngine from '../../engines/mockDataEngine';
-import { formatQatarPhoneForDisplay } from '../primitives/PhoneNumberInput';
+import { formatQatarPhoneForDisplay } from '../primitives/phoneFormat';
 import { useSearchListNav } from '../../hooks/useSearchListNav';
 import { CHEVRON_DOWN, CHEVRON_UP } from '../../assets/icons';
 

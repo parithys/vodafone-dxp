@@ -6,11 +6,11 @@ import { Icon } from '../../../components/primitives/Icon';
 import { ConnectionTypeTag } from '../../../components/primitives/ConnectionTypeTag';
 import { buildAssetsFieldResolver } from '../sections/assetsResolvers';
 import { isActiveService } from '../../../engines/customerServicesEngine';
-import { blacklistResolvers } from '../sections/blacklistResolvers';
-import { getVisibleTopicFields } from '../../../engines/customer360VisibilityEngine';
-import { Card, KV, Pill, dateTime, type Ctx } from './TelesalesOverview';
+import { Card, KV, Pill, type Ctx } from './TelesalesOverview';
+import { dateTime } from './telesalesOverviewModel';
 import { TabStrip } from '../../../components/primitives/TabStrip';
-import { ActionList, HeaderButton, ICON, SectionHeader, StatStrip, Table, TableCard, pillFor, yesNo, WideBlock } from './TelesalesKit';
+import { ActionList, HeaderButton, SectionHeader, StatStrip, TableCard, WideBlock } from './TelesalesKit';
+import { ICON, pillFor, yesNo } from './telesalesKitModel';
 import { strOrEmpty as str } from '../../../lib/values';
 import { arr, rowDate, activityEntries } from './shared';
 import { formatQarAny } from '../../../lib/format';
@@ -314,6 +314,3 @@ export function ConnectionsSection({ ctx }: { ctx: Ctx }) {
     </>
   );
 }
-
-// Re-exported so the Overview page can keep its Blacklist view / table helpers in one place.
-export { Table, blacklistResolvers, getVisibleTopicFields };

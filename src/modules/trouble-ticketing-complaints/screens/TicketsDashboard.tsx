@@ -121,13 +121,15 @@ export function TicketsDashboard({ padded = true }: TicketsDashboardProps) {
   // precedent anywhere else in this codebase to follow here (research
   // confirmed this is the first row-selection UI in the app).
   const filteredIds = filtered.map((t) => t.ticketId).join(',');
-  useEffect(() => {
+  const [prevFilteredIds, setPrevFilteredIds] = useState(filteredIds);
+  if (prevFilteredIds !== filteredIds) {
+    setPrevFilteredIds(filteredIds);
     const visible = new Set(filteredIds ? filteredIds.split(',') : []);
     setSelectedIds((prev) => {
       const next = new Set([...prev].filter((id) => visible.has(id)));
       return next.size === prev.size ? prev : next;
     });
-  }, [filteredIds]);
+  }
 
   const toggleSelected = (ticketId: string, checked: boolean) => {
     setSelectedIds((prev) => {

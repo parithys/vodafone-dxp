@@ -66,11 +66,15 @@ export function GlobalSearch() {
     return routes.filter((r) => r.screenName.toLowerCase().includes(q) || r.screenId.toLowerCase().includes(q)).slice(0, 6);
   }, [q, routes]);
 
+  // Results are cleared the moment the query empties (adjusted during render, not in an effect).
+  const [prevQ, setPrevQ] = useState(q);
+  if (prevQ !== q) {
+    setPrevQ(q);
+    if (!q) setRecordResults([]);
+  }
+
   useEffect(() => {
-    if (!q) {
-      setRecordResults([]);
-      return;
-    }
+    if (!q) return;
     let cancelled = false;
     (async () => {
       // Only the groups in scope are fetched, and results are appended in

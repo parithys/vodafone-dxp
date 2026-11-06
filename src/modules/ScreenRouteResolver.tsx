@@ -1,3 +1,4 @@
+import { createElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getAllRoutes } from '../engines/configEngine';
 import { getScreenComponent } from './screenRegistry';
@@ -14,5 +15,5 @@ export function ScreenRouteResolver() {
   if (!route) return <NotFound />;
   const Component = getScreenComponent(route.screenId);
   if (!Component) return <ScreenNotYetBuilt />;
-  return <Component />;
+  return createElement(Component);
 }

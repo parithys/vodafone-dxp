@@ -1,5 +1,5 @@
 import { newTaskId } from '../../lib/taskId';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { useCustomerContext } from '../../stores/customerContextStore';
@@ -50,6 +50,11 @@ export function useJourneyCustomerLock({
   );
   const releaseStale = staleSameCustomer || freshNewEntry;
   const heldByAnotherJourney = Boolean(active && active.wizardId !== WIZARD_ID) && !releaseStale;
+  // Read by the effect below without being its dependencies (a change in either alone must not re-run it).
+  const entry = useRef({ existingCustomerId, launchedFromCustomer360 });
+  useEffect(() => {
+    entry.current = { existingCustomerId, launchedFromCustomer360 };
+  });
   useEffect(() => {
     if (isMirrorWindow) return; // the customer's pop-up only displays
     const store = useCustomerContext.getState();
@@ -63,7 +68,7 @@ export function useJourneyCustomerLock({
           ? { detailLink: { prefix: 'Task ID: ', label: active.taskId, to: active.path, suffix: '. Close Activity, Save as Draft or Abandon Order to start another customer.' } }
           : { detail: 'Close Activity, Save as Draft or Abandon Order to start another customer.' }),
       });
-      navigate(launchedFromCustomer360 ? `/customer/${existingCustomerId}` : active!.path, { replace: true });
+      navigate(entry.current.launchedFromCustomer360 ? `/customer/${entry.current.existingCustomerId}` : active!.path, { replace: true });
       return;
     }
     if (draftContact?.moiResult && draftContact.idNumber) {

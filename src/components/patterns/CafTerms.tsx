@@ -13,6 +13,7 @@ export function FullTerms({
   scrollMode = 'page',
   journey = 'postpaid',
   closingHeader,
+  supplementaryTerms,
   children,
 }: {
   /** Accepted for callers that still pass it; the panel no longer links out. */
@@ -26,6 +27,9 @@ export function FullTerms({
   journey?: 'postpaid' | 'prepaid';
   /** A heading over the closing part of the panel (the customer's details, agreements and signature), above its dividing line. */
   closingHeader?: ReactNode;
+  /** With a Secondary Contact on the line: the supplementary terms, in a second card beside the general ones (each card closes with its
+   * contact's name). The agreements and signature (children) then sit below both cards at full width. Absent: the single panel, unchanged. */
+  supplementaryTerms?: { terms: readonly { title: string; body: string }[]; primaryContactName?: string; secondaryContactName?: string };
   children: ReactNode;
 }) {
   const [sections, setSections] = useState<TncSection[] | undefined>();
@@ -34,6 +38,60 @@ export function FullTerms({
   }, [journey]);
   // Without the terms (not the customer-facing page, or none loaded) the form stands alone.
   if (!enabled || !sections || sections.length === 0) return <>{children}</>;
+  // With a Secondary Contact the terms are the same two cards signed or not; signed, the children are just the Signed badge and signature.
+  if (supplementaryTerms && supplementaryTerms.terms.length > 0) {
+    return (
+      <div className="space-y-4">
+        {/* One shared frame holds both columns, which carry no borders of their own (a hairline divides them). items-stretch: both columns take
+            the height of the taller one, and each pins its contact block to its bottom edge, so the two line up. */}
+        <div className="card">
+          <div className="two-col-top items-stretch gap-0">
+            <section aria-label="General Key Terms and Conditions" className="stack gap-0">
+              <div className="split-nowrap divider-bottom pad-row">
+                <h3 className="title title-sm font-semibold">Key Terms &amp; Conditions</h3>
+              </div>
+              <div className="pad-row stack gap-4 flex-1">
+                {sections.map((s) => (
+                  <div key={s.sectionId}>
+                    <h4 className="value-text">{s.title}</h4>
+                    <p className="caption-secondary leading-relaxed mt-1">{s.body}</p>
+                  </div>
+                ))}
+                <div className="mt-auto">
+                  <div className="mt-2 divider-top pt-4 caption-muted">
+                    <h3 className="title title-sm font-semibold">Primary Contact</h3>
+                    {supplementaryTerms.primaryContactName && <p className="text-fg font-medium">{supplementaryTerms.primaryContactName}</p>}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section aria-label="Supplementary Key Terms and Conditions" className="stack gap-0 lg:border-l border-border-soft">
+              <div className="split-nowrap divider-bottom pad-row">
+                <h3 className="title title-sm font-semibold">Supplementary Key Terms &amp; Conditions</h3>
+              </div>
+              <div className="pad-row stack gap-4 flex-1">
+                {supplementaryTerms.terms.map((t) => (
+                  <div key={t.title}>
+                    <h4 className="value-text">{t.title}</h4>
+                    <p className="caption-secondary leading-relaxed mt-1">{t.body}</p>
+                  </div>
+                ))}
+                <div className="mt-auto">
+                  <div className="mt-2 divider-top pt-4 caption-muted">
+                    <h3 className="title title-sm font-semibold">Secondary Contact</h3>
+                    {supplementaryTerms.secondaryContactName && <p className="text-fg font-medium">{supplementaryTerms.secondaryContactName}</p>}
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        {/* Full width, below both columns, no frame of its own: the "I understand" and "I agree" statements, the agreements and the signature
+            (once signed: the Signed badge and the signature). */}
+        <div>{children}</div>
+      </div>
+    );
+  }
   // Once signed there is nothing left to read: show just the signed form (applicant, signed
   // badge and signature) not the whole scrolling document or its link.
   if (signed) {

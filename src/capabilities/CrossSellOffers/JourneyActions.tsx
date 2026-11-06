@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { SERVICE_JOURNEYS } from './serviceJourneys';
 import type { ServiceJourney } from './serviceJourneys';
@@ -35,12 +35,14 @@ export function NewJourneyButtons({
   /** Which journeys this role may start (its grants): a button for a journey it cannot use is not shown. Omitted: all. The journey's own button always stays. */
   allowed?: (journey: ServiceJourney) => boolean;
 }) {
-  const [pending, setPending] = useState(false);
+  // Each decline bumps `requested`; the effect below acts once per request, a render later (no state set in the effect).
+  const [requested, setRequested] = useState(0);
+  const handled = useRef(0);
   useEffect(() => {
-    if (!pending) return;
-    setPending(false);
+    if (handled.current === requested) return;
+    handled.current = requested;
     goNext();
-  }, [pending, goNext]);
+  }, [requested, goNext]);
   return (
     <div className="row">
       {/* The journey's own button comes last, as the primary action. */}
@@ -54,7 +56,7 @@ export function NewJourneyButtons({
             onClick={() => {
               if (current) {
                 onDecline();
-                setPending(true);
+                setRequested((n) => n + 1);
               } else if (route) {
                 onHandOff(route);
               }

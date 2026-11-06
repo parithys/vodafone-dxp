@@ -8,13 +8,12 @@ globalThis.window.removeEventListener ??= () => {};
 
 // MNP Port-In against VFQ_Mobile_MNP_PORTIN_PORTOUT_V1.1: the status model, NPAS approval / rejection, the Confirmed Port-In Date
 // window, the donor fields, the Port-In number check and the MNP Form.
-let rules, engine, donor, attach, steps, gateMod, gatePanel, elig, mnp, React, server;
+let rules, engine, donor, steps, gateMod, gatePanel, elig, mnp, React, server;
 before(async () => {
   await boot();
   rules = await load('/src/data/portInRules.ts');
   engine = await load('/src/engines/portInEngine.ts');
-  donor = await load('/src/components/patterns/DonorDetailsStep.tsx');
-  attach = await load('/src/components/patterns/DonorAttachmentStep.tsx');
+  donor = await load('/src/components/patterns/donorModel.ts');
   steps = await load('/src/modules/mnp-fnp-porting/screens/mnpSteps.tsx');
   gateMod = await load('/src/modules/mnp-fnp-porting/screens/mnpValidationGate.ts');
   gatePanel = await load('/src/modules/mnp-fnp-porting/screens/MnpGatePanel.tsx');
@@ -98,20 +97,20 @@ test('the donor operator is Other Operator: Vodafone and Other Licensed Operator
 const formInput = { customerName: 'Test', idType: 'QID', idNumber: '2845', mnpType: 'postpaid', productId: 'PROD-104', simSerial: 'S1', donor: donorOk };
 
 test('the MNP Form is generated only when its mandatory data is present', () => {
-  assert.deepEqual(attach.mnpFormMissing(formInput), []);
-  assert.deepEqual(attach.mnpFormMissing({ ...formInput, simSerial: undefined, productId: undefined }), ['Plan', 'SIM serial']);
-  assert.ok(attach.mnpFormMissing({ ...formInput, donor: { ...donorOk, donorOperator: undefined } }).includes('Donor details'));
+  assert.deepEqual(donor.mnpFormMissing(formInput), []);
+  assert.deepEqual(donor.mnpFormMissing({ ...formInput, simSerial: undefined, productId: undefined }), ['Plan', 'SIM serial']);
+  assert.ok(donor.mnpFormMissing({ ...formInput, donor: { ...donorOk, donorOperator: undefined } }).includes('Donor details'));
 });
 
 test('a signature is valid only for the data it was generated from', () => {
-  const key = attach.mnpFormSnapshotKey(formInput);
+  const key = donor.mnpFormSnapshotKey(formInput);
   const signed = { mnpFormType: 'MNP-Digital', formNumber: 'MNPF-1', signed: true, signatureDataUrl: 'data:x', snapshotKey: key };
-  assert.equal(attach.mnpFormSigned(signed, formInput), true);
-  assert.equal(attach.mnpFormSigned({ ...signed, signed: false }, formInput), false, 'unsigned');
-  assert.equal(attach.mnpFormSigned({ ...signed, mnpFormType: undefined }, formInput), false, 'no form type');
-  assert.equal(attach.mnpFormSigned(signed, { ...formInput, donor: { ...donorOk, donorId: 'CHANGED' } }), false, 'donor data changed after signing');
-  assert.equal(attach.mnpFormSigned(signed, { ...formInput, simSerial: 'S2' }), false, 'SIM changed after signing');
-  assert.equal(attach.mnpFormSnapshotKey({ ...formInput, donor: { ...donorOk, portInNumber: '+974 6600 0666' } }), key, 'the same number typed differently is the same data');
+  assert.equal(donor.mnpFormSigned(signed, formInput), true);
+  assert.equal(donor.mnpFormSigned({ ...signed, signed: false }, formInput), false, 'unsigned');
+  assert.equal(donor.mnpFormSigned({ ...signed, mnpFormType: undefined }, formInput), false, 'no form type');
+  assert.equal(donor.mnpFormSigned(signed, { ...formInput, donor: { ...donorOk, donorId: 'CHANGED' } }), false, 'donor data changed after signing');
+  assert.equal(donor.mnpFormSigned(signed, { ...formInput, simSerial: 'S2' }), false, 'SIM changed after signing');
+  assert.equal(donor.mnpFormSnapshotKey({ ...formInput, donor: { ...donorOk, portInNumber: '+974 6600 0666' } }), key, 'the same number typed differently is the same data');
 });
 
 test('the form numbers are unique', () => {
@@ -128,7 +127,7 @@ test('the MNP steps keep their order, with the MNP Form step gated on a signatur
   assert.equal(formStep.label, 'MNP Form');
   const values = { product: 'mnp', mnpType: 'postpaid', contact: { idNumber: '2845', idType: 'QID', moiResult: { name: 'Test' } }, productId: 'PROD-104', simSerial: 'S1', donorDetails: donorOk };
   assert.equal(formStep.isValid(values), false, 'not generated or signed yet');
-  const key = attach.mnpFormSnapshotKey(steps.mnpFormInputOf(values));
+  const key = donor.mnpFormSnapshotKey(steps.mnpFormInputOf(values));
   assert.equal(formStep.isValid({ ...values, donorAttachment: { mnpFormType: 'MNP-Touch Screen', formNumber: 'MNPF-1', signed: true, signatureDataUrl: 'data:x', snapshotKey: key } }), true);
   assert.equal(formStep.isValid({ ...values, simSerial: 'S9', donorAttachment: { mnpFormType: 'MNP-Touch Screen', formNumber: 'MNPF-1', signed: true, signatureDataUrl: 'data:x', snapshotKey: key } }), false);
 });
@@ -226,7 +225,7 @@ const journey = (over = {}) => {
     billingAccount: { creatingNew: true, newAccount: { profileName: 'P' } },
     productId: 'PROD-104', simSerial: '8974412345678901234', simValid: true, donorDetails: donorOk, ...over,
   };
-  const key = attach.mnpFormSnapshotKey(steps.mnpFormInputOf(values));
+  const key = donor.mnpFormSnapshotKey(steps.mnpFormInputOf(values));
   return { ...values, donorAttachment: { mnpFormType: 'MNP-Digital', formNumber: 'MNPF-1', signed: true, signatureDataUrl: 'data:x', snapshotKey: key }, caf: { cafType: 'Digital', signatureDataUrl: 'data:x' }, payment: { paid: true, method: 'Zero value', zeroValue: true, reference: 'RCPT-0-1' }, checkoutTotals: { dueTodayQar: 0 }, ...over };
 };
 const failing = (values, stage) => gateMod.mnpValidationGate(values, stage).filter((c) => !c.ok).map((c) => c.id);

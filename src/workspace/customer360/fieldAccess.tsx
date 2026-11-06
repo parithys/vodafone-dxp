@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { AccessContext, allowAll, type ModeOf } from './fieldAccessContext';
 import type { ReactNode } from 'react';
 import { loadConfigFile } from '../../engines/configEngine';
 
@@ -11,8 +12,6 @@ import { loadConfigFile } from '../../engines/configEngine';
  * A label that satisfies no requirement is not governed by the sheets and always shows. A label that satisfies
  * several takes the most permissive of them. A persona with no entry (the standard layouts) is not restricted.
  */
-export type AccessMode = 'real-time' | 'drill-down' | 'hidden';
-
 interface AccessConfig {
   labels: Record<string, Record<string, string[]>>;
   personas: Record<string, Record<string, 'real-time' | 'drill-down'>>;
@@ -26,10 +25,6 @@ function loadAccess(): Promise<AccessConfig | undefined> {
 
 // A trailing count ('Contact Hierarchy (4)') is not part of the label.
 const norm = (t: string) => t.replace(/\s+/g, ' ').trim().toLowerCase().replace(/\s*\(\d+\)$/, '');
-
-type ModeOf = (label: string | undefined) => AccessMode;
-const allowAll: ModeOf = () => 'real-time';
-const AccessContext = createContext<ModeOf>(allowAll);
 
 /** Applies the persona's field access to everything inside, for the given page ('header' or a tab key). */
 export function FieldAccessProvider({ personaId, page, children }: { personaId: string | undefined; page: string; children: ReactNode }) {
@@ -62,11 +57,6 @@ export function FieldAccessProvider({ personaId, page, children }: { personaId: 
   // Until the config is in, show nothing rather than flash fields the persona may not see.
   if (!ready) return null;
   return <AccessContext.Provider value={modeOf}>{children}</AccessContext.Provider>;
-}
-
-/** The access mode for a label on the current page. */
-export function useFieldAccess(): ModeOf {
-  return useContext(AccessContext);
 }
 
 /**

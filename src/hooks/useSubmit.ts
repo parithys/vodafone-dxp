@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNotificationStore } from '../stores/notificationStore';
 
 /**
@@ -47,7 +47,9 @@ export function useSubmitGuard(failureMessage = 'That did not go through. Please
 export function useSubmit<A extends unknown[]>(action: (...args: A) => Promise<unknown> | unknown, failureMessage?: string) {
   const { guard, pending } = useSubmitGuard(failureMessage);
   const latest = useRef(action);
-  latest.current = action;
+  useEffect(() => {
+    latest.current = action;
+  });
   const run = useCallback((...args: A) => guard(() => latest.current(...args)), [guard]);
   return { run, pending };
 }

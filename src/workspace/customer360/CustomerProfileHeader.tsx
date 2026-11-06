@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Badge, type BadgeVariant } from '../../components/primitives/Badge';
 import { Icon } from '../../components/primitives/Icon';
-import { RevealValue, useFieldAccess } from './fieldAccess';
+import { RevealValue } from './fieldAccess';
+import { useFieldAccess } from './fieldAccessContext';
 import { formatDate } from '../../lib/format';
 import { CALENDAR_ICON, CIRCLE_ICON, EYE_ICON, EYE_OFF_ICON, GLOBE_ICON, MAIL_ICON, PHONE_ICON } from '../../assets/icons';
 
@@ -99,10 +100,14 @@ function Stat({ label, value }: { label: string; value: ReactNode }) {
 export function CustomerProfileHeader(p: CustomerProfileHeaderProps) {
   const dob = formatDob(p.dob);
   const [revealed, setRevealed] = useState(false);
+  // Re-mask whenever the customer changes (adjusted during render rather than in an effect).
+  const [maskedFor, setMaskedFor] = useState(p.qid);
+  if (maskedFor !== p.qid) {
+    setMaskedFor(p.qid);
+    setRevealed(false);
+  }
   const idShown = p.maskId && !revealed ? maskedId(p.qid) : p.qid;
   const idLabel = p.idType === 'QID' ? 'QID' : p.idType;
-  // Re-mask whenever the customer changes.
-  useEffect(() => setRevealed(false), [p.qid]);
   // Pinned identity bar: appears only once the full header has scrolled out of view.
   const sectionRef = useRef<HTMLElement>(null);
   const [offscreen, setOffscreen] = useState(false);

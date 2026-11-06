@@ -1,29 +1,12 @@
+import { Pagination } from '../../../capabilities';
 import { Button } from '../../../components/primitives/Button';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../components/primitives/Icon';
 import type { Customer360Data } from '../../../engines/customer360Engine';
 import type { CustomerService } from '../../../engines/customerServicesEngine';
-import {
-  ActionButton,
-  DetailRows,
-  FilterSelect,
-  IC,
-  IconTile,
-  KpiGrid,
-  KpiTile,
-  Pagination,
-  Panel,
-  Pill,
-  SearchBox,
-  StatusPill,
-  TabPage,
-  fmtDate,
-  fmtDateTime,
-  qar,
-  usePaging,
-  type Tone,
-} from './C360Kit';
+import { ActionButton, DetailRows, FilterSelect, IconTile, KpiGrid, KpiTile, Panel, Pill, SearchBox, StatusPill, TabPage } from './C360Kit';
+import { IC, fmtDate, fmtDateTime, qar, usePaging, type Tone } from './c360KitModel';
 import { Dv } from '../demoValues';
 import { str } from '../../../lib/values';
 

@@ -1,6 +1,7 @@
-import { idTypeLabel } from '../domain/QidInput';
+import { idTypeLabel } from '../../data/idTypes';
 import { identityFromMoi } from './guidedContactModel';
-import { IdentityDetailsCard, identityFacts } from '../../capabilities/CustomerIdentification/IdentityDetailsCard';
+import { IdentityDetailsCard } from '../../capabilities/CustomerIdentification/IdentityDetailsCard';
+import { identityFacts } from '../../capabilities/CustomerIdentification/identityFacts';
 import type { IdLookupValue } from './idLookupModel';
 
 interface MoiResultPanelProps {

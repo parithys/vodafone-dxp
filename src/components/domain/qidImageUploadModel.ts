@@ -1,4 +1,5 @@
-import { type IdVariant, type SpecimenIdentity } from './ScannedIdPreview';
+import type { IdVariant } from './ScannedIdPreview';
+import type { SpecimenIdentity } from './scannedIdModel';
 
 /**
  * A completed capture (both sides, scan or upload) that is clear enough to read is accepted as it lands - no confirmation step. An unclear

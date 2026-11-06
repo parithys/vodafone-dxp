@@ -1,6 +1,6 @@
 import type { KeyboardEvent } from 'react';
 import { SegmentedTabs } from './SegmentedTabs';
-import { useTabDepth } from './TabLevel';
+import { useTabDepth } from './tabDepth';
 
 export interface TabStripItem<K extends string = string> {
   key: K;

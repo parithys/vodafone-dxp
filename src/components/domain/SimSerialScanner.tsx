@@ -5,18 +5,8 @@ import { Button } from '../primitives/Button';
 import type { DeviceType } from '../../lib/deviceType';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { SIM_RESERVED } from '../../data/portInRules';
+import { checkSimSerial, type SimDetails, type SimRecord } from './simSerialModel';
 import { BARCODE_ICON } from '../../assets/icons';
-
-interface SimRecord {
-  simSerial: string;
-  iccid: string;
-  stockStatus: string;
-  /** 'Physical' or 'Printed eSIM' (a card stocked in store that carries an eSIM profile). */
-  type?: string;
-  /** A Pre-Paired SIM already carries its MSISDN (Mobile Prepaid BRSD MPRA_001_SIM_02). */
-  prePaired?: boolean;
-  msisdn?: string;
-}
 
 /** A row of bars of varying width, standing in for a 1D barcode symbol at the
  * small size this renders at (the field's trailing icon, ~16px) - same icon
@@ -68,25 +58,6 @@ interface SimSerialScannerProps {
   label?: string;
 }
 
-export type SimDetails = { iccid: string; stockStatus: string; simKind?: string; msisdn?: string };
-
-/** Judges a serial against store stock: what is wrong with it, or the details of the SIM it is. The one definition both the field and the read-back use. */
-export async function checkSimSerial(serial: string, inventory: 'standard' | 'pre-paired' = 'standard'): Promise<{ error: string; details?: undefined } | { error?: undefined; details: SimDetails }> {
-  const prePairedStock = inventory === 'pre-paired';
-  const sims = await mockDataEngine.list<SimRecord>('sims');
-  const found = sims.find((s) => s.simSerial === serial);
-  if (found && Boolean(found.prePaired) !== prePairedStock) {
-    return { error: prePairedStock ? 'This is not a Pre-Paired SIM.' : 'This is a Pre-Paired SIM - choose "Use a Pre-Paired SIM" on the Number step.' };
-  }
-  // Phrased as store stock rather than "inventory": the agent is standing at one counter and can only issue what is in front of them,
-  // so the actionable fact is that THIS store does not hold it.
-  if (!found) return { error: prePairedStock ? "Pre-Paired SIM not found in this store's stock." : "SIM not found in this store's stock." };
-  if (found.stockStatus === 'Issued') return { error: 'This SIM is already assigned.' };
-  // Held for a port-in awaiting NPAS (MNP BR-MNP-008/025): not available to another order until it is released.
-  if (found.stockStatus === SIM_RESERVED) return { error: 'This SIM is reserved for another order.' };
-  return { details: { iccid: found.iccid, stockStatus: found.stockStatus, simKind: found.type, msisdn: found.msisdn } };
-}
-
 // Pattern 11: SIM/Device Serial Capture with Real-Time Inventory Validation -
 // barcode-scan input validated against UIM/inventory in real time; blocks
 // Continue with an inline error if blank/not-found/already-assigned
@@ -106,6 +77,10 @@ export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = 
   const [scanning, setScanning] = useState(false);
   // The validated SIM, read back under the field. Kept here, in the one implementation every journey mounts, so none has to show it.
   const [shown, setShown] = useState<{ serial: string; details: SimDetails } | undefined>();
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
   // Re-reads a serial the journey already holds (Back to the step): the field does not re-validate on arrival.
   useEffect(() => {
     if (!value || suppressValidation || shown?.serial === value) return;
@@ -116,6 +91,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = 
         // The read-back is shown only for a serial that is in stock, so the journey is told it is valid too: a serial typed or pasted into the
         // field (not scanned, not yet blurred) used to show the green read-back while Continue stayed disabled.
         setShown({ serial: value, details: r.details });
+        const onChange = onChangeRef.current; // the latest callback, without making it a dependency of this effect
         onChange(value, true, r.details);
       }
     });

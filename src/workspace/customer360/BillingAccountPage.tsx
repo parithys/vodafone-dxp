@@ -9,7 +9,7 @@ import { useEntityStore } from '../../stores/entityStore';
 import { usePersonaStore } from '../../stores/personaStore';
 import { useNotificationStore } from '../../stores/notificationStore';
 import { canEditCustomerRecords } from '../../engines/agentPrivilegeEngine';
-import { useVerificationGate } from '../../components/patterns/VerificationGate';
+import { useVerificationGate } from '../../components/patterns/useVerificationGate';
 import { Badge } from '../../components/primitives/Badge';
 import { Button } from '../../components/primitives/Button';
 import { Drawer } from '../../capabilities';
@@ -99,11 +99,20 @@ export function BillingAccountPage() {
 
   const { requireVerification, gate } = useVerificationGate(customerId, customerName);
 
+  // A new load (another account, a retry, another persona) starts from a clean slate: adjusted during render, not in the effect.
+  const loadKey = `${billingProfileId ?? ''}|${reloadKey}|${activePersonaId ?? ''}`;
+  const [startedKey, setStartedKey] = useState(loadKey);
+  if (startedKey !== loadKey) {
+    setStartedKey(loadKey);
+    if (billingProfileId) {
+      setLoadFailed(false);
+      setBlocked(false);
+      setProfile(null);
+    }
+  }
+
   useEffect(() => {
     if (!billingProfileId) return;
-    setLoadFailed(false);
-    setBlocked(false);
-    setProfile(null);
     (async () => {
       const profiles = await mockDataEngine.list<BillingProfile>('billing-profiles');
       const found = profiles.find((p) => p.billingProfileId === billingProfileId);

@@ -3,8 +3,10 @@ import { Button } from '../../../components/primitives/Button';
 import { useState } from 'react';
 import { Icon } from '../../../components/primitives/Icon';
 import { accountInformationResolvers } from '../sections/accountInformationResolvers';
-import { Card, KV, Label, Pill, Value, asText, dateTime, num, type Ctx } from './TelesalesOverview';
-import { ActionList, Avatar, HeaderButton, HeaderLink, ICON, SectionHeader, TableCard, pillFor, yesNo } from './TelesalesKit';
+import { Card, KV, Label, Pill, Value, type Ctx } from './TelesalesOverview';
+import { asText, dateTime, num } from './telesalesOverviewModel';
+import { ActionList, Avatar, HeaderButton, HeaderLink, SectionHeader, TableCard } from './TelesalesKit';
+import { ICON, pillFor, yesNo } from './telesalesKitModel';
 import { strOrEmpty as str } from '../../../lib/values';
 import { demoOf, arr, rowDate, activityEntries, toneColor } from './shared';
 

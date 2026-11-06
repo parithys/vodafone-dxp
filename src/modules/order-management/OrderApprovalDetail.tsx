@@ -29,7 +29,8 @@ import { usePersonaStore } from '../../stores/personaStore';
 import { applyMissingInformation, emptyMissingInformationRequest, isMissingInformationRequestMade, mayResubmitOrder, ORDER_AWAITING_DECISION, ORDER_MISSING_INFORMATION, orderApprovalAuthority, type MissingInformationRequest } from '../../engines/approvalAuthority';
 import { evaluateRule } from '../../engines/ruleEngine';
 import { Link } from 'react-router-dom';
-import { AttachmentPreview, type OrderAttachment } from './AttachmentPreview';
+import { AttachmentPreview } from './AttachmentPreview';
+import type { OrderAttachment } from './attachmentModel';
 import { ALERT_ICON_ALT, DOC, HISTORY_ICON, IMAGE } from '../../assets/icons';
 
 // Same document-icon path CafDocumentUpload.tsx/AdditionalDocumentsUpload.tsx
@@ -154,6 +155,11 @@ interface ApprovalHistoryEntry {
 // repeated the order id already in the page's own H1, so neither told the
 // agent anything the label/notes below did not already say better.
 /** A rejection reads as danger and a return as a warning, so the decisions that need action stand out in the history. */
+/** A fresh activity number; impure (clock and randomness), so it lives outside the component's render. */
+function newActivityNumber(): string {
+  return `ACT-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+}
+
 function decisionTone(action: string | undefined): { row: string; title: string } {
   if (/^Rejected/i.test(action ?? '')) return { row: 'bg-tone-danger-soft border-l-4 border-l-[var(--danger-border)]', title: 'text-danger font-semibold' };
   if (/^(Returned|Missing Information)/i.test(action ?? '')) return { row: 'bg-tone-warn-soft border-l-4 border-l-[var(--warn)]', title: 'text-[var(--warn-text)] font-semibold' };
@@ -673,7 +679,7 @@ export function OrderApprovalDetail() {
 
   const logActivity = (actionTaken: string, notes: string) =>
     createRecord('customer-activities', {
-      activityNumber: `ACT-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+      activityNumber: newActivityNumber(),
       orderId: order.orderId,
       actionTaken,
       notes,

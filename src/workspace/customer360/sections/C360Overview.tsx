@@ -14,9 +14,11 @@ import { groupServicesByCategory, isActiveService, type CustomerService } from '
 import { connectionTag } from '../../../lib/connectionType';
 import { overdueTicketCount } from './accountInformationResolvers';
 import { leadResolvers } from './leadResolvers';
-import { IC, IconTile, KpiGrid, KpiTile, LinkAction, Panel, Pill, StatusPill, fmtDate, fmtDateTime, qar, toneFor } from './C360Kit';
-import type { Tone } from './C360Kit';
-import { RevealValue, useFieldAccess } from '../fieldAccess';
+import { IconTile, KpiGrid, KpiTile, LinkAction, Panel, Pill, StatusPill } from './C360Kit';
+import { IC, fmtDate, fmtDateTime, qar, toneFor } from './c360KitModel';
+import type { Tone } from './c360KitModel';
+import { RevealValue } from '../fieldAccess';
+import { useFieldAccess } from '../fieldAccessContext';
 import { Dv } from '../demoValues';
 import { strOrEmpty as str } from '../../../lib/values';
 import { formatQar, formatQarAny } from '../../../lib/format';

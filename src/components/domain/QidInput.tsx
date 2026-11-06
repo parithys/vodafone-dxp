@@ -1,13 +1,12 @@
 import { CARD_SELECTED, SelectedTick } from '../primitives/offerCardParts';
 import { BARCODE_DEMO_NUMBERS } from '../../data/synthetic/idScanSamples';
-import { ID_TYPES, idTypeLabel, type IdType } from '../../data/idTypes';
+import { ID_TYPES, type IdType } from '../../data/idTypes';
 import type { ReactNode, Ref } from 'react';
 import { Icon } from '../primitives/Icon';
 import { Button } from '../primitives/Button';
 import { BARCODE_ICON, SEARCH_ICON } from '../../assets/icons';
 
 export type QidType = IdType;
-export { idTypeLabel };
 
 interface QidTypeSelectorProps {
   /** Undefined = nothing chosen yet (verify-then-fetch flow: the agent picks first). */
@@ -192,11 +191,6 @@ export function QidTypeSelector({
 
 // The number field and its Fetch action. The label and placeholder follow the
 // selected ID Type. Whether this renders AT ALL is the caller's decision.
-/** The label of an ID type's number field, e.g. "Qatar ID (QID) Number". */
-export function idNumberLabel(idType: QidType): string {
-  return (ID_TYPES.find((t) => t.type === idType) ?? ID_TYPES[0]).numberLabel;
-}
-
 export function QidNumberField({
   idType,
   value,

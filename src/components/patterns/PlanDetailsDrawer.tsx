@@ -2,7 +2,7 @@ import { multiSimBenefitText } from '../../engines/multiSim';
 import { OfferDetailsDrawer } from '../../capabilities/CrossSellOffers/OfferDetailsDrawer';
 import type { OfferDetails } from '../../capabilities/CrossSellOffers/OfferDetailsDrawer';
 import type { PostpaidPlan } from './postpaidPlanModel';
-import { planFeatureRows } from '../primitives/offerCardParts';
+import { planFeatureRows } from '../primitives/offerCardModel';
 import { ICON_GIFT } from '../../assets/icons';
 import { formatQar } from '../../lib/format';
 

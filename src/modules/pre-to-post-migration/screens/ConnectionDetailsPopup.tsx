@@ -13,12 +13,13 @@ import { useCustomerContext } from '../../../stores/customerContextStore';
 // definition), not from every installed asset in the system.
 export function ConnectionDetailsPopup() {
   const customerId = useCustomerContext((s) => s.journey?.customerId ?? s.customer?.customerId);
-  const [lines, setLines] = useState<CustomerLine[] | undefined>();
+  // The lines are kept with the customer they were loaded for: another customer shows "loading" until theirs arrive.
+  const [loaded, setLoaded] = useState<{ forId: string | undefined; lines: CustomerLine[] } | undefined>();
+  const lines = loaded && loaded.forId === customerId ? loaded.lines : undefined;
 
   useEffect(() => {
     let cancelled = false;
-    setLines(undefined);
-    if (customerId) void loadCustomerLines(customerId).then((l) => !cancelled && setLines(l));
+    if (customerId) void loadCustomerLines(customerId).then((l) => !cancelled && setLoaded({ forId: customerId, lines: l }));
     return () => {
       cancelled = true;
     };

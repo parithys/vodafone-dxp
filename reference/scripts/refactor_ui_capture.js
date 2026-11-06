@@ -7,6 +7,7 @@
 // Run before and after a refactor phase for the same persona and compare the two results: any
 // screen whose hash changed is a visible change to investigate.
 // Usage: await captureUi({ routes: ['/', '/customer/CUS-1001'], customerTabs: true })
+// oxlint-disable-next-line no-unused-vars -- pasted into the browser console and called there, never from this file
 async function captureUi({ routes = ['/'], customerTabs = true, settleMs = 500 } = {}) {
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const h = (s) => { let x = 7; for (let i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) >>> 0; return x.toString(16); };

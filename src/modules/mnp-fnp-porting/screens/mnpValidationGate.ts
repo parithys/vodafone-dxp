@@ -1,7 +1,7 @@
-import { donorDetailsValid } from '../../../components/patterns/DonorDetailsStep';
-import type { DonorDetailsValue } from '../../../components/patterns/DonorDetailsStep';
-import { mnpFormSigned } from '../../../components/patterns/DonorAttachmentStep';
-import type { DonorAttachmentValue } from '../../../components/patterns/DonorAttachmentStep';
+import { donorDetailsValid } from '../../../components/patterns/donorModel';
+import type { DonorDetailsValue } from '../../../components/patterns/donorModel';
+import { mnpFormSigned } from '../../../components/patterns/donorModel';
+import type { DonorAttachmentValue } from '../../../components/patterns/donorModel';
 import type { EligibilityResult } from '../../../components/domain/eligibilityTypes';
 import type { BillingAccountValue } from '../../../components/patterns/billingAccountModel';
 import type { WinCashPaymentValue } from '../../../components/patterns/WinCashPaymentStep';

@@ -1,5 +1,6 @@
 export * from './CustomerIdentification';
 export * from './IdentityDetailsCard';
+export * from './identityFacts';
 export * from './step';
 // The scanner (ID/passport capture) is part of the capability and is reused standalone by the SIM swap, Passport-to-QID and verification flows.
 export { QidImageUpload } from '../../components/domain/QidImageUpload';

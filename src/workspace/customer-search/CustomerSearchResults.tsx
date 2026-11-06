@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { searchCustomers, toActiveCustomerSummary, type CustomerSearchResult } from '../../engines/customer360Engine';
-import { searchBusinessAccounts, type BusinessAccount } from '../../engines/businessAccountEngine';
+import { toActiveCustomerSummary, type CustomerSearchResult } from '../../engines/customer360Engine';
+import type { BusinessAccount } from '../../engines/businessAccountEngine';
 import { useCustomerContext } from '../../stores/customerContextStore';
 import { Badge } from '../../components/primitives/Badge';
 import { RestrictedCustomerNotice } from '../../components/patterns/RestrictedCustomerNotice';
@@ -46,43 +45,6 @@ function Highlight({ text, query, words }: { text: string | undefined; query: st
       )}
     </>
   );
-}
-
-/** Runs the customer + business-account search for a submitted query. An empty query clears the results. */
-export function useCustomerSearch(submitted: string) {
-  const [results, setResults] = useState<CustomerSearchResult[]>([]);
-  const [businesses, setBusinesses] = useState<BusinessAccount[]>([]);
-  const [searching, setSearching] = useState(false);
-
-  useEffect(() => {
-    if (!submitted) {
-      setResults([]);
-      setBusinesses([]);
-      setSearching(false);
-      return;
-    }
-    let cancelled = false;
-    setSearching(true);
-    Promise.all([searchCustomers(submitted), searchBusinessAccounts(submitted)])
-      .then(([matches, accounts]) => {
-        if (cancelled) return;
-        setResults(matches);
-        setBusinesses(accounts);
-        setSearching(false);
-      })
-      .catch(() => {
-        // A failed search ends the spinner and reads as "no results" rather than hanging.
-        if (cancelled) return;
-        setResults([]);
-        setBusinesses([]);
-        setSearching(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [submitted]);
-
-  return { results, businesses, searching };
 }
 
 /**

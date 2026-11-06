@@ -7,7 +7,7 @@ import path from 'node:path';
 import { boot, load, close } from './harness.mjs';
 
 let P;
-before(async () => { await boot(); P = await load('/src/components/primitives/Pagination.tsx'); });
+before(async () => { await boot(); P = await load('/src/components/primitives/paginationModel.ts'); });
 after(close);
 
 test('pageWindow: pages, first and last shown, clamping, empty and infinite page sizes', () => {
@@ -46,7 +46,7 @@ test('the label reads "Page a of b"', () => {
 });
 
 test('which pages the pager lists: all up to 7; otherwise the first 3, the last 3 and the current page with its neighbours, with gaps', async () => {
-  const { pageItems } = await load('/src/components/primitives/Pager.tsx');
+  const { pageItems } = await load('/src/components/primitives/pagerModel.ts');
   assert.deepEqual(pageItems(1, 3), [1, 2, 3]);
   assert.deepEqual(pageItems(4, 7), [1, 2, 3, 4, 5, 6, 7]);
   assert.deepEqual(pageItems(1, 10), [1, 2, 3, 'gap', 8, 9, 10]);   // the attached layout
@@ -68,8 +68,9 @@ test('which pages the pager lists: all up to 7; otherwise the first 3, the last 
 test('the Pagination bar renders nothing on one page; on several it is "Page a of b" with Previous, numbered pages, "...", Next, the current one marked', async () => {
   const React = (await import('react')).default;
   const { renderToStaticMarkup } = await import('react-dom/server');
-  assert.equal(renderToStaticMarkup(React.createElement(P.Pagination, { page: 1, total: 20, pageSize: 20, onPage() {} })), '');
-  const html = renderToStaticMarkup(React.createElement(P.Pagination, { page: 1, total: 100, pageSize: 10, onPage() {} }));
+  const { Pagination } = await load('/src/components/primitives/Pagination.tsx');
+  assert.equal(renderToStaticMarkup(React.createElement(Pagination, { page: 1, total: 20, pageSize: 20, onPage() {} })), '');
+  const html = renderToStaticMarkup(React.createElement(Pagination, { page: 1, total: 100, pageSize: 10, onPage() {} }));
   assert.match(html, /Page 1 of 10/);
   assert.match(html, /aria-label="Pagination"/);
   assert.match(html, /aria-current="page"[^>]*>1</);
@@ -107,7 +108,7 @@ test('the numbered Pager control is used by the Pagination bar only: no list bui
 test('no screen hand-rolls paging: no own Previous/Next buttons, no own "Showing a-b" or "Page a of b" text, no own page-number buttons, no own page maths', () => {
   const own = [];
   for (const f of files) {
-    if (f.endsWith('primitives/Pagination.tsx') || f.endsWith('primitives/Pager.tsx')) continue;
+    if (f.endsWith('primitives/Pagination.tsx') || f.endsWith('primitives/Pager.tsx') || f.endsWith('primitives/paginationModel.ts') || f.endsWith('primitives/pagerModel.ts')) continue;
     const s = read(f);
     if (/>\s*(Previous|Next)\s*<\/(Button|button)>/.test(s)) own.push(`${f}: own Previous/Next`);
     if (/Showing \{[^}]*\}\s*(-|–|&ndash;)/.test(s)) own.push(`${f}: own "Showing a-b" text`);
@@ -130,7 +131,7 @@ test('the paged lists use the capability: number picker, data tables, Customer 3
   };
   for (const [f, rx] of Object.entries(uses)) assert.match(read(f), rx, f);
   // Journeys and workspaces reach it through the barrel; the layers below (components) import the primitive directly.
-  assert.match(read('src/workspace/customer360/sections/C360Kit.tsx'), /usePagination as usePaging, Pagination, Pager\b.*'\.\.\/\.\.\/\.\.\/capabilities'/);
+  assert.match(read('src/workspace/customer360/sections/c360KitModel.ts'), /usePagination as usePaging.*'\.\.\/\.\.\/\.\.\/capabilities'/);
 });
 
 test('the current page uses the Primary button style (accent gradient, on-accent text, bold); the others are plain', async () => {

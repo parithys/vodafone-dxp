@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { SpecimenIdentity } from '../domain/ScannedIdPreview';
+import type { SpecimenIdentity } from '../domain/scannedIdModel';
 import { callService, ServiceError, takeDuplicateFault, VALIDATION_TTL_MS, type FailureKind, type ServiceName } from '../../engines/serviceCall';
 import type { QidType } from '../domain/QidInput';
 import { passportVerifiesOnDemand } from '../domain/idUploadModel';

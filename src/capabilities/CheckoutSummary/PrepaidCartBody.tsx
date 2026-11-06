@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PrepaidCart } from './CheckoutSummary';
 import { LINE_KEYS, allLines } from '../../components/patterns/prepaidCartModel';
 
@@ -16,19 +16,21 @@ export function PrepaidCartBody({
   setValue: (field: string, value: unknown) => void;
   goToStepKey: (key: string) => void;
 }) {
-  const [pending, setPending] = useState(false);
+  // Each Add Another bumps `requested`; the effect below acts once per request, a render later (no state set in the effect).
+  const [requested, setRequested] = useState(0);
+  const handled = useRef(0);
   useEffect(() => {
-    if (!pending) return;
-    setPending(false);
+    if (handled.current === requested) return;
+    handled.current = requested;
     goToStepKey('plan');
-  }, [pending, goToStepKey]);
+  }, [requested, goToStepKey]);
   return (
     <PrepaidCart
       lines={allLines(values)}
       onAddAnother={() => {
         setValue('cart', allLines(values));
         for (const key of LINE_KEYS) setValue(key, key === 'addonIds' ? [] : undefined);
-        setPending(true);
+        setRequested((n) => n + 1);
       }}
     />
   );

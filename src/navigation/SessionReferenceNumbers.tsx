@@ -98,6 +98,12 @@ export function SessionReferenceNumbers() {
   const showQnomy = canSeeQnomyTicketNumber(activePersonaId);
   const showCti = canSeeCtiReferenceNumber(activePersonaId);
 
+  // No session assignment: nothing in hand (adjusted during render, not in an effect).
+  if ((!showQnomy || !assignedQTicketId) && (activeQTicket || ticketFacts)) {
+    setActiveQTicket(undefined);
+    setTicketFacts(undefined);
+  }
+
   useEffect(() => {
     // Driven by the SESSION'S assignment, not by the loaded customer.
     //
@@ -108,11 +114,7 @@ export function SessionReferenceNumbers() {
     // number resolves to NOBODY on file rendered nothing at all - the agent
     // held a ticket and a retained number, and the header showed an idle
     // queue, which is the one case where that number is the whole point.
-    if (!showQnomy || !assignedQTicketId) {
-      setActiveQTicket(undefined);
-      setTicketFacts(undefined);
-      return;
-    }
+    if (!showQnomy || !assignedQTicketId) return;
     let cancelled = false;
     // Customers alongside the tickets so the operator mark is available to the
     // info-icon reopen, which is a plain click handler with no list of its own.
@@ -134,20 +136,20 @@ export function SessionReferenceNumbers() {
     };
   }, [showQnomy, assignedQTicketId, refreshKey, activePersonaId]);
 
+  const ctiCustomerId = activeCustomer?.customerId;
+  if ((!ctiCustomerId || !showCti) && ctiTicket) setCtiTicket(undefined);
+
   useEffect(() => {
-    if (!activeCustomer || !showCti) {
-      setCtiTicket(undefined);
-      return;
-    }
+    if (!ctiCustomerId || !showCti) return;
     let cancelled = false;
     mockDataEngine.list<TroubleTicketRecord>('trouble-tickets').then((tickets) => {
       if (cancelled) return;
-      setCtiTicket(mostRecentFor(tickets, activeCustomer.customerId, 'createdAt'));
+      setCtiTicket(mostRecentFor(tickets, ctiCustomerId, 'createdAt'));
     });
     return () => {
       cancelled = true;
     };
-  }, [activeCustomer?.customerId, showCti]);
+  }, [ctiCustomerId, showCti]);
 
   useEffect(() => {
     if (!showQnomy) return;

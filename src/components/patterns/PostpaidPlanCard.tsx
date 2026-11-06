@@ -1,6 +1,7 @@
 import { Icon } from '../primitives/Icon';
 import { ConnectionTypeTag } from '../primitives/ConnectionTypeTag';
-import { CARD_IDLE, CARD_SELECTED, SelectedTick, planFeatureRows } from '../primitives/offerCardParts';
+import { CARD_IDLE, CARD_SELECTED, SelectedTick } from '../primitives/offerCardParts';
+import { planFeatureRows } from '../primitives/offerCardModel';
 import { multiSimBenefitText } from '../../engines/multiSim';
 import { CHEVRON_RIGHT, ICON_CALL, ICON_CARD, ICON_DATA, ICON_GIFT, STAR } from '../../assets/icons';
 import { PLAN_CLASS_TAG, isPlanClass, type PostpaidPlan } from './postpaidPlanModel';

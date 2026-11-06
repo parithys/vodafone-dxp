@@ -313,7 +313,7 @@ test('the Recharge step: optional by default, mandatory when the journey says so
 
 // ---- BRSD V0.3: Age Verification and the under-18 exception journey --------------------------------------------------------
 test('Age Verification: under 18 is a hard stop; with the exception offered the agent can take it as an exception that routes the order, and an adult is never touched', async () => {
-  const exc = await load('/src/data/under18Exception.ts');
+  await load('/src/data/under18Exception.ts');
   const asOf = new Date('2026-10-31');
   const minor = (over = {}) => baseCtx({ customer: { customerId: 'CUST-M', idType: 'QID', dob: '2010-05-05', blacklisted: false }, doc: { documentType: 'QID', expiryDate: '2099-01-01' }, journeyType: 'prepaid', ...over });
   // No exception: the earlier rule stands (VFQ, 2026-10-02).

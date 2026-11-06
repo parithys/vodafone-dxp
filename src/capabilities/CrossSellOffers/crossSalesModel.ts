@@ -1,5 +1,4 @@
-import type { OfferProduct } from '../../components/primitives/offerCardParts';
-import { planFeatureRows } from '../../components/primitives/offerCardParts';
+import { planFeatureRows, type OfferProduct } from '../../components/primitives/offerCardModel';
 import { continuesHere } from './serviceJourneys';
 import type { OfferJourneys, ServiceJourney } from './serviceJourneys';
 

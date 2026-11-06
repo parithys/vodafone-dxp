@@ -3,7 +3,7 @@ import { useRestrictedCustomers } from '../../../hooks/useRestrictedCustomers';
 import { RestrictedCustomerNotice } from '../../../components/patterns/RestrictedCustomerNotice';
 import { EntityMissing } from '../../../components/patterns/EntityMissing';
 import { formatDateTime } from '../../../lib/format';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/primitives/Button';
 import { Badge } from '../../../components/primitives/Badge';
@@ -71,7 +71,8 @@ export function TicketApprovalReview() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const ticketId = params.get('id');
-  const tickets = (useEntityStore((s) => s.records['trouble-tickets']) ?? []) as unknown as Ticket[];
+  const rawTickets = useEntityStore((s) => s.records['trouble-tickets']);
+  const tickets = useMemo(() => (rawTickets ?? []) as unknown as Ticket[], [rawTickets]);
   const loadKind = useEntityStore((s) => s.loadKind);
   const updateRecord = useEntityStore((s) => s.updateRecord);
   const createRecord = useEntityStore((s) => s.createRecord);

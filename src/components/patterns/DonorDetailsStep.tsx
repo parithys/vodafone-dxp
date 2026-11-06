@@ -13,35 +13,11 @@ import {
   type PortInNumberContext,
 } from '../../data/portInRules';
 import { useEntityStore } from '../../stores/entityStore';
-
-export interface DonorDetailsValue {
-  /** DF-MNP-009: as typed; the order carries it normalised (974 + 8 digits). */
-  portInNumber?: string;
-  /** DF-MNP-010..014: the customer's identity at the donor operator, all chosen by the agent from what the customer states. */
-  donorId?: string;
-  donorIdType?: string;
-  donorCustomerType?: string;
-  donorOperator?: string;
-  donorSubscriptionType?: string;
-  /** DF-MNP-015: optional, must be a working day. */
-  scheduledPortInDate?: string;
-  /** Set by this step when the number cannot be ported in (already on Vodafone, or a request is already awaiting NPAS). */
-  portInNumberBlocked?: string;
-}
+import type { DonorDetailsValue } from './donorModel';
 
 interface DonorDetailsStepProps {
   value: DonorDetailsValue;
   onChange: (value: DonorDetailsValue) => void;
-}
-
-/** Whether the donor details are complete and usable: every mandatory field, a valid number, a working-day date when one is given. */
-export function donorDetailsValid(d: DonorDetailsValue | undefined): boolean {
-  if (!d) return false;
-  return Boolean(
-    d.portInNumber && normalizePortInNumber(d.portInNumber) && !d.portInNumberBlocked && d.donorId?.trim()
-      && d.donorIdType && d.donorCustomerType && d.donorOperator && d.donorSubscriptionType
-      && !scheduledDateError(d.scheduledPortInDate)
-  );
 }
 
 const optionsOf = (list: readonly string[]) => list.map((v) => ({ value: v, label: v }));

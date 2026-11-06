@@ -13,10 +13,12 @@ import { gatePasses, mnpValidationGate } from './mnpValidationGate';
 import { contactOf, isPrepaidMnp, mnpFormInputOf } from './mnpFormInput';
 
 export { mnpFormInputOf };
-import { DonorDetailsStep, donorDetailsValid } from '../../../components/patterns/DonorDetailsStep';
-import type { DonorDetailsValue } from '../../../components/patterns/DonorDetailsStep';
-import { DonorAttachmentStep, mnpFormSigned } from '../../../components/patterns/DonorAttachmentStep';
-import type { DonorAttachmentValue } from '../../../components/patterns/DonorAttachmentStep';
+import { DonorDetailsStep } from '../../../components/patterns/DonorDetailsStep';
+import { donorDetailsValid } from '../../../components/patterns/donorModel';
+import type { DonorDetailsValue } from '../../../components/patterns/donorModel';
+import { DonorAttachmentStep } from '../../../components/patterns/DonorAttachmentStep';
+import { mnpFormSigned } from '../../../components/patterns/donorModel';
+import type { DonorAttachmentValue } from '../../../components/patterns/donorModel';
 
 // The MNP port-in steps, after Customer Verification and Product Selection (the first two steps of New Connection, which
 // MNP shares with the other products; the Postpaid/Prepaid choice is made on the product step and kept as `mnpType`).

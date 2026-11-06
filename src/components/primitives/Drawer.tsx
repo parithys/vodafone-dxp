@@ -36,13 +36,15 @@ export function Drawer({ open, onClose, title, children, footer, header, bodyCla
   const [mounted, setMounted] = useState(open);
   const [entered, setEntered] = useState(false);
 
+  // State adjusted while rendering: opening mounts at once; closing starts the slide-out.
+  if (open && !mounted) setMounted(true);
+  if (!open && entered) setEntered(false);
+
   useEffect(() => {
     if (open) {
-      setMounted(true);
       const raf = requestAnimationFrame(() => setEntered(true));
       return () => cancelAnimationFrame(raf);
     }
-    setEntered(false);
     const timeout = setTimeout(() => setMounted(false), EXIT_DURATION_MS);
     return () => clearTimeout(timeout);
   }, [open]);

@@ -44,8 +44,8 @@ export function Dashboard() {
   const profileName = useAuthStore((s) => s.profile?.name);
   const recentCustomerIds = useCustomerContext((s) => s.recentCustomerIds);
   const regionId = useRegionStore((s) => s.regionId);
-  const [recentCustomers, setRecentCustomers] = useState<CustomerRecord[]>([]);
-  const [waiting, setWaiting] = useState<number | null>(null);
+  const [loadedRecent, setRecentCustomers] = useState<CustomerRecord[]>([]);
+  const [loadedWaiting, setWaiting] = useState<number | null>(null);
   const customersServed = useQnomyQueueStore((s) => s.customersServed);
 
   // Greeting uses the signed-in person's first name, falling back to the role
@@ -62,13 +62,13 @@ export function Dashboard() {
   // national rollup and the real directory count.
   const regional = persona?.capabilities.includes('agent-oversight') ?? false;
   const m = useZoneMetrics(regional ? regionId : 'NATIONAL');
+  // No queue for this role / nobody recently opened: nothing waiting and no list (derived, not reset in an effect).
+  const waiting = canSeeQnomyTicketNumber(activePersonaId) ? loadedWaiting : null;
+  const recentCustomers = recentCustomerIds.length === 0 ? [] : loadedRecent;
 
   // Customers waiting in this role's live queue, for the hero line. Absent for a role with no queue.
   useEffect(() => {
-    if (!canSeeQnomyTicketNumber(activePersonaId)) {
-      setWaiting(null);
-      return;
-    }
+    if (!canSeeQnomyTicketNumber(activePersonaId)) return;
     let cancelled = false;
     ensureWalkInWaiting(activePersonaId).then(() => Promise.all([mockDataEngine.list<QTicketRecord>('qtickets'), mockDataEngine.list<{ phone?: string }>('customers')])).then(([q, customers]) => {
       if (!cancelled) setWaiting(waitingCountFor(activePersonaId, q, queueScope(customers)));
@@ -91,10 +91,7 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (recentCustomerIds.length === 0) {
-      setRecentCustomers([]);
-      return;
-    }
+    if (recentCustomerIds.length === 0) return;
     mockDataEngine.list<CustomerRecord>('customers').then((all) => {
       const byId = new Map(all.map((c) => [c.customerId, c]));
       // A customer in a protected segment this role may not see is not listed (the role may have changed since they were opened).

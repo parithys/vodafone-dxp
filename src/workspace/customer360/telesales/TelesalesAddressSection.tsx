@@ -1,8 +1,10 @@
 import { Button } from '../../../components/primitives/Button';
 import { Icon } from '../../../components/primitives/Icon';
 import { accountAddressResolvers } from '../sections/accountAddressResolvers';
-import { Card, KV, Pill, asText, dateTime, type Ctx } from './TelesalesOverview';
-import { ActionList, Field, HeaderButton, ICON, SectionHeader, TableCard, yesNo, WideBlock } from './TelesalesKit';
+import { Card, KV, Pill, type Ctx } from './TelesalesOverview';
+import { asText, dateTime } from './telesalesOverviewModel';
+import { ActionList, Field, HeaderButton, SectionHeader, TableCard, WideBlock } from './TelesalesKit';
+import { ICON, yesNo } from './telesalesKitModel';
 import { rowDate, demoOf, arr, type Rec } from './shared';
 import { strOrEmpty as str } from '../../../lib/values';
 import { Input } from '../../../components/primitives/Input';

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Tabs, type TabItem } from '../../../components/primitives/Tabs';
 import type { ActiveCustomerSummary } from '../../../stores/customerContextStore';
 import type { CustomerService, ServiceTab } from '../../../engines/customerServicesEngine';
@@ -43,12 +43,13 @@ export function AssetsSection({
 }) {
   const [subView, setSubView] = useState<AssetsSubView>(initialSubView);
 
-  // Re-applies the deep-linked sub-view per navigation, same mechanism
-  // Customer360Layout uses for the outer tab - see its comment on why both
-  // the initial value and this effect are needed.
-  useEffect(() => {
+  // Re-applies the deep-linked sub-view per navigation (adjusted during render
+  // when the incoming value changes, instead of in an effect).
+  const [appliedSubView, setAppliedSubView] = useState(initialSubView);
+  if (appliedSubView !== initialSubView) {
+    setAppliedSubView(initialSubView);
     setSubView(initialSubView);
-  }, [initialSubView]);
+  }
 
   const servicesFor = (tab: ServiceTab) => services.filter((s) => s.tab === tab);
   const hasServiceOn = (tab: ServiceTab) => (servicesLoaded ? servicesFor(tab).length > 0 : undefined);

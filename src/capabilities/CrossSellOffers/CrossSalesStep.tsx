@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { Icon } from '../../components/primitives/Icon';
 import { OfferDetailsDrawer } from './OfferDetailsDrawer';
-import type { OfferProduct } from '../../components/primitives/offerCardParts';
+import type { OfferProduct } from '../../components/primitives/offerCardModel';
 import { CARD_HIGHLIGHT, CARD_IDLE, CARD_SELECTED, SelectedTick } from '../../components/primitives/offerCardParts';
 import { STAR, TREND_UP } from '../../assets/icons';
 import * as mockDataEngine from '../../engines/mockDataEngine';

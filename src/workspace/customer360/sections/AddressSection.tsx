@@ -9,7 +9,7 @@ import { useEntityStore } from '../../../stores/entityStore';
 import { usePersonaStore } from '../../../stores/personaStore';
 import { canEditCustomerRecords } from '../../../engines/agentPrivilegeEngine';
 import { useProfileChangeTicket } from '../../../engines/profileChangeTicket';
-import { useVerificationGate } from '../../../components/patterns/VerificationGate';
+import { useVerificationGate } from '../../../components/patterns/useVerificationGate';
 import type { Customer360Data } from '../../../engines/customer360Engine';
 import { useSubmit } from '../../../hooks/useSubmit';
 

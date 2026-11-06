@@ -30,7 +30,10 @@ function interpolations(body) {
   for (let i = body.indexOf('${'); i >= 0; i = body.indexOf('${', i)) {
     let depth = 1;
     let k = i + 2;
-    while (k < body.length && depth) depth += body[k] === '{' ? 1 : body[k] === '}' ? -1 : 0, k++;
+    while (k < body.length && depth) {
+      depth += body[k] === '{' ? 1 : body[k] === '}' ? -1 : 0;
+      k++;
+    }
     out.push(stripComments(body.slice(i + 2, k - 1)));
     i = k;
   }
@@ -44,7 +47,10 @@ function templateEnd(source, from) {
     const c = source[i];
     if (c === '\\') i++;
     else if (depth === 0 && c === '`') return i;
-    else if (c === '$' && source[i + 1] === '{') (depth++, i++);
+    else if (c === '$' && source[i + 1] === '{') {
+      depth++;
+      i++;
+    }
     else if (depth > 0 && c === '{') depth++;
     else if (depth > 0 && c === '}') depth--;
     else if (depth > 0 && c === '`') i = templateEnd(source, i + 1);

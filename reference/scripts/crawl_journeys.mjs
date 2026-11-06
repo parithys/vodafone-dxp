@@ -153,20 +153,6 @@ const click = async (loc, wait = 900) => {
   await loc.first().click({ timeout: 6000 });
   await sleep(wait);
 };
-async function setValue(page, selector, value) {
-  return page.evaluate(
-    ([sel, v]) => {
-      const el = document.querySelector(sel);
-      if (!el) return false;
-      const proto = el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-      Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, v);
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-      el.dispatchEvent(new Event('change', { bubbles: true }));
-      return true;
-    },
-    [selector, value]
-  );
-}
 
 async function login(page) {
   await page.goto(BASE);
@@ -186,7 +172,7 @@ async function login(page) {
 // every step, so one wizard definition covers all of them; a handler that finds nothing to do returns false.
 const HANDLERS = [
   // Customer Identification: choose Qatar ID, scan, correct the number to a known customer, fetch from MOI.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const qid = main.getByRole('button', { name: /Qatar ID \(QID\)/ });
     if (!(await visible(qid)) || (await visible(main.getByRole('button', { name: /Retake scan|^Fetch/ })))) return false;
     await click(qid, 900);
@@ -212,7 +198,7 @@ const HANDLERS = [
     return true;
   },
   // Contact details that ride with identification.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const email = main.getByPlaceholder('customer@example.qa');
     if (!(await visible(email)) || (await email.first().inputValue().catch(() => 'x'))) return false;
     await email.first().fill(SAMPLE.email);
@@ -233,7 +219,7 @@ const HANDLERS = [
     return true;
   },
   // Plans, offers and discounts: choose the first selectable one.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const sel = main.getByRole('button', { name: /^Select plan$|^Select pack$|^Select offer$/i });
     if (!(await visible(sel))) return false;
     await click(sel, 900);
@@ -241,7 +227,7 @@ const HANDLERS = [
     return true;
   },
   // Billing profile: an existing account if one is listed.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const acc = main.getByText('Account ending', { exact: false });
     if (!(await visible(acc))) return false;
     await click(acc, 500);
@@ -249,7 +235,7 @@ const HANDLERS = [
     return true;
   },
   // Saved addresses (FWA): the first address on the account.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const card = main.locator('button').filter({ hasText: /Street|Zone|Building/ }).filter({ hasNotText: /Continue|Back|Skip|Add/ });
     if (!(await visible(card)) || !(await visible(main.getByText(/Select an address|addresses on/i)))) return false;
     await click(card, 600);
@@ -257,7 +243,7 @@ const HANDLERS = [
     return true;
   },
   // Number selection: the Free tab, then the first number.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const tab = main.getByRole('tab', { name: /Free Numbers/ });
     if (!(await visible(tab))) return false;
     await click(tab, 700);
@@ -269,7 +255,7 @@ const HANDLERS = [
     return true;
   },
   // SIM: eSIM (needs no inventory), or a serial from the mock data when only a serial field is offered.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const esim = main.getByRole('button', { name: /^Select eSIM$/ });
     if (await visible(esim)) {
       await rec.snap('sim type options');
@@ -288,7 +274,7 @@ const HANDLERS = [
     return false;
   },
   // Appointment: first cluster, first date, first time slot.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const sel = main.locator('select').first();
     if (!(await sel.count()) || !(await visible(main.getByText(/appointment|cluster/i)))) return false;
     if (!(await sel.inputValue().catch(() => 'x'))) await sel.selectOption({ index: 1 }).catch(() => {});
@@ -301,7 +287,7 @@ const HANDLERS = [
     return true;
   },
   // CAF & Signature: tick the terms, open the pad, draw, done.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     for (const box of await main.locator('input[type=checkbox]').all()) if (!(await box.isChecked().catch(() => true))) await box.check().catch(() => {});
     const sign = page.getByRole('button', { name: /Please Sign|Sign here|^Sign$/i });
     if (!(await visible(sign))) return false;
@@ -324,7 +310,7 @@ const HANDLERS = [
     return true;
   },
   // Payment: hand off to WinCash, then report it done.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     const go = main.getByRole('button', { name: /Continue in WinCash/ });
     if (!(await visible(go))) return false;
     await rec.snap('payment due');
@@ -335,7 +321,7 @@ const HANDLERS = [
     return true;
   },
   // Free-text steps (activity comments, donor details): fill what is empty.
-  async ({ page, rec, main }) => {
+  async ({ rec, main }) => {
     let did = false;
     for (const ta of await main.locator('textarea').all()) {
       if (!(await ta.inputValue().catch(() => 'x'))) {

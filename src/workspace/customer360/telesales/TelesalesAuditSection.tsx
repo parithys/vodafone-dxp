@@ -4,8 +4,10 @@ import { Button } from '../../../components/primitives/Button';
 import { useMemo, useState } from 'react';
 import { downloadCsv } from '../../../engines/csvExport';
 import { Icon } from '../../../components/primitives/Icon';
-import { Card, dateTime, type Ctx } from './TelesalesOverview';
-import { ActionList, HeaderButton, ICON, SectionHeader, StatStrip, Table, WideBlock } from './TelesalesKit';
+import { Card, type Ctx } from './TelesalesOverview';
+import { dateTime } from './telesalesOverviewModel';
+import { ActionList, HeaderButton, SectionHeader, StatStrip, Table, WideBlock } from './TelesalesKit';
+import { ICON } from './telesalesKitModel';
 import { rowDate, demoOf, arr } from './shared';
 import { strOrEmpty as str } from '../../../lib/values';
 import { AUDIT_PAGE } from './listShared';
@@ -25,7 +27,8 @@ export function AuditSection({ ctx }: { ctx: Ctx }) {
     const demoRows = arr<{ at: string; module: string; action: string; field: string; old: string | null; new: string; by: string; channel: string; ref: string }>(demo.auditRows).map((r) => ({ ...r, old: r.old ?? '' }));
     return [...real, ...demoRows].sort((a, b) => b.at.localeCompare(a.at));
   }, [data.auditTrail, demo.auditRows]);
-  const anchor = rows[0] ? new Date(rows[0].at).getTime() : Date.now();
+  // The newest entry anchors the date range; with no entries there is nothing to filter, so no clock is read.
+  const anchor = rows[0] ? new Date(rows[0].at).getTime() : 0;
   const inRange = rows.filter((r) => (anchor - new Date(r.at).getTime()) / 86400000 <= days);
   const filtered = inRange.filter((r) => (module === 'All Modules' || r.module === module) && (action === 'All Actions' || r.action === action) && (user === 'All Users' || r.by === user) && `${r.field} ${r.new} ${r.ref} ${r.module}`.toLowerCase().includes(query.toLowerCase()));
   const uniq = (k: 'module' | 'action' | 'by') => Array.from(new Set(rows.map((r) => r[k]).filter(Boolean)));

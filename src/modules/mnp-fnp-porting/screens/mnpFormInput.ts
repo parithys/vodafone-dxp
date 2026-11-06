@@ -1,6 +1,6 @@
 import type { GuidedContactValue } from '../../../components/patterns/guidedContactModel';
-import type { DonorDetailsValue } from '../../../components/patterns/DonorDetailsStep';
-import type { MnpFormInput } from '../../../components/patterns/DonorAttachmentStep';
+import type { DonorDetailsValue } from '../../../components/patterns/donorModel';
+import type { MnpFormInput } from '../../../components/patterns/donorModel';
 
 export const isPrepaidMnp = (values: Record<string, unknown>) => values.mnpType === 'prepaid';
 export const contactOf = (values: Record<string, unknown>) => values.contact as GuidedContactValue | undefined;

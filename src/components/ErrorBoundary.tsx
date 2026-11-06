@@ -33,6 +33,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   componentDidUpdate(prev: ErrorBoundaryProps) {
     // Without this, one crashed screen left the fallback up for every other route until a full reload.
+    // oxlint-disable-next-line react/no-did-update-set-state -- deliberate: clears a caught error only when resetKey changes, which getDerivedStateFromProps cannot do without also clearing an error thrown by the very render that carried the new key
     if (this.state.hasError && prev.resetKey !== this.props.resetKey) this.setState({ hasError: false });
   }
 

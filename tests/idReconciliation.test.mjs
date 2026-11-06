@@ -9,7 +9,7 @@ let r, preview, upload;
 before(async () => {
   await boot();
   r = await load('/src/components/patterns/idReconciliation.ts');
-  preview = await load('/src/components/domain/ScannedIdPreview.tsx');
+  preview = await load('/src/components/domain/scannedIdModel.ts');
   upload = await load('/src/components/domain/idUploadModel.ts');
 });
 after(close);

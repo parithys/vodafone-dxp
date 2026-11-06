@@ -1,8 +1,9 @@
 import type { MutableRefObject } from 'react';
 import { QidImageUpload } from '../domain/QidImageUpload';
 import { idTypesFor } from '../../data/idTypes';
-import { idTypeLabel, type QidType } from '../domain/QidInput';
-import type { SpecimenIdentity } from '../domain/ScannedIdPreview';
+import type { QidType } from '../domain/QidInput';
+import { idTypeLabel } from '../../data/idTypes';
+import type { SpecimenIdentity } from '../domain/scannedIdModel';
 import type { IdLookupValue } from './idLookupModel';
 
 /**

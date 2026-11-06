@@ -13,7 +13,8 @@ import { formatQar } from '../../../lib/format';
 import { connectionOptions, FAMILY_ROLES, lineCatalogueOf, isOrderApproved, lineLabel, packagePlanId, primaryLine1Activated } from '../../../engines/familyPackage';
 import type { FamilyLine, FamilyOrder } from '../../../engines/familyPackage';
 import { useEntityStore } from '../../../stores/entityStore';
-import { ActionButton, GridTable, Panel, StatusPill, IC } from './C360Kit';
+import { ActionButton, GridTable, Panel, StatusPill } from './C360Kit';
+import { IC } from './c360KitModel';
 import type { GridCol } from './C360Kit';
 import { useCanStartNewConnection, useStartNewConnection } from '../useStartNewConnection';
 

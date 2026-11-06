@@ -14,7 +14,7 @@ const read = (p) => fs.readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')
 
 test('StandaloneStepPage: the title band, step card, heading and fixed Continue bar are the guided journey\'s own', async () => {
   const { StandaloneStepPage } = await load('/src/components/patterns/wizard/StandaloneStepPage.tsx');
-  const { RefreshNumbersButton } = await load('/src/capabilities/NumberSelection/step.tsx');
+  const { RefreshNumbersButton } = await load('/src/capabilities/NumberSelection/RefreshNumbersButton.tsx');
   const out = html(
     h(
       StandaloneStepPage,

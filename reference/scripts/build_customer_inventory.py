@@ -1504,6 +1504,21 @@ _fmrc = {p["productId"]: p.get("mrcQAR", 0) for p in load("products")}
 _fprod_name = lambda pid: _fprod.get(pid, pid)
 _fcust = {c["customerId"]: c for c in load("customers")}
 _fscen = {sc["cid"]: sc for sc in FAMILY_SCENARIOS}
+
+
+def _simple_plan(name):
+    """A plan's name without the 'Postpaid' prefix and the 'Member Promotion' suffix ('Postpaid Ahli Premium Member Promotion' -> 'Ahli Premium')."""
+    return re.sub(r"\s*Member Promotion\s*$", "", re.sub(r"^\s*Postpaid\s+", "", str(name))).strip()
+
+
+def _line_approval(order):
+    """A line's approval, from its order's own status: approved ('Approved', or 'Not Required'), otherwise awaiting approval; no order or no status is flagged, never assumed."""
+    status = (order or {}).get("approvalStatus")
+    if status is None:
+        return "status missing - review"
+    return "approved" if status in ("Approved", "Not Required") else "awaiting approval"
+
+
 fam_rows = []
 for cid in sorted({l["customerId"] for l in _flines if l.get("customerId")}):
     mine = sorted([l for l in _flines if l.get("customerId") == cid], key=lambda l: (["Primary", "Supplementary", "Secondary"].index(l["role"]), l["sequence"]))
@@ -1511,16 +1526,18 @@ for cid in sorted({l["customerId"] for l in _flines if l.get("customerId")}):
     p1 = next((l for l in mine if l["role"] == "Primary" and l["sequence"] == 1), None)
     orders_ = [_forders[l["orderId"]] for l in mine if l["orderId"] in _forders]
     p1o = _forders.get(p1["orderId"]) if p1 else None
-    desc = "; ".join(f"{l['role']} Line {l['sequence']} - {_fprod.get(l['planId'], l['planId'])} - {l.get('msisdn', '-')} - " + ("approved" if _forders.get(l["orderId"], {}).get("approvalStatus") in ("Approved", "Not Required") else "awaiting approval") for l in mine)
+    # Lines: line type - simplified plan name - number, one per line of the cell, ";" between them. Approval is kept apart, in "Line Approvals" (same lines, same order).
+    desc = ";\n".join(f"{l['role']} Line {l['sequence']} - {_simple_plan(_fprod.get(l['planId'], l['planId']))} - {l.get('msisdn', '-')}" for l in mine)
+    approvals = "\n".join(f"{l['role']} Line {l['sequence']}: {_line_approval(_forders.get(l['orderId']))}" for l in mine)
     fam_rows.append([sc["n"] if sc else "-", sc["label"] if sc else ("Family overlay on an original customer: Primary Line 1 only" if len(mine) == 1 else "Family overlay on an original customer"), tc.get(cid, ""), cid, _fcust[cid]["name"], _fcust[cid].get("qid", ""),
-                     _fprod.get(p1["planId"], "") if p1 else "", mine[0]["packageId"], desc, "Yes" if p1o and p1o.get("approvalStatus") in ("Approved", "Not Required") else "No (awaiting approval)", _family_options(mine, orders_),
+                     _fprod.get(p1["planId"], "") if p1 else "", mine[0]["packageId"], desc, approvals, _family_options(mine, orders_),
                      (sc["note"] if sc else "Original customer given a Family Package so the package can be seen on a customer with other services.") + " The Family Owner's ID must be validated for every added line; all lines are billed on one billing account.",
                      "Add Another Connection (from the New Connection confirmation page, or by selecting a Family Plan for this customer in New Postpaid): the dialog shows the next connection; the plan, never a type, is what the agent selects"])
 fam_rows.sort(key=lambda r: (r[0] == "-", r[0] if r[0] != "-" else 0, r[3]))
 sheet(wb, "Family Plan Scenarios", ["Scenario #", "Scenario", "Test ID", "Customer ID", "Customer", "ID number (use for lookup)", "Family Plan (package)", "Package ID", "Lines (type - plan - number - order)",
-      "Primary Line 1 approved", "Next connection (derived from the package state)", "Notes", "Where to test"], fam_rows,
+      "Line Approvals", "Next connection (derived from the package state)", "Notes", "Where to test"], fam_rows,
       {"Scenario #": 10, "Scenario": 46, "Test ID": 9, "Customer ID": 12, "Customer": 30, "ID number (use for lookup)": 20, "Family Plan (package)": 30, "Package ID": 18, "Lines (type - plan - number - order)": 90,
-       "Primary Line 1 approved": 16, "Next connection (derived from the package state)": 90, "Notes": 80, "Where to test": 50}, wrap_cols=("Scenario", "Lines (type - plan - number - order)", "Next connection (derived from the package state)", "Notes", "Where to test"))
+       "Line Approvals": 34, "Next connection (derived from the package state)": 90, "Notes": 80, "Where to test": 50}, wrap_cols=("Scenario", "Lines (type - plan - number - order)", "Line Approvals", "Next connection (derived from the package state)", "Notes", "Where to test"))
 
 
 # Postpaid Journey Coverage: every condition of the Mobile Postpaid Activation journey, step by step, with the customers that exercise it. The customer lists are COMPUTED from the

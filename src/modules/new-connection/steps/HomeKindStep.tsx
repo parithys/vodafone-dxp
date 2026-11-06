@@ -2,7 +2,7 @@ import { ChoiceCards } from '../../../components/primitives/ChoiceCards';
 import type { WizardStep } from '../../../components/patterns/wizard/guidedWizardTypes';
 import { HOME_PRODUCTS } from '../products';
 import type { HomeProduct } from '../products';
-import { HOME_PRODUCT_ICON } from './ProductSelection';
+import { HOME_PRODUCT_ICON } from './homeProductIcon';
 import type { ProductStepContext } from './ProductSelection';
 import { selectHomeKind } from './productChoice';
 

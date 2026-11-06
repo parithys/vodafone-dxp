@@ -18,7 +18,7 @@ before(async () => {
   cross = await load('/src/capabilities/CrossSellOffers/serviceJourneys.ts');
   pstep = await load('/src/modules/new-connection/steps/productStep.tsx');
   mnpSteps = await load('/src/modules/mnp-fnp-porting/screens/mnpSteps.tsx');
-  attach = await load('/src/components/patterns/DonorAttachmentStep.tsx');
+  attach = await load('/src/components/patterns/donorModel.ts');
 });
 after(close);
 
@@ -326,7 +326,7 @@ test('every journey floats its Back and Continue footer: it is the wizard defaul
   const connectionWizard = fs.readFileSync('src/modules/new-connection/NewConnectionWizard.tsx', 'utf8');
   const guidedWizard = fs.readFileSync('src/capabilities/GuidedActivationWizard/GuidedActivationWizard.tsx', 'utf8');
   const footer = fs.readFileSync('src/components/patterns/wizard/WizardFooter.tsx', 'utf8');
-  const previews = fs.readFileSync('src/capabilities/previews.tsx', 'utf8');
+  const previews = fs.readFileSync('src/capabilities/previewDemos.tsx', 'utf8');
 
   assert.match(guidedWizard, /fixedFooter = true/);
   assert.doesNotMatch(router, /<NewConnectionWizard[^>]*fixedFooter/, 'no route needs to opt in');

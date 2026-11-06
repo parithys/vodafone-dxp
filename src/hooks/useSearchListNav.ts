@@ -32,7 +32,12 @@ interface Options {
 export function useSearchListNav({ idPrefix, count, enabled, resetKey, inputRef, onSelect, onEnterWithoutSelection, onEscape }: Options) {
   const [active, setActive] = useState(-1);
 
-  useEffect(() => setActive(-1), [resetKey]);
+  // Adjust state during render: a new resetKey clears the highlight.
+  const [seenResetKey, setSeenResetKey] = useState(resetKey);
+  if (!Object.is(seenResetKey, resetKey)) {
+    setSeenResetKey(resetKey);
+    setActive(-1);
+  }
   useEffect(() => {
     if (active >= 0) document.getElementById(`${idPrefix}-${active}`)?.scrollIntoView({ block: 'nearest' });
   }, [active, idPrefix]);

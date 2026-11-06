@@ -7,7 +7,8 @@ import { buildNewTicketRecord, derivePriorityFromSegment, slaTargetHours } from 
 import { useEntityStore } from '../../../stores/entityStore';
 import type { Customer360Data } from '../../../engines/customer360Engine';
 import type { CustomerService } from '../../../engines/customerServicesEngine';
-import { IC, IconTile, Pill, SearchBox } from '../sections/C360Kit';
+import { IconTile, Pill, SearchBox } from '../sections/C360Kit';
+import { IC } from '../sections/c360KitModel';
 import { QueryPreviewModal } from './QueryPreviewModal';
 import { TAB_LABELS, revealContainer, searchContainers } from './containerIndex';
 import { QUERY_SERVICE_TYPES, deriveQueryServiceType, matchRanges, queryKeywords, routeTicket, searchQueryIssues, serviceTypeLabel, useQueryIssueCatalogue } from './queryFlowModel';
@@ -74,10 +75,17 @@ export function QueryFlowCard({
   const [note, setNote] = useState<string | undefined>();
 
   const cardRef = useRef<HTMLElement>(null);
+  // "New Ticket" returns to the search step: state reset during render when the signal (or catalogue) changes, not in an effect.
+  const [seen, setSeen] = useState({ focusSignal, catalogue });
+  if (seen.focusSignal !== focusSignal || seen.catalogue !== catalogue) {
+    setSeen({ focusSignal, catalogue });
+    if (focusSignal && catalogue) {
+      setIssue(null);
+      setPreviewOpen(false);
+    }
+  }
   useEffect(() => {
     if (!focusSignal || !catalogue) return;
-    setIssue(null);
-    setPreviewOpen(false);
     const t = window.setTimeout(() => {
       cardRef.current?.scrollIntoView({ block: 'center' });
       cardRef.current?.querySelector('input')?.focus();

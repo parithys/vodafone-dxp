@@ -1,28 +1,12 @@
+import { Pagination } from '../../../capabilities';
 import { isClosedTicket } from '../../../lib/statusTone';
 import { isSimSwapAwaitingDecision } from '../../../engines/approvalAuthority';
 import { useEffect, useMemo, useState } from 'react';
 import { computeBillingSummary, type Customer360Data } from '../../../engines/customer360Engine';
 import type { CustomerService } from '../../../engines/customerServicesEngine';
 import { useEntityStore } from '../../../stores/entityStore';
-import {
-  DetailRows,
-  FilterSelect,
-  GridTable,
-  IC,
-  IconTile,
-  LinkAction,
-  Pagination,
-  Panel,
-  Pill,
-  StatusPill,
-  TabPage,
-  ViewPill,
-  fmtDate,
-  fmtDateTime,
-  qar,
-  usePaging,
-  type Tone,
-} from './C360Kit';
+import { DetailRows, FilterSelect, GridTable, IconTile, LinkAction, Panel, Pill, StatusPill, TabPage, ViewPill } from './C360Kit';
+import { IC, fmtDate, fmtDateTime, qar, usePaging, type Tone } from './c360KitModel';
 import { Dv } from '../demoValues';
 import { str } from '../../../lib/values';
 

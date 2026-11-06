@@ -8,13 +8,13 @@ import type { EntityKind } from '../../../engines/mockDataEngine';
 import type { EligibilityResult } from '../../../components/domain/eligibilityTypes';
 import { Radio } from '../../../components/primitives/Radio';
 import { Icon } from '../../../components/primitives/Icon';
+import { HOME_PRODUCT_ICON } from './homeProductIcon';
 import { clearAndQuiet, handOverToJourney, productEligibilityClear, selectProduct } from './productChoice';
 import { ProductEligibility } from './ProductEligibility';
 import { StartCards } from './StartCards';
 import { HOME_PRODUCTS, IN_JOURNEY_OFFERS, PRODUCTS, PRODUCT_OF_OFFER_JOURNEY, homeProductOfOffer, mnpTypeOfOffer } from '../products';
 import type { HomeProduct, MnpType, ConnectionProduct } from '../products';
 import type { ConnectionJourney } from '../newConnectionModel';
-import { FWA_OUTDOOR, ICONS_HOME, ICONS_PHONE, FIBRE_STRANDS } from '../../../assets/icons';
 
 
 /** What the product step needs from the journey. */
@@ -29,16 +29,6 @@ export interface ProductStepContext {
   navigate: NavigateFunction;
   createRecord: (kind: EntityKind, record: Record<string, unknown>) => Promise<void>;
 }
-
-// The icon tile of each home product card (the same card as the Installation Address service types).
-export const HOME_PRODUCT_ICON: Record<HomeProduct, string> = {
-  // Optical fibre: a cut cable inside a ring, its strands fanning out to nodes (drawn thin: see strokeWidth below).
-  fibre:
-    FIBRE_STRANDS,
-  'fixed-line': ICONS_PHONE,
-  fwa: FWA_OUTDOOR,
-  '5g-home': ICONS_HOME,
-};
 
 /**
  * Product selection: the point in the one New Connection journey where the agent, with the customer already identified,

@@ -9,25 +9,8 @@ import { TicketCreationModal, type NewTicketValue } from '../../../components/pa
 import { buildNewTicketRecord } from '../../../data/reference/ticketReferenceData';
 import type { Customer360Data } from '../../../engines/customer360Engine';
 import type { CustomerService } from '../../../engines/customerServicesEngine';
-import {
-  ActionButton,
-  FilterSelect,
-  GridTable,
-  IC,
-  IconTile,
-  KpiGrid,
-  KpiTile,
-  LinkAction,
-  Pill,
-  Panel,
-  DetailRows,
-  SearchBox,
-  StatusPill,
-  TabPage,
-  fmtDate,
-  fmtDateTime,
-  type Tone,
-} from './C360Kit';
+import { ActionButton, FilterSelect, GridTable, IconTile, KpiGrid, KpiTile, LinkAction, Pill, Panel, DetailRows, SearchBox, StatusPill, TabPage } from './C360Kit';
+import { IC, fmtDate, fmtDateTime, type Tone } from './c360KitModel';
 import { Dv } from '../demoValues';
 import { str } from '../../../lib/values';
 

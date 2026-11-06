@@ -1,10 +1,5 @@
 import { registerScreen } from '../../screenRegistry';
-import { NewConnectionWizard } from '../../new-connection/NewConnectionWizard';
-
-// Every route that used to open the standalone NewPostpaidWizard now opens the New Connection
-// journey, so a postpaid activation looks and behaves the same however it is reached (menu,
-// journey catalogue, or a resumed Draft Order). The standalone wizard is no longer routed.
-const NewPostpaidWizard = () => <NewConnectionWizard flow="new" />;
+import { NewPostpaidWizard } from './NewPostpaidWizard';
 
 // SCR-154/155/156/159/157/158/160/161/162 are steps of the same single-page
 // guided wizard (Pattern 1) - all nine route entries resolve to it.

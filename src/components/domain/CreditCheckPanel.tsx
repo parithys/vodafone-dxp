@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { evaluateRule } from '../../engines/ruleEngine';
 import { Badge } from '../primitives/Badge';
 import { Checkbox } from '../primitives/Checkbox';
@@ -15,11 +15,7 @@ interface CreditCheckPanelProps {
 // tick an explicit override to proceed; this is a UX/business decision layered
 // on top of the rule engine, not the engine silently unblocking itself.
 export function CreditCheckPanel({ collectionStatus, acknowledged, onAcknowledge }: CreditCheckPanelProps) {
-  const [result, setResult] = useState<{ pass: boolean; message?: string } | null>(null);
-
-  useEffect(() => {
-    setResult(evaluateRule('BR-FIBRE-OUTSTANDING-THRESHOLD', { collectionStatus }));
-  }, [collectionStatus]);
+  const result = useMemo(() => evaluateRule('BR-FIBRE-OUTSTANDING-THRESHOLD', { collectionStatus }), [collectionStatus]);
 
   if (!result) return null;
 

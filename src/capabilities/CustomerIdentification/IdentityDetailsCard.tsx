@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import { Icon } from '../../components/primitives/Icon';
-import { idNumberLabel, type QidType } from '../../components/domain/QidInput';
+import type { Fact, FactIcon } from './identityFacts';
 import { CALENDAR_ICON, GENDER, GLOBE_ICON, IC_BUILDING, ID_CARD, PERSON, USERS } from '../../assets/icons';
 
 // Registry-sourced identity facts, shown as read-only content rather than disabled form controls: nothing here
 // can be typed into, so nothing looks like it can. Each fact is a label above its value beside a small icon tile.
 
-const IC = {
+const IC: Record<FactIcon, string> = {
   user: PERSON,
   users: USERS,
   calendar: CALENDAR_ICON,
@@ -16,15 +16,7 @@ const IC = {
   building: IC_BUILDING,
 };
 
-export interface Fact {
-  label: string;
-  value: string;
-  icon: keyof typeof IC;
-  /** Ends its row early (the next fact starts a new row), instead of filling it to three. */
-  endsRow?: boolean;
-}
-
-function Tile({ icon, className = 'w-9 h-9' }: { icon: keyof typeof IC; className?: string }) {
+function Tile({ icon, className = 'w-9 h-9' }: { icon: FactIcon; className?: string }) {
   return (
     <span className={`${className} rounded-[var(--radius-button)] bg-surface text-fg-2 icon-tile`}>
       <Icon path={IC[icon]} className="size-[18px] " />
@@ -95,56 +87,4 @@ export function IdentityDetailsCard({ facts, status, lastRowExtra }: { facts: Fa
       </div>
     </section>
   );
-}
-
-/** The identity facts every Customer Verification result shows. */
-export interface IdentityFields {
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  dob?: string;
-  idExpiryDate?: string;
-  nationality?: string;
-  gender?: string;
-  idTypeLabel?: string;
-  /** The ID number looked up. Listed only when the caller asks for it (see identityFacts' `idType`). */
-  idNumber?: string;
-  companyName?: string;
-  occupation?: string;
-}
-
-/**
- * One list of facts for every journey, so the card reads the same everywhere. The content follows the context:
- * the document type is left out where the agent already chose it (`showDocumentType` false). Sponsor and Occupation are not listed:
- * they are captured, and shown in Customer 360 only.
- */
-export function identityFacts(f: IdentityFields, opts: { showDocumentType?: boolean; idType?: QidType } = {}): Fact[] {
-  const { showDocumentType = true, idType } = opts;
-  const expiry: Fact = { icon: 'calendar', label: 'ID Expiry Date', value: f.idExpiryDate ?? '' };
-  const names: Fact[] = [
-    { icon: 'user', label: 'First Name', value: f.firstName ?? '' },
-    { icon: 'users', label: 'Middle Name(s)', value: f.middleName ?? '' },
-    { icon: 'user', label: 'Last Name', value: f.lastName ?? '' },
-  ];
-  const dob: Fact = { icon: 'calendar', label: 'Date of Birth', value: f.dob ?? '' };
-  const rest: Fact[] = [
-    { icon: 'globe', label: 'Nationality', value: f.nationality ?? '' },
-    { icon: 'gender', label: 'Gender', value: f.gender ?? '' },
-    ...(showDocumentType ? [{ icon: 'idCard' as const, label: 'Document Type', value: f.idTypeLabel ?? '' }] : []),
-    // Sponsor and Occupation are captured (on the contact and the order) but not shown in a journey: they are visible in Customer 360 only.
-  ];
-  // The ID that was looked up leads, read-only, when the caller passes the ID type that names it ("Qatar ID (QID) Number"): the ID number and
-  // its expiry and the date of birth on the first row, the three names on the second, then nationality and gender.
-  if (idType && f.idNumber) {
-    return [
-      { icon: 'idCard', label: idNumberLabel(idType), value: f.idNumber },
-      expiry,
-      { ...dob, endsRow: true },
-      names[0],
-      names[1],
-      { ...names[2], endsRow: true },
-      ...rest,
-    ];
-  }
-  return [names[0], names[1], names[2], dob, expiry, ...rest];
 }

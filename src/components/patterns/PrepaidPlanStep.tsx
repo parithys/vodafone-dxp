@@ -65,12 +65,17 @@ export function PrepaidPlanStep({ mode = 'plan', hiddenProductId, packsOnly, sho
     });
   }, [customerSegment, hiddenProductId, packsOnly]);
 
-  useEffect(() => {
+  // No plan selected: nothing to offer. State adjusted while rendering (compared with the selection it last saw), not in an effect.
+  const [seenProductId, setSeenProductId] = useState(selectedProductId);
+  if (seenProductId !== selectedProductId) {
+    setSeenProductId(selectedProductId);
     if (!selectedProductId) {
       setDiscounts([]);
       setAddons([]);
-      return;
     }
+  }
+  useEffect(() => {
+    if (!selectedProductId) return;
     mockDataEngine.list<Discount>('addons-discounts').then((all) => {
       setDiscounts(all.filter((d) => d.category === 'Discount' && d.planId === selectedProductId));
       setAddons(all.filter((d) => d.category === 'Paid Add-on' && d.planId === selectedProductId));

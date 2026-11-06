@@ -2,8 +2,10 @@ import { SearchField } from '../../../components/primitives/SearchField';
 import { FilterSelect } from '../sections/C360Kit';
 import { useState } from 'react';
 import { Icon } from '../../../components/primitives/Icon';
-import { Card, KV, Pill, dateTime, type Ctx } from './TelesalesOverview';
-import { ActionList, HeaderLink, ICON, SectionHeader, StatStrip, Table, TableCard, pillFor, WideBlock } from './TelesalesKit';
+import { Card, KV, Pill, type Ctx } from './TelesalesOverview';
+import { dateTime } from './telesalesOverviewModel';
+import { ActionList, HeaderLink, SectionHeader, StatStrip, Table, TableCard, WideBlock } from './TelesalesKit';
+import { ICON, pillFor } from './telesalesKitModel';
 import { rowDate, demoOf, arr } from './shared';
 import { strOrEmpty as str } from '../../../lib/values';
 

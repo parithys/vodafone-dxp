@@ -3,7 +3,8 @@ import { SCAN_DOCUMENT_TITLE } from './scanDocumentLabels';
 import { Button } from '../primitives/Button';
 import { Icon } from '../primitives/Icon';
 import { Spinner } from '../primitives/Spinner';
-import { ScannedIdPreview, capturedFromCard } from './ScannedIdPreview';
+import { ScannedIdPreview } from './ScannedIdPreview';
+import { capturedFromCard } from './scannedIdModel';
 import { ScanFailureNotice } from './ScanFailureNotice';
 import { IdFileUpload } from './IdFileUpload';
 import { applyIdUpload, idCaptureOptions } from './idUploadModel';
@@ -28,17 +29,21 @@ export function PassportScanSections({ value, onChange, onScan, onRetakeDone, er
   const [retakes, setRetakes] = useState({ front: 0, back: 0 });
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const latest = useRef(value);
-  latest.current = value;
+  useEffect(() => {
+    latest.current = value;
+  });
   const charged = useRef(false);
   const anyScanned = Boolean(value.frontScanned || value.backScanned);
   const bothScanned = Boolean(value.frontScanned && value.backScanned);
   useEffect(() => () => clearTimeout(timer.current), []);
   // A fresh document (both sides cleared from outside) starts a new pass.
+  const [seenAnyScanned, setSeenAnyScanned] = useState(anyScanned);
+  if (seenAnyScanned !== anyScanned) {
+    setSeenAnyScanned(anyScanned);
+    if (!anyScanned) setBlurred({ front: false, back: false });
+  }
   useEffect(() => {
-    if (!anyScanned) {
-      charged.current = false;
-      setBlurred({ front: false, back: false });
-    }
+    if (!anyScanned) charged.current = false;
   }, [anyScanned]);
 
   const scanSide = (side: 'front' | 'back') => {

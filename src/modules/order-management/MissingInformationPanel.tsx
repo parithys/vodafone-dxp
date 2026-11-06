@@ -6,7 +6,7 @@ import { Textarea } from '../../components/primitives/Textarea';
 import { SignatureCapture } from '../../components/patterns/SignatureCapture';
 import { readFileAsDataUrl } from '../../lib/documentFileStore';
 import { isMissingInformationComplete, type MissingInformationAnswer, type MissingInformationRequest } from '../../engines/approvalAuthority';
-import type { OrderAttachment } from './AttachmentPreview';
+import type { OrderAttachment } from './attachmentModel';
 
 // What the agent who submitted an order does when the approver marked it Missing Information: only what was asked for - a document captured
 // again, a new signature on the CAF, supporting documents with their type. Nothing else about the order is shown as editable here or anywhere

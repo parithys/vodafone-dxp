@@ -1,13 +1,11 @@
-import { useState, type ReactNode } from 'react';
-import type { Customer360Data } from '../../../engines/customer360Engine';
-import type { CustomerService } from '../../../engines/customerServicesEngine';
-import type { ActiveCustomerSummary } from '../../../stores/customerContextStore';
+import type { ReactNode } from 'react';
 import { getVisibleTopicFields } from '../../../engines/customer360VisibilityEngine';
-import { Icon } from '../../../components/primitives/Icon';
 import type { TabItem } from '../../../components/primitives/Tabs';
 import type { FieldGroup } from '../sections/customer360Layouts';
 import { TopicFieldsSection } from '../sections/TopicFieldsSection';
-import { MasonryGrid, TelesalesOverview } from './TelesalesOverview';
+import { TelesalesOverview } from './TelesalesOverview';
+import { Block, DeepDiveRow, PageFrame } from './TelesalesTabParts';
+import { visibleCount, type TelesalesContext } from './telesalesContext';
 import { AccountSection } from './TelesalesAccountSection';
 import { ContactsSection } from './TelesalesContactsSection';
 import { ConnectionsSection } from './TelesalesConnectionsSection';
@@ -18,8 +16,7 @@ import { AddressSection as AddressPageSection } from './TelesalesAddressSection'
 import { AuditSection } from './TelesalesAuditSection';
 import { LeadsSection } from './TelesalesLeadsSection';
 import { OrdersTicketsSection } from './TelesalesOrdersTicketsSection';
-import { ToolbarShell } from './TelesalesKit';
-import { AssetsSection, type AssetsSubView } from '../sections/AssetsSection';
+import { AssetsSection } from '../sections/AssetsSection';
 import { accountInformationResolvers, accountInformationRichFields } from '../sections/accountInformationResolvers';
 import { billingResolvers } from '../sections/billingResolvers';
 import { BillingSection } from '../sections/BillingSection';
@@ -34,7 +31,6 @@ import { AddressSection } from '../sections/AddressSection';
 import { AuditTrailSection } from '../sections/AuditTrailSection';
 import { CommunicationsSection } from '../sections/MiscSections';
 import { DevicePenaltyPolicy, StarNumberPenaltyPolicy } from '../sections/penaltyViewResolvers';
-import { CHEVRON_DOWN, CHEVRON_UP } from '../../../assets/icons';
 
 // The Telesales (CBU) Customer 360: ten task-shaped tabs (Overview ... Activation & Changes); the
 // former deep-dive areas are rows inside the tab they belong to.
@@ -48,69 +44,6 @@ const RECENT_MILESTONES =
   'Recent Milestones or Interactions (including all recent purchases add-on, Plan change, activation, change done to MSISDN, account, ticket or activity)';
 const RECENT_USAGES = '10 Recent Usages (Data, Calls, Text, OOB)';
 const AUDIT = 'Audit Trail (Orders, Contact, Account, Activity, TT)';
-
-export interface TelesalesContext {
-  personaId: string | undefined;
-  data: Customer360Data;
-  services: CustomerService[];
-  customer: ActiveCustomerSummary;
-  servicesLoaded: boolean;
-  selectedServiceRef: string | undefined;
-  assetsSubView: AssetsSubView;
-  onTicketCreated: (ticket: Record<string, unknown>) => void;
-  /** Switches the Customer 360 tab (the Overview cards' "View Details" links). */
-  goToTab: (key: string) => void;
-}
-
-const visibleCount = (personaId: string | undefined, topic: string, only: string[]) =>
-  getVisibleTopicFields(personaId, topic).filter(({ field }) => only.includes(field.details)).length;
-
-function Block({
-  ctx,
-  topic,
-  groups,
-  resolve,
-  rich,
-  plain,
-}: {
-  ctx: TelesalesContext;
-  topic: string;
-  groups: FieldGroup[];
-  resolve?: (details: string) => ReactNode | undefined;
-  rich?: Record<string, ReactNode>;
-  plain?: boolean;
-}) {
-  const only = groups.flatMap((g) => g.fields);
-  if (visibleCount(ctx.personaId, topic, only) === 0) return null;
-  return <TopicFieldsSection personaId={ctx.personaId} topic={topic} only={only} layout={groups} resolveValue={resolve} richFields={rich} plain={plain} />;
-}
-
-function DeepDiveRow({ title, children }: { title: string; children: ReactNode }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div>
-      <button
-        type="button"
-        aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
-        className="list-row justify-between pad-row body-text"
-      >
-        {title}
-        <Icon path={open ? CHEVRON_UP : CHEVRON_DOWN} className="size-4 text-muted" />
-      </button>
-      {open && <div className="px-4 pb-4">{children}</div>}
-    </div>
-  );
-}
-
-/** A toolbar for the tab's page-level actions, then a masonry of its cards (wide blocks drop to a full-width area). */
-function PageFrame({ children }: { children: ReactNode }) {
-  return (
-    <ToolbarShell>
-      <MasonryGrid>{children}</MasonryGrid>
-    </ToolbarShell>
-  );
-}
 
 export function buildTelesalesTabs(ctx: TelesalesContext): TabItem[] {
   const { personaId, data, services } = ctx;

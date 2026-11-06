@@ -1,12 +1,6 @@
-import { createContext, useContext, useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import type { ReactNode } from 'react';
-
-interface TooltipGroupContextValue {
-  isGroupActive: () => boolean;
-  activateGroup: () => void;
-}
-
-const TooltipGroupContext = createContext<TooltipGroupContextValue | null>(null);
+import { TooltipGroupContext } from './tooltipGroup';
 
 // Wrap an icon row/toolbar/nav in this so consecutive tooltips in the same
 // cluster skip the full show-delay after the first one appears - matches
@@ -26,8 +20,4 @@ export function TooltipGroup({ children }: { children: ReactNode }) {
   }, []);
 
   return <TooltipGroupContext.Provider value={{ isGroupActive, activateGroup }}>{children}</TooltipGroupContext.Provider>;
-}
-
-export function useTooltipGroup() {
-  return useContext(TooltipGroupContext);
 }

@@ -4,5 +4,14 @@
   "rules": {
     "react/rules-of-hooks": "error",
     "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+  },
+  "overrides": [
+    {
+      // Next.js route files must export `metadata`, `viewport`, `dynamicParams` and `generateStaticParams` beside the page component.
+      // routerCompat.tsx is the drop-in for `react-router-dom` (next.config.mjs aliases it), so it has to export that package's hooks and
+      // components from one module.
+      "files": ["app/**", "src/next/routerCompat.tsx"],
+      "rules": { "react/only-export-components": "off" }
+    }
+  ]
 }

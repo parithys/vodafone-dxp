@@ -119,11 +119,10 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
   // and the SLA target - same identity-lookup shape as the rest of the app,
   // just keyed directly by customerId since this modal has no MOI/ID-scan
   // step of its own to resolve one from.
+  // Nothing to resolve without an ID: state adjusted while rendering rather than in an effect.
+  if (!customerId.trim() && customer !== null) setCustomer(null);
   useEffect(() => {
-    if (!customerId.trim()) {
-      setCustomer(null);
-      return;
-    }
+    if (!customerId.trim()) return;
     let cancelled = false;
     mockDataEngine.list<CustomerRecord>('customers').then((all) => {
       if (cancelled) return;
@@ -140,11 +139,10 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
   // for the same customer on a still-open ticket (MSISDN/Sub-Area aren't
   // captured anywhere in this simplified schema, so this checks the two
   // matching fields the app's ticket schema actually has).
+  const noDuplicateCheck = !customerId.trim() || !issueType || blocked;
+  if (noDuplicateCheck && duplicates.length > 0) setDuplicates([]);
   useEffect(() => {
-    if (!customerId.trim() || !issueType || blocked) {
-      setDuplicates([]);
-      return;
-    }
+    if (noDuplicateCheck) return;
     let cancelled = false;
     mockDataEngine.list<TicketRecord>('trouble-tickets').then((all) => {
       if (cancelled) return;
@@ -162,7 +160,7 @@ export function TicketCreationModal({ open, onClose, onSubmit, initialCustomerId
     return () => {
       cancelled = true;
     };
-  }, [customerId, issueType, area, blocked]);
+  }, [customerId, issueType, area, blocked, noDuplicateCheck]);
 
   const areaOptions = TT_AREAS[issueType] ?? [];
   const derivedPriority = derivePriorityFromSegment(customer?.segment);

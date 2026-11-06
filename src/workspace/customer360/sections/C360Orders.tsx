@@ -1,11 +1,13 @@
+import { Pagination } from '../../../capabilities';
 import { useMemo, useState } from 'react';
 import { useCanStartNewConnection, useStartNewConnection } from '../useStartNewConnection';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../components/primitives/Icon';
 import type { Customer360Data } from '../../../engines/customer360Engine';
 import type { CustomerService } from '../../../engines/customerServicesEngine';
-import { ActionButton, DetailRows, FilterSelect, GridTable, IC, Pagination, Panel, Pill, SearchBox, TabPage, ViewPill, fmtDate, fmtDateTime, usePaging } from './C360Kit';
-import type { Tone } from './C360Kit';
+import { ActionButton, DetailRows, FilterSelect, GridTable, Panel, Pill, SearchBox, TabPage, ViewPill } from './C360Kit';
+import { IC, fmtDate, fmtDateTime, usePaging } from './c360KitModel';
+import type { Tone } from './c360KitModel';
 import { SegmentedTabs } from '../../../components/primitives/SegmentedTabs';
 import { Dv } from '../demoValues';
 import { str } from '../../../lib/values';

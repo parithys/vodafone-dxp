@@ -93,7 +93,7 @@ function MenuPanel({
   onPick,
   className = '',
   label,
-  anchor,
+  container,
   id,
   onClose,
 }: {
@@ -101,8 +101,8 @@ function MenuPanel({
   onPick: (child: MenuEntry) => void;
   className?: string;
   label: string;
-  /** The button the menu hangs from. */
-  anchor: RefObject<HTMLElement | null>;
+  /** The element holding the button the menu hangs from. */
+  container: RefObject<HTMLElement | null>;
   id: string;
   /** Esc and Tab close the menu and hand focus back to the button. */
   onClose: () => void;
@@ -113,7 +113,7 @@ function MenuPanel({
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   useLayoutEffect(() => {
     const place = () => {
-      const a = anchor.current?.getBoundingClientRect();
+      const a = triggerOf(container).current?.getBoundingClientRect();
       const h = panelRef.current?.offsetHeight ?? 0;
       const w = panelRef.current?.offsetWidth ?? 240;
       if (!a) return;
@@ -130,7 +130,7 @@ function MenuPanel({
       window.removeEventListener('resize', place);
       window.removeEventListener('scroll', place, true);
     };
-  }, [anchor]);
+  }, [container]);
   // Focus moves into the menu when it opens (the first item), so the keyboard user lands in it rather than behind it.
   useEffect(() => {
     if (pos) panelRef.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
@@ -219,11 +219,11 @@ export function CustomerActionsMenu({
 }) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
-  const ref = useDismiss(open, () => setOpen(false), () => closeAndRefocus());
-  const closeAndRefocus = () => {
+  const ref = useDismiss(open, () => setOpen(false), closeAndRefocus);
+  function closeAndRefocus() {
     setOpen(false);
     triggerOf(ref).current?.focus();
-  };
+  }
   const run = useActionRunner(onSupport);
   const groups = useGroups((c) => appliesToCustomer(c.key, services));
   if (groups.length === 0 || !customerId) return null;
@@ -237,7 +237,7 @@ export function CustomerActionsMenu({
       </Button>
       {open && (
         <MenuPanel
-          anchor={triggerOf(ref)}
+          container={ref}
           id={menuId}
           onClose={closeAndRefocus}
           label="Customer Actions"

@@ -34,7 +34,6 @@
  * NOT YET RUN: written in a session whose sandbox blocks local sockets (no browser could reach the dev server), so the
  * wizard driver in particular is a best effort - where it stalls it stops and says so in the manifest.
  */
-import { createRequire } from 'node:module';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';

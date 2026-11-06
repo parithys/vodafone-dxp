@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useId, cloneElement, isValidElement } from 'react';
 import type { ReactElement, ReactNode, RefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { useTooltipGroup } from './TooltipContext';
+import { useTooltipGroup } from './tooltipGroup';
 import { Badge } from './Badge';
 
 // A tooltip on something a keyboard can't reach is information only a mouse can read: plain text elements and badges
@@ -41,6 +41,16 @@ const VIEWPORT_MARGIN = 8;
 function pxToken(name: string, fallback: number): number {
   const n = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
   return Number.isFinite(n) ? n : fallback;
+}
+
+/** The ref the trigger is given: records the node for positioning and forwards it to any ref the child already carried. */
+function triggerRefCallback(triggerRef: { current: HTMLElement | null }, child: ReactElement) {
+  return (node: HTMLElement) => {
+    triggerRef.current = node;
+    const childRef = (child as unknown as { ref?: unknown }).ref;
+    if (typeof childRef === 'function') childRef(node);
+    else if (childRef && typeof childRef === 'object') (childRef as { current: HTMLElement | null }).current = node;
+  };
 }
 
 // Portal-rendered hover/focus tooltip - see .claude/skills/hover-tooltip.
@@ -114,6 +124,7 @@ export function Tooltip({ content, children, placement = 'right', disabled = fal
     pos.left = Math.min(Math.max(pos.left, VIEWPORT_MARGIN), window.innerWidth - tw - VIEWPORT_MARGIN);
     pos.top = Math.min(Math.max(pos.top, VIEWPORT_MARGIN), window.innerHeight - th - VIEWPORT_MARGIN);
 
+    // oxlint-disable-next-line react/set-state-in-effect -- placement is measured from the painted tooltip's DOM rect, which exists only after render
     setResolvedPlacement(finalPlacement);
     setCoords(pos);
 
@@ -176,14 +187,12 @@ export function Tooltip({ content, children, placement = 'right', disabled = fal
   if (disabled) return children;
 
   const childProps = children.props as Record<string, unknown>;
+  // oxlint-disable-next-line react/refs -- false positive: only element type / props are read here; the trigger ref is touched only inside the callback ref
   const needsFocus = (typeof children.type === 'string' ? NON_INTERACTIVE_TAGS.has(children.type) : children.type === Badge) && childProps.tabIndex === undefined;
+  // oxlint-disable-next-line react/refs -- the ref object is only written inside the callback ref, when React attaches the node
   const trigger = cloneElement(children as ReactElement<Record<string, unknown>>, {
-    ref: (node: HTMLElement) => {
-      triggerRef.current = node;
-      const childRef = (children as unknown as { ref?: unknown }).ref;
-      if (typeof childRef === 'function') childRef(node);
-      else if (childRef && typeof childRef === 'object') (childRef as { current: HTMLElement | null }).current = node;
-    },
+    // oxlint-disable-next-line react/refs -- the ref object is only written inside the callback ref, when React attaches the node
+    ref: triggerRefCallback(triggerRef, children),
     onMouseEnter: (e: React.MouseEvent) => {
       (childProps.onMouseEnter as ((e: React.MouseEvent) => void) | undefined)?.(e);
       handleShow();

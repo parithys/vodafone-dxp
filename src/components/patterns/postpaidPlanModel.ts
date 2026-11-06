@@ -1,4 +1,4 @@
-import { planFeatureRows } from '../primitives/offerCardParts';
+import { planFeatureRows } from '../primitives/offerCardModel';
 import { multiSimBenefitText } from '../../engines/multiSim';
 import { formatQarAny } from '../../lib/format';
 
