@@ -67,7 +67,7 @@ test('before a product is chosen the journey is Customer Verification, Address a
 
 test('every product continues the same wizard: identification, address, billing profile (where the product has one), product selection, then that product\'s own steps', () => {
   assert.deepEqual(activeKeys({ product: 'postpaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'billingAccount', 'checkout', 'caf', 'payment'], 'New Postpaid: SIM Selection -> Billing -> Order Summary (the add-ons are reviewed on the Addons page)');
-  assert.deepEqual(activeKeys({ product: 'prepaid' }), ['contact', 'address', 'product', 'plan', 'planExtras', 'recharge', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment']);
+  assert.deepEqual(activeKeys({ product: 'prepaid' }), ['contact', 'product', 'plan', 'planExtras', 'recharge', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment'], 'New Prepaid has no Address and no Billing');
   assert.deepEqual(activeKeys({ product: 'fixed-line' }), ['contact', 'address', 'billingAccount', 'product', 'homeKind', 'installation', 'plan', 'number', 'checkout', 'caf', 'payment', 'appointment']);
   assert.deepEqual(activeKeys({ product: 'mnp', mnpType: 'postpaid' }), ['contact', 'address', 'billingAccount', 'product', 'mnpType', 'sim', 'plan', 'planExtras', 'donor-details', 'checkout', 'donor-attachment', 'caf', 'payment']);
   assert.deepEqual(activeKeys({ product: 'mnp', mnpType: 'prepaid' }), ['contact', 'address', 'product', 'mnpType', 'sim', 'plan', 'planExtras', 'donor-details', 'checkout', 'donor-attachment', 'caf', 'payment']);
@@ -268,7 +268,7 @@ test('Fixed Line\'s connection type is asked on its own step, not on Recommended
 test('Product Selection\'s position follows the steps before it: after Address and Billing, or just Address when the product has no billing profile or (New Postpaid) takes it later', async () => {
   const pc = await load('/src/modules/new-connection/steps/productChoice.ts');
   assert.equal(pc.productStepIndex('connection', { product: 'postpaid' }), 2, 'New Postpaid takes its Billing after SIM Selection');
-  assert.equal(pc.productStepIndex('connection', { product: 'prepaid' }), 2);
+  assert.equal(pc.productStepIndex('connection', { product: 'prepaid' }), 1, 'New Prepaid has no Address');
   assert.equal(pc.productStepIndex('connection', { product: 'mnp', mnpType: 'prepaid' }), 2);
   assert.equal(pc.productStepIndex('connection', { product: 'mnp', mnpType: 'postpaid' }), 3);
   assert.equal(pc.productStepIndex('home', { product: 'fixed-line' }), 1, 'New Home Connection has neither step');

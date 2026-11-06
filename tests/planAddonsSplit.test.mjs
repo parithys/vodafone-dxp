@@ -133,9 +133,11 @@ test('the prepaid Addons page is built like the postpaid one: the add-ons only, 
   for (const shared of ['aria-label="Add-ons"', '<AddonsPicker', 'hideHeader', 'layout="rows"', 'Select a plan first'.replace('plan', 'pack')]) assert.ok(prepaid.includes(shared), `prepaid: ${shared}`);
   assert.ok(postpaid.includes('aria-label="Add-ons"') && postpaid.includes('layout="rows"'), 'the postpaid page has the same shell');
   assert.doesNotMatch(prepaid, /Eligible Discounts|Selected Pack|Starter Pack|Benefits|Pack summary|Pack Total|onSelectDiscount|discountId|SelectedPlanFigure/, 'nothing of the pack page is repeated, and the discount is not here');
-  // Prepaid add-ons carry no category, so there are no category tabs to build: one list of the same rows.
+  // The same page as the postpaid one: category tabs and Paid / Free columns (a prepaid add-on is listed under the category its record states, else Others), and the
+  // Selected Add-Ons tray, which the step declares so every journey using it gets it.
   assert.match(prepaid, /source="prepaid"/);
-  assert.doesNotMatch(prepaid, /categorized/);
+  assert.match(prepaid, /categorized/);
+  assert.match(code('src/capabilities/AddonsSelection/step.tsx'), /addonsTray: 'prepaid'/);
 });
 
 test('the prepaid flow is the postpaid flow: Continue passes over the Addons page, Customise Add-ons is the way there, and Edit Discount is on the pack page', () => {

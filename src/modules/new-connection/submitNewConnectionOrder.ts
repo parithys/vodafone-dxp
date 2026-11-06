@@ -36,7 +36,8 @@ import type { useEntityStore } from '../../stores/entityStore';
 import type { NewConnectionFlow, ConfirmedOrder } from './newConnectionModel';
 import { idScanAttachments } from './idScanAttachments';
 import { isB2B2COrder } from './approvalRouting';
-import { addonChargeNowQar, type AddonBillingFrequency } from '../../engines/addonCategories';
+import { addonChargeNowQar, addonWithBillingChoice, type AddonBillingFrequency } from '../../engines/addonCategories';
+import { appliedDiscountFor, discountedAddon, type AddonDiscount, type AppliedAddonDiscounts } from '../../engines/addonDiscounts';
 import { isNumberWaiver } from '../../engines/numberWaiver';
 import { assignMultiSimMsisdns, multiSimEntitlement } from '../../engines/multiSim';
 import { multiSimsFor } from '../../capabilities';
@@ -101,6 +102,8 @@ export async function submitNewConnectionOrder(
       const customerId = eligibility?.customerId ?? knownCustomerId ?? createdCustomerId;
       const discounts = await mockDataEngine.list<{ addonDiscountId: string; price?: number; addonType?: string }>('addons-discounts');
       const discount = discounts.find((d) => d.addonDiscountId === values.discountId);
+      const addonDiscountRecords = await mockDataEngine.list<AddonDiscount>('addon-discounts');
+      const addonDiscountsApplied = values.addonDiscounts as AppliedAddonDiscounts | undefined;
       // The same itemisation the two display surfaces render, so what the
       // order records is by construction what the agent quoted. See
       // engines/postpaidPricing.ts.
@@ -108,7 +111,8 @@ export async function submitNewConnectionOrder(
         // Primary Line 2 is included in the package the customer already pays for: its plan's rental is not charged again.
         planQar: family.applies && family.ok && family.additional && !family.additional.pending && family.additional.charge === 'Free' ? 0 : plan?.mrcQAR ?? 0,
         discountRate: discount?.price,
-        addonsQar: addons.reduce((sum, a) => sum + addonChargeNowQar(a, addonBilling[a.productId]), 0),
+        // The add-ons as the agent quoted them: the chosen billing frequency, then the applied add-on discount (the same derivation as Checkout's).
+        addonsQar: addons.reduce((sum, a) => sum + addonChargeNowQar(discountedAddon(addonWithBillingChoice(a, addonBilling[a.productId]), appliedDiscountFor(addonDiscountRecords, addonDiscountsApplied, a))), 0),
       });
       const monthlyRecurringQar = charges.totalQar;
       // BR-268: HRN/credit-limit variant routes to manager approval rather

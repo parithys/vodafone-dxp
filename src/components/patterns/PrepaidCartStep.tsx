@@ -34,9 +34,11 @@ export function PrepaidCartStep({ lines, onAddAnother }: { lines: PrepaidLine[];
                   <p className="text-fg font-semibold">
                     Subscription {i + 1}: {plan?.name ?? line.productId}
                   </p>
-                  <p className="caption-secondary">
-                    {line.msisdn} · {line.prePaired ? 'Pre-Paired SIM' : line.simType.simType === 'eSIM' ? 'eSIM' : `SIM ${line.simType.simSerial}`}
-                    {names.length > 0 ? ` · ${names.join(', ')}` : ''}
+                  {/* The number, the SIM and the add-ons, each its own item with room between them (not one run of text). */}
+                  <p className="cluster caption-secondary mt-1 gap-x-6">
+                    <span>{line.msisdn}</span>
+                    <span>{line.prePaired ? 'Pre-Paired SIM' : line.simType.simType === 'eSIM' ? 'eSIM' : `SIM ${line.simType.simSerial}`}</span>
+                    {names.length > 0 && <span>{names.join(', ')}</span>}
                   </p>
                 </div>
                 {line.prePaired && <Badge variant="accent">Pre-Paired SIM</Badge>}

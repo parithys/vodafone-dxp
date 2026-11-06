@@ -51,7 +51,7 @@ test('TabStrip: tablist semantics, one tab in the tab order, accent underline an
   assert.match(out, />4</);
 });
 
-test('SegmentedTabs: tablist semantics, one tab in the tab order, the Level 2 pill tab', async () => {
+test('SegmentedTabs: tablist semantics, one tab in the tab order, the same underline tab', async () => {
   const { SegmentedTabs } = await load('/src/components/primitives/SegmentedTabs.tsx');
   const out = html(h(SegmentedTabs, { items: [{ key: 'a', label: 'Offers' }, { key: 'b', label: 'Plans' }], active: 'a', onChange() {} }));
   assert.match(out, /role="tablist"/);
@@ -59,9 +59,9 @@ test('SegmentedTabs: tablist semantics, one tab in the tab order, the Level 2 pi
   assert.equal((out.match(/aria-selected="true"/g) ?? []).length, 1);
   assert.equal((out.match(/tabindex="0"/g) ?? []).length, 1);
   assert.equal((out.match(/tabindex="-1"/g) ?? []).length, 1);
-  assert.match(out, /class="tab-segmented/, 'the pill track');
-  assert.match(fs.readFileSync('src/ui-components.css', 'utf8'), /\.tab-segmented \{[^}]*icon-tile-bg\)\] p-1/);
-  assert.doesNotMatch(out, /class="tab /, 'never an underline');
+  assert.match(out, /class="tab-strip/, 'the underline strip');
+  assert.match(out, /aria-selected="true"[^>]*class="tab tab-active"/);
+  assert.doesNotMatch(out, /tab-segment/, 'no pill tabs remain');
 });
 
 test('Pager: hidden for one page; marks the current page; previous/next disable at the ends', async () => {
@@ -250,7 +250,7 @@ test('idCaptureOptions: a step that needs both offers both on any device', async
   for (const d of ['web', 'tablet']) assert.deepEqual(idCaptureOptions(d, true, true), { scan: true, upload: true });
 });
 
-test('Tab hierarchy: a page-level TabStrip is the underline; inside a tab panel it is the pill; Tabs nests its content', async () => {
+test('Tab hierarchy: a TabStrip is the underline at every depth; Tabs nests its content', async () => {
   const { TabStrip } = await load('/src/components/primitives/TabStrip.tsx');
   const { NestedTabs } = await load('/src/components/primitives/TabLevel.tsx');
   const { Tabs } = await load('/src/components/primitives/Tabs.tsx');
@@ -259,11 +259,11 @@ test('Tab hierarchy: a page-level TabStrip is the underline; inside a tab panel 
   assert.match(page, /class="tab-strip/, 'level 1 is the underline strip');
   assert.match(page, /class="tab /);
   const nested = html(h(NestedTabs, null, strip()));
-  assert.match(nested, /class="tab-segmented/, 'level 2 is the pill');
-  assert.doesNotMatch(nested, /class="tab /, 'never an underline when nested');
+  assert.match(nested, /class="tab-strip/, 'nested is the same underline');
+  assert.doesNotMatch(nested, /tab-segment/, 'no pill tabs');
   const inTab = html(h(Tabs, { items: [{ key: 'x', label: 'X', content: strip() }] }));
   assert.equal((inTab.match(/role="tablist"/g) ?? []).length, 2);
-  assert.equal((inTab.match(/class="tab-strip/g) ?? []).length, 1, 'only the page-level strip is an underline');
+  assert.equal((inTab.match(/class="tab-strip/g) ?? []).length, 2, 'both the page-level and the nested strip are underlines');
 });
 
 test('no field shows placeholder / watermark text: the shared Input, Textarea, PhoneNumberInput and Select drop the prop', () => {

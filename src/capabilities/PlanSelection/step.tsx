@@ -2,6 +2,7 @@ import { PLAN_SELECTION_LABEL } from '../../data/stepLabels';
 import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTypes';
 import { PlanSelection } from './PlanSelection';
 import { PrepaidPackActions } from './PrepaidPackActions';
+import { loadMandatoryAddonIds } from '../AddonsSelection/usePackHasAddons';
 import { planSummary } from './summary';
 
 /**
@@ -18,6 +19,11 @@ export function planSelectionStep(opts: {
   packsOnly?: boolean;
   /** The step's own name where "Offers & Plans" does not fit the journey (port-in onto prepaid: "Prepaid Packs"). It then also stands as the title over the packs. */
   label?: string;
+  /**
+   * New Prepaid activation: a pack carries no discount of its own (no Edit Discount beside Continue, so nothing to clear or carry), and the pack's mandatory
+   * products are selected for the agent the moment it is chosen. Off (port-in onto prepaid, a pack change): the pack page keeps Edit Discount and every add-on is optional.
+   */
+  activation?: boolean;
 }): WizardStep {
   return {
     key: 'plan',
@@ -31,6 +37,8 @@ export function planSelectionStep(opts: {
           if (id !== values.productId) {
             setValue('discountId', undefined);
             setValue('addonIds', []);
+            // The pack's mandatory products are on the order from the moment it is chosen - the agent need not open the Addons page.
+            if (opts.activation) void loadMandatoryAddonIds(id).then((ids) => ids.length > 0 && setValue('addonIds', ids));
           }
           setValue('productId', id);
         }}
@@ -54,6 +62,7 @@ export function planSelectionStep(opts: {
           productId={values.productId as string | undefined}
           discountId={values.discountId as string | undefined}
           onSelectDiscount={(id) => setValue('discountId', id)}
+          discountEditable={!opts.activation}
           setCustomise={() => setValue('customiseAddons', true)}
           goNext={goNext}
         />

@@ -1,6 +1,4 @@
 import type { KeyboardEvent } from 'react';
-import { SegmentedTabs } from './SegmentedTabs';
-import { useTabDepth } from './tabDepth';
 
 export interface TabStripItem<K extends string = string> {
   key: K;
@@ -15,9 +13,9 @@ export interface TabStripItem<K extends string = string> {
  * the scroll container does not clip the selected underline that sits on it. Colours are design-system
  * tokens only (accent, fg, and --tab-line-color for the rule, which is --field-card-border). Use it for
  * NAVIGATION and CONTENT tabs - tabs that switch the section or view shown below. Tabs that only FILTER the same data use
- * SegmentedTabs (the pill switcher) instead.
+ * SegmentedTabs, which draws the same underline tab.
  *
- * Level 1 only: inside a tab panel (see TabLevel.tsx) it draws as the pill tabs instead - an underline is never nested.
+ * It looks the same at every depth, inside a tab panel included (see TabLevel.tsx).
  *
  * Keyboard and semantics match SegmentedTabs: arrows / Home / End move between tabs and select them, only the selected tab
  * is in the Tab order (WAI-ARIA tabs pattern), and the strip scrolls sideways instead of wrapping.
@@ -36,7 +34,6 @@ export function TabStrip<K extends string>({
   label?: string;
   className?: string;
 }) {
-  const nested = useTabDepth() > 0;
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     const i = items.findIndex((t) => t.key === active);
     let next = -1;
@@ -49,7 +46,6 @@ export function TabStrip<K extends string>({
     onChange(items[next].key);
     e.currentTarget.querySelectorAll<HTMLElement>('[role="tab"]')[next]?.focus();
   };
-  if (nested) return <SegmentedTabs items={items} active={active} onChange={onChange} label={label} className={className} />;
   return (
     <div
       role="tablist"

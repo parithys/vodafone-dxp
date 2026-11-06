@@ -44,14 +44,18 @@ export type CafSignatureProps =
       orderSummary?: Capture['orderSummary'];
       fullTerms?: Capture['fullTerms'];
       legalFacts?: Capture['legalFacts'];
-      /** Called from the signed view's own Continue (the wizard footer is hidden once signed). */
-      onContinue?: Capture['onContinue'];
       /** 'page' lets the terms grow to full height so the page scrolls (the customer-view pop-up). */
       termsScrollMode?: Capture['termsScrollMode'];
       /** Which journey's form and Terms & Conditions: postpaid (default) or prepaid. */
       journey?: Capture['journey'];
       /** Extra rows on the application form (label/value). */
       formDetails?: Capture['formDetails'];
+      /** The journey's own Terms & Conditions sections instead of the shared catalogue's (New Prepaid's configurable terms). */
+      termsSections?: Capture['termsSections'];
+      /** New Prepaid: the iPAY Terms & Conditions, shown after the iPAY Activation toggle only while it is Yes. */
+      ipayTermsSections?: Capture['ipayTermsSections'];
+      /** An "iPAY Activation" Yes / No choice on the form (New Prepaid). */
+      ipayActivation?: Capture['ipayActivation'];
       /** The Supplementary Form of an actual user: one signature signs it together with the CAF. */
       supplementaryForm?: Capture['supplementaryForm'];
       /** Additional Documents: what this order requires, and what the journey already holds (viewable, downloadable). */
@@ -83,6 +87,8 @@ export function CafSignature(props: CafSignatureProps) {
     };
   }, [keyInformationScenario]);
   const keyInformation = [...(props.keyInformation ?? []), ...scenarioItems];
+  // With the full Terms & Conditions on the page the key statements are their first lines, not a panel of their own; without them (the standard capture) the panel stays.
+  const mergeIntoTerms = props.variant === 'full' && Boolean(props.fullTerms);
   const capture =
     props.variant === 'full' ? (
       <CafSignatureCapture
@@ -94,10 +100,13 @@ export function CafSignature(props: CafSignatureProps) {
         orderSummary={props.orderSummary}
         fullTerms={props.fullTerms}
         legalFacts={props.legalFacts}
-        onContinue={props.onContinue}
         termsScrollMode={props.termsScrollMode}
         journey={props.journey}
         formDetails={props.formDetails}
+        termsSections={props.termsSections}
+        ipayTermsSections={props.ipayTermsSections}
+        keyInformation={mergeIntoTerms ? keyInformation : undefined}
+        ipayActivation={props.ipayActivation}
         supplementaryForm={props.supplementaryForm}
         documentLabelOptions={props.documentLabelOptions ?? []}
         documentRequirements={props.documentRequirements}
@@ -120,7 +129,7 @@ export function CafSignature(props: CafSignatureProps) {
         {...ADDITIONAL_DOCUMENTS}
       />
     );
-  if (!keyInformation?.length) return capture;
+  if (!keyInformation?.length || mergeIntoTerms) return capture;
   return (
     <div className="space-y-6">
       <KeyInformationPanel items={keyInformation} />

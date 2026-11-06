@@ -14,11 +14,12 @@ export const PRODUCT_STEP_INDEX = 1;
 
 /**
  * Where Product Selection sits for the product values given. New Connection collects the Address and (for a product that has one) the
- * Billing Profile before Recommended Offers - contact, address, [billing], product - so the index depends on whether Billing is active.
+ * Billing Profile before Recommended Offers - contact, address, [billing], product - so the index depends on whether Billing is active (New Prepaid has neither: contact, product).
  * New Home Connection has neither: contact, product.
  */
 export function productStepIndex(journey: ProductStepContext['journey'], values: Record<string, unknown>): number {
-  return journey === 'home' ? PRODUCT_STEP_INDEX : 2 + (billingStepActive(values) && values.product !== 'postpaid' ? 1 : 0);
+  // New Prepaid has no Address (and no Billing): contact, product.
+  return journey === 'home' ? PRODUCT_STEP_INDEX : values.product === 'prepaid' ? 1 : 2 + (billingStepActive(values) && values.product !== 'postpaid' ? 1 : 0);
 }
 
 /**

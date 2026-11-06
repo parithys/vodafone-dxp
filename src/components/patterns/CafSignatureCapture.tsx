@@ -16,6 +16,7 @@ import type { TncLegalFacts } from './checkoutSummaryModel';
 import { buildTncBullets } from './cafTermsModel';
 import type { TncBulletTemplate } from './cafTermsModel';
 import { FullTerms } from './CafTerms';
+import { OptionToggle } from '../primitives/OptionToggle';
 import { CAF_TYPES, detectCafType } from './cafTypes';
 import type { CafType } from './cafTypes';
 
@@ -38,6 +39,8 @@ interface CafSignatureCaptureProps {
     documents?: CafDocument[];
     /** Post-signature supporting documents - see AdditionalDocumentsUpload. */
     additionalDocuments?: AdditionalDocument[];
+    /** Reported by the form once signed: a document type is chosen with no file yet, or a required document is missing. The step holds Continue (its footer's) while this is true. */
+    documentsBlocked?: boolean;
   };
   onChange: (value: CafSignatureCaptureProps['value']) => void;
   customerName?: string;
@@ -72,6 +75,12 @@ interface CafSignatureCaptureProps {
   journey?: 'postpaid' | 'prepaid';
   /** Extra rows on the application form (the prepaid form's mobile numbers and SIM serials, for example), as label/value. */
   formDetails?: { label: string; value: string }[];
+  /** The journey's own Terms & Conditions sections, in place of the shared catalogue's (New Prepaid). They are also what the signed CAF image carries. */
+  termsSections?: readonly { sectionId: string; title: string; body: string }[];
+  /** An "iPAY Activation" Yes / No choice above the form (New Prepaid), editable until the CAF is signed. */
+  ipayActivation?: { value: boolean; onChange: (value: boolean) => void };
+  /** The iPAY Terms & Conditions: shown, after the iPAY Activation toggle, only while iPAY is Yes (with the full terms on the page; see FullTerms). */
+  ipayTermsSections?: readonly { sectionId: string; title: string; body: string }[];
   /**
    * The Supplementary Form, when the line has an actual user other than the applicant: its rows (the actual user's details). The ONE signature
    * below then signs both forms - the CAF by the applicant and the Supplementary Form by the applicant and the actual user - and says so.
@@ -114,22 +123,14 @@ interface CafSignatureCaptureProps {
   autoDetectDeviceType?: boolean;
   /** Raw order figures for the dynamic T&C bullets - see TncLegalFacts. */
   legalFacts?: TncLegalFacts;
-  /**
-   * Advances the wizard past this step (2026-09-30). Only read once `signed`
-   * - the wizard's own Back/Continue footer is hidden at that point (see
-   * NewPostpaidWizard's `customerFacing` on the 'caf' step, now true AFTER
-   * signing rather than before), so the Continue button below is the only
-   * way forward and this is what it calls. Omitted by the other five
-   * journeys sharing this component, none of which flip customerFacing this
-   * way.
-   */
-  onContinue?: () => void;
   /** Save the draft, confirm with a toast and go to the dashboard (customer-facing action row). */
   onSave?: () => void;
   /** Show the "I have read and agree" checkbox and keep Please Sign disabled until it is ticked. */
   requireTermsAgreement?: boolean;
   /** See FullTerms: 'page' lets the terms grow to full height so only the page scrolls. Defaults to the scrolling panel. */
   termsScrollMode?: 'container' | 'page';
+  /** Key statements shown as the first lines of Key Terms & Conditions (full terms only). */
+  keyInformation?: React.ReactNode[];
 }
 
 // Pattern 6: CAF/Contract Signature Capture - CAF Type card selector (Digital/
@@ -162,11 +163,14 @@ export function CafSignatureCapture({
   documentsOnWhite = false,
   journey = 'postpaid',
   formDetails,
+  termsSections,
+  keyInformation,
+  ipayActivation,
+  ipayTermsSections,
   supplementaryForm,
   termsUrl,
   autoDetectDeviceType,
   legalFacts,
-  onContinue,
   onSave,
   requireTermsAgreement = false,
   termsScrollMode,
@@ -180,6 +184,10 @@ export function CafSignatureCapture({
   const [missingRequired, setMissingRequired] = useState(0);
   const setDocumentPending = setDocumentPendingState;
   const documentsBlock = documentPending || missingRequired > 0;
+  // The wizard's footer owns Continue (page-level navigation floats at the bottom); it learns of a blocking document through the value.
+  useEffect(() => {
+    if (Boolean(valueRef.current.documentsBlocked) !== documentsBlock) onChange({ ...valueRef.current, documentsBlocked: documentsBlock });
+  }, [documentsBlock]); // eslint-disable-line react-hooks/exhaustive-deps
   const [bulletTemplates, setBulletTemplates] = useState<TncBulletTemplate[]>([]);
 
   useEffect(() => {
@@ -281,6 +289,9 @@ export function CafSignatureCapture({
           signed={signed}
           scrollMode={termsScrollMode}
           journey={journey}
+          sections={termsSections}
+          keyInformation={keyInformation}
+          ipay={ipayActivation && ipayTermsSections ? { ...ipayActivation, sections: ipayTermsSections } : undefined}
           // Only with a Secondary Contact on the line (the Supplementary Form exists only then): the supplementary terms beside the general ones.
           supplementaryTerms={supplementaryForm ? { terms: SECONDARY_CONTACT_TERMS, primaryContactName: customerName, secondaryContactName: supplementaryForm.actualUserName } : undefined}
           closingHeader={
@@ -299,6 +310,23 @@ export function CafSignatureCapture({
           }
         >
         <div className={`${fullTerms ? (signed ? '' : 'py-4 pr-4') : 'card p-4'} ${inlineSignaturePad ? '' : 'bg-surface'}`}>
+          {/* With the full terms on the page the toggle is among them (FullTerms), before the iPAY terms; here only when there are none. */}
+          {ipayActivation && !(fullTerms && ipayTermsSections) && (
+            <div className="split-nowrap mb-3">
+              <span className="value-text">iPAY Activation</span>
+              {signed ? (
+                <span className="text-fg font-medium">{ipayActivation.value ? 'Yes' : 'No'}</span>
+              ) : (
+                <OptionToggle
+                  label="iPAY Activation"
+                  className="w-44"
+                  items={[{ key: 'yes', label: 'Yes' }, { key: 'no', label: 'No' }]}
+                  active={ipayActivation.value ? 'yes' : 'no'}
+                  onChange={(k) => ipayActivation.onChange(k === 'yes')}
+                />
+              )}
+            </div>
+          )}
           {formDetails && formDetails.length > 0 && (
             <dl className="mb-2">
               {formDetails.map((row) => (
@@ -401,13 +429,12 @@ export function CafSignatureCapture({
                   onChange({ ...value, signatureDataUrl: dataUrl });
                   if (!fullTerms) return;
                   // The signed CAF the journey keeps carries what the customer saw and agreed to, not only the pen stroke.
-                  void mockDataEngine
-                    .list<{ title: string; body: string; journey?: string }>('tnc-full-text')
-                    .then((all) =>
+                  void (termsSections ? Promise.resolve([...termsSections, ...(ipayActivation?.value && ipayTermsSections ? ipayTermsSections : [])]) : mockDataEngine.list<{ title: string; body: string; journey?: string }>('tnc-full-text').then((all) => all.filter((x) => !x.journey || x.journey === journey)))
+                    .then((sections) =>
                       composeSignedCafImage({
                         heading: 'Key Terms & Conditions: Primary Contact',
                         customerName,
-                        sections: all.filter((x) => !x.journey || x.journey === journey),
+                        sections,
                         agreements: [
                           { text: 'I agree to receive marketing communications and special offers (Campaigns).', agreed: value.marketingConsent !== false },
                           { text: 'I have read and agreed to the full Terms and Conditions.', agreed: Boolean(value.termsAccepted) },
@@ -493,42 +520,14 @@ export function CafSignatureCapture({
             the step's own content owns whatever action it needs. Additional
             documents are optional (isValid never required them), so nothing
             gates this beyond having signed at all. */}
-        {onSave ? (
-          // Save and Continue on the right. Continue appears once signed.
+        {/* Page-level navigation (Continue) is the wizard's floating footer, never a button in the page: the form reports a blocking document through `documentsBlocked`. */}
+        {onSave && (
           <div className="agent-only split-nowrap">
             <div />
-            <div className="row">
-              {onSave && (
-                <Button variant="secondary" onClick={onSave}>
-                  Save
-                </Button>
-              )}
-              {allSigned && onContinue && (
-                <Button
-                  variant="primary"
-                  onClick={onContinue}
-                  disabled={documentsBlock}
-                  title={documentPending ? 'Upload the selected document first' : missingRequired > 0 ? 'Upload the required documents first' : undefined}
-                >
-                  Continue
-                </Button>
-              )}
-            </div>
+            <Button variant="secondary" onClick={onSave}>
+              Save
+            </Button>
           </div>
-        ) : (
-          allSigned && onContinue && (
-            <div className={`agent-only ${inlineSignaturePad ? 'flex justify-end' : ''}`}>
-              <Button
-                variant="primary"
-                className={inlineSignaturePad ? undefined : 'w-full'}
-                onClick={onContinue}
-                disabled={documentsBlock}
-                title={documentPending ? 'Upload the selected document first' : missingRequired > 0 ? 'Upload the required documents first' : undefined}
-              >
-                Continue
-              </Button>
-            </div>
-          )
         )}
 
       </div>

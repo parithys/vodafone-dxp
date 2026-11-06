@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { effectiveCreditLimitQar } from '../../components/patterns/billingAccountModel';
 import { CHECKOUT_LABEL, SUBSCRIPTIONS_LABEL } from '../../data/stepLabels';
 import type { WizardStep } from '../../components/patterns/wizard/guidedWizardTypes';
-import { CheckoutSummary, PrepaidCheckout } from './CheckoutSummary';
+import { CheckoutSummary, PrepaidCheckout, PrepaidOrderSummary } from './CheckoutSummary';
 import { PrepaidCartBody } from './PrepaidCartBody';
 import { allLines, isCartValid } from '../../components/patterns/prepaidCartModel';
 import type { PrepaidCheckoutTotals, PrepaidLine } from '../../components/patterns/prepaidCartModel';
@@ -61,6 +61,7 @@ export function checkoutSummaryStep(
           discountId={values.discountId as string | undefined}
           addonIds={(values.addonIds as string[] | undefined) ?? []}
           addonBilling={values.addonBilling as Record<string, import('../../engines/addonCategories').AddonBillingFrequency> | undefined}
+          addonDiscounts={values.addonDiscounts as Record<string, string> | undefined}
           msisdn={opts.msisdn ? opts.msisdn(values) : (values.msisdn as string | undefined)}
           numberPriceQar={values.numberPriceQAR as number | undefined}
           eligibility={values.eligibility as EligibilityResult | undefined}
@@ -138,6 +139,11 @@ export function prepaidCheckoutStep(opts: {
   totals?: (totals: PrepaidCheckoutTotals) => unknown;
   /** The order changes a line the customer already has (a pack change, an add-on): no SIM rows or SIM card charge; `excludePack` for an add-on on the current pack. */
   existingLine?: { existingSim?: boolean; excludePack?: boolean };
+  /**
+   * New Prepaid activation: the Order Summary with the order's checks under the title, the Recharge row and the Charge Summary with VAT (instead of the plain read-back and
+   * "Upfront Charges"). `idNumber` and `segment` are read from the journey for the checks. Absent: the read-back every other prepaid journey shows.
+   */
+  activation?: { idNumber: (values: Record<string, unknown>) => string | undefined; segment?: (values: Record<string, unknown>) => string | undefined };
 }): WizardStep {
   const linesOf = opts.lines ?? allLines;
   return {
@@ -148,7 +154,20 @@ export function prepaidCheckoutStep(opts: {
       return typeof due === 'number' ? formatQar(due) : undefined;
     } }],
     render: ({ values, setValue, goToStepKey }) => {
-      const checkout = (
+      const checkout = opts.activation ? (
+        <PrepaidOrderSummary
+          customerName={opts.customerName(values)}
+          idType={opts.idType(values)}
+          idNumber={opts.activation.idNumber(values)}
+          segment={opts.activation.segment?.(values)}
+          lines={linesOf(values)}
+          editLabel={opts.editLabel}
+          onTotalsComputed={(totals) => setValue('checkoutTotals', opts.totals ? opts.totals(totals) : totals)}
+          onValidated={(errors) => setValue('orderValidation', errors)}
+          onSummaryComputed={(rows) => setValue('cafSummary', rows)}
+          onEdit={() => goToStepKey(opts.editStepKey ?? 'cart')}
+        />
+      ) : (
         <PrepaidCheckout
           customerName={opts.customerName(values)}
           idType={opts.idType(values)}
@@ -169,6 +188,10 @@ export function prepaidCheckoutStep(opts: {
         </div>
       );
     },
-    isValid: (values) => opts.isValid?.(values) ?? isCartValid(values),
+    // The activation Order Summary reports its own checks once the catalogue is read; Continue waits for them to come back clean.
+    isValid: (values) =>
+      opts.activation
+        ? Array.isArray(values.orderValidation) && values.orderValidation.length === 0 && (opts.isValid?.(values) ?? isCartValid(values))
+        : (opts.isValid?.(values) ?? isCartValid(values)),
   };
 }

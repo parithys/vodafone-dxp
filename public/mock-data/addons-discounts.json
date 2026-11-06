@@ -996,7 +996,8 @@
     "category": "Paid Add-on",
     "durationMonths": null,
     "planId": "PROD-301",
-    "isLockedReadOnly": false
+    "isLockedReadOnly": false,
+    "addonCategory": "Roaming"
   },
   {
     "_note": "Customer-Inventory overview details (2026-10-11)",
@@ -1669,5 +1670,32 @@
     "planId": "PROD-145",
     "isLockedReadOnly": false,
     "_note": "Demo discount so Add Discount can be shown on every Standard Plan; not customer-specific, so it is offered to any customer."
+  },
+  {
+    "_note": "MOCK (prepaid rework): the catalogue names no mandatory prepaid product, so this one demonstrates the rule - it comes with the pack, is selected for the agent and cannot be removed. Replace with the real mandatory products when supplied.",
+    "addonDiscountId": "ADO-9301",
+    "addonType": "Prepaid Mandatory Product",
+    "name": "Prepaid Welcome Voice Pack",
+    "description": "Included with Prepaid Red 50: 50 local minutes",
+    "price": 0,
+    "category": "Paid Add-on",
+    "durationMonths": null,
+    "planId": "PROD-302",
+    "isLockedReadOnly": false,
+    "isMandatory": true,
+    "addonCategory": "Local Minutes"
+  },
+  {
+    "_note": "MOCK (prepaid rework): an optional prepaid add-on the agent can add or remove, to sit beside the mandatory one.",
+    "addonDiscountId": "ADO-9302",
+    "addonType": "Prepaid Add-on",
+    "name": "Data Booster 5GB",
+    "description": "5 GB extra data on Prepaid Red 50",
+    "price": 15,
+    "category": "Paid Add-on",
+    "durationMonths": null,
+    "planId": "PROD-302",
+    "isLockedReadOnly": false,
+    "addonCategory": "Local Data"
   }
 ]

@@ -22,6 +22,7 @@ import { PanelIcon } from '../../components/primitives/PanelIcon';
 import { PhoneNumberInput } from '../../components/primitives/PhoneNumberInput';
 import { Radio } from '../../components/primitives/Radio';
 import { SearchField } from '../../components/primitives/SearchField';
+import { OptionToggle } from '../../components/primitives/OptionToggle';
 import { SegmentedTabs } from '../../components/primitives/SegmentedTabs';
 import { Select } from '../../components/primitives/Select';
 import { ServiceTypeTag } from '../../components/primitives/ServiceTypeTag';
@@ -106,6 +107,7 @@ const toastDemo = (kind: 'success' | 'error' | 'warning' | 'info') => () =>
 export function UiComponentsLibrarySection({ initialGroup = 'buttons' }: { initialGroup?: string }) {
   const [tab, setTab] = useState('open');
   const [segment, setSegment] = useState('offers');
+  const [frequency, setFrequency] = useState('monthly');
   const [choice, setChoice] = useState<string | undefined>('passport');
   const [card, setCard] = useState<'idle' | 'selected'>('selected');
   const [page, setPage] = useState(3);
@@ -320,7 +322,7 @@ export function UiComponentsLibrarySection({ initialGroup = 'buttons' }: { initi
       )}
 
       {group === 'tabs' && (
-      <Group id="tabs" title="Tabs" description="The two tab levels: the underline strip for sections, the pill switcher for filtering within one.">
+      <Group id="tabs" title="Tabs" description="One tab design, the underline strip: Tab Strip for sections, Segmented Tabs for filtering within one.">
         <Specimen name="Tab Strip" note="Level 1 - underline" wide>
           <div className="w-full">
             <TabStrip
@@ -334,7 +336,7 @@ export function UiComponentsLibrarySection({ initialGroup = 'buttons' }: { initi
             />
           </div>
         </Specimen>
-        <Specimen name="Segmented Tabs" note="Level 2 - pill" wide>
+        <Specimen name="Segmented Tabs" note="Level 2 - same underline" wide>
           <SegmentedTabs
             items={[
               { key: 'offers', label: 'Offers' },
@@ -344,6 +346,20 @@ export function UiComponentsLibrarySection({ initialGroup = 'buttons' }: { initi
             active={segment}
             onChange={setSegment}
           />
+        </Specimen>
+        <Specimen name="Option Toggle" note="values of one field - an add-on's billing frequency" wide>
+          <div className="w-full max-w-md">
+            <OptionToggle
+              label="Billing Frequency Specimen"
+              items={[
+                { key: 'monthly', label: 'Monthly · QAR 20' },
+                { key: 'weekly', label: 'Weekly · QAR 5' },
+                { key: 'one-time', label: 'One-Time · QAR 8' },
+              ]}
+              active={frequency}
+              onChange={setFrequency}
+            />
+          </div>
         </Specimen>
         <Specimen name="Tabs" note="horizontal: the underline strip with its panel" wide>
           <div className="w-full">
@@ -370,12 +386,12 @@ export function UiComponentsLibrarySection({ initialGroup = 'buttons' }: { initi
             />
           </div>
         </Specimen>
-        <Specimen name="NestedTabs" note="inside a tab panel, a Tab Strip draws as pills (Level 2)">
+        <Specimen name="NestedTabs" note="inside a tab panel, a Tab Strip is Level 2 and keeps the underline">
           <NestedTabs>
             <TabStrip items={[{ key: 'a', label: 'First' }, { key: 'b', label: 'Second' }]} active="a" onChange={noop} />
           </NestedTabs>
         </Specimen>
-        <Specimen name="PageLevelTabs" note="resets to page level: the same Tab Strip draws as the underline">
+        <Specimen name="PageLevelTabs" note="resets to page level: the same Tab Strip is Level 1">
           <NestedTabs>
             <PageLevelTabs>
               <TabStrip items={[{ key: 'a', label: 'First' }, { key: 'b', label: 'Second' }]} active="a" onChange={noop} />

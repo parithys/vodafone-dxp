@@ -56,6 +56,10 @@ interface SimSerialScannerProps {
   inventory?: 'standard' | 'pre-paired';
   /** The field label; "SIM Serial Number" unless the journey names the SIM kind. */
   label?: string;
+  /** Extra label / value rows for the validated SIM's read-back (the journey's own: e.g. Paired / Unpaired), shown inside the same green container. */
+  extraRows?: readonly (readonly [string, string])[];
+  /** The caller shows the validated SIM's read-back itself (a Pre-Paired SIM, whose read-back also carries the number): the scanner shows none, so there is one container. */
+  hideDetails?: boolean;
 }
 
 // Pattern 11: SIM/Device Serial Capture with Real-Time Inventory Validation -
@@ -69,7 +73,7 @@ interface SimSerialScannerProps {
 // stock readout - the step used to say nothing at all when a serial was good,
 // so "available in this store's stock" was indistinguishable from "not checked
 // yet".
-export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = [], disabled = false, suppressValidation, device, inventory = 'standard', label = 'SIM Serial Number' }: SimSerialScannerProps) {
+export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = [], disabled = false, suppressValidation, device, inventory = 'standard', label = 'SIM Serial Number', extraRows, hideDetails = false }: SimSerialScannerProps) {
   const prePairedStock = inventory === 'pre-paired';
   const touch = device === 'tablet';
   const [error, setError] = useState<string | null>(null);
@@ -230,7 +234,7 @@ export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = 
         {scanning && <span className="caption-muted">Scanning…</span>}
         {checking && !scanning && <span className="caption-muted">Checking stock…</span>}
       </div>
-      {!suppressValidation && shown && shown.serial === value && !error && (
+      {!hideDetails && !suppressValidation && shown && shown.serial === value && !error && (
         <dl className="mt-2 notice-success notice-body-sm">
           <div className="flex justify-between gap-3">
             <dt className="text-fg">SIM Type</dt>
@@ -240,6 +244,12 @@ export function SimSerialScanner({ value, onChange, autoFocus, excludeSerials = 
             <dt className="text-fg">SIM Serial Number</dt>
             <dd className="text-fg font-medium">{shown.serial}</dd>
           </div>
+          {extraRows?.map(([rowLabel, rowValue]) => (
+            <div key={rowLabel} className="flex justify-between gap-3">
+              <dt className="text-fg">{rowLabel}</dt>
+              <dd className="text-fg font-medium">{rowValue}</dd>
+            </div>
+          ))}
         </dl>
       )}
     </div>

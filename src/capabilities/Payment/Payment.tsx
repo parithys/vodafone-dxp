@@ -1,5 +1,8 @@
 import type { ComponentProps } from 'react';
 import { WinCashPaymentStep } from '../../components/patterns/WinCashPaymentStep';
+import { eWalletEligible } from '../../data/prepaidActivation';
+import { usePersonaStore } from '../../stores/personaStore';
+import { useEWalletStore } from '../../stores/eWalletStore';
 
 /**
  * PAYMENT - the one application-wide capability for taking the amount due at the counter: hand off to WinCash,
@@ -9,8 +12,17 @@ import { WinCashPaymentStep } from '../../components/patterns/WinCashPaymentStep
  * of them mounts WinCashPaymentStep itself. The amount is always the figure Checkout already computed and read
  * back to the customer, never a second derivation.
  */
-export type PaymentProps = ComponentProps<typeof WinCashPaymentStep>;
+export type PaymentProps = Omit<ComponentProps<typeof WinCashPaymentStep>, 'eWallet'> & {
+  /**
+   * Offer "Pay from eWallet" to the roles mapped to an eWallet (Mass Market): the capability reads the role, the (mock) balance and does the deduction, so a journey only says
+   * that it offers it. Off (every other journey): WinCash only.
+   */
+  offerEWallet?: boolean;
+};
 
-export function Payment(props: PaymentProps) {
-  return <WinCashPaymentStep {...props} />;
+export function Payment({ offerEWallet = false, ...props }: PaymentProps) {
+  const roleId = usePersonaStore((s) => s.activePersonaId);
+  const balance = useEWalletStore((s) => s.balances[roleId] ?? 0);
+  const eWallet = offerEWallet && eWalletEligible(roleId) ? { balanceQar: balance, onPay: (amountQar: number) => useEWalletStore.getState().deduct(roleId, amountQar) } : undefined;
+  return <WinCashPaymentStep {...props} eWallet={eWallet} />;
 }

@@ -1,8 +1,8 @@
 import { IconButton } from '../primitives/IconButton';
 import { formatBytes as formatSize } from '../../lib/format';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { DocumentCaptureActions } from './DocumentCaptureActions';
 import { ID_TYPES } from '../../data/idTypes';
-import { Button } from '../primitives/Button';
 import { Select } from '../primitives/Select';
 import { Icon } from '../primitives/Icon';
 import { UPLOAD_RULES, uploadFileProblem } from './documentUploadRules';
@@ -45,7 +45,6 @@ const MAX_DOCUMENTS = 5;
 export function CafDocumentUpload({ documents, onChange }: CafDocumentUploadProps) {
   const [docType, setDocType] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
   const atLimit = documents.length >= MAX_DOCUMENTS;
 
   const handleFile = (file: File | undefined) => {
@@ -70,7 +69,6 @@ export function CafDocumentUpload({ documents, onChange }: CafDocumentUploadProp
       { id: `${Date.now()}-${file.name}`, docType, fileName: file.name, sizeBytes: file.size },
     ]);
     setDocType('');
-    if (fileRef.current) fileRef.current.value = '';
   };
 
   return (
@@ -122,21 +120,7 @@ export function CafDocumentUpload({ documents, onChange }: CafDocumentUploadProp
               Button, so the control matches every other action on this screen
               instead of rendering the browser's default file widget. Disabled
               until a type is chosen - see the note on ordering above. */}
-          <input
-            ref={fileRef}
-            type="file"
-            accept={RULES.accept}
-            className="sr-only"
-            onChange={(e) => handleFile(e.target.files?.[0])}
-          />
-          <Button
-            variant="secondary"
-            onClick={() => fileRef.current?.click()}
-            disabled={!docType}
-            title={!docType ? 'Choose a document type first' : undefined}
-          >
-            Browse…
-          </Button>
+          <DocumentCaptureActions what="signed document" disabled={!docType} disabledTitle="Choose a document type first" onFile={handleFile} />
         </div>
       )}
 

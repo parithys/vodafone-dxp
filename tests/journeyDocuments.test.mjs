@@ -67,11 +67,15 @@ test('the requirements are asked for in Additional Documents after signing - not
   assert.match(comp, /setViewing\(\{ title, dataUrl, scan:/, "a document opens in the side drawer");
   assert.doesNotMatch(comp, /downloadDocument/, 'viewing is enough: no download');
   const cap = read('src/components/patterns/CafSignatureCapture.tsx');
-  assert.match(cap, /disabled=\{documentsBlock\}/);
+  // Continue is the wizard's floating footer, not a button in the page: the form reports a blocking document and the step's isValid holds Continue on it.
+  assert.doesNotMatch(cap, /onClick=\{onContinue\}/);
+  assert.match(cap, /documentsBlocked: documentsBlock/);
+  assert.match(read('src/capabilities/CafSignature/step.tsx'), /documentsBlocked\) return false/);
+  assert.match(read('src/capabilities/GuidedActivationWizard/GuidedActivationWizard.tsx'), /Page-level navigation is always the floating bar/);
   assert.match(read('src/capabilities/CafSignature/step.tsx'), /requiredDocumentsFor\(\{ values, personaId/);
   // The Additional Discount dialog takes the same document up front, and Apply waits for it.
   const dialog = read('src/capabilities/NumberSelection/WaiveOff.tsx');
-  assert.match(dialog, /type="file"/);
+  assert.match(dialog, /<DocumentCaptureActions/);
   assert.match(dialog, /disabled=\{Boolean\(problem\) \|\| \(onDocumentChange !== undefined && !draftDoc\)\}/, 'Apply needs the amount and the document');
   assert.match(dialog, /uploadFileProblem\(file, UPLOAD_RULES\.supporting\)/, 'the same rules as every other upload');
 });

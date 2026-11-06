@@ -197,7 +197,7 @@
   }
 
   /* -------------------------------------------------------------------- Tabs */
-  /* Level 1: the underline strip (.tab-strip, its .tab buttons, the selected one .tab-active, an optional .tab-count). */
+  /* The one tab design, used by TabStrip and SegmentedTabs at every depth: the underline strip (.tab-strip, its .tab buttons, the selected one .tab-active, an optional .tab-count). */
   .tab-strip {
     @apply flex max-w-full overflow-x-auto shadow-[inset_0_calc(var(--tab-line-w)*-1)_0_0_var(--tab-line-color)];
   }
@@ -213,21 +213,16 @@
   .tab.tab-active .tab-count {
     @apply bg-accent text-accent-on;
   }
-  /* Level 2: the pill switcher (.tab-segmented, its .tab-segment buttons, the selected one .tab-segment-active). */
-  .tab-segmented {
-    @apply inline-flex max-w-full gap-1 overflow-x-auto rounded-[var(--radius-card)] bg-[var(--icon-tile-bg)] p-1;
+
+  /* The toggle (.toggle-group, its .toggle-option buttons, the chosen one .toggle-option-active): mutually exclusive values of one field in a pill track. */
+  .toggle-group {
+    @apply flex w-full gap-1 rounded-[var(--radius-pill)] bg-[var(--icon-tile-bg)] p-1;
   }
-  .tab-segment {
-    @apply flex shrink-0 items-center gap-2 rounded-[var(--radius-button)] px-5 py-2 text-[length:var(--fs-body)] whitespace-nowrap transition-colors focus:outline-none focus-visible:shadow-[var(--focus-ring)] text-[var(--icon-tile-fg)] font-medium hover:text-fg;
+  .toggle-option {
+    @apply flex flex-1 items-center justify-center rounded-[var(--radius-pill)] px-4 py-1.5 text-[length:var(--fs-caption)] font-medium whitespace-nowrap text-fg-2 transition-colors hover:text-fg focus:outline-none focus-visible:shadow-[var(--focus-ring)];
   }
-  .tab-segment.tab-segment-active {
-    @apply bg-bg text-fg font-bold shadow-[var(--shadow-dash-card)];
-  }
-  .tab-segment-count {
-    @apply inline-flex h-5 min-w-5 items-center justify-center rounded-[var(--radius-pill)] px-1.5 text-[length:var(--fs-micro)] font-semibold bg-bg text-fg-2;
-  }
-  .tab-segment.tab-segment-active .tab-segment-count {
-    @apply bg-accent text-accent-on;
+  .toggle-option.toggle-option-active {
+    @apply bg-accent font-semibold text-accent-on hover:text-accent-on;
   }
 
   /* ------------------------------------------------------------ Form controls */
@@ -592,9 +587,6 @@
   }
   .notice-warning-edge {
     @apply rounded-[var(--radius-card)] border border-[var(--warn-border)] bg-tone-warn;
-  }
-  .notice-warning-field {
-    @apply rounded-[var(--radius-card)] border border-[var(--warn-border)] bg-[var(--warn-bg)] text-[var(--warn-text)];
   }
   .notice-danger {
     @apply rounded-[var(--radius-card)] border border-danger bg-tone-danger-soft;

@@ -240,7 +240,10 @@ test('PAY_02: the order carries the SIM card charge per line and the total payab
   // A SIM-only pack (starter charge 0) on a QID triggers the QID SIM card charge.
   const { order } = await runSubmit({ idType: 'QID', lines: [line({ productId: 'PROD-300' })] });
   assert.equal(order.simCardChargeQAR, 10);
-  assert.equal(order.totalQAR, 10);
+  // New Prepaid prices with VAT (PREPAID_VAT_PERCENT = 5): the total payable is the VAT-inclusive 10.50, of which 10 is the SIM charge excluding VAT.
+  assert.equal(order.totalExclVatQAR, 10);
+  assert.equal(order.totalVatQAR, 0.5);
+  assert.equal(order.totalQAR, 10.5);
   assert.equal(order.lines[0].simCardChargeQAR, 10);
 });
 
@@ -304,10 +307,11 @@ test('the Recharge step: optional by default, mandatory when the journey says so
   assert.equal(required.isValid({ rechargeId: 'RCH-FLX-020' }), true);
   const rows = JSON.parse(fs.readFileSync('public/mock-data/recharge-products.json', 'utf8'));
   const groups = rc.groupRecharges(rows);
-  assert.deepEqual(groups.map((g) => g.category), ['Flex', 'Combo', 'Credit', 'Data']);
+  assert.deepEqual(groups.map((g) => g.category), ['Combo+', 'Flex', 'Credit', 'Data', 'International', 'Roamers', 'Visitors']);
   assert.equal(groups.reduce((n, g) => n + g.items.length, 0), rows.length, 'no recharge is dropped by the grouping');
   for (const g of groups) assert.deepEqual(g.items.map((i) => i.amountQar), [...g.items.map((i) => i.amountQar)].sort((a, b) => a - b), 'cheapest first');
-  assert.ok(rows.every((r) => r.sample === true), 'every recharge row is marked sample until the real catalogue is supplied');
+  assert.equal(new Set(rows.map((r) => r.rechargeId)).size, rows.length, 'recharge ids are unique');
+  assert.ok(rows.every((r) => r.benefits?.length), 'every recharge lists what it gives');
   assert.deepEqual(rc.groupRecharges([{ rechargeId: 'X', name: 'X', category: 'Data', amountQar: 5, status: 'Retired' }]), []);
 });
 
@@ -368,17 +372,17 @@ test('Journey Summary: the sections both journeys share read the same in New Pre
   const fieldLabels = (s) => (s.summary ?? []).map((f) => f.label);
 
   const common = pre.map((s) => s.key).filter((k) => post.some((p) => p.key === k));
-  assert.deepEqual(common, ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'checkout', 'caf', 'payment']);
+  assert.deepEqual(common, ['contact', 'product', 'plan', 'planExtras', 'number', 'simType', 'checkout', 'caf', 'payment']);
   // Sections only one journey has - written from the two journeys, not computed from the rule under test.
   assert.deepEqual(pre.map((s) => s.key).filter((k) => !common.includes(k)), ['recharge', 'cart'], 'Prepaid-only: Recharge and Subscriptions');
-  assert.deepEqual(post.map((s) => s.key).filter((k) => !common.includes(k)), ['billingAccount'], 'Postpaid-only: Billing');
+  assert.deepEqual(post.map((s) => s.key).filter((k) => !common.includes(k)), ['address', 'billingAccount'], 'Postpaid-only: Address and Billing');
 
   // Same label for the same section.
   for (const k of common) assert.equal(labels(pre)[k], labels(post)[k], `${k} is named the same in both journeys`);
 
   // Same fields, in the same relative order, wherever the journeys share the section (a journey may omit what its business does not have:
   // Postpaid's bill limit, actual user and monthly recurring; Prepaid's payment receipt rows).
-  for (const k of ['contact', 'address', 'product', 'plan', 'planExtras', 'number', 'simType', 'caf']) {
+  for (const k of ['contact', 'product', 'plan', 'planExtras', 'number', 'simType', 'caf']) {
     const a = fieldLabels(pre.find((s) => s.key === k));
     const b = fieldLabels(post.find((s) => s.key === k));
     const inOrder = a.filter((l) => b.includes(l));

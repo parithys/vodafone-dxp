@@ -1,0 +1,27 @@
+[
+  {
+    "addonDiscountId": "ADD-DSC-001",
+    "name": "Add-On Loyalty Discount",
+    "description": "10% off the add-on's charge",
+    "percent": 10,
+    "durationMonths": null,
+    "appliesToAddons": ["PROD-160", "PROD-161", "PROD-165", "PROD-166", "PROD-167", "PROD-168", "PROD-169"],
+    "_note": "MOCK (add-on discounts): the catalogue states no discount on an add-on. These rows let the Apply Discount action on the postpaid Add-ons page be exercised; each names the add-ons it is eligible on (appliesToAddons) and a percentage off the add-on's charge. Replace with the real add-on discounts when supplied."
+  },
+  {
+    "addonDiscountId": "ADD-DSC-002",
+    "name": "Add-On Welcome Discount",
+    "description": "20% off the add-on's charge for the first 3 months",
+    "percent": 20,
+    "durationMonths": 3,
+    "appliesToAddons": ["PROD-160", "PROD-167", "PROD-250"]
+  },
+  {
+    "addonDiscountId": "ADD-DSC-003",
+    "name": "Add-On Bundle Discount",
+    "description": "15% off the add-on's charge",
+    "percent": 15,
+    "durationMonths": null,
+    "appliesToAddons": ["PROD-161", "PROD-166", "PROD-253"]
+  }
+]

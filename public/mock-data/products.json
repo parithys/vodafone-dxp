@@ -1427,7 +1427,21 @@
     "pricing": "paid",
     "pricingModel": "standard",
     "billingFrequency": "weekly",
-    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+    "_note": "Demo add-on so every charging frequency is shown in this category: billingFrequency is the default, billingOptions are the choices offered to the agent (monthly / weekly / one-time).",
+    "billingOptions": [
+      {
+        "frequency": "monthly",
+        "priceQAR": 30
+      },
+      {
+        "frequency": "weekly",
+        "priceQAR": 8
+      },
+      {
+        "frequency": "one-time",
+        "priceQAR": 12
+      }
+    ]
   },
   {
     "productId": "PROD-252",
@@ -1440,7 +1454,17 @@
     "pricing": "paid",
     "pricingModel": "standard",
     "billingFrequency": "weekly",
-    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+    "_note": "Demo add-on so every charging frequency is shown in this category: billingFrequency is the default, billingOptions are the choices offered to the agent (monthly / weekly / one-time).",
+    "billingOptions": [
+      {
+        "frequency": "monthly",
+        "priceQAR": 55
+      },
+      {
+        "frequency": "weekly",
+        "priceQAR": 15
+      }
+    ]
   },
   {
     "productId": "PROD-253",
@@ -1460,13 +1484,27 @@
     "name": "International Minutes Top-up",
     "type": "Add-on",
     "mrcQAR": 25,
-    "description": "60 international minutes, added once",
+    "description": "60 international minutes",
     "addonCategory": "International",
     "addonStatus": "Demo Only",
     "pricing": "paid",
     "pricingModel": "standard",
     "billingFrequency": "one-time",
-    "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+    "_note": "Demo add-on so every charging frequency is shown in this category: billingFrequency is the default, billingOptions are the choices offered to the agent (monthly / weekly / one-time).",
+    "billingOptions": [
+      {
+        "frequency": "monthly",
+        "priceQAR": 15
+      },
+      {
+        "frequency": "weekly",
+        "priceQAR": 6
+      },
+      {
+        "frequency": "one-time",
+        "priceQAR": 25
+      }
+    ]
   },
   {
     "productId": "PROD-255",
@@ -1480,6 +1518,60 @@
     "pricingModel": "standard",
     "billingFrequency": "one-time",
     "_note": "Demo add-on so every billing frequency is represented (weekly, one-time). billingFrequency: absent = monthly recurring."
+  },
+  {
+    "productId": "PROD-256",
+    "name": "Voicemail Plus",
+    "type": "Add-on",
+    "mrcQAR": 4,
+    "description": "Voicemail with call-back alerts",
+    "addonCategory": "Others",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "weekly",
+    "billingOptions": [
+      {
+        "frequency": "monthly",
+        "priceQAR": 10
+      },
+      {
+        "frequency": "weekly",
+        "priceQAR": 4
+      },
+      {
+        "frequency": "one-time",
+        "priceQAR": 15
+      }
+    ],
+    "_note": "Demo add-on so every charging frequency is shown in this category (like PROD-250): billingFrequency is the default (weekly), billingOptions are the choices offered to the agent (monthly / weekly / one-time)."
+  },
+  {
+    "productId": "PROD-257",
+    "name": "Combo Pass",
+    "type": "Add-on",
+    "mrcQAR": 12,
+    "description": "1 GB data and 50 local minutes",
+    "addonCategory": "Combo",
+    "addonStatus": "Demo Only",
+    "pricing": "paid",
+    "pricingModel": "standard",
+    "billingFrequency": "weekly",
+    "billingOptions": [
+      {
+        "frequency": "monthly",
+        "priceQAR": 40
+      },
+      {
+        "frequency": "weekly",
+        "priceQAR": 12
+      },
+      {
+        "frequency": "one-time",
+        "priceQAR": 15
+      }
+    ],
+    "_note": "Demo add-on so every charging frequency is shown in this category (like PROD-250): billingFrequency is the default (weekly), billingOptions are the choices offered to the agent (monthly / weekly / one-time)."
   },
   {
     "productId": "PROD-310",

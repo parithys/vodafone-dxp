@@ -200,7 +200,7 @@ test('there is no Paid | Free filter: the page header and the picker draw none, 
   assert.doesNotMatch(read('src/capabilities/PlanSelection/postpaidStep.tsx'), /SegmentedTabs|headerAction|addonPricing/);
   const picker = read('src/capabilities/AddonsSelection/AddonsPicker.tsx');
   assert.doesNotMatch(picker, /setPricing|pricingProp/);
-  assert.match(picker, /<SegmentedTabs[\s\S]*Billing frequency/);
+  assert.match(picker, /<OptionToggle[\s\S]*Billing frequency/);
 });
 
 test('the first months\' charge of an add-on (what the monthly summary, checkout and the order carry): free models and the free trial cost nothing, the intro price applies, standard is its price', () => {
@@ -273,7 +273,7 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   assert.match(footer, /action-bar \$\{fixedPosition\}/);
   // Continue is at the right end of the bar on every step: nothing on desktop sits beside it, so it reserves no gap for the summary.
   assert.doesNotMatch(footer, /lg:pr-\[calc/);
-  assert.match(wizard, /avoidBottomTray=\{showSelectedAddonsTray && currentStep\?\.key === 'planExtras'\}/);
+  assert.match(wizard, /avoidBottomTray=\{Boolean\(addonsTraySource\)\}/);
   assert.match(wizard, /'pb-44 lg:pb-24' : 'pb-24'/);
   // Desktop: the tray is the step header's top-right action, the Journey Summary's width, its panel dropping down.
   assert.match(tray, /'relative w-80'/);
@@ -285,7 +285,7 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   assert.match(stepHeader, /lg:pr-\[22rem\]/);
   assert.match(wizard, /hasSummary && <StepSummaryPanel/);
   assert.match(read('src/components/patterns/wizard/StepSummaryPanel.tsx'), /rail-end card[\s\S]*w-80/);
-  assert.match(tray, /\{count\} add-ons · \{formatQar\(monthlyQar\)\}\/month/);
+  assert.match(tray, /\{count\} add-ons · \{formatQar\(totalQar\)\}\{prepaid \? ' one-off' : '\/month'\}/);
   assert.match(tray, /tray-anchor \$\{variant === 'header'/);
   assert.match(tray, /tray-above/);
   assert.match(read('src/ui-components.css'), /\.tray-above \{[^}]*bottom-full mb-3/);
@@ -298,7 +298,7 @@ test('the postpaid New Connection Addons summary sits in the step card header on
   assert.match(read('src/ui-components.css'), /\.addon-name \{[^}]*break-words/);
   assert.doesNotMatch(tray, /<p className="truncate/);
   assert.doesNotMatch(wizard, /titleAction=\{/);
-  assert.match(wizard, /showSelectedAddonsTray && currentStep\?\.key === 'planExtras'/);
+  assert.match(wizard, /currentStep\?\.addonsTray \?\? \(showSelectedAddonsTray && currentStep\?\.key === 'planExtras' \? 'catalogue' : undefined\)/);
   assert.match(connection, /showSelectedAddonsTray=\{product === 'postpaid'\}/);
 });
 

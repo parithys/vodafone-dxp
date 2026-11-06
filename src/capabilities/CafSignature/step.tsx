@@ -10,6 +10,10 @@ import type { ActualUserValue } from '../ActualUser/actualUserModel';
 import { actualUserIdentity, supplementaryRows } from '../ActualUser/actualUserModel';
 import { consolidatedDocuments, documentTypeOptionsFor, requiredDocumentsFor } from '../../engines/journeyDocuments';
 import { usePersonaStore } from '../../stores/personaStore';
+import { IPAY_ACTIVATION_DEFAULT, IPAY_TERMS_SECTIONS, PREPAID_TERMS_SECTIONS } from '../../data/prepaidActivation';
+
+/** iPAY Activation as the agent left it, Yes until changed. */
+export const ipayOn = (values: Record<string, unknown>): boolean => (values.ipayActivation === undefined ? IPAY_ACTIVATION_DEFAULT : values.ipayActivation === true);
 
 /** The captured CAF: its type and, once signed on this device, the signature. */
 export type CafValue = { cafType?: CafType; signatureDataUrl?: string; supplementaryAgreed?: boolean; secondaryAgreed?: boolean; secondarySignatureDataUrl?: string };
@@ -64,6 +68,11 @@ export function cafSignatureStep(
     journey?: 'postpaid' | 'prepaid';
     /** Full variant: extra rows on the application form, read from the values. */
     formDetails?: (values: Record<string, unknown>) => { label: string; value: string }[] | undefined;
+    /**
+     * New Prepaid: the form carries an "iPAY Activation" Yes / No (default Yes, editable until signed; kept under `ipayActivation`) and the Terms & Conditions are the
+     * configurable prepaid ones (data/prepaidActivation.ts) with the iPAY supplement only while it is Yes - not the postpaid lock-in terms.
+     */
+    ipay?: boolean;
   } = {}
 ): WizardStep {
   if (opts.variant === 'full') {
@@ -71,7 +80,7 @@ export function cafSignatureStep(
       key: 'caf',
       summary: cafSummary,
       label: CAF_SIGNATURE_LABEL,
-      render: ({ values, setValue, goNext }) => (
+      render: ({ values, setValue }) => (
         <CafSignature
           variant="full"
           value={(values.caf as CafValue) ?? {}}
@@ -85,6 +94,9 @@ export function cafSignatureStep(
           idValue={opts.idDocument?.(values)?.value}
           journey={opts.journey}
           formDetails={opts.formDetails?.(values)}
+          termsSections={opts.ipay ? PREPAID_TERMS_SECTIONS : undefined}
+          ipayTermsSections={opts.ipay ? IPAY_TERMS_SECTIONS : undefined}
+          ipayActivation={opts.ipay ? { value: ipayOn(values), onChange: (v) => setValue('ipayActivation', v) } : undefined}
           // Scenario-specific supporting documents (a Waive Off, a minor's court order ...) are asked for in Additional Documents, after signing, and
           // nowhere earlier; everything the journey already holds is listed there too, to view and download.
           documentRequirements={requiredDocumentsFor({ values, personaId: usePersonaStore.getState().activePersonaId, journey: 'new-connection' })}
@@ -97,15 +109,14 @@ export function cafSignatureStep(
           orderSummary={values.cafSummary as { label: string; value: string }[] | undefined}
           fullTerms
           legalFacts={values.legalFacts as TncLegalFacts | undefined}
-          // The wizard chrome is hidden AFTER signing, so once signed this step's own content is the only way
-          // forward and needs the goNext the wizard footer would otherwise have called.
-          onContinue={goNext}
           termsScrollMode={opts.termsScrollMode}
         />
       ),
       // Signed, and every document this order requires is attached (they are asked for in Additional Documents, after signing).
       isValid: (values) => {
         const attached = ((values.caf as { additionalDocuments?: { requirementId?: string }[] } | undefined)?.additionalDocuments ?? []).map((d) => d.requirementId);
+        // A document type chosen with no file yet (reported by the form as documentsBlocked) holds Continue too.
+        if ((values.caf as { documentsBlocked?: boolean } | undefined)?.documentsBlocked) return false;
         return cafSigned(values) && requiredDocumentsFor({ values, personaId: usePersonaStore.getState().activePersonaId, journey: 'new-connection' }).every((r) => attached.includes(r.id));
       },
       // "The first and only step where the customer-facing view is presented": the rail/footer stay up WHILE

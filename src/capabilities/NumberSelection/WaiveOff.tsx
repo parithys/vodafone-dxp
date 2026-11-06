@@ -1,10 +1,10 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { Input } from '../../components/primitives/Input';
 import { Modal } from '../../components/primitives/Modal';
 import { chargeAfterWaiverQar, waivedQar, waiverAmountProblem, type NumberWaiver } from '../../engines/numberWaiver';
 import { formatQar } from '../../engines/postpaidPricing';
-import { UPLOAD_RULES, uploadFileProblem, type AdditionalDocument } from '../DocumentUpload';
+import { DocumentCaptureActions, UPLOAD_RULES, uploadFileProblem, type AdditionalDocument } from '../DocumentUpload';
 import { forgetDocumentFile, readFileAsDataUrl, rememberDocumentFile } from '../../lib/documentFileStore';
 import { formatBytes } from '../../lib/format';
 
@@ -38,13 +38,11 @@ export function WaiveOff({
   // The document chosen in the dialog: attached to the journey on Apply only, so Cancel leaves what was attached as it was.
   const [draftDoc, setDraftDoc] = useState<AdditionalDocument | undefined>(document);
   const [fileError, setFileError] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
   // A file chosen in the dialog is held in memory at once (to be opened later); one that is not applied is forgotten again.
   const dropDraft = () => {
     if (draftDoc && draftDoc.id !== document?.id) forgetDocumentFile(draftDoc.id);
   };
   const chooseFile = async (file: File | undefined) => {
-    if (fileRef.current) fileRef.current.value = '';
     if (!file) return;
     const problem = uploadFileProblem(file, UPLOAD_RULES.supporting);
     if (problem) {
@@ -145,11 +143,8 @@ export function WaiveOff({
               <p className="text-[length:var(--fs-label)] text-fg">
                 Supporting Document<span className="text-[var(--field-border-error)]" aria-hidden="true"> *</span>
               </p>
-              <input ref={fileRef} type="file" accept={UPLOAD_RULES.supporting.accept} className="sr-only" aria-label="Choose the supporting document" onChange={(e) => void chooseFile(e.target.files?.[0])} />
               <div className="document-slot">
-                <Button variant="secondary" compact onClick={() => fileRef.current?.click()}>
-                  {draftDoc ? 'Replace Document' : 'Upload Document'}
-                </Button>
+                <DocumentCaptureActions what="supporting document" hasDocument={Boolean(draftDoc)} onFile={(f) => void chooseFile(f)} />
                 {draftDoc ? (
                   <>
                     <span className="line-fg-caption">

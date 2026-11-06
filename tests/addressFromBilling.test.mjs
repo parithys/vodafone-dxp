@@ -57,10 +57,12 @@ test('every journey that passes the Address over wires the prefill, and an edit 
   const step = fs.readFileSync('src/capabilities/ServiceAddress/step.tsx', 'utf8');
   assert.match(step, /headless:[\s\S]*<AddressPrefill/);
   assert.match(step, /prefilledKey: undefined/);
-  for (const f of ['src/modules/new-connection/connectionSteps.tsx', 'src/modules/new-connection/postpaidSteps.tsx', 'src/modules/mobile-prepaid/screens/prepaidSteps.tsx', 'src/modules/mnp-fnp-porting/screens/mnpSteps.tsx']) {
+  for (const f of ['src/modules/new-connection/connectionSteps.tsx', 'src/modules/new-connection/postpaidSteps.tsx', 'src/modules/mnp-fnp-porting/screens/mnpSteps.tsx']) {
     assert.match(fs.readFileSync(f, 'utf8'), /serviceAddressStep\([\s\S]*?autoPass: true/, f);
   }
-  assert.match(fs.readFileSync('src/modules/mobile-prepaid/screens/prepaidSteps.tsx', 'utf8'), /billing: \(\) => false/);
+  // New Prepaid has no Address at all: the shell skips its Address step and the prepaid steps carry none.
+  assert.doesNotMatch(fs.readFileSync('src/modules/mobile-prepaid/screens/prepaidSteps.tsx', 'utf8'), /serviceAddressStep\(/);
+  assert.match(fs.readFileSync('src/modules/new-connection/connectionSteps.tsx', 'utf8'), /skip: \(values\) => values\.product === 'prepaid'/);
   // The NAS National Address is never the source.
   assert.doesNotMatch(fs.readFileSync('src/capabilities/ServiceAddress/AddressPrefill.tsx', 'utf8'), /nas-records|nationalAddress/);
 });

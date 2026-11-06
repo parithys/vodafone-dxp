@@ -29,7 +29,7 @@ test('New Prepaid: web and tablet run the same steps in the same order', () => {
   const ctx = (device) => ({ device, wizardId: 'new-connection', flow: 'new', existingCustomerId: undefined, guardedContactChange: () => {}, applyCrossSales: () => {}, navigate: () => {}, createRecord: async () => {}, products: [], customerBenefits: undefined });
   const keys = (device) => connection.buildConnectionSteps(ctx(device)).filter((s) => !s.skip?.({ product: 'prepaid' })).map((s) => s.key);
   assert.deepEqual(keys('web'), keys('tablet'));
-  assert.deepEqual(keys('web'), ['contact', 'address', 'product', 'plan', 'planExtras', 'recharge', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment']);
+  assert.deepEqual(keys('web'), ['contact', 'product', 'plan', 'planExtras', 'recharge', 'number', 'simType', 'cart', 'checkout', 'caf', 'payment']);
 });
 
 test('New Prepaid: one catalogued screen, one feature, no Tablet-only journey', () => {

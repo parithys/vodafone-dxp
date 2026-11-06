@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { Icon } from '../../components/primitives/Icon';
 import { TabStrip } from '../../components/primitives/TabStrip';
 import { SearchField } from '../../components/primitives/SearchField';
-import { SegmentedTabs } from '../../components/primitives/SegmentedTabs';
+import { OptionToggle } from '../../components/primitives/OptionToggle';
 import { CARD_IDLE, CARD_SELECTED, SelectedTick, SelectedCardTexture } from '../../components/primitives/offerCardParts';
 import * as mockDataEngine from '../../engines/mockDataEngine';
 import { exceedsMultiSimMax, MULTI_SIM_MAX } from '../../engines/multiSim';
 import { isAddonEligible, type AddonEligibilityContext, type AddonEligibilityRule } from '../../engines/addonEligibility';
 import { ADDON_CATEGORIES, FREQUENTLY_USED_TAB, isFrequentlyUsed, type FrequentlyUsedRule, isFreeAddon, type AddonTab, addonsFor, selectedPerCategory, type AddonPricingModel, type AddonBillingFrequency, type AddonBillingOption, addonPriceDisplay, addonChargeType, isAddonAvailable } from '../../engines/addonCategories';
+import { appliedDiscountFor, discountedAddon, type AddonDiscount, type AppliedAddonDiscounts } from '../../engines/addonDiscounts';
 import { formatAmount } from '../../lib/format';
 import { CHEVRON_RIGHT, DATA_ICON, LAYERS_ICON } from '../../assets/icons';
 
@@ -38,6 +39,8 @@ interface AddonProduct {
   priceLabel?: string;
   /** The catalogue's status (Confirmed, Demo Only / TBC ...). Kept with the data; not displayed. */
   addonStatus?: string;
+  /** A mandatory product (prepaid, `isMandatory` on its record): always on the order, selected for the agent, who cannot remove it. */
+  mandatory?: boolean;
 }
 
 interface AddonsPickerProps {
@@ -56,6 +59,8 @@ interface AddonsPickerProps {
   multiSimPlan?: { multiSimCount?: number };
   /** Shown when no add-on is available. Omitted: nothing is rendered in that case. */
   emptyMessage?: string;
+  /** Prepaid only: the pack's mandatory products (`isMandatory`) are selected for the agent and cannot be deselected. Off, every add-on is optional (other journeys). */
+  mandatoryProducts?: boolean;
   /** 'rows': one full-width row per add-on (icon, name and description, Optional/Added tag, price). Default: a grid of cards. */
   layout?: 'cards' | 'rows';
   /**
@@ -65,9 +70,12 @@ interface AddonsPickerProps {
   source?: 'catalogue' | 'prepaid';
   /**
    * The dedicated Add-ons page: the category tabs (Local Data, Local Minutes, International, Roaming, Combo, Others) and, under them, the selected
-   * category's add-ons in two columns - Paid Addons and Free Addons - each listed top to bottom. Rows layout, catalogue add-ons.
+   * category's add-ons in two columns - Paid Addons and Free Addons - each listed top to bottom. Rows layout; postpaid and prepaid add-ons alike (a prepaid
+   * add-on's category is the one its record states, else Others).
    */
   categorized?: boolean;
+  /** The add-on discounts the agent has applied (add-on product id -> discount id): an add-on shows its discounted charge and the discount. Omitted: no add-on discounts on this page. */
+  appliedDiscounts?: AppliedAddonDiscounts;
 }
 
 // "Plan & Add-ons" (reference flow step 5) - optional, non-gating multi-select
@@ -75,7 +83,12 @@ interface AddonsPickerProps {
 // single-select Plan above it in ProductPlanStep.
 
 
-export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBillingChange, hideHeader, eligibilityContext, multiSimPlan, emptyMessage, layout = 'cards', source = 'catalogue', categorized = false }: AddonsPickerProps) {
+export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBillingChange, hideHeader, eligibilityContext, multiSimPlan, emptyMessage, layout = 'cards', mandatoryProducts = false, source = 'catalogue', categorized = false, appliedDiscounts }: AddonsPickerProps) {
+  const [discountRecords, setDiscountRecords] = useState<AddonDiscount[]>([]);
+  const wantsDiscounts = appliedDiscounts !== undefined;
+  useEffect(() => {
+    if (wantsDiscounts) void mockDataEngine.list<AddonDiscount>('addon-discounts').then(setDiscountRecords);
+  }, [wantsDiscounts]);
   const [category, setCategory] = useState<AddonTab>(ADDON_CATEGORIES[0]);
   // Search by add-on name, description or price, scoped to the category on show (like the plan search under the plan tabs).
   const [search, setSearch] = useState('');
@@ -99,11 +112,11 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
     const load: Promise<AddonProduct[]> =
       source === 'prepaid'
         ? mockDataEngine
-            .list<{ addonDiscountId: string; name: string; addonType: string; price: number; category: string; description?: string; planId?: string }>('addons-discounts')
+            .list<{ addonDiscountId: string; name: string; addonType: string; price: number; category: string; description?: string; planId?: string; isMandatory?: boolean; addonCategory?: string }>('addons-discounts')
             .then((all) =>
               all
                 .filter((d) => d.category === 'Paid Add-on' && d.planId === eligibilityContext?.planId)
-                .map((d) => ({ productId: d.addonDiscountId, name: d.name, type: d.addonType, mrcQAR: d.price, description: d.description }))
+                .map((d) => ({ productId: d.addonDiscountId, name: d.name, type: d.addonType, mrcQAR: d.price, description: d.description, addonCategory: d.addonCategory, mandatory: mandatoryProducts && d.isMandatory === true }))
             )
         : mockDataEngine.list<AddonProduct>('products').then((all) => all.filter((p) => p.type === 'Add-on'));
     load
@@ -116,10 +129,17 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
     return () => {
       cancelled = true;
     };
-  }, [attempt, source, eligibilityContext?.planId]);
+  }, [attempt, source, mandatoryProducts, eligibilityContext?.planId]);
 
   // A selection that stopped being eligible (the plan or customer type changed) is dropped.
   const eligibleIds = addons.map((a) => a.productId).join(',');
+  // A mandatory product is always on the order: selected for the agent as soon as it is listed (and again if it was ever dropped).
+  const missingMandatory = addons.filter((a) => a.mandatory && !selectedIds.includes(a.productId)).map((a) => a.productId);
+  const missingMandatoryKey = missingMandatory.join(',');
+  useEffect(() => {
+    if (missingMandatory.length > 0) onChange([...selectedIds, ...missingMandatory]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [missingMandatoryKey]);
   const selectedKey = selectedIds.join(',');
   const billingKey = Object.keys(selectedBilling).sort().join(',');
   useEffect(() => {
@@ -151,7 +171,9 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
   }
 
   // The add-ons on screen: all of them, or - on the Add-ons page - the selected category's, narrowed by Free / Paid.
-  const useTabs = categorized && layout === 'rows' && source === 'catalogue';
+  const useTabs = categorized && layout === 'rows';
+  // The postpaid page names an add-on by what it gives (its description); a prepaid add-on's own name already says it, so the name leads and the description follows.
+  const namedByContent = useTabs && source === 'catalogue';
   const q = search.trim().toLowerCase();
   const matchesSearch = (a: AddonProduct) =>
     !q || [a.name, a.description, addonPriceDisplay(a)?.primary, addonPriceDisplay(a)?.secondary, a.priceLabel, String(a.mrcQAR)].some((t) => t?.toLowerCase().includes(q));
@@ -170,6 +192,7 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
   const toggle = (id: string) => {
     const removing = selectedIds.includes(id);
     const candidate = addons.find((x) => x.productId === id);
+    if (removing && candidate?.mandatory) return;
     if (!removing && candidate && multiSimBlocked(candidate)) return;
     onChange(removing ? selectedIds.filter((i) => i !== id) : [...selectedIds, id]);
     if (removing && selectedBilling[id] && onBillingChange) {
@@ -184,6 +207,9 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
     const options = onBillingChange ? (a.billingOptions ?? []) : [];
     const billing = selectedBilling[a.productId] ?? a.billingFrequency ?? options[0]?.frequency;
     const blocked = multiSimBlocked(a);
+    // The add-on as charged after its applied discount (the price, and the choice of billing frequency, are shown on it).
+    const discount = appliedDiscountFor(discountRecords, appliedDiscounts, a);
+    const priced = discountedAddon(a, discount);
     const chooseBilling = (frequency: AddonBillingFrequency) => {
       if (!selected && blocked) return;
       if (!selected) onChange([...selectedIds, a.productId]);
@@ -195,7 +221,7 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                 role={options.length > 1 ? undefined : 'button'}
                 tabIndex={options.length > 1 ? undefined : 0}
                 aria-pressed={options.length > 1 ? undefined : selected}
-                aria-disabled={blocked || undefined}
+                aria-disabled={blocked || a.mandatory || undefined}
                 onClick={options.length > 1 ? undefined : () => toggle(a.productId)}
                 onKeyDown={(e) => {
                   if (options.length <= 1 && e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
@@ -203,7 +229,7 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                     toggle(a.productId);
                   }
                 }}
-                className={`relative card-option ${blocked ? 'cursor-not-allowed opacity-60' : options.length > 1 ? '' : 'cursor-pointer'} ${
+                className={`relative card-option ${blocked ? 'cursor-not-allowed opacity-60' : a.mandatory ? 'cursor-default' : options.length > 1 ? '' : 'cursor-pointer'} ${
                   selected ? CARD_SELECTED : CARD_IDLE
                 }`}
               >
@@ -214,16 +240,18 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                 </span>
                 <div className="min-w-0 flex-1">
                   {/* The Add-ons page names an add-on by what it gives ("2.5 GB full-speed data"); elsewhere the name leads and the description follows. */}
-                  <p className="title title-md font-semibold leading-snug">{useTabs ? a.description ?? a.name : a.name}</p>
-                  {!useTabs && a.description && <p className="caption-secondary">{a.description}</p>}
+                  <p className="title title-md font-semibold leading-snug">{namedByContent ? a.description ?? a.name : a.name}</p>
+                  {!namedByContent && a.description && <p className="caption-secondary">{a.description}</p>}
                   {addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing) && <p className="mt-1 caption-muted">{addonChargeType(a, source === 'prepaid' ? 'prepaid' : 'catalogue', billing)}</p>}
+                  {a.mandatory && <p className="mt-1 caption-note">Mandatory: included with this pack and cannot be removed.</p>}
                   {blocked && <p role="status" className="mt-1 caption-note">Not available: with the plan and the add-ons already selected it would exceed the maximum of {MULTI_SIM_MAX} Multi-SIMs.</p>}
                 </div>
                 <div className="aside-value">
-                  {addonPriceDisplay(a, billing) ? (
+                  {addonPriceDisplay(priced, billing) ? (
                     <>
-                      <p className="title title-xl leading-none whitespace-nowrap">{addonPriceDisplay(a, billing)!.primary}</p>
-                      {addonPriceDisplay(a, billing)!.secondary && <p className="mt-2 caption-note">{addonPriceDisplay(a, billing)!.secondary}</p>}
+                      <p className="title title-xl leading-none whitespace-nowrap">{addonPriceDisplay(priced, billing)!.primary}</p>
+                      {addonPriceDisplay(priced, billing)!.secondary && <p className="mt-2 caption-note">{addonPriceDisplay(priced, billing)!.secondary}</p>}
+                      {discount && <p className="mt-2 caption-note text-[var(--success)]">{discount.name}: {discount.percent}% off</p>}
                     </>
                   ) : a.pricing === 'free' || (!a.pricing && a.mrcQAR === 0) ? (
                     <p className="title title-xl">Free</p>
@@ -241,15 +269,14 @@ export function AddonsPicker({ selectedIds, onChange, selectedBilling = {}, onBi
                 </div>
                 {options.length > 1 && (
                   <div className="divider-top p-3">
-                    <SegmentedTabs
+                    <OptionToggle
                       label={`Billing frequency for ${a.description ?? a.name}`}
-                      items={options.map((option) => ({
+                      items={priced.billingOptions!.map((option) => ({
                         key: option.frequency,
                         label: `${option.frequency === 'weekly' ? 'Weekly' : option.frequency === 'monthly' ? 'Monthly' : 'One-Time'} · QAR ${formatAmount(option.priceQAR)}`,
                       }))}
                       active={billing}
                       onChange={chooseBilling}
-                      className="w-full [&>button]:flex-1 [&>button]:justify-center"
                     />
                   </div>
                 )}

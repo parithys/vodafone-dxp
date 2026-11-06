@@ -7,7 +7,10 @@ import { formatQarAny } from '../../lib/format';
 export interface WinCashPaymentValue {
   paid?: boolean;
   /** How the amount was taken: through WinCash, or as physical cash the agent received directly from the customer. */
-  method?: 'WinCash' | 'Cash' | 'Zero value';
+  method?: 'WinCash' | 'Cash' | 'Zero value' | 'eWallet';
+  /** Paid from the eWallet: the amount deducted, and the (simulated) hand-over of the order's details to the eTop-up platform for commission handling. */
+  eWalletDeductedQar?: number;
+  eTopUpReference?: string;
   /** The receipt: the WinCash reference, or the zero-value receipt number when nothing was due. */
   reference?: string;
   /** Nothing was due, so no payment was taken and a zero-value receipt was issued (MNP BR-MNP-011). */
@@ -41,6 +44,11 @@ interface WinCashPaymentStepProps {
    * the system shall generate a zero-value receipt"). Off by default: the other journeys keep their existing behaviour.
    */
   zeroValueReceipt?: boolean;
+  /**
+   * Offers "Pay from eWallet" beside WinCash (a role mapped to an eWallet, Mass Market): the balance the role holds, and the deduction on confirmation. When the balance
+   * does not cover the amount the payment is blocked - nothing is deducted and the order cannot be submitted - with a message saying so. Omitted: WinCash only.
+   */
+  eWallet?: { balanceQar: number; onPay: (amountQar: number) => boolean };
 }
 
 // Gate 3 of the reference activation flow - WinCash/POS + inventory sync,
@@ -69,8 +77,10 @@ interface WinCashPaymentStepProps {
 // NewPostpaidWizard's `hideAbandonFrom="payment"`, matching the explicit
 // "keep Cancel available after CAF signing and until payment starts" - i.e.
 // no further than here, once WinCash may already hold the transaction.
-export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWithout, zeroValueReceipt }: WinCashPaymentStepProps) {
+export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWithout, zeroValueReceipt, eWallet }: WinCashPaymentStepProps) {
   const [processing, setProcessing] = useState(false);
+  // With an eWallet the role pays from it by default; the agent can switch to WinCash.
+  const [method, setMethod] = useState<'eWallet' | 'WinCash'>(eWallet ? 'eWallet' : 'WinCash');
 
   if (zeroValueReceipt && amountDueQAR === 0) {
     return (
@@ -144,13 +154,79 @@ export function WinCashPaymentStep({ amountDueQAR, value, onChange, onProceedWit
     onChange({ paid: false, declined: false, sessionExpired: false, handoffStarted: false });
   };
 
+  const payFromEWallet = async () => {
+    if (!eWallet) return;
+    setProcessing(true);
+    await new Promise((r) => setTimeout(r, 500));
+    setProcessing(false);
+    // The deduction is refused when the balance cannot cover it (it may have changed since the page rendered): nothing is taken and the order stays unpaid.
+    if (!eWallet.onPay(amountDueQAR)) return;
+    onChange({
+      paid: true,
+      declined: false,
+      handoffStarted: false,
+      sessionExpired: false,
+      method: 'eWallet',
+      reference: `EW-${Date.now().toString().slice(-8)}`,
+      eWalletDeductedQar: amountDueQAR,
+      // Simulated: the order's details are passed to the eTop-up platform for commission handling. No integration exists; this records that it would have been sent.
+      eTopUpReference: `ETU-${Date.now().toString().slice(-8)}`,
+    });
+  };
+
+  if (eWallet && method === 'eWallet' && !value.paid) {
+    const insufficient = eWallet.balanceQar < amountDueQAR;
+    return (
+      <div className="space-y-4">
+        <div className="card p-4 card-surface space-y-1">
+          <div className="flex justify-between text-fg">
+            <span>Amount Due (eWallet)</span>
+            <span className="font-medium">{formatQarAny(amountDueQAR)}</span>
+          </div>
+          <div className="flex justify-between text-fg">
+            <span>Available eWallet Balance</span>
+            <span className="font-medium">{formatQarAny(eWallet.balanceQar)}</span>
+          </div>
+        </div>
+        {insufficient && (
+          <div role="alert" className="notice-danger-edge p-3 space-y-1">
+            <Badge variant="danger">Insufficient eWallet Balance</Badge>
+            <p className="text-[length:var(--fs-caption)] text-fg">
+              The eWallet holds {formatQarAny(eWallet.balanceQar)} but {formatQarAny(amountDueQAR)} is due, so the order cannot be submitted. Top up the eWallet, or pay with WinCash.
+            </p>
+          </div>
+        )}
+        <div className="wrap-loose">
+          <Button variant="primary" onClick={() => void payFromEWallet()} disabled={processing || insufficient}>
+            {processing ? 'Deducting from eWallet…' : 'Pay from eWallet'}
+          </Button>
+          <Button variant="secondary" onClick={() => setMethod('WinCash')} disabled={processing}>
+            Pay with WinCash instead
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div className="card p-4 card-surface">
         <div className="flex justify-between text-fg">
-          <span>Amount Due (WinCash)</span>
+          <span>{value.method === 'eWallet' ? 'Amount Paid (eWallet)' : 'Amount Due (WinCash)'}</span>
           <span className="font-medium">{formatQarAny(amountDueQAR)}</span>
         </div>
+        {value.paid && value.method === 'eWallet' && (
+          <p className="caption-secondary mt-1">
+            {formatQarAny(value.eWalletDeductedQar ?? amountDueQAR)} deducted from the eWallet. The order's details were passed to the eTop-up platform for commission handling (eTop-up ref {value.eTopUpReference}; simulated).
+          </p>
+        )}
+        {eWallet && !value.paid && (
+          <div className="mt-2">
+            <Button variant="tertiary" compact onClick={() => setMethod('eWallet')}>
+              Pay from eWallet instead
+            </Button>
+          </div>
+        )}
       </div>
 
       {value.paid ? (

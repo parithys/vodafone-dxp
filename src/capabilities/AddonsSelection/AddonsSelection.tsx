@@ -11,7 +11,7 @@ import type { PrepaidAddonsStepProps } from './PrepaidAddonsStep';
  *
  *   kind 'postpaid'   the plan's add-ons under category tabs (Local Data, Local Minutes, International, Roaming, Combo, Others, Frequently Used), Paid and Free side by
  *                     side, billing frequency and the Multi-SIM maximum; and, for the journey that sets them, the Bill Limit and the service options.
- *   kind 'prepaid'    the chosen pack, its optional add-ons, its eligible discounts and the pack total.
+ *   kind 'prepaid'    the pack's add-ons on the same page as postpaid: category tabs, search, Paid and Free side by side and the Selected Add-Ons tray.
  *
  * What a journey does with the page - when it is skipped, when Continue is allowed, what a plan change clears, whether a pre-bundled offer takes add-ons - is the
  * journey's own rule, in its step builder or passed as a prop; the page states none of it.

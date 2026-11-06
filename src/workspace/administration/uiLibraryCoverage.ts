@@ -7,7 +7,7 @@
 export const LIVE_SPECIMENS: Record<string, string> = Object.fromEntries(
   [
     'Badge', 'Button', 'Checkbox', 'ChoiceCards', 'CloseButton', 'ConnectionTypeTag', 'CountryMarker', 'DataTable', 'Drawer', 'EmptyState', 'ErrorBanner',
-    'Icon', 'IconButton', 'Input', 'Modal', 'NestedTabs', 'OverlayPortal', 'Pagination', 'PageLevelTabs', 'PanelIcon', 'PhoneNumberInput', 'Radio',
+    'Icon', 'IconButton', 'Input', 'Modal', 'NestedTabs', 'OptionToggle', 'OverlayPortal', 'Pagination', 'PageLevelTabs', 'PanelIcon', 'PhoneNumberInput', 'Radio',
     'SearchField', 'SegmentedTabs', 'Select', 'SelectedCardTexture', 'SelectedPlanFigure', 'SelectedTick', 'ServiceTypeTag', 'SignaturePad', 'Spinner',
     'TabStrip', 'Tabs', 'Textarea', 'Tooltip', 'TooltipGroup', 'VodafoneMark', 'VodafoneWordmark', 'PageHeader', 'StarStat',
   ].map((n) => [n, n]),

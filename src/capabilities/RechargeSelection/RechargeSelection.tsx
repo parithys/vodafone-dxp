@@ -3,7 +3,7 @@ import { RechargeSelectionStep } from '../../components/patterns/RechargeSelecti
 
 /**
  * RECHARGE SELECTION - the one application-wide capability for choosing the recharge of a prepaid subscription (BRSD V0.3, Prepaid Recharge
- * Selection). Lists the recharge products by category (Flex, Combo, Credit, Data) as selectable cards and says what the choice does to the
+ * Selection). Lists the recharge products by category (Combo+, Flex, Credit, Data, International, Roamers, Visitors) as selectable cards and says what the choice does to the
  * SIM card charge. Whether a recharge is mandatory is the journey's rule: it passes `required`. Journeys mount THIS component (usually through
  * rechargeSelectionStep); none of them lists recharges itself.
  */

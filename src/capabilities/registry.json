@@ -181,7 +181,11 @@
       "components/patterns/checkoutDetailedTables.ts",
       "components/patterns/PrepaidCheckoutStep.tsx",
       "components/patterns/PrepaidCartStep.tsx",
-      "components/patterns/prepaidCartModel.ts"
+      "components/patterns/prepaidCartModel.ts",
+      "components/patterns/PrepaidOrderSummary.tsx",
+      "components/patterns/prepaidOrderValidation.ts",
+      "components/patterns/prepaidChargeSummary.ts",
+      "components/patterns/simPairing.ts"
     ],
     "previewable": true,
     "publicApi": []
@@ -334,7 +338,7 @@
       "addonsSelectionStep"
     ],
     "stepLabel": "ADDONS_DISCOUNTS_LABEL",
-    "summary": "The Addons page, its own capability beside Plan Selection and built the same way for postpaid and prepaid: a postpaid plan's add-ons under category tabs (Local Data, Local Minutes, International, Roaming, Combo, Others, Frequently Used) with Paid and Free side by side, billing frequency, the Multi-SIM maximum and, where the journey sets them, the Bill Limit and service options; a prepaid pack's add-ons (one list - prepaid add-ons carry no category); or on its own (Add Add-On) as a step that needs at least one add-on.",
+    "summary": "The Addons page, its own capability beside Plan Selection and built the same way for postpaid and prepaid: a postpaid plan's add-ons under category tabs (Local Data, Local Minutes, International, Roaming, Combo, Others, Frequently Used) with Paid and Free side by side, billing frequency, the Multi-SIM maximum and, where the journey sets them, the Bill Limit and service options; a prepaid pack's add-ons on the same page (category tabs, search, Paid and Free side by side, the Selected Add-Ons tray; a prepaid add-on sits under the category its record states, else Others, and is paid once); or on its own (Add Add-On) as a step that needs at least one add-on.",
     "parts": [
       "capabilities/AddonsSelection/AddonsPicker.tsx",
       "capabilities/AddonsSelection/PostpaidAddonsStep.tsx",
@@ -426,7 +430,9 @@
       "components/domain/MultiSimPanel.tsx",
       "components/domain/esimProfile.ts",
       "capabilities/SimType/multiSimModel.ts",
-      "capabilities/SimType/TrimMultiSims.tsx"
+      "capabilities/SimType/TrimMultiSims.tsx",
+      "capabilities/SimType/PrepaidSimPanels.tsx",
+      "capabilities/SimType/prepaidNumberAllocation.ts"
     ],
     "publicApi": [],
     "previewable": true
@@ -467,11 +473,12 @@
     "entry": "AdditionalDocumentsUpload",
     "stepBuilders": [],
     "stepLabel": null,
-    "summary": "The one way to attach documents to an order: Additional Documents (choose the document type, then the file; a type is not offered twice; a document type picked without its file blocks Continue), the signed-CAF upload, and the shared rules every upload reads (accepted types, size limit, refusal wording) so a limit is changed once. Used by the CAF step; the identity-document upload reads the same rules.",
+    "summary": "The one way to attach documents to an order: Additional Documents (choose the document type, then the file; a type is not offered twice; a document type picked without its file blocks Continue), the signed-CAF upload, and the shared rules every upload reads (accepted types, size limit, refusal wording) so a limit is changed once. Every supporting document is captured the way the device does it - Scan Document and Upload Document on the web, Capture With Camera and Upload Document on a tablet or phone (DocumentCaptureActions). Used by the CAF step; the identity-document upload reads the same rules.",
     "parts": [
       "components/domain/AdditionalDocumentsUpload.tsx",
       "components/domain/CafDocumentUpload.tsx",
       "components/domain/SupportingDocumentField.tsx",
+      "components/domain/DocumentCaptureActions.tsx",
       "components/domain/documentUploadRules.ts"
     ],
     "previewable": true,
@@ -500,7 +507,7 @@
       "rechargeSelectionStep"
     ],
     "stepLabel": "RECHARGE_LABEL",
-    "summary": "Choose the recharge of a prepaid subscription: the recharge products by category (Flex, Combo, Credit, Data) as selectable cards, with what the choice does to the SIM card charge. Whether a recharge is mandatory is the journey's rule. Sample catalogue until the real one is supplied.",
+    "summary": "Choose the recharge of a prepaid subscription: the recharge products by category (Combo+, Flex, Credit, Data, International, Roamers, Visitors) as selectable cards, with what the choice does to the SIM card charge. Whether a recharge is mandatory is the journey's rule. Sample catalogue until the real one is supplied.",
     "parts": [
       "components/patterns/RechargeSelectionStep.tsx",
       "components/patterns/rechargeSelectionModel.ts"

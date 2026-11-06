@@ -1,3 +1,4 @@
+import { appliedDiscountFor, discountedAddon, type AddonDiscount, type AppliedAddonDiscounts } from '../../engines/addonDiscounts';
 import { addonChargeNowQar, addonOneTimeQar, addonWithBillingChoice, type AddonBillingFrequency } from '../../engines/addonCategories';
 import { chargeAfterWaiverQar, waivedQar, type NumberWaiver } from '../../engines/numberWaiver';
 import { hrnAdvanceQar } from '../../engines/hrnConfiguration';
@@ -16,6 +17,8 @@ interface UseCheckoutSummaryArgs {
   discountId: string | undefined;
   addonIds: string[];
   addonBilling?: Record<string, AddonBillingFrequency>;
+  /** The add-on discounts the agent applied (see engines/addonDiscounts.ts): each add-on is charged after its discount. */
+  addonDiscounts?: AppliedAddonDiscounts;
   msisdn: string | undefined;
   numberPriceQar: number | undefined;
   eligibility: EligibilityResult | undefined;
@@ -44,6 +47,7 @@ export function useCheckoutSummary({
   discountId,
   addonIds,
   addonBilling = {},
+  addonDiscounts,
   msisdn,
   numberPriceQar,
   eligibility,
@@ -61,6 +65,7 @@ export function useCheckoutSummary({
     { addonDiscountId: string; name: string; price: number; durationMonths: number | null }[]
   >([]);
   const [starTiers, setStarTiers] = useState<StarNumberTier[]>([]);
+  const [addonDiscountRecords, setAddonDiscountRecords] = useState<AddonDiscount[]>([]);
 
   useEffect(() => {
     mockDataEngine.list<Product>('products').then(setProducts);
@@ -70,13 +75,15 @@ export function useCheckoutSummary({
       )
       .then(setDiscounts);
     mockDataEngine.list<StarNumberTier>('star-number-tiers').then(setStarTiers);
+    mockDataEngine.list<AddonDiscount>('addon-discounts').then(setAddonDiscountRecords);
   }, []);
 
   const listedPlan = products.find((p) => p.productId === productId);
   const plan = listedPlan && planRentalIncluded ? { ...listedPlan, rentalIncludedInPackage: true } : listedPlan;
   const addons = products
     .filter((p) => addonIds.includes(p.productId))
-    .map((addon) => addonWithBillingChoice(addon, addonBilling[addon.productId]));
+    // The chosen billing frequency's price, then the add-on's applied discount off it.
+    .map((addon) => discountedAddon(addonWithBillingChoice(addon, addonBilling[addon.productId]), appliedDiscountFor(addonDiscountRecords, addonDiscounts, addon)));
   const discount = discounts.find((d) => d.addonDiscountId === discountId);
   // The number's own sticker price - kept separate from what is actually
   // CHARGED (numberChargeQar below), so "Star value QAR 5000 one-time" can

@@ -204,13 +204,16 @@ export function GuidedActivationWizard({
   // summary. Derived from the draft values on render - nothing is stored for it.
   const hasSummary = activeSteps.some((s) => s.summary?.length);
   // The postpaid add-on tray, mounted on the add-ons step only: in the step card's header on desktop, floating at the bottom on a small screen.
-  const selectedAddonsTray =
-    showSelectedAddonsTray && currentStep?.key === 'planExtras'
+  // The step says which add-ons it takes (addonsTray); the postpaid New Connection journey's own flag keeps its tray on the planExtras step.
+  const addonsTraySource = currentStep?.addonsTray ?? (showSelectedAddonsTray && currentStep?.key === 'planExtras' ? 'catalogue' : undefined);
+  const selectedAddonsTray = addonsTraySource
       ? (variant: 'floating' | 'header') => (
           <SelectedAddonsHeader
             variant={variant}
+            source={addonsTraySource}
             selectedIds={(draft.values.addonIds as string[] | undefined) ?? []}
             selectedBilling={(draft.values.addonBilling as Record<string, import('../../engines/addonCategories').AddonBillingFrequency> | undefined) ?? {}}
+            appliedDiscounts={draft.values.addonDiscounts as Record<string, string> | undefined}
             onChange={(ids) => setValue('addonIds', ids)}
           />
         )
@@ -235,12 +238,31 @@ export function GuidedActivationWizard({
     // content sits in the same full-width step card as every other step.
     return (
       <div className="flex-1 flex items-start">
-        <div className="flex-1 min-w-0">
+        <div className={`flex-1 min-w-0 ${fixedFooter ? 'pb-24' : ''}`}>
           <div className="m-8 card p-6" onKeyDown={handleStepKeyDown}>
             {currentStep?.render({ values: draft.values, setValue, goNext: () => void goNext(), goToStepKey, saveDraft, saveAndExit, requestAbandon })}
             {abandonModal}
             {leaveModal}
           </div>
+          {/* Page-level navigation is always the floating bar fixed to the bottom of the screen - signed or not. Signed, the journey is locked, so it is Continue alone
+              (no Back), and the step's own rule (isValid) says when it is enabled. */}
+          <WizardFooter
+            fixedToViewport={fixedFooter}
+            currentStep={currentStep}
+            currentIndex={currentIndex}
+            stepCount={activeSteps.length}
+            values={draft.values}
+            isLocked={isLocked}
+            canProceed={canProceed}
+            submitting={submitting}
+            goBack={goBack}
+            goNext={goNext}
+            setValue={setValue}
+            onAbandonStep={(opts) => {
+              setAbandonNoKeep(Boolean(opts?.hideKeepWorking));
+              setAbandonOpen(true);
+            }}
+          />
           {/* Below lg the side panel is hidden; the same summary (with its Edit actions) is offered as an accordion. */}
           {hasSummary && (
             <div className="mx-8 mb-8 lg:hidden">
@@ -289,7 +311,7 @@ export function GuidedActivationWizard({
         panelRef={stepPanelRef}
         onKeyDown={handleStepKeyDown}
         cardClassName={viewOpen ? 'outline outline-2 outline-accent' : ''}
-        bottomClass={fixedFooter ? (showSelectedAddonsTray && currentStep?.key === 'planExtras' ? 'pb-44 lg:pb-24' : 'pb-24') : ''}
+        bottomClass={fixedFooter ? (addonsTraySource ? 'pb-44 lg:pb-24' : 'pb-24') : ''}
         below={
           <>
             {belowPanel && <div className="px-8 pb-8">{belowPanel}</div>}
@@ -316,7 +338,7 @@ export function GuidedActivationWizard({
           {currentStep?.render({ values: draft.values, setValue, goNext: () => void goNext(), goToStepKey, saveDraft, saveAndExit, requestAbandon })}
           <WizardFooter
             fixedToViewport={fixedFooter}
-            avoidBottomTray={showSelectedAddonsTray && currentStep?.key === 'planExtras'}
+            avoidBottomTray={Boolean(addonsTraySource)}
             currentStep={currentStep}
             currentIndex={currentIndex}
             stepCount={activeSteps.length}

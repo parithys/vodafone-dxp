@@ -18,8 +18,8 @@
   "paths": [
    "src/components/primitives/Badge.tsx"
   ],
-  "area": "workspace/customer360 (16), components/patterns (12), modules/trouble-ticketing-complaints (7), workspace/administration (5), components/domain (4), modules/order-management (3) +16 more",
-  "files": 69
+  "area": "workspace/customer360 (16), components/patterns (12), modules/trouble-ticketing-complaints (7), workspace/administration (5), components/domain (4), modules/order-management (3) +17 more",
+  "files": 70
  },
  {
   "name": "Banner",
@@ -404,8 +404,8 @@
   "paths": [
    "src/components/primitives/Button.tsx"
   ],
-  "area": "workspace/customer360 (30), components/patterns (24), components/domain (13), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +26 more",
-  "files": 126
+  "area": "workspace/customer360 (30), components/patterns (27), components/domain (13), modules/trouble-ticketing-complaints (8), modules/sim-number-management (5), capabilities/CrossSellOffers (4) +27 more",
+  "files": 131
  },
  {
   "name": "CloseButton",
@@ -428,6 +428,17 @@
   ],
   "area": "capabilities/ActivationComplete (1), components/patterns (1)",
   "files": 2
+ },
+ {
+  "name": "DocumentCaptureActions",
+  "category": "Buttons and actions",
+  "layer": "Domain component",
+  "scope": "Shared",
+  "paths": [
+   "src/components/domain/DocumentCaptureActions.tsx"
+  ],
+  "area": "components/domain (3), capabilities/EligibilityGate (1), capabilities/NumberSelection (1), modules/order-management (1)",
+  "files": 6
  },
  {
   "name": "EditButton",
@@ -617,6 +628,17 @@
   "files": 2
  },
  {
+  "name": "ApplyAddonDiscountAction",
+  "category": "Cards",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/AddonsSelection/ApplyAddonDiscountAction.tsx"
+  ],
+  "area": "capabilities/AddonsSelection (1)",
+  "files": 1
+ },
+ {
   "name": "C360OffersLeads",
   "category": "Cards",
   "layer": "Workspace",
@@ -735,8 +757,8 @@
   "paths": [
    "src/components/patterns/DiscountCard.tsx"
   ],
-  "area": "capabilities/PlanSelection (1), components/patterns (1)",
-  "files": 2
+  "area": "capabilities/PlanSelection (1), capabilities/AddonsSelection (1), components/patterns (1)",
+  "files": 3
  },
  {
   "name": "FamilyPlanApplier",
@@ -988,8 +1010,8 @@
   "paths": [
    "src/capabilities/previewDemos.tsx"
   ],
-  "area": "components/patterns (1)",
-  "files": 1
+  "area": "components/patterns (2)",
+  "files": 2
  },
  {
   "name": "PrepaidPlanCard",
@@ -1931,6 +1953,18 @@
   "files": 0
  },
  {
+  "name": "PrepaidOrderSummary",
+  "category": "Containers, panels and sections",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/CheckoutSummary/CheckoutSummary.tsx",
+   "src/components/patterns/PrepaidOrderSummary.tsx"
+  ],
+  "area": "capabilities/CheckoutSummary (1)",
+  "files": 1
+ },
+ {
   "name": "RecentActivitiesSection",
   "category": "Containers, panels and sections",
   "layer": "Workspace",
@@ -2451,8 +2485,8 @@
   "paths": [
    "src/components/domain/MsisdnPicker.tsx"
   ],
-  "area": "capabilities/NumberSelection (1)",
-  "files": 1
+  "area": "capabilities/SimType (1), capabilities/NumberSelection (1)",
+  "files": 2
  },
  {
   "name": "NavLogoToggle",
@@ -2464,6 +2498,17 @@
   ],
   "area": "navigation (1)",
   "files": 1
+ },
+ {
+  "name": "OptionToggle",
+  "category": "Forms and form controls",
+  "layer": "Primitive",
+  "scope": "Shared",
+  "paths": [
+   "src/components/primitives/OptionToggle.tsx"
+  ],
+  "area": "components/patterns (2), capabilities/AddonsSelection (1), workspace/administration (1)",
+  "files": 4
  },
  {
   "name": "PassportToQidWizard",
@@ -3811,8 +3856,8 @@
   "paths": [
    "src/components/primitives/Drawer.tsx"
   ],
-  "area": "workspace/customer360 (9), components/patterns (3), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities (1), capabilities/CrossSellOffers (1) +5 more",
-  "files": 23
+  "area": "workspace/customer360 (9), components/patterns (4), components/domain (2), modules/trouble-ticketing-complaints (2), capabilities (1), capabilities/CrossSellOffers (1) +5 more",
+  "files": 24
  },
  {
   "name": "DrawerDemo",
@@ -3866,8 +3911,8 @@
   "paths": [
    "src/components/primitives/Modal.tsx"
   ],
-  "area": "capabilities/EligibilityGate (2), components/patterns (2), capabilities/PlanSelection (1), capabilities/ActivationComplete (1), capabilities/NumberSelection (1), workspace/customer360 (1) +4 more",
-  "files": 12
+  "area": "capabilities/EligibilityGate (2), components/patterns (2), capabilities/PlanSelection (1), capabilities/ActivationComplete (1), capabilities/AddonsSelection (1), capabilities/NumberSelection (1) +5 more",
+  "files": 13
  },
  {
   "name": "OfferDetailsDrawer",
@@ -3944,6 +3989,17 @@
    "src/workspace/customer360/queryFlow/QueryPreviewModal.tsx"
   ],
   "area": "workspace/customer360 (1)",
+  "files": 1
+ },
+ {
+  "name": "RechargeCountryDrawer",
+  "category": "Modals, dialogs and drawers",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/RechargeCountryDrawer.tsx"
+  ],
+  "area": "components/patterns (1)",
   "files": 1
  },
  {
@@ -4406,8 +4462,8 @@
   "paths": [
    "src/components/primitives/Icon.tsx"
   ],
-  "area": "workspace/customer360 (34), components/patterns (15), components/domain (13), components/primitives (10), navigation (4), capabilities/CrossSellOffers (2) +18 more",
-  "files": 101
+  "area": "workspace/customer360 (34), components/patterns (16), components/domain (13), components/primitives (10), navigation (4), capabilities/CrossSellOffers (2) +18 more",
+  "files": 102
  },
  {
   "name": "IconDisc",
@@ -4584,6 +4640,28 @@
   ],
   "area": "capabilities (1), capabilities/CheckoutSummary (1)",
   "files": 2
+ },
+ {
+  "name": "PrepaidMobileNumber",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SimType/PrepaidSimPanels.tsx"
+  ],
+  "area": "capabilities/SimType (1)",
+  "files": 1
+ },
+ {
+  "name": "PrepaidSimCharge",
+  "category": "Other reusable UI elements",
+  "layer": "Capability",
+  "scope": "Shared",
+  "paths": [
+   "src/capabilities/SimType/PrepaidSimPanels.tsx"
+  ],
+  "area": "capabilities/SimType (1)",
+  "files": 1
  },
  {
   "name": "Qualification",
@@ -4817,6 +4895,17 @@
   "files": 1
  },
  {
+  "name": "BenefitRow",
+  "category": "Tables and lists",
+  "layer": "Pattern",
+  "scope": "Shared",
+  "paths": [
+   "src/components/patterns/RechargeSelectionStep.tsx"
+  ],
+  "area": "(file-local)",
+  "files": 0
+ },
+ {
   "name": "DataTable",
   "category": "Tables and lists",
   "layer": "Primitive",
@@ -4824,8 +4913,8 @@
   "paths": [
    "src/components/primitives/DataTable.tsx"
   ],
-  "area": "workspace/customer360 (12), workspace/administration (2), components/patterns (1), modules/order-management (1)",
-  "files": 16
+  "area": "workspace/customer360 (12), workspace/administration (2), components/patterns (2), modules/order-management (1)",
+  "files": 17
  },
  {
   "name": "DeepDiveRow",
@@ -5038,8 +5127,8 @@
   "paths": [
    "src/components/patterns/CheckoutSummaryTables.tsx"
   ],
-  "area": "components/patterns (1)",
-  "files": 1
+  "area": "components/patterns (2)",
+  "files": 2
  },
  {
   "name": "Table",
@@ -5137,8 +5226,8 @@
   "paths": [
    "src/components/primitives/SegmentedTabs.tsx"
   ],
-  "area": "workspace/customer360 (4), capabilities (1), capabilities/AddonsSelection (1), workspace/tickets (1), workspace/administration (1), components/patterns (1) +1 more",
-  "files": 10
+  "area": "workspace/customer360 (4), capabilities (1), workspace/tickets (1), workspace/administration (1), components/patterns (1)",
+  "files": 8
  },
  {
   "name": "TabPage",

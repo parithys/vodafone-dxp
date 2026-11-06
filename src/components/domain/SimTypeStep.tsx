@@ -42,6 +42,8 @@ interface SimTypeStepProps {
   excludeSerials?: readonly string[];
   /** ICCIDs already taken by another eSIM of this order. */
   excludeIccids?: readonly string[];
+  /** Extra label / value rows for the selected SIM's read-back - Physical, Pre-Paired and eSIM alike - inside the same green container (New Prepaid: Paired / Unpaired). */
+  extraRows?: readonly (readonly [string, string])[];
   /** Whether the serial field takes focus on arrival. Default: the device decides; several SIMs on one page pass false for all but the first. */
   autoFocus?: boolean;
 }
@@ -61,7 +63,7 @@ interface SimTypeStepProps {
 // kept deliberately lightweight (no fabricated eSIM provisioning API), and
 // still does NOT auto-advance: selecting eSIM is a choice to review, not a
 // validation result to act on immediately.
-export function SimTypeStep({ value, customerEmail, onChange, device, prePaired, approvalRequired = false, excludeSerials, excludeIccids, autoFocus }: SimTypeStepProps) {
+export function SimTypeStep({ value, customerEmail, onChange, device, prePaired, approvalRequired = false, excludeSerials, excludeIccids, autoFocus, extraRows }: SimTypeStepProps) {
   const [issuing, setIssuing] = useState(false);
 
   if (prePaired) {
@@ -73,6 +75,8 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
           device={device}
           inventory="pre-paired"
           label="Pre-Paired SIM Serial Number"
+          // One container for a Pre-Paired SIM: the read-back below carries the SIM and the number already on it.
+          hideDetails
           onChange={(serial, valid, details) =>
             onChange({
               ...value,
@@ -106,6 +110,12 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
               {/* Read-only: the number is the one already on the SIM and cannot be edited here. */}
               <dd className="text-fg font-medium">{value.prePairedMsisdn ?? '-'}</dd>
             </div>
+            {extraRows?.map(([rowLabel, rowValue]) => (
+              <div key={rowLabel} className="flex justify-between gap-3">
+                <dt className="text-fg">{rowLabel}</dt>
+                <dd className="text-fg font-medium">{rowValue}</dd>
+              </div>
+            ))}
           </dl>
         )}
       </div>
@@ -129,6 +139,7 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
           device={device}
           excludeSerials={excludeSerials}
           autoFocus={autoFocus}
+          extraRows={extraRows}
           // eSIM is a valid alternative to a Physical serial, not an
           // additional requirement on top of it (2026-09-28 "Require either
           // eSIM selection or SIM Serial Number") - this panel's own blur
@@ -176,6 +187,12 @@ export function SimTypeStep({ value, customerEmail, onChange, device, prePaired,
                 <dt className="text-fg">SIM Serial Number</dt>
                 <dd className="text-fg font-medium">{value.simIccid ?? '-'}</dd>
               </div>
+              {extraRows?.map(([rowLabel, rowValue]) => (
+                <div key={rowLabel} className="flex justify-between gap-3">
+                  <dt className="text-fg">{rowLabel}</dt>
+                  <dd className="text-fg font-medium">{rowValue}</dd>
+                </div>
+              ))}
             </dl>
             <p className="text-secondary">
               The eSIM activation QR code will be generated only after successful payment and order {approvalRequired ? 'approval' : 'submission'}, and will then be sent to {customerEmail ?? 'the customer'}.

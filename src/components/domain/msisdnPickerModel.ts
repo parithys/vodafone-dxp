@@ -58,6 +58,22 @@ export const TAB_LABELS: Record<NumberTab, string> = {
  * themselves stay in one predictable order for everyone.
  */
 // Reserved, Star, Free (VFQ business, 2026-10-02) - reversing the 2026-09-28 Free, Star, Reserved order.
+/**
+ * What a journey says about the picker's content, beyond the plan (a postpaid plan's Star entitlement and the Star lock-in are the default): the numbers an agent may see
+ * by ROLE (`tabsFor`), and whether the picker sorts, shows the Star lock-in and judges a Star number against a plan's entitlement. Omitted, the picker is what it always was
+ * (every tab, sorting, lock-in, entitlement when a plan is given). Mobile Prepaid passes one: its numbers depend on who the agent is, never on the pack.
+ */
+export interface NumberPickerProfile {
+  /** The tabs the signed-in role may see (an empty or absent answer for a role falls back to every tab). */
+  tabsFor?: (personaId: string) => readonly NumberTab[];
+  /** Off: no sort control on the Star tab (default on). */
+  sorting?: boolean;
+  /** Off: no Star lock-in period on a Star number (default on). */
+  lockIn?: boolean;
+  /** Off: a Star number is never judged against a plan's entitlement (no entitlement note, no "within my entitlement" filter). Default on. */
+  planEntitlement?: boolean;
+}
+
 export const TAB_ORDER: NumberTab[] = ['Reserved', 'Star', 'Free', 'Blocked'];
 
 /**

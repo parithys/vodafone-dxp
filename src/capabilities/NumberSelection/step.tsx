@@ -8,6 +8,7 @@ import { isNumberWaiver } from '../../engines/numberWaiver';
 import { requirementForCondition } from '../../engines/journeyDocuments';
 import type { AdditionalDocument } from '../DocumentUpload';
 import { RefreshNumbersButton } from './RefreshNumbersButton';
+import type { NumberPickerProfile } from '../../components/domain/msisdnPickerModel';
 
 /**
  * Number selection: the chosen number is stored under `msisdn` (and its price under `priceField`, when given).
@@ -25,6 +26,13 @@ export function numberSelectionStep(
     waiveOff?: boolean;
     /** The upfront charge a Waive Off may take from, when the journey prices the number on its own (Mobile Prepaid: the number's price, with no plan entitlement). */
     waivableChargeQar?: (values: Record<string, unknown>) => number;
+    /** The picker's content by role and plan (Mobile Prepaid: the tabs a role may see; no sorting, Star lock-in or plan entitlement). */
+    picker?: NumberPickerProfile;
+    /**
+     * Continue without choosing: the order is then given a number from the Free pool on the SIM Selection page, which the agent may keep or replace (Mobile Prepaid). Off:
+     * a number (or a Pre-Paired SIM) is required here.
+     */
+    autoAllocate?: boolean;
  } = {}
 ): WizardStep {
   return {
@@ -43,6 +51,7 @@ export function numberSelectionStep(
         value={values.msisdn as string | undefined}
         refreshKey={opts.refresh ? (values.numberRefresh as number | undefined) : undefined}
         plan={opts.plan?.(values)}
+        profile={opts.picker}
         customerIdNumber={(values.contact as { idNumber?: string } | undefined)?.idNumber}
         prePaired={
           opts.prePairedOption
@@ -67,6 +76,8 @@ export function numberSelectionStep(
           const caf = values.caf as { additionalDocuments?: AdditionalDocument[] } | undefined;
           if (msisdn !== values.msisdn && req && caf?.additionalDocuments?.some((d) => d.requirementId === req.id)) setValue('caf', { ...caf, additionalDocuments: caf.additionalDocuments.filter((d) => d.requirementId !== req.id) });
           setValue('msisdn', msisdn);
+          // A number the agent picked is theirs to keep: it is not the one allocated from the Free pool on the SIM page, and is shown read-only from here on.
+          if (opts.autoAllocate) setValue('msisdnSource', msisdn ? 'selected' : undefined);
           if (opts.priceField) setValue(opts.priceField, price);
  }}
       />
@@ -108,6 +119,6 @@ export function numberSelectionStep(
           },
         }
       : {}),
-    isValid: (values) => Boolean(values.msisdn) || (opts.prePairedOption === true && values.prePaired === true),
+    isValid: (values) => opts.autoAllocate === true || Boolean(values.msisdn) || (opts.prePairedOption === true && values.prePaired === true),
  };
 }

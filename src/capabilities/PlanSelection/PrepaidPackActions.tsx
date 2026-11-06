@@ -12,19 +12,22 @@ export function PrepaidPackActions({
   onSelectDiscount,
   setCustomise,
   goNext,
+  discountEditable = true,
 }: {
   productId: string | undefined;
   discountId: string | undefined;
   onSelectDiscount: (id: string | undefined) => void;
   setCustomise: () => void;
   goNext: () => void;
+  /** False for New Prepaid activation: a pack there has no discount to edit, so only Customise Add-ons sits beside Continue. */
+  discountEditable?: boolean;
 }) {
   const hasAddons = usePackHasAddons(productId);
   return (
     <>
       <CustomiseAddonsAction productId={productId} preBundled={false} available={hasAddons} setCustomise={setCustomise} goNext={goNext} />
       {/* A prepaid pack has no tabs and no Special Discount: its discounts are the ordinary ones the catalogue lists for the pack. */}
-      <AddDiscountAction productId={productId} tab={undefined} discountId={discountId} onSelectDiscount={onSelectDiscount} customerBenefits={undefined} specialDiscountType={undefined} customerBenefit={undefined} />
+      {discountEditable && <AddDiscountAction productId={productId} tab={undefined} discountId={discountId} onSelectDiscount={onSelectDiscount} customerBenefits={undefined} specialDiscountType={undefined} customerBenefit={undefined} />}
     </>
   );
 }

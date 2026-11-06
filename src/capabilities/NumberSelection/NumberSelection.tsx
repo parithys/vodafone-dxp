@@ -1,5 +1,6 @@
 import { MsisdnPicker } from '../../components/domain/MsisdnPicker';
 import { Checkbox } from '../../components/primitives/Checkbox';
+import type { NumberPickerProfile } from '../../components/domain/msisdnPickerModel';
 
 /**
  * NUMBER SELECTION - the one application-wide capability for choosing a number: search, the Free and Star bands,
@@ -33,9 +34,11 @@ export interface NumberSelectionProps {
   customerIdNumber?: string;
   /** Portal only: an Unreserve button on each Reserved Numbers card. */
   onUnreserve?: (msisdn: string) => void;
+  /** What the journey says about the content by role and plan (Mobile Prepaid: tabs by role, no sorting, no Star lock-in, no plan entitlement). Omitted: as it always was. */
+  profile?: NumberPickerProfile;
 }
 
-export function NumberSelection({ value, onChange, variant = 'journey', plan, refreshKey, prePaired, reservedHere, onUnreserve, customerIdNumber }: NumberSelectionProps) {
+export function NumberSelection({ value, onChange, variant = 'journey', plan, refreshKey, prePaired, reservedHere, onUnreserve, customerIdNumber, profile }: NumberSelectionProps) {
   const inJourney = variant === 'journey';
   const picker = (
     <MsisdnPicker
@@ -53,6 +56,7 @@ export function NumberSelection({ value, onChange, variant = 'journey', plan, re
       reservedHere={reservedHere}
       customerIdNumber={inJourney ? customerIdNumber : undefined}
       onUnreserve={inJourney ? undefined : onUnreserve}
+      profile={profile}
     />
   );
   if (!prePaired) return picker;

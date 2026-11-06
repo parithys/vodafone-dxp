@@ -8,10 +8,9 @@ export interface SegmentedTabItem<K extends string = string> {
 }
 
 /**
- * The pill tab switcher: a pale blue-grey track holding pill tabs, the selected one white and raised with a bold label.
- * It is the Level 2 tab: content-level or nested navigation (tabs inside a tab's content, a filter of the list below).
- * Level 1, page-level navigation, is TabStrip (the horizontal border / underline strip); see TabLevel.tsx. An underline is never used for
- * nested tabs, and TabStrip draws as this when it is found inside a tab panel.
+ * The tab switcher for content-level navigation or a filter of the list below. It draws exactly as TabStrip does - the one underline tab
+ * design (labels on a thin rule, the selected one in the accent colour, bold, with an accent underline) - so every tab in the app looks
+ * the same at any depth; the two components differ only in intent (see TabLevel.tsx).
  *
  * Keyboard: arrows / Home / End move between tabs and select them, and only the selected tab is in the Tab order
  * (the WAI-ARIA tabs pattern). The strip scrolls sideways instead of wrapping.
@@ -47,7 +46,7 @@ export function SegmentedTabs<K extends string>({
       role="tablist"
       aria-label={label}
       onKeyDown={onKeyDown}
-      className={`tab-segmented ${className}`}
+      className={`tab-strip ${className}`}
     >
       {items.map(({ key, label: text, count }) => (
         <button
@@ -57,11 +56,11 @@ export function SegmentedTabs<K extends string>({
           aria-selected={active === key}
           tabIndex={active === key ? 0 : -1}
           onClick={() => onChange(key)}
-          className={`tab-segment ${active === key ? 'tab-segment-active' : ''}`}
+          className={`tab ${active === key ? 'tab-active' : ''}`}
         >
           {text}
           {count !== undefined && (
-            <span className="tab-segment-count">{count}</span>
+            <span className="tab-count">{count}</span>
           )}
         </button>
       ))}

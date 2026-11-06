@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import { CheckoutSummaryStep } from '../../components/patterns/CheckoutSummaryStep';
 import { PrepaidCheckoutStep } from '../../components/patterns/PrepaidCheckoutStep';
 import { PrepaidCartStep } from '../../components/patterns/PrepaidCartStep';
+import { PrepaidOrderSummary as PrepaidOrderSummaryBody } from '../../components/patterns/PrepaidOrderSummary';
 
 /**
  * CHECKOUT SUMMARY - the one application-wide capability for the order read-back before the customer signs and
@@ -24,3 +25,5 @@ export function CheckoutSummary(props: CheckoutSummaryProps) {
 
 export const PrepaidCheckout = PrepaidCheckoutStep;
 export const PrepaidCart = PrepaidCartStep;
+/** New Prepaid activation's Order Summary: order checks, the Recharge row and the Charge Summary with VAT. */
+export const PrepaidOrderSummary = PrepaidOrderSummaryBody;

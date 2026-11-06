@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { AdditionalDocumentsUpload, UPLOAD_RULES, uploadFileProblem, type AdditionalDocument } from '../../capabilities';
+import { useState } from 'react';
+import { AdditionalDocumentsUpload, DocumentCaptureActions, UPLOAD_RULES, uploadFileProblem, type AdditionalDocument } from '../../capabilities';
 import { Badge } from '../../components/primitives/Badge';
 import { Button } from '../../components/primitives/Button';
 import { Textarea } from '../../components/primitives/Textarea';
@@ -35,21 +35,13 @@ export function MissingInformationPanel({
   const [documents, setDocuments] = useState<AdditionalDocument[]>([]);
   const [comment, setComment] = useState('');
   const [problem, setProblem] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [target, setTarget] = useState<number | undefined>();
 
   const answer: MissingInformationAnswer = { reuploaded, signatureDataUrl, supporting: documents.map((d) => ({ label: d.label, fileName: d.fileName })) };
   const complete = isMissingInformationComplete(request, answer);
   const outstanding =
     request.attachmentIndexes.filter((i) => !reuploaded[i]).length + (request.resignCaf && !signatureDataUrl ? 1 : 0) + (request.supportingDocuments && documents.length === 0 ? 1 : 0);
 
-  const choose = (i: number) => {
-    setTarget(i);
-    fileRef.current?.click();
-  };
-  const take = async (file: File | undefined) => {
-    const i = target;
-    if (!file || i === undefined) return;
+  const take = async (i: number, file: File) => {
     const issue = uploadFileProblem(file, UPLOAD_RULES.supporting);
     if (issue) return setProblem(issue);
     setProblem(null);
@@ -73,7 +65,6 @@ export function MissingInformationPanel({
         </div>
       )}
 
-      <input ref={fileRef} type="file" accept={UPLOAD_RULES.supporting.accept} className="sr-only" aria-hidden tabIndex={-1} onChange={(e) => { void take(e.target.files?.[0]); e.target.value = ''; }} />
       {problem && <p role="alert" className="text-danger caption-secondary">{problem}</p>}
 
       {request.attachmentIndexes.length > 0 && (
@@ -89,9 +80,10 @@ export function MissingInformationPanel({
                     <span className="value-text">{a?.label ?? `Document ${i + 1}`}</span>
                     <span className="caption-muted"> {done ? `Replaced with ${done.fileName}` : a?.detail ? `Current: ${a.detail}` : ''}</span>
                   </span>
-                  <Button variant="secondary" onClick={() => choose(i)} aria-label={`${done ? 'Replace again' : 'Re-upload'}: ${a?.label ?? `Document ${i + 1}`}`}>
-                    {done ? 'Replace Again' : 'Re-upload'}
-                  </Button>
+                  {/* Recaptured the way the device does it (scan on the web, camera on a tablet) or re-uploaded. */}
+                  <span className="cluster">
+                    <DocumentCaptureActions what={(a?.label ?? `Document ${i + 1}`).toLowerCase()} hasDocument={Boolean(done)} onFile={(f) => void take(i, f)} />
+                  </span>
                 </li>
               );
             })}

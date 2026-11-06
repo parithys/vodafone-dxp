@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { DocumentCaptureActions } from './DocumentCaptureActions';
 import { Button } from '../primitives/Button';
 import { UPLOAD_RULES, uploadFileProblem } from './documentUploadRules';
 import { forgetDocumentFile, readFileAsDataUrl, rememberDocumentFile } from '../../lib/documentFileStore';
@@ -22,10 +23,8 @@ export function SupportingDocumentField({
   document: AdditionalDocument | undefined;
   onChange: (document: AdditionalDocument | undefined) => void;
 }) {
-  const fileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const choose = async (file: File | undefined) => {
-    if (fileRef.current) fileRef.current.value = '';
     if (!file) return;
     const problem = uploadFileProblem(file, UPLOAD_RULES.supporting);
     if (problem) {
@@ -48,11 +47,8 @@ export function SupportingDocumentField({
         {label}
         <span className="text-[var(--field-border-error)]" aria-hidden="true">{' *'}</span>
       </p>
-      <input ref={fileRef} type="file" accept={UPLOAD_RULES.supporting.accept} className="sr-only" aria-label={`Choose the ${label.toLowerCase()}`} onChange={(e) => void choose(e.target.files?.[0])} />
       <div className="document-slot">
-        <Button variant="secondary" compact onClick={() => fileRef.current?.click()}>
-          {document ? 'Replace Document' : 'Upload Document'}
-        </Button>
+        <DocumentCaptureActions what={label.toLowerCase()} hasDocument={Boolean(document)} onFile={(f) => void choose(f)} />
         {document ? (
           <>
             <span className="line-fg-caption">

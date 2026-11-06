@@ -21,6 +21,7 @@ import { formatQar } from '../../../lib/format';
 import { under18ApproverRole } from '../../../data/under18Exception';
 import { usePersonaStore } from '../../../stores/personaStore';
 import { idScanAttachments } from '../../new-connection/idScanAttachments';
+import { PREPAID_VAT_PERCENT } from '../../../data/prepaidActivation';
 
 interface AccountRecord {
   accountId: string;
@@ -64,8 +65,9 @@ export async function submitPrepaidOrder(
     mockDataEngine.list<PricingExtra>('addons-discounts'),
     mockDataEngine.list<PricingRecharge>('recharge-products'),
   ]);
-  const priceOptions = { recharges };
-  const totals = cartTotals(lines, idType, products, extras, priceOptions);
+  // Priced exactly as the Order Summary priced it (the agent's role for a role-specific SIM charge rule, and the VAT rate), so the order records what the customer was shown.
+  const priceOptions = { recharges, roleId: usePersonaStore.getState().activePersonaId };
+  const totals = cartTotals(lines, idType, products, extras, { ...priceOptions, vatPercent: PREPAID_VAT_PERCENT });
   const payment = values.payment as WinCashPaymentValue | undefined;
 
   // MPRA_001_CAM_01 / CAM_02 / CAM_03: find-or-create the prepaid account for this customer. No billingProfileId or
@@ -183,6 +185,21 @@ export async function submitPrepaidOrder(
     rechargeChargeQAR: totals.rechargeChargeQar,
     simCardChargeQAR: totals.simCardChargeQar,
     totalQAR: totals.totalDueQar,
+    // The Charge Summary as the customer saw it, VAT included, and how it was paid.
+    simStandardChargeQAR: totals.simStandardChargeQar,
+    simDiscountQAR: totals.simDiscountQar,
+    ...(totals.chargeSummary
+      ? {
+          vatPercent: totals.chargeSummary.total.vatPercent,
+          totalExclVatQAR: totals.chargeSummary.total.exclQar,
+          totalVatQAR: totals.chargeSummary.total.vatQar,
+          chargeSummary: totals.chargeSummary.lines.map((l) => ({ item: l.label, exclVatQAR: l.amounts.exclQar, vatPercent: l.amounts.vatPercent, vatQAR: l.amounts.vatQar, inclVatQAR: l.amounts.inclQar })),
+        }
+      : {}),
+    paymentMethod: payment?.method,
+    paymentReference: payment?.reference,
+    ...(payment?.method === 'eWallet' ? { eWalletDeductedQAR: payment.eWalletDeductedQar, eTopUpReference: payment.eTopUpReference } : {}),
+    iPayActivation: values.ipayActivation === undefined ? true : values.ipayActivation === true,
     simType: first?.simType.simType,
     simSerial: first?.simType.simSerial,
     cafType: caf?.cafType,
@@ -319,7 +336,7 @@ export async function submitPrepaidOrder(
 }
 
 /** One subscription as the order records it. */
-function lineRecord(line: PrepaidLine, index: number, idType: string | undefined, products: PricingProduct[], extras: PricingExtra[], opts: { recharges: PricingRecharge[] }) {
+function lineRecord(line: PrepaidLine, index: number, idType: string | undefined, products: PricingProduct[], extras: PricingExtra[], opts: { recharges: PricingRecharge[]; roleId?: string }) {
   const charges = priceLine(line, idType, products, extras, opts);
   return {
     lineNumber: index + 1,
@@ -336,6 +353,7 @@ function lineRecord(line: PrepaidLine, index: number, idType: string | undefined
     addonsChargeQAR: charges.addonsQar,
     rechargeChargeQAR: charges.rechargeQar,
     simCardChargeQAR: charges.simCardChargeQar,
+    simChargeKind: charges.simChargeKind,
     totalQAR: charges.totalQar,
     simType: line.simType.simType,
     simKind: line.prePaired ? 'Pre-Paired SIM' : line.simType.simKind,

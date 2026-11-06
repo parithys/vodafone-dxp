@@ -34,6 +34,8 @@ interface CheckoutSummaryStepProps {
   discountId: string | undefined;
   addonIds: string[];
   addonBilling?: Record<string, AddonBillingFrequency>;
+  /** The add-on discounts applied on the Addons page (add-on product id -> discount id). */
+  addonDiscounts?: Record<string, string>;
   msisdn: string | undefined;
   numberPriceQar: number | undefined;
   eligibility: EligibilityResult | undefined;
@@ -97,6 +99,7 @@ export function CheckoutSummaryStep({
   discountId,
   addonIds,
   addonBilling,
+  addonDiscounts,
   msisdn,
   numberPriceQar,
   eligibility,
@@ -118,6 +121,7 @@ export function CheckoutSummaryStep({
     discountId,
     addonIds,
     addonBilling,
+    addonDiscounts,
     msisdn,
     numberPriceQar,
     eligibility,

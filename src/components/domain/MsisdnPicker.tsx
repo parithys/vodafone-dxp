@@ -19,7 +19,7 @@ import { Checkbox } from '../primitives/Checkbox';
 import { SearchField } from '../primitives/SearchField';
 import { FREE_NUMBER_PRICE_CEILING_QAR, STAR_NUMBER_ENTITLEMENT_MULTIPLIER, roundedEntitlementQar, starNumberOverageQar } from '../../engines/postpaidPricing';
 import { TAB_LABELS, TAB_ORDER, PORTAL_TAB_ORDER, RETAIL_SALES_PERSONA_ID, toLocalMsisdn, MAX_RESERVATIONS_PER_AGENT, PAGE_SIZE, FREE_PAGE_SIZE, FREE_SORT_OPTIONS, SEARCH_MODE_OPTIONS, DEFAULT_SEARCH_MODE, matchesNumberSearch, matchesPriceRange, priceBound, hasRepeatingPairPattern, searchError, SORTERS, STAT_ICONS } from './msisdnPickerModel';
-import type { MsisdnRecord, NumberTab, SearchMode, SortKey } from './msisdnPickerModel';
+import type { MsisdnRecord, NumberPickerProfile, NumberTab, SearchMode, SortKey } from './msisdnPickerModel';
 import { StarStat } from './StarStat';
 import { BlockedNumberLookup } from './BlockedNumberLookup';
 import { CLEAR_ICON, SORT_PRICE_DESC, SORT_PRICE_ASC } from '../../assets/icons';
@@ -60,6 +60,8 @@ interface MsisdnPickerProps {
   customerIdNumber?: string;
   /** Portal only: puts an Unreserve button on each card of the Reserved tab; called with the number to release. */
   onUnreserve?: (msisdn: string) => void;
+  /** What the journey says about the content by role and plan (see NumberPickerProfile). Omitted: every tab, sorting, lock-in and the plan's entitlement. */
+  profile?: NumberPickerProfile;
   /** No longer read: the Reserved tab always shows its green "Reserved" pill (2026-10-04 design). Kept so existing callers still compile. */
   hideReservedBadge?: boolean;
 }
@@ -80,8 +82,8 @@ const SEARCH_DEBOUNCE_MS = 300;
 // Anything below the Star band (QAR 0 - 1,499) is free of charge whatever its catalogue price; QAR 1,500 and above is a Star Number.
 const chargeFor = (priceQar: number) => (priceQar >= FREE_NUMBER_PRICE_CEILING_QAR ? priceQar : 0);
 
-export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, planMrcQar, starEntitlementQar: starEntitlementProp, portalMode = false, reservedHere = [], onUnreserve, customerIdNumber }: MsisdnPickerProps) {
-  const entitlementQar = starEntitlementProp ?? (planMrcQar !== undefined ? roundedEntitlementQar(planMrcQar * STAR_NUMBER_ENTITLEMENT_MULTIPLIER) : undefined);
+export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, planMrcQar, starEntitlementQar: starEntitlementProp, portalMode = false, reservedHere = [], onUnreserve, customerIdNumber, profile }: MsisdnPickerProps) {
+  const entitlementQar = profile?.planEntitlement === false ? undefined : starEntitlementProp ?? (planMrcQar !== undefined ? roundedEntitlementQar(planMrcQar * STAR_NUMBER_ENTITLEMENT_MULTIPLIER) : undefined);
   // Star tab filter: only numbers priced within the customer's entitlement (no extra charge).
   const [withinEntitlementOnly, setWithinEntitlementOnly] = useState(false);
   // Star tab price-range filter: none selected = "All".
@@ -104,6 +106,9 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   const isRetailSales = activePersonaId === RETAIL_SALES_PERSONA_ID;
   // The group the signed-in agent belongs to: the Blocked Numbers tab answers only for numbers this group blocked.
   const viewerGroup = getPersona(activePersonaId)?.name;
+  // The tabs this role may see, when the journey restricts them (Mobile Prepaid: Mass Market sees Free numbers only).
+  const allowedTabs = profile?.tabsFor?.(activePersonaId);
+  const tabAllowed = (t: NumberTab) => !allowedTabs || allowedTabs.length === 0 || allowedTabs.includes(t);
   const [starTiers, setStarTiers] = useState<{ valueRangeMin: number; valueRangeMax: number; lockInDurationMonths: number }[]>([]);
   // Open search (letters and numbers, 2-8 characters): `searchInput` is what is typed; `search` is the trimmed text the
   // list is actually filtered by, applied ~300 ms after typing stops and only once it has at least 2 characters.
@@ -172,19 +177,21 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
     hasAutoSelectedTab.current = true;
     // Reserved when the customer has reservations, otherwise Star for Retail Sales (never leaving the agent to switch tabs by hand);
     // everyone else keeps the Free default.
-    if (heldReservations > 0) setTab('Reserved');
-    else if (isRetailSales) setTab('Star');
+    if (heldReservations > 0 && tabAllowed('Reserved')) setTab('Reserved');
+    else if (isRetailSales && tabAllowed('Star')) setTab('Star');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numbersLoaded, heldReservations, isRetailSales, portalMode]);
 
   // The Reserved tab is always shown: first when the customer has reservations, last (with its empty state) when not. Before the numbers have
   // loaded no tab is shown for Retail Sales, so the strip never flashes a tab that then moves.
-  const visibleTabs = portalMode
+  const visibleTabs = (portalMode
     ? PORTAL_TAB_ORDER
     : isRetailSales && !numbersLoaded
     ? []
     : heldReservations > 0
     ? TAB_ORDER
-    : PORTAL_TAB_ORDER;
+    : PORTAL_TAB_ORDER
+  ).filter(tabAllowed);
 
   // Category (Free vs Star/premium) and status (AVAILABLE/Reserved/BLOCKED)
   // are independent axes: the tab filters on CATEGORY, the availability check
@@ -237,7 +244,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
   // at most MAX_RESERVATIONS_PER_AGENT numbers, so there is nothing there
   // worth ranking - see the SortKey doc comment above.
   // Free numbers have no sort control: they are all free, so there is nothing worth ranking (listed by number).
-  const showSort = tab === 'Star';
+  const showSort = tab === 'Star' && profile?.sorting !== false;
 
   // Without a control on screen, the order must not depend on whatever the
   // agent last chose on Star or Free.
@@ -548,7 +555,7 @@ export function MsisdnPicker({ refreshKey = 0, selected, onSelect, onDeselect, p
           const upfrontFull =
             isStar && planMrcQar !== undefined ? starNumberOverageQar(planMrcQar, n.priceQAR, entitlementQar) : chargeFor(n.priceQAR);
           const upfront = upfrontFull;
-          const lockIn = isStar
+          const lockIn = isStar && profile?.lockIn !== false
             ? starTiers.find((t) => n.priceQAR >= t.valueRangeMin && n.priceQAR <= t.valueRangeMax)?.lockInDurationMonths
             : undefined;
           const tag = isStar ? (

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Input } from '../primitives/Input';
 import { Select } from '../primitives/Select';
 import { Button } from '../primitives/Button';
+import { DocumentCaptureActions } from './DocumentCaptureActions';
 import { Drawer } from '../primitives/Drawer';
 import { ScannedIdPreview } from './ScannedIdPreview';
 import { Icon } from '../primitives/Icon';
@@ -103,9 +104,6 @@ export function AdditionalDocumentsUpload({
   }, [label, staged]);
   useEffect(() => () => onPendingChangeRef.current?.(false), []);
   const [error, setError] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const requiredFileRef = useRef<HTMLInputElement>(null);
-  const [uploadingFor, setUploadingFor] = useState<string | undefined>();
   const atLimit = documents.length >= maxDocuments;
   // A configured list with nothing left to offer for this role, journey and customer: there is nothing to upload as, so the panel is not shown.
   const noTypesToOffer = labelOptions !== undefined && labelOptions.every((o) => documents.some((d) => d.label === o));
@@ -175,14 +173,6 @@ export function AdditionalDocumentsUpload({
     setProgress(undefined);
     setLabel('');
     setStaged(null);
-    if (fileRef.current) fileRef.current.value = '';
-  };
-
-  const handleRequiredFile = async (file: File | undefined) => {
-    const req = requirements.find((r) => r.id === uploadingFor);
-    if (requiredFileRef.current) requiredFileRef.current.value = '';
-    setUploadingFor(undefined);
-    if (file && req) await add(file, { label: req.label, requirementId: req.id });
   };
 
   const remove = (id: string) => {
@@ -223,7 +213,6 @@ export function AdditionalDocumentsUpload({
 
       {missing.length > 0 && (
         <section aria-label="Required documents" className="space-y-3">
-          <input ref={requiredFileRef} type="file" accept={RULES.accept} className="sr-only" aria-hidden tabIndex={-1} onChange={(e) => void handleRequiredFile(e.target.files?.[0])} />
           <p role="status" className="sr-only">
             {missing.length === 1 ? '1 required document is still to be uploaded.' : `${missing.length} required documents are still to be uploaded.`}
           </p>
@@ -234,16 +223,10 @@ export function AdditionalDocumentsUpload({
                 <span className="block title title-sm font-semibold">{r.label}</span>
                 <span className="block caption-muted">{r.reason}</span>
               </span>
-              <Button
-                variant="primary"
-                compact
-                onClick={() => {
-                  setUploadingFor(r.id);
-                  requiredFileRef.current?.click();
-                }}
-              >
-                Upload
-              </Button>
+              {/* Captured the way the device does it (scan on the web, camera on a tablet) or uploaded, straight under this requirement. */}
+              <span className="cluster">
+                <DocumentCaptureActions what={r.label.toLowerCase()} onFile={(f) => void add(f, { label: r.label, requirementId: r.id })} />
+              </span>
             </div>
           ))}
         </section>
@@ -282,10 +265,15 @@ export function AdditionalDocumentsUpload({
                     />
                   )}
                 </div>
-                <input ref={fileRef} type="file" accept={RULES.accept} className="sr-only" aria-label="Choose a document to upload" onChange={(e) => stageFile(e.target.files?.[0])} />
-                <Button variant="secondary" onClick={() => fileRef.current?.click()} disabled={!label.trim()} title={label.trim() ? undefined : labelOptions ? 'Choose a Document Type first' : 'Enter a Document Label first'}>
-                  {staged ? 'Choose another file' : 'Browse files'}
-                </Button>
+                <span className="cluster">
+                  <DocumentCaptureActions
+                    what="document to upload"
+                    hasDocument={Boolean(staged)}
+                    disabled={!label.trim()}
+                    disabledTitle={labelOptions ? 'Choose a Document Type first' : 'Enter a Document Label first'}
+                    onFile={stageFile}
+                  />
+                </span>
               </div>
               <div className="cluster">
                 {staged ? (
@@ -302,7 +290,6 @@ export function AdditionalDocumentsUpload({
                     onClick={() => {
                       setStaged(null);
                       setError(null);
-                      if (fileRef.current) fileRef.current.value = '';
                     }}
                   >
                     Remove

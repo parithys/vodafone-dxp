@@ -3,6 +3,7 @@ import { BillLimitEditor } from '../../components/domain/BillLimitEditor';
 import { defaultBillLimitQar } from '../../engines/postpaidPricing';
 import type { ServiceOptions } from '../../components/patterns/serviceOptions';
 import type { AddonBillingFrequency } from '../../engines/addonCategories';
+import type { AppliedAddonDiscounts } from '../../engines/addonDiscounts';
 import { AddonsPicker } from './AddonsPicker';
 import { useSelectedPostpaidPlan } from './useSelectedPostpaidPlan';
 
@@ -22,6 +23,8 @@ export interface PostpaidAddonsStepProps {
   onAddonBillingChange?: (billing: Record<string, AddonBillingFrequency>) => void;
   /** Who the customer is, for deciding which add-ons they are eligible for. */
   customerContext?: { nationality?: string; customerType?: string; idType?: string };
+  /** The add-on discounts the agent has applied (see ApplyAddonDiscountAction): each shows its discounted charge. Omitted, none. */
+  appliedDiscounts?: AppliedAddonDiscounts;
   /** Shown when no add-on is available for the plan. */
   emptyMessage?: string;
   /**
@@ -47,6 +50,7 @@ export function PostpaidAddonsStep({
   addonBilling = {},
   onAddonBillingChange,
   customerContext,
+  appliedDiscounts,
   emptyMessage = 'No add-ons available for this plan',
   bundledPlansTakeNoAddons = false,
   billLimit,
@@ -77,6 +81,7 @@ export function PostpaidAddonsStep({
               hideHeader
               layout="rows"
               categorized
+              appliedDiscounts={appliedDiscounts}
               emptyMessage={emptyMessage}
               eligibilityContext={{ planId, ...customerContext }}
               multiSimPlan={selectedPlan}

@@ -93,7 +93,9 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
   return [
     // Identification is the same for every product: scan, MOI, the eligibility checks common to all, special discounts.
     customerQualificationStep({ ...ctx, productAgnostic: true, journeyChosenLater: true }),
-    serviceAddressStep({
+    {
+      // New Prepaid has no Address: the Primary Contact is the owner of its services and no billing account is opened. The other products keep it, unchanged.
+      ...serviceAddressStep({
       mode: 'structured',
       autoPass: true,
       // Every product this page serves is a mobile line (Fixed Line has its own Installation Address): no serviceable premises, so no Kahramaa / Vodafone ID.
@@ -105,7 +107,9 @@ export function buildConnectionSteps(ctx: ConnectionStepContext): WizardStep[] {
         const contact = values.contact as GuidedContactValue | undefined;
         return contact?.moiResult?.isNewCustomer ? undefined : { idNumber: contact?.idNumber, nationality: contact?.moiResult?.nationality };
       },
-    }),
+      }),
+      skip: (values) => values.product === 'prepaid',
+    },
     otherBilling,
     productStep(ctx),
     productCardsStep(ctx),

@@ -74,6 +74,8 @@ export interface WizardStep {
    * Back lands on it, and Continue from it goes on to the next step as normal.
    */
   autoPass?: (values: Record<string, unknown>) => boolean;
+  /** The step takes the Selected Add-Ons tray (its count and charge, with remove) in the step card's corner: `catalogue` for the postpaid add-ons, `prepaid` for a pack's. Set by the add-ons step builder, so every journey that uses it gets the tray. */
+  addonsTray?: 'catalogue' | 'prepaid';
   /**
    * What the running Summary panel shows for this step once it is completed: the ordered fields, each read from the
    * draft values. Omit for a step with nothing worth echoing back; a journey with no summary on any step shows no panel.

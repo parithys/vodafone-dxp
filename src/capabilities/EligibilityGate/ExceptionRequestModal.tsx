@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../components/primitives/Button';
 import { Modal } from '../../components/primitives/Modal';
-import { UPLOAD_RULES, uploadFileProblem, type AdditionalDocument } from '../DocumentUpload';
+import { DocumentCaptureActions, UPLOAD_RULES, uploadFileProblem, type AdditionalDocument } from '../DocumentUpload';
 import { forgetDocumentFile, readFileAsDataUrl, rememberDocumentFile } from '../../lib/documentFileStore';
 import { formatBytes } from '../../lib/format';
 
@@ -31,14 +31,12 @@ export function ExceptionRequestModal({
 }) {
   const [draftDoc, setDraftDoc] = useState<AdditionalDocument | undefined>(document);
   const [fileError, setFileError] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
   const label = requirement?.label ?? 'Supporting Document';
   // A file chosen here is held in memory at once (to be opened later); one that is never submitted is forgotten again.
   const dropDraft = () => {
     if (draftDoc && draftDoc.id !== document?.id) forgetDocumentFile(draftDoc.id);
   };
   const chooseFile = async (file: File | undefined) => {
-    if (fileRef.current) fileRef.current.value = '';
     if (!file) return;
     const problem = uploadFileProblem(file, UPLOAD_RULES.supporting);
     if (problem) {
@@ -84,11 +82,8 @@ export function ExceptionRequestModal({
           {label}
           <span className="text-[var(--field-border-error)]" aria-hidden="true"> *</span>
         </p>
-        <input ref={fileRef} type="file" accept={UPLOAD_RULES.supporting.accept} className="sr-only" aria-label={`Choose the ${label}`} onChange={(e) => void chooseFile(e.target.files?.[0])} />
         <div className="document-slot">
-          <Button variant="secondary" compact onClick={() => fileRef.current?.click()}>
-            {draftDoc ? 'Replace Document' : 'Upload Document'}
-          </Button>
+          <DocumentCaptureActions what={label} hasDocument={Boolean(draftDoc)} onFile={(f) => void chooseFile(f)} />
           {draftDoc ? (
             <>
               <span className="line-fg-caption">

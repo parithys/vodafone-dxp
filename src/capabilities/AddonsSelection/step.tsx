@@ -11,6 +11,8 @@ import { AddonsSelection } from './AddonsSelection';
 import { AddonsPicker } from './AddonsPicker';
 import { SpendFlag } from './SpendFlag';
 import { addonsSummary } from './summary';
+import { ApplyAddonDiscountAction } from './ApplyAddonDiscountAction';
+import type { AppliedAddonDiscounts } from '../../engines/addonDiscounts';
 
 type Values = Record<string, unknown>;
 
@@ -20,6 +22,8 @@ export interface PostpaidAddonsContext {
   skipWhen?: (values: Values) => boolean;
   /** The journey takes no add-ons (a Family Package's are managed from Customer 360): the step never stops Continue. */
   addonsHidden?: (values: Values) => boolean;
+  /** The journey prices add-on discounts (`addonDiscounts`): the page offers Apply Discount beside Continue and shows each discounted charge. Off, there is no such action. */
+  applyDiscounts?: boolean;
 }
 
 /** Who the customer is for the add-ons they are eligible for: the nationality from eligibility, the customer type the agent validated (a rejected one is Standard) and the ID type. */
@@ -45,6 +49,19 @@ export function postpaidAddonsStep(ctx: PostpaidAddonsContext = {}): WizardStep 
     label: ADDONS_DISCOUNTS_LABEL,
     subheading: 'Choose optional services and set the spending limit.',
     autoPass: (values) => !values.customiseAddons || Boolean(ctx.addonsHidden?.(values)),
+    // Apply Discount sits just before Continue, as Edit Discount does on the plan page.
+    primaryAction: ctx.applyDiscounts
+      ? ({ values, setValue, defaultButton }) => (
+          <div className="row">
+            <ApplyAddonDiscountAction
+              selectedIds={(values.addonIds as string[] | undefined) ?? []}
+              applied={(values.addonDiscounts as AppliedAddonDiscounts | undefined) ?? {}}
+              onApply={(next) => setValue('addonDiscounts', next)}
+            />
+            {defaultButton}
+          </div>
+        )
+      : undefined,
     render: ({ values, setValue }) => (
       <>
         <SpendFlag active={Boolean(values.customiseAddons)} onSpend={() => setValue('customiseAddons', undefined)} />
@@ -56,6 +73,7 @@ export function postpaidAddonsStep(ctx: PostpaidAddonsContext = {}): WizardStep 
           addonBilling={(values.addonBilling as Record<string, AddonBillingFrequency> | undefined) ?? {}}
           onAddonBillingChange={(billing) => setValue('addonBilling', billing)}
           customerContext={customerContextOf(values)}
+          appliedDiscounts={ctx.applyDiscounts ? ((values.addonDiscounts as AppliedAddonDiscounts | undefined) ?? {}) : undefined}
           // A pre-bundled plan (the Offers tab) takes no add-ons and nothing is listed before a plan is chosen: this journey's rule.
           bundledPlansTakeNoAddons
           billLimit={{
@@ -83,12 +101,14 @@ export function postpaidAddonsStep(ctx: PostpaidAddonsContext = {}): WizardStep 
  * "Customise Add-ons" on the pack page is the way here (it sets `customiseAddons`, spent on arrival). The add-ons are optional, so it is always valid; it is left out of the
  * journey with the pack step.
  */
-export function prepaidAddonsStep(): WizardStep {
+export function prepaidAddonsStep(opts: { mandatoryProducts?: boolean } = {}): WizardStep {
   return {
     key: 'planExtras',
     // No summary of its own: a prepaid add-on is an add-ons/discounts record (not a product), so each prepaid journey attaches its own Summary rows (attachSummaries).
     label: ADDONS_DISCOUNTS_LABEL,
     subheading: 'Choose optional services for the pack.',
+    // The Selected Add-Ons tray, as on the postpaid page: every journey that uses this step gets it.
+    addonsTray: 'prepaid',
     autoPass: (values) => !values.customiseAddons,
     render: ({ values, setValue }) => (
       <>
@@ -98,6 +118,7 @@ export function prepaidAddonsStep(): WizardStep {
           selectedProductId={values.productId as string | undefined}
           addonIds={(values.addonIds as string[] | undefined) ?? []}
           onSelectAddons={(ids) => setValue('addonIds', ids)}
+          mandatoryProducts={opts.mandatoryProducts}
         />
       </>
     ),
@@ -140,6 +161,7 @@ export function addonsSelectionStep(opts: {
       ) : (
         <AddonsPicker
           layout="rows"
+          categorized
           hideHeader
           source="prepaid"
           selectedIds={(values.addonIds as string[] | undefined) ?? []}

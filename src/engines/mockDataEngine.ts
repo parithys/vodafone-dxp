@@ -3,7 +3,7 @@
 import { appPath } from '../lib/basePath';
 
 const SEED_FILES = [
-  'accounts', 'account-level-products', 'addons-discounts', 'addresses', 'adjustments',
+  'accounts', 'account-level-products', 'addon-discounts', 'addons-discounts', 'addresses', 'adjustments',
   'apn-records', 'appointments', 'audit-trail', 'authorised-contacts', 'bell-notifications', 'big-data-credit-risk',
   'billing-buckets', 'billing-profiles', 'bills', 'bulk-activation-orders', 'bulk-notes',
   'bulk-sms-orders', 'caf-forms', 'call-detail-records', 'campaigns',

@@ -15,9 +15,9 @@ const dueFromCheckout = (values: Record<string, unknown>) => (values.checkoutTot
  * Payment, stored under `payment`; the step continues once the payment is confirmed (`paid`). `amountDue` reads
  * the figure Checkout computed from the values. `submitOnPaid` moves on the moment the payment returns, without
  * a separate Continue - for journeys where Payment is the last step and Continue could only ever mean "submit".
- * `zeroValueReceipt` issues a zero-value receipt, rather than a WinCash handoff, when the amount due is QAR 0.
+ * `zeroValueReceipt` issues a zero-value receipt, rather than a WinCash handoff, when the amount due is QAR 0. `offerEWallet` adds "Pay from eWallet" for the roles mapped to one (New Prepaid).
  */
-export function paymentStep(opts: { amountDue?: (values: Record<string, unknown>) => number; submitOnPaid?: boolean; zeroValueReceipt?: boolean } = {}): WizardStep {
+export function paymentStep(opts: { amountDue?: (values: Record<string, unknown>) => number; submitOnPaid?: boolean; zeroValueReceipt?: boolean; offerEWallet?: boolean } = {}): WizardStep {
   const paid = (values: Record<string, unknown>) => Boolean((values.payment as WinCashPaymentValue | undefined)?.paid);
   const cashReceived = (values: Record<string, unknown>) => {
     const p = values.payment as WinCashPaymentValue | undefined;
@@ -30,6 +30,7 @@ export function paymentStep(opts: { amountDue?: (values: Record<string, unknown>
       <Payment
         amountDueQAR={(opts.amountDue ?? dueFromCheckout)(values)}
         zeroValueReceipt={opts.zeroValueReceipt}
+        offerEWallet={opts.offerEWallet}
         value={(values.payment as WinCashPaymentValue) ?? {}}
         onChange={(v) => setValue('payment', v)}
         // "Proceed without WinCash": the agent took physical cash directly, so WinCash is not waited for. The payment is

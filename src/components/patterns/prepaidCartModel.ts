@@ -1,5 +1,8 @@
 import type { SimTypeValue } from '../domain/SimTypeStep';
 import { simCardCharge } from '../../data/prepaidSimCharge';
+import type { SimChargeKind } from '../../data/prepaidSimCharge';
+import { chargeSummaryOf } from './prepaidChargeSummary';
+import type { ChargeSummary } from './prepaidChargeSummary';
 import { chargeAfterWaiverQar, waivedQar } from '../../engines/numberWaiver';
 
 // The Mobile Prepaid cart (process flow #8.1 "Iterate to capture multiple subscriptions"): one order holds one or more
@@ -9,7 +12,7 @@ import { chargeAfterWaiverQar, waivedQar } from '../../engines/numberWaiver';
 // whole cart through `allLines`, never the per-line keys directly.
 
 /** The draft-value keys that hold the subscription being edited. Cleared when it is committed to the cart. */
-export const LINE_KEYS = ['productId', 'discountId', 'addonIds', 'rechargeId', 'prePaired', 'msisdn', 'priceQAR', 'numberWaiver', 'simType'] as const;
+export const LINE_KEYS = ['productId', 'discountId', 'addonIds', 'rechargeId', 'prePaired', 'msisdn', 'msisdnSource', 'priceQAR', 'numberWaiver', 'simType'] as const;
 
 export interface PrepaidLine {
   productId: string;
@@ -100,12 +103,43 @@ export interface PricingExtra {
   price: number;
 }
 
+/** What a benefit line is about, set in the catalogue (never read off its wording); it picks the line's icon. */
+export type RechargeBenefitKind = 'data' | 'voice' | 'international' | 'internet' | 'bonus' | 'social' | 'night' | 'credit' | 'other';
+
+export interface RechargeBenefit {
+  text: string;
+  kind: RechargeBenefitKind;
+}
+
+/** The countries a recharge's international minutes reach, and any bonus minutes per country, shown in a side drawer from a button on the card. */
+export interface RechargeCountryInfo {
+  /** The card button: "View eligible countries" (minutes only) or "View Country Bonus" (minutes plus a bonus table). */
+  button: string;
+  /** The headline ("20 International Minutes to the countries below") and the countries it covers, one entry each. */
+  minutes: string;
+  countries: string[];
+  /** The bonus table: its heading ("Bonus to 7 countries") and one row per country (ISO code, name, bonus as worded). */
+  bonus?: { heading: string; rows: { iso: string; country: string; bonus: string }[] };
+}
+
 export interface PricingRecharge {
   rechargeId: string;
   name: string;
   category: string;
   amountQar: number;
   description?: string;
+  /** How long the recharge lasts, as the catalogue words it ("28 days", "One day"); absent when the catalogue gives none. */
+  validity?: string;
+  /** What the recharge gives, one line each, in the catalogue's wording. */
+  benefits?: RechargeBenefit[];
+  /** Passes bundled with the recharge: a heading ("Passes (2 Free Passes of your choice)") and the passes to choose from. */
+  passes?: { title: string; items: RechargeBenefit[] };
+  /** The countries and bonus minutes behind the card's "View eligible countries" / "View Country Bonus" button. */
+  countryInfo?: RechargeCountryInfo;
+  /** A highlight on the card ("Best Seller", "15% Extra Online Exclusive"). */
+  badge?: string;
+  /** A condition shown under the benefits (a fair-usage limit). */
+  note?: string;
   status?: string;
   /** Marks sample catalogue data (the real recharge catalogue has not been supplied). */
   sample?: boolean;
@@ -122,6 +156,10 @@ export interface LineCharges {
   numberWaivedQar: number;
   numberQar: number;
   simCardChargeQar: number;
+  /** The Standard SIM charge before any reduction or waiver, and the discount that takes it down to `simCardChargeQar` (0 when the charge is Standard or no rule applies). */
+  simStandardChargeQar: number;
+  simDiscountQar: number;
+  simChargeKind: SimChargeKind;
   totalQar: number;
   simCardMessage: string;
 }
@@ -134,6 +172,8 @@ export interface PriceOptions {
   excludePack?: boolean;
   /** The recharge catalogue, to price a line's chosen recharge. */
   recharges?: PricingRecharge[];
+  /** The agent's role, for a SIM charging rule that is role-specific (New Prepaid activation only; other journeys leave it off and keep the ID-type rule). */
+  roleId?: string;
 }
 
 /** What one subscription costs today: starter pack (net of discount), add-ons, premium number, SIM card charge. */
@@ -144,7 +184,9 @@ export function priceLine(line: PrepaidLine, idType: string | undefined, product
   const addonsQar = line.addonIds.reduce((sum, id) => sum + (extras.find((e) => e.addonDiscountId === id)?.price ?? 0), 0);
   const rechargeQar = line.rechargeId ? opts.recharges?.find((r) => r.rechargeId === line.rechargeId)?.amountQar ?? 0 : 0;
   // BRSD V0.3: the SIM card charge is judged on the recharge. A line with no recharge chosen keeps the earlier reading: its net starter pack.
-  const sim = opts.existingSim ? { chargeQar: 0, message: 'The SIM is already the customer\'s, so there is no SIM card charge.' } : simCardCharge(idType, line.rechargeId ? rechargeQar : starterPackQar);
+  const sim = opts.existingSim
+    ? { chargeQar: 0, standardChargeQar: 0, kind: 'none' as SimChargeKind, message: 'The SIM is already the customer\'s, so there is no SIM card charge.' }
+    : simCardCharge(idType, line.rechargeId ? rechargeQar : starterPackQar, opts.roleId);
   const numberListQar = line.numberPriceQAR;
   const numberWaivedQar = waivedQar(numberListQar, line.numberWaiver);
   const numberQar = chargeAfterWaiverQar(numberListQar, line.numberWaiver);
@@ -156,6 +198,9 @@ export function priceLine(line: PrepaidLine, idType: string | undefined, product
     numberWaivedQar,
     numberQar,
     simCardChargeQar: sim.chargeQar,
+    simStandardChargeQar: sim.standardChargeQar,
+    simDiscountQar: sim.standardChargeQar - sim.chargeQar,
+    simChargeKind: sim.kind,
     totalQar: starterPackQar + addonsQar + rechargeQar + numberQar + sim.chargeQar,
     simCardMessage: sim.message,
   };
@@ -171,12 +216,17 @@ export interface PrepaidCheckoutTotals {
   /** The numbers' list prices and what the agent waived off them. */
   numberListPriceQar: number;
   numberWaivedQar: number;
-  /** The total payable today across every subscription - the amount the Payment step collects. */
+  /** The total payable today across every subscription - the amount the Payment step collects (VAT-inclusive when `chargeSummary` is present). */
   totalDueQar: number;
   lineCount: number;
+  /** New Prepaid activation: the Charge Summary with VAT, whose inclusive total is `totalDueQar`. */
+  chargeSummary?: ChargeSummary;
+  /** The SIM charge before reduction / waiver, and what was taken off it. */
+  simStandardChargeQar?: number;
+  simDiscountQar?: number;
 }
 
-export function cartTotals(lines: PrepaidLine[], idType: string | undefined, products: PricingProduct[], extras: PricingExtra[], opts: PriceOptions = {}): PrepaidCheckoutTotals {
+export function cartTotals(lines: PrepaidLine[], idType: string | undefined, products: PricingProduct[], extras: PricingExtra[], opts: PriceOptions & { vatPercent?: number } = {}): PrepaidCheckoutTotals {
   const priced = lines.map((l) => priceLine(l, idType, products, extras, opts));
   const sum = (pick: (c: LineCharges) => number) => priced.reduce((t, c) => t + pick(c), 0);
   return {
@@ -187,7 +237,15 @@ export function cartTotals(lines: PrepaidLine[], idType: string | undefined, pro
     numberPriceQar: sum((c) => c.numberQar),
     numberListPriceQar: sum((c) => c.numberListQar),
     numberWaivedQar: sum((c) => c.numberWaivedQar),
-    totalDueQar: sum((c) => c.totalQar),
+    // New Prepaid activation passes a VAT rate: the order then collects the Charge Summary's VAT-inclusive total.
+    ...(opts.vatPercent !== undefined
+      ? (() => {
+          const chargeSummary = chargeSummaryOf(priced, opts.vatPercent);
+          return { totalDueQar: chargeSummary.total.inclQar, chargeSummary };
+        })()
+      : { totalDueQar: sum((c) => c.totalQar) }),
+    simStandardChargeQar: sum((c) => c.simStandardChargeQar),
+    simDiscountQar: sum((c) => c.simDiscountQar),
     lineCount: lines.length,
   };
 }
