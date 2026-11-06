@@ -1,0 +1,48 @@
+name: CI
+
+# Lint, type-check, the automated test suite and the production build, on every push and pull request to main.
+# The same four commands CLAUDE.md asks to be green before a rule is called correct.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same branch supersedes a run still in progress.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # oxlint: 0 warnings is the standing state, so any warning (not just an error) fails the run.
+      - name: Lint
+        run: npx oxlint --deny-warnings
+
+      - name: Type-check
+        run: npx tsc -b
+
+      # node:test over tests/*.test.mjs (no browser, no extra dependencies).
+      - name: Test
+        run: npm test
+
+      # prebuild refreshes the sign-in news with --soft: it keeps the committed snapshot if vodafone.qa cannot be reached.
+      - name: Build
+        run: npm run build
